@@ -1,0 +1,133 @@
+openapi: 3.0.0
+
+info:
+  version: 0.0.1
+  title: Libertya REST API
+  description: Libertya REST API para la gestion y procesamiento de entidades y documentos
+
+tags:
+  - name: "LYRESTAPI"
+
+paths:
+
+  /api/v1.0/products:
+    get:
+      summary: Retrieve all products
+      tags:
+        - "product"
+      description: Retorna la lista completa de articulos
+      operationId: getAllProducts
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Entity'
+    post:
+      summary: Nuevo articulo
+      tags:
+        - "product"
+      description: Agrega un nuevo articulo
+      operationId: addProduct
+      responses:
+        "200":
+          description: OK. ID de producto creado es retornado
+          content:
+            text/plain:
+              schema:
+                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Entity'
+  /api/v1.0/products/{id}:
+    get:
+      summary: Recupera un producto en particular
+      tags:
+        - "product"
+      parameters:
+        - name: id
+          in: path
+          description: ID del articulo
+          required: true
+          schema:
+            type: integer
+      description: Recupera la informacion de un articulo en particular
+      operationId: retrieveProduct
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+    delete:
+      summary: Elimina un articulo
+      tags:
+        - "product"
+      parameters:
+        - name: id
+          in: path
+          description: ID de articulo
+          required: true
+          schema:
+            type: integer
+      description: Elimina un articulo existente
+      operationId: deleteProduct
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+    put:
+      summary: Actualiza un articulo existente
+      tags:
+        - "product"
+      operationId: updateProduct
+      parameters:
+        - name: id
+          in: path
+          description: ID del articulo a actualizar
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Entity'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    SimpleMap:
+      description: Una simple map clave-valor
+      type: object
+      properties:
+        key:
+          description: La clave de la map
+          type: string
+        value:
+          description: El valor de la map
+          type: string
+    Entity:
+      description: Una entidad abarca un conjunto de maps clave-valor para cada uno de los campos que la componen
+      type: array
+      items:
+        $ref: '#/components/schemas/SimpleMap'
