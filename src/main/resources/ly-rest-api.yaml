@@ -10,7 +10,7 @@ tags:
 
 paths:
 
-  /api/v1.0/products:
+  /v1.0/products:
     get:
       summary: Retrieve all products
       tags:
@@ -46,7 +46,7 @@ paths:
             schema:
               type: object
               $ref: '#/components/schemas/Entity'
-  /api/v1.0/products/{id}:
+  /v1.0/products/{id}:
     get:
       summary: Recupera un producto en particular
       tags:

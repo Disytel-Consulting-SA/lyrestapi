@@ -24,14 +24,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-12-16T11:55:42.138-03:00[America/Argentina/Buenos_Aires]")
-@Api(value = "api", description = "the api API")
-public interface ApiApi {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-12-22T09:54:46.337-03:00[America/Argentina/Buenos_Aires]")
+@Api(value = "v1.0", description = "the v1.0 API")
+public interface V10Api {
 
     @ApiOperation(value = "Nuevo articulo", nickname = "addProduct", notes = "Agrega un nuevo articulo", response = String.class, tags={ "product", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK. ID de producto creado es retornado", response = String.class) })
-    @RequestMapping(value = "/api/v1.0/products",
+    @RequestMapping(value = "/v1.0/products",
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
@@ -42,7 +42,7 @@ public interface ApiApi {
     @ApiOperation(value = "Elimina un articulo", nickname = "deleteProduct", notes = "Elimina un articulo existente", response = String.class, tags={ "product", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = String.class) })
-    @RequestMapping(value = "/api/v1.0/products/{id}",
+    @RequestMapping(value = "/v1.0/products/{id}",
         produces = { "text/plain" }, 
         method = RequestMethod.DELETE)
     ResponseEntity<String> deleteProduct(@ApiParam(value = "ID de articulo",required=true) @PathVariable("id") Integer id
@@ -52,7 +52,7 @@ public interface ApiApi {
     @ApiOperation(value = "Retrieve all products", nickname = "getAllProducts", notes = "Retorna la lista completa de articulos", response = Entity.class, responseContainer = "List", tags={ "product", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Entity.class, responseContainer = "List") })
-    @RequestMapping(value = "/api/v1.0/products",
+    @RequestMapping(value = "/v1.0/products",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Entity>> getAllProducts();
@@ -61,7 +61,7 @@ public interface ApiApi {
     @ApiOperation(value = "Recupera un producto en particular", nickname = "retrieveProduct", notes = "Recupera la informacion de un articulo en particular", response = Entity.class, tags={ "product", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Entity.class) })
-    @RequestMapping(value = "/api/v1.0/products/{id}",
+    @RequestMapping(value = "/v1.0/products/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<Entity> retrieveProduct(@ApiParam(value = "ID del articulo",required=true) @PathVariable("id") Integer id
@@ -71,7 +71,7 @@ public interface ApiApi {
     @ApiOperation(value = "Actualiza un articulo existente", nickname = "updateProduct", notes = "", response = String.class, tags={ "product", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = String.class) })
-    @RequestMapping(value = "/api/v1.0/products/{id}",
+    @RequestMapping(value = "/v1.0/products/{id}",
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
