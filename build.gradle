@@ -18,8 +18,12 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'io.swagger:swagger-annotations:1.6.8'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation files("/ServidorOXP/lib/OXP.jar")
+	implementation files("/ServidorOXP/lib/OXPXLib.jar")
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
