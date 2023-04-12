@@ -2,6 +2,7 @@ package org.libertya.api;
 
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.utils.GeneralService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -18,7 +19,7 @@ public class ApiApplication {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() throws Exception {
-		service.init(0, 0, "Supervisor", "Supervisor", null, null);
+		service.init(null, null);
 	}
 
 }

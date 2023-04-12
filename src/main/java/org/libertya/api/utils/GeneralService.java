@@ -9,13 +9,24 @@ import org.openXpertya.OpenXpertya;
 import org.openXpertya.model.MUser;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.Env;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GeneralService {
 
-    /** Nombre de usuario LY */
-    public String userName = "";
+    @Value("${restapi.libertya.credentials.clientid}")
+    private Integer clientID;
+
+    @Value("${restapi.libertya.credentials.orgid}")
+    private Integer orgID;
+
+    @Value("${restapi.libertya.credentials.username}")
+    private String userName;
+
+    @Value("${restapi.libertya.credentials.password}")
+    private String password;
+
     /** Nombres de parametros de la invocacion */
     protected String[] argNames = null;
     /** Valores de parametros de la invocacion */
@@ -36,14 +47,11 @@ public class GeneralService {
      * Realiza la configuración inicial a partir de la información recibida
      * @throws Exception en caso de error o rechazo
      */
-    public void init(int clientID, int orgID, String userName, String pass, String[] argNames, Object[] argValues) throws Exception
+    public void init(String[] argNames, Object[] argValues) throws Exception
     {
         // Argumentos
         this.argNames = argNames;
         this.argValues = argValues;
-
-        // Guardar userName para uso en logger
-        this.userName = userName;
 
         // Iniciar el entorno
         setClientOrg(clientID, orgID);
@@ -53,7 +61,7 @@ public class GeneralService {
         saveToLogFile(INFO_LOG, "Ejecutando " + Thread.currentThread().getStackTrace()[2].getMethodName());
 
         // Validar login
-        checkLogin(userName, pass);
+        checkLogin(userName, password);
 
         // Setear valores adicionales
         setCurrency();
