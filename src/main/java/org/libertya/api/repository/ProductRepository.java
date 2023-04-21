@@ -26,8 +26,7 @@ public class ProductRepository extends AbstractRepository {
         if (ids == null || ids.length==0)
             return retVal;
         for (int id : ids) {
-            PO aPO = getPO(X_M_Product.Table_Name, id, null);
-            retVal.add(poToEntity(aPO));
+            retVal.add(poToEntity(getPO(X_M_Product.Table_Name, id, null)));
         }
         return retVal;
     }
