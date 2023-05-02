@@ -2,15 +2,18 @@ package org.libertya.api.repository;
 
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.stub.model.Entity;
+import org.libertya.api.stub.model.Product;
 import org.libertya.api.stub.model.SimpleMap;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
+import org.openXpertya.model.X_M_Product;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.DisplayType;
 import org.openXpertya.util.Env;
 import org.openXpertya.util.Trx;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.PreparedStatement;
@@ -18,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Properties;
 
 public abstract class AbstractRepository {
@@ -789,8 +793,6 @@ public abstract class AbstractRepository {
         return table_tableID_tableName.get(tableID);
     }
 
-
-
     protected Properties getCtx()
     {
         return Env.getCtx();
@@ -801,5 +803,35 @@ public abstract class AbstractRepository {
         if (trxName == null)
             trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
         return trxName;
+    }
+
+    /**
+     * Asigna un valor al objeto destino
+     * @param target objeto al cual asignarle el valor
+     * @param property la propiedad del objeto a setear
+     * @param aColumn columna que contiene el valor a asignar
+     * @param value valor a asignar
+     */
+    protected void setValueToObject(Object target, Field property, M_Column aColumn, Object value) {
+        try {
+            if (value == null)
+                property.set(target, null);
+            else if (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
+                property.set(target, (Integer)value);
+            else if (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false)) {
+                // Workaround de resolucion de tipos debido al código en DisplayType de CORE
+                try {
+                    property.set(target, (Boolean)value);
+                } catch (Exception e) {
+                    property.set(target, String.valueOf(value));
+                }
+            }
+            else if (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
+                property.set(target, (BigDecimal)value);
+            else if (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
+                property.set(target, ((Timestamp)value).toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

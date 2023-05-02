@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Una simple map clave-valor")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-12-22T09:54:46.337-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-02T09:01:27.224-03:00[America/Argentina/Buenos_Aires]")
 public class SimpleMap   {
   @JsonProperty("key")
   private String key = null;

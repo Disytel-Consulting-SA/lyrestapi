@@ -1,12 +1,9 @@
 package org.libertya.api.repository;
 
-import org.libertya.api.stub.model.Entity;
 import org.openXpertya.model.PO;
 import org.openXpertya.model.X_AD_User;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Repository

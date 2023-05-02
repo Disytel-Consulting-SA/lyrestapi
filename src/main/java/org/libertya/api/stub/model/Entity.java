@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Una entidad abarca un conjunto de maps clave-valor para cada uno de los campos que la componen")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-12-22T09:54:46.337-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-02T09:01:27.224-03:00[America/Argentina/Buenos_Aires]")
 public class Entity extends ArrayList<SimpleMap>  {
 
   @Override

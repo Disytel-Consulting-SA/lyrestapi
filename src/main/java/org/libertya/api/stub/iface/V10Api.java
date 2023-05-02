@@ -5,9 +5,13 @@
  */
 package org.libertya.api.stub.iface;
 
-import org.libertya.api.stub.model.Entity;
+import org.libertya.api.stub.model.Product;
 import org.libertya.api.stub.model.SimpleMap;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +24,30 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.CookieValue;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-12-22T09:54:46.337-03:00[America/Argentina/Buenos_Aires]")
+import java.util.Optional;
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-02T09:01:27.224-03:00[America/Argentina/Buenos_Aires]")
 @Api(value = "v1.0", description = "the v1.0 API")
 public interface V10Api {
+
+    Logger log = LoggerFactory.getLogger(V10Api.class);
+
+    default Optional<ObjectMapper> getObjectMapper(){
+        return Optional.empty();
+    }
+
+    default Optional<HttpServletRequest> getRequest(){
+        return Optional.empty();
+    }
+
+    default Optional<String> getAcceptHeader() {
+        return getRequest().map(r -> r.getHeader("Accept"));
+    }
 
     @ApiOperation(value = "Nuevo articulo", nickname = "addProduct", notes = "Agrega un nuevo articulo", response = String.class, tags={ "product", })
     @ApiResponses(value = { 
@@ -35,8 +56,22 @@ public interface V10Api {
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<String> addProduct(@ApiParam(value = "" ,required=true )  @Valid @RequestBody List<SimpleMap> body
-);
+    default ResponseEntity<String> addProduct(@ApiParam(value = "" ,required=true )  @Valid @RequestBody List<SimpleMap> body
+) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 
     @ApiOperation(value = "Elimina un articulo", nickname = "deleteProduct", notes = "Elimina un articulo existente", response = String.class, tags={ "product", })
@@ -45,27 +80,69 @@ public interface V10Api {
     @RequestMapping(value = "/v1.0/products/{id}",
         produces = { "text/plain" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<String> deleteProduct(@ApiParam(value = "ID de articulo",required=true) @PathVariable("id") Integer id
-);
+    default ResponseEntity<String> deleteProduct(@ApiParam(value = "ID de articulo",required=true) @PathVariable("id") Integer id
+) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 
-    @ApiOperation(value = "Retrieve all products", nickname = "getAllProducts", notes = "Retorna la lista completa de articulos", response = Entity.class, responseContainer = "List", tags={ "product", })
+    @ApiOperation(value = "Retrieve all products", nickname = "getAllProducts", notes = "Retorna la lista completa de articulos", response = Product.class, responseContainer = "List", tags={ "product", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Entity.class, responseContainer = "List") })
+        @ApiResponse(code = 200, message = "OK", response = Product.class, responseContainer = "List") })
     @RequestMapping(value = "/v1.0/products",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Entity>> getAllProducts();
+    default ResponseEntity<List<Product>> getAllProducts() {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"guaranteedays\" : 4,\n  \"m_product_id\" : 9,\n  \"updatedby\" : 6,\n  \"m_product_category_id\" : 4,\n  \"r_mailtext_id\" : 9,\n  \"isverified\" : true,\n  \"producttype\" : \"producttype\",\n  \"m_product_family_id\" : 5,\n  \"ad_componentobjectuid\" : \"ad_componentobjectuid\",\n  \"createdby\" : 5,\n  \"ad_client_id\" : 0,\n  \"ispurchased\" : true,\n  \"sku\" : \"sku\",\n  \"common_ref\" : 5.962133916683182,\n  \"c_taxcategory_id\" : 9,\n  \"created\" : \"created\",\n  \"downloadurl\" : \"downloadurl\",\n  \"isstocked\" : true,\n  \"upc\" : \"upc\",\n  \"weight\" : 6.704019297950036,\n  \"istoformule\" : true,\n  \"isbom\" : true,\n  \"classification\" : \"classification\",\n  \"s_expensetype_id\" : 6,\n  \"volume\" : 5.944895607614016,\n  \"documentnote\" : \"documentnote\",\n  \"deliverytime_promised\" : 2.027123023002322,\n  \"lowlevel\" : 1,\n  \"iswebstorefeatured\" : true,\n  \"name\" : \"name\",\n  \"versionno\" : \"versionno\",\n  \"marketingblockeddescr\" : \"marketingblockeddescr\",\n  \"checkoutplace\" : \"checkoutplace\",\n  \"updated\" : \"updated\",\n  \"m_attributeset_id\" : 1,\n  \"isinvoiceprintdetails\" : true,\n  \"issummary\" : true,\n  \"ad_org_id\" : 6,\n  \"c_subscriptiontype_id\" : 7,\n  \"isactive\" : true,\n  \"m_locator_id\" : 1,\n  \"description\" : \"description\",\n  \"issold\" : true,\n  \"m_intrastatcode_id\" : 7.457744773683766,\n  \"discontinuedby\" : \"discontinuedby\",\n  \"sales_order_min\" : 6.683562403749608,\n  \"marketingblocked\" : true,\n  \"sales_order_pack\" : 8.762042012749001,\n  \"shelfwidth\" : 1,\n  \"shelfheight\" : 6,\n  \"descriptionurl\" : \"descriptionurl\",\n  \"shelfdepth\" : 3,\n  \"c_uom_id\" : 3,\n  \"ishelp\" : true,\n  \"m_attributesetinstance_id\" : 1,\n  \"value\" : \"value\",\n  \"isselfservice\" : true,\n  \"c_revenuerecognition_id\" : 2,\n  \"discontinued\" : true,\n  \"help\" : \"help\",\n  \"guaranteedaysmin\" : 7,\n  \"amortizationperc\" : 1.4658129805029452,\n  \"ispicklistprintdetails\" : true,\n  \"unitsperpallet\" : 6,\n  \"isdropship\" : true,\n  \"imageurl\" : \"imageurl\",\n  \"salesrep_id\" : 9,\n  \"isinventoried\" : true,\n  \"m_freightcategory_id\" : 6,\n  \"yearlife\" : 3,\n  \"s_resource_id\" : 2\n}, {\n  \"guaranteedays\" : 4,\n  \"m_product_id\" : 9,\n  \"updatedby\" : 6,\n  \"m_product_category_id\" : 4,\n  \"r_mailtext_id\" : 9,\n  \"isverified\" : true,\n  \"producttype\" : \"producttype\",\n  \"m_product_family_id\" : 5,\n  \"ad_componentobjectuid\" : \"ad_componentobjectuid\",\n  \"createdby\" : 5,\n  \"ad_client_id\" : 0,\n  \"ispurchased\" : true,\n  \"sku\" : \"sku\",\n  \"common_ref\" : 5.962133916683182,\n  \"c_taxcategory_id\" : 9,\n  \"created\" : \"created\",\n  \"downloadurl\" : \"downloadurl\",\n  \"isstocked\" : true,\n  \"upc\" : \"upc\",\n  \"weight\" : 6.704019297950036,\n  \"istoformule\" : true,\n  \"isbom\" : true,\n  \"classification\" : \"classification\",\n  \"s_expensetype_id\" : 6,\n  \"volume\" : 5.944895607614016,\n  \"documentnote\" : \"documentnote\",\n  \"deliverytime_promised\" : 2.027123023002322,\n  \"lowlevel\" : 1,\n  \"iswebstorefeatured\" : true,\n  \"name\" : \"name\",\n  \"versionno\" : \"versionno\",\n  \"marketingblockeddescr\" : \"marketingblockeddescr\",\n  \"checkoutplace\" : \"checkoutplace\",\n  \"updated\" : \"updated\",\n  \"m_attributeset_id\" : 1,\n  \"isinvoiceprintdetails\" : true,\n  \"issummary\" : true,\n  \"ad_org_id\" : 6,\n  \"c_subscriptiontype_id\" : 7,\n  \"isactive\" : true,\n  \"m_locator_id\" : 1,\n  \"description\" : \"description\",\n  \"issold\" : true,\n  \"m_intrastatcode_id\" : 7.457744773683766,\n  \"discontinuedby\" : \"discontinuedby\",\n  \"sales_order_min\" : 6.683562403749608,\n  \"marketingblocked\" : true,\n  \"sales_order_pack\" : 8.762042012749001,\n  \"shelfwidth\" : 1,\n  \"shelfheight\" : 6,\n  \"descriptionurl\" : \"descriptionurl\",\n  \"shelfdepth\" : 3,\n  \"c_uom_id\" : 3,\n  \"ishelp\" : true,\n  \"m_attributesetinstance_id\" : 1,\n  \"value\" : \"value\",\n  \"isselfservice\" : true,\n  \"c_revenuerecognition_id\" : 2,\n  \"discontinued\" : true,\n  \"help\" : \"help\",\n  \"guaranteedaysmin\" : 7,\n  \"amortizationperc\" : 1.4658129805029452,\n  \"ispicklistprintdetails\" : true,\n  \"unitsperpallet\" : 6,\n  \"isdropship\" : true,\n  \"imageurl\" : \"imageurl\",\n  \"salesrep_id\" : 9,\n  \"isinventoried\" : true,\n  \"m_freightcategory_id\" : 6,\n  \"yearlife\" : 3,\n  \"s_resource_id\" : 2\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 
-    @ApiOperation(value = "Recupera un producto en particular", nickname = "retrieveProduct", notes = "Recupera la informacion de un articulo en particular", response = Entity.class, tags={ "product", })
+    @ApiOperation(value = "Recupera un producto en particular", nickname = "retrieveProduct", notes = "Recupera la informacion de un articulo en particular", response = Product.class, tags={ "product", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Entity.class) })
+        @ApiResponse(code = 200, message = "OK", response = Product.class) })
     @RequestMapping(value = "/v1.0/products/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Entity> retrieveProduct(@ApiParam(value = "ID del articulo",required=true) @PathVariable("id") Integer id
-);
+    default ResponseEntity<Product> retrieveProduct(@ApiParam(value = "ID del articulo",required=true) @PathVariable("id") Integer id
+) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"guaranteedays\" : 4,\n  \"m_product_id\" : 9,\n  \"updatedby\" : 6,\n  \"m_product_category_id\" : 4,\n  \"r_mailtext_id\" : 9,\n  \"isverified\" : true,\n  \"producttype\" : \"producttype\",\n  \"m_product_family_id\" : 5,\n  \"ad_componentobjectuid\" : \"ad_componentobjectuid\",\n  \"createdby\" : 5,\n  \"ad_client_id\" : 0,\n  \"ispurchased\" : true,\n  \"sku\" : \"sku\",\n  \"common_ref\" : 5.962133916683182,\n  \"c_taxcategory_id\" : 9,\n  \"created\" : \"created\",\n  \"downloadurl\" : \"downloadurl\",\n  \"isstocked\" : true,\n  \"upc\" : \"upc\",\n  \"weight\" : 6.704019297950036,\n  \"istoformule\" : true,\n  \"isbom\" : true,\n  \"classification\" : \"classification\",\n  \"s_expensetype_id\" : 6,\n  \"volume\" : 5.944895607614016,\n  \"documentnote\" : \"documentnote\",\n  \"deliverytime_promised\" : 2.027123023002322,\n  \"lowlevel\" : 1,\n  \"iswebstorefeatured\" : true,\n  \"name\" : \"name\",\n  \"versionno\" : \"versionno\",\n  \"marketingblockeddescr\" : \"marketingblockeddescr\",\n  \"checkoutplace\" : \"checkoutplace\",\n  \"updated\" : \"updated\",\n  \"m_attributeset_id\" : 1,\n  \"isinvoiceprintdetails\" : true,\n  \"issummary\" : true,\n  \"ad_org_id\" : 6,\n  \"c_subscriptiontype_id\" : 7,\n  \"isactive\" : true,\n  \"m_locator_id\" : 1,\n  \"description\" : \"description\",\n  \"issold\" : true,\n  \"m_intrastatcode_id\" : 7.457744773683766,\n  \"discontinuedby\" : \"discontinuedby\",\n  \"sales_order_min\" : 6.683562403749608,\n  \"marketingblocked\" : true,\n  \"sales_order_pack\" : 8.762042012749001,\n  \"shelfwidth\" : 1,\n  \"shelfheight\" : 6,\n  \"descriptionurl\" : \"descriptionurl\",\n  \"shelfdepth\" : 3,\n  \"c_uom_id\" : 3,\n  \"ishelp\" : true,\n  \"m_attributesetinstance_id\" : 1,\n  \"value\" : \"value\",\n  \"isselfservice\" : true,\n  \"c_revenuerecognition_id\" : 2,\n  \"discontinued\" : true,\n  \"help\" : \"help\",\n  \"guaranteedaysmin\" : 7,\n  \"amortizationperc\" : 1.4658129805029452,\n  \"ispicklistprintdetails\" : true,\n  \"unitsperpallet\" : 6,\n  \"isdropship\" : true,\n  \"imageurl\" : \"imageurl\",\n  \"salesrep_id\" : 9,\n  \"isinventoried\" : true,\n  \"m_freightcategory_id\" : 6,\n  \"yearlife\" : 3,\n  \"s_resource_id\" : 2\n}", Product.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 
     @ApiOperation(value = "Actualiza un articulo existente", nickname = "updateProduct", notes = "", response = String.class, tags={ "product", })
@@ -75,8 +152,22 @@ public interface V10Api {
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<String> updateProduct(@ApiParam(value = "" ,required=true )  @Valid @RequestBody List<SimpleMap> body
+    default ResponseEntity<String> updateProduct(@ApiParam(value = "" ,required=true )  @Valid @RequestBody List<SimpleMap> body
 ,@ApiParam(value = "ID del articulo a actualizar",required=true) @PathVariable("id") Integer id
-);
+) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
 
 }
