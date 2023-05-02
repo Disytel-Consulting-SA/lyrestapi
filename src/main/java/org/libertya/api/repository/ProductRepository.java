@@ -1,19 +1,14 @@
 package org.libertya.api.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.libertya.api.stub.model.Entity;
 import org.libertya.api.stub.model.Product;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
 import org.openXpertya.model.X_M_Product;
-import org.openXpertya.util.DisplayType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +40,7 @@ public class ProductRepository extends AbstractRepository {
     }
 
     public List<Product> retrieveAllProducts() {
-        List retVal = new ArrayList<Entity>();
+        List retVal = new ArrayList();
         int[] ids = PO.getAllIDs(X_M_Product.Table_Name, null, null);
         if (ids == null || ids.length==0)
             return retVal;

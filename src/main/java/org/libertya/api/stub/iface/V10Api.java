@@ -6,7 +6,6 @@
 package org.libertya.api.stub.iface;
 
 import org.libertya.api.stub.model.Product;
-import org.libertya.api.stub.model.SimpleMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-02T09:01:27.224-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-02T10:03:43.863-03:00[America/Argentina/Buenos_Aires]")
 @Api(value = "v1.0", description = "the v1.0 API")
 public interface V10Api {
 
@@ -56,7 +55,7 @@ public interface V10Api {
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<String> addProduct(@ApiParam(value = "" ,required=true )  @Valid @RequestBody List<SimpleMap> body
+    default ResponseEntity<String> addProduct(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Product body
 ) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
@@ -152,7 +151,7 @@ public interface V10Api {
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    default ResponseEntity<String> updateProduct(@ApiParam(value = "" ,required=true )  @Valid @RequestBody List<SimpleMap> body
+    default ResponseEntity<String> updateProduct(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Product body
 ,@ApiParam(value = "ID del articulo a actualizar",required=true) @PathVariable("id") Integer id
 ) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {

@@ -3,9 +3,7 @@ package org.libertya.api.controller;
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.repository.ProductRepository;
 import org.libertya.api.stub.iface.V10Api;
-import org.libertya.api.stub.model.Entity;
 import org.libertya.api.stub.model.Product;
-import org.libertya.api.stub.model.SimpleMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,7 +17,7 @@ public class ProductController implements V10Api {
     private final ProductRepository repository;
 
     @Override
-    public ResponseEntity<String> addProduct(List<SimpleMap> body) {
+    public ResponseEntity<String> addProduct(Product body) {
         return null;
     }
 
@@ -41,7 +39,7 @@ public class ProductController implements V10Api {
     }
 
     @Override
-    public ResponseEntity<String> updateProduct(List<SimpleMap> body, Integer id) {
+    public ResponseEntity<String> updateProduct(Product body, Integer id) {
         return null;
     }
 }

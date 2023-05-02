@@ -25,7 +25,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Product'
+                  $ref: './product.yaml#/components/schemas/Product'
     post:
       summary: Nuevo articulo
       tags:
@@ -45,7 +45,7 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/Entity'
+              $ref: './product.yaml#/components/schemas/Product'
   /v1.0/products/{id}:
     get:
       summary: Recupera un producto en particular
@@ -66,7 +66,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: './product.yaml#/components/schemas/Product'
     delete:
       summary: Elimina un articulo
       tags:
@@ -105,7 +105,7 @@ paths:
           application/json:
             schema:
               type: object
-              $ref: '#/components/schemas/Entity'
+              $ref: './product.yaml#/components/schemas/Product'
       responses:
         "200":
           description: OK
@@ -113,167 +113,3 @@ paths:
             text/plain:
               schema:
                 type: string
-
-components:
-  schemas:
-    SimpleMap:
-      description: Una simple map clave-valor
-      type: object
-      properties:
-        key:
-          description: La clave de la map
-          type: string
-        value:
-          description: El valor de la map
-          type: string
-    Entity:
-      description: Una entidad abarca un conjunto de maps clave-valor para cada uno de los campos que la componen
-      type: array
-      items:
-        $ref: '#/components/schemas/SimpleMap'
-    Product:
-      description: Un articulo
-      type: object
-      properties:
-        ad_client_id:
-          type: integer
-        ad_componentobjectuid:
-          type: string
-        ad_org_id:
-          type: integer
-        amortizationperc:
-          type: number
-        checkoutplace:
-          type: string
-        classification:
-          type: string
-        common_ref:
-          type: number
-        created:
-          type: string
-        createdby:
-          type: integer
-        c_revenuerecognition_id:
-          type: integer
-        c_subscriptiontype_id:
-          type: integer
-        c_taxcategory_id:
-          type: integer
-        c_uom_id:
-          type: integer
-        deliverytime_promised:
-          type: number
-        description:
-          type: string
-        descriptionurl:
-          type: string
-        discontinued:
-          type: boolean
-        discontinuedby:
-          type: string
-        documentnote:
-          type: string
-        downloadurl:
-          type: string
-        guaranteedays:
-          type: integer
-        guaranteedaysmin:
-          type: integer
-        help:
-          type: string
-        imageurl:
-          type: string
-        isactive:
-          type: boolean
-        isbom:
-          type: boolean
-        isdropship:
-          type: boolean
-        ishelp:
-          type: boolean
-        isinventoried:
-          type: boolean
-        isinvoiceprintdetails:
-          type: boolean
-        ispicklistprintdetails:
-          type: boolean
-        ispurchased:
-          type: boolean
-        isselfservice:
-          type: boolean
-        issold:
-          type: boolean
-        isstocked:
-          type: boolean
-        issummary:
-          type: boolean
-        istoformule:
-          type: boolean
-        isverified:
-          type: boolean
-        iswebstorefeatured:
-          type: boolean
-        lowlevel:
-          type: integer
-        marketingblocked:
-          type: boolean
-        marketingblockeddescr:
-          type: string
-        m_attributeset_id:
-          type: integer
-        m_attributesetinstance_id:
-          type: integer
-        m_freightcategory_id:
-          type: integer
-        m_intrastatcode_id:
-          type: number
-        m_locator_id:
-          type: integer
-        m_product_category_id:
-          type: integer
-        m_product_family_id:
-          type: integer
-        m_product_id:
-          type: integer
-        name:
-          type: string
-        producttype:
-          type: string
-        r_mailtext_id:
-          type: integer
-        sales_order_min:
-          type: number
-        sales_order_pack:
-          type: number
-        salesrep_id:
-          type: integer
-        s_expensetype_id:
-          type: integer
-        shelfdepth:
-          type: integer
-        shelfheight:
-          type: integer
-        shelfwidth:
-          type: integer
-        sku:
-          type: string
-        s_resource_id:
-          type: integer
-        unitsperpallet:
-          type: integer
-        upc:
-          type: string
-        updated:
-          type: string
-        updatedby:
-          type: integer
-        value:
-          type: string
-        versionno:
-          type: string
-        volume:
-          type: number
-        weight:
-          type: number
-        yearlife:
-          type: integer

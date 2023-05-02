@@ -1,13 +1,9 @@
 package org.libertya.api.repository;
 
 import org.libertya.api.exception.ModelException;
-import org.libertya.api.stub.model.Entity;
-import org.libertya.api.stub.model.Product;
-import org.libertya.api.stub.model.SimpleMap;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
-import org.openXpertya.model.X_M_Product;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.DisplayType;
 import org.openXpertya.util.Env;
@@ -21,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.Properties;
 
 public abstract class AbstractRepository {
@@ -128,28 +123,6 @@ public abstract class AbstractRepository {
         M_Table table = M_Table.get(Env.getCtx(), tableName);
         aPO = table.getPO(id, trxName);
         return aPO;
-    }
-
-    /**
-     * Mapeo desde un Persistent Object hacia una Entity
-     * @param po el po al cual tomar como base
-     * @return una Entity cargada con la información del PO
-     */
-    public Entity poToEntity(PO po) {
-        Entity entity = new Entity();
-
-        // recuperar las columnas del registro
-        M_Table aTable = M_Table.get(po.getCtx(), po.get_TableName());
-        M_Column[] columns = aTable.getColumns(false);
-
-        // recorrer las columnas y cargar los datos
-        for (M_Column aColumn : columns) {
-            SimpleMap map = new SimpleMap();
-            map.setKey(aColumn.getColumnName().toLowerCase());
-            map.setValue(po.get_ValueAsString(aColumn.getColumnName()));
-            entity.add(map);
-        }
-        return entity;
     }
 
     /**
