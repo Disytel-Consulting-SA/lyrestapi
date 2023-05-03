@@ -15,9 +15,7 @@ import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.*;
 
 public abstract class AbstractRepository {
 
@@ -780,12 +778,13 @@ public abstract class AbstractRepository {
 
     /**
      * Asigna un valor al objeto destino
+     * @param id el ID del registro
      * @param target objeto al cual asignarle el valor
      * @param property la propiedad del objeto a setear
      * @param aColumn columna que contiene el valor a asignar
      * @param value valor a asignar
      */
-    protected void setValueToObject(Object target, Field property, M_Column aColumn, Object value) {
+    protected void setValueToObject(int id, Object target, Field property, M_Column aColumn, Object value) {
         try {
             if (value == null)
                 property.set(target, null);
@@ -802,9 +801,63 @@ public abstract class AbstractRepository {
             else if (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
                 property.set(target, (BigDecimal)value);
             else if (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
-                property.set(target, ((Timestamp)value).toString());
+                property.set(target, (value).toString());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error al setear " + value + " a columna " + aColumn.getColumnName() + " en ID " + id);
         }
     }
+
+    /**
+     * Recupera todas las entidades en bdd
+     * @param tableName nombre de la tabla
+     * @param iface que recuperar
+     * @param <T> tipo del modelo
+     * @return una lista con todas las entidades
+     */
+    public <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface) {
+        List retVal = new ArrayList();
+        int[] ids = PO.getAllIDs(tableName, null, null);
+        if (ids == null || ids.length==0)
+            return retVal;
+        for (int id : ids) {
+            retVal.add(iface.perform(id));
+        }
+        return retVal;
+    }
+
+
+    /**
+     * Recupera y retorna un objeto perteneciente al modelo autogenerado a partir de la informacion en bdd
+     * @param id el ID del PO
+     * @param tableName nombre de la tabla
+     * @param target objeto destino
+     * @param <T> tipo del modelo
+     * @return un optional con el objeto eventualmente cargado
+     */
+    public <T> Optional<T> loadModelObjectsFromPO(int id, String tableName, SpawnAPIObject target) {
+        // Recuperar el PO asociado en BDD
+        PO aPO = getPO(tableName, id, null);
+        if (aPO == null || aPO.getID() == 0) {
+            return Optional.empty();
+        }
+        // Instanciar objeto del modelo segun corresponda
+        Object object = target.perform();
+        Field[] fields = object.getClass().getDeclaredFields();
+        // Iterar por los campos matcheando segun el nombre de la propiedad.
+        // NOTA: Swagger openapi respeta camelCase mientras que las columnas en BDD no siempre y ademas utiliza underscores
+        for (Field field : fields) {
+            String fieldName = field.getName().toLowerCase().replace("_", "");
+            M_Table aTable = M_Table.get(getCtx(), aPO.get_TableName());
+            M_Column[] columns = aTable.getColumns(false);
+            for (M_Column aColumn : columns) {
+                if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
+                    field.setAccessible(true);
+                    setValueToObject(id, object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
+                    break;
+                }
+            }
+        }
+        return (Optional<T>)Optional.of(object);
+    }
+
 }
