@@ -2,17 +2,16 @@ package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.repository.ProductRepository;
-import org.libertya.api.stub.iface.V10Api;
+import org.libertya.api.stub.iface.ProductApi;
 import org.libertya.api.stub.model.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class ProductController implements V10Api {
+public class ProductController implements ProductApi {
 
     private final ProductRepository repository;
 

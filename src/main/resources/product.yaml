@@ -1,7 +1,6 @@
 components:
   schemas:
     Product:
-      description: Un articulo
       type: object
       properties:
         ad_client_id:

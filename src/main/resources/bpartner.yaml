@@ -1,0 +1,221 @@
+components:
+  schemas:
+    BPartner:
+      type: object
+      properties:
+        acqusitioncost:
+          type: number
+        actuallifetimevalue:
+          type: number
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_language:
+          type: integer
+        ad_org_id:
+          type: integer
+        allowadvancedpaymentreceipts:
+          type: boolean
+        allowpartialpayment:
+          type: boolean
+        a_name_check:
+          type: string
+        automaticcreditnotes:
+          type: boolean
+        batch_payment_rule:
+          type: string
+        bpartner_parent_id:
+          type: integer
+        builtcabajurisdiction:
+          type: boolean
+        c_bankaccount_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_bp_group_id:
+          type: integer
+        c_categoria_iva_id:
+          type: integer
+        c_dunning_id:
+          type: integer
+        c_greeting_id:
+          type: integer
+        c_invoiceschedule_id:
+          type: integer
+        c_jobcategory_id:
+          type: integer
+        c_location_id:
+          type: integer
+        c_paymentterm_id:
+          type: integer
+        c_pospaymentmedium_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        creditminimumamt:
+          type: number
+        creditsituation:
+          type: string
+        c_region_sede_id:
+          type: integer
+        customertype:
+          type: string
+        deliveryrule:
+          type: string
+        deliveryviarule:
+          type: string
+        description:
+          type: string
+        discountcontext:
+          type: string
+        documentcopies:
+          type: integer
+        duns:
+          type: string
+        emitir_mi_pyme:
+          type: boolean
+        endholidays:
+          type: string
+        endholidays2:
+          type: string
+        firstsale:
+          type: string
+        flatdiscount:
+          type: number
+        freightcostrule:
+          type: string
+        goal:
+          type: number
+        iibb:
+          type: string
+        iibbtype:
+          type: string
+        invoice_printformat_id:
+          type: integer
+        invoicerule:
+          type: string
+        isactive:
+          type: boolean
+        iscompoundtax:
+          type: boolean
+        isconveniomultilateral:
+          type: string
+        iscustomer:
+          type: boolean
+        isdiscountprinted:
+          type: boolean
+        isemployee:
+          type: boolean
+        isgroupinvoices:
+          type: boolean
+        isiso:
+          type: boolean
+        ismandatorycai:
+          type: boolean
+        ismulticuit:
+          type: boolean
+        isonetime:
+          type: boolean
+        isprospect:
+          type: boolean
+        issalesrep:
+          type: boolean
+        issummary:
+          type: boolean
+        istaxexempt:
+          type: boolean
+        isvendor:
+          type: boolean
+        m_discountschema_id:
+          type: integer
+        minimumpurchasedamt:
+          type: number
+        min_order_qty:
+          type: number
+        m_pricelist_id:
+          type: integer
+        m_product_related_id:
+          type: integer
+        m_shipper_id:
+          type: integer
+        naics:
+          type: string
+        name:
+          type: string
+        name2:
+          type: string
+        numberemployees:
+          type: integer
+        paymentblocked:
+          type: boolean
+        paymentblockeddescr:
+          type: string
+        paymentrule:
+          type: string
+        paymentrulepo:
+          type: string
+        po_discountschema_id:
+          type: integer
+        po_paymentterm_id:
+          type: integer
+        po_pricelist_id:
+          type: integer
+        poreference:
+          type: string
+        potentiallifetimevalue:
+          type: number
+        program_amt:
+          type: number
+        program_amt_used:
+          type: number
+        program_invoice:
+          type: integer
+        rating:
+          type: string
+        referenceno:
+          type: string
+        salesrep_id:
+          type: integer
+        salesvolume:
+          type: integer
+        searchunallocatedpayments:
+          type: boolean
+        secondarycreditstatus:
+          type: string
+        sendemail:
+          type: boolean
+        shareofcustomer:
+          type: integer
+        shelflifeminpct:
+          type: integer
+        so_creditlimit:
+          type: number
+        socreditstatus:
+          type: string
+        so_creditused:
+          type: number
+        so_description:
+          type: string
+        startholidays:
+          type: string
+        startholidays2:
+          type: string
+        taxid:
+          type: string
+        taxidtype:
+          type: string
+        totalopenbalance:
+          type: number
+        trxenabled:
+          type: boolean
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        url:
+          type: string
+        value:
+          type: string

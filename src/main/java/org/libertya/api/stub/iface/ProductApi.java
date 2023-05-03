@@ -30,11 +30,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-02T10:03:43.863-03:00[America/Argentina/Buenos_Aires]")
-@Api(value = "v1.0", description = "the v1.0 API")
-public interface V10Api {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-03T10:38:15.253-03:00[America/Argentina/Buenos_Aires]")
+@Api(value = "Product", description = "the Product API")
+public interface ProductApi {
 
-    Logger log = LoggerFactory.getLogger(V10Api.class);
+    Logger log = LoggerFactory.getLogger(ProductApi.class);
 
     default Optional<ObjectMapper> getObjectMapper(){
         return Optional.empty();
@@ -67,7 +67,7 @@ public interface V10Api {
                 }
             }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default ProductApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -91,7 +91,7 @@ public interface V10Api {
                 }
             }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default ProductApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -114,7 +114,7 @@ public interface V10Api {
                 }
             }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default ProductApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -138,7 +138,7 @@ public interface V10Api {
                 }
             }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default ProductApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -164,7 +164,7 @@ public interface V10Api {
                 }
             }
         } else {
-            log.warn("ObjectMapper or HttpServletRequest not configured in default V10Api interface so no example is generated");
+            log.warn("ObjectMapper or HttpServletRequest not configured in default ProductApi interface so no example is generated");
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }

@@ -11,11 +11,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Un articulo
+ * Product
  */
-@ApiModel(description = "Un articulo")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-02T10:03:43.863-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-03T10:38:15.253-03:00[America/Argentina/Buenos_Aires]")
 public class Product   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;

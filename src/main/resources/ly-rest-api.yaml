@@ -113,3 +113,107 @@ paths:
             text/plain:
               schema:
                 type: string
+
+  /v1.0/bpartners:
+    get:
+      tags:
+        - "bpartner"
+      summary: Retrieve all business partners
+      description: Retorna la lista completa de articulos
+      operationId: getAllBPartners
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './bpartner.yaml#/components/schemas/BPartner'
+    post:
+      tags:
+        - "bpartner"
+      summary: Nueva entidad comercial
+      description: Agrega una nueva entidad comercial
+      operationId: addBPartner
+      responses:
+        "200":
+          description: OK. ID de entidad comercial creada es retornado
+          content:
+            text/plain:
+              schema:
+                type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: './bpartner.yaml#/components/schemas/BPartner'
+  /v1.0/bpartners/{id}:
+    get:
+      tags:
+        - "bpartner"
+      summary: Recupera una entidad comercial en particular
+      parameters:
+        - name: id
+          in: path
+          description: ID de la entidad comercial
+          required: true
+          schema:
+            type: integer
+      description: Recupera la informacion de una entidad comercial en particular
+      operationId: retrieveBPartner
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: './bpartner.yaml#/components/schemas/BPartner'
+    delete:
+      tags:
+        - "bpartner"
+      summary: Elimina una entidad comercial
+      parameters:
+        - name: id
+          in: path
+          description: ID de entidad comercial
+          required: true
+          schema:
+            type: integer
+      description: Elimina una entidad comercial existente
+      operationId: deleteBPartner
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+    put:
+      tags:
+        - "bpartner"
+      summary: Actualiza una entidad comercial existente
+      operationId: updateBPartner
+      parameters:
+        - name: id
+          in: path
+          description: ID de la entidad comercial a actualizar
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: './bpartner.yaml#/components/schemas/BPartner'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
