@@ -10,10 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-public class BPartnerController implements BpartnerApi {
+public class BPartnerController extends AbstractController implements BpartnerApi {
 
     private final BPartnerRepository repository;
 
@@ -24,14 +25,7 @@ public class BPartnerController implements BpartnerApi {
 
     @Override
     public ResponseEntity<String> deleteBPartner(Integer id) {
-        try {
-            repository.deleteBPartner(id);
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (ModelException e2) {
-            return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
-        }
+        return deleteAction(() -> repository.deleteBPartner(id));
     }
 
     @Override
@@ -41,9 +35,7 @@ public class BPartnerController implements BpartnerApi {
 
     @Override
     public ResponseEntity<BPartner> retrieveBPartner(Integer id) {
-        return repository.retrieveBPartner(id)
-                .map(simpleMap -> new ResponseEntity<>(simpleMap, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity(null, HttpStatus.NOT_FOUND));
+        return retrieveAction(() -> repository.retrieveBPartner(id), BPartner.class);
     }
 
     @Override

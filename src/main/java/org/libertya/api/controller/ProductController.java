@@ -5,6 +5,7 @@ import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 import org.libertya.api.repository.ProductRepository;
 import org.libertya.api.stub.iface.ProductApi;
+import org.libertya.api.stub.model.BPartner;
 import org.libertya.api.stub.model.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class ProductController implements ProductApi {
+public class ProductController extends AbstractController implements ProductApi {
 
     private final ProductRepository repository;
 
@@ -24,14 +25,7 @@ public class ProductController implements ProductApi {
 
     @Override
     public ResponseEntity<String> deleteProduct(Integer id) {
-        try {
-            repository.deleteProduct(id);
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } catch (ModelException e2) {
-            return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
-        }
+        return deleteAction(() -> repository.deleteProduct(id));
     }
 
     @Override
@@ -41,9 +35,7 @@ public class ProductController implements ProductApi {
 
     @Override
     public ResponseEntity<Product> retrieveProduct(Integer id) {
-        return repository.retrieveProduct(id)
-                .map(simpleMap -> new ResponseEntity<>(simpleMap, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity(null, HttpStatus.NOT_FOUND));
+        return retrieveAction(() -> repository.retrieveProduct(id), Product.class);
     }
 
     @Override
