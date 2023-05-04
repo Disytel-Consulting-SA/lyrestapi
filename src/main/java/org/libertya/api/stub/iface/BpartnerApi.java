@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-03T10:38:15.253-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-04T09:42:26.498-03:00[America/Argentina/Buenos_Aires]")
 @Api(value = "Bpartner", description = "the Bpartner API")
 public interface BpartnerApi {
 
@@ -75,7 +75,9 @@ public interface BpartnerApi {
 
     @ApiOperation(value = "Elimina una entidad comercial", nickname = "deleteBPartner", notes = "Elimina una entidad comercial existente", response = String.class, tags={ "bpartner", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = String.class) })
+        @ApiResponse(code = 409, message = "Imposible eliminar", response = String.class),
+        @ApiResponse(code = 404, message = "No encontrado", response = String.class),
+        @ApiResponse(code = 204, message = "OK", response = String.class) })
     @RequestMapping(value = "/v1.0/bpartners/{id}",
         produces = { "text/plain" }, 
         method = RequestMethod.DELETE)

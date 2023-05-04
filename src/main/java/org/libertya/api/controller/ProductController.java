@@ -1,6 +1,8 @@
 package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.libertya.api.exception.ModelException;
+import org.libertya.api.exception.NotFoundException;
 import org.libertya.api.repository.ProductRepository;
 import org.libertya.api.stub.iface.ProductApi;
 import org.libertya.api.stub.model.Product;
@@ -22,7 +24,14 @@ public class ProductController implements ProductApi {
 
     @Override
     public ResponseEntity<String> deleteProduct(Integer id) {
-        return null;
+        try {
+            repository.deleteProduct(id);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (ModelException e2) {
+            return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     @Override

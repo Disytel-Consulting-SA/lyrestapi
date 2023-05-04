@@ -1,14 +1,11 @@
 package org.libertya.api.repository;
 
 import org.libertya.api.exception.ModelException;
+import org.libertya.api.exception.NotFoundException;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
-import org.openXpertya.util.DB;
-import org.openXpertya.util.DisplayType;
-import org.openXpertya.util.Env;
-import org.openXpertya.util.Trx;
-
+import org.openXpertya.util.*;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -814,7 +811,7 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return una lista con todas las entidades
      */
-    public <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface) {
+    protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface) {
         List retVal = new ArrayList();
         int[] ids = PO.getAllIDs(tableName, null, null);
         if (ids == null || ids.length==0)
@@ -834,7 +831,7 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    public <T> Optional<T> loadModelObjectsFromPO(int id, String tableName, SpawnAPIObject target) {
+    protected <T> Optional<T> retrieveEntity(int id, String tableName, SpawnAPIObject target) {
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(tableName, id, null);
         if (aPO == null || aPO.getID() == 0) {
@@ -860,4 +857,18 @@ public abstract class AbstractRepository {
         return (Optional<T>)Optional.of(object);
     }
 
+    /**
+     * Elimina una entrada
+     * @param tableName nombre de la tabla en donde reside la entidad a eliminar
+     * @param id de la entidad a eliminar
+     * @throws ModelException si no es posible eliminar el registro
+     * @throws NotFoundException si el registro no existe
+     */
+    protected void deleteEntity(String tableName,  int id) throws ModelException, NotFoundException {
+        PO aPO = getPO(tableName, id, null);
+        if (aPO.getID()<=0)
+            throw new NotFoundException();
+        if (!aPO.delete(false))
+            throw new ModelException(CLogger.retrieveErrorAsString());
+    }
 }

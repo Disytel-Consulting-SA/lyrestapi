@@ -1,6 +1,8 @@
 package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.libertya.api.exception.ModelException;
+import org.libertya.api.exception.NotFoundException;
 import org.libertya.api.repository.BPartnerRepository;
 import org.libertya.api.stub.iface.BpartnerApi;
 import org.libertya.api.stub.model.BPartner;
@@ -22,7 +24,14 @@ public class BPartnerController implements BpartnerApi {
 
     @Override
     public ResponseEntity<String> deleteBPartner(Integer id) {
-        return null;
+        try {
+            repository.deleteBPartner(id);
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (ModelException e2) {
+            return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     @Override

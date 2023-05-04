@@ -81,7 +81,19 @@ paths:
       description: Elimina un articulo existente
       operationId: deleteProduct
       responses:
-        "200":
+        "409":
+          description: Imposible eliminar
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: No encontrado
+          content:
+            text/plain:
+              schema:
+                type: string
+        "204":
           description: OK
           content:
             text/plain:
@@ -185,7 +197,19 @@ paths:
       description: Elimina una entidad comercial existente
       operationId: deleteBPartner
       responses:
-        "200":
+        "409":
+          description: Imposible eliminar
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: No encontrado
+          content:
+            text/plain:
+              schema:
+                type: string
+        "204":
           description: OK
           content:
             text/plain:
