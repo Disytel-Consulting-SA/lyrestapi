@@ -1,7 +1,7 @@
 package org.libertya.api.repository;
 
 @FunctionalInterface
-public interface SpawnAPIObject {
+public interface SpawnModelInstanceInterface {
 
     Object perform();
 }

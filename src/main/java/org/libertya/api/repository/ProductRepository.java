@@ -13,7 +13,7 @@ import java.util.Optional;
 public class ProductRepository extends AbstractRepository {
 
     public Optional<Product> retrieveProduct(int id) {
-        return retrieveEntity(id, X_M_Product.Table_Name, Product::new);
+        return loadEntityFromPO(id, X_M_Product.Table_Name, Product::new);
     }
 
     public List<Product> retrieveAllProducts() {
@@ -24,4 +24,7 @@ public class ProductRepository extends AbstractRepository {
         deleteEntity(X_M_Product.Table_Name, id);
     }
 
+    public void updateProduct(int id, Product payload, boolean ignoreNulls) throws ModelException, NotFoundException {
+        updateEntity(id, X_M_Product.Table_Name, payload, ignoreNulls);
+    }
 }

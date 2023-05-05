@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-04T09:42:26.498-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-05T11:25:41.266-03:00[America/Argentina/Buenos_Aires]")
 @Api(value = "Product", description = "the Product API")
 public interface ProductApi {
 
@@ -146,9 +146,11 @@ public interface ProductApi {
     }
 
 
-    @ApiOperation(value = "Actualiza un articulo existente", nickname = "updateProduct", notes = "", response = String.class, tags={ "product", })
+    @ApiOperation(value = "Actualiza por completo un articulo existente", nickname = "updateProduct", notes = "", response = String.class, tags={ "product", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = String.class) })
+        @ApiResponse(code = 200, message = "OK", response = String.class),
+        @ApiResponse(code = 409, message = "Imposible actualizar", response = String.class),
+        @ApiResponse(code = 404, message = "No encontrado", response = String.class) })
     @RequestMapping(value = "/v1.0/products/{id}",
         produces = { "text/plain" }, 
         consumes = { "application/json" },

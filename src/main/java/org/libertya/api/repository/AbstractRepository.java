@@ -831,7 +831,7 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    protected <T> Optional<T> retrieveEntity(int id, String tableName, SpawnAPIObject target) {
+    protected <T> Optional<T> loadEntityFromPO(int id, String tableName, SpawnModelInstanceInterface target) {
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(tableName, id, null);
         if (aPO == null || aPO.getID() == 0) {
@@ -855,6 +855,60 @@ public abstract class AbstractRepository {
             }
         }
         return (Optional<T>)Optional.of(object);
+    }
+
+
+    /**
+     * Carga en un PO la informacion del objeto recibida
+     * @param aPO el PO a cargar
+     * @param source el objeto con las propiedades a volcar
+     * @return el objeto actualizado
+     */
+    protected PO loadPOFromEntity(PO aPO, Object source, boolean ignoreNulls) {
+        // Instanciar objeto del modelo segun corresponda
+        Field[] fields = source.getClass().getDeclaredFields();
+        // Iterar por los campos matcheando segun el nombre de la propiedad.
+        // NOTA: Swagger openapi respeta camelCase mientras que las columnas en BDD no siempre y ademas utiliza underscores
+        for (Field field : fields) {
+            Object value = null;
+            try {
+                field.setAccessible(true);
+                value = field.get(source);
+                if (value == null && ignoreNulls)
+                    continue;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            String fieldName = field.getName().toLowerCase().replace("_", "");
+            M_Table aTable = M_Table.get(getCtx(), aPO.get_TableName());
+            M_Column[] columns = aTable.getColumns(false);
+            for (M_Column aColumn : columns) {
+                if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
+                    aPO.set_Value(aColumn.getColumnName(), value);
+                    break;
+                }
+            }
+        }
+        return aPO;
+    }
+
+    /**
+     * Actualiza un PO en BDD
+     * @param id id del registro a actualizar
+     * @param tableName nombre de la tabla a actualizar
+     * @param source objeto con la nueva informacion a actualizar
+     * @throws ModelException si no es posible actualizar por logica de negocio
+     * @throws NotFoundException si no existe el id especificado
+     */
+    protected void updateEntity(int id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException {
+        // Recuperar el PO asociado en BDD
+        PO aPO = getPO(tableName, id, null);
+        if (aPO == null || aPO.getID() == 0) {
+            throw new NotFoundException();
+        }
+        loadPOFromEntity(aPO, source, ignoreNulls);
+        if (!aPO.save())
+            throw new ModelException(CLogger.retrieveErrorAsString());
     }
 
     /**

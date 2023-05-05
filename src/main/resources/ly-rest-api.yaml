@@ -100,7 +100,7 @@ paths:
               schema:
                 type: string
     put:
-      summary: Actualiza un articulo existente
+      summary: Actualiza por completo un articulo existente
       tags:
         - "product"
       operationId: updateProduct
@@ -121,6 +121,18 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        "409":
+          description: Imposible actualizar
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: No encontrado
           content:
             text/plain:
               schema:
@@ -218,7 +230,7 @@ paths:
     put:
       tags:
         - "bpartner"
-      summary: Actualiza una entidad comercial existente
+      summary: Actualiza por completo una entidad comercial existente
       operationId: updateBPartner
       parameters:
         - name: id
@@ -237,6 +249,18 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+        "409":
+          description: Imposible actualizar
+          content:
+            text/plain:
+              schema:
+                type: string
+        "404":
+          description: No encontrado
           content:
             text/plain:
               schema:

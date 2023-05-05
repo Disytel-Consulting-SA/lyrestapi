@@ -1,11 +1,8 @@
 package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.libertya.api.exception.ModelException;
-import org.libertya.api.exception.NotFoundException;
 import org.libertya.api.repository.ProductRepository;
 import org.libertya.api.stub.iface.ProductApi;
-import org.libertya.api.stub.model.BPartner;
 import org.libertya.api.stub.model.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +37,7 @@ public class ProductController extends AbstractController implements ProductApi 
 
     @Override
     public ResponseEntity<String> updateProduct(Product body, Integer id) {
-        return null;
+        return updateAction(() -> repository.updateProduct(id, body, true));
     }
+
 }

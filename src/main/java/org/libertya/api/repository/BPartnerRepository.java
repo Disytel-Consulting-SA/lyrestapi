@@ -14,7 +14,7 @@ import java.util.Optional;
 public class BPartnerRepository extends AbstractRepository {
 
     public Optional<BPartner> retrieveBPartner(int id) {
-        return retrieveEntity(id, X_C_BPartner.Table_Name, BPartner::new);
+        return loadEntityFromPO(id, X_C_BPartner.Table_Name, BPartner::new);
     }
 
     public List<BPartner> retrieveAllBPartners() {
@@ -24,4 +24,9 @@ public class BPartnerRepository extends AbstractRepository {
     public void deleteBPartner(int id) throws ModelException, NotFoundException {
         deleteEntity(X_C_BPartner.Table_Name, id);
     }
+
+    public void updateBPartner(int id, BPartner payload, boolean ignoreNulls) throws ModelException, NotFoundException {
+        updateEntity(id, X_C_BPartner.Table_Name, payload, ignoreNulls);
+    }
+
 }

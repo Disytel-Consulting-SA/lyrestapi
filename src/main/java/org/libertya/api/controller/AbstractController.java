@@ -24,5 +24,16 @@ public class AbstractController {
         }
     }
 
+    public ResponseEntity<String> updateAction(ActivityUpdateInterface iface) {
+        try {
+            iface.perform();
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (ModelException e2) {
+            return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
+        }
+    }
+
 
 }
