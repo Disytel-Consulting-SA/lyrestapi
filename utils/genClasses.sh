@@ -1,4 +1,9 @@
 # wget https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.20/swagger-codegen-cli-3.0.20.jar
+
+# Generacion de definiciones de modelo a partir de metadatos de LY
+./genSchema.sh
+
+# Generacion de clases mediante swagger code-gen
 TEMP_DIR=/tmp/genStub
 TARGET_DIR=../src/main/java/org/libertya/api
 

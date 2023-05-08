@@ -1,0 +1,41 @@
+get:
+  summary: Retrieve all products
+  tags:
+    - "product"
+  description: Retorna la lista completa de articulos
+  operationId: getAllProducts
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/product.yaml#/components/schemas/Product'
+post:
+  summary: Nuevo articulo
+  tags:
+    - "product"
+  description: Agrega un nuevo articulo
+  operationId: addProduct
+  responses:
+    "200":
+      description: OK. ID de producto creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/product.yaml#/components/schemas/Product'

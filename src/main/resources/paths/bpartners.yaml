@@ -1,0 +1,41 @@
+get:
+  tags:
+    - "bpartner"
+  summary: Retrieve all business partners
+  description: Retorna la lista completa de articulos
+  operationId: getAllBPartners
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/bpartner.yaml#/components/schemas/BPartner'
+post:
+  tags:
+    - "bpartner"
+  summary: Nueva entidad comercial
+  description: Agrega una nueva entidad comercial
+  operationId: addBPartner
+  responses:
+    "200":
+      description: OK. ID de entidad comercial creada es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/bpartner.yaml#/components/schemas/BPartner'
