@@ -912,6 +912,19 @@ public abstract class AbstractRepository {
     }
 
     /**
+     * Inserta un PO pasando por el modelo
+     * @param tableName nombre de la tabla
+     * @param source fuente de los datos a usar
+     * @throws ModelException
+     */
+    protected void insertEntity(String tableName, Object source) throws ModelException {
+        PO aPO = getPO(tableName, 0, null);
+        loadPOFromEntity(aPO, source, false);
+        if (!aPO.save())
+            throw new ModelException(CLogger.retrieveErrorAsString());
+    }
+
+    /**
      * Elimina una entrada
      * @param tableName nombre de la tabla en donde reside la entidad a eliminar
      * @param id de la entidad a eliminar

@@ -17,7 +17,7 @@ public class BPartnerController extends AbstractController implements BpartnerAp
 
     @Override
     public ResponseEntity<String> addBPartner(BPartner body) {
-        return null;
+        return insertAction(() -> repository.insertBPartner(body));
     }
 
     @Override

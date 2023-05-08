@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-05T11:25:41.266-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-08T10:29:03-03:00[America/Argentina/Buenos_Aires]")
 @Api(value = "Bpartner", description = "the Bpartner API")
 public interface BpartnerApi {
 
@@ -50,7 +50,8 @@ public interface BpartnerApi {
 
     @ApiOperation(value = "Nueva entidad comercial", nickname = "addBPartner", notes = "Agrega una nueva entidad comercial", response = String.class, tags={ "bpartner", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK. ID de entidad comercial creada es retornado", response = String.class) })
+        @ApiResponse(code = 200, message = "OK. ID de entidad comercial creada es retornado", response = String.class),
+        @ApiResponse(code = 409, message = "Imposible insertar", response = String.class) })
     @RequestMapping(value = "/v1.0/bpartners",
         produces = { "text/plain" }, 
         consumes = { "application/json" },

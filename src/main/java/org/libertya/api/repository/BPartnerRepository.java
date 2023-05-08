@@ -29,4 +29,8 @@ public class BPartnerRepository extends AbstractRepository {
         updateEntity(id, X_C_BPartner.Table_Name, payload, ignoreNulls);
     }
 
+    public void insertBPartner(BPartner payload) throws ModelException {
+        insertEntity(X_C_BPartner.Table_Name, payload);
+    }
+
 }

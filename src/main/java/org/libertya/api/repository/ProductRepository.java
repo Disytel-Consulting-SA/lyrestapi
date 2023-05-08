@@ -27,4 +27,8 @@ public class ProductRepository extends AbstractRepository {
     public void updateProduct(int id, Product payload, boolean ignoreNulls) throws ModelException, NotFoundException {
         updateEntity(id, X_M_Product.Table_Name, payload, ignoreNulls);
     }
+
+    public void insertProduct(Product payload) throws ModelException {
+        insertEntity(X_M_Product.Table_Name, payload);
+    }
 }

@@ -17,7 +17,7 @@ public class ProductController extends AbstractController implements ProductApi 
 
     @Override
     public ResponseEntity<String> addProduct(Product body) {
-        return null;
+        return insertAction(() -> repository.insertProduct(body));
     }
 
     @Override
