@@ -16,8 +16,8 @@ public class ProductRepository extends AbstractRepository {
         return loadEntityFromPO(id, X_M_Product.Table_Name, Product::new);
     }
 
-    public List<Product> retrieveAllProducts() {
-        return retrieveAllEntities(X_M_Product.Table_Name, this::retrieveProduct);
+    public List<Product> retrieveAllProducts(String filter, String sort, Integer limit, Integer offset) {
+        return retrieveAllEntities(X_M_Product.Table_Name, this::retrieveProduct, filter, sort, limit, offset);
     }
 
     public void deleteProduct(int id) throws ModelException, NotFoundException {

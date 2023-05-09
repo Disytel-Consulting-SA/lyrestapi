@@ -4,6 +4,27 @@ get:
   summary: Retrieve all business partners
   description: Retorna la lista completa de articulos
   operationId: getAllBPartners
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: offset
+      schema:
+        type: integer
+      description: Desplazamiento de salto a patir del primer elemento
   responses:
     "200":
       description: OK

@@ -42,6 +42,9 @@ public abstract class AbstractRepository {
     public static final String REF_SPECIFIED_BY_VALUE 	= "__byValue";
     public static final String REF_SPECIFIED_BY_NAME 	= "__byName";
 
+    /** Numero maximo por defecto de entidades a retornar */
+    public static final Integer DEFAULT_LIMIT = 100;
+
     /**
      * Recupera un array de PO a partir de su ID (en este caso será de longitud 1) o bien indicando una columna y el valor que ésta debe tener
      * @param poID ID del PO (primera opcion de búsqueda)
@@ -811,9 +814,15 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return una lista con todas las entidades
      */
-    protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface) {
+    protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) {
         List retVal = new ArrayList();
-        int[] ids = PO.getAllIDs(tableName, null, null);
+        int[] ids = PO.getAllIDs(tableName,
+                String.format( " %s %s LIMIT %d OFFSET %d ",
+                        filter != null && filter.length() > 0 ? formatClause(filter) : " 1=1 ",
+                        sort != null && sort.length() > 0 ? " ORDER BY " + sort : " ",
+                        limit != null && limit > 0 ? limit : DEFAULT_LIMIT,
+                        offset != null ? offset : 0 ),
+                null);
         if (ids == null || ids.length==0)
             return retVal;
         for (int id : ids) {
@@ -822,6 +831,9 @@ public abstract class AbstractRepository {
         return retVal;
     }
 
+    protected String formatClause(String str) {
+        return str.replace("\"", "").replace("--", "").replace(";", "");
+    }
 
     /**
      * Recupera y retorna un objeto perteneciente al modelo autogenerado a partir de la informacion en bdd

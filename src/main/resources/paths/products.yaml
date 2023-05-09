@@ -4,6 +4,27 @@ get:
     - "product"
   description: Retorna la lista completa de articulos
   operationId: getAllProducts
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: offset
+      schema:
+        type: integer
+      description: Desplazamiento de salto a patir del primer elemento
   responses:
     "200":
       description: OK

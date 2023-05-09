@@ -17,8 +17,8 @@ public class BPartnerRepository extends AbstractRepository {
         return loadEntityFromPO(id, X_C_BPartner.Table_Name, BPartner::new);
     }
 
-    public List<BPartner> retrieveAllBPartners() {
-        return retrieveAllEntities(X_C_BPartner.Table_Name, this::retrieveBPartner);
+    public List<BPartner> retrieveAllBPartners(String filter, String sort, Integer limit, Integer offset) {
+        return retrieveAllEntities(X_C_BPartner.Table_Name, this::retrieveBPartner, filter, sort, limit, offset);
     }
 
     public void deleteBPartner(int id) throws ModelException, NotFoundException {

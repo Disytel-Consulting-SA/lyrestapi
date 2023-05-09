@@ -155,12 +155,12 @@ public class GeneralService {
         // Cargar el entorno basico
         System.setProperty(ENV_OXP_HOME, oxpHomeDir);
 
-        // OXP_WS_LOG seteada? Si no está seteada, utilizar la conf. de oxpHomeDir
-        String oxpWSLog = System.getenv(ENV_OXP_API_LOG);
-        if (oxpWSLog == null)
+        // OXP_API_LOG seteada? Si no está seteada, utilizar la conf. de oxpHomeDir
+        String oxpAPILog = System.getenv(ENV_OXP_API_LOG);
+        if (oxpAPILog == null)
             System.setProperty(ENV_OXP_API_LOG, oxpHomeDir);
         else
-            System.setProperty(ENV_OXP_API_LOG, oxpWSLog);
+            System.setProperty(ENV_OXP_API_LOG, oxpAPILog);
     }
 
     /**

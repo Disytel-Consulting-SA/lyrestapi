@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-08T12:15:18.093-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-09T11:33:54.440-03:00[America/Argentina/Buenos_Aires]")
 @Api(value = "Bpartner", description = "the Bpartner API")
 public interface BpartnerApi {
 
@@ -106,7 +106,11 @@ public interface BpartnerApi {
     @RequestMapping(value = "/v1.0/bpartners",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<List<BPartner>> getAllBPartners() {
+    default ResponseEntity<List<BPartner>> getAllBPartners(@ApiParam(value = "Criterio de filtrado") @Valid @RequestParam(value = "filter", required = false) String filter
+,@ApiParam(value = "Criterio de ordenado") @Valid @RequestParam(value = "sort", required = false) String sort
+,@ApiParam(value = "Limite de elementos a retornar por pagina") @Valid @RequestParam(value = "limit", required = false) Integer limit
+,@ApiParam(value = "Desplazamiento de salto a patir del primer elemento") @Valid @RequestParam(value = "offset", required = false) Integer offset
+) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
