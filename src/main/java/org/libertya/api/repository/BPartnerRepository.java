@@ -14,11 +14,15 @@ import java.util.Optional;
 public class BPartnerRepository extends AbstractRepository {
 
     public Optional<BPartner> retrieveBPartner(int id) {
-        return loadEntityFromPO(id, X_C_BPartner.Table_Name, BPartner::new);
+        return loadEntityFromPO(id, X_C_BPartner.Table_Name, null, BPartner::new);
     }
 
-    public List<BPartner> retrieveAllBPartners(String filter, String sort, Integer limit, Integer offset) {
-        return retrieveAllEntities(X_C_BPartner.Table_Name, this::retrieveBPartner, filter, sort, limit, offset);
+    public Optional<BPartner> retrieveBPartner(int id, String fields) {
+        return loadEntityFromPO(id, X_C_BPartner.Table_Name, fields, BPartner::new);
+    }
+
+    public List<BPartner> retrieveAllBPartners(String filter, String fields, String sort, Integer limit, Integer offset) {
+        return retrieveAllEntities(X_C_BPartner.Table_Name, id -> retrieveBPartner(id, fields), filter, sort, limit, offset);
     }
 
     public void deleteBPartner(int id) throws ModelException, NotFoundException {

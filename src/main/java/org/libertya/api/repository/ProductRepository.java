@@ -13,11 +13,15 @@ import java.util.Optional;
 public class ProductRepository extends AbstractRepository {
 
     public Optional<Product> retrieveProduct(int id) {
-        return loadEntityFromPO(id, X_M_Product.Table_Name, Product::new);
+        return retrieveProduct(id, null);
     }
 
-    public List<Product> retrieveAllProducts(String filter, String sort, Integer limit, Integer offset) {
-        return retrieveAllEntities(X_M_Product.Table_Name, this::retrieveProduct, filter, sort, limit, offset);
+    public Optional<Product> retrieveProduct(int id, String fields) {
+        return loadEntityFromPO(id, X_M_Product.Table_Name, fields, Product::new);
+    }
+
+    public List<Product> retrieveAllProducts(String filter, String fields, String sort, Integer limit, Integer offset) {
+        return retrieveAllEntities(X_M_Product.Table_Name, id -> retrieveProduct(id, fields), filter, sort, limit, offset);
     }
 
     public void deleteProduct(int id) throws ModelException, NotFoundException {

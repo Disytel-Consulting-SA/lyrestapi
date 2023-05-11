@@ -840,10 +840,12 @@ public abstract class AbstractRepository {
      * @param id el ID del PO
      * @param tableName nombre de la tabla
      * @param target objeto destino
+     * @param filterFields campos a considerar unicamente
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    protected <T> Optional<T> loadEntityFromPO(int id, String tableName, SpawnModelInstanceInterface target) {
+    protected <T> Optional<T> loadEntityFromPO(int id, String tableName, String filterFields, SpawnModelInstanceInterface target) {
+        Set<String> includeFields = getFilterFields(filterFields);
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(tableName, id, null);
         if (aPO == null || aPO.getID() == 0) {
@@ -860,13 +862,26 @@ public abstract class AbstractRepository {
             M_Column[] columns = aTable.getColumns(false);
             for (M_Column aColumn : columns) {
                 if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
-                    field.setAccessible(true);
-                    setValueToObject(id, object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
-                    break;
+                    if (includeFields==null || includeFields.contains(fieldName)) {
+                        field.setAccessible(true);
+                        setValueToObject(id, object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
+                        break;
+                    }
                 }
             }
         }
         return (Optional<T>)Optional.of(object);
+    }
+
+    /**
+     * Convieret el string separado por comas en un set de strings
+     * @param criteria por ejemplo name,value
+     * @return un set por ejemplo [name, value]
+     */
+    protected Set<String> getFilterFields(String criteria) {
+        if (criteria == null)
+            return null;
+        return new HashSet<>(Arrays.asList(criteria.replace("\"", "").replace(" ", "").split(",")));
     }
 
 

@@ -11,6 +11,11 @@ get:
         type: string
       description: Criterio de filtrado
     - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
       name: sort
       schema:
         type: string
