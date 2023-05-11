@@ -32,7 +32,7 @@ public class ProductRepository extends AbstractRepository {
         updateEntity(id, X_M_Product.Table_Name, payload, ignoreNulls);
     }
 
-    public void insertProduct(Product payload) throws ModelException {
-        insertEntity(X_M_Product.Table_Name, payload);
+    public String insertProduct(Product payload) throws ModelException {
+        return insertEntity(X_M_Product.Table_Name, payload);
     }
 }

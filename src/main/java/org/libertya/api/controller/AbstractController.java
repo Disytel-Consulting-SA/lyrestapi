@@ -37,8 +37,7 @@ public class AbstractController {
 
     public ResponseEntity<String> insertAction(ActivityInsertInterface iface) {
         try {
-            iface.perform();
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return new ResponseEntity<>(iface.perform(), HttpStatus.OK);
         } catch (ModelException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }

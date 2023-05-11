@@ -6,5 +6,8 @@ import org.libertya.api.exception.NotFoundException;
 @FunctionalInterface
 public interface ActivityDeleteInterface {
 
-    public void perform() throws NotFoundException, ModelException;
+    /** Actividad de eliminacion
+     * @throws NotFoundException en caso de no existir el registro en cuestion
+     * @throws ModelException en caso de validacion en logica de negocio */
+    void perform() throws NotFoundException, ModelException;
 }

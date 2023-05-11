@@ -1,5 +1,6 @@
 package org.libertya.api.controller;
 
+import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
 import java.util.Optional;
@@ -7,5 +8,7 @@ import java.util.Optional;
 @FunctionalInterface
 public interface ActivityRetrieveInterface<T> {
 
-    public Optional<T> perform();
+    /** Actividad de recuperacion de una entidad
+     * @return un opcional con el objeto recuperado */
+    Optional<T> perform();
 }

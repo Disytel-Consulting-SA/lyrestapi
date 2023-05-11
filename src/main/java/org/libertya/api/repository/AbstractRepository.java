@@ -943,12 +943,14 @@ public abstract class AbstractRepository {
      * @param tableName nombre de la tabla
      * @param source fuente de los datos a usar
      * @throws ModelException
+     * @return un String conteniendo el ID del objeto persistido
      */
-    protected void insertEntity(String tableName, Object source) throws ModelException {
+    protected String insertEntity(String tableName, Object source) throws ModelException {
         PO aPO = getPO(tableName, 0, null);
         loadPOFromEntity(aPO, source, false);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
+        return ""+aPO.getID();
     }
 
     /**
