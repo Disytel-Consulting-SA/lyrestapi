@@ -20,7 +20,7 @@ public class JWTUtils {
     private String secretKey;
 
     @Value("${security.token.exp.days}")
-    private Integer expDays;
+    private Long expDays;
 
     /** Generacion de un nuevo token para el username indicado */
     public String buildToken(String userName) {
@@ -35,7 +35,7 @@ public class JWTUtils {
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expDays * 24 * 3600000))
+                .setExpiration(new Date(System.currentTimeMillis() + expDays * 24L * 3600000L))
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
         return "Bearer " + token;
