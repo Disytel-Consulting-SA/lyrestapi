@@ -17,3 +17,7 @@ paths:
     $ref: ./paths/bpartners.yaml
   /v1.0/bpartners/{id}:
     $ref: ./paths/bpartners_id.yaml
+  /v1.0/invoices:
+    $ref: ./paths/invoices.yaml
+  /v1.0/invoices/{id}:
+    $ref: ./paths/invoices_id.yaml

@@ -13,28 +13,30 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BPartnerRepository extends AbstractRepository {
 
+    protected final String tableName = X_C_BPartner.Table_Name;
+
     public Optional<BPartner> retrieveBPartner(int id) {
-        return loadEntityFromPO(id, X_C_BPartner.Table_Name, null, BPartner::new);
+        return loadEntityFromPO(id, tableName, null, BPartner::new);
     }
 
     public Optional<BPartner> retrieveBPartner(int id, String fields) {
-        return loadEntityFromPO(id, X_C_BPartner.Table_Name, fields, BPartner::new);
+        return loadEntityFromPO(id, tableName, fields, BPartner::new);
     }
 
     public List<BPartner> retrieveAllBPartners(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return retrieveAllEntities(X_C_BPartner.Table_Name, id -> retrieveBPartner(id, fields), filter, sort, limit, offset);
+        return retrieveAllEntities(tableName, id -> retrieveBPartner(id, fields), filter, sort, limit, offset);
     }
 
     public void deleteBPartner(int id) throws ModelException, NotFoundException {
-        deleteEntity(X_C_BPartner.Table_Name, id);
+        deleteEntity(tableName, id);
     }
 
     public void updateBPartner(int id, BPartner payload, boolean ignoreNulls) throws ModelException, NotFoundException {
-        updateEntity(id, X_C_BPartner.Table_Name, payload, ignoreNulls);
+        updateEntity(id, tableName, payload, ignoreNulls);
     }
 
     public String insertBPartner(BPartner payload) throws ModelException {
-        return insertEntity(X_C_BPartner.Table_Name, payload);
+        return insertEntity(tableName, payload);
     }
 
 }

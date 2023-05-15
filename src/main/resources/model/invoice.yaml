@@ -1,0 +1,229 @@
+components:
+  schemas:
+    Invoice:
+      type: object
+      properties:
+        actualizarpreciosconfacturadecompra:
+          type: boolean
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        ad_orgtrx_id:
+          type: integer
+        ad_user_id:
+          type: integer
+        applypercepcion:
+          type: boolean
+        authcode:
+          type: string
+        authmatch:
+          type: boolean
+        authorizationchainstatus:
+          type: string
+        c_activity_id:
+          type: integer
+        cae:
+          type: string
+        caecbte:
+          type: integer
+        caeerror:
+          type: string
+        cai:
+          type: string
+        caja:
+          type: string
+        c_bpartner_id:
+          type: integer
+        c_bpartner_location_id:
+          type: integer
+        c_campaign_id:
+          type: integer
+        c_cashline_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_conversiontype_id:
+          type: integer
+        c_currency_id:
+          type: integer
+        c_doctype_id:
+          type: integer
+        c_doctypetarget_id:
+          type: integer
+        chargeamt:
+          type: number
+        c_invoice_id:
+          type: integer
+        c_invoice_orig_id:
+          type: integer
+        c_letra_comprobante_id:
+          type: integer
+        codigocategoriaiva:
+          type: integer
+        c_order_id:
+          type: integer
+        c_order_orig_id:
+          type: integer
+        c_payment_id:
+          type: integer
+        c_paymentterm_id:
+          type: integer
+        c_posjournal_id:
+          type: integer
+        c_pospaymentmedium_credit_id:
+          type: integer
+        c_pospaymentmedium_id:
+          type: integer
+        c_project_id:
+          type: integer
+        createcashline:
+          type: boolean
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_region_delivery_id:
+          type: integer
+        c_region_id:
+          type: integer
+        cuit:
+          type: string
+        dateacct:
+          type: string
+        datecai:
+          type: string
+        dateinvoiced:
+          type: string
+        dateordered:
+          type: string
+        dateprinted:
+          type: string
+        daterecepted:
+          type: string
+        deliveryviarule:
+          type: string
+        description:
+          type: string
+        docstatus:
+          type: string
+        documentno:
+          type: string
+        fechadetcparaactualizarprecios:
+          type: string
+        fiscalalreadyprinted:
+          type: boolean
+        fiscaldescription:
+          type: string
+        grandtotal:
+          type: number
+        idcae:
+          type: string
+        importclearance:
+          type: string
+        initialcurrentaccountamt:
+          type: number
+        invoice_adress:
+          type: string
+        isactive:
+          type: boolean
+        isapproved:
+          type: boolean
+        iscopy:
+          type: boolean
+        isdiscountprinted:
+          type: boolean
+        isexchange:
+          type: boolean
+        isindispute:
+          type: boolean
+        ispaid:
+          type: boolean
+        ispayschedulevalid:
+          type: boolean
+        isprinted:
+          type: boolean
+        isselfservice:
+          type: boolean
+        issotrx:
+          type: boolean
+        istaxincluded:
+          type: boolean
+        istransferred:
+          type: boolean
+        isvoidable:
+          type: boolean
+        managedragorderdiscounts:
+          type: boolean
+        managedragordersurcharges:
+          type: boolean
+        manualdocumentno:
+          type: boolean
+        manualgeneraldiscount:
+          type: number
+        m_authorizationchain_id:
+          type: integer
+        m_inouttransport_id:
+          type: integer
+        m_pricelist_id:
+          type: integer
+        m_rma_id:
+          type: integer
+        netamount:
+          type: number
+        nombrecli:
+          type: string
+        notexchangeablecredit:
+          type: boolean
+        nroidentificcliente:
+          type: string
+        numerocomprobante:
+          type: integer
+        numerodedocumento:
+          type: string
+        oldgrandtotal:
+          type: number
+        originvfecha:
+          type: string
+        originvnro:
+          type: integer
+        originvptovta:
+          type: integer
+        originvtipo:
+          type: string
+        paymentrule:
+          type: string
+        poreference:
+          type: string
+        pricelistcurrency:
+          type: integer
+        printtype:
+          type: string
+        processed:
+          type: boolean
+        puntodeventa:
+          type: integer
+        ref_invoice_id:
+          type: integer
+        salesrep_id:
+          type: integer
+        sendemail:
+          type: boolean
+        skipipnocaevalidation:
+          type: boolean
+        tipocomprobante:
+          type: string
+        totallines:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        updateorderqty:
+          type: boolean
+        user1_id:
+          type: integer
+        user2_id:
+          type: integer
+        vtocae:
+          type: string
