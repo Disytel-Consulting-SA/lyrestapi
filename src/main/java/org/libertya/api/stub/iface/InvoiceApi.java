@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-15T10:01:27.676-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-15T12:11:50.873-03:00[America/Argentina/Buenos_Aires]")
 @Api(value = "Invoice", description = "the Invoice API")
 public interface InvoiceApi {
 
@@ -128,6 +128,33 @@ public interface InvoiceApi {
     }
 
 
+    @ApiOperation(value = "Procesa una factura", nickname = "processInvoice", notes = "", response = String.class, tags={ "invoice", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = String.class),
+        @ApiResponse(code = 409, message = "Imposible procesar", response = String.class),
+        @ApiResponse(code = 404, message = "No encontrado", response = String.class) })
+    @RequestMapping(value = "/v1.0/invoices/{id}/process",
+        produces = { "text/plain" }, 
+        method = RequestMethod.PUT)
+    default ResponseEntity<String> processInvoice(@ApiParam(value = "ID de la factura a procesar",required=true) @PathVariable("id") Integer id
+,@NotNull @ApiParam(value = "Accion a aplicar (completar, revertir, etc.)", required = true) @Valid @RequestParam(value = "action", required = true) String action
+) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default InvoiceApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
     @ApiOperation(value = "Recupera una factura en particular", nickname = "retrieveInvoice", notes = "Recupera la informacion de una factura en particular", response = Invoice.class, tags={ "invoice", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Invoice.class) })
@@ -152,7 +179,7 @@ public interface InvoiceApi {
     }
 
 
-    @ApiOperation(value = "Actualiza por completo una factura existente", nickname = "updateInvoice", notes = "", response = String.class, tags={ "invoice", })
+    @ApiOperation(value = "Actualiza una factura existente", nickname = "updateInvoice", notes = "", response = String.class, tags={ "invoice", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = String.class),
         @ApiResponse(code = 409, message = "Imposible actualizar", response = String.class),

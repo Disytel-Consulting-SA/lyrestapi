@@ -40,4 +40,9 @@ public class InvoiceController extends AbstractController implements InvoiceApi 
     public ResponseEntity<String> updateInvoice(Invoice body, Integer id) {
         return updateAction(() -> repository.updateInvoice(id, body, true));
     }
+
+    @Override
+    public ResponseEntity<String> processInvoice(Integer id, String action) {
+        return processAction(() -> repository.processInvoice(id, action));
+    }
 }

@@ -21,3 +21,5 @@ paths:
     $ref: ./paths/invoices.yaml
   /v1.0/invoices/{id}:
     $ref: ./paths/invoices_id.yaml
+  /v1.0/invoices/{id}/process:
+    $ref: ./paths/invoices_id_process.yaml

@@ -1,0 +1,37 @@
+put:
+  tags:
+    - "invoice"
+  summary: Procesa una factura
+  operationId: processInvoice
+  parameters:
+    - in: path
+      name: id
+      description: ID de la factura a procesar
+      required: true
+      schema:
+        type: integer
+    - in: query
+      name: action
+      required: true
+      description: Accion a aplicar (completar, revertir, etc.)
+      schema:
+        type: string
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible procesar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

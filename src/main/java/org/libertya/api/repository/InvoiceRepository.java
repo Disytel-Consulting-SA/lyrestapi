@@ -39,4 +39,8 @@ public class InvoiceRepository extends AbstractRepository {
     public String insertInvoice(Invoice payload) throws ModelException {
         return insertEntity(tableName, payload);
     }
+
+    public String processInvoice(int id, String action) throws ModelException, NotFoundException {
+        return processEntity(tableName, id, action);
+    }
 }

@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * Invoice
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-15T10:01:27.676-03:00[America/Argentina/Buenos_Aires]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-15T12:11:50.873-03:00[America/Argentina/Buenos_Aires]")
 public class Invoice   {
   @JsonProperty("actualizarpreciosconfacturadecompra")
   private Boolean actualizarpreciosconfacturadecompra = null;

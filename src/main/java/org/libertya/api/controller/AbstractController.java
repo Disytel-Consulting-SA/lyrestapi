@@ -43,5 +43,15 @@ public class AbstractController {
         }
     }
 
+    public ResponseEntity<String> processAction(ActivityProcessInterface iface) {
+        try {
+            return new ResponseEntity<>(iface.perform(), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        } catch (ModelException e2) {
+            return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
+        }
+    }
+
 
 }

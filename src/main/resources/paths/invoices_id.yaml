@@ -53,7 +53,7 @@ delete:
 put:
   tags:
     - "invoice"
-  summary: Actualiza por completo una factura existente
+  summary: Actualiza una factura existente
   operationId: updateInvoice
   parameters:
     - name: id

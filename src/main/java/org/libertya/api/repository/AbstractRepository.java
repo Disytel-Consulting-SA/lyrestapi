@@ -5,6 +5,8 @@ import org.libertya.api.exception.NotFoundException;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
+import org.openXpertya.process.DocAction;
+import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.*;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -967,4 +969,33 @@ public abstract class AbstractRepository {
         if (!aPO.delete(false))
             throw new ModelException(CLogger.retrieveErrorAsString());
     }
+
+    /**
+     * Realiza el procesamiento de un documento
+     * @param tableName tabla donde reside el documento (C_Invoice, C_Order, etc.)
+     * @param id identificado del documento a procesasr
+     * @param action accion a aplicar al documento (CO, CL, VO, etc.)
+     * @throws ModelException si no es posible eliminar el registro
+     * @throws NotFoundException si el registro no existe
+     */
+    protected String processEntity(String tableName, int id, String action) throws ModelException, NotFoundException {
+        PO aPO = getPO(tableName, id, getTrxName());
+        try {
+            if (aPO.getID() <= 0)
+                throw new NotFoundException();
+            if (!DocumentEngine.processAndSave((DocAction) aPO, action, false)) {
+                throw new ModelException(Msg.parseTranslation(getCtx(), ((DocAction) aPO).getProcessMsg()));
+            }
+            commitTransaction();
+            return ((DocAction)aPO).getProcessMsg();
+        } catch (Exception e) {
+            rollbackTransaction();
+            throw e;
+        } finally {
+            closeTransaction();
+        }
+
+    }
+
+
 }
