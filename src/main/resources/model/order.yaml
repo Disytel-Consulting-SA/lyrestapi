@@ -1,0 +1,239 @@
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        acceptance:
+          type: number
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        ad_org_transfer_id:
+          type: integer
+        ad_orgtrx_id:
+          type: integer
+        ad_user_id:
+          type: integer
+        allowchangepricelist:
+          type: boolean
+        authorizationchainstatus:
+          type: string
+        bill_bpartner_id:
+          type: integer
+        bill_location_id:
+          type: integer
+        bill_user_id:
+          type: integer
+        c_activity_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_bpartner_location_id:
+          type: integer
+        c_campaign_id:
+          type: integer
+        c_cashline_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_conversiontype_id:
+          type: integer
+        c_currency_id:
+          type: integer
+        c_doctype_id:
+          type: integer
+        c_doctypetarget_id:
+          type: integer
+        chargeamt:
+          type: number
+        c_invoice_orig_id:
+          type: integer
+        codigocategoriaiva:
+          type: integer
+        c_order_id:
+          type: integer
+        c_payment_id:
+          type: integer
+        c_paymentterm_id:
+          type: integer
+        c_project_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        creditrequesttype:
+          type: string
+        c_repair_order_id:
+          type: integer
+        cuit:
+          type: string
+        dateacct:
+          type: string
+        dateordered:
+          type: string
+        dateprinted:
+          type: string
+        dateprod:
+          type: string
+        datepromised:
+          type: string
+        daterealprod:
+          type: string
+        deliveryrule:
+          type: string
+        deliveryviarule:
+          type: string
+        description:
+          type: string
+        docstatus:
+          type: string
+        documentno:
+          type: string
+        freightamt:
+          type: number
+        freightcostrule:
+          type: string
+        grandtotal:
+          type: number
+        invoice_adress:
+          type: string
+        invoicerule:
+          type: string
+        isactive:
+          type: boolean
+        isapproved:
+          type: boolean
+        iscreditapproved:
+          type: boolean
+        isdelivered:
+          type: boolean
+        isdiscountprinted:
+          type: boolean
+        isdropship:
+          type: boolean
+        isexchange:
+          type: boolean
+        isinvoiced:
+          type: boolean
+        isprinted:
+          type: boolean
+        isreactivated:
+          type: boolean
+        isselected:
+          type: boolean
+        isselfservice:
+          type: boolean
+        issotrx:
+          type: boolean
+        istaxincluded:
+          type: boolean
+        istpvused:
+          type: boolean
+        istransferred:
+          type: boolean
+        manualgeneraldiscount:
+          type: number
+        m_authorizationchain_id:
+          type: integer
+        m_pricelist_id:
+          type: integer
+        m_shipper_id:
+          type: integer
+        m_warehouse_id:
+          type: integer
+        m_warehouse_transfer_id:
+          type: integer
+        nombrecli:
+          type: string
+        nroidentificcliente:
+          type: string
+        oldgrandtotal:
+          type: number
+        pay_bpartner_id:
+          type: integer
+        pay_location_id:
+          type: integer
+        paymentrule:
+          type: string
+        poreference:
+          type: string
+        priorityrule:
+          type: string
+        processed:
+          type: boolean
+        program_invoice:
+          type: integer
+        ref_order_id:
+          type: integer
+        repair_priority:
+          type: string
+        repair_state:
+          type: string
+        salesrep_id:
+          type: integer
+        sendemail:
+          type: boolean
+        totallines:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        user1_id:
+          type: integer
+        user2_id:
+          type: integer
+        validto:
+          type: string
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_org_transfer_id
+         - c_bpartner_id
+         - c_bpartner_location_id
+         - c_currency_id
+         - c_doctype_id
+         - c_doctypetarget_id
+         - c_order_id
+         - c_paymentterm_id
+         - created
+         - createdby
+         - dateacct
+         - dateordered
+         - datepromised
+         - deliveryrule
+         - deliveryviarule
+         - docstatus
+         - documentno
+         - freightamt
+         - freightcostrule
+         - grandtotal
+         - invoicerule
+         - isactive
+         - isapproved
+         - iscreditapproved
+         - isdelivered
+         - isdiscountprinted
+         - isdropship
+         - isexchange
+         - isinvoiced
+         - isprinted
+         - isreactivated
+         - isselected
+         - isselfservice
+         - issotrx
+         - istaxincluded
+         - istransferred
+         - m_pricelist_id
+         - m_warehouse_id
+         - m_warehouse_transfer_id
+         - paymentrule
+         - priorityrule
+         - processed
+         - salesrep_id
+         - sendemail
+         - totallines
+         - updated
+         - updatedby

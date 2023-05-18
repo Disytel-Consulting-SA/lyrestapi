@@ -17,3 +17,4 @@ generateSchema() {
 generateSchema Product   M_Product   product.yaml
 generateSchema BPartner  C_BPartner  bpartner.yaml
 generateSchema Invoice   C_Invoice   invoice.yaml
+generateSchema Order     C_Order     order.yaml
