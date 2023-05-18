@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-15T12:11:50.873-03:00[America/Argentina/Buenos_Aires]")
 @Api(value = "Invoice", description = "the Invoice API")
 public interface InvoiceApi {
 

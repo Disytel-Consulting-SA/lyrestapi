@@ -14,7 +14,6 @@ import javax.validation.constraints.*;
  * Product
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2023-05-15T10:01:27.676-03:00[America/Argentina/Buenos_Aires]")
 public class Product   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;

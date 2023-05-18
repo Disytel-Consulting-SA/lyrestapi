@@ -15,7 +15,8 @@ java -jar swagger-codegen-cli-3.0.20.jar generate \
         -c config.json \
         -i ../src/main/resources/ly-rest-api.yaml \
         -l spring \
-        -o $TEMP_DIR
+        -o $TEMP_DIR \
+        --additional-properties hideGenerationTimestamp=true
 
 rm -rf $TARGET_DIR/stub
 
