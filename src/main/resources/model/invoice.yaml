@@ -227,3 +227,52 @@ components:
           type: integer
         vtocae:
           type: string
+      required:
+         - ad_client_id
+         - ad_org_id
+         - applypercepcion
+         - c_bpartner_id
+         - c_bpartner_location_id
+         - c_currency_id
+         - c_doctype_id
+         - c_doctypetarget_id
+         - c_invoice_id
+         - c_paymentterm_id
+         - createcashline
+         - created
+         - createdby
+         - dateacct
+         - dateinvoiced
+         - docstatus
+         - documentno
+         - fiscalalreadyprinted
+         - grandtotal
+         - initialcurrentaccountamt
+         - isactive
+         - isapproved
+         - iscopy
+         - isdiscountprinted
+         - isexchange
+         - isindispute
+         - ispaid
+         - ispayschedulevalid
+         - isprinted
+         - isselfservice
+         - issotrx
+         - istaxincluded
+         - istransferred
+         - isvoidable
+         - managedragorderdiscounts
+         - managedragordersurcharges
+         - manualdocumentno
+         - manualgeneraldiscount
+         - m_pricelist_id
+         - netamount
+         - notexchangeablecredit
+         - paymentrule
+         - processed
+         - sendemail
+         - totallines
+         - updated
+         - updatedby
+         - updateorderqty

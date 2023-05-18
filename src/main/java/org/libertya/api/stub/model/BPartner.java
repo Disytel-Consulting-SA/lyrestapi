@@ -388,8 +388,9 @@ public class BPartner   {
    * Get adClientId
    * @return adClientId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getAdClientId() {
     return adClientId;
   }
@@ -445,8 +446,9 @@ public class BPartner   {
    * Get adOrgId
    * @return adOrgId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getAdOrgId() {
     return adOrgId;
   }
@@ -464,8 +466,9 @@ public class BPartner   {
    * Get allowadvancedpaymentreceipts
    * @return allowadvancedpaymentreceipts
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isAllowadvancedpaymentreceipts() {
     return allowadvancedpaymentreceipts;
   }
@@ -483,8 +486,9 @@ public class BPartner   {
    * Get allowpartialpayment
    * @return allowpartialpayment
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isAllowpartialpayment() {
     return allowpartialpayment;
   }
@@ -521,8 +525,9 @@ public class BPartner   {
    * Get automaticcreditnotes
    * @return automaticcreditnotes
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isAutomaticcreditnotes() {
     return automaticcreditnotes;
   }
@@ -616,8 +621,9 @@ public class BPartner   {
    * Get cBpartnerId
    * @return cBpartnerId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCBpartnerId() {
     return cBpartnerId;
   }
@@ -635,8 +641,9 @@ public class BPartner   {
    * Get cBpGroupId
    * @return cBpGroupId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCBpGroupId() {
     return cBpGroupId;
   }
@@ -806,8 +813,9 @@ public class BPartner   {
    * Get created
    * @return created
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getCreated() {
     return created;
   }
@@ -825,8 +833,9 @@ public class BPartner   {
    * Get createdby
    * @return createdby
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCreatedby() {
     return createdby;
   }
@@ -844,8 +853,9 @@ public class BPartner   {
    * Get creditminimumamt
    * @return creditminimumamt
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getCreditminimumamt() {
     return creditminimumamt;
@@ -978,8 +988,9 @@ public class BPartner   {
    * Get discountcontext
    * @return discountcontext
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getDiscountcontext() {
     return discountcontext;
   }
@@ -1035,8 +1046,9 @@ public class BPartner   {
    * Get emitirMiPyme
    * @return emitirMiPyme
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isEmitirMiPyme() {
     return emitirMiPyme;
   }
@@ -1246,8 +1258,9 @@ public class BPartner   {
    * Get isactive
    * @return isactive
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsactive() {
     return isactive;
   }
@@ -1303,8 +1316,9 @@ public class BPartner   {
    * Get iscustomer
    * @return iscustomer
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIscustomer() {
     return iscustomer;
   }
@@ -1341,8 +1355,9 @@ public class BPartner   {
    * Get isemployee
    * @return isemployee
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsemployee() {
     return isemployee;
   }
@@ -1360,8 +1375,9 @@ public class BPartner   {
    * Get isgroupinvoices
    * @return isgroupinvoices
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsgroupinvoices() {
     return isgroupinvoices;
   }
@@ -1379,8 +1395,9 @@ public class BPartner   {
    * Get isiso
    * @return isiso
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsiso() {
     return isiso;
   }
@@ -1398,8 +1415,9 @@ public class BPartner   {
    * Get ismandatorycai
    * @return ismandatorycai
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsmandatorycai() {
     return ismandatorycai;
   }
@@ -1417,8 +1435,9 @@ public class BPartner   {
    * Get ismulticuit
    * @return ismulticuit
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsmulticuit() {
     return ismulticuit;
   }
@@ -1436,8 +1455,9 @@ public class BPartner   {
    * Get isonetime
    * @return isonetime
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsonetime() {
     return isonetime;
   }
@@ -1455,8 +1475,9 @@ public class BPartner   {
    * Get isprospect
    * @return isprospect
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsprospect() {
     return isprospect;
   }
@@ -1474,8 +1495,9 @@ public class BPartner   {
    * Get issalesrep
    * @return issalesrep
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIssalesrep() {
     return issalesrep;
   }
@@ -1493,8 +1515,9 @@ public class BPartner   {
    * Get issummary
    * @return issummary
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIssummary() {
     return issummary;
   }
@@ -1531,8 +1554,9 @@ public class BPartner   {
    * Get isvendor
    * @return isvendor
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsvendor() {
     return isvendor;
   }
@@ -1569,8 +1593,9 @@ public class BPartner   {
    * Get minimumpurchasedamt
    * @return minimumpurchasedamt
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getMinimumpurchasedamt() {
     return minimumpurchasedamt;
@@ -1685,8 +1710,9 @@ public class BPartner   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getName() {
     return name;
   }
@@ -2049,8 +2075,9 @@ public class BPartner   {
    * Get searchunallocatedpayments
    * @return searchunallocatedpayments
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isSearchunallocatedpayments() {
     return searchunallocatedpayments;
   }
@@ -2068,8 +2095,9 @@ public class BPartner   {
    * Get secondarycreditstatus
    * @return secondarycreditstatus
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getSecondarycreditstatus() {
     return secondarycreditstatus;
   }
@@ -2087,8 +2115,9 @@ public class BPartner   {
    * Get sendemail
    * @return sendemail
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isSendemail() {
     return sendemail;
   }
@@ -2144,8 +2173,9 @@ public class BPartner   {
    * Get soCreditlimit
    * @return soCreditlimit
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getSoCreditlimit() {
     return soCreditlimit;
@@ -2183,8 +2213,9 @@ public class BPartner   {
    * Get soCreditused
    * @return soCreditused
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getSoCreditused() {
     return soCreditused;
@@ -2318,8 +2349,9 @@ public class BPartner   {
    * Get trxenabled
    * @return trxenabled
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isTrxenabled() {
     return trxenabled;
   }
@@ -2337,8 +2369,9 @@ public class BPartner   {
    * Get updated
    * @return updated
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getUpdated() {
     return updated;
   }
@@ -2356,8 +2389,9 @@ public class BPartner   {
    * Get updatedby
    * @return updatedby
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getUpdatedby() {
     return updatedby;
   }
@@ -2394,8 +2428,9 @@ public class BPartner   {
    * Get value
    * @return value
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getValue() {
     return value;
   }

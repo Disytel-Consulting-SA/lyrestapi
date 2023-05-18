@@ -145,3 +145,34 @@ components:
           type: number
         yearlife:
           type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - amortizationperc
+         - checkoutplace
+         - created
+         - createdby
+         - c_taxcategory_id
+         - c_uom_id
+         - isactive
+         - isbom
+         - isdropship
+         - isinventoried
+         - isinvoiceprintdetails
+         - ispicklistprintdetails
+         - ispurchased
+         - isselfservice
+         - issold
+         - isstocked
+         - issummary
+         - isverified
+         - iswebstorefeatured
+         - m_attributesetinstance_id
+         - m_product_category_id
+         - m_product_id
+         - name
+         - producttype
+         - updated
+         - updatedby
+         - value
+         - yearlife

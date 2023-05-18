@@ -379,8 +379,9 @@ public class Invoice   {
    * Get adClientId
    * @return adClientId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getAdClientId() {
     return adClientId;
   }
@@ -398,8 +399,9 @@ public class Invoice   {
    * Get adOrgId
    * @return adOrgId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getAdOrgId() {
     return adOrgId;
   }
@@ -455,8 +457,9 @@ public class Invoice   {
    * Get applypercepcion
    * @return applypercepcion
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isApplypercepcion() {
     return applypercepcion;
   }
@@ -645,8 +648,9 @@ public class Invoice   {
    * Get cBpartnerId
    * @return cBpartnerId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCBpartnerId() {
     return cBpartnerId;
   }
@@ -664,8 +668,9 @@ public class Invoice   {
    * Get cBpartnerLocationId
    * @return cBpartnerLocationId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCBpartnerLocationId() {
     return cBpartnerLocationId;
   }
@@ -759,8 +764,9 @@ public class Invoice   {
    * Get cCurrencyId
    * @return cCurrencyId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCCurrencyId() {
     return cCurrencyId;
   }
@@ -778,8 +784,9 @@ public class Invoice   {
    * Get cDoctypeId
    * @return cDoctypeId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCDoctypeId() {
     return cDoctypeId;
   }
@@ -797,8 +804,9 @@ public class Invoice   {
    * Get cDoctypetargetId
    * @return cDoctypetargetId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCDoctypetargetId() {
     return cDoctypetargetId;
   }
@@ -836,8 +844,9 @@ public class Invoice   {
    * Get cInvoiceId
    * @return cInvoiceId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCInvoiceId() {
     return cInvoiceId;
   }
@@ -969,8 +978,9 @@ public class Invoice   {
    * Get cPaymenttermId
    * @return cPaymenttermId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCPaymenttermId() {
     return cPaymenttermId;
   }
@@ -1064,8 +1074,9 @@ public class Invoice   {
    * Get createcashline
    * @return createcashline
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isCreatecashline() {
     return createcashline;
   }
@@ -1083,8 +1094,9 @@ public class Invoice   {
    * Get created
    * @return created
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getCreated() {
     return created;
   }
@@ -1102,8 +1114,9 @@ public class Invoice   {
    * Get createdby
    * @return createdby
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCreatedby() {
     return createdby;
   }
@@ -1178,8 +1191,9 @@ public class Invoice   {
    * Get dateacct
    * @return dateacct
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getDateacct() {
     return dateacct;
   }
@@ -1216,8 +1230,9 @@ public class Invoice   {
    * Get dateinvoiced
    * @return dateinvoiced
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getDateinvoiced() {
     return dateinvoiced;
   }
@@ -1330,8 +1345,9 @@ public class Invoice   {
    * Get docstatus
    * @return docstatus
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getDocstatus() {
     return docstatus;
   }
@@ -1349,8 +1365,9 @@ public class Invoice   {
    * Get documentno
    * @return documentno
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getDocumentno() {
     return documentno;
   }
@@ -1387,8 +1404,9 @@ public class Invoice   {
    * Get fiscalalreadyprinted
    * @return fiscalalreadyprinted
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isFiscalalreadyprinted() {
     return fiscalalreadyprinted;
   }
@@ -1425,8 +1443,9 @@ public class Invoice   {
    * Get grandtotal
    * @return grandtotal
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getGrandtotal() {
     return grandtotal;
@@ -1483,8 +1502,9 @@ public class Invoice   {
    * Get initialcurrentaccountamt
    * @return initialcurrentaccountamt
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getInitialcurrentaccountamt() {
     return initialcurrentaccountamt;
@@ -1522,8 +1542,9 @@ public class Invoice   {
    * Get isactive
    * @return isactive
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsactive() {
     return isactive;
   }
@@ -1541,8 +1562,9 @@ public class Invoice   {
    * Get isapproved
    * @return isapproved
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsapproved() {
     return isapproved;
   }
@@ -1560,8 +1582,9 @@ public class Invoice   {
    * Get iscopy
    * @return iscopy
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIscopy() {
     return iscopy;
   }
@@ -1579,8 +1602,9 @@ public class Invoice   {
    * Get isdiscountprinted
    * @return isdiscountprinted
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsdiscountprinted() {
     return isdiscountprinted;
   }
@@ -1598,8 +1622,9 @@ public class Invoice   {
    * Get isexchange
    * @return isexchange
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsexchange() {
     return isexchange;
   }
@@ -1617,8 +1642,9 @@ public class Invoice   {
    * Get isindispute
    * @return isindispute
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsindispute() {
     return isindispute;
   }
@@ -1636,8 +1662,9 @@ public class Invoice   {
    * Get ispaid
    * @return ispaid
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIspaid() {
     return ispaid;
   }
@@ -1655,8 +1682,9 @@ public class Invoice   {
    * Get ispayschedulevalid
    * @return ispayschedulevalid
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIspayschedulevalid() {
     return ispayschedulevalid;
   }
@@ -1674,8 +1702,9 @@ public class Invoice   {
    * Get isprinted
    * @return isprinted
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsprinted() {
     return isprinted;
   }
@@ -1693,8 +1722,9 @@ public class Invoice   {
    * Get isselfservice
    * @return isselfservice
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsselfservice() {
     return isselfservice;
   }
@@ -1712,8 +1742,9 @@ public class Invoice   {
    * Get issotrx
    * @return issotrx
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIssotrx() {
     return issotrx;
   }
@@ -1731,8 +1762,9 @@ public class Invoice   {
    * Get istaxincluded
    * @return istaxincluded
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIstaxincluded() {
     return istaxincluded;
   }
@@ -1750,8 +1782,9 @@ public class Invoice   {
    * Get istransferred
    * @return istransferred
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIstransferred() {
     return istransferred;
   }
@@ -1769,8 +1802,9 @@ public class Invoice   {
    * Get isvoidable
    * @return isvoidable
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsvoidable() {
     return isvoidable;
   }
@@ -1788,8 +1822,9 @@ public class Invoice   {
    * Get managedragorderdiscounts
    * @return managedragorderdiscounts
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isManagedragorderdiscounts() {
     return managedragorderdiscounts;
   }
@@ -1807,8 +1842,9 @@ public class Invoice   {
    * Get managedragordersurcharges
    * @return managedragordersurcharges
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isManagedragordersurcharges() {
     return managedragordersurcharges;
   }
@@ -1826,8 +1862,9 @@ public class Invoice   {
    * Get manualdocumentno
    * @return manualdocumentno
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isManualdocumentno() {
     return manualdocumentno;
   }
@@ -1845,8 +1882,9 @@ public class Invoice   {
    * Get manualgeneraldiscount
    * @return manualgeneraldiscount
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getManualgeneraldiscount() {
     return manualgeneraldiscount;
@@ -1903,8 +1941,9 @@ public class Invoice   {
    * Get mPricelistId
    * @return mPricelistId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getMPricelistId() {
     return mPricelistId;
   }
@@ -1941,8 +1980,9 @@ public class Invoice   {
    * Get netamount
    * @return netamount
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getNetamount() {
     return netamount;
@@ -1980,8 +2020,9 @@ public class Invoice   {
    * Get notexchangeablecredit
    * @return notexchangeablecredit
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isNotexchangeablecredit() {
     return notexchangeablecredit;
   }
@@ -2152,8 +2193,9 @@ public class Invoice   {
    * Get paymentrule
    * @return paymentrule
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getPaymentrule() {
     return paymentrule;
   }
@@ -2228,8 +2270,9 @@ public class Invoice   {
    * Get processed
    * @return processed
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isProcessed() {
     return processed;
   }
@@ -2304,8 +2347,9 @@ public class Invoice   {
    * Get sendemail
    * @return sendemail
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isSendemail() {
     return sendemail;
   }
@@ -2361,8 +2405,9 @@ public class Invoice   {
    * Get totallines
    * @return totallines
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getTotallines() {
     return totallines;
@@ -2381,8 +2426,9 @@ public class Invoice   {
    * Get updated
    * @return updated
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getUpdated() {
     return updated;
   }
@@ -2400,8 +2446,9 @@ public class Invoice   {
    * Get updatedby
    * @return updatedby
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getUpdatedby() {
     return updatedby;
   }
@@ -2419,8 +2466,9 @@ public class Invoice   {
    * Get updateorderqty
    * @return updateorderqty
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isUpdateorderqty() {
     return updateorderqty;
   }

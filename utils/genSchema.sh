@@ -1,13 +1,19 @@
 # Basic config
 QUERY_FILE=genSchema.sql
-TARGET_DIR=../src/main/resources/
+TARGET_DIR=../src/main/resources
 
 # DB Connection
-DB_NAME=libertya_core_for_rel_22
 HOST_NAME=localhost
+HOST_PORT=5432
 USER_NAME=libertya
+DB_NAME=libertya_core_for_rel_22
+
+generateSchema() {
+  echo "=== Generando schema $1 segun $2 en destino $TARGET_DIR/model/$3"
+  psql -h $HOST_NAME -p $HOST_PORT -U $USER_NAME -d $DB_NAME -Aqnt -f $QUERY_FILE -v v1="'$1'" -v v2="'$2'" > $TARGET_DIR/model/"$3"
+}
 
 # Scripts de generacion
-psql -h $HOST_NAME -U $USER_NAME -d $DB_NAME -Aqnt -f $QUERY_FILE -v v1="'Product'" -v v2="'M_Product'" > $TARGET_DIR/model/product.yaml
-psql -h $HOST_NAME -U $USER_NAME -d $DB_NAME -Aqnt -f $QUERY_FILE -v v1="'BPartner'" -v v2="'C_BPartner'" > $TARGET_DIR/model/bpartner.yaml
-psql -h $HOST_NAME -U $USER_NAME -d $DB_NAME -Aqnt -f $QUERY_FILE -v v1="'Invoice'" -v v2="'C_Invoice'" > $TARGET_DIR/model/invoice.yaml
+generateSchema Product   M_Product   product.yaml
+generateSchema BPartner  C_BPartner  bpartner.yaml
+generateSchema Invoice   C_Invoice   invoice.yaml

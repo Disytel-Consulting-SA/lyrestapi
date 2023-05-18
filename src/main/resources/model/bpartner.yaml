@@ -219,3 +219,39 @@ components:
           type: string
         value:
           type: string
+      required:
+         - ad_client_id
+         - ad_org_id
+         - allowadvancedpaymentreceipts
+         - allowpartialpayment
+         - automaticcreditnotes
+         - c_bpartner_id
+         - c_bp_group_id
+         - created
+         - createdby
+         - creditminimumamt
+         - discountcontext
+         - emitir_mi_pyme
+         - isactive
+         - iscustomer
+         - isemployee
+         - isgroupinvoices
+         - isiso
+         - ismandatorycai
+         - ismulticuit
+         - isonetime
+         - isprospect
+         - issalesrep
+         - issummary
+         - isvendor
+         - minimumpurchasedamt
+         - name
+         - searchunallocatedpayments
+         - secondarycreditstatus
+         - sendemail
+         - so_creditlimit
+         - so_creditused
+         - trxenabled
+         - updated
+         - updatedby
+         - value

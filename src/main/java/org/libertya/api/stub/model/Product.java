@@ -237,8 +237,9 @@ public class Product   {
    * Get adClientId
    * @return adClientId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getAdClientId() {
     return adClientId;
   }
@@ -275,8 +276,9 @@ public class Product   {
    * Get adOrgId
    * @return adOrgId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getAdOrgId() {
     return adOrgId;
   }
@@ -294,8 +296,9 @@ public class Product   {
    * Get amortizationperc
    * @return amortizationperc
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getAmortizationperc() {
     return amortizationperc;
@@ -314,8 +317,9 @@ public class Product   {
    * Get checkoutplace
    * @return checkoutplace
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getCheckoutplace() {
     return checkoutplace;
   }
@@ -372,8 +376,9 @@ public class Product   {
    * Get created
    * @return created
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getCreated() {
     return created;
   }
@@ -391,8 +396,9 @@ public class Product   {
    * Get createdby
    * @return createdby
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCreatedby() {
     return createdby;
   }
@@ -448,8 +454,9 @@ public class Product   {
    * Get cTaxcategoryId
    * @return cTaxcategoryId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCTaxcategoryId() {
     return cTaxcategoryId;
   }
@@ -467,8 +474,9 @@ public class Product   {
    * Get cUomId
    * @return cUomId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getCUomId() {
     return cUomId;
   }
@@ -696,8 +704,9 @@ public class Product   {
    * Get isactive
    * @return isactive
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsactive() {
     return isactive;
   }
@@ -715,8 +724,9 @@ public class Product   {
    * Get isbom
    * @return isbom
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsbom() {
     return isbom;
   }
@@ -734,8 +744,9 @@ public class Product   {
    * Get isdropship
    * @return isdropship
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsdropship() {
     return isdropship;
   }
@@ -772,8 +783,9 @@ public class Product   {
    * Get isinventoried
    * @return isinventoried
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsinventoried() {
     return isinventoried;
   }
@@ -791,8 +803,9 @@ public class Product   {
    * Get isinvoiceprintdetails
    * @return isinvoiceprintdetails
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsinvoiceprintdetails() {
     return isinvoiceprintdetails;
   }
@@ -810,8 +823,9 @@ public class Product   {
    * Get ispicklistprintdetails
    * @return ispicklistprintdetails
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIspicklistprintdetails() {
     return ispicklistprintdetails;
   }
@@ -829,8 +843,9 @@ public class Product   {
    * Get ispurchased
    * @return ispurchased
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIspurchased() {
     return ispurchased;
   }
@@ -848,8 +863,9 @@ public class Product   {
    * Get isselfservice
    * @return isselfservice
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsselfservice() {
     return isselfservice;
   }
@@ -867,8 +883,9 @@ public class Product   {
    * Get issold
    * @return issold
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIssold() {
     return issold;
   }
@@ -886,8 +903,9 @@ public class Product   {
    * Get isstocked
    * @return isstocked
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsstocked() {
     return isstocked;
   }
@@ -905,8 +923,9 @@ public class Product   {
    * Get issummary
    * @return issummary
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIssummary() {
     return issummary;
   }
@@ -943,8 +962,9 @@ public class Product   {
    * Get isverified
    * @return isverified
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIsverified() {
     return isverified;
   }
@@ -962,8 +982,9 @@ public class Product   {
    * Get iswebstorefeatured
    * @return iswebstorefeatured
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Boolean isIswebstorefeatured() {
     return iswebstorefeatured;
   }
@@ -1057,8 +1078,9 @@ public class Product   {
    * Get mAttributesetinstanceId
    * @return mAttributesetinstanceId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getMAttributesetinstanceId() {
     return mAttributesetinstanceId;
   }
@@ -1134,8 +1156,9 @@ public class Product   {
    * Get mProductCategoryId
    * @return mProductCategoryId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getMProductCategoryId() {
     return mProductCategoryId;
   }
@@ -1172,8 +1195,9 @@ public class Product   {
    * Get mProductId
    * @return mProductId
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getMProductId() {
     return mProductId;
   }
@@ -1191,8 +1215,9 @@ public class Product   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getName() {
     return name;
   }
@@ -1210,8 +1235,9 @@ public class Product   {
    * Get producttype
    * @return producttype
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getProducttype() {
     return producttype;
   }
@@ -1459,8 +1485,9 @@ public class Product   {
    * Get updated
    * @return updated
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getUpdated() {
     return updated;
   }
@@ -1478,8 +1505,9 @@ public class Product   {
    * Get updatedby
    * @return updatedby
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getUpdatedby() {
     return updatedby;
   }
@@ -1497,8 +1525,9 @@ public class Product   {
    * Get value
    * @return value
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public String getValue() {
     return value;
   }
@@ -1575,8 +1604,9 @@ public class Product   {
    * Get yearlife
    * @return yearlife
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public Integer getYearlife() {
     return yearlife;
   }
