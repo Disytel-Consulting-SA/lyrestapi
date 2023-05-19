@@ -2,7 +2,7 @@ select columnname from
 (
     (
         select 1 as row,
-            e'components:\n  schemas:\n    '||:v1||e':\n      type: object\n      properties:' as columnname
+            e'components:\n  schemas:\n    '||:nombre||e':\n      type: object\n      properties:' as columnname
     )
     union
     (
@@ -17,9 +17,10 @@ select columnname from
                 end
         from ad_column c
         inner join ad_table t on c.ad_table_id = t.ad_table_id
-        where t.tablename = :v2
+        where t.tablename = :tabla
         and ad_reference_id <> 28 -- button no es necesario enviar
         and ad_reference_id not in (23, 32) -- LOB por el momento no
+        and (ismandatory = 'Y' or lower(columnname) in :columnas)
         order by c.columnname
     )
     union
@@ -33,9 +34,10 @@ select columnname from
             e'         - ' || lower(c.columnname)
         from ad_column c
         inner join ad_table t on c.ad_table_id = t.ad_table_id
-        where t.tablename = :v2
+        where t.tablename = :tabla
         and ad_reference_id <> 28 -- button no es necesario enviar
         and ad_reference_id not in (23, 32) -- LOB por el momento no
+        and (ismandatory = 'Y' or lower(columnname) in :columnas)
         and ismandatory = 'Y'
         order by c.columnname
     )
