@@ -41,36 +41,27 @@ public abstract class AbstractRepository {
      * Al no ser catcheados, la trx no es rollbackeada y por consiguiente podria ocurrir que se realice incorrectamente el commit parcial de una operación.
      * Es por esto que toda operacion en LYWS debe finalizar con el commitTransaction() antes de retornar los datos.
      */
-    protected void closeTransaction() {
-        Trx.getTrx(getTrxName()).close(false);
+    protected void closeTransaction(String trxName) {
+        Trx.getTrx(trxName).close(false);
     }
 
     /**
      * Commit de la transaccion actual
      */
-    protected void commitTransaction() {
-        Trx.getTrx(getTrxName()).commit();
+    protected void commitTransaction(String trxName) {
+        Trx.getTrx(trxName).commit();
     }
 
     /**
      * Rollbck de la transaccion actual
      */
-    protected void rollbackTransaction() {
-        Trx.getTrx(getTrxName()).rollback();
+    protected void rollbackTransaction(String trxName) {
+        Trx.getTrx(trxName).rollback();
     }
 
     protected Properties getCtx()
     {
         return Env.getCtx();
-    }
-
-    protected String getTrxName()
-    {
-        if (trxName == null) {
-            trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
-            System.out.println("Creando transaccion " + trxName);
-        }
-        return trxName;
     }
 
     /**
@@ -274,22 +265,27 @@ public abstract class AbstractRepository {
      * @throws NotFoundException si el registro no existe
      */
     protected String processEntity(String tableName, int id, String action) throws ModelException, NotFoundException {
-        PO aPO = getPO(tableName, id, getTrxName());
+        String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
+        PO aPO = getPO(tableName, id, trxName);
         try {
             if (aPO.getID() <= 0)
                 throw new NotFoundException();
-            if (!DocumentEngine.processAndSave((DocAction) aPO, action, false)) {
+            if (!DocumentEngine.processAndSave((DocAction) aPO, action.toUpperCase(), false)) {
                 throw new ModelException(Msg.parseTranslation(getCtx(), ((DocAction) aPO).getProcessMsg()));
             }
-            commitTransaction();
+            // Validar si pudo cambiarse la nuevo estado, dado que DocumentEngine.processIt no realiza dicha actividad
+            String currentStatus = ((DocAction) aPO).getDocStatus();
+            if (!action.equalsIgnoreCase(currentStatus)) {
+                throw new ModelException(String.format("Imposible procesar.  La accion %s no puede aplicarse al estado actual %s", action.toUpperCase(), currentStatus));
+            }
+            commitTransaction(trxName);
             return ((DocAction)aPO).getProcessMsg();
         } catch (Exception e) {
-            rollbackTransaction();
+            rollbackTransaction(trxName);
             throw e;
         } finally {
-            closeTransaction();
+            closeTransaction(trxName);
         }
-
     }
 
 }
