@@ -17,27 +17,27 @@ public class ProductController extends AbstractController implements ProductApi 
 
     @Override
     public ResponseEntity<String> addProduct(Product body) {
-        return insertAction(() -> repository.insertProduct(body));
+        return insertAction(() -> repository.insert(body));
     }
 
     @Override
     public ResponseEntity<String> deleteProduct(Integer id) {
-        return deleteAction(() -> repository.deleteProduct(id));
+        return deleteAction(() -> repository.delete(id));
     }
 
     @Override
     public ResponseEntity<List<Product>> getAllProducts(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return new ResponseEntity<>(repository.retrieveAllProducts(filter, fields, sort, limit, offset), HttpStatus.OK);
+        return new ResponseEntity<>(repository.retrieveAll(filter, fields, sort, limit, offset), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Product> retrieveProduct(Integer id) {
-        return retrieveAction(() -> repository.retrieveProduct(id), Product.class);
+        return retrieveAction(() -> repository.retrieve(id), Product.class);
     }
 
     @Override
     public ResponseEntity<String> updateProduct(Product body, Integer id) {
-        return updateAction(() -> repository.updateProduct(id, body, true));
+        return updateAction(() -> repository.update(id, body, true));
     }
 
 }

@@ -1,0 +1,52 @@
+components:
+  schemas:
+    InvoiceTax:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        arcibanormcode:
+          type: string
+        c_invoice_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_tax_id:
+          type: integer
+        isactive:
+          type: boolean
+        isperceptionsincluded:
+          type: boolean
+        istaxincluded:
+          type: boolean
+        processed:
+          type: boolean
+        rate:
+          type: number
+        taxamt:
+          type: number
+        taxbaseamt:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_invoice_id
+         - created
+         - createdby
+         - c_tax_id
+         - isactive
+         - isperceptionsincluded
+         - istaxincluded
+         - processed
+         - taxamt
+         - taxbaseamt
+         - updated
+         - updatedby

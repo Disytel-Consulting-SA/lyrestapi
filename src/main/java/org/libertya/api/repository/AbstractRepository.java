@@ -2,12 +2,14 @@ package org.libertya.api.repository;
 
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
+
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
 import org.openXpertya.process.DocAction;
 import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.*;
+
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -15,8 +17,9 @@ import java.util.*;
 
 public abstract class AbstractRepository {
 
-    /** Nombre de transaccion */
-    protected String trxName = null;
+    protected String tableName = null;
+
+    protected SpawnModelInstanceInterface iface;
 
     /** Numero maximo por defecto de entidades a retornar */
     public static final Integer DEFAULT_LIMIT = 100;
@@ -28,7 +31,7 @@ public abstract class AbstractRepository {
      * @param trxName nombre de la transaccion
      * @return una entidad que extiende de PO
      */
-    public PO getPO(String tableName, int id, String trxName)  {
+    protected PO getPO(String tableName, int id, String trxName)  {
         PO aPO = null;
         M_Table table = M_Table.get(Env.getCtx(), tableName);
         aPO = table.getPO(id, trxName);
@@ -286,6 +289,36 @@ public abstract class AbstractRepository {
         } finally {
             closeTransaction(trxName);
         }
+    }
+
+    /* =========================== Metodos publicos  =========================== */
+
+    public String insert(Object payload) throws ModelException {
+        return insertEntity(tableName, payload);
+    }
+
+    public void delete(int id) throws ModelException, NotFoundException {
+        deleteEntity(tableName, id);
+    }
+
+    public void update(int id, Object payload, boolean ignoreNulls) throws ModelException, NotFoundException {
+        updateEntity(id, tableName, payload, ignoreNulls);
+    }
+
+    public <T> Optional<T> retrieve(int id, String fields) {
+        return loadEntityFromPO(id, tableName, fields, iface);
+    }
+
+    public <T> Optional<T> retrieve(int id) {
+        return retrieve(id, null);
+    }
+
+    public <T> List<T> retrieveAll(String filter, String fields, String sort, Integer limit, Integer offset) {
+        return retrieveAllEntities(tableName, id -> retrieve(id, fields), filter, sort, limit, offset);
+    }
+
+    public String process(int id, String action) throws ModelException, NotFoundException {
+        return processEntity(tableName, id, action);
     }
 
 }

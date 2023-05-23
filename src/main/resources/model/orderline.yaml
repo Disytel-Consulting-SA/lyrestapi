@@ -1,0 +1,159 @@
+components:
+  schemas:
+    OrderLine:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_bpartner_location_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_currency_id:
+          type: integer
+        checkoutplace:
+          type: string
+        c_order_id:
+          type: integer
+        c_orderline_id:
+          type: integer
+        c_project_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_tax_id:
+          type: integer
+        c_uom_id:
+          type: integer
+        datedelivered:
+          type: string
+        dateinvoiced:
+          type: string
+        dateordered:
+          type: string
+        datepromised:
+          type: string
+        description:
+          type: string
+        diffamt:
+          type: number
+        discount:
+          type: number
+        documentdiscountamt:
+          type: number
+        freightamt:
+          type: number
+        isactive:
+          type: boolean
+        isdescription:
+          type: boolean
+        line:
+          type: integer
+        linebonusamt:
+          type: number
+        linediscountamt:
+          type: number
+        linenetamt:
+          type: number
+        linetotalamt:
+          type: number
+        manualgeneraldiscountamt:
+          type: number
+        m_attributesetinstance_id:
+          type: integer
+        m_product_id:
+          type: integer
+        m_shipper_id:
+          type: integer
+        m_warehouse_id:
+          type: integer
+        order_min:
+          type: number
+        order_pack:
+          type: number
+        priceactual:
+          type: number
+        pricediff:
+          type: number
+        priceentered:
+          type: number
+        pricelimit:
+          type: number
+        pricelist:
+          type: number
+        pricereception:
+          type: number
+        processed:
+          type: boolean
+        qtydelivered:
+          type: number
+        qtydiff:
+          type: number
+        qtyentered:
+          type: number
+        qtyinvoiced:
+          type: number
+        qtyordered:
+          type: number
+        qtyreception:
+          type: number
+        qtyreserved:
+          type: number
+        qtyreturned:
+          type: number
+        qtytransferred:
+          type: number
+        receptionamt:
+          type: number
+        ref_orderline_id:
+          type: integer
+        salesrep_orig_id:
+          type: integer
+
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_bpartner_location_id
+         - c_currency_id
+         - c_order_id
+         - c_orderline_id
+         - created
+         - createdby
+         - c_tax_id
+         - c_uom_id
+         - dateordered
+         - documentdiscountamt
+         - freightamt
+         - isactive
+         - isdescription
+         - line
+         - linebonusamt
+         - linediscountamt
+         - linenetamt
+         - linetotalamt
+         - m_attributesetinstance_id
+         - m_warehouse_id
+         - priceactual
+         - priceentered
+         - pricelimit
+         - pricelist
+         - processed
+         - qtydelivered
+         - qtyentered
+         - qtyinvoiced
+         - qtyordered
+         - qtyreserved
+         - qtyreturned
+         - qtytransferred
+         - updated
+         - updatedby

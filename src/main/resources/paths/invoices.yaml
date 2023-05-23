@@ -64,4 +64,4 @@ post:
       application/json:
         schema:
           type: object
-          $ref: '../model/invoice.yaml#/components/schemas/Invoice'
+          $ref: '../model/invoice_doc.yaml#/components/schemas/InvoiceDocument'

@@ -64,4 +64,4 @@ post:
       application/json:
         schema:
           type: object
-          $ref: '../model/order.yaml#/components/schemas/Order'
+          $ref: '../model/order_doc.yaml#/components/schemas/OrderDocument'

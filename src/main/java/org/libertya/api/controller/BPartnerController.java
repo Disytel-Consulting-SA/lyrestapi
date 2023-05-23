@@ -17,27 +17,27 @@ public class BPartnerController extends AbstractController implements BpartnerAp
 
     @Override
     public ResponseEntity<String> addBPartner(BPartner body) {
-        return insertAction(() -> repository.insertBPartner(body));
+        return insertAction(() -> repository.insert(body));
     }
 
     @Override
     public ResponseEntity<String> deleteBPartner(Integer id) {
-        return deleteAction(() -> repository.deleteBPartner(id));
+        return deleteAction(() -> repository.delete(id));
     }
 
     @Override
     public ResponseEntity<List<BPartner>> getAllBPartners(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return new ResponseEntity<>(repository.retrieveAllBPartners(filter, fields, sort, limit, offset), HttpStatus.OK);
+        return new ResponseEntity<>(repository.retrieveAll(filter, fields, sort, limit, offset), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<BPartner> retrieveBPartner(Integer id) {
-        return retrieveAction(() -> repository.retrieveBPartner(id), BPartner.class);
+        return retrieveAction(() -> repository.retrieve(id), BPartner.class);
     }
 
     @Override
     public ResponseEntity<String> updateBPartner(BPartner body, Integer id) {
-        return updateAction(() -> repository.updateBPartner(id, body, true));
+        return updateAction(() -> repository.update(id, body, true));
     }
 
 }

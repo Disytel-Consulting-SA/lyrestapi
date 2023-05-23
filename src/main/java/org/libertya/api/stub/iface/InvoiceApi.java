@@ -6,6 +6,7 @@
 package org.libertya.api.stub.iface;
 
 import org.libertya.api.stub.model.Invoice;
+import org.libertya.api.stub.model.InvoiceDocument;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public interface InvoiceApi {
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<String> addInvoice(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Invoice body
+    default ResponseEntity<String> addInvoice(@ApiParam(value = "" ,required=true )  @Valid @RequestBody InvoiceDocument body
 ) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {

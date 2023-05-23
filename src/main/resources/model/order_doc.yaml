@@ -1,0 +1,15 @@
+components:
+  schemas:
+    OrderDocument:
+      type: object
+      properties:
+        header:
+          $ref: '../model/order.yaml#/components/schemas/Order'
+        lines:
+          type: array
+          items:
+            $ref: '../model/orderline.yaml#/components/schemas/OrderLine'
+        taxes:
+          type: array
+          items:
+            $ref: '../model/ordertax.yaml#/components/schemas/OrderTax'

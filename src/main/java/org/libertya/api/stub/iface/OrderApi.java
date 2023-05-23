@@ -6,6 +6,7 @@
 package org.libertya.api.stub.iface;
 
 import org.libertya.api.stub.model.Order;
+import org.libertya.api.stub.model.OrderDocument;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public interface OrderApi {
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<String> addOrder(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Order body
+    default ResponseEntity<String> addOrder(@ApiParam(value = "" ,required=true )  @Valid @RequestBody OrderDocument body
 ) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {

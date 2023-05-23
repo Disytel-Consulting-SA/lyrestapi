@@ -1,0 +1,15 @@
+components:
+  schemas:
+    InvoiceDocument:
+      type: object
+      properties:
+        header:
+          $ref: '../model/invoice.yaml#/components/schemas/Invoice'
+        lines:
+          type: array
+          items:
+            $ref: '../model/invoiceline.yaml#/components/schemas/InvoiceLine'
+        taxes:
+          type: array
+          items:
+            $ref: '../model/invoicetax.yaml#/components/schemas/InvoiceTax'

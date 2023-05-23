@@ -1,0 +1,118 @@
+components:
+  schemas:
+    InvoiceLine:
+      type: object
+      properties:
+        a_asset_id:
+          type: integer
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        c_bpartner_vendor_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_invoice_id:
+          type: integer
+        c_invoiceline_id:
+          type: integer
+        c_orderline_id:
+          type: integer
+        costprice:
+          type: number
+        c_project_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_tax_id:
+          type: integer
+        c_uom_id:
+          type: integer
+        description:
+          type: string
+        documentdiscountamt:
+          type: number
+        isactive:
+          type: boolean
+        isdescription:
+          type: boolean
+        isprinted:
+          type: boolean
+        line:
+          type: integer
+        linebonusamt:
+          type: number
+        linediscountamt:
+          type: number
+        linenetamount:
+          type: number
+        linenetamt:
+          type: number
+        linetotalamt:
+          type: number
+        manualgeneraldiscountamt:
+          type: number
+        m_attributesetinstance_id:
+          type: integer
+        m_import_clearance_id:
+          type: integer
+        m_inoutline_id:
+          type: integer
+        m_product_id:
+          type: integer
+        priceactual:
+          type: number
+        priceentered:
+          type: number
+        pricelimit:
+          type: number
+        pricelist:
+          type: number
+        processed:
+          type: boolean
+        qtyentered:
+          type: number
+        qtyinvoiced:
+          type: number
+        ref_invoiceline_id:
+          type: integer
+        salesrep_orig_id:
+          type: integer
+
+        taxamt:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_invoice_id
+         - c_invoiceline_id
+         - costprice
+         - created
+         - createdby
+         - c_tax_id
+         - documentdiscountamt
+         - isactive
+         - isdescription
+         - isprinted
+         - line
+         - linebonusamt
+         - linediscountamt
+         - linenetamount
+         - linenetamt
+         - m_attributesetinstance_id
+         - priceactual
+         - priceentered
+         - pricelimit
+         - pricelist
+         - processed
+         - qtyentered
+         - qtyinvoiced
+         - updated
+         - updatedby
