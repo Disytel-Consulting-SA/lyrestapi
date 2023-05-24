@@ -2,6 +2,7 @@ package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.repository.OrderRepository;
+import org.libertya.api.service.OrderService;
 import org.libertya.api.stub.iface.OrderApi;
 import org.libertya.api.stub.model.Order;
 import org.libertya.api.stub.model.OrderDocument;
@@ -17,9 +18,11 @@ public class OrderController extends AbstractController implements OrderApi {
 
     private final OrderRepository repository;
 
+    private final OrderService service;
+
     @Override
     public ResponseEntity<String> addOrder(OrderDocument body) {
-        return insertAction(() -> repository.insert(body));
+        return insertAction(() -> service.createOrder(body));
     }
 
     @Override

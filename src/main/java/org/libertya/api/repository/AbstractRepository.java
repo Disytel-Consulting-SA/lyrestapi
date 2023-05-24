@@ -202,7 +202,7 @@ public abstract class AbstractRepository {
             M_Column[] columns = aTable.getColumns(false);
             for (M_Column aColumn : columns) {
                 if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
-                    aPO.set_Value(aColumn.getColumnName(), value);
+                    aPO.set_ValueNoCheck(aColumn.getColumnName(), value);
                     break;
                 }
             }
@@ -236,8 +236,8 @@ public abstract class AbstractRepository {
      * @throws ModelException
      * @return un String conteniendo el ID del objeto persistido
      */
-    protected String insertEntity(String tableName, Object source) throws ModelException {
-        PO aPO = getPO(tableName, 0, null);
+    protected String insertEntity(String tableName, Object source, String trxName) throws ModelException {
+        PO aPO = getPO(tableName, 0, trxName);
         loadPOFromEntity(aPO, source, false);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
@@ -264,11 +264,21 @@ public abstract class AbstractRepository {
      * @param tableName tabla donde reside el documento (C_Invoice, C_Order, etc.)
      * @param id identificado del documento a procesasr
      * @param action accion a aplicar al documento (CO, CL, VO, etc.)
+     * @param trx nombre de la transaccion. Si no se recibe se genera y gestiona la trx internamente
+     *                                      Si se recibe un valor la trx no es gestionada internamente
      * @throws ModelException si no es posible eliminar el registro
      * @throws NotFoundException si el registro no existe
      */
-    protected String processEntity(String tableName, int id, String action) throws ModelException, NotFoundException {
-        String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
+    protected String processEntity(String tableName, int id, String action, String trx) throws ModelException, NotFoundException {
+        String trxName;
+        boolean handleTrx;
+        if (trx!=null) {
+            trxName = trx;
+            handleTrx = false;
+        } else {
+            trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
+            handleTrx = true;
+        }
         PO aPO = getPO(tableName, id, trxName);
         try {
             if (aPO.getID() <= 0)
@@ -281,20 +291,30 @@ public abstract class AbstractRepository {
             if (!action.equalsIgnoreCase(currentStatus)) {
                 throw new ModelException(String.format("Imposible procesar.  La accion %s no puede aplicarse al estado actual %s", action.toUpperCase(), currentStatus));
             }
-            commitTransaction(trxName);
+            if (handleTrx) {
+                commitTransaction(trxName);
+            }
             return ((DocAction)aPO).getProcessMsg();
         } catch (Exception e) {
-            rollbackTransaction(trxName);
+            if (handleTrx) {
+                rollbackTransaction(trxName);
+            }
             throw e;
         } finally {
-            closeTransaction(trxName);
+            if (handleTrx) {
+                closeTransaction(trxName);
+            }
         }
     }
 
     /* =========================== Metodos publicos  =========================== */
 
     public String insert(Object payload) throws ModelException {
-        return insertEntity(tableName, payload);
+        return insertEntity(tableName, payload, null);
+    }
+
+    public String insert(Object payload, String trxName) throws ModelException {
+        return insertEntity(tableName, payload, trxName);
     }
 
     public void delete(int id) throws ModelException, NotFoundException {
@@ -318,7 +338,12 @@ public abstract class AbstractRepository {
     }
 
     public String process(int id, String action) throws ModelException, NotFoundException {
-        return processEntity(tableName, id, action);
+        return processEntity(tableName, id, action, null);
     }
+
+    public String process(int id, String action, String trxName) throws ModelException, NotFoundException {
+        return processEntity(tableName, id, action, trxName);
+    }
+
 
 }
