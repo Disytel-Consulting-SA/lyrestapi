@@ -75,7 +75,7 @@ public abstract class AbstractRepository {
      * @param aColumn columna que contiene el valor a asignar
      * @param value valor a asignar
      */
-    protected void setValueToObject(int id, Object target, Field property, M_Column aColumn, Object value) {
+    protected void setValueToObject(int id, Object target, Field property, M_Column aColumn, Object value) throws ModelException {
         try {
             if (value == null)
                 property.set(target, null);
@@ -94,7 +94,7 @@ public abstract class AbstractRepository {
             else if (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
                 property.set(target, (value).toString());
         } catch (Exception e) {
-            System.out.println("Error al setear " + value + " a columna " + aColumn.getColumnName() + " en ID " + id);
+            throw new ModelException("Error al setear " + value + " a columna " + aColumn.getColumnName() + " en ID " + id + ". " + e.getMessage());
         }
     }
 
@@ -105,7 +105,7 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return una lista con todas las entidades
      */
-    protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) {
+    protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) throws ModelException {
         List retVal = new ArrayList();
         int[] ids = PO.getAllIDs(tableName,
                 String.format( " %s %s LIMIT %d OFFSET %d ",
@@ -135,7 +135,7 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    protected <T> Optional<T> loadEntityFromPO(int id, String tableName, String filterFields, SpawnModelInstanceInterface target) {
+    protected <T> Optional<T> loadEntityFromPO(int id, String tableName, String filterFields, SpawnModelInstanceInterface target) throws ModelException {
         Set<String> includeFields = getFilterFields(filterFields);
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(tableName, id, null);
@@ -182,7 +182,7 @@ public abstract class AbstractRepository {
      * @param source el objeto con las propiedades a volcar
      * @return el objeto actualizado
      */
-    protected PO loadPOFromEntity(PO aPO, Object source, boolean ignoreNulls) {
+    protected PO loadPOFromEntity(PO aPO, Object source, boolean ignoreNulls) throws ModelException {
         // Instanciar objeto del modelo segun corresponda
         Field[] fields = source.getClass().getDeclaredFields();
         // Iterar por los campos matcheando segun el nombre de la propiedad.
@@ -202,12 +202,33 @@ public abstract class AbstractRepository {
             M_Column[] columns = aTable.getColumns(false);
             for (M_Column aColumn : columns) {
                 if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
-                    aPO.set_ValueNoCheck(aColumn.getColumnName(), value);
+                    setValue(aPO, aColumn, value);
                     break;
                 }
             }
         }
         return aPO;
+    }
+
+    /**
+     * Setea el valor en PO dependiendo su tipo
+     * @param po el PO a asignar el valor
+     * @param aColumn columna a asignar
+     * @param value valor a asignar
+     */
+    protected boolean setValue(PO po, M_Column aColumn, Object value) throws ModelException {
+        boolean ok;
+        try {
+            ok =
+                    (null == value && po.set_ValueNoCheck(aColumn.getColumnName(), value)) ||
+                    (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), value)) ||
+                    (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Integer.parseInt(value.toString()))) ||
+                    (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), new BigDecimal(value.toString()))) ||
+                    (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Timestamp.valueOf(value.toString())));
+            return ok;
+        } catch (Exception e) {
+            throw new ModelException("Error al setear valor " + (value==null?"null":value) + " en columna " + aColumn.getColumnName() + " de entidad " + po.get_TableName() + ". " + e);
+        }
     }
 
     /**
@@ -325,15 +346,15 @@ public abstract class AbstractRepository {
         updateEntity(id, tableName, payload, ignoreNulls);
     }
 
-    public <T> Optional<T> retrieve(int id, String fields) {
+    public <T> Optional<T> retrieve(int id, String fields) throws ModelException {
         return loadEntityFromPO(id, tableName, fields, iface);
     }
 
-    public <T> Optional<T> retrieve(int id) {
+    public <T> Optional<T> retrieve(int id) throws ModelException {
         return retrieve(id, null);
     }
 
-    public <T> List<T> retrieveAll(String filter, String fields, String sort, Integer limit, Integer offset) {
+    public <T> List<T> retrieveAll(String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException {
         return retrieveAllEntities(tableName, id -> retrieve(id, fields), filter, sort, limit, offset);
     }
 

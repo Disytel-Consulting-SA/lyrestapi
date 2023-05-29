@@ -27,12 +27,12 @@ public class ProductController extends AbstractController implements ProductApi 
 
     @Override
     public ResponseEntity<List<Product>> getAllProducts(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return new ResponseEntity<>(repository.retrieveAll(filter, fields, sort, limit, offset), HttpStatus.OK);
+        return retrieveAllAction(repository, filter, fields, sort, limit, offset);
     }
 
     @Override
     public ResponseEntity<Product> retrieveProduct(Integer id) {
-        return retrieveAction(() -> repository.retrieve(id), Product.class);
+        return retrieveAction(() -> repository.retrieve(id));
     }
 
     @Override
