@@ -41,8 +41,6 @@ components:
           type: string
         documentnote:
           type: string
-        downloadurl:
-          type: string
         guaranteedays:
           type: integer
         guaranteedaysmin:

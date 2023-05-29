@@ -171,8 +171,6 @@ components:
           type: number
         program_amt_used:
           type: number
-        program_invoice:
-          type: integer
         rating:
           type: string
         referenceno:

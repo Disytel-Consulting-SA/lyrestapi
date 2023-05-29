@@ -72,9 +72,6 @@ public class Product   {
   @JsonProperty("documentnote")
   private String documentnote = null;
 
-  @JsonProperty("downloadurl")
-  private String downloadurl = null;
-
   @JsonProperty("guaranteedays")
   private Integer guaranteedays = null;
 
@@ -598,25 +595,6 @@ public class Product   {
 
   public void setDocumentnote(String documentnote) {
     this.documentnote = documentnote;
-  }
-
-  public Product downloadurl(String downloadurl) {
-    this.downloadurl = downloadurl;
-    return this;
-  }
-
-  /**
-   * Get downloadurl
-   * @return downloadurl
-  **/
-  @ApiModelProperty(value = "")
-  
-    public String getDownloadurl() {
-    return downloadurl;
-  }
-
-  public void setDownloadurl(String downloadurl) {
-    this.downloadurl = downloadurl;
   }
 
   public Product guaranteedays(Integer guaranteedays) {
@@ -1644,7 +1622,6 @@ public class Product   {
         Objects.equals(this.discontinued, product.discontinued) &&
         Objects.equals(this.discontinuedby, product.discontinuedby) &&
         Objects.equals(this.documentnote, product.documentnote) &&
-        Objects.equals(this.downloadurl, product.downloadurl) &&
         Objects.equals(this.guaranteedays, product.guaranteedays) &&
         Objects.equals(this.guaranteedaysmin, product.guaranteedaysmin) &&
         Objects.equals(this.help, product.help) &&
@@ -1700,7 +1677,7 @@ public class Product   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, downloadurl, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife);
   }
 
   @Override
@@ -1727,7 +1704,6 @@ public class Product   {
     sb.append("    discontinued: ").append(toIndentedString(discontinued)).append("\n");
     sb.append("    discontinuedby: ").append(toIndentedString(discontinuedby)).append("\n");
     sb.append("    documentnote: ").append(toIndentedString(documentnote)).append("\n");
-    sb.append("    downloadurl: ").append(toIndentedString(downloadurl)).append("\n");
     sb.append("    guaranteedays: ").append(toIndentedString(guaranteedays)).append("\n");
     sb.append("    guaranteedaysmin: ").append(toIndentedString(guaranteedaysmin)).append("\n");
     sb.append("    help: ").append(toIndentedString(help)).append("\n");

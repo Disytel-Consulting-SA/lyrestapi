@@ -267,9 +267,6 @@ public class BPartner   {
   @JsonProperty("program_amt_used")
   private BigDecimal programAmtUsed = null;
 
-  @JsonProperty("program_invoice")
-  private Integer programInvoice = null;
-
   @JsonProperty("rating")
   private String rating = null;
 
@@ -1971,25 +1968,6 @@ public class BPartner   {
     this.programAmtUsed = programAmtUsed;
   }
 
-  public BPartner programInvoice(Integer programInvoice) {
-    this.programInvoice = programInvoice;
-    return this;
-  }
-
-  /**
-   * Get programInvoice
-   * @return programInvoice
-  **/
-  @ApiModelProperty(value = "")
-  
-    public Integer getProgramInvoice() {
-    return programInvoice;
-  }
-
-  public void setProgramInvoice(Integer programInvoice) {
-    this.programInvoice = programInvoice;
-  }
-
   public BPartner rating(String rating) {
     this.rating = rating;
     return this;
@@ -2533,7 +2511,6 @@ public class BPartner   {
         Objects.equals(this.potentiallifetimevalue, bpartner.potentiallifetimevalue) &&
         Objects.equals(this.programAmt, bpartner.programAmt) &&
         Objects.equals(this.programAmtUsed, bpartner.programAmtUsed) &&
-        Objects.equals(this.programInvoice, bpartner.programInvoice) &&
         Objects.equals(this.rating, bpartner.rating) &&
         Objects.equals(this.referenceno, bpartner.referenceno) &&
         Objects.equals(this.salesrepId, bpartner.salesrepId) &&
@@ -2561,7 +2538,7 @@ public class BPartner   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(acqusitioncost, actuallifetimevalue, adClientId, adComponentobjectuid, adLanguage, adOrgId, allowadvancedpaymentreceipts, allowpartialpayment, aNameCheck, automaticcreditnotes, batchPaymentRule, bpartnerParentId, builtcabajurisdiction, cBankaccountId, cBpartnerId, cBpGroupId, cCategoriaIvaId, cDunningId, cGreetingId, cInvoicescheduleId, cJobcategoryId, cLocationId, cPaymenttermId, cPospaymentmediumId, created, createdby, creditminimumamt, creditsituation, cRegionSedeId, customertype, deliveryrule, deliveryviarule, description, discountcontext, documentcopies, duns, emitirMiPyme, endholidays, endholidays2, firstsale, flatdiscount, freightcostrule, goal, iibb, iibbtype, invoicePrintformatId, invoicerule, isactive, iscompoundtax, isconveniomultilateral, iscustomer, isdiscountprinted, isemployee, isgroupinvoices, isiso, ismandatorycai, ismulticuit, isonetime, isprospect, issalesrep, issummary, istaxexempt, isvendor, mDiscountschemaId, minimumpurchasedamt, minOrderQty, mPricelistId, mProductRelatedId, mShipperId, naics, name, name2, numberemployees, paymentblocked, paymentblockeddescr, paymentrule, paymentrulepo, poDiscountschemaId, poPaymenttermId, poPricelistId, poreference, potentiallifetimevalue, programAmt, programAmtUsed, programInvoice, rating, referenceno, salesrepId, salesvolume, searchunallocatedpayments, secondarycreditstatus, sendemail, shareofcustomer, shelflifeminpct, soCreditlimit, socreditstatus, soCreditused, soDescription, startholidays, startholidays2, taxid, taxidtype, totalopenbalance, trxenabled, updated, updatedby, url, value);
+    return Objects.hash(acqusitioncost, actuallifetimevalue, adClientId, adComponentobjectuid, adLanguage, adOrgId, allowadvancedpaymentreceipts, allowpartialpayment, aNameCheck, automaticcreditnotes, batchPaymentRule, bpartnerParentId, builtcabajurisdiction, cBankaccountId, cBpartnerId, cBpGroupId, cCategoriaIvaId, cDunningId, cGreetingId, cInvoicescheduleId, cJobcategoryId, cLocationId, cPaymenttermId, cPospaymentmediumId, created, createdby, creditminimumamt, creditsituation, cRegionSedeId, customertype, deliveryrule, deliveryviarule, description, discountcontext, documentcopies, duns, emitirMiPyme, endholidays, endholidays2, firstsale, flatdiscount, freightcostrule, goal, iibb, iibbtype, invoicePrintformatId, invoicerule, isactive, iscompoundtax, isconveniomultilateral, iscustomer, isdiscountprinted, isemployee, isgroupinvoices, isiso, ismandatorycai, ismulticuit, isonetime, isprospect, issalesrep, issummary, istaxexempt, isvendor, mDiscountschemaId, minimumpurchasedamt, minOrderQty, mPricelistId, mProductRelatedId, mShipperId, naics, name, name2, numberemployees, paymentblocked, paymentblockeddescr, paymentrule, paymentrulepo, poDiscountschemaId, poPaymenttermId, poPricelistId, poreference, potentiallifetimevalue, programAmt, programAmtUsed, rating, referenceno, salesrepId, salesvolume, searchunallocatedpayments, secondarycreditstatus, sendemail, shareofcustomer, shelflifeminpct, soCreditlimit, socreditstatus, soCreditused, soDescription, startholidays, startholidays2, taxid, taxidtype, totalopenbalance, trxenabled, updated, updatedby, url, value);
   }
 
   @Override
@@ -2653,7 +2630,6 @@ public class BPartner   {
     sb.append("    potentiallifetimevalue: ").append(toIndentedString(potentiallifetimevalue)).append("\n");
     sb.append("    programAmt: ").append(toIndentedString(programAmt)).append("\n");
     sb.append("    programAmtUsed: ").append(toIndentedString(programAmtUsed)).append("\n");
-    sb.append("    programInvoice: ").append(toIndentedString(programInvoice)).append("\n");
     sb.append("    rating: ").append(toIndentedString(rating)).append("\n");
     sb.append("    referenceno: ").append(toIndentedString(referenceno)).append("\n");
     sb.append("    salesrepId: ").append(toIndentedString(salesrepId)).append("\n");

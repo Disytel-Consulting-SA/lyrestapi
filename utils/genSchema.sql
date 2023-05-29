@@ -18,9 +18,10 @@ select columnname from
         from ad_column c
         inner join ad_table t on c.ad_table_id = t.ad_table_id
         where t.tablename = :tabla
-        and ad_reference_id <> 28 -- button no es necesario enviar
-        and ad_reference_id not in (23, 32) -- LOB por el momento no
-        and (ismandatory = 'Y' or lower(columnname) in :columnas)
+        and c.isactive = 'Y'
+        and c.ad_reference_id <> 28 -- button no es necesario enviar
+        and c.ad_reference_id not in (23, 32) -- LOB por el momento no
+        and (c.ismandatory = 'Y' or lower(c.columnname) in :columnas)
         order by c.columnname
     )
     union
@@ -35,10 +36,11 @@ select columnname from
         from ad_column c
         inner join ad_table t on c.ad_table_id = t.ad_table_id
         where t.tablename = :tabla
-        and ad_reference_id <> 28 -- button no es necesario enviar
-        and ad_reference_id not in (23, 32) -- LOB por el momento no
-        and (ismandatory = 'Y' or lower(columnname) in :columnas)
-        and ismandatory = 'Y'
+        and c.isactive = 'Y'
+        and c.ad_reference_id <> 28 -- button no es necesario enviar
+        and c.ad_reference_id not in (23, 32) -- LOB por el momento no
+        and (c.ismandatory = 'Y' or lower(c.columnname) in :columnas)
+        and c.ismandatory = 'Y'
         order by c.columnname
     )
 ) as foobar
