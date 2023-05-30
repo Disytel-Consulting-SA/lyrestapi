@@ -14,9 +14,9 @@ public abstract class AbstractController {
     protected <T> ResponseEntity<T> retrieveAction(ActivityRetrieveInterface<T> iface) {
         try {
             return iface.perform()
-                    .map(simpleMap -> new ResponseEntity<>(simpleMap, HttpStatus.OK))
+                    .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                     .orElseGet(() -> new ResponseEntity(null, HttpStatus.NOT_FOUND));
-        } catch (ModelException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }

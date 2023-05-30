@@ -1,8 +1,8 @@
 get:
   tags:
     - "invoice"
-  summary: Retrieve all invoices
-  description: Retorna la lista completa de facturas
+  summary: Retrieve invoices
+  description: Retorna una lista de facturas
   operationId: getAllInvoices
   parameters:
     - in: query
@@ -38,7 +38,7 @@ get:
           schema:
             type: array
             items:
-              $ref: '../model/invoice.yaml#/components/schemas/Invoice'
+              $ref: '../model/invoice_doc.yaml#/components/schemas/InvoiceDocument'
 post:
   tags:
     - "invoice"

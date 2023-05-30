@@ -6,14 +6,18 @@ import org.libertya.api.repository.AbstractRepository;
 import org.libertya.api.repository.InvoiceLineRepository;
 import org.libertya.api.repository.InvoiceRepository;
 import org.libertya.api.repository.InvoiceTaxRepository;
+import org.libertya.api.stub.model.Invoice;
 import org.libertya.api.stub.model.InvoiceDocument;
 import org.libertya.api.stub.model.InvoiceLine;
 import org.libertya.api.stub.model.InvoiceTax;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
-public class InvoiceService extends AbstractService{
+public class InvoiceService extends AbstractService {
 
     private final InvoiceRepository invRepository;
 
@@ -26,7 +30,31 @@ public class InvoiceService extends AbstractService{
     }
 
     @Override
-    public String perform(Object document, AbstractRepository docRepository, String trxName) throws Exception {
+    public Optional<InvoiceDocument> retrieve(int id) throws ModelException  {
+        InvoiceDocument doc = new InvoiceDocument();
+
+        // Cabecera
+        Optional<Invoice> inv = invRepository.retrieve(id);
+        if (!inv.isPresent())
+            return Optional.empty();
+        doc.setHeader(inv.get());
+
+        // Lineas
+        for (Object item : invLineRepository.retrieveAll("c_invoice_id="+id, null, null, null, null )) {
+            doc.addLinesItem(((Optional<InvoiceLine>)item).get());
+        }
+
+        // Impuestos
+        for (Object item : invTaxRepository.retrieveAll("c_invoice_id="+id, null, null, null, null )) {
+            doc.addTaxesItem(((Optional<InvoiceTax>)item).get());
+        }
+
+        return Optional.of(doc);
+    }
+
+
+    @Override
+    protected String performCreate(Object document, AbstractRepository docRepository, String trxName) throws Exception {
         InvoiceDocument invoiceDocument = (InvoiceDocument)document;
 
         // Cabecera
@@ -46,6 +74,9 @@ public class InvoiceService extends AbstractService{
 
         return Integer.toString(id);
     }
+
+
+
 
 
 }

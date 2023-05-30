@@ -11,6 +11,8 @@ import org.libertya.api.stub.model.OrderLine;
 import org.libertya.api.stub.model.OrderTax;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService extends AbstractService {
@@ -27,7 +29,7 @@ public class OrderService extends AbstractService {
     }
 
     @Override
-    protected String perform(Object document, AbstractRepository docRepository, String trxName) throws Exception {
+    protected String performCreate(Object document, AbstractRepository docRepository, String trxName) throws Exception {
         OrderDocument orderDocument = (OrderDocument) document;
 
         // Cabecera
@@ -47,5 +49,11 @@ public class OrderService extends AbstractService {
 
         return Integer.toString(id);
     }
+
+    @Override
+    public <T> Optional<T> retrieve(int id) throws Exception {
+        return Optional.empty();
+    }
+
 
 }

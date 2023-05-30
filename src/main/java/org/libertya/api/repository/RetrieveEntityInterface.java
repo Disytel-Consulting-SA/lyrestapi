@@ -5,5 +5,6 @@ import org.libertya.api.exception.ModelException;
 @FunctionalInterface
 public interface RetrieveEntityInterface {
 
-    Object perform(int id) throws ModelException;
+    /** Recuperacion de una entidad. La misma podría identificarse por más de una columna (ejemplo C_InvoiceTax), con lo cual se recibe un array de enteros */
+    Object perform(int[] id) throws ModelException;
 }

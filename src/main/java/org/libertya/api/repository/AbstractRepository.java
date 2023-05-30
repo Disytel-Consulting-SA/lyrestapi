@@ -12,14 +12,23 @@ import org.openXpertya.util.*;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
 public abstract class AbstractRepository {
 
+    /** Nombre de la tabla asociada a esta entidad  (a definir en el constructor de las subclases) */
     protected String tableName = null;
 
+    /** Instanciacion de entidades (a definir en el constructor de las subclases) */
     protected SpawnModelInstanceInterface iface;
+
+    /** Columnas que conforman la clave principal. (a definir en el constructor de las subclases)
+     *  Si no se modifica se supone que la PK esta conformada por una unica columna NOMBRETABLA_ID */
+    protected String[] pkColumns = null;
 
     /** Numero maximo por defecto de entidades a retornar */
     public static final Integer DEFAULT_LIMIT = 100;
@@ -27,15 +36,38 @@ public abstract class AbstractRepository {
     /**
      * Recupera un objeto persistente a partir de su ID
      * @param tableName nombre de la tabla
-     * @param id identificador de la entidad
+     * @param id identificador/es de la entidad
      * @param trxName nombre de la transaccion
      * @return una entidad que extiende de PO
      */
-    protected PO getPO(String tableName, int id, String trxName)  {
-        PO aPO = null;
+    protected PO getPO(String tableName, int[] id, String trxName)  {
+        PO aPO;
         M_Table table = M_Table.get(Env.getCtx(), tableName);
-        aPO = table.getPO(id, trxName);
+        // Tabla con PK formada por mas de una columna?
+        if (pkColumns!=null) {
+            aPO = table.getPO(getPOWhereClause(id), trxName);
+        } else {
+            aPO = table.getPO(id[0], trxName);
+        }
         return aPO;
+    }
+
+    /** Arma el string conteniendo el whereClause para casos de PK con multi-columnas
+     * @param id valores de las columnas identificadoras
+     */
+    protected String getPOWhereClause(int[] id) {
+        if (pkColumns==null)
+            return ""+id[0];
+        StringBuffer retValue = new StringBuffer();
+        int i=0;
+        for (String column : pkColumns) {
+            retValue.append(column)
+                    .append("=")
+                    .append(id[i++])
+                    .append(" AND ");
+        }
+        retValue.append("1=1");
+        return retValue.toString();
     }
 
     /**
@@ -69,13 +101,12 @@ public abstract class AbstractRepository {
 
     /**
      * Asigna un valor al objeto destino
-     * @param id el ID del registro
      * @param target objeto al cual asignarle el valor
      * @param property la propiedad del objeto a setear
      * @param aColumn columna que contiene el valor a asignar
      * @param value valor a asignar
      */
-    protected void setValueToObject(int id, Object target, Field property, M_Column aColumn, Object value) throws ModelException {
+    protected void setValueToObject(Object target, Field property, M_Column aColumn, Object value) throws ModelException {
         try {
             if (value == null)
                 property.set(target, null);
@@ -94,7 +125,7 @@ public abstract class AbstractRepository {
             else if (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
                 property.set(target, (value).toString());
         } catch (Exception e) {
-            throw new ModelException("Error al setear " + value + " a columna " + aColumn.getColumnName() + " en ID " + id + ". " + e.getMessage());
+            throw new ModelException("Error al setear " + value + " a columna " + aColumn.getColumnName() + ". " + e.getMessage());
         }
     }
 
@@ -107,19 +138,72 @@ public abstract class AbstractRepository {
      */
     protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) throws ModelException {
         List retVal = new ArrayList();
-        int[] ids = PO.getAllIDs(tableName,
+        String[] entitiesIDs = getAllIDs(tableName,
                 String.format( " %s %s LIMIT %d OFFSET %d ",
                         filter != null && filter.length() > 0 ? formatClause(filter) : " 1=1 ",
                         sort != null && sort.length() > 0 ? " ORDER BY " + sort : " ",
                         limit != null && limit > 0 ? limit : DEFAULT_LIMIT,
                         offset != null ? offset : 0 ),
                 null);
-        if (ids == null || ids.length==0)
+        if (entitiesIDs == null || entitiesIDs.length==0)
             return retVal;
-        for (int id : ids) {
-            retVal.add(iface.perform(id));
+        for (String entityIDs : entitiesIDs) {
+            if (pkColumns==null)
+                // Unica columna PK
+                retVal.add(iface.perform(new int[]{Integer.parseInt(entityIDs)}));
+            else {
+                // PK conformada por varias columnas
+                String[] keyVals = entityIDs.split(",");
+                int[] keys = new int[keyVals.length];
+                for (int i=0; i< keys.length; i++)
+                    keys[i] = Integer.parseInt(keyVals[i]);
+                retVal.add(iface.perform(keys));
+            }
         }
         return retVal;
+    }
+
+    /** Recupera todos los IDs que respetan el criterio especificado */
+    public String[] getAllIDs(String tableName, String WhereClause, String trxName) {
+        List<String> list = new ArrayList();
+        StringBuffer sql = new StringBuffer("SELECT ");
+        if (pkColumns==null)
+            sql.append(tableName).append("_ID::varchar");
+        else
+            sql.append(getSelectKeyColumns());
+        sql.append(" FROM ").append(tableName);
+        if (WhereClause != null && WhereClause.length() > 0) {
+            sql.append(" WHERE ").append(WhereClause);
+        }
+        try {
+            PreparedStatement pstmt = DB.prepareStatement(sql.toString(), trxName);
+            ResultSet rs = pstmt.executeQuery();
+            while(true) {
+                if (!rs.next()) {
+                    rs.close();
+                    pstmt.close();
+                    break;
+                }
+                list.add(rs.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        String[] retValue = new String[list.size()];
+        for(int i = 0; i < retValue.length; ++i) {
+            retValue[i] = list.get(i);
+        }
+        return retValue;
+    }
+
+    /** Nombres de las columnas que conforman la PK */
+    protected String getSelectKeyColumns() {
+        StringBuffer retValue = new StringBuffer();
+        for (String column : pkColumns) {
+            retValue.append(column).append("||','||");
+        }
+        return retValue.substring(0,retValue.length()-7);
     }
 
     protected String formatClause(String str) {
@@ -128,14 +212,14 @@ public abstract class AbstractRepository {
 
     /**
      * Recupera y retorna un objeto perteneciente al modelo autogenerado a partir de la informacion en bdd
-     * @param id el ID del PO
+     * @param id identificador/es del PO
      * @param tableName nombre de la tabla
      * @param target objeto destino
      * @param filterFields campos a considerar unicamente
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    protected <T> Optional<T> loadEntityFromPO(int id, String tableName, String filterFields, SpawnModelInstanceInterface target) throws ModelException {
+    protected <T> Optional<T> loadEntityFromPO(int[] id, String tableName, String filterFields, SpawnModelInstanceInterface target) throws ModelException {
         Set<String> includeFields = getFilterFields(filterFields);
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(tableName, id, null);
@@ -155,7 +239,7 @@ public abstract class AbstractRepository {
                 if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
                     if (includeFields==null || includeFields.contains(fieldName)) {
                         field.setAccessible(true);
-                        setValueToObject(id, object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
+                        setValueToObject(object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
                         break;
                     }
                 }
@@ -174,7 +258,6 @@ public abstract class AbstractRepository {
             return null;
         return new HashSet<>(Arrays.asList(criteria.replace("\"", "").replace(" ", "").split(",")));
     }
-
 
     /**
      * Carga en un PO la informacion del objeto recibida
@@ -242,7 +325,7 @@ public abstract class AbstractRepository {
      * @throws ModelException si no es posible actualizar por logica de negocio
      * @throws NotFoundException si no existe el id especificado
      */
-    protected void updateEntity(int id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException {
+    protected void updateEntity(int[] id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException {
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(tableName, id, null);
         if (aPO == null || aPO.getID() == 0) {
@@ -261,7 +344,7 @@ public abstract class AbstractRepository {
      * @return un String conteniendo el ID del objeto persistido
      */
     protected String insertEntity(String tableName, Object source, String trxName) throws ModelException {
-        PO aPO = getPO(tableName, 0, trxName);
+        PO aPO = getPO(tableName, new int[]{0}, trxName);
         loadPOFromEntity(aPO, source, false);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
@@ -275,7 +358,7 @@ public abstract class AbstractRepository {
      * @throws ModelException si no es posible eliminar el registro
      * @throws NotFoundException si el registro no existe
      */
-    protected void deleteEntity(String tableName,  int id) throws ModelException, NotFoundException {
+    protected void deleteEntity(String tableName,  int[] id) throws ModelException, NotFoundException {
         PO aPO = getPO(tableName, id, null);
         if (aPO.getID()<=0)
             throw new NotFoundException();
@@ -286,14 +369,14 @@ public abstract class AbstractRepository {
     /**
      * Realiza el procesamiento de un documento
      * @param tableName tabla donde reside el documento (C_Invoice, C_Order, etc.)
-     * @param id identificado del documento a procesasr
+     * @param id identificador del documento a procesasr
      * @param action accion a aplicar al documento (CO, CL, VO, etc.)
      * @param trx nombre de la transaccion. Si no se recibe se genera y gestiona la trx internamente
      *                                      Si se recibe un valor la trx no es gestionada internamente
      * @throws ModelException si no es posible eliminar el registro
      * @throws NotFoundException si el registro no existe
      */
-    protected String processEntity(String tableName, int id, String action, String trx) throws ModelException, NotFoundException {
+    protected String processEntity(String tableName, int[] id, String action, String trx) throws ModelException, NotFoundException {
         String trxName;
         boolean handleTrx;
         if (trx!=null) {
@@ -333,40 +416,69 @@ public abstract class AbstractRepository {
 
     /* =========================== Metodos publicos  =========================== */
 
+    /** Insercion de una entidad */
     public String insert(Object payload) throws ModelException {
         return insertEntity(tableName, payload, null);
     }
 
+    /** Insercion de una entidad usando una TRX */
     public String insert(Object payload, String trxName) throws ModelException {
         return insertEntity(tableName, payload, trxName);
     }
 
-    public void delete(int id) throws ModelException, NotFoundException {
+    /** Eliminacion de una entidad con PK identificada por multiples columnas */
+    public void delete(int[] id) throws ModelException, NotFoundException {
         deleteEntity(tableName, id);
     }
 
-    public void update(int id, Object payload, boolean ignoreNulls) throws ModelException, NotFoundException {
+    /** Eliminacion de una entidad con PK identificada por una unica columna */
+    public void delete(int id) throws ModelException, NotFoundException {
+        deleteEntity(tableName, new int[]{id});
+    }
+
+    /** Actualizacion de una entidad con PK identificada por multiples columnas */
+    public void update(int[] id, Object payload, boolean ignoreNulls) throws ModelException, NotFoundException {
         updateEntity(id, tableName, payload, ignoreNulls);
     }
 
-    public <T> Optional<T> retrieve(int id, String fields) throws ModelException {
+    /** Actualizacion de una entidad con PK v por una unica columna */
+    public void update(int id, Object payload, boolean ignoreNulls) throws ModelException, NotFoundException {
+        updateEntity(new int[]{id}, tableName, payload, ignoreNulls);
+    }
+
+    /** Recuperacion de una entidad con PK identificada por multiples columnas, con filtro de campos */
+    public <T> Optional<T> retrieve(int[] id, String fields) throws ModelException {
         return loadEntityFromPO(id, tableName, fields, iface);
     }
 
+    /** Recuperacion de una entidad con PK identificada por una unica columna, con filtro de campos */
+    public <T> Optional<T> retrieve(int id, String fields) throws ModelException {
+        return loadEntityFromPO(new int[]{id}, tableName, fields, iface);
+    }
+
+    /** Recuperacion de una entidad con PK identificada por multiples columnas */
     public <T> Optional<T> retrieve(int id) throws ModelException {
         return retrieve(id, null);
     }
 
+    /** Recuperacion de una entidad con PK identificada por una unica columna */
+    public <T> Optional<T> retrieve(int[] id) throws ModelException {
+        return retrieve(id, null);
+    }
+
+    /** Recuperacion de varias entidades */
     public <T> List<T> retrieveAll(String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException {
         return retrieveAllEntities(tableName, id -> retrieve(id, fields), filter, sort, limit, offset);
     }
 
+    /** Procesado de una entidad */
     public String process(int id, String action) throws ModelException, NotFoundException {
-        return processEntity(tableName, id, action, null);
+        return processEntity(tableName, new int[]{id}, action, null);
     }
 
+    /** Procesado de una entidad bajo una TRX en particular */
     public String process(int id, String action, String trxName) throws ModelException, NotFoundException {
-        return processEntity(tableName, id, action, trxName);
+        return processEntity(tableName, new int[]{id}, action, trxName);
     }
 
 

@@ -14,7 +14,7 @@ public class UserRepository extends AbstractRepository {
         if (ids == null || ids.length == 0) {
             return Optional.empty();
         }
-        return Optional.of(getPO(X_AD_User.Table_Name, ids[0], null));
+        return Optional.of(getPO(X_AD_User.Table_Name, new int[]{ids[0]}, null));
     }
 
 }

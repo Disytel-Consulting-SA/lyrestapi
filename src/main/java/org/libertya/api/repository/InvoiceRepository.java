@@ -1,6 +1,7 @@
 package org.libertya.api.repository;
 
 import org.libertya.api.stub.model.Invoice;
+import org.libertya.api.stub.model.InvoiceDocument;
 import org.openXpertya.model.X_C_Invoice;
 import org.springframework.stereotype.Repository;
 

@@ -10,5 +10,8 @@ public class InvoiceTaxRepository extends AbstractRepository {
     public InvoiceTaxRepository() {
         tableName = X_C_InvoiceTax.Table_Name;
         iface = InvoiceTax::new;
+        pkColumns = new String[]{"C_Invoice_ID", "C_Tax_ID"};
     }
+
+
 }

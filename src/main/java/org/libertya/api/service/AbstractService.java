@@ -7,11 +7,15 @@ import org.openXpertya.util.Trx;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public abstract class AbstractService {
 
     @Value("{org.libertya.api.service.doc.complete}")
     private String completeDocument;
+
+    // === Metodos a implementar por las subclases ===
 
     /**
      *  Metodo a implementar por las sublases en donde deben crear cabeceras, lineas, impuestos, etc. en una misma trx.
@@ -22,7 +26,18 @@ public abstract class AbstractService {
      * @return el id de la cabecera del documento generado
      * @throws Exception en caso de error (modelo u otro)
      */
-    protected abstract String perform(Object document, AbstractRepository docRepository, String trxName) throws Exception;
+    protected abstract String performCreate(Object document, AbstractRepository docRepository, String trxName) throws Exception;
+
+    /**
+     * Metodo a implementar por las subclases en donde se deben recuperar documentos que involucren cabeceras, lineas, impuestos, etc.
+     * @param id  el id de la cabecera del documento
+     * @return un opcional conteniendo el documento completo o bien un optional vacio
+     * @throws Exception
+     */
+    public abstract <T> Optional<T> retrieve(int id) throws Exception;
+
+
+    // === Metodos internos ===
 
     /**
      * Metodo en comun para todos los services para la creación de documentos
@@ -35,7 +50,7 @@ public abstract class AbstractService {
         String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
         try {
             // Generacion de documento
-            String id = perform(document, docRepository, trxName);
+            String id = performCreate(document, docRepository, trxName);
 
             // Procesado del documento
             if ("Y".equalsIgnoreCase(completeDocument)) {
@@ -52,4 +67,6 @@ public abstract class AbstractService {
             Trx.getTrx(trxName).close();
         }
     }
+
+
 }
