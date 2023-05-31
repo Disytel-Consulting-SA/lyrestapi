@@ -40,6 +40,7 @@ public class JWTUtils {
                         grantedAuthorities.stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
+                .claim("userName", userName)
                 .claim("clientID", clientID)
                 .claim("orgID", orgID)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
