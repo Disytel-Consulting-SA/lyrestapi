@@ -27,7 +27,7 @@ public class SecurityController {
                 credentials.get("clientid"),
                 credentials.get("orgid")
                 ).isPresent())
-            return new ResponseEntity(jwtUtils.buildToken(credentials.get("username")), HttpStatus.OK);
+            return new ResponseEntity(jwtUtils.buildToken(credentials), HttpStatus.OK);
         return new ResponseEntity(null, HttpStatus.FORBIDDEN);
     }
 }

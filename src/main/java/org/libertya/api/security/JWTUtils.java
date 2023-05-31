@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,12 @@ public class JWTUtils {
     private Long expDays;
 
     /** Generacion de un nuevo token para el username indicado */
-    public String buildToken(String userName) {
+    public String buildToken(HashMap<String, String> credentials) {
+
+        String userName     = credentials.get("username");
+        Integer clientID    = Integer.parseInt(credentials.get("clientid"));
+        Integer orgID       = Integer.parseInt(credentials.get("orgid"));
+
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
                 .commaSeparatedStringToAuthorityList("ROLE_USER");
         String token = Jwts
@@ -34,6 +40,8 @@ public class JWTUtils {
                         grantedAuthorities.stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
+                .claim("clientID", clientID)
+                .claim("orgID", orgID)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expDays * 24L * 3600000L))
                 .signWith(SignatureAlgorithm.HS512,
