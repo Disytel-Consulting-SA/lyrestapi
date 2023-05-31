@@ -11,6 +11,8 @@ import org.libertya.api.stub.model.InvoiceDocument;
 import org.libertya.api.stub.model.InvoiceLine;
 import org.libertya.api.stub.model.InvoiceTax;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -59,13 +61,13 @@ public class InvoiceService extends AbstractService {
         Integer id = Integer.parseInt(invRepository.insert(invoiceDocument.getHeader(), trxName));
 
         // Lineas
-        for (InvoiceLine invoiceLine : invoiceDocument.getLines()) {
+        for (InvoiceLine invoiceLine : getList(invoiceDocument.getLines())) {
             invoiceLine.setCInvoiceId(id);
             invLineRepository.insert(invoiceLine, trxName);
         }
 
         // Impuestos
-        for (InvoiceTax invoiceTax : invoiceDocument.getTaxes()) {
+        for (InvoiceTax invoiceTax : getList(invoiceDocument.getTaxes())) {
             invoiceTax.setCInvoiceId(id);
             invTaxRepository.insert(invoiceTax, trxName);
         }

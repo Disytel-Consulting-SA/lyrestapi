@@ -9,6 +9,8 @@ import org.openXpertya.util.Trx;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -82,6 +84,13 @@ public abstract class AbstractService {
         } finally {
             Trx.getTrx(trxName).close();
         }
+    }
+
+    /** Retorna una lista vacia si es que list es null, o la lista en cuestion
+     * @param list la lista con elementos, la cual puede ser nula si no tiene elementos dado que swagger así la gestiona
+     */
+    protected <T> List<T> getList(List<T> list) {
+        return list==null ? new ArrayList<T>() : list;
     }
 
 

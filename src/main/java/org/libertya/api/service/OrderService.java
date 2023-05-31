@@ -59,13 +59,13 @@ public class OrderService extends AbstractService {
         Integer id = Integer.parseInt(orderRepository.insert(OrderDocument.getHeader(), trxName));
 
         // Lineas
-        for (OrderLine OrderLine : OrderDocument.getLines()) {
+        for (OrderLine OrderLine : getList(OrderDocument.getLines())) {
             OrderLine.setCOrderId(id);
             orderLineRepository.insert(OrderLine, trxName);
         }
 
         // Impuestos
-        for (OrderTax OrderTax : OrderDocument.getTaxes()) {
+        for (OrderTax OrderTax : getList(OrderDocument.getTaxes())) {
             OrderTax.setCOrderId(id);
             orderTaxRepository.insert(OrderTax, trxName);
         }

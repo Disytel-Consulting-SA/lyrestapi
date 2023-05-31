@@ -43,8 +43,8 @@ public abstract class AbstractRepository {
     protected PO getPO(String tableName, int[] id, String trxName)  {
         PO aPO;
         M_Table table = M_Table.get(Env.getCtx(), tableName);
-        // Tabla con PK formada por mas de una columna?
-        if (pkColumns!=null) {
+        // Tabla con PK formada por mas de una columna? (y no estamos insertando)
+        if (pkColumns!=null && id[0]>0) {
             aPO = table.getPO(getPOWhereClause(id), trxName);
         } else {
             aPO = table.getPO(id[0], trxName);
