@@ -1,8 +1,8 @@
 get:
   tags:
     - "order"
-  summary: Retrieve all orders
-  description: Retorna la lista completa de pedidos
+  summary: Retrieve orders
+  description: Retorna una lista de pedidos
   operationId: getAllOrders
   parameters:
     - in: query

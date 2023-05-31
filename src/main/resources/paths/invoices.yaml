@@ -38,7 +38,7 @@ get:
           schema:
             type: array
             items:
-              $ref: '../model/invoice_doc.yaml#/components/schemas/InvoiceDocument'
+              $ref: '../model/invoice.yaml#/components/schemas/Invoice'
 post:
   tags:
     - "invoice"

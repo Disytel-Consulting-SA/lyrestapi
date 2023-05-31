@@ -17,7 +17,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../model/order.yaml#/components/schemas/Order'
+            $ref: '../model/order_doc.yaml#/components/schemas/OrderDocument'
 delete:
   tags:
     - "order"

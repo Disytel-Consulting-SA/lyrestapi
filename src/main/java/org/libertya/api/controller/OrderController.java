@@ -6,7 +6,6 @@ import org.libertya.api.service.OrderService;
 import org.libertya.api.stub.iface.OrderApi;
 import org.libertya.api.stub.model.Order;
 import org.libertya.api.stub.model.OrderDocument;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -22,7 +21,7 @@ public class OrderController extends AbstractController implements OrderApi {
 
     @Override
     public ResponseEntity<String> addOrder(OrderDocument body) {
-        return insertAction(() -> service.createOrder(body));
+        return insertAction(() -> service.create(body));
     }
 
     @Override
@@ -36,8 +35,8 @@ public class OrderController extends AbstractController implements OrderApi {
     }
 
     @Override
-    public ResponseEntity<Order> retrieveOrder(Integer id) {
-        return retrieveAction(() -> repository.retrieve(id));
+    public ResponseEntity<OrderDocument> retrieveOrder(Integer id) {
+        return retrieveAction(() -> service.retrieve(id));
     }
 
     @Override

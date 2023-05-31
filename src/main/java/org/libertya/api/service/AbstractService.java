@@ -1,7 +1,9 @@
 package org.libertya.api.service;
 
 import org.libertya.api.exception.ModelException;
+import org.libertya.api.exception.NotFoundException;
 import org.libertya.api.repository.AbstractRepository;
+import org.libertya.api.stub.model.InvoiceDocument;
 import org.openXpertya.process.DocAction;
 import org.openXpertya.util.Trx;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +16,16 @@ public abstract class AbstractService {
 
     @Value("{org.libertya.api.service.doc.complete}")
     private String completeDocument;
+
+    // === Metodos publicos a invocar desde los controllers ===
+
+    public String create(Object document) throws ModelException {
+        return create(document, getRepository());
+    }
+
+    public <T> Optional<T>  retrieve(int id) throws ModelException {
+        return performRetrieve(id);
+    }
 
     // === Metodos a implementar por las subclases ===
 
@@ -34,10 +46,14 @@ public abstract class AbstractService {
      * @return un opcional conteniendo el documento completo o bien un optional vacio
      * @throws Exception
      */
-    public abstract <T> Optional<T> retrieve(int id) throws Exception;
+    protected abstract <T> Optional<T> performRetrieve(int id) throws ModelException;
 
+    /**
+     * @return el repositorio principal (cabecera) correspondiente al documento
+     */
+    protected abstract AbstractRepository getRepository();
 
-    // === Metodos internos ===
+    // === Metodos internos
 
     /**
      * Metodo en comun para todos los services para la creación de documentos

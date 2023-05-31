@@ -11,8 +11,6 @@ import org.libertya.api.stub.model.InvoiceDocument;
 import org.libertya.api.stub.model.InvoiceLine;
 import org.libertya.api.stub.model.InvoiceTax;
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -25,12 +23,13 @@ public class InvoiceService extends AbstractService {
 
     private final InvoiceTaxRepository invTaxRepository;
 
-    public String createInvoice(InvoiceDocument invoiceDocument) throws ModelException {
-        return super.create(invoiceDocument, invRepository);
+    @Override
+    protected AbstractRepository getRepository() {
+        return invRepository;
     }
 
     @Override
-    public Optional<InvoiceDocument> retrieve(int id) throws ModelException  {
+    protected Optional<InvoiceDocument> performRetrieve(int id) throws ModelException {
         InvoiceDocument doc = new InvoiceDocument();
 
         // Cabecera
@@ -51,7 +50,6 @@ public class InvoiceService extends AbstractService {
 
         return Optional.of(doc);
     }
-
 
     @Override
     protected String performCreate(Object document, AbstractRepository docRepository, String trxName) throws Exception {
@@ -74,8 +72,6 @@ public class InvoiceService extends AbstractService {
 
         return Integer.toString(id);
     }
-
-
 
 
 

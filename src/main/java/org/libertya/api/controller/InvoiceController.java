@@ -6,7 +6,6 @@ import org.libertya.api.service.InvoiceService;
 import org.libertya.api.stub.iface.InvoiceApi;
 import org.libertya.api.stub.model.Invoice;
 import org.libertya.api.stub.model.InvoiceDocument;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -22,7 +21,7 @@ public class InvoiceController extends AbstractController implements InvoiceApi 
 
     @Override
     public ResponseEntity<String> addInvoice(InvoiceDocument body) {
-        return insertAction(() -> service.createInvoice(body));
+        return insertAction(() -> service.create(body));
     }
 
     @Override
@@ -31,7 +30,7 @@ public class InvoiceController extends AbstractController implements InvoiceApi 
     }
 
     @Override
-    public ResponseEntity<List<InvoiceDocument>> getAllInvoices(String filter, String fields, String sort, Integer limit, Integer offset) {
+    public ResponseEntity<List<Invoice>> getAllInvoices(String filter, String fields, String sort, Integer limit, Integer offset) {
         return retrieveAllAction(repository, filter, fields, sort, limit, offset);
     }
 
