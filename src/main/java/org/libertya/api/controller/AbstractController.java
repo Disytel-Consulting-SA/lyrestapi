@@ -1,6 +1,5 @@
 package org.libertya.api.controller;
 
-import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public abstract class AbstractController {
@@ -42,7 +40,9 @@ public abstract class AbstractController {
             error.add(e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.NO_CONTENT);
         } catch (AuthException e3) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            List error = new ArrayList<T>();
+            error.add(e3.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
         }
     }
 

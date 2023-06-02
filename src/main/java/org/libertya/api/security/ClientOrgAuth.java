@@ -7,7 +7,7 @@ import org.openXpertya.model.PO;
 public class ClientOrgAuth {
 
     /**
-     * Valida
+     * Valida si el usuario que está intentando ejecutar la operacion tiene los permisos correspondientes.
      * @param info informacion del usuario que realiza la peticion de operacion.
      *             En el unico caso en que info puede ser null es al momento de generar el token
      * @param aPO objeto a gestionar
