@@ -1,8 +1,7 @@
 package org.libertya.api;
 
 import lombok.RequiredArgsConstructor;
-import org.libertya.api.utils.GeneralService;
-import org.springframework.beans.factory.annotation.Value;
+import org.libertya.api.service.StartupLYService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -11,7 +10,7 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication @RequiredArgsConstructor
 public class ApiApplication {
 
-	final GeneralService service;
+	final StartupLYService service;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiApplication.class, args);

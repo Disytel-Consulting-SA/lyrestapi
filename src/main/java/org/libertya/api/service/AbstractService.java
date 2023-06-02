@@ -1,9 +1,8 @@
 package org.libertya.api.service;
 
+import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.ModelException;
-import org.libertya.api.exception.NotFoundException;
 import org.libertya.api.repository.AbstractRepository;
-import org.libertya.api.stub.model.InvoiceDocument;
 import org.openXpertya.process.DocAction;
 import org.openXpertya.util.Trx;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +20,8 @@ public abstract class AbstractService {
 
     // === Metodos publicos a invocar desde los controllers ===
 
-    public String create(Object document) throws ModelException {
-        return create(document, getRepository());
+    public String create(UserInfo info, Object document) throws ModelException {
+        return create(info, document, getRepository());
     }
 
     public <T> Optional<T>  retrieve(int id) throws ModelException {
@@ -34,13 +33,14 @@ public abstract class AbstractService {
     /**
      *  Metodo a implementar por las sublases en donde deben crear cabeceras, lineas, impuestos, etc. en una misma trx.
      *  La implementacion debe crear todos los documentos bajo la trx y retornar el id de la cabecera del documento
+     * @param info datos de acceso
      * @param document documento a generar (InvoiceDocument, OrderDocument, etc.)
      * @param docRepository repositorio del documento a procesar (InvoiceRepository, OrderRepository, etc.)
      * @param trxName nombre de la transaccion
      * @return el id de la cabecera del documento generado
      * @throws Exception en caso de error (modelo u otro)
      */
-    protected abstract String performCreate(Object document, AbstractRepository docRepository, String trxName) throws Exception;
+    protected abstract String performCreate(UserInfo info, Object document, AbstractRepository docRepository, String trxName) throws Exception;
 
     /**
      * Metodo a implementar por las subclases en donde se deben recuperar documentos que involucren cabeceras, lineas, impuestos, etc.
@@ -64,15 +64,15 @@ public abstract class AbstractService {
      * @return el id de la cabecera del documento generado
      * @throws ModelException en caso de presentarse inconvenientes al momento de crear el documento
      */
-    protected String create(Object document, AbstractRepository docRepository) throws ModelException {
+    protected String create(UserInfo info, Object document, AbstractRepository docRepository) throws ModelException {
         String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
         try {
             // Generacion de documento
-            String id = performCreate(document, docRepository, trxName);
+            String id = performCreate(info, document, docRepository, trxName);
 
             // Procesado del documento
             if ("Y".equalsIgnoreCase(completeDocument)) {
-                docRepository.process(Integer.parseInt(id), DocAction.ACTION_Complete, trxName);
+                docRepository.process(info, Integer.parseInt(id), DocAction.ACTION_Complete, trxName);
             }
 
             // Finalizacion de la operacion

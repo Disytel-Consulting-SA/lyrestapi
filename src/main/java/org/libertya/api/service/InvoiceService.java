@@ -1,6 +1,7 @@
 package org.libertya.api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.repository.AbstractRepository;
 import org.libertya.api.repository.InvoiceLineRepository;
@@ -54,22 +55,22 @@ public class InvoiceService extends AbstractService {
     }
 
     @Override
-    protected String performCreate(Object document, AbstractRepository docRepository, String trxName) throws Exception {
+    protected String performCreate(UserInfo info, Object document, AbstractRepository docRepository, String trxName) throws Exception {
         InvoiceDocument invoiceDocument = (InvoiceDocument)document;
 
         // Cabecera
-        Integer id = Integer.parseInt(invRepository.insert(invoiceDocument.getHeader(), trxName));
+        Integer id = Integer.parseInt(invRepository.insert(info, invoiceDocument.getHeader(), trxName));
 
         // Lineas
         for (InvoiceLine invoiceLine : getList(invoiceDocument.getLines())) {
             invoiceLine.setCInvoiceId(id);
-            invLineRepository.insert(invoiceLine, trxName);
+            invLineRepository.insert(info, invoiceLine, trxName);
         }
 
         // Impuestos
         for (InvoiceTax invoiceTax : getList(invoiceDocument.getTaxes())) {
             invoiceTax.setCInvoiceId(id);
-            invTaxRepository.insert(invoiceTax, trxName);
+            invTaxRepository.insert(info, invoiceTax, trxName);
         }
 
         return Integer.toString(id);

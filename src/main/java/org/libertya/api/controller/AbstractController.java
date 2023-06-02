@@ -3,15 +3,23 @@ package org.libertya.api.controller;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 import org.libertya.api.repository.AbstractRepository;
+import org.libertya.api.security.JWTUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public abstract class AbstractController {
 
-    protected <T> ResponseEntity<T> retrieveAction(ActivityRetrieveInterface<T> iface) {
+    @Autowired
+    private JWTUtils jwt;
+
+    protected <T> ResponseEntity<T> retrieveAction(HttpServletRequest request, ActivityRetrieveInterface<T> iface) {
         try {
             return iface.perform()
                     .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
@@ -21,7 +29,7 @@ public abstract class AbstractController {
         }
     }
 
-    protected <T> ResponseEntity<List<T>> retrieveAllAction(AbstractRepository repository, String filter, String fields, String sort, Integer limit, Integer offset) {
+    protected <T> ResponseEntity<List<T>> retrieveAllAction(HttpServletRequest request, AbstractRepository repository, String filter, String fields, String sort, Integer limit, Integer offset) {
         try {
             return new ResponseEntity<>(repository.retrieveAll(filter, fields, sort, limit, offset), HttpStatus.OK);
         } catch (ModelException e) {
@@ -31,7 +39,7 @@ public abstract class AbstractController {
         }
     }
 
-    protected ResponseEntity<String> deleteAction(ActivityDeleteInterface iface) {
+    protected ResponseEntity<String> deleteAction(HttpServletRequest request, ActivityDeleteInterface iface) {
         try {
             iface.perform();
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
@@ -42,9 +50,9 @@ public abstract class AbstractController {
         }
     }
 
-    protected ResponseEntity<String> updateAction(ActivityUpdateInterface iface) {
+    protected ResponseEntity<String> updateAction(HttpServletRequest request, ActivityUpdateInterface iface) {
         try {
-            iface.perform();
+            iface.perform(jwt.infoOf(request));
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -53,17 +61,19 @@ public abstract class AbstractController {
         }
     }
 
-    protected ResponseEntity<String> insertAction(ActivityInsertInterface iface) {
+    protected ResponseEntity<String> insertAction(HttpServletRequest request, ActivityInsertInterface iface) {
         try {
-            return new ResponseEntity<>(iface.perform(), HttpStatus.OK);
+            return new ResponseEntity<>(iface.perform(jwt.infoOf(request)), HttpStatus.OK);
         } catch (ModelException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 
-    protected ResponseEntity<String> processAction(ActivityProcessInterface iface) {
+    protected ResponseEntity<String> processAction(HttpServletRequest request, ActivityProcessInterface iface) {
         try {
-            return new ResponseEntity<>(iface.perform(), HttpStatus.OK);
+            return new ResponseEntity<>(iface.perform(jwt.infoOf(request)), HttpStatus.OK);
         } catch (NotFoundException e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         } catch (ModelException e2) {

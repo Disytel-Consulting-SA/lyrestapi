@@ -4,40 +4,43 @@ import lombok.RequiredArgsConstructor;
 import org.libertya.api.repository.BPartnerRepository;
 import org.libertya.api.stub.iface.BpartnerApi;
 import org.libertya.api.stub.model.BPartner;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class BPartnerController extends AbstractController implements BpartnerApi {
 
+    private final HttpServletRequest request;
+
     private final BPartnerRepository repository;
 
     @Override
     public ResponseEntity<String> addBPartner(BPartner body) {
-        return insertAction(() -> repository.insert(body));
+        return insertAction(request, (info) -> repository.insert(info, body));
     }
 
     @Override
     public ResponseEntity<String> deleteBPartner(Integer id) {
-        return deleteAction(() -> repository.delete(id));
+        return deleteAction(request, () -> repository.delete(id));
     }
 
     @Override
     public ResponseEntity<List<BPartner>> getAllBPartners(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return retrieveAllAction(repository, filter, fields, sort, limit, offset);
+        return retrieveAllAction(request, repository, filter, fields, sort, limit, offset);
     }
 
     @Override
     public ResponseEntity<BPartner> retrieveBPartner(Integer id) {
-        return retrieveAction(() -> repository.retrieve(id));
+        return retrieveAction(request, () -> repository.retrieve(id));
     }
 
     @Override
     public ResponseEntity<String> updateBPartner(BPartner body, Integer id) {
-        return updateAction(() -> repository.update(id, body, true));
+        return updateAction(request, (info) -> repository.update(info, id, body));
     }
 
 }

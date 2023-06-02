@@ -9,11 +9,14 @@ import org.libertya.api.stub.model.OrderDocument;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class OrderController extends AbstractController implements OrderApi {
+
+    private final HttpServletRequest request;
 
     private final OrderRepository repository;
 
@@ -21,31 +24,31 @@ public class OrderController extends AbstractController implements OrderApi {
 
     @Override
     public ResponseEntity<String> addOrder(OrderDocument body) {
-        return insertAction(() -> service.create(body));
+        return insertAction(request, (info) -> service.create(info, body));
     }
 
     @Override
     public ResponseEntity<String> deleteOrder(Integer id) {
-        return deleteAction(() -> repository.delete(id));
+        return deleteAction(request, () -> repository.delete(id));
     }
 
     @Override
     public ResponseEntity<List<Order>> getAllOrders(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return retrieveAllAction(repository, filter, fields, sort, limit, offset);
+        return retrieveAllAction(request, repository, filter, fields, sort, limit, offset);
     }
 
     @Override
     public ResponseEntity<OrderDocument> retrieveOrder(Integer id) {
-        return retrieveAction(() -> service.retrieve(id));
+        return retrieveAction(request, () -> service.retrieve(id));
     }
 
     @Override
     public ResponseEntity<String> updateOrder(Order body, Integer id) {
-        return updateAction(() -> repository.update(id, body, true));
+        return updateAction(request, (info) -> repository.update(info, id, body));
     }
 
     @Override
     public ResponseEntity<String> processOrder(Integer id, String action) {
-        return processAction(() -> repository.process(id, action));
+        return processAction(request, (info) -> repository.process(info, id, action));
     }
 }

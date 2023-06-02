@@ -1,4 +1,4 @@
-package org.libertya.api.utils;
+package org.libertya.api.service;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GeneralService {
+public class StartupLYService {
 
     @Value("${restapi.libertya.credentials.clientid}")
     private Integer clientID;

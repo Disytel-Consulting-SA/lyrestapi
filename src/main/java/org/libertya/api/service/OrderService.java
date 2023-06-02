@@ -1,6 +1,7 @@
 package org.libertya.api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.repository.AbstractRepository;
 import org.libertya.api.repository.OrderLineRepository;
@@ -52,22 +53,22 @@ public class OrderService extends AbstractService {
     }
 
     @Override
-    protected String performCreate(Object document, AbstractRepository docRepository, String trxName) throws Exception {
+    protected String performCreate(UserInfo info, Object document, AbstractRepository docRepository, String trxName) throws Exception {
         OrderDocument OrderDocument = (OrderDocument)document;
 
         // Cabecera
-        Integer id = Integer.parseInt(orderRepository.insert(OrderDocument.getHeader(), trxName));
+        Integer id = Integer.parseInt(orderRepository.insert(info, OrderDocument.getHeader(), trxName));
 
         // Lineas
         for (OrderLine OrderLine : getList(OrderDocument.getLines())) {
             OrderLine.setCOrderId(id);
-            orderLineRepository.insert(OrderLine, trxName);
+            orderLineRepository.insert(info, OrderLine, trxName);
         }
 
         // Impuestos
         for (OrderTax OrderTax : getList(OrderDocument.getTaxes())) {
             OrderTax.setCOrderId(id);
-            orderTaxRepository.insert(OrderTax, trxName);
+            orderTaxRepository.insert(info, OrderTax, trxName);
         }
 
         return Integer.toString(id);

@@ -1,5 +1,6 @@
 package org.libertya.api.repository;
 
+import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
@@ -259,13 +260,25 @@ public abstract class AbstractRepository {
         return new HashSet<>(Arrays.asList(criteria.replace("\"", "").replace(" ", "").split(",")));
     }
 
+    /** Carga de valores por defecto */
+    protected void loadPODefaults(UserInfo info, PO aPO, boolean inserting) {
+        int userID = DB.getSQLValue(null, String.format("SELECT ad_user_id FROM ad_user where name = '%s'", info.getUserName()));
+        // Inserting?
+        if (inserting) {
+            aPO.setClientOrg(info.getClientID(), info.getOrgID());
+            aPO.set_ValueNoCheck("CreatedBy", userID);
+        }
+        // Updating siempre modifica el dato
+        aPO.set_ValueNoCheck("UpdatedBy", userID);
+    }
+
     /**
      * Carga en un PO la informacion del objeto recibida
      * @param aPO el PO a cargar
      * @param source el objeto con las propiedades a volcar
      * @return el objeto actualizado
      */
-    protected PO loadPOFromEntity(PO aPO, Object source, boolean ignoreNulls) throws ModelException {
+    protected void loadPOFromEntity(PO aPO, Object source, boolean ignoreNulls) throws ModelException {
         // Instanciar objeto del modelo segun corresponda
         Field[] fields = source.getClass().getDeclaredFields();
         // Iterar por los campos matcheando segun el nombre de la propiedad.
@@ -284,13 +297,14 @@ public abstract class AbstractRepository {
             M_Table aTable = M_Table.get(getCtx(), aPO.get_TableName());
             M_Column[] columns = aTable.getColumns(false);
             for (M_Column aColumn : columns) {
-                if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
+                if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName) &&
+                        // El valor podría haber sido definido previamente al especificar los defaults
+                        (aPO.get_Value(aColumn.getColumnName()) == null || value != null) ) {
                     setValue(aPO, aColumn, value);
                     break;
                 }
             }
         }
-        return aPO;
     }
 
     /**
@@ -325,9 +339,10 @@ public abstract class AbstractRepository {
      * @throws ModelException si no es posible actualizar por logica de negocio
      * @throws NotFoundException si no existe el id especificado
      */
-    protected void updateEntity(int[] id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException {
+    protected void updateEntity(UserInfo info, int[] id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException {
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(tableName, id, null);
+        loadPODefaults(info, aPO, false);
         if (aPO == null || aPO.getID() == 0) {
             throw new NotFoundException();
         }
@@ -343,8 +358,9 @@ public abstract class AbstractRepository {
      * @throws ModelException
      * @return un String conteniendo el ID del objeto persistido
      */
-    protected String insertEntity(String tableName, Object source, String trxName) throws ModelException {
+    protected String insertEntity(UserInfo info, String tableName, Object source, String trxName) throws ModelException {
         PO aPO = getPO(tableName, new int[]{0}, trxName);
+        loadPODefaults(info, aPO, true);
         loadPOFromEntity(aPO, source, false);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
@@ -376,7 +392,7 @@ public abstract class AbstractRepository {
      * @throws ModelException si no es posible eliminar el registro
      * @throws NotFoundException si el registro no existe
      */
-    protected String processEntity(String tableName, int[] id, String action, String trx) throws ModelException, NotFoundException {
+    protected String processEntity(UserInfo info, String tableName, int[] id, String action, String trx) throws ModelException, NotFoundException {
         String trxName;
         boolean handleTrx;
         if (trx!=null) {
@@ -387,6 +403,7 @@ public abstract class AbstractRepository {
             handleTrx = true;
         }
         PO aPO = getPO(tableName, id, trxName);
+        loadPODefaults(info, aPO, false);
         try {
             if (aPO.getID() <= 0)
                 throw new NotFoundException();
@@ -417,13 +434,13 @@ public abstract class AbstractRepository {
     /* =========================== Metodos publicos  =========================== */
 
     /** Insercion de una entidad */
-    public String insert(Object payload) throws ModelException {
-        return insertEntity(tableName, payload, null);
+    public String insert(UserInfo info, Object payload) throws ModelException {
+        return insertEntity(info, tableName, payload, null);
     }
 
     /** Insercion de una entidad usando una TRX */
-    public String insert(Object payload, String trxName) throws ModelException {
-        return insertEntity(tableName, payload, trxName);
+    public String insert(UserInfo info, Object payload, String trxName) throws ModelException {
+        return insertEntity(info, tableName, payload, trxName);
     }
 
     /** Eliminacion de una entidad con PK identificada por multiples columnas */
@@ -437,13 +454,13 @@ public abstract class AbstractRepository {
     }
 
     /** Actualizacion de una entidad con PK identificada por multiples columnas */
-    public void update(int[] id, Object payload, boolean ignoreNulls) throws ModelException, NotFoundException {
-        updateEntity(id, tableName, payload, ignoreNulls);
+    public void update(UserInfo info, int[] id, Object payload) throws ModelException, NotFoundException {
+        updateEntity(info, id, tableName, payload, true);
     }
 
     /** Actualizacion de una entidad con PK v por una unica columna */
-    public void update(int id, Object payload, boolean ignoreNulls) throws ModelException, NotFoundException {
-        updateEntity(new int[]{id}, tableName, payload, ignoreNulls);
+    public void update(UserInfo info, int id, Object payload) throws ModelException, NotFoundException {
+        updateEntity(info, new int[]{id}, tableName, payload, true);
     }
 
     /** Recuperacion de una entidad con PK identificada por multiples columnas, con filtro de campos */
@@ -472,13 +489,13 @@ public abstract class AbstractRepository {
     }
 
     /** Procesado de una entidad */
-    public String process(int id, String action) throws ModelException, NotFoundException {
-        return processEntity(tableName, new int[]{id}, action, null);
+    public String process(UserInfo info, int id, String action) throws ModelException, NotFoundException {
+        return processEntity(info, tableName, new int[]{id}, action, null);
     }
 
     /** Procesado de una entidad bajo una TRX en particular */
-    public String process(int id, String action, String trxName) throws ModelException, NotFoundException {
-        return processEntity(tableName, new int[]{id}, action, trxName);
+    public String process(UserInfo info, int id, String action, String trxName) throws ModelException, NotFoundException {
+        return processEntity(info, tableName, new int[]{id}, action, trxName);
     }
 
 
