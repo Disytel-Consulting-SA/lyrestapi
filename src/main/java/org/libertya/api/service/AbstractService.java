@@ -1,6 +1,7 @@
 package org.libertya.api.service;
 
 import org.libertya.api.common.UserInfo;
+import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.repository.AbstractRepository;
 import org.openXpertya.process.DocAction;
@@ -20,11 +21,11 @@ public abstract class AbstractService {
 
     // === Metodos publicos a invocar desde los controllers ===
 
-    public String create(UserInfo info, Object document) throws ModelException {
+    public String create(UserInfo info, Object document) throws ModelException, AuthException {
         return create(info, document, getRepository());
     }
 
-    public <T> Optional<T>  retrieve(UserInfo info, int id) throws ModelException {
+    public <T> Optional<T>  retrieve(UserInfo info, int id) throws ModelException, AuthException {
         return performRetrieve(info, id);
     }
 
@@ -48,7 +49,7 @@ public abstract class AbstractService {
      * @return un opcional conteniendo el documento completo o bien un optional vacio
      * @throws Exception
      */
-    protected abstract <T> Optional<T> performRetrieve(UserInfo info, int id) throws ModelException;
+    protected abstract <T> Optional<T> performRetrieve(UserInfo info, int id) throws ModelException, AuthException;
 
     /**
      * @return el repositorio principal (cabecera) correspondiente al documento

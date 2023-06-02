@@ -2,6 +2,7 @@ package org.libertya.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.common.UserInfo;
+import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.repository.AbstractRepository;
 import org.libertya.api.repository.OrderLineRepository;
@@ -30,7 +31,7 @@ public class OrderService extends AbstractService {
     }
 
     @Override
-    protected Optional<OrderDocument> performRetrieve(UserInfo info, int id) throws ModelException {
+    protected Optional<OrderDocument> performRetrieve(UserInfo info, int id) throws ModelException, AuthException {
         OrderDocument doc = new OrderDocument();
 
         // Cabecera

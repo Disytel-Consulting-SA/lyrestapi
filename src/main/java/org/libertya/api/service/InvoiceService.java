@@ -2,6 +2,7 @@ package org.libertya.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.common.UserInfo;
+import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.repository.AbstractRepository;
 import org.libertya.api.repository.InvoiceLineRepository;
@@ -32,7 +33,7 @@ public class InvoiceService extends AbstractService {
     }
 
     @Override
-    protected Optional<InvoiceDocument> performRetrieve(UserInfo info, int id) throws ModelException {
+    protected Optional<InvoiceDocument> performRetrieve(UserInfo info, int id) throws ModelException, AuthException {
         InvoiceDocument doc = new InvoiceDocument();
 
         // Cabecera

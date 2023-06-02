@@ -14,7 +14,12 @@ public class UserRepository extends AbstractRepository {
         if (ids == null || ids.length == 0) {
             return Optional.empty();
         }
-        return Optional.of(getPO(X_AD_User.Table_Name, new int[]{ids[0]}, null));
+        try {
+            return Optional.of(getPO(null, X_AD_User.Table_Name, new int[]{ids[0]}, null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
 }

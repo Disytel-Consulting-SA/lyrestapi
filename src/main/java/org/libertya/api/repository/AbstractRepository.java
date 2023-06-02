@@ -1,9 +1,11 @@
 package org.libertya.api.repository;
 
 import org.libertya.api.common.UserInfo;
+import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
+import org.libertya.api.security.ClientOrgAuth;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
@@ -41,7 +43,7 @@ public abstract class AbstractRepository {
      * @param trxName nombre de la transaccion
      * @return una entidad que extiende de PO
      */
-    protected PO getPO(String tableName, int[] id, String trxName)  {
+    protected PO getPO(UserInfo info, String tableName, int[] id, String trxName) throws AuthException {
         PO aPO;
         M_Table table = M_Table.get(Env.getCtx(), tableName);
         // Tabla con PK formada por mas de una columna? (y no estamos insertando)
@@ -50,7 +52,7 @@ public abstract class AbstractRepository {
         } else {
             aPO = table.getPO(id[0], trxName);
         }
-        return aPO;
+        return ClientOrgAuth.validate(info, aPO);
     }
 
     /** Arma el string conteniendo el whereClause para casos de PK con multi-columnas
@@ -137,7 +139,7 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return una lista con todas las entidades
      */
-    protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) throws ModelException {
+    protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
         List retVal = new ArrayList();
         String[] entitiesIDs = getAllIDs(tableName,
                 String.format( " %s %s LIMIT %d OFFSET %d ",
@@ -220,10 +222,10 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    protected <T> Optional<T> loadEntityFromPO(UserInfo info, int[] id, String tableName, String filterFields, SpawnModelInstanceInterface target) throws ModelException {
+    protected <T> Optional<T> loadEntityFromPO(UserInfo info, int[] id, String tableName, String filterFields, SpawnModelInstanceInterface target) throws ModelException, AuthException {
         Set<String> includeFields = getFilterFields(filterFields);
         // Recuperar el PO asociado en BDD
-        PO aPO = getPO(tableName, id, null);
+        PO aPO = getPO(info, tableName, id, null);
         if (aPO == null || aPO.getID() == 0) {
             return Optional.empty();
         }
@@ -340,9 +342,9 @@ public abstract class AbstractRepository {
      * @throws ModelException si no es posible actualizar por logica de negocio
      * @throws NotFoundException si no existe el id especificado
      */
-    protected void updateEntity(UserInfo info, int[] id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException {
+    protected void updateEntity(UserInfo info, int[] id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException, AuthException {
         // Recuperar el PO asociado en BDD
-        PO aPO = getPO(tableName, id, null);
+        PO aPO = getPO(info, tableName, id, null);
         loadPODefaults(info, aPO, false);
         if (aPO == null || aPO.getID() == 0) {
             throw new NotFoundException();
@@ -359,8 +361,8 @@ public abstract class AbstractRepository {
      * @throws ModelException
      * @return un String conteniendo el ID del objeto persistido
      */
-    protected String insertEntity(UserInfo info, String tableName, Object source, String trxName) throws ModelException {
-        PO aPO = getPO(tableName, new int[]{0}, trxName);
+    protected String insertEntity(UserInfo info, String tableName, Object source, String trxName) throws ModelException, AuthException {
+        PO aPO = getPO(info, tableName, new int[]{0}, trxName);
         loadPODefaults(info, aPO, true);
         loadPOFromEntity(aPO, source, false);
         if (!aPO.save())
@@ -375,8 +377,8 @@ public abstract class AbstractRepository {
      * @throws ModelException si no es posible eliminar el registro
      * @throws NotFoundException si el registro no existe
      */
-    protected void deleteEntity(String tableName,  int[] id) throws ModelException, NotFoundException {
-        PO aPO = getPO(tableName, id, null);
+    protected void deleteEntity(UserInfo info, String tableName,  int[] id) throws ModelException, NotFoundException, AuthException {
+        PO aPO = getPO(info, tableName, id, null);
         if (aPO.getID()<=0)
             throw new NotFoundException();
         if (!aPO.delete(false))
@@ -393,7 +395,7 @@ public abstract class AbstractRepository {
      * @throws ModelException si no es posible eliminar el registro
      * @throws NotFoundException si el registro no existe
      */
-    protected String processEntity(UserInfo info, String tableName, int[] id, String action, String trx) throws ModelException, NotFoundException {
+    protected String processEntity(UserInfo info, String tableName, int[] id, String action, String trx) throws ModelException, NotFoundException, AuthException {
         String trxName;
         boolean handleTrx;
         if (trx!=null) {
@@ -403,7 +405,7 @@ public abstract class AbstractRepository {
             trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
             handleTrx = true;
         }
-        PO aPO = getPO(tableName, id, trxName);
+        PO aPO = getPO(info, tableName, id, trxName);
         loadPODefaults(info, aPO, false);
         try {
             if (aPO.getID() <= 0)
@@ -435,67 +437,67 @@ public abstract class AbstractRepository {
     /* =========================== Metodos publicos  =========================== */
 
     /** Insercion de una entidad */
-    public String insert(UserInfo info, Object payload) throws ModelException {
+    public String insert(UserInfo info, Object payload) throws ModelException, AuthException {
         return insertEntity(info, tableName, payload, null);
     }
 
     /** Insercion de una entidad usando una TRX */
-    public String insert(UserInfo info, Object payload, String trxName) throws ModelException {
+    public String insert(UserInfo info, Object payload, String trxName) throws ModelException, AuthException {
         return insertEntity(info, tableName, payload, trxName);
     }
 
     /** Eliminacion de una entidad con PK identificada por multiples columnas */
-    public void delete(UserInfo info, int[] id) throws ModelException, NotFoundException {
-        deleteEntity(tableName, id);
+    public void delete(UserInfo info, int[] id) throws ModelException, NotFoundException, AuthException {
+        deleteEntity(info, tableName, id);
     }
 
     /** Eliminacion de una entidad con PK identificada por una unica columna */
-    public void delete(UserInfo info, int id) throws ModelException, NotFoundException {
-        deleteEntity(tableName, new int[]{id});
+    public void delete(UserInfo info, int id) throws ModelException, NotFoundException, AuthException {
+        deleteEntity(info, tableName, new int[]{id});
     }
 
     /** Actualizacion de una entidad con PK identificada por multiples columnas */
-    public void update(UserInfo info, int[] id, Object payload) throws ModelException, NotFoundException {
+    public void update(UserInfo info, int[] id, Object payload) throws ModelException, NotFoundException, AuthException {
         updateEntity(info, id, tableName, payload, true);
     }
 
     /** Actualizacion de una entidad con PK v por una unica columna */
-    public void update(UserInfo info, int id, Object payload) throws ModelException, NotFoundException {
+    public void update(UserInfo info, int id, Object payload) throws ModelException, NotFoundException, AuthException {
         updateEntity(info, new int[]{id}, tableName, payload, true);
     }
 
     /** Recuperacion de una entidad con PK identificada por multiples columnas, con filtro de campos */
-    public <T> Optional<T> retrieve(UserInfo info, int[] id, String fields) throws ModelException {
+    public <T> Optional<T> retrieve(UserInfo info, int[] id, String fields) throws ModelException, AuthException {
         return loadEntityFromPO(info, id, tableName, fields, iface);
     }
 
     /** Recuperacion de una entidad con PK identificada por una unica columna, con filtro de campos */
-    public <T> Optional<T> retrieve(UserInfo info, int id, String fields) throws ModelException {
+    public <T> Optional<T> retrieve(UserInfo info, int id, String fields) throws ModelException, AuthException {
         return loadEntityFromPO(info, new int[]{id}, tableName, fields, iface);
     }
 
     /** Recuperacion de una entidad con PK identificada por multiples columnas */
-    public <T> Optional<T> retrieve(UserInfo info, int id) throws ModelException {
+    public <T> Optional<T> retrieve(UserInfo info, int id) throws ModelException, AuthException {
         return retrieve(info, id, null);
     }
 
     /** Recuperacion de una entidad con PK identificada por una unica columna */
-    public <T> Optional<T> retrieve(UserInfo info, int[] id) throws ModelException {
+    public <T> Optional<T> retrieve(UserInfo info, int[] id) throws ModelException, AuthException {
         return retrieve(info, id, null);
     }
 
     /** Recuperacion de varias entidades */
-    public <T> List<T> retrieveAll(UserInfo info, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException {
+    public <T> List<T> retrieveAll(UserInfo info, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
         return retrieveAllEntities(tableName, id -> retrieve(info, id, fields), filter, sort, limit, offset);
     }
 
     /** Procesado de una entidad */
-    public String process(UserInfo info, int id, String action) throws ModelException, NotFoundException {
+    public String process(UserInfo info, int id, String action) throws ModelException, NotFoundException, AuthException {
         return processEntity(info, tableName, new int[]{id}, action, null);
     }
 
     /** Procesado de una entidad bajo una TRX en particular */
-    public String process(UserInfo info, int id, String action, String trxName) throws ModelException, NotFoundException {
+    public String process(UserInfo info, int id, String action, String trxName) throws ModelException, NotFoundException, AuthException {
         return processEntity(info, tableName, new int[]{id}, action, trxName);
     }
 
