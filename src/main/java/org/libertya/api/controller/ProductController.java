@@ -25,7 +25,7 @@ public class ProductController extends AbstractController implements ProductApi 
 
     @Override
     public ResponseEntity<String> deleteProduct(Integer id) {
-        return deleteAction(request, () -> repository.delete(id));
+        return deleteAction(request, (info) -> repository.delete(info, id));
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ProductController extends AbstractController implements ProductApi 
 
     @Override
     public ResponseEntity<Product> retrieveProduct(Integer id) {
-        return retrieveAction(request, () -> repository.retrieve(id));
+        return retrieveAction(request, (info) -> repository.retrieve(info, id));
     }
 
     @Override

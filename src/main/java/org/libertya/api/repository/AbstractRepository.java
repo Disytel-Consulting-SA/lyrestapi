@@ -220,7 +220,7 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    protected <T> Optional<T> loadEntityFromPO(int[] id, String tableName, String filterFields, SpawnModelInstanceInterface target) throws ModelException {
+    protected <T> Optional<T> loadEntityFromPO(UserInfo info, int[] id, String tableName, String filterFields, SpawnModelInstanceInterface target) throws ModelException {
         Set<String> includeFields = getFilterFields(filterFields);
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(tableName, id, null);
@@ -265,7 +265,8 @@ public abstract class AbstractRepository {
         int userID = DB.getSQLValue(null, String.format("SELECT ad_user_id FROM ad_user where name = '%s'", info.getUserName()));
         // Inserting?
         if (inserting) {
-            aPO.setClientOrg(info.getClientID(), info.getOrgID());
+            aPO.set_ValueNoCheck("AD_Client_ID", info.getClientID());
+            aPO.set_ValueNoCheck("AD_Org_ID", info.getOrgID());
             aPO.set_ValueNoCheck("CreatedBy", userID);
         }
         // Updating siempre modifica el dato
@@ -444,12 +445,12 @@ public abstract class AbstractRepository {
     }
 
     /** Eliminacion de una entidad con PK identificada por multiples columnas */
-    public void delete(int[] id) throws ModelException, NotFoundException {
+    public void delete(UserInfo info, int[] id) throws ModelException, NotFoundException {
         deleteEntity(tableName, id);
     }
 
     /** Eliminacion de una entidad con PK identificada por una unica columna */
-    public void delete(int id) throws ModelException, NotFoundException {
+    public void delete(UserInfo info, int id) throws ModelException, NotFoundException {
         deleteEntity(tableName, new int[]{id});
     }
 
@@ -464,28 +465,28 @@ public abstract class AbstractRepository {
     }
 
     /** Recuperacion de una entidad con PK identificada por multiples columnas, con filtro de campos */
-    public <T> Optional<T> retrieve(int[] id, String fields) throws ModelException {
-        return loadEntityFromPO(id, tableName, fields, iface);
+    public <T> Optional<T> retrieve(UserInfo info, int[] id, String fields) throws ModelException {
+        return loadEntityFromPO(info, id, tableName, fields, iface);
     }
 
     /** Recuperacion de una entidad con PK identificada por una unica columna, con filtro de campos */
-    public <T> Optional<T> retrieve(int id, String fields) throws ModelException {
-        return loadEntityFromPO(new int[]{id}, tableName, fields, iface);
+    public <T> Optional<T> retrieve(UserInfo info, int id, String fields) throws ModelException {
+        return loadEntityFromPO(info, new int[]{id}, tableName, fields, iface);
     }
 
     /** Recuperacion de una entidad con PK identificada por multiples columnas */
-    public <T> Optional<T> retrieve(int id) throws ModelException {
-        return retrieve(id, null);
+    public <T> Optional<T> retrieve(UserInfo info, int id) throws ModelException {
+        return retrieve(info, id, null);
     }
 
     /** Recuperacion de una entidad con PK identificada por una unica columna */
-    public <T> Optional<T> retrieve(int[] id) throws ModelException {
-        return retrieve(id, null);
+    public <T> Optional<T> retrieve(UserInfo info, int[] id) throws ModelException {
+        return retrieve(info, id, null);
     }
 
     /** Recuperacion de varias entidades */
-    public <T> List<T> retrieveAll(String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException {
-        return retrieveAllEntities(tableName, id -> retrieve(id, fields), filter, sort, limit, offset);
+    public <T> List<T> retrieveAll(UserInfo info, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException {
+        return retrieveAllEntities(tableName, id -> retrieve(info, id, fields), filter, sort, limit, offset);
     }
 
     /** Procesado de una entidad */

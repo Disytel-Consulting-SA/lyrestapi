@@ -1,5 +1,6 @@
 package org.libertya.api.controller;
 
+import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
@@ -9,5 +10,5 @@ public interface ActivityDeleteInterface {
     /** Actividad de eliminacion
      * @throws NotFoundException en caso de no existir el registro en cuestion
      * @throws ModelException en caso de validacion en logica de negocio */
-    void perform() throws NotFoundException, ModelException;
+    void perform(UserInfo info) throws NotFoundException, ModelException;
 }

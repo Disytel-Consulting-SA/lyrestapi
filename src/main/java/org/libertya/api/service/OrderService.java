@@ -30,22 +30,22 @@ public class OrderService extends AbstractService {
     }
 
     @Override
-    protected Optional<OrderDocument> performRetrieve(int id) throws ModelException {
+    protected Optional<OrderDocument> performRetrieve(UserInfo info, int id) throws ModelException {
         OrderDocument doc = new OrderDocument();
 
         // Cabecera
-        Optional<Order> inv = orderRepository.retrieve(id);
+        Optional<Order> inv = orderRepository.retrieve(info, id);
         if (!inv.isPresent())
             return Optional.empty();
         doc.setHeader(inv.get());
 
         // Lineas
-        for (Object item : orderLineRepository.retrieveAll("c_Order_id="+id, null, null, null, null )) {
+        for (Object item : orderLineRepository.retrieveAll(info, "c_Order_id="+id, null, null, null, null )) {
             doc.addLinesItem(((Optional<OrderLine>)item).get());
         }
 
         // Impuestos
-        for (Object item : orderTaxRepository.retrieveAll("c_Order_id="+id, null, null, null, null )) {
+        for (Object item : orderTaxRepository.retrieveAll(info, "c_Order_id="+id, null, null, null, null )) {
             doc.addTaxesItem(((Optional<OrderTax>)item).get());
         }
 

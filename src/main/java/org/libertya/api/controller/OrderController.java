@@ -29,7 +29,7 @@ public class OrderController extends AbstractController implements OrderApi {
 
     @Override
     public ResponseEntity<String> deleteOrder(Integer id) {
-        return deleteAction(request, () -> repository.delete(id));
+        return deleteAction(request, (info) -> repository.delete(info, id));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class OrderController extends AbstractController implements OrderApi {
 
     @Override
     public ResponseEntity<OrderDocument> retrieveOrder(Integer id) {
-        return retrieveAction(request, () -> service.retrieve(id));
+        return retrieveAction(request, (info) -> service.retrieve(info, id));
     }
 
     @Override

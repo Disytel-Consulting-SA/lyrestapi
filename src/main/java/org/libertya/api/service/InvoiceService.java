@@ -32,22 +32,22 @@ public class InvoiceService extends AbstractService {
     }
 
     @Override
-    protected Optional<InvoiceDocument> performRetrieve(int id) throws ModelException {
+    protected Optional<InvoiceDocument> performRetrieve(UserInfo info, int id) throws ModelException {
         InvoiceDocument doc = new InvoiceDocument();
 
         // Cabecera
-        Optional<Invoice> inv = invRepository.retrieve(id);
+        Optional<Invoice> inv = invRepository.retrieve(info, id);
         if (!inv.isPresent())
             return Optional.empty();
         doc.setHeader(inv.get());
 
         // Lineas
-        for (Object item : invLineRepository.retrieveAll("c_invoice_id="+id, null, null, null, null )) {
+        for (Object item : invLineRepository.retrieveAll(info,"c_invoice_id="+id, null, null, null, null )) {
             doc.addLinesItem(((Optional<InvoiceLine>)item).get());
         }
 
         // Impuestos
-        for (Object item : invTaxRepository.retrieveAll("c_invoice_id="+id, null, null, null, null )) {
+        for (Object item : invTaxRepository.retrieveAll(info, "c_invoice_id="+id, null, null, null, null )) {
             doc.addTaxesItem(((Optional<InvoiceTax>)item).get());
         }
 

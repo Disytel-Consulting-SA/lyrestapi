@@ -3,8 +3,10 @@ package org.libertya.api.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.common.UserInfo;
+import org.libertya.api.exception.AuthException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -57,10 +59,14 @@ public class JWTUtils {
         return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(jwtToken).getBody();
     }
 
-
-    public UserInfo infoOf(HttpServletRequest request)  {
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-        Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
-        return UserInfo.of(claims.get("userName").toString(), Integer.parseInt(claims.get("clientID").toString()), Integer.parseInt(claims.get("orgID").toString()));
+    /** Vuelca en una instancia de UserInfo la informacion asociada al request */
+    public UserInfo infoOf(HttpServletRequest request) throws AuthException  {
+        try {
+            String token = request.getHeader("Authorization").replace("Bearer ", "");
+            Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
+            return UserInfo.of(claims.get("userName").toString(), Integer.parseInt(claims.get("clientID").toString()), Integer.parseInt(claims.get("orgID").toString()));
+        } catch (Exception e) {
+            throw new AuthException("Error en autenticacion JWT.");
+        }
     }
 }

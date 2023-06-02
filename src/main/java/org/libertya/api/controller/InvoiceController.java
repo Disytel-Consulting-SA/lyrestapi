@@ -29,7 +29,7 @@ public class InvoiceController extends AbstractController implements InvoiceApi 
 
     @Override
     public ResponseEntity<String> deleteInvoice(Integer id) {
-        return deleteAction(request, () -> repository.delete(id));
+        return deleteAction(request, (info) -> repository.delete(info, id));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class InvoiceController extends AbstractController implements InvoiceApi 
 
     @Override
     public ResponseEntity<InvoiceDocument> retrieveInvoice(Integer id) {
-        return retrieveAction(request, () -> service.retrieve(id));
+        return retrieveAction(request, (info) -> service.retrieve(info, id));
     }
 
     @Override

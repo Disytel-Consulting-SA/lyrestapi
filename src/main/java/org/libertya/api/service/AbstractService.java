@@ -24,8 +24,8 @@ public abstract class AbstractService {
         return create(info, document, getRepository());
     }
 
-    public <T> Optional<T>  retrieve(int id) throws ModelException {
-        return performRetrieve(id);
+    public <T> Optional<T>  retrieve(UserInfo info, int id) throws ModelException {
+        return performRetrieve(info, id);
     }
 
     // === Metodos a implementar por las subclases ===
@@ -48,7 +48,7 @@ public abstract class AbstractService {
      * @return un opcional conteniendo el documento completo o bien un optional vacio
      * @throws Exception
      */
-    protected abstract <T> Optional<T> performRetrieve(int id) throws ModelException;
+    protected abstract <T> Optional<T> performRetrieve(UserInfo info, int id) throws ModelException;
 
     /**
      * @return el repositorio principal (cabecera) correspondiente al documento
