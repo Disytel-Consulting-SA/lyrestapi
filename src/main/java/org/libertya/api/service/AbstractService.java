@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public abstract class AbstractService {
 
-    @Value("{org.libertya.api.service.doc.complete}")
+    @Value("${org.libertya.api.service.doc.complete}")
     private String completeDocument;
 
     // === Metodos publicos a invocar desde los controllers ===

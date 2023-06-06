@@ -13,8 +13,6 @@ import org.libertya.api.stub.model.InvoiceDocument;
 import org.libertya.api.stub.model.InvoiceLine;
 import org.libertya.api.stub.model.InvoiceTax;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
