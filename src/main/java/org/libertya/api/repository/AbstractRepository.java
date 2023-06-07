@@ -43,7 +43,7 @@ public abstract class AbstractRepository {
      * @param trxName nombre de la transaccion
      * @return una entidad que extiende de PO
      */
-    protected PO getPO(UserInfo info, String tableName, int[] id, String trxName) throws AuthException {
+    public PO getPO(UserInfo info, String tableName, int[] id, String trxName) throws AuthException {
         PO aPO;
         M_Table table = M_Table.get(Env.getCtx(), tableName);
         // Tabla con PK formada por mas de una columna? (y no estamos insertando)
@@ -61,7 +61,7 @@ public abstract class AbstractRepository {
     protected String getPOWhereClause(int[] id) {
         if (pkColumns==null)
             return ""+id[0];
-        StringBuffer retValue = new StringBuffer();
+        StringBuilder retValue = new StringBuilder();
         int i=0;
         for (String column : pkColumns) {
             retValue.append(column)
@@ -114,19 +114,19 @@ public abstract class AbstractRepository {
             if (value == null)
                 property.set(target, null);
             else if (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
-                property.set(target, (Integer)value);
+                property.set(target, value);
             else if (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false)) {
                 // Workaround de resolucion de tipos debido al código en DisplayType de CORE
                 try {
-                    property.set(target, (Boolean)value);
+                    property.set(target, value);
                 } catch (Exception e) {
                     property.set(target, String.valueOf(value));
                 }
             }
             else if (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
-                property.set(target, (BigDecimal)value);
+                property.set(target, value);
             else if (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
-                property.set(target, (value).toString());
+                property.set(target, value.toString());
         } catch (Exception e) {
             throw new ModelException("Error al setear " + value + " a columna " + aColumn.getColumnName() + ". " + e.getMessage());
         }
@@ -169,7 +169,7 @@ public abstract class AbstractRepository {
     /** Recupera todos los IDs que respetan el criterio especificado */
     public String[] getAllIDs(String tableName, String WhereClause, String trxName) {
         List<String> list = new ArrayList();
-        StringBuffer sql = new StringBuffer("SELECT ");
+        StringBuilder sql = new StringBuilder("SELECT ");
         if (pkColumns==null)
             sql.append(tableName).append("_ID::varchar");
         else
@@ -222,10 +222,10 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    protected <T> Optional<T> loadEntityFromPO(UserInfo info, int[] id, String tableName, String filterFields, SpawnModelInstanceInterface target) throws ModelException, AuthException {
+    protected <T> Optional<T> loadEntityFromPO(UserInfo info, int[] id, String tableName, String trxName, String filterFields, SpawnModelInstanceInterface target) throws ModelException, AuthException {
         Set<String> includeFields = getFilterFields(filterFields);
         // Recuperar el PO asociado en BDD
-        PO aPO = getPO(info, tableName, id, null);
+        PO aPO = getPO(info, tableName, id, trxName);
         if (aPO == null || aPO.getID() == 0) {
             return Optional.empty();
         }
@@ -279,7 +279,6 @@ public abstract class AbstractRepository {
      * Carga en un PO la informacion del objeto recibida
      * @param aPO el PO a cargar
      * @param source el objeto con las propiedades a volcar
-     * @return el objeto actualizado
      */
     protected void loadPOFromEntity(PO aPO, Object source, boolean ignoreNulls) throws ModelException {
         // Instanciar objeto del modelo segun corresponda
@@ -316,10 +315,9 @@ public abstract class AbstractRepository {
      * @param aColumn columna a asignar
      * @param value valor a asignar
      */
-    protected boolean setValue(PO po, M_Column aColumn, Object value) throws ModelException {
-        boolean ok;
+    protected void setValue(PO po, M_Column aColumn, Object value) throws ModelException {
         try {
-            ok =
+            boolean ok =
                     po.get_ColumnIndex(aColumn.getColumnName()) > 0 &&
                     (
                         (null == value && po.set_ValueNoCheck(aColumn.getColumnName(), null)) ||
@@ -328,7 +326,6 @@ public abstract class AbstractRepository {
                         (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), new BigDecimal(value.toString()))) ||
                         (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Timestamp.valueOf(value.toString())))
                     );
-            return ok;
         } catch (Exception e) {
             throw new ModelException("Error al setear valor " + (value==null?"null":value) + " en columna " + aColumn.getColumnName() + " de entidad " + po.get_TableName() + ". " + e);
         }
@@ -358,7 +355,8 @@ public abstract class AbstractRepository {
      * Inserta un PO pasando por el modelo
      * @param tableName nombre de la tabla
      * @param source fuente de los datos a usar
-     * @throws ModelException
+     * @throws ModelException en caso de presentarse errores de modelo
+     * @throws AuthException en caso de problemas de autorizacion
      * @return un String conteniendo el ID del objeto persistido
      */
     protected String insertEntity(UserInfo info, String tableName, Object source, String trxName) throws ModelException, AuthException {
@@ -467,28 +465,43 @@ public abstract class AbstractRepository {
     }
 
     /** Recuperacion de una entidad con PK identificada por multiples columnas, con filtro de campos */
-    public <T> Optional<T> retrieve(UserInfo info, int[] id, String fields) throws ModelException, AuthException {
-        return loadEntityFromPO(info, id, tableName, fields, iface);
+    public <T> Optional<T> retrieve(UserInfo info, int[] id, String trxName, String fields) throws ModelException, AuthException {
+        return loadEntityFromPO(info, id, tableName, trxName, fields, iface);
     }
 
     /** Recuperacion de una entidad con PK identificada por una unica columna, con filtro de campos */
-    public <T> Optional<T> retrieve(UserInfo info, int id, String fields) throws ModelException, AuthException {
-        return loadEntityFromPO(info, new int[]{id}, tableName, fields, iface);
+    public <T> Optional<T> retrieve(UserInfo info, int id, String trxName, String fields) throws ModelException, AuthException {
+        return loadEntityFromPO(info, new int[]{id}, tableName, trxName, fields, iface);
+    }
+
+    /** Recuperacion de una entidad con PK identificada por multiples columnas */
+    public <T> Optional<T> retrieve(UserInfo info, int id, String trxName) throws ModelException, AuthException {
+        return retrieve(info, id, trxName, null);
+    }
+
+    /** Recuperacion de una entidad con PK identificada por una unica columna */
+    public <T> Optional<T> retrieve(UserInfo info, int[] id, String trxName) throws ModelException, AuthException {
+        return retrieve(info, id, trxName, null);
     }
 
     /** Recuperacion de una entidad con PK identificada por multiples columnas */
     public <T> Optional<T> retrieve(UserInfo info, int id) throws ModelException, AuthException {
-        return retrieve(info, id, null);
+        return retrieve(info, id, null, null);
     }
 
     /** Recuperacion de una entidad con PK identificada por una unica columna */
     public <T> Optional<T> retrieve(UserInfo info, int[] id) throws ModelException, AuthException {
-        return retrieve(info, id, null);
+        return retrieve(info, id, null, null);
     }
 
     /** Recuperacion de varias entidades */
     public <T> List<T> retrieveAll(UserInfo info, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
-        return retrieveAllEntities(tableName, id -> retrieve(info, id, fields), filter, sort, limit, offset);
+        return retrieveAllEntities(tableName, id -> retrieve(info, id, null, fields), filter, sort, limit, offset);
+    }
+
+    /** Recuperacion de varias entidades bajo una trx */
+    public <T> List<T> retrieveAll(UserInfo info, String trxName, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
+        return retrieveAllEntities(tableName, id -> retrieve(info, id, trxName, fields), filter, sort, limit, offset);
     }
 
     /** Procesado de una entidad */

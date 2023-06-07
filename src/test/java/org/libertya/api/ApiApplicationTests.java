@@ -78,18 +78,14 @@ class ApiApplicationTests {
 		InvoiceLine line1 = new InvoiceLine();
 		line1.setLine(10);
 		line1.setAdOrgId(1010053);
-		line1.setQtyentered(new BigDecimal(2));
 		line1.setQtyinvoiced(new BigDecimal(2));
-		line1.setPriceentered(new BigDecimal(100));
-		line1.setLinenetamt(new BigDecimal(200));
+		line1.setPriceactual(new BigDecimal(100));
 
 		InvoiceLine line2 = new InvoiceLine();
 		line2.setLine(20);
 		line2.setAdOrgId(1010053);
-		line2.setQtyentered(new BigDecimal(5));
 		line2.setQtyinvoiced(new BigDecimal(5));
-		line2.setPriceentered(new BigDecimal(30));
-		line2.setLinenetamt(new BigDecimal(150));
+		line2.setPriceactual(new BigDecimal(30));
 
 		InvoiceDocument doc = new InvoiceDocument();
 		doc.setHeader(inv);
@@ -143,6 +139,23 @@ class ApiApplicationTests {
 		assertThat(response.getStatusCode().toString()).contains("200");
 		invoiceID = Integer.parseInt(response.getBody());
 		assertThat(invoiceID>0);
+	}
+
+	// =========================
+	// RECUPERACION DE ENTIDADES
+	// =========================
+
+	@Test
+	@Order(200)
+	void retrieveCreatedInvoiceShouldReturnOKAndAmountShouldBeCorrect() throws Exception {
+		ResponseEntity<String> response =
+				restTemplate.exchange(getBaseURL("v1.0/invoices/" + invoiceID),
+						HttpMethod.GET,
+						new HttpEntity<>(null, getHeaders(new String[]{"Content-Type=application/json", "Authorization="+token})),
+						String.class);
+		ObjectMapper mapper = new ObjectMapper();
+		InvoiceDocument doc = mapper.readValue(response.getBody(), InvoiceDocument.class);
+		assertThat(doc.getHeader().getGrandtotal().equals(new BigDecimal(350)));
 	}
 
 	// ======================

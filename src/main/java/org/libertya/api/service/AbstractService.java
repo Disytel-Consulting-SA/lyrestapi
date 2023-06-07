@@ -36,12 +36,11 @@ public abstract class AbstractService {
      *  La implementacion debe crear todos los documentos bajo la trx y retornar el id de la cabecera del documento
      * @param info datos de acceso
      * @param document documento a generar (InvoiceDocument, OrderDocument, etc.)
-     * @param docRepository repositorio del documento a procesar (InvoiceRepository, OrderRepository, etc.)
      * @param trxName nombre de la transaccion
      * @return el id de la cabecera del documento generado
      * @throws Exception en caso de error (modelo u otro)
      */
-    protected abstract String performCreate(UserInfo info, Object document, AbstractRepository docRepository, String trxName) throws Exception;
+    protected abstract String performCreate(UserInfo info, Object document, String trxName) throws Exception;
 
     /**
      * Metodo a implementar por las subclases en donde se deben recuperar documentos que involucren cabeceras, lineas, impuestos, etc.
@@ -69,7 +68,7 @@ public abstract class AbstractService {
         String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
         try {
             // Generacion de documento
-            String id = performCreate(info, document, docRepository, trxName);
+            String id = performCreate(info, document, trxName);
 
             // Procesado del documento
             if ("Y".equalsIgnoreCase(completeDocument)) {

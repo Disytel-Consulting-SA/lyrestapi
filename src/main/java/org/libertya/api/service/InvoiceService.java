@@ -54,7 +54,7 @@ public class InvoiceService extends AbstractService {
     }
 
     @Override
-    protected String performCreate(UserInfo info, Object document, AbstractRepository docRepository, String trxName) throws Exception {
+    protected String performCreate(UserInfo info, Object document, String trxName) throws Exception {
         InvoiceDocument invoiceDocument = (InvoiceDocument)document;
 
         // Cabecera
