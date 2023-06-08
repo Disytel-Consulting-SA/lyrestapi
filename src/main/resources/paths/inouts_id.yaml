@@ -1,0 +1,90 @@
+get:
+  tags:
+    - "inout"
+  summary: Recupera un remito en particular
+  parameters:
+    - name: id
+      in: path
+      description: ID del remito
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un remito en particular
+  operationId: retrieveInOut
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/inout_doc.yaml#/components/schemas/InOutDocument'
+delete:
+  tags:
+    - "inout"
+  summary: Elimina un remito
+  parameters:
+    - name: id
+      in: path
+      description: ID del remito
+      required: true
+      schema:
+        type: integer
+  description: Elimina un remito existente
+  operationId: deleteInOut
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  tags:
+    - "inout"
+  summary: Actualiza un remito existente
+  operationId: updateInOut
+  parameters:
+    - name: id
+      in: path
+      description: ID del remito a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/inout.yaml#/components/schemas/InOut'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

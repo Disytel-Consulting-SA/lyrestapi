@@ -29,3 +29,9 @@ paths:
     $ref: ./paths/orders_id.yaml
   /v1.0/orders/{id}/process:
     $ref: ./paths/orders_id_process.yaml
+  /v1.0/inouts:
+    $ref: ./paths/inouts.yaml
+  /v1.0/inouts/{id}:
+    $ref: ./paths/inouts_id.yaml
+  /v1.0/inouts/{id}/process:
+    $ref: ./paths/inouts_id_process.yaml

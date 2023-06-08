@@ -1,0 +1,95 @@
+components:
+  schemas:
+    InOutLine:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_country_id:
+          type: integer
+        c_invoiceline_id:
+          type: integer
+        confirmedqty:
+          type: number
+        c_orderline_id:
+          type: integer
+        costprice:
+          type: number
+        c_project_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_uom_id:
+          type: integer
+        declarationno:
+          type: string
+        description:
+          type: string
+        isactive:
+          type: boolean
+        isdescription:
+          type: boolean
+        isinvoiced:
+          type: boolean
+        isselected:
+          type: boolean
+        line:
+          type: integer
+        m_attributesetinstance_id:
+          type: integer
+        m_import_clearance_id:
+          type: integer
+        m_inout_id:
+          type: integer
+        m_inoutline_id:
+          type: integer
+        m_locator_id:
+          type: integer
+        movementqty:
+          type: number
+        m_product_id:
+          type: integer
+        pickedqty:
+          type: number
+        processed:
+          type: boolean
+        qtyentered:
+          type: number
+        ref_inoutline_id:
+          type: integer
+        scrappedqty:
+          type: number
+        targetqty:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - costprice
+         - created
+         - createdby
+         - c_uom_id
+         - isactive
+         - isdescription
+         - isinvoiced
+         - isselected
+         - line
+         - m_attributesetinstance_id
+         - m_inout_id
+         - m_inoutline_id
+         - m_locator_id
+         - movementqty
+         - m_product_id
+         - processed
+         - qtyentered
+         - updated
+         - updatedby

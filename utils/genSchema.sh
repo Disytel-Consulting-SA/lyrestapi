@@ -38,3 +38,5 @@ generateSchema InvoiceTax     C_InvoiceTax    invoicetax.yaml
 generateSchema Order          C_Order         order.yaml
 generateSchema OrderLine      C_OrderLine     orderline.yaml
 generateSchema OrderTax       C_OrderTax      ordertax.yaml
+generateSchema InOut          M_InOut         inout.yaml
+generateSchema InOutLine      M_InOutLine     inoutline.yaml

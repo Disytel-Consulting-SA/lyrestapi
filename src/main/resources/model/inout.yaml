@@ -1,0 +1,154 @@
+components:
+  schemas:
+    InOut:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        ad_orgtrx_id:
+          type: integer
+        ad_user_id:
+          type: integer
+        c_activity_id:
+          type: integer
+        cai:
+          type: string
+        c_bpartner_id:
+          type: integer
+        c_bpartner_location_id:
+          type: integer
+        c_campaign_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_doctype_id:
+          type: integer
+        chargeamt:
+          type: number
+        c_invoice_id:
+          type: integer
+        clearancenumber:
+          type: string
+        c_order_id:
+          type: integer
+        c_project_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        dateacct:
+          type: string
+        datecai:
+          type: string
+        dateordered:
+          type: string
+        dateprinted:
+          type: string
+        datereceived:
+          type: string
+        deliveryrule:
+          type: string
+        deliveryviarule:
+          type: string
+        description:
+          type: string
+        docstatus:
+          type: string
+        documentno:
+          type: string
+        freightamt:
+          type: number
+        freightcostrule:
+          type: string
+        inoutdate:
+          type: string
+        inoutreceptiondate:
+          type: string
+        isactive:
+          type: boolean
+        isapproved:
+          type: boolean
+        isindispute:
+          type: boolean
+        isintransit:
+          type: boolean
+        isprinted:
+          type: boolean
+        issotrx:
+          type: boolean
+        m_inout_id:
+          type: integer
+        movementdate:
+          type: string
+        movementtype:
+          type: string
+        m_shipper_id:
+          type: integer
+        m_warehouse_id:
+          type: integer
+        nopackages:
+          type: integer
+        pickdate:
+          type: string
+        poreference:
+          type: string
+        preprinted_docno:
+          type: string
+        printtype:
+          type: string
+        priorityrule:
+          type: string
+        processed:
+          type: boolean
+        receptiondate:
+          type: string
+        ref_inout_id:
+          type: integer
+        salesrep_id:
+          type: integer
+        sendemail:
+          type: boolean
+        shipdate:
+          type: string
+        trackingno:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        user1_id:
+          type: integer
+        user2_id:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_bpartner_id
+         - c_bpartner_location_id
+         - c_doctype_id
+         - created
+         - createdby
+         - dateacct
+         - deliveryrule
+         - deliveryviarule
+         - docstatus
+         - documentno
+         - freightcostrule
+         - isactive
+         - isapproved
+         - isindispute
+         - isintransit
+         - isprinted
+         - issotrx
+         - m_inout_id
+         - movementdate
+         - movementtype
+         - m_warehouse_id
+         - priorityrule
+         - processed
+         - sendemail
+         - updated
+         - updatedby

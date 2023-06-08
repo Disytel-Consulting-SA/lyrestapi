@@ -1,0 +1,11 @@
+components:
+  schemas:
+    InOutDocument:
+      type: object
+      properties:
+        header:
+          $ref: '../model/inout.yaml#/components/schemas/InOut'
+        lines:
+          type: array
+          items:
+            $ref: '../model/inoutline.yaml#/components/schemas/InOutLine'
