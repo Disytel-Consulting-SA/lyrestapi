@@ -4,10 +4,15 @@
 ./genSchema.sh
 
 # Generacion de clases mediante swagger code-gen
-TEMP_DIR=/tmp/genStub
+TEMP_DIR=/tmp
+# Ubicacion destino dentro del proyecto
 TARGET_DIR=../src/main/java/org/libertya/api
 
-rm -rf $TEMP_DIR
+# ====================
+# Generacion de clases
+# ====================
+
+rm -rf $TEMP_DIR/genStub
 
 java -jar swagger-codegen-cli-3.0.20.jar generate \
         --api-package org.libertya.api.stub.iface \
@@ -15,9 +20,21 @@ java -jar swagger-codegen-cli-3.0.20.jar generate \
         -c config.json \
         -i ../src/main/resources/ly-rest-api.yaml \
         -l spring \
-        -o $TEMP_DIR \
+        -o $TEMP_DIR/genStub \
         --additional-properties hideGenerationTimestamp=true
 
 rm -rf $TARGET_DIR/stub
 
-cp -r $TEMP_DIR/src/main/java/org/libertya/api/* $TARGET_DIR
+cp -r $TEMP_DIR/genStub/src/main/java/org/libertya/api/* $TARGET_DIR
+
+# ===========================
+# Generacion de documentacion
+# ===========================
+
+rm -rf $TEMP_DIR/apiDoc
+
+java -jar swagger-codegen-cli-3.0.20.jar generate \
+        -i ../src/main/resources/ly-rest-api.yaml \
+        -l html2 \
+        -o $TEMP_DIR/apiDoc \
+
