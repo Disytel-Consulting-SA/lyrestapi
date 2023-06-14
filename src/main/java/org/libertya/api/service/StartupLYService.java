@@ -1,8 +1,5 @@
 package org.libertya.api.service;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.Properties;
 
 import org.openXpertya.OpenXpertya;
@@ -32,16 +29,8 @@ public class StartupLYService {
     /** Valores de parametros de la invocacion */
     protected Object[] argValues = null;
 
-    /** Prefijos en log */
-    public static final String ERROR_API 				= "[API_ERROR]   ";
-    public static final String ERROR_MODEL 				= "[MODEL_ERROR] ";
-    public static final String INFO_LOG	 				= "[INFO]        ";
-
-    /** Archivo de log */
-    public static final String LOG_FILENAME 			= "restapi.log";
     /** Variables de entorno a recuperar */
     public static final String ENV_OXP_HOME 			= "OXP_HOME";
-    public static final String ENV_OXP_API_LOG		    = "OXP_API_LOG";
 
     /**
      * Realiza la configuración inicial a partir de la información recibida
@@ -56,9 +45,6 @@ public class StartupLYService {
         // Iniciar el entorno
         setClientOrg(clientID, orgID);
         startupEnvironment();
-
-        // JDK1.6: [0] es getStackTrace(), [1] es init(), [2] es el método buscado
-        saveToLogFile(INFO_LOG, "Ejecutando " + Thread.currentThread().getStackTrace()[2].getMethodName());
 
         // Validar login
         checkLogin(userName, password);
@@ -154,13 +140,7 @@ public class StartupLYService {
             throw new Exception ("La variable de entorno OXP_HOME no está seteada. ");
         // Cargar el entorno basico
         System.setProperty(ENV_OXP_HOME, oxpHomeDir);
-
-        // OXP_API_LOG seteada? Si no está seteada, utilizar la conf. de oxpHomeDir
-        String oxpAPILog = System.getenv(ENV_OXP_API_LOG);
-        if (oxpAPILog == null)
-            System.setProperty(ENV_OXP_API_LOG, oxpHomeDir);
-        else
-            System.setProperty(ENV_OXP_API_LOG, oxpAPILog);
+;
     }
 
     /**
@@ -187,38 +167,5 @@ public class StartupLYService {
     {
         return Env.getCtx();
     }
-
-    /**
-     * Escribe data al archivo de log del ws
-     * @param data informacion a incorporar
-     */
-    protected boolean saveToLogFile(String level, String data)
-    {
-        try
-        {
-            File file = new File(System.getProperty(ENV_OXP_API_LOG) + File.separator + LOG_FILENAME);
-            if(!file.exists()) 	{
-                System.out.println("Creando archivo de log en: " + file.getPath() );
-                file.createNewFile();
-            }
-            FileWriter fileWritter = new FileWriter(file.getPath(), true);
-            BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
-            bufferWritter.write(Env.getDateTime("yyyy-MM-dd HH:mm:ss ") +
-                    level +
-                    " (" + userName + ") - " +
-                    this.getClass().getName() + " - " +
-                    data +
-                    "\n");
-            bufferWritter.flush();
-            bufferWritter.close();
-            return true;
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
 
 }
