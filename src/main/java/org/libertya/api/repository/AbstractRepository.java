@@ -139,11 +139,11 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return una lista con todas las entidades
      */
-    protected <T> List<T> retrieveAllEntities(String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
+    protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
         List retVal = new ArrayList();
         String[] entitiesIDs = getAllIDs(tableName,
                 String.format( " %s %s LIMIT %d OFFSET %d ",
-                        filter != null && filter.length() > 0 ? formatClause(filter) : " 1=1 ",
+                        (filter != null && filter.length() > 0 ? formatClause(filter) + " AND " : "") + filterByClient(info),
                         sort != null && sort.length() > 0 ? " ORDER BY " + sort : " ",
                         limit != null && limit > 0 ? limit : DEFAULT_LIMIT,
                         offset != null ? offset : 0 ),
@@ -164,6 +164,13 @@ public abstract class AbstractRepository {
             }
         }
         return retVal;
+    }
+
+    /** Genera un filtro si es que la busqueda no contiene uno especifico */
+    protected String filterByClient(UserInfo info) {
+        if (info.getClientID()==0)
+            return " 1=1 ";
+        return " AD_Client_ID = " + info.getClientID();
     }
 
     /** Recupera todos los IDs que respetan el criterio especificado */
@@ -496,12 +503,12 @@ public abstract class AbstractRepository {
 
     /** Recuperacion de varias entidades */
     public <T> List<T> retrieveAll(UserInfo info, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
-        return retrieveAllEntities(tableName, id -> retrieve(info, id, null, fields), filter, sort, limit, offset);
+        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, null, fields), filter, sort, limit, offset);
     }
 
     /** Recuperacion de varias entidades bajo una trx */
     public <T> List<T> retrieveAll(UserInfo info, String trxName, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
-        return retrieveAllEntities(tableName, id -> retrieve(info, id, trxName, fields), filter, sort, limit, offset);
+        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, trxName, fields), filter, sort, limit, offset);
     }
 
     /** Procesado de una entidad */
