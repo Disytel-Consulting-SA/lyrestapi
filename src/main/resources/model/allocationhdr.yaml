@@ -1,0 +1,82 @@
+components:
+  schemas:
+    AllocationHdr:
+      type: object
+      properties:
+        actiondetail:
+          type: string
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        allocationaction:
+          type: string
+        allocationtype:
+          type: string
+        approvalamt:
+          type: number
+        c_allocationhdr_id:
+          type: integer
+        c_banklist_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_currency_id:
+          type: integer
+        c_doctype_id:
+          type: integer
+        c_posjournal_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        dateacct:
+          type: string
+        datetrx:
+          type: string
+        description:
+          type: string
+        docstatus:
+          type: string
+        documentno:
+          type: string
+        grandtotal:
+          type: number
+        isactive:
+          type: boolean
+        isapproved:
+          type: boolean
+        ismanual:
+          type: boolean
+        processed:
+          type: boolean
+        processing:
+          type: boolean
+        retencion_amt:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - allocationtype
+         - approvalamt
+         - c_allocationhdr_id
+         - c_currency_id
+         - created
+         - createdby
+         - dateacct
+         - datetrx
+         - docstatus
+         - documentno
+         - grandtotal
+         - isactive
+         - isapproved
+         - ismanual
+         - processed
+         - retencion_amt
+         - updated
+         - updatedby

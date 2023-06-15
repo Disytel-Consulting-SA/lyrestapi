@@ -35,3 +35,15 @@ paths:
     $ref: ./paths/inouts_id.yaml
   /v1.0/inouts/{id}/process:
     $ref: ./paths/inouts_id_process.yaml
+  /v1.0/payments:
+    $ref: ./paths/payments.yaml
+  /v1.0/payments/{id}:
+    $ref: ./paths/payments_id.yaml
+  /v1.0/payments/{id}/process:
+    $ref: ./paths/payments_id_process.yaml
+  /v1.0/cashlines:
+    $ref: ./paths/cashlines.yaml
+  /v1.0/cashlines/{id}:
+    $ref: ./paths/cashlines_id.yaml
+  /v1.0/cashlines/{id}/process:
+    $ref: ./paths/cashlines_id_process.yaml

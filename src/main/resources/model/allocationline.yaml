@@ -1,0 +1,66 @@
+components:
+  schemas:
+    AllocationLine:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        amount:
+          type: number
+        c_allocationhdr_id:
+          type: integer
+        c_allocationline_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_cashline_id:
+          type: integer
+        c_currency_id:
+          type: integer
+        changeamt:
+          type: number
+        c_invoice_credit_id:
+          type: integer
+        c_invoice_id:
+          type: integer
+        c_order_id:
+          type: integer
+        c_payment_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        datetrx:
+          type: string
+        discountamt:
+          type: number
+        isactive:
+          type: boolean
+        ismanual:
+          type: boolean
+        line_description:
+          type: string
+        overunderamt:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        writeoffamt:
+          type: number
+      required:
+         - ad_client_id
+         - ad_org_id
+         - amount
+         - c_allocationhdr_id
+         - c_allocationline_id
+         - created
+         - createdby
+         - discountamt
+         - isactive
+         - updated
+         - updatedby
+         - writeoffamt

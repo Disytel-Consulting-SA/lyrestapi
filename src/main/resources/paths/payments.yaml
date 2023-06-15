@@ -1,0 +1,67 @@
+get:
+  tags:
+    - "payment"
+  summary: Retrieve all payments
+  description: Retorna la lista completa de pagos
+  operationId: getAllPayments
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: offset
+      schema:
+        type: integer
+      description: Desplazamiento de salto a patir del primer elemento
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/payment.yaml#/components/schemas/Payment'
+post:
+  tags:
+    - "payment"
+  summary: Nuevo pago
+  description: Agrega un nuevo pago
+  operationId: addPayment
+  responses:
+    "200":
+      description: OK. ID de pago creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/payment.yaml#/components/schemas/Payment'

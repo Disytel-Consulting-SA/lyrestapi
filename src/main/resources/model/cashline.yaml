@@ -1,0 +1,104 @@
+components:
+  schemas:
+    CashLine:
+      type: object
+      properties:
+        accounting_c_charge_id:
+          type: integer
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        amount:
+          type: number
+        authcode:
+          type: string
+        authmatch:
+          type: boolean
+        automaticgenerated:
+          type: boolean
+        c_allocationhdr_id:
+          type: integer
+        cashamount:
+          type: number
+        cashtype:
+          type: string
+        c_bankaccount_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_cashcurrency_id:
+          type: integer
+        c_cash_id:
+          type: integer
+        c_cashline_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_currency_id:
+          type: integer
+        c_invoice_id:
+          type: integer
+        c_payment_id:
+          type: integer
+        c_posjournal_id:
+          type: integer
+        c_pospaymentmedium_id:
+          type: integer
+        c_project_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        description:
+          type: string
+        discountamt:
+          type: number
+        docstatus:
+          type: string
+        isactive:
+          type: boolean
+        isallocated:
+          type: boolean
+        isgenerated:
+          type: boolean
+        line:
+          type: integer
+        processed:
+          type: boolean
+        processing:
+          type: boolean
+        transfercash_id:
+          type: integer
+        transfercashline_id:
+          type: integer
+        updatebpbalance:
+          type: boolean
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        whiteoffamt:
+          type: number
+        writeoffamt:
+          type: number
+      required:
+         - ad_client_id
+         - ad_org_id
+         - amount
+         - automaticgenerated
+         - cashamount
+         - cashtype
+         - c_cash_id
+         - c_cashline_id
+         - created
+         - createdby
+         - docstatus
+         - isactive
+         - isallocated
+         - line
+         - processed
+         - updatebpbalance
+         - updated
+         - updatedby

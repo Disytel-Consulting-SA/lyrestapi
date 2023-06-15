@@ -1,0 +1,256 @@
+components:
+  schemas:
+    Payment:
+      type: object
+      properties:
+        a_bank:
+          type: string
+        accounting_c_charge_id:
+          type: integer
+        accountno:
+          type: string
+        a_city:
+          type: string
+        a_country:
+          type: string
+        a_cuit:
+          type: string
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        ad_orgtrx_id:
+          type: integer
+        a_email:
+          type: string
+        a_ident_dl:
+          type: string
+        a_ident_ssn:
+          type: string
+        a_name:
+          type: string
+        a_state:
+          type: string
+        a_street:
+          type: string
+        auditstatus:
+          type: string
+        authcode:
+          type: string
+        authmatch:
+          type: boolean
+        a_zip:
+          type: string
+        banklist_registerno:
+          type: string
+        bank_payment_date:
+          type: string
+        bank_payment_documentno:
+          type: string
+        bank_payment_msg_description:
+          type: string
+        c_activity_id:
+          type: integer
+        c_bankaccount_id:
+          type: integer
+        c_bank_id:
+          type: integer
+        c_bankpaymentstatus_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_bp_bankaccount_id:
+          type: integer
+        c_campaign_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_conversiontype_id:
+          type: integer
+        c_currency_id:
+          type: integer
+        c_doctype_id:
+          type: integer
+        chargeamt:
+          type: integer
+        checked:
+          type: boolean
+        checkno:
+          type: string
+        checkstatus:
+          type: string
+        c_invoice_check_rejected_id:
+          type: integer
+        c_invoice_id:
+          type: integer
+        c_order_id:
+          type: integer
+        couponbatchnumber:
+          type: string
+        couponnumber:
+          type: string
+        c_paymentbatch_id:
+          type: integer
+        c_payment_id:
+          type: integer
+        c_posjournal_id:
+          type: integer
+        c_pospaymentmedium_id:
+          type: integer
+        c_project_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        creditcardexpmm:
+          type: integer
+        creditcardexpyy:
+          type: integer
+        creditcardnumber:
+          type: string
+        creditcardtype:
+          type: string
+        creditcardvv:
+          type: string
+        dateacct:
+          type: string
+        dateemissioncheck:
+          type: string
+        datetrx:
+          type: string
+        description:
+          type: string
+        discountamt:
+          type: number
+        docstatus:
+          type: string
+        documentno:
+          type: string
+        duedate:
+          type: string
+        isactive:
+          type: boolean
+        isallocated:
+          type: boolean
+        isapproved:
+          type: boolean
+        isdelayedcapture:
+          type: boolean
+        ismanual:
+          type: boolean
+        isonline:
+          type: boolean
+        isoverunderpayment:
+          type: boolean
+        isprepayment:
+          type: boolean
+        isreceipt:
+          type: string
+        isreconciled:
+          type: boolean
+        isselfservice:
+          type: boolean
+        issotrx:
+          type: boolean
+        m_boletadeposito_id:
+          type: integer
+        m_entidadfinancieraplan_id:
+          type: integer
+        micr:
+          type: string
+        original_ref_payment_id:
+          type: integer
+        orig_trxid:
+          type: string
+        overunderamt:
+          type: number
+        payamt:
+          type: number
+        ponum:
+          type: string
+        posnet:
+          type: string
+        processed:
+          type: boolean
+        r_authcode:
+          type: string
+        r_authcode_dc:
+          type: string
+        r_avsaddr:
+          type: string
+        r_avszip:
+          type: string
+        r_cvv2match:
+          type: boolean
+        ref_payment_id:
+          type: integer
+        rejectedcomments:
+          type: string
+        rejecteddate:
+          type: string
+        r_info:
+          type: string
+        routingno:
+          type: string
+        r_pnref:
+          type: string
+        r_pnref_dc:
+          type: string
+        r_respmsg:
+          type: string
+        r_result:
+          type: string
+        swipe:
+          type: string
+        taxamt:
+          type: number
+        tendertype:
+          type: string
+        trxtype:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        user1_id:
+          type: integer
+        user2_id:
+          type: integer
+        voiceauthcode:
+          type: string
+        writeoffamt:
+          type: number
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_bankaccount_id
+         - c_bpartner_id
+         - c_currency_id
+         - c_doctype_id
+         - checked
+         - c_payment_id
+         - created
+         - createdby
+         - dateacct
+         - datetrx
+         - docstatus
+         - documentno
+         - isactive
+         - isallocated
+         - isapproved
+         - isdelayedcapture
+         - ismanual
+         - isonline
+         - isoverunderpayment
+         - isprepayment
+         - isreceipt
+         - isreconciled
+         - isselfservice
+         - issotrx
+         - payamt
+         - processed
+         - tendertype
+         - trxtype
+         - updated
+         - updatedby
