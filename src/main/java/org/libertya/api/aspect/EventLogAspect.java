@@ -47,10 +47,10 @@ public class EventLogAspect {
 
     protected String contentToLine(Object content, boolean isRequest) {
         if (content==null)
-            return "[NO_DATA]";
+            return "";
         String result = content.toString().replace("\n", ", ");
         int limit = (isRequest ? reqMaxLength : resMaxLength);
-        return result.substring(0, Math.min(limit>0?limit:Integer.MAX_VALUE, result.length()-1));
+        return result.substring(0, Math.min(limit>0?limit:Integer.MAX_VALUE, result.length()));
     }
 
     protected String classNameToString(String type) {
