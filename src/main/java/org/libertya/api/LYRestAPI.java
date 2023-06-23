@@ -8,12 +8,12 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 @SpringBootApplication @RequiredArgsConstructor
-public class ApiApplication {
+public class LYRestAPI {
 
 	final StartupLYService service;
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiApplication.class, args);
+		SpringApplication.run(LYRestAPI.class, args);
 	}
 
 	@EventListener(ApplicationReadyEvent.class)

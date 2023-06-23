@@ -1,0 +1,11 @@
+components:
+  schemas:
+    AllocationDocument:
+      type: object
+      properties:
+        header:
+          $ref: '../model/allocationhdr.yaml#/components/schemas/AllocationHdr'
+        lines:
+          type: array
+          items:
+            $ref: '../model/allocationline.yaml#/components/schemas/AllocationLine'

@@ -47,3 +47,9 @@ paths:
     $ref: ./paths/cashlines_id.yaml
   /v1.0/cashlines/{id}/process:
     $ref: ./paths/cashlines_id_process.yaml
+  /v1.0/allocations:
+    $ref: ./paths/allocations.yaml
+  /v1.0/allocations/{id}:
+    $ref: ./paths/allocations_id.yaml
+  /v1.0/allocations/{id}/process:
+    $ref: ./paths/allocations_id_process.yaml
