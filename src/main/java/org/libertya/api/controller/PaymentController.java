@@ -2,6 +2,7 @@ package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.repository.PaymentRepository;
+import org.libertya.api.service.PaymentService;
 import org.libertya.api.stub.iface.PaymentApi;
 import org.libertya.api.stub.model.Payment;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,11 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
     private final PaymentRepository repository;
 
+    private final PaymentService service;
+
     @Override
     public ResponseEntity<String> addPayment(Payment body) {
-        return insertAction(request, (info) -> repository.insert(info, body));
+        return insertAction(request, (info) -> service.create(info, body));
     }
 
     @Override
@@ -35,7 +38,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
     @Override
     public ResponseEntity<Payment> retrievePayment(Integer id) {
-        return retrieveAction(request, (info) -> repository.retrieve(info, id));
+        return retrieveAction(request, (info) -> service.retrieve(info, id));
     }
 
     @Override
