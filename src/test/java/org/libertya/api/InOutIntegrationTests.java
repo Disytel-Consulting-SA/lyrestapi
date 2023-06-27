@@ -63,7 +63,7 @@ class InOutIntegrationTests extends CommonIntegrationTests {
 
     @Test
     @Order(1)
-    void createInOutSouldReturnOK() throws Exception {
+    void createInOutShouldReturnOK() throws Exception {
         ResponseEntity<String> response =
                 restTemplate.exchange(getBaseURL("inouts"),
                         HttpMethod.POST,

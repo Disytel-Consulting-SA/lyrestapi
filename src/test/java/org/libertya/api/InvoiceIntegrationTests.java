@@ -63,7 +63,7 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 
 	@Test
 	@Order(1)
-	void createInvoiceSouldReturnOK() throws Exception {
+	void createInvoiceShouldReturnOK() throws Exception {
 		ResponseEntity<String> response =
 				restTemplate.exchange(getBaseURL("invoices"),
 						HttpMethod.POST,

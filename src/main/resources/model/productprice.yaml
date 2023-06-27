@@ -1,0 +1,42 @@
+components:
+  schemas:
+    ProductPrice:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        isactive:
+          type: boolean
+        m_pricelist_version_id:
+          type: integer
+        m_product_id:
+          type: integer
+        pricelimit:
+          type: number
+        pricelist:
+          type: number
+        pricestd:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - isactive
+         - m_pricelist_version_id
+         - m_product_id
+         - pricelimit
+         - pricelist
+         - pricestd
+         - updated
+         - updatedby

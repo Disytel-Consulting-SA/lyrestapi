@@ -216,6 +216,19 @@ public abstract class AbstractRepository {
         return retValue.substring(0,retValue.length()-7);
     }
 
+    /** Retorna el ID de un PO dado.
+     *  Si la PK es formada por varios campos, devuelve cada uno de estos separado por un guion,
+     *  en el orden definido en las subclases, segun lo especificado en pkColumns */
+    public String getID(PO aPO) {
+        if (pkColumns==null)
+            return ""+aPO.getID();
+        StringBuffer retValue = new StringBuffer();
+        for (String pkColumn : pkColumns) {
+            retValue.append(aPO.get_Value(pkColumn)).append("-");
+        }
+        return retValue.toString().substring(0, retValue.toString().length()-1);
+    }
+
     protected String formatClause(String str) {
         return str.replace("\"", "").replace("--", "").replace(";", "");
     }
@@ -349,10 +362,10 @@ public abstract class AbstractRepository {
     protected void updateEntity(UserInfo info, int[] id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException, AuthException {
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(info, tableName, id, null);
-        loadPODefaults(info, aPO, false);
         if (aPO == null || aPO.getID() == 0) {
             throw new NotFoundException();
         }
+        loadPODefaults(info, aPO, false);
         loadPOFromEntity(aPO, source, ignoreNulls);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
@@ -372,7 +385,7 @@ public abstract class AbstractRepository {
         loadPOFromEntity(aPO, source, false);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
-        return ""+aPO.getID();
+        return getID(aPO);
     }
 
     /**

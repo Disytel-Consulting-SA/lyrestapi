@@ -44,3 +44,4 @@ generateSchema Payment        C_Payment         payment.yaml
 generateSchema CashLine       C_CashLine        cashline.yaml
 generateSchema AllocationHdr  C_AllocationHdr   allocationhdr.yaml
 generateSchema AllocationLine C_AllocationLine  allocationline.yaml
+generateSchema ProductPrice   M_ProductPrice    productprice.yaml

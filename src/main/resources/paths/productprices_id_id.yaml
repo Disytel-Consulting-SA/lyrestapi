@@ -1,0 +1,108 @@
+get:
+  summary: Recupera un precio de producto en particular
+  tags:
+    - "productprice"
+  parameters:
+    - name: idProduct
+      in: path
+      description: ID del articulo
+      required: true
+      schema:
+        type: integer
+    - name: idPriceListVersion
+      in: path
+      description: ID de la Version de Lista de Precio
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion del precio de un articulo en particular
+  operationId: retrieveProductPrice
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/productprice.yaml#/components/schemas/ProductPrice'
+delete:
+  summary: Elimina un precio de articulo
+  tags:
+    - "productprice"
+  parameters:
+    - name: idProduct
+      in: path
+      description: ID del articulo
+      required: true
+      schema:
+        type: integer
+    - name: idPriceListVersion
+      in: path
+      description: ID de la Version de Lista de Precio
+      required: true
+      schema:
+        type: integer
+  description: Elimina un precio de articulo existente
+  operationId: deleteProductPrice
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza el precio de un articulo existente
+  tags:
+    - "productprice"
+  operationId: updateProductPrice
+  parameters:
+    - name: idProduct
+      in: path
+      description: ID del articulo
+      required: true
+      schema:
+        type: integer
+    - name: idPriceListVersion
+      in: path
+      description: ID de la Version de Lista de Precio
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/productprice.yaml#/components/schemas/ProductPrice'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

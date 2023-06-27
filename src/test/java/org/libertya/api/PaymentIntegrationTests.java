@@ -49,7 +49,7 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
 
     @Test
     @Order(1)
-    void createPaymentSouldReturnOK() throws Exception {
+    void createPaymentShouldReturnOK() throws Exception {
         ResponseEntity<String> response =
                 restTemplate.exchange(getBaseURL("payments"),
                         HttpMethod.POST,
