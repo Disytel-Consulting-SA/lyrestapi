@@ -1,0 +1,90 @@
+get:
+  tags:
+    - "inventory"
+  summary: Recupera un inventario en particular
+  parameters:
+    - name: id
+      in: path
+      description: ID del inventario
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un inventario en particular
+  operationId: retrieveInventory
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/inventory_doc.yaml#/components/schemas/InventoryDocument'
+delete:
+  tags:
+    - "inventory"
+  summary: Elimina un inventario
+  parameters:
+    - name: id
+      in: path
+      description: ID del inventario
+      required: true
+      schema:
+        type: integer
+  description: Elimina un inventario existente
+  operationId: deleteInventory
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  tags:
+    - "inventory"
+  summary: Actualiza un inventario existente
+  operationId: updateInventory
+  parameters:
+    - name: id
+      in: path
+      description: ID del inventario a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/inventory.yaml#/components/schemas/Inventory'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

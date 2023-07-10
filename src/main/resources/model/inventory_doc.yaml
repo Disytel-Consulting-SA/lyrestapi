@@ -1,0 +1,11 @@
+components:
+  schemas:
+    InventoryDocument:
+      type: object
+      properties:
+        header:
+          $ref: '../model/inventory.yaml#/components/schemas/Inventory'
+        lines:
+          type: array
+          items:
+            $ref: '../model/inventoryline.yaml#/components/schemas/InventoryLine'

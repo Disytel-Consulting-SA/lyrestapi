@@ -1,0 +1,68 @@
+components:
+  schemas:
+    InventoryLine:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        cost:
+          type: number
+        created:
+          type: string
+        createdby:
+          type: integer
+        description:
+          type: string
+        inventorytype:
+          type: string
+        isactive:
+          type: boolean
+        line:
+          type: integer
+        m_attributesetinstance_id:
+          type: integer
+        m_inventory_id:
+          type: integer
+        m_inventoryline_id:
+          type: integer
+        m_locator_id:
+          type: integer
+        m_product_id:
+          type: integer
+        processed:
+          type: boolean
+        qtybook:
+          type: number
+        qtycount:
+          type: number
+        qtycountwithoutchargesign:
+          type: number
+        qtyinternaluse:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - cost
+         - created
+         - createdby
+         - inventorytype
+         - isactive
+         - m_attributesetinstance_id
+         - m_inventory_id
+         - m_inventoryline_id
+         - m_locator_id
+         - m_product_id
+         - processed
+         - qtybook
+         - qtycount
+         - qtycountwithoutchargesign
+         - updated
+         - updatedby

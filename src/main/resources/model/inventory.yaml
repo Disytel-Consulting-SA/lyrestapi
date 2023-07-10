@@ -1,0 +1,78 @@
+components:
+  schemas:
+    Inventory:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        ad_orgtrx_id:
+          type: integer
+        approvalamt:
+          type: number
+        c_activity_id:
+          type: integer
+        c_campaign_id:
+          type: integer
+        c_charge_id:
+          type: integer
+        c_doctype_id:
+          type: integer
+        c_project_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        description:
+          type: string
+        docstatus:
+          type: string
+        documentno:
+          type: string
+        inventorykind:
+          type: string
+        isactive:
+          type: boolean
+        isapproved:
+          type: boolean
+        m_inventory_id:
+          type: integer
+        movementdate:
+          type: string
+        m_perpetualinv_id:
+          type: integer
+        m_warehouse_id:
+          type: integer
+        paper_form:
+          type: string
+        processed:
+          type: boolean
+        processing:
+          type: boolean
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        user1_id:
+          type: integer
+        user2_id:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_doctype_id
+         - created
+         - createdby
+         - docstatus
+         - documentno
+         - inventorykind
+         - isactive
+         - isapproved
+         - m_inventory_id
+         - movementdate
+         - m_warehouse_id
+         - processed
+         - updated
+         - updatedby
