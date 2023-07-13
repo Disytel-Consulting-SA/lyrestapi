@@ -71,7 +71,7 @@ public abstract class AbstractService {
             String id = performCreate(info, document, trxName);
 
             // Procesado del documento
-            if ("Y".equalsIgnoreCase(completeDocument)) {
+            if (shouldComplete()) {
                 docRepository.process(info, Integer.parseInt(id), DocAction.ACTION_Complete, trxName);
             }
 
@@ -84,6 +84,11 @@ public abstract class AbstractService {
         } finally {
             Trx.getTrx(trxName).close();
         }
+    }
+
+    /** Debe completarse el documento creado? Puede ser redefinido por subclases si corresponde */
+    protected boolean shouldComplete() {
+        return "Y".equalsIgnoreCase(completeDocument);
     }
 
     /** Retorna una lista vacia si es que list es null, o la lista en cuestion

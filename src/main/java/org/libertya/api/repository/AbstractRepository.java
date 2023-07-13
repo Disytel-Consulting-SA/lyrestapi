@@ -36,6 +36,14 @@ public abstract class AbstractRepository {
     /** Numero maximo por defecto de entidades a retornar */
     public static final Integer DEFAULT_LIMIT = 100;
 
+    public String getTableName() {
+        return tableName;
+    }
+
+    public String[] getPkColumns() {
+        return pkColumns;
+    }
+
     /**
      * Recupera un objeto persistente a partir de su ID
      * @param tableName nombre de la tabla
@@ -45,7 +53,7 @@ public abstract class AbstractRepository {
      */
     public PO getPO(UserInfo info, String tableName, int[] id, String trxName) throws AuthException {
         PO aPO;
-        M_Table table = M_Table.get(Env.getCtx(), tableName);
+        M_Table table = M_Table.get(getCtx(), tableName);
         // Tabla con PK formada por mas de una columna? (y no estamos insertando)
         if (pkColumns!=null && id[0]>0) {
             aPO = table.getPO(getPOWhereClause(id), trxName);

@@ -1,0 +1,69 @@
+components:
+  schemas:
+    AllocationNew:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        paymentrule:
+          type: string
+        earlypayment:
+          type: boolean
+        invoices:
+          type: array
+          items:
+            type: object
+            properties:
+              c_invoice_id:
+                type: integer
+              amount:
+                type: number
+        payments:
+          type: array
+          items:
+            type: object
+            properties:
+              c_pospaymentmedium_id:
+                type: integer
+              amount:
+                type: number
+              c_invoice_id:
+                type: integer
+              c_bankaccount_id:
+                type: integer
+              c_bank_id:
+                type: integer
+              a_bank:
+                type: string
+              transferno:
+                type: string
+              transferdate:
+                type: string
+              m_entidadfinancieraplan_id:
+                type: integer
+              creditcardnumber:
+                type: string
+              couponnumber:
+                type: string
+              checkno:
+                type: string
+              datetrx:
+                type: string
+              duedate:
+                type: string
+              c_cash_id:
+                type: integer
+              c_cashline_id:
+                type: integer
+              c_payment_id:
+                type: integer
+              c_retencionschema_id:
+                type: integer
+              retenc_documentno:
+                type: string
+              retenc_date:
+                type: string

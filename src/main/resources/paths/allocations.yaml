@@ -64,4 +64,4 @@ post:
       application/json:
         schema:
           type: object
-          $ref: '../model/allocation_doc.yaml#/components/schemas/AllocationDocument'
+          $ref: '../model/allocation_new.yaml#/components/schemas/AllocationNew'

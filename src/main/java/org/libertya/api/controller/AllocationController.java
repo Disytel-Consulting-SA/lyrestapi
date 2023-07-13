@@ -6,6 +6,7 @@ import org.libertya.api.service.AllocationService;
 import org.libertya.api.stub.iface.AllocationApi;
 import org.libertya.api.stub.model.AllocationDocument;
 import org.libertya.api.stub.model.AllocationHdr;
+import org.libertya.api.stub.model.AllocationNew;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -23,7 +24,7 @@ public class AllocationController extends AbstractController implements Allocati
     private final AllocationService service;
 
     @Override
-    public ResponseEntity<String> addAllocation(AllocationDocument body) {
+    public ResponseEntity<String> addAllocation(AllocationNew body) {
         return insertAction(request, (info) -> service.create(info, body));
     }
 

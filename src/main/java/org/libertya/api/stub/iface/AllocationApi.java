@@ -7,6 +7,7 @@ package org.libertya.api.stub.iface;
 
 import org.libertya.api.stub.model.AllocationDocument;
 import org.libertya.api.stub.model.AllocationHdr;
+import org.libertya.api.stub.model.AllocationNew;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -56,7 +57,7 @@ public interface AllocationApi {
         produces = { "text/plain" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<String> addAllocation(@ApiParam(value = "" ,required=true )  @Valid @RequestBody AllocationDocument body
+    default ResponseEntity<String> addAllocation(@ApiParam(value = "" ,required=true )  @Valid @RequestBody AllocationNew body
 ) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
