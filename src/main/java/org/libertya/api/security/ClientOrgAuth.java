@@ -2,6 +2,7 @@ package org.libertya.api.security;
 
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
+import org.openXpertya.model.MOrg;
 import org.openXpertya.model.PO;
 
 public class ClientOrgAuth {
@@ -16,7 +17,7 @@ public class ClientOrgAuth {
      */
     public static PO validate(UserInfo info, PO aPO) throws AuthException {
         // No es factible realizar validacion alguna
-        if (info==null || aPO==null)
+        if (info==null || aPO==null || aPO.getID()==0)
             return aPO;
 
         // Si el token de acceso solo permite una compañia en particular, no permitir gestionar/retornar informacion de otra compañía

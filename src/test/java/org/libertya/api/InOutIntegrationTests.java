@@ -146,7 +146,7 @@ class InOutIntegrationTests extends CommonIntegrationTests {
     @Test
     void deleteInOutWithCompanyMismatchShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inouts/1011608"),	// <- Registro de AD_Client_ID = 1000005
+                restTemplate.exchange(getBaseURL("inouts/1003577"),	// <- Registro de AD_Client_ID = 1000005
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);

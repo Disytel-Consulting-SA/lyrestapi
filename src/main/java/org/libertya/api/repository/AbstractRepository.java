@@ -6,6 +6,7 @@ import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
 import org.libertya.api.security.ClientOrgAuth;
+import org.openXpertya.model.MOrg;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
@@ -394,6 +395,10 @@ public abstract class AbstractRepository {
         PO aPO = getPO(info, tableName, new int[]{0}, trxName);
         loadPODefaults(info, aPO, true);
         loadPOFromEntity(info, aPO, source, false);
+        // Se especificó una organizacion adecuada perteneciente a la compañía?
+        if (aPO.getAD_Org_ID() > 0 && (MOrg.get(info.getCtx(), aPO.getAD_Org_ID()).getID()==0 || MOrg.get(info.getCtx(), aPO.getAD_Org_ID()).getAD_Client_ID()!= aPO.getAD_Client_ID())) {
+            throw new ModelException("Organizacion " + aPO.getAD_Org_ID() + " inexistente para compañía " + info.getClientID());
+        }
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
         return getID(aPO);
