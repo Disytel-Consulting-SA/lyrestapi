@@ -55,6 +55,14 @@ public class AllocationService extends AbstractService {
             throw new Exception("No se han indicado facturas a cancelar para este recibo de cliente");
         }
 
+        // Se especificó una organizacion adecuada perteneciente a la compañía?
+        if (allocData.getAdOrgId()!=null &&
+                allocData.getAdOrgId() > 0 &&
+                (MOrg.get(info.getCtx(), allocData.getAdOrgId()).getID()==0 ||
+                 MOrg.get(info.getCtx(), allocData.getAdOrgId()).getAD_Client_ID()!= info.getClientID())) {
+            throw new Exception("Organizacion " + allocData.getAdOrgId() + " inexistente para compañía " + info.getClientID());
+        }
+
         // La OP/RC requiere un AD_Org_ID especificamente mayor a 0
         // Por lo tanto se utiliza o bien el del token o el indicado en los datos recibidos (priorizando este ultimo
         if (allocData.getAdOrgId()!=null)
