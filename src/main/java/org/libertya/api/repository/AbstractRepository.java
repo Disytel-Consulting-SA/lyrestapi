@@ -53,7 +53,7 @@ public abstract class AbstractRepository {
      */
     public PO getPO(UserInfo info, String tableName, int[] id, String trxName) throws AuthException {
         PO aPO;
-        M_Table table = M_Table.get(getCtx(), tableName);
+        M_Table table = M_Table.get(getCtx(info), tableName);
         // Tabla con PK formada por mas de una columna? (y no estamos insertando)
         if (pkColumns!=null && id[0]>0) {
             aPO = table.getPO(getPOWhereClause(id), trxName);
@@ -105,8 +105,11 @@ public abstract class AbstractRepository {
         Trx.getTrx(trxName).rollback();
     }
 
-    protected Properties getCtx()
+    protected Properties getCtx(UserInfo info)
     {
+        // Prioriza el uso del ctx del request por encima del general
+        if (info!=null)
+            return info.getCtx();
         return Env.getCtx();
     }
 
@@ -264,7 +267,7 @@ public abstract class AbstractRepository {
         // NOTA: Swagger openapi respeta camelCase mientras que las columnas en BDD no siempre y ademas utiliza underscores
         for (Field field : fields) {
             String fieldName = field.getName().toLowerCase().replace("_", "");
-            M_Table aTable = M_Table.get(getCtx(), aPO.get_TableName());
+            M_Table aTable = M_Table.get(getCtx(info), aPO.get_TableName());
             M_Column[] columns = aTable.getColumns(false);
             for (M_Column aColumn : columns) {
                 if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
@@ -308,7 +311,7 @@ public abstract class AbstractRepository {
      * @param aPO el PO a cargar
      * @param source el objeto con las propiedades a volcar
      */
-    protected void loadPOFromEntity(PO aPO, Object source, boolean ignoreNulls) throws ModelException {
+    protected void loadPOFromEntity(UserInfo info, PO aPO, Object source, boolean ignoreNulls) throws ModelException {
         // Instanciar objeto del modelo segun corresponda
         Field[] fields = source.getClass().getDeclaredFields();
         // Iterar por los campos matcheando segun el nombre de la propiedad.
@@ -324,7 +327,7 @@ public abstract class AbstractRepository {
                 e.printStackTrace();
             }
             String fieldName = field.getName().toLowerCase().replace("_", "");
-            M_Table aTable = M_Table.get(getCtx(), aPO.get_TableName());
+            M_Table aTable = M_Table.get(getCtx(info), aPO.get_TableName());
             M_Column[] columns = aTable.getColumns(false);
             for (M_Column aColumn : columns) {
                 if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName) &&
@@ -374,7 +377,7 @@ public abstract class AbstractRepository {
             throw new NotFoundException();
         }
         loadPODefaults(info, aPO, false);
-        loadPOFromEntity(aPO, source, ignoreNulls);
+        loadPOFromEntity(info, aPO, source, ignoreNulls);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
     }
@@ -390,7 +393,7 @@ public abstract class AbstractRepository {
     protected String insertEntity(UserInfo info, String tableName, Object source, String trxName) throws ModelException, AuthException {
         PO aPO = getPO(info, tableName, new int[]{0}, trxName);
         loadPODefaults(info, aPO, true);
-        loadPOFromEntity(aPO, source, false);
+        loadPOFromEntity(info, aPO, source, false);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
         return getID(aPO);
@@ -437,7 +440,7 @@ public abstract class AbstractRepository {
             if (aPO.getID() <= 0)
                 throw new NotFoundException();
             if (!DocumentEngine.processAndSave((DocAction) aPO, action.toUpperCase(), false)) {
-                throw new ModelException(Msg.parseTranslation(getCtx(), ((DocAction) aPO).getProcessMsg()));
+                throw new ModelException(Msg.parseTranslation(getCtx(info), ((DocAction) aPO).getProcessMsg()));
             }
             // Validar si pudo cambiarse la nuevo estado, dado que DocumentEngine.processIt no realiza dicha actividad
             String currentStatus = ((DocAction) aPO).getDocStatus();

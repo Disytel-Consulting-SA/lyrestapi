@@ -37,7 +37,7 @@ public class InOutService extends AbstractService {
         doc.setHeader(inout.get());
 
         // Lineas
-        for (Object item : inoutLineLineRepository.retrieveAll(info,"c_InOut_id="+id, null, null, null, null )) {
+        for (Object item : inoutLineLineRepository.retrieveAll(info,"m_InOut_id="+id, null, null, null, null )) {
             doc.addLinesItem(((Optional<InOutLine>)item).get());
         }
 

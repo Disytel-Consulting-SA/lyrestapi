@@ -56,12 +56,12 @@ public class AllocationService extends AbstractService {
         }
 
         // La OP/RC requiere un AD_Org_ID especificamente mayor a 0
-        // Por lo tanto se utiliza el indicado en los datos recibidos
-        Properties ctx = new Properties(Env.getCtx());
-        Env.setContext(ctx, "#AD_Org_ID", allocData.getAdOrgId());
+        // Por lo tanto se utiliza o bien el del token o el indicado en los datos recibidos (priorizando este ultimo
+        if (allocData.getAdOrgId()!=null)
+            Env.setContext(info.getCtx(), "#AD_Org_ID", allocData.getAdOrgId());
 
         // Crear encabezado
-        POCRGenerator rcGenerator = new POCRGenerator(ctx, POCRType.CUSTOMER_RECEIPT, allocData.getPaymentrule(), trxName);
+        POCRGenerator rcGenerator = new POCRGenerator(info.getCtx(), POCRType.CUSTOMER_RECEIPT, allocData.getPaymentrule(), trxName);
         MAllocationHdr allocationHdr = rcGenerator.createAllocationHdr();
         allocationHdr.setC_BPartner_ID(allocData.getCBpartnerId());
         allocationHdr.setIsManual(false);

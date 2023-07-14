@@ -18,7 +18,7 @@ public class LYRestAPI {
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void doSomethingAfterStartup() throws Exception {
-		service.init(null, null);
+		service.init();
 	}
 
 }
