@@ -267,11 +267,11 @@ public abstract class AbstractRepository {
         // Iterar por los campos matcheando segun el nombre de la propiedad.
         // NOTA: Swagger openapi respeta camelCase mientras que las columnas en BDD no siempre y ademas utiliza underscores
         for (Field field : fields) {
-            String fieldName = field.getName().toLowerCase().replace("_", "");
+            String fieldName = normalize(field.getName());
             M_Table aTable = M_Table.get(getCtx(info), aPO.get_TableName());
             M_Column[] columns = aTable.getColumns(false);
             for (M_Column aColumn : columns) {
-                if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName)) {
+                if (normalize(aColumn.getColumnName()).equals(fieldName)) {
                     if (includeFields==null || includeFields.contains(fieldName)) {
                         field.setAccessible(true);
                         setValueToObject(object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
@@ -281,6 +281,11 @@ public abstract class AbstractRepository {
             }
         }
         return (Optional<T>)Optional.of(object);
+    }
+
+    /** Normaliza a lowercase y sin underscores el value recibido */
+    protected String normalize(String value) {
+        return value.toLowerCase().replace("_", "");
     }
 
     /**
@@ -295,7 +300,7 @@ public abstract class AbstractRepository {
     }
 
     /** Carga de valores por defecto */
-    protected void loadPODefaults(UserInfo info, PO aPO, boolean inserting) {
+    protected void loadPOInitialValues(UserInfo info, PO aPO, boolean inserting) {
         int userID = DB.getSQLValue(null, String.format("SELECT ad_user_id FROM ad_user where name = '%s'", info.getUserName()));
         // Inserting?
         if (inserting) {
@@ -308,11 +313,47 @@ public abstract class AbstractRepository {
     }
 
     /**
+     * Setea el valor por defecto cargado en metadatos para la columna dada.
+     * 		Unicamente para tipos de dato Entero y BigDecimal, si éstos NO contienen valores de tipo @expresion@
+     * @param aColumn columna a setear valor
+     * @param po objeto a asignar valor para la columna dada
+     * @throws ModelException en caso de error
+     */
+    protected void setDefaultValue(M_Column aColumn, PO po) throws ModelException {
+        Class<?> clazz = DisplayType.getClass(aColumn.getAD_Reference_ID(), false);
+        String columnName = aColumn.getColumnName();
+        try {
+            // Solo para tipo Entero
+            if (Integer.class == clazz &&
+                    (po.get_Value(columnName) == null || "0".equals(po.get_ValueAsString(columnName))) &&
+                    (aColumn.getDefaultValue() != null && aColumn.getDefaultValue().length() > 0 && !aColumn.getDefaultValue().trim().startsWith("@")))
+                setValue(po, aColumn, aColumn.getDefaultValue());
+
+            // Solo para tipo BigDecimal
+            if (BigDecimal.class == clazz &&
+                    (po.get_Value(columnName) == null || BigDecimal.ZERO.compareTo(new BigDecimal(po.get_ValueAsString(columnName))) == 0) &&
+                    (aColumn.getDefaultValue() != null && aColumn.getDefaultValue().length() > 0 && !aColumn.getDefaultValue().trim().startsWith("@")))
+                setValue(po, aColumn, aColumn.getDefaultValue());
+        } catch (Exception e) {
+            throw new ModelException("No es posible setear valor por defecto" + aColumn.getDefaultValue() + " en columna " + aColumn.getColumnName() + " de entidad " + po.get_TableName() + "(" + e.getMessage() + ")");
+        }
+    }
+
+    /** Usar valores por defecto? */
+    protected boolean useDefaults(UserInfo info) {
+        try {
+            return "Y".equalsIgnoreCase((String)info.getCtx().get("#USE_DEFAULTS"));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
      * Carga en un PO la informacion del objeto recibida
      * @param aPO el PO a cargar
      * @param source el objeto con las propiedades a volcar
      */
-    protected void loadPOFromEntity(UserInfo info, PO aPO, Object source, boolean ignoreNulls) throws ModelException {
+    protected void loadPOFromEntity(UserInfo info, PO aPO, Object source, boolean ignoreNulls, boolean inserting) throws ModelException {
         // Instanciar objeto del modelo segun corresponda
         Field[] fields = source.getClass().getDeclaredFields();
         // Iterar por los campos matcheando segun el nombre de la propiedad.
@@ -327,15 +368,19 @@ public abstract class AbstractRepository {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String fieldName = field.getName().toLowerCase().replace("_", "");
+            String fieldName = normalize(field.getName());
             M_Table aTable = M_Table.get(getCtx(info), aPO.get_TableName());
             M_Column[] columns = aTable.getColumns(false);
             for (M_Column aColumn : columns) {
-                if (aColumn.getColumnName().toLowerCase().replace("_", "").equals(fieldName) &&
-                        // El valor podría haber sido definido previamente al especificar los defaults
-                        (aPO.get_Value(aColumn.getColumnName()) == null || value != null) ) {
-                    setValue(aPO, aColumn, value);
-                    break;
+                if (normalize(aColumn.getColumnName()).equals(fieldName)) {
+                    if (inserting && useDefaults(info)) {
+                        setDefaultValue(aColumn, aPO);
+                    }
+                    // El valor podría haber sido definido previamente al especificar los defaults
+                    if (aPO.get_Value(aColumn.getColumnName()) == null || value != null) {
+                        setValue(aPO, aColumn, value);
+                        break;
+                    }
                 }
             }
         }
@@ -377,8 +422,8 @@ public abstract class AbstractRepository {
         if (aPO == null || aPO.getID() == 0) {
             throw new NotFoundException();
         }
-        loadPODefaults(info, aPO, false);
-        loadPOFromEntity(info, aPO, source, ignoreNulls);
+        loadPOInitialValues(info, aPO, false);
+        loadPOFromEntity(info, aPO, source, ignoreNulls, false);
         if (!aPO.save())
             throw new ModelException(CLogger.retrieveErrorAsString());
     }
@@ -393,8 +438,8 @@ public abstract class AbstractRepository {
      */
     protected String insertEntity(UserInfo info, String tableName, Object source, String trxName) throws ModelException, AuthException {
         PO aPO = getPO(info, tableName, new int[]{0}, trxName);
-        loadPODefaults(info, aPO, true);
-        loadPOFromEntity(info, aPO, source, false);
+        loadPOInitialValues(info, aPO, true);
+        loadPOFromEntity(info, aPO, source, false, true);
         // Se especificó una organizacion adecuada perteneciente a la compañía?
         if (aPO.getAD_Org_ID() > 0 && (MOrg.get(info.getCtx(), aPO.getAD_Org_ID()).getID()==0 || MOrg.get(info.getCtx(), aPO.getAD_Org_ID()).getAD_Client_ID()!= aPO.getAD_Client_ID())) {
             throw new ModelException("Organizacion " + aPO.getAD_Org_ID() + " inexistente para compañía " + info.getClientID());
@@ -440,7 +485,7 @@ public abstract class AbstractRepository {
             handleTrx = true;
         }
         PO aPO = getPO(info, tableName, id, trxName);
-        loadPODefaults(info, aPO, false);
+        loadPOInitialValues(info, aPO, false);
         try {
             if (aPO.getID() <= 0)
                 throw new NotFoundException();

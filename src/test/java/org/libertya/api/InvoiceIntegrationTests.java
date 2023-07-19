@@ -36,6 +36,7 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 		inv.setMPricelistId(1010595);
 		inv.setPaymentrule("S");
 		inv.setSalesrepId(100);
+		inv.setAdUserId(100);
 
 		InvoiceLine line1 = new InvoiceLine();
 		line1.setLine(10);

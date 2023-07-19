@@ -32,6 +32,9 @@ public class StartupLYService {
     @Value("${restapi.libertya.app.clientID}")
     private String clientID;
 
+    @Value("${restapi.libertya.app.useDefaults}")
+    private String useDefaults;
+
 
 
     /**
@@ -78,6 +81,7 @@ public class StartupLYService {
         if (!OpenXpertya.startup( false ))
             throw new Exception ("Error al iniciar entorno (Hay conexión a Base de Datos?) ");
         setCurrency(Env.getCtx());
+        setUseDefaults(Env.getCtx());
     }
 
     /**
@@ -92,6 +96,11 @@ public class StartupLYService {
                 " AND c.AD_Client_ID = " + Env.getAD_Client_ID(ctx);
         int currencyID = DB.getSQLValue(null, sql);
         Env.setContext(ctx, "$C_Currency_ID", currencyID);
+    }
+
+    /** Usar valores por defecto definidos en los metadatos de las columnas? */
+    protected void setUseDefaults(Properties ctx) {
+        Env.setContext(ctx, "#USE_DEFAULTS", useDefaults);
     }
 
 }
