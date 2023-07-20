@@ -6,6 +6,7 @@ import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
 import org.libertya.api.security.ClientOrgAuth;
+import org.libertya.api.util.SchemaUtils;
 import org.openXpertya.model.MOrg;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
@@ -13,6 +14,7 @@ import org.openXpertya.model.PO;
 import org.openXpertya.process.DocAction;
 import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -23,6 +25,9 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public abstract class AbstractRepository {
+
+    @Autowired
+    protected SchemaUtils schemaUtils;
 
     /** Nombre de la tabla asociada a esta entidad  (a definir en el constructor de las subclases) */
     protected String tableName = null;
@@ -264,28 +269,18 @@ public abstract class AbstractRepository {
         // Instanciar objeto del modelo segun corresponda
         Object object = target.perform();
         Field[] fields = object.getClass().getDeclaredFields();
-        // Iterar por los campos matcheando segun el nombre de la propiedad.
-        // NOTA: Swagger openapi respeta camelCase mientras que las columnas en BDD no siempre y ademas utiliza underscores
+
+        Map<String, M_Column> columnNameMap = schemaUtils.getColumnNameMap(aPO.get_TableName(), getCtx(info));
+        // Iterar por los campos del objeto, asignando los valores en cada matcheo
         for (Field field : fields) {
-            String fieldName = normalize(field.getName());
-            M_Table aTable = M_Table.get(getCtx(info), aPO.get_TableName());
-            M_Column[] columns = aTable.getColumns(false);
-            for (M_Column aColumn : columns) {
-                if (normalize(aColumn.getColumnName()).equals(fieldName)) {
-                    if (includeFields==null || includeFields.contains(fieldName)) {
-                        field.setAccessible(true);
-                        setValueToObject(object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
-                        break;
-                    }
-                }
+            String fieldName = schemaUtils.normalize(field.getName());
+            M_Column aColumn = columnNameMap.get(fieldName);
+            if (aColumn != null && (includeFields == null || includeFields.contains(fieldName))) {
+                field.setAccessible(true);
+                setValueToObject(object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
             }
         }
         return (Optional<T>)Optional.of(object);
-    }
-
-    /** Normaliza a lowercase y sin underscores el value recibido */
-    protected String normalize(String value) {
-        return value.toLowerCase().replace("_", "");
     }
 
     /**
@@ -356,6 +351,8 @@ public abstract class AbstractRepository {
     protected void loadPOFromEntity(UserInfo info, PO aPO, Object source, boolean ignoreNulls, boolean inserting) throws ModelException {
         // Instanciar objeto del modelo segun corresponda
         Field[] fields = source.getClass().getDeclaredFields();
+
+        Map<String, M_Column> columnNameMap = schemaUtils.getColumnNameMap(aPO.get_TableName(), getCtx(info));
         // Iterar por los campos matcheando segun el nombre de la propiedad.
         // NOTA: Swagger openapi respeta camelCase mientras que las columnas en BDD no siempre y ademas utiliza underscores
         for (Field field : fields) {
@@ -368,19 +365,15 @@ public abstract class AbstractRepository {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String fieldName = normalize(field.getName());
-            M_Table aTable = M_Table.get(getCtx(info), aPO.get_TableName());
-            M_Column[] columns = aTable.getColumns(false);
-            for (M_Column aColumn : columns) {
-                if (normalize(aColumn.getColumnName()).equals(fieldName)) {
-                    if (inserting && useDefaults(info)) {
-                        setDefaultValue(aColumn, aPO);
-                    }
-                    // El valor podría haber sido definido previamente al especificar los defaults
-                    if (aPO.get_Value(aColumn.getColumnName()) == null || value != null) {
-                        setValue(aPO, aColumn, value);
-                        break;
-                    }
+            String fieldName = schemaUtils.normalize(field.getName());
+            M_Column aColumn = columnNameMap.get(fieldName);
+            if (aColumn != null) {
+                if (inserting && useDefaults(info)) {
+                    setDefaultValue(aColumn, aPO);
+                }
+                // El valor podría haber sido definido previamente al especificar los defaults
+                if (aPO.get_Value(aColumn.getColumnName()) == null || value != null) {
+                    setValue(aPO, aColumn, value);
                 }
             }
         }
