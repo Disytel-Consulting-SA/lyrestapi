@@ -154,11 +154,11 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
     @Order(1000)
     void voidProcessedPaymentShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("payments/" + documentID),	// <- Pago procesado cuyo AD_Client_ID = 1010016
-                        HttpMethod.DELETE,
+                restTemplate.exchange(getBaseURL("payments/" + documentID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
+                        HttpMethod.PUT,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
-        assertThat(response.getStatusCode().toString()).contains("409");
+        assertThat(response.getStatusCode().toString()).contains("200");
     }
 
 }
