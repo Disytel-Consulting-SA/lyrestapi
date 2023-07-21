@@ -33,8 +33,8 @@ public class InvoiceController extends AbstractController implements InvoiceApi 
     }
 
     @Override
-    public ResponseEntity<List<Invoice>> getAllInvoices(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return retrieveAllAction(request, repository, filter, fields, sort, limit, offset);
+    public ResponseEntity<List<Invoice>> getAllInvoices(String filter, String fields, String sort, Integer limit, Integer page) {
+        return retrieveAllAction(request, repository, filter, fields, sort, limit, page);
     }
 
     @Override

@@ -110,7 +110,7 @@ public interface ProductpriceApi {
 ,@ApiParam(value = "Campos a recuperar") @Valid @RequestParam(value = "fields", required = false) String fields
 ,@ApiParam(value = "Criterio de ordenado") @Valid @RequestParam(value = "sort", required = false) String sort
 ,@ApiParam(value = "Limite de elementos a retornar por pagina") @Valid @RequestParam(value = "limit", required = false) Integer limit
-,@ApiParam(value = "Desplazamiento de salto a patir del primer elemento") @Valid @RequestParam(value = "offset", required = false) Integer offset
+,@ApiParam(value = "Numero de pagina") @Valid @RequestParam(value = "page", required = false) Integer page
 ) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {

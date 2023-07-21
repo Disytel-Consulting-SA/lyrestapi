@@ -26,10 +26,10 @@ get:
         type: integer
       description: Limite de elementos a retornar por pagina
     - in: query
-      name: offset
+      name: page
       schema:
         type: integer
-      description: Desplazamiento de salto a patir del primer elemento
+      description: Numero de pagina
   responses:
     "200":
       description: OK

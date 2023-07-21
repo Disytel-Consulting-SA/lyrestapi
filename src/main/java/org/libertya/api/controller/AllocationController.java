@@ -34,8 +34,8 @@ public class AllocationController extends AbstractController implements Allocati
     }
 
     @Override
-    public ResponseEntity<List<AllocationHdr>> getAllAllocations(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return retrieveAllAction(request, repository, filter, fields, sort, limit, offset);
+    public ResponseEntity<List<AllocationHdr>> getAllAllocations(String filter, String fields, String sort, Integer limit, Integer page) {
+        return retrieveAllAction(request, repository, filter, fields, sort, limit, page);
     }
 
     @Override

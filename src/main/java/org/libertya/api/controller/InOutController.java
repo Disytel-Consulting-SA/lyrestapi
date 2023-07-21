@@ -33,8 +33,8 @@ public class InOutController extends AbstractController implements InoutApi {
     }
 
     @Override
-    public ResponseEntity<List<InOut>> getAllInOuts(String filter, String fields, String sort, Integer limit, Integer offset) {
-        return retrieveAllAction(request, repository, filter, fields, sort, limit, offset);
+    public ResponseEntity<List<InOut>> getAllInOuts(String filter, String fields, String sort, Integer limit, Integer page) {
+        return retrieveAllAction(request, repository, filter, fields, sort, limit, page);
     }
 
     @Override

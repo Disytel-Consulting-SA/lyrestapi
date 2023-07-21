@@ -156,15 +156,23 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return una lista con todas las entidades
      */
-    protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
+    protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer page) throws ModelException, AuthException {
         List retVal = new ArrayList();
+        if (limit!=null && limit<=0)
+            throw new ModelException("limit debe ser mayor o igual a 1 si se especifica");
+        if (page!=null && page<=0)
+            throw new ModelException("page debe ser mayor o igual a 1 si se especifica");
+        String theFilter = (filter != null && filter.length() > 0 ? formatClause(filter) + " AND " : "") + filterByClient(info);
+        String theSort = sort != null && sort.length() > 0 ? " ORDER BY " + sort : " ";
+        Integer theLimit = (limit != null && limit > 0 ? limit : DEFAULT_LIMIT);
+        Integer thePage = page != null ? limit * (page - 1) : 0;
         String[] entitiesIDs = getAllIDs(tableName,
                 String.format( " %s %s LIMIT %d OFFSET %d ",
-                        (filter != null && filter.length() > 0 ? formatClause(filter) + " AND " : "") + filterByClient(info),
-                        sort != null && sort.length() > 0 ? " ORDER BY " + sort : " ",
-                        limit != null && limit > 0 ? limit : DEFAULT_LIMIT,
-                        offset != null ? offset : 0 ),
-                null);
+                        theFilter,
+                        theSort,
+                        theLimit,
+                        thePage),
+        null);
         if (entitiesIDs == null || entitiesIDs.length==0)
             return retVal;
         for (String entityIDs : entitiesIDs) {
@@ -284,14 +292,18 @@ public abstract class AbstractRepository {
     }
 
     /**
-     * Convieret el string separado por comas en un set de strings
+     * Convierte el string separado por comas en un set de strings normalizado
      * @param criteria por ejemplo name,value
      * @return un set por ejemplo [name, value]
      */
     protected Set<String> getFilterFields(String criteria) {
         if (criteria == null)
             return null;
-        return new HashSet<>(Arrays.asList(criteria.replace("\"", "").replace(" ", "").split(",")));
+        String[] elements = criteria.replace("\"", "").replace(" ", "").split(",");
+        for (int i = 0; i < elements.length; i++) {
+            elements[i]=schemaUtils.normalize(elements[i]);
+        }
+        return new HashSet<>(Arrays.asList(elements));
     }
 
     /** Carga de valores por defecto */
@@ -569,13 +581,13 @@ public abstract class AbstractRepository {
     }
 
     /** Recuperacion de varias entidades */
-    public <T> List<T> retrieveAll(UserInfo info, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
-        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, null, fields), filter, sort, limit, offset);
+    public <T> List<T> retrieveAll(UserInfo info, String filter, String fields, String sort, Integer limit, Integer page) throws ModelException, AuthException {
+        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, null, fields), filter, sort, limit, page);
     }
 
     /** Recuperacion de varias entidades bajo una trx */
-    public <T> List<T> retrieveAll(UserInfo info, String trxName, String filter, String fields, String sort, Integer limit, Integer offset) throws ModelException, AuthException {
-        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, trxName, fields), filter, sort, limit, offset);
+    public <T> List<T> retrieveAll(UserInfo info, String trxName, String filter, String fields, String sort, Integer limit, Integer page) throws ModelException, AuthException {
+        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, trxName, fields), filter, sort, limit, page);
     }
 
     /** Procesado de una entidad */
