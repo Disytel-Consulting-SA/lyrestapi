@@ -1,6 +1,7 @@
 package org.libertya.api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.libertya.api.common.QueryParams;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
@@ -118,7 +119,9 @@ public class AllocationService extends AbstractService {
         doc.setHeader(header.get());
 
         // Lineas
-        for (Object item : allocLineRepository.retrieveAll(info, "c_allocationhdr_id="+id, null, null, null, null)) {
+        QueryParams params = new QueryParams();
+        params.setFilter("c_allocationhdr_id="+id);
+        for (Object item : allocLineRepository.retrieveAll(info, params)) {
             doc.addLinesItem(((Optional<AllocationLine>)item).get());
         }
 

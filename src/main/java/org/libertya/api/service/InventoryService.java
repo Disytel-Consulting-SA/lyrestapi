@@ -1,6 +1,7 @@
 package org.libertya.api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.libertya.api.common.QueryParams;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
@@ -38,7 +39,9 @@ public class InventoryService extends AbstractService {
         doc.setHeader(inv.get());
 
         // Lineas
-        for (Object item : invLineRepository.retrieveAll(info,"m_inventory_id="+id, null, null, null, null )) {
+        QueryParams params = new QueryParams();
+        params.setFilter("m_inventory_id="+id);
+        for (Object item : invLineRepository.retrieveAll(info, params)) {
             doc.addLinesItem(((Optional<InventoryLine>)item).get());
         }
 

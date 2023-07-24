@@ -33,7 +33,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
 
     @Override
     public ResponseEntity<List<Payment>> getAllPayments(String filter, String fields, String sort, Integer limit, Integer page) {
-        return retrieveAllAction(request, repository, filter, fields, sort, limit, page);
+        return retrieveAllAction(request, repository, query(filter, fields, sort, limit, page));
     }
 
     @Override

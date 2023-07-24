@@ -1,6 +1,7 @@
 package org.libertya.api.service;
 
 import lombok.RequiredArgsConstructor;
+import org.libertya.api.common.QueryParams;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
@@ -8,10 +9,7 @@ import org.libertya.api.repository.AbstractRepository;
 import org.libertya.api.repository.OrderLineRepository;
 import org.libertya.api.repository.OrderRepository;
 import org.libertya.api.repository.OrderTaxRepository;
-import org.libertya.api.stub.model.Order;
-import org.libertya.api.stub.model.OrderDocument;
-import org.libertya.api.stub.model.OrderLine;
-import org.libertya.api.stub.model.OrderTax;
+import org.libertya.api.stub.model.*;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -41,12 +39,14 @@ public class OrderService extends AbstractService {
         doc.setHeader(inv.get());
 
         // Lineas
-        for (Object item : orderLineRepository.retrieveAll(info, "c_Order_id="+id, null, null, null, null )) {
+        QueryParams params = new QueryParams();
+        params.setFilter("c_Order_id="+id);
+        for (Object item : orderLineRepository.retrieveAll(info, params)) {
             doc.addLinesItem(((Optional<OrderLine>)item).get());
         }
 
         // Impuestos
-        for (Object item : orderTaxRepository.retrieveAll(info, "c_Order_id="+id, null, null, null, null )) {
+        for (Object item : orderTaxRepository.retrieveAll(info, params)) {
             doc.addTaxesItem(((Optional<OrderTax>)item).get());
         }
 

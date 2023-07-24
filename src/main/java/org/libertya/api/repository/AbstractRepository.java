@@ -1,5 +1,6 @@
 package org.libertya.api.repository;
 
+import org.libertya.api.common.QueryParams;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
@@ -156,16 +157,20 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return una lista con todas las entidades
      */
-    protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, RetrieveEntityInterface iface, String filter, String sort, Integer limit, Integer page) throws ModelException, AuthException {
+    protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, RetrieveEntityInterface iface, QueryParams params) throws ModelException, AuthException {
         List retVal = new ArrayList();
-        if (limit!=null && limit<=0)
+        // Si params lo recibo como null (sin ningun tipo de query), entonces instanciar uno vacio
+        if (params==null) {
+            params = new QueryParams();
+        }
+        if (params.getLimit()!=null && params.getLimit()<=0)
             throw new ModelException("limit debe ser mayor o igual a 1 si se especifica");
-        if (page!=null && page<=0)
+        if (params.getPage()!=null && params.getPage()<=0)
             throw new ModelException("page debe ser mayor o igual a 1 si se especifica");
-        String theFilter = (filter != null && filter.length() > 0 ? formatClause(filter) + " AND " : "") + filterByClient(info);
-        String theSort = sort != null && sort.length() > 0 ? " ORDER BY " + sort : " ";
-        Integer theLimit = (limit != null && limit > 0 ? limit : DEFAULT_LIMIT);
-        Integer thePage = page != null ? limit * (page - 1) : 0;
+        String theFilter = (params.getFilter() != null && params.getFilter().length() > 0 ? formatClause(params.getFilter()) + " AND " : "") + filterByClient(info);
+        String theSort = params.getSort() != null && params.getSort().length() > 0 ? " ORDER BY " + params.getSort() : " ";
+        Integer theLimit = (params.getLimit() != null && params.getLimit() > 0 ? params.getLimit() : DEFAULT_LIMIT);
+        Integer thePage = params.getPage() != null ? theLimit * (params.getPage() - 1) : 0;
         String[] entitiesIDs = getAllIDs(tableName,
                 String.format( " %s %s LIMIT %d OFFSET %d ",
                         theFilter,
@@ -581,13 +586,13 @@ public abstract class AbstractRepository {
     }
 
     /** Recuperacion de varias entidades */
-    public <T> List<T> retrieveAll(UserInfo info, String filter, String fields, String sort, Integer limit, Integer page) throws ModelException, AuthException {
-        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, null, fields), filter, sort, limit, page);
+    public <T> List<T> retrieveAll(UserInfo info, QueryParams params) throws ModelException, AuthException {
+        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, null, params.getFields()), params);
     }
 
     /** Recuperacion de varias entidades bajo una trx */
-    public <T> List<T> retrieveAll(UserInfo info, String trxName, String filter, String fields, String sort, Integer limit, Integer page) throws ModelException, AuthException {
-        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, trxName, fields), filter, sort, limit, page);
+    public <T> List<T> retrieveAll(UserInfo info, String trxName, QueryParams params) throws ModelException, AuthException {
+        return retrieveAllEntities(info, tableName, id -> retrieve(info, id, trxName, params.getFields()), params);
     }
 
     /** Procesado de una entidad */

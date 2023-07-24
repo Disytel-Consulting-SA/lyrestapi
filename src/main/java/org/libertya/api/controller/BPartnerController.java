@@ -30,7 +30,7 @@ public class BPartnerController extends AbstractController implements BpartnerAp
 
     @Override
     public ResponseEntity<List<BPartner>> getAllBPartners(String filter, String fields, String sort, Integer limit, Integer page) {
-        return retrieveAllAction(request, repository, filter, fields, sort, limit, page);
+        return retrieveAllAction(request, repository, query(filter, fields, sort, limit, page));
     }
 
     @Override

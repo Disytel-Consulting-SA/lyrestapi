@@ -1,5 +1,6 @@
 package org.libertya.api.controller;
 
+import org.libertya.api.common.QueryParams;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
@@ -35,11 +36,11 @@ public abstract class AbstractController {
         }
     }
 
-    protected <T> ResponseEntity<List<T>> retrieveAllAction(HttpServletRequest request, AbstractRepository repository, String filter, String fields, String sort, Integer limit, Integer page) {
+    protected <T> ResponseEntity<List<T>> retrieveAllAction(HttpServletRequest request, AbstractRepository repository, QueryParams params) {
         try {
             HttpHeaders headers = new HttpHeaders();
             appendHeaderLinks(headers, request);
-            return new ResponseEntity<>(repository.retrieveAll(jwt.infoOf(request), filter, fields, sort, limit, page), headers, HttpStatus.OK);
+            return new ResponseEntity<>(repository.retrieveAll(jwt.infoOf(request), params), headers, HttpStatus.OK);
         } catch (ModelException e) {
             List error = new ArrayList<T>();
             error.add(e.getMessage());
@@ -154,6 +155,10 @@ public abstract class AbstractController {
         }
 
         return paginationLinks;
+    }
+
+    protected QueryParams query(String filter, String fields, String sort, Integer limit, Integer page) {
+        return new QueryParams(filter, fields, sort, limit, page);
     }
 
 }
