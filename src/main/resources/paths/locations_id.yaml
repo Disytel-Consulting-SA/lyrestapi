@@ -1,0 +1,90 @@
+get:
+  tags:
+    - "location"
+  summary: Recupera una direccion en particular
+  parameters:
+    - name: id
+      in: path
+      description: ID de la direccion
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una direccion en particular
+  operationId: retrieveLocation
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/location.yaml#/components/schemas/Location'
+delete:
+  tags:
+    - "location"
+  summary: Elimina una direccion
+  parameters:
+    - name: id
+      in: path
+      description: ID de direccion
+      required: true
+      schema:
+        type: integer
+  description: Elimina una direccion existente
+  operationId: deleteLocation
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  tags:
+    - "location"
+  summary: Actualiza una direccion existente
+  operationId: updateLocation
+  parameters:
+    - name: id
+      in: path
+      description: ID de la direccion a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/location.yaml#/components/schemas/Location'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

@@ -30,20 +30,22 @@ generateSchema() {
 # Ejemplo para incluir solo las columnas obligatorias y las especificadas en el ultimo parametro:
 #   generateSchema Currency   C_Currency   currency.yaml	"('description', 'iseuro', 'wsfecode')"
 
-generateSchema Product        M_Product         product.yaml
-generateSchema BPartner       C_BPartner        bpartner.yaml
-generateSchema Invoice        C_Invoice         invoice.yaml
-generateSchema InvoiceLine    C_InvoiceLine     invoiceline.yaml
-generateSchema InvoiceTax     C_InvoiceTax      invoicetax.yaml
-generateSchema Order          C_Order           order.yaml
-generateSchema OrderLine      C_OrderLine       orderline.yaml
-generateSchema OrderTax       C_OrderTax        ordertax.yaml
-generateSchema InOut          M_InOut           inout.yaml
-generateSchema InOutLine      M_InOutLine       inoutline.yaml
-generateSchema Payment        C_Payment         payment.yaml
-generateSchema CashLine       C_CashLine        cashline.yaml
-generateSchema AllocationHdr  C_AllocationHdr   allocationhdr.yaml
-generateSchema AllocationLine C_AllocationLine  allocationline.yaml
-generateSchema ProductPrice   M_ProductPrice    productprice.yaml
-generateSchema Inventory      M_Inventory       inventory.yaml
-generateSchema InventoryLine  M_InventoryLine   inventoryline.yaml
+generateSchema Product            M_Product             product.yaml
+generateSchema BPartner           C_BPartner            bpartner.yaml
+generateSchema Location           C_Location            location.yaml
+generateSchema BPartnerLocation   C_BPartner_Location   bpartnerlocation.yaml
+generateSchema Invoice            C_Invoice             invoice.yaml
+generateSchema InvoiceLine        C_InvoiceLine         invoiceline.yaml
+generateSchema InvoiceTax         C_InvoiceTax          invoicetax.yaml
+generateSchema Order              C_Order               order.yaml
+generateSchema OrderLine          C_OrderLine           orderline.yaml
+generateSchema OrderTax           C_OrderTax            ordertax.yaml
+generateSchema InOut              M_InOut               inout.yaml
+generateSchema InOutLine          M_InOutLine           inoutline.yaml
+generateSchema Payment            C_Payment             payment.yaml
+generateSchema CashLine           C_CashLine            cashline.yaml
+generateSchema AllocationHdr      C_AllocationHdr       allocationhdr.yaml
+generateSchema AllocationLine     C_AllocationLine      allocationline.yaml
+generateSchema ProductPrice       M_ProductPrice        productprice.yaml
+generateSchema Inventory          M_Inventory           inventory.yaml
+generateSchema InventoryLine      M_InventoryLine       inventoryline.yaml

@@ -1,0 +1,57 @@
+components:
+  schemas:
+    Location:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        address1:
+          type: string
+        address2:
+          type: string
+        address3:
+          type: string
+        address4:
+          type: string
+        ad_org_id:
+          type: integer
+        c_city_id:
+          type: integer
+        c_country_id:
+          type: integer
+        city:
+          type: string
+        c_location_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_region_id:
+          type: integer
+        isactive:
+          type: boolean
+        plaza:
+          type: string
+        postal:
+          type: string
+        postal_add:
+          type: string
+        regionname:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_country_id
+         - c_location_id
+         - created
+         - createdby
+         - isactive
+         - updated
+         - updatedby

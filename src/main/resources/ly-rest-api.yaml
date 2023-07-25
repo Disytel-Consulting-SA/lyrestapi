@@ -63,3 +63,11 @@ paths:
     $ref: ./paths/inventories_id.yaml
   /v1.0/inventories/{id}/process:
     $ref: ./paths/inventories_id_process.yaml
+  /v1.0/locations:
+    $ref: ./paths/locations.yaml
+  /v1.0/locations/{id}:
+    $ref: ./paths/locations_id.yaml
+  /v1.0/bpartnerlocations:
+    $ref: ./paths/bpartnerlocations.yaml
+  /v1.0/bpartnerlocations/{id}:
+    $ref: ./paths/bpartnerlocations_id.yaml

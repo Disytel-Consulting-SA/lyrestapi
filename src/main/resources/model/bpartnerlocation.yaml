@@ -1,0 +1,67 @@
+components:
+  schemas:
+    BPartnerLocation:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_bpartner_location_id:
+          type: integer
+        c_location_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_salesregion_id:
+          type: integer
+        email:
+          type: string
+        fax:
+          type: string
+        isactive:
+          type: boolean
+        isbillto:
+          type: boolean
+        isdn:
+          type: string
+        ispayfrom:
+          type: boolean
+        isremitto:
+          type: boolean
+        isshipto:
+          type: boolean
+        istemporal:
+          type: boolean
+        name:
+          type: string
+        phone:
+          type: string
+        phone2:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_bpartner_id
+         - c_bpartner_location_id
+         - c_location_id
+         - created
+         - createdby
+         - isactive
+         - isbillto
+         - ispayfrom
+         - isremitto
+         - isshipto
+         - name
+         - updated
+         - updatedby
