@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * BPartner
  */
 @Validated
+
+
+
 public class BPartner   {
   @JsonProperty("acqusitioncost")
   private BigDecimal acqusitioncost = null;
@@ -344,8 +346,8 @@ public class BPartner   {
   /**
    * Get acqusitioncost
    * @return acqusitioncost
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getAcqusitioncost() {
@@ -364,8 +366,8 @@ public class BPartner   {
   /**
    * Get actuallifetimevalue
    * @return actuallifetimevalue
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getActuallifetimevalue() {
@@ -384,8 +386,8 @@ public class BPartner   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -404,8 +406,8 @@ public class BPartner   {
   /**
    * Get adComponentobjectuid
    * @return adComponentobjectuid
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -423,8 +425,8 @@ public class BPartner   {
   /**
    * Get adLanguage
    * @return adLanguage
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAdLanguage() {
     return adLanguage;
@@ -442,8 +444,8 @@ public class BPartner   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -462,8 +464,8 @@ public class BPartner   {
   /**
    * Get allowadvancedpaymentreceipts
    * @return allowadvancedpaymentreceipts
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isAllowadvancedpaymentreceipts() {
@@ -482,8 +484,8 @@ public class BPartner   {
   /**
    * Get allowpartialpayment
    * @return allowpartialpayment
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isAllowpartialpayment() {
@@ -502,8 +504,8 @@ public class BPartner   {
   /**
    * Get aNameCheck
    * @return aNameCheck
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getANameCheck() {
     return aNameCheck;
@@ -521,8 +523,8 @@ public class BPartner   {
   /**
    * Get automaticcreditnotes
    * @return automaticcreditnotes
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isAutomaticcreditnotes() {
@@ -541,8 +543,8 @@ public class BPartner   {
   /**
    * Get batchPaymentRule
    * @return batchPaymentRule
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getBatchPaymentRule() {
     return batchPaymentRule;
@@ -560,8 +562,8 @@ public class BPartner   {
   /**
    * Get bpartnerParentId
    * @return bpartnerParentId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getBpartnerParentId() {
     return bpartnerParentId;
@@ -579,8 +581,8 @@ public class BPartner   {
   /**
    * Get builtcabajurisdiction
    * @return builtcabajurisdiction
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isBuiltcabajurisdiction() {
     return builtcabajurisdiction;
@@ -598,8 +600,8 @@ public class BPartner   {
   /**
    * Get cBankaccountId
    * @return cBankaccountId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBankaccountId() {
     return cBankaccountId;
@@ -617,8 +619,8 @@ public class BPartner   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -637,8 +639,8 @@ public class BPartner   {
   /**
    * Get cBpGroupId
    * @return cBpGroupId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBpGroupId() {
@@ -657,8 +659,8 @@ public class BPartner   {
   /**
    * Get cCategoriaIvaId
    * @return cCategoriaIvaId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCategoriaIvaId() {
     return cCategoriaIvaId;
@@ -676,8 +678,8 @@ public class BPartner   {
   /**
    * Get cDunningId
    * @return cDunningId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCDunningId() {
     return cDunningId;
@@ -695,8 +697,8 @@ public class BPartner   {
   /**
    * Get cGreetingId
    * @return cGreetingId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCGreetingId() {
     return cGreetingId;
@@ -714,8 +716,8 @@ public class BPartner   {
   /**
    * Get cInvoicescheduleId
    * @return cInvoicescheduleId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoicescheduleId() {
     return cInvoicescheduleId;
@@ -733,8 +735,8 @@ public class BPartner   {
   /**
    * Get cJobcategoryId
    * @return cJobcategoryId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCJobcategoryId() {
     return cJobcategoryId;
@@ -752,8 +754,8 @@ public class BPartner   {
   /**
    * Get cLocationId
    * @return cLocationId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCLocationId() {
     return cLocationId;
@@ -771,8 +773,8 @@ public class BPartner   {
   /**
    * Get cPaymenttermId
    * @return cPaymenttermId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPaymenttermId() {
     return cPaymenttermId;
@@ -790,8 +792,8 @@ public class BPartner   {
   /**
    * Get cPospaymentmediumId
    * @return cPospaymentmediumId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -809,8 +811,8 @@ public class BPartner   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -829,8 +831,8 @@ public class BPartner   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -849,8 +851,8 @@ public class BPartner   {
   /**
    * Get creditminimumamt
    * @return creditminimumamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -870,8 +872,8 @@ public class BPartner   {
   /**
    * Get creditsituation
    * @return creditsituation
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCreditsituation() {
     return creditsituation;
@@ -889,8 +891,8 @@ public class BPartner   {
   /**
    * Get cRegionSedeId
    * @return cRegionSedeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCRegionSedeId() {
     return cRegionSedeId;
@@ -908,8 +910,8 @@ public class BPartner   {
   /**
    * Get customertype
    * @return customertype
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCustomertype() {
     return customertype;
@@ -927,8 +929,8 @@ public class BPartner   {
   /**
    * Get deliveryrule
    * @return deliveryrule
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDeliveryrule() {
     return deliveryrule;
@@ -946,8 +948,8 @@ public class BPartner   {
   /**
    * Get deliveryviarule
    * @return deliveryviarule
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDeliveryviarule() {
     return deliveryviarule;
@@ -965,8 +967,8 @@ public class BPartner   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -984,8 +986,8 @@ public class BPartner   {
   /**
    * Get discountcontext
    * @return discountcontext
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDiscountcontext() {
@@ -1004,8 +1006,8 @@ public class BPartner   {
   /**
    * Get documentcopies
    * @return documentcopies
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getDocumentcopies() {
     return documentcopies;
@@ -1023,8 +1025,8 @@ public class BPartner   {
   /**
    * Get duns
    * @return duns
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDuns() {
     return duns;
@@ -1042,8 +1044,8 @@ public class BPartner   {
   /**
    * Get emitirMiPyme
    * @return emitirMiPyme
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isEmitirMiPyme() {
@@ -1062,8 +1064,8 @@ public class BPartner   {
   /**
    * Get endholidays
    * @return endholidays
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getEndholidays() {
     return endholidays;
@@ -1081,8 +1083,8 @@ public class BPartner   {
   /**
    * Get endholidays2
    * @return endholidays2
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getEndholidays2() {
     return endholidays2;
@@ -1100,8 +1102,8 @@ public class BPartner   {
   /**
    * Get firstsale
    * @return firstsale
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getFirstsale() {
     return firstsale;
@@ -1119,8 +1121,8 @@ public class BPartner   {
   /**
    * Get flatdiscount
    * @return flatdiscount
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getFlatdiscount() {
@@ -1139,8 +1141,8 @@ public class BPartner   {
   /**
    * Get freightcostrule
    * @return freightcostrule
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getFreightcostrule() {
     return freightcostrule;
@@ -1158,8 +1160,8 @@ public class BPartner   {
   /**
    * Get goal
    * @return goal
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getGoal() {
@@ -1178,8 +1180,8 @@ public class BPartner   {
   /**
    * Get iibb
    * @return iibb
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getIibb() {
     return iibb;
@@ -1197,8 +1199,8 @@ public class BPartner   {
   /**
    * Get iibbtype
    * @return iibbtype
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getIibbtype() {
     return iibbtype;
@@ -1216,8 +1218,8 @@ public class BPartner   {
   /**
    * Get invoicePrintformatId
    * @return invoicePrintformatId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getInvoicePrintformatId() {
     return invoicePrintformatId;
@@ -1235,8 +1237,8 @@ public class BPartner   {
   /**
    * Get invoicerule
    * @return invoicerule
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getInvoicerule() {
     return invoicerule;
@@ -1254,8 +1256,8 @@ public class BPartner   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -1274,8 +1276,8 @@ public class BPartner   {
   /**
    * Get iscompoundtax
    * @return iscompoundtax
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isIscompoundtax() {
     return iscompoundtax;
@@ -1293,8 +1295,8 @@ public class BPartner   {
   /**
    * Get isconveniomultilateral
    * @return isconveniomultilateral
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getIsconveniomultilateral() {
     return isconveniomultilateral;
@@ -1312,8 +1314,8 @@ public class BPartner   {
   /**
    * Get iscustomer
    * @return iscustomer
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIscustomer() {
@@ -1332,8 +1334,8 @@ public class BPartner   {
   /**
    * Get isdiscountprinted
    * @return isdiscountprinted
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isIsdiscountprinted() {
     return isdiscountprinted;
@@ -1351,8 +1353,8 @@ public class BPartner   {
   /**
    * Get isemployee
    * @return isemployee
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsemployee() {
@@ -1371,8 +1373,8 @@ public class BPartner   {
   /**
    * Get isgroupinvoices
    * @return isgroupinvoices
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsgroupinvoices() {
@@ -1391,8 +1393,8 @@ public class BPartner   {
   /**
    * Get isiso
    * @return isiso
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsiso() {
@@ -1411,8 +1413,8 @@ public class BPartner   {
   /**
    * Get ismandatorycai
    * @return ismandatorycai
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsmandatorycai() {
@@ -1431,8 +1433,8 @@ public class BPartner   {
   /**
    * Get ismulticuit
    * @return ismulticuit
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsmulticuit() {
@@ -1451,8 +1453,8 @@ public class BPartner   {
   /**
    * Get isonetime
    * @return isonetime
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsonetime() {
@@ -1471,8 +1473,8 @@ public class BPartner   {
   /**
    * Get isprospect
    * @return isprospect
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsprospect() {
@@ -1491,8 +1493,8 @@ public class BPartner   {
   /**
    * Get issalesrep
    * @return issalesrep
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIssalesrep() {
@@ -1511,8 +1513,8 @@ public class BPartner   {
   /**
    * Get issummary
    * @return issummary
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIssummary() {
@@ -1531,8 +1533,8 @@ public class BPartner   {
   /**
    * Get istaxexempt
    * @return istaxexempt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isIstaxexempt() {
     return istaxexempt;
@@ -1550,8 +1552,8 @@ public class BPartner   {
   /**
    * Get isvendor
    * @return isvendor
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsvendor() {
@@ -1570,8 +1572,8 @@ public class BPartner   {
   /**
    * Get mDiscountschemaId
    * @return mDiscountschemaId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMDiscountschemaId() {
     return mDiscountschemaId;
@@ -1589,8 +1591,8 @@ public class BPartner   {
   /**
    * Get minimumpurchasedamt
    * @return minimumpurchasedamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1610,8 +1612,8 @@ public class BPartner   {
   /**
    * Get minOrderQty
    * @return minOrderQty
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getMinOrderQty() {
@@ -1630,8 +1632,8 @@ public class BPartner   {
   /**
    * Get mPricelistId
    * @return mPricelistId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMPricelistId() {
     return mPricelistId;
@@ -1649,8 +1651,8 @@ public class BPartner   {
   /**
    * Get mProductRelatedId
    * @return mProductRelatedId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMProductRelatedId() {
     return mProductRelatedId;
@@ -1668,8 +1670,8 @@ public class BPartner   {
   /**
    * Get mShipperId
    * @return mShipperId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMShipperId() {
     return mShipperId;
@@ -1687,8 +1689,8 @@ public class BPartner   {
   /**
    * Get naics
    * @return naics
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getNaics() {
     return naics;
@@ -1706,8 +1708,8 @@ public class BPartner   {
   /**
    * Get name
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getName() {
@@ -1726,8 +1728,8 @@ public class BPartner   {
   /**
    * Get name2
    * @return name2
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getName2() {
     return name2;
@@ -1745,8 +1747,8 @@ public class BPartner   {
   /**
    * Get numberemployees
    * @return numberemployees
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getNumberemployees() {
     return numberemployees;
@@ -1764,8 +1766,8 @@ public class BPartner   {
   /**
    * Get paymentblocked
    * @return paymentblocked
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isPaymentblocked() {
     return paymentblocked;
@@ -1783,8 +1785,8 @@ public class BPartner   {
   /**
    * Get paymentblockeddescr
    * @return paymentblockeddescr
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPaymentblockeddescr() {
     return paymentblockeddescr;
@@ -1802,8 +1804,8 @@ public class BPartner   {
   /**
    * Get paymentrule
    * @return paymentrule
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPaymentrule() {
     return paymentrule;
@@ -1821,8 +1823,8 @@ public class BPartner   {
   /**
    * Get paymentrulepo
    * @return paymentrulepo
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPaymentrulepo() {
     return paymentrulepo;
@@ -1840,8 +1842,8 @@ public class BPartner   {
   /**
    * Get poDiscountschemaId
    * @return poDiscountschemaId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getPoDiscountschemaId() {
     return poDiscountschemaId;
@@ -1859,8 +1861,8 @@ public class BPartner   {
   /**
    * Get poPaymenttermId
    * @return poPaymenttermId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getPoPaymenttermId() {
     return poPaymenttermId;
@@ -1878,8 +1880,8 @@ public class BPartner   {
   /**
    * Get poPricelistId
    * @return poPricelistId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getPoPricelistId() {
     return poPricelistId;
@@ -1897,8 +1899,8 @@ public class BPartner   {
   /**
    * Get poreference
    * @return poreference
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPoreference() {
     return poreference;
@@ -1916,8 +1918,8 @@ public class BPartner   {
   /**
    * Get potentiallifetimevalue
    * @return potentiallifetimevalue
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getPotentiallifetimevalue() {
@@ -1936,8 +1938,8 @@ public class BPartner   {
   /**
    * Get programAmt
    * @return programAmt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getProgramAmt() {
@@ -1956,8 +1958,8 @@ public class BPartner   {
   /**
    * Get programAmtUsed
    * @return programAmtUsed
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getProgramAmtUsed() {
@@ -1976,8 +1978,8 @@ public class BPartner   {
   /**
    * Get rating
    * @return rating
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRating() {
     return rating;
@@ -1995,8 +1997,8 @@ public class BPartner   {
   /**
    * Get referenceno
    * @return referenceno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getReferenceno() {
     return referenceno;
@@ -2014,8 +2016,8 @@ public class BPartner   {
   /**
    * Get salesrepId
    * @return salesrepId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getSalesrepId() {
     return salesrepId;
@@ -2033,8 +2035,8 @@ public class BPartner   {
   /**
    * Get salesvolume
    * @return salesvolume
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getSalesvolume() {
     return salesvolume;
@@ -2052,8 +2054,8 @@ public class BPartner   {
   /**
    * Get searchunallocatedpayments
    * @return searchunallocatedpayments
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isSearchunallocatedpayments() {
@@ -2072,8 +2074,8 @@ public class BPartner   {
   /**
    * Get secondarycreditstatus
    * @return secondarycreditstatus
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getSecondarycreditstatus() {
@@ -2092,8 +2094,8 @@ public class BPartner   {
   /**
    * Get sendemail
    * @return sendemail
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isSendemail() {
@@ -2112,8 +2114,8 @@ public class BPartner   {
   /**
    * Get shareofcustomer
    * @return shareofcustomer
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getShareofcustomer() {
     return shareofcustomer;
@@ -2131,8 +2133,8 @@ public class BPartner   {
   /**
    * Get shelflifeminpct
    * @return shelflifeminpct
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getShelflifeminpct() {
     return shelflifeminpct;
@@ -2150,8 +2152,8 @@ public class BPartner   {
   /**
    * Get soCreditlimit
    * @return soCreditlimit
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -2171,8 +2173,8 @@ public class BPartner   {
   /**
    * Get socreditstatus
    * @return socreditstatus
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getSocreditstatus() {
     return socreditstatus;
@@ -2190,8 +2192,8 @@ public class BPartner   {
   /**
    * Get soCreditused
    * @return soCreditused
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -2211,8 +2213,8 @@ public class BPartner   {
   /**
    * Get soDescription
    * @return soDescription
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getSoDescription() {
     return soDescription;
@@ -2230,8 +2232,8 @@ public class BPartner   {
   /**
    * Get startholidays
    * @return startholidays
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getStartholidays() {
     return startholidays;
@@ -2249,8 +2251,8 @@ public class BPartner   {
   /**
    * Get startholidays2
    * @return startholidays2
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getStartholidays2() {
     return startholidays2;
@@ -2268,8 +2270,8 @@ public class BPartner   {
   /**
    * Get taxid
    * @return taxid
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getTaxid() {
     return taxid;
@@ -2287,8 +2289,8 @@ public class BPartner   {
   /**
    * Get taxidtype
    * @return taxidtype
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getTaxidtype() {
     return taxidtype;
@@ -2306,8 +2308,8 @@ public class BPartner   {
   /**
    * Get totalopenbalance
    * @return totalopenbalance
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getTotalopenbalance() {
@@ -2326,8 +2328,8 @@ public class BPartner   {
   /**
    * Get trxenabled
    * @return trxenabled
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isTrxenabled() {
@@ -2346,8 +2348,8 @@ public class BPartner   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -2366,8 +2368,8 @@ public class BPartner   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -2386,8 +2388,8 @@ public class BPartner   {
   /**
    * Get url
    * @return url
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getUrl() {
     return url;
@@ -2405,8 +2407,8 @@ public class BPartner   {
   /**
    * Get value
    * @return value
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getValue() {

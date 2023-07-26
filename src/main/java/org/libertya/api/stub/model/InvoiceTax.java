@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * InvoiceTax
  */
 @Validated
+
+
+
 public class InvoiceTax   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -71,8 +73,8 @@ public class InvoiceTax   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -91,8 +93,8 @@ public class InvoiceTax   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -111,8 +113,8 @@ public class InvoiceTax   {
   /**
    * Get arcibanormcode
    * @return arcibanormcode
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getArcibanormcode() {
     return arcibanormcode;
@@ -130,8 +132,8 @@ public class InvoiceTax   {
   /**
    * Get cInvoiceId
    * @return cInvoiceId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCInvoiceId() {
@@ -150,8 +152,8 @@ public class InvoiceTax   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -170,8 +172,8 @@ public class InvoiceTax   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -190,8 +192,8 @@ public class InvoiceTax   {
   /**
    * Get cTaxId
    * @return cTaxId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCTaxId() {
@@ -210,8 +212,8 @@ public class InvoiceTax   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -230,8 +232,8 @@ public class InvoiceTax   {
   /**
    * Get isperceptionsincluded
    * @return isperceptionsincluded
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsperceptionsincluded() {
@@ -250,8 +252,8 @@ public class InvoiceTax   {
   /**
    * Get istaxincluded
    * @return istaxincluded
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIstaxincluded() {
@@ -270,8 +272,8 @@ public class InvoiceTax   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -290,8 +292,8 @@ public class InvoiceTax   {
   /**
    * Get rate
    * @return rate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getRate() {
@@ -310,8 +312,8 @@ public class InvoiceTax   {
   /**
    * Get taxamt
    * @return taxamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -331,8 +333,8 @@ public class InvoiceTax   {
   /**
    * Get taxbaseamt
    * @return taxbaseamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -352,8 +354,8 @@ public class InvoiceTax   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -372,8 +374,8 @@ public class InvoiceTax   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {

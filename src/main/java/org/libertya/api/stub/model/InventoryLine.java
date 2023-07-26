@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * InventoryLine
  */
 @Validated
+
+
+
 public class InventoryLine   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -89,8 +91,8 @@ public class InventoryLine   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -109,8 +111,8 @@ public class InventoryLine   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -129,8 +131,8 @@ public class InventoryLine   {
   /**
    * Get cChargeId
    * @return cChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -148,8 +150,8 @@ public class InventoryLine   {
   /**
    * Get cost
    * @return cost
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -169,8 +171,8 @@ public class InventoryLine   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -189,8 +191,8 @@ public class InventoryLine   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -209,8 +211,8 @@ public class InventoryLine   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -228,8 +230,8 @@ public class InventoryLine   {
   /**
    * Get inventorytype
    * @return inventorytype
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getInventorytype() {
@@ -248,8 +250,8 @@ public class InventoryLine   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -268,8 +270,8 @@ public class InventoryLine   {
   /**
    * Get line
    * @return line
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getLine() {
     return line;
@@ -287,8 +289,8 @@ public class InventoryLine   {
   /**
    * Get mAttributesetinstanceId
    * @return mAttributesetinstanceId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -307,8 +309,8 @@ public class InventoryLine   {
   /**
    * Get mInventoryId
    * @return mInventoryId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMInventoryId() {
@@ -327,8 +329,8 @@ public class InventoryLine   {
   /**
    * Get mInventorylineId
    * @return mInventorylineId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMInventorylineId() {
@@ -347,8 +349,8 @@ public class InventoryLine   {
   /**
    * Get mLocatorId
    * @return mLocatorId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMLocatorId() {
@@ -367,8 +369,8 @@ public class InventoryLine   {
   /**
    * Get mProductId
    * @return mProductId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMProductId() {
@@ -387,8 +389,8 @@ public class InventoryLine   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -407,8 +409,8 @@ public class InventoryLine   {
   /**
    * Get qtybook
    * @return qtybook
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -428,8 +430,8 @@ public class InventoryLine   {
   /**
    * Get qtycount
    * @return qtycount
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -449,8 +451,8 @@ public class InventoryLine   {
   /**
    * Get qtycountwithoutchargesign
    * @return qtycountwithoutchargesign
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -470,8 +472,8 @@ public class InventoryLine   {
   /**
    * Get qtyinternaluse
    * @return qtyinternaluse
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getQtyinternaluse() {
@@ -490,8 +492,8 @@ public class InventoryLine   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -510,8 +512,8 @@ public class InventoryLine   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {

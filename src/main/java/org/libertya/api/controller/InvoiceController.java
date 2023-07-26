@@ -43,7 +43,7 @@ public class InvoiceController extends AbstractController implements InvoiceApi 
     }
 
     @Override
-    public ResponseEntity<String> updateInvoice(Invoice body, Integer id) {
+    public ResponseEntity<String> updateInvoice(Integer id, Invoice body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 

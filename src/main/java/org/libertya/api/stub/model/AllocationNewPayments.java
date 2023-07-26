@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * AllocationNewPayments
  */
 @Validated
+
+
+
 public class AllocationNewPayments   {
   @JsonProperty("c_pospaymentmedium_id")
   private Integer cPospaymentmediumId = null;
@@ -83,8 +85,8 @@ public class AllocationNewPayments   {
   /**
    * Get cPospaymentmediumId
    * @return cPospaymentmediumId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -102,8 +104,8 @@ public class AllocationNewPayments   {
   /**
    * Get amount
    * @return amount
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getAmount() {
@@ -122,8 +124,8 @@ public class AllocationNewPayments   {
   /**
    * Get cInvoiceId
    * @return cInvoiceId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -141,8 +143,8 @@ public class AllocationNewPayments   {
   /**
    * Get cBankaccountId
    * @return cBankaccountId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBankaccountId() {
     return cBankaccountId;
@@ -160,8 +162,8 @@ public class AllocationNewPayments   {
   /**
    * Get cBankId
    * @return cBankId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBankId() {
     return cBankId;
@@ -179,8 +181,8 @@ public class AllocationNewPayments   {
   /**
    * Get aBank
    * @return aBank
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getABank() {
     return aBank;
@@ -198,8 +200,8 @@ public class AllocationNewPayments   {
   /**
    * Get transferno
    * @return transferno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getTransferno() {
     return transferno;
@@ -217,8 +219,8 @@ public class AllocationNewPayments   {
   /**
    * Get transferdate
    * @return transferdate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getTransferdate() {
     return transferdate;
@@ -236,8 +238,8 @@ public class AllocationNewPayments   {
   /**
    * Get mEntidadfinancieraplanId
    * @return mEntidadfinancieraplanId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMEntidadfinancieraplanId() {
     return mEntidadfinancieraplanId;
@@ -255,8 +257,8 @@ public class AllocationNewPayments   {
   /**
    * Get creditcardnumber
    * @return creditcardnumber
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCreditcardnumber() {
     return creditcardnumber;
@@ -274,8 +276,8 @@ public class AllocationNewPayments   {
   /**
    * Get couponnumber
    * @return couponnumber
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCouponnumber() {
     return couponnumber;
@@ -293,8 +295,8 @@ public class AllocationNewPayments   {
   /**
    * Get checkno
    * @return checkno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCheckno() {
     return checkno;
@@ -312,8 +314,8 @@ public class AllocationNewPayments   {
   /**
    * Get datetrx
    * @return datetrx
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDatetrx() {
     return datetrx;
@@ -331,8 +333,8 @@ public class AllocationNewPayments   {
   /**
    * Get duedate
    * @return duedate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDuedate() {
     return duedate;
@@ -350,8 +352,8 @@ public class AllocationNewPayments   {
   /**
    * Get cCashId
    * @return cCashId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCashId() {
     return cCashId;
@@ -369,8 +371,8 @@ public class AllocationNewPayments   {
   /**
    * Get cCashlineId
    * @return cCashlineId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCashlineId() {
     return cCashlineId;
@@ -388,8 +390,8 @@ public class AllocationNewPayments   {
   /**
    * Get cPaymentId
    * @return cPaymentId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPaymentId() {
     return cPaymentId;
@@ -407,8 +409,8 @@ public class AllocationNewPayments   {
   /**
    * Get cRetencionschemaId
    * @return cRetencionschemaId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCRetencionschemaId() {
     return cRetencionschemaId;
@@ -426,8 +428,8 @@ public class AllocationNewPayments   {
   /**
    * Get retencDocumentno
    * @return retencDocumentno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRetencDocumentno() {
     return retencDocumentno;
@@ -445,8 +447,8 @@ public class AllocationNewPayments   {
   /**
    * Get retencDate
    * @return retencDate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRetencDate() {
     return retencDate;

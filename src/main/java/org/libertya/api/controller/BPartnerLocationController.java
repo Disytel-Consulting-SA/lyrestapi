@@ -39,7 +39,7 @@ public class BPartnerLocationController extends AbstractController implements Bp
     }
 
     @Override
-    public ResponseEntity<String> updateBPartnerLocation(BPartnerLocation body, Integer id) {
+    public ResponseEntity<String> updateBPartnerLocation(Integer id, BPartnerLocation body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 

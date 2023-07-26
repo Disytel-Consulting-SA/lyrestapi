@@ -49,7 +49,7 @@ public class AllocationController extends AbstractController implements Allocati
     }
 
     @Override
-    public ResponseEntity<String> updateAllocation(AllocationHdr body, Integer id) {
+    public ResponseEntity<String> updateAllocation(Integer id, AllocationHdr body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 }

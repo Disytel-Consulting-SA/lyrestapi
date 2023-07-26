@@ -39,7 +39,7 @@ public class CashLineController extends AbstractController implements CashlineAp
     }
 
     @Override
-    public ResponseEntity<String> updateCashLine(CashLine body, Integer id) {
+    public ResponseEntity<String> updateCashLine(Integer id, CashLine body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 

@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.libertya.api.stub.model.AllocationNewInvoices;
@@ -17,6 +16,9 @@ import javax.validation.constraints.*;
  * AllocationNew
  */
 @Validated
+
+
+
 public class AllocationNew   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -49,8 +51,8 @@ public class AllocationNew   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAdClientId() {
     return adClientId;
@@ -68,8 +70,8 @@ public class AllocationNew   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAdOrgId() {
     return adOrgId;
@@ -87,8 +89,8 @@ public class AllocationNew   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -106,8 +108,8 @@ public class AllocationNew   {
   /**
    * Get paymentrule
    * @return paymentrule
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPaymentrule() {
     return paymentrule;
@@ -125,8 +127,8 @@ public class AllocationNew   {
   /**
    * Get earlypayment
    * @return earlypayment
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isEarlypayment() {
     return earlypayment;
@@ -152,8 +154,8 @@ public class AllocationNew   {
   /**
    * Get invoices
    * @return invoices
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<AllocationNewInvoices> getInvoices() {
     return invoices;
@@ -179,8 +181,8 @@ public class AllocationNew   {
   /**
    * Get payments
    * @return payments
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<AllocationNewPayments> getPayments() {
     return payments;

@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * Payment
  */
 @Validated
+
+
+
 public class Payment   {
   @JsonProperty("a_bank")
   private String aBank = null;
@@ -350,8 +352,8 @@ public class Payment   {
   /**
    * Get aBank
    * @return aBank
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getABank() {
     return aBank;
@@ -369,8 +371,8 @@ public class Payment   {
   /**
    * Get accountingCChargeId
    * @return accountingCChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAccountingCChargeId() {
     return accountingCChargeId;
@@ -388,8 +390,8 @@ public class Payment   {
   /**
    * Get accountno
    * @return accountno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAccountno() {
     return accountno;
@@ -407,8 +409,8 @@ public class Payment   {
   /**
    * Get aCity
    * @return aCity
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getACity() {
     return aCity;
@@ -426,8 +428,8 @@ public class Payment   {
   /**
    * Get aCountry
    * @return aCountry
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getACountry() {
     return aCountry;
@@ -445,8 +447,8 @@ public class Payment   {
   /**
    * Get aCuit
    * @return aCuit
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getACuit() {
     return aCuit;
@@ -464,8 +466,8 @@ public class Payment   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -484,8 +486,8 @@ public class Payment   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -504,8 +506,8 @@ public class Payment   {
   /**
    * Get adOrgtrxId
    * @return adOrgtrxId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAdOrgtrxId() {
     return adOrgtrxId;
@@ -523,8 +525,8 @@ public class Payment   {
   /**
    * Get aEmail
    * @return aEmail
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAEmail() {
     return aEmail;
@@ -542,8 +544,8 @@ public class Payment   {
   /**
    * Get aIdentDl
    * @return aIdentDl
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAIdentDl() {
     return aIdentDl;
@@ -561,8 +563,8 @@ public class Payment   {
   /**
    * Get aIdentSsn
    * @return aIdentSsn
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAIdentSsn() {
     return aIdentSsn;
@@ -580,8 +582,8 @@ public class Payment   {
   /**
    * Get aName
    * @return aName
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAName() {
     return aName;
@@ -599,8 +601,8 @@ public class Payment   {
   /**
    * Get aState
    * @return aState
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAState() {
     return aState;
@@ -618,8 +620,8 @@ public class Payment   {
   /**
    * Get aStreet
    * @return aStreet
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAStreet() {
     return aStreet;
@@ -637,8 +639,8 @@ public class Payment   {
   /**
    * Get auditstatus
    * @return auditstatus
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAuditstatus() {
     return auditstatus;
@@ -656,8 +658,8 @@ public class Payment   {
   /**
    * Get authcode
    * @return authcode
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAuthcode() {
     return authcode;
@@ -675,8 +677,8 @@ public class Payment   {
   /**
    * Get authmatch
    * @return authmatch
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isAuthmatch() {
     return authmatch;
@@ -694,8 +696,8 @@ public class Payment   {
   /**
    * Get aZip
    * @return aZip
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAZip() {
     return aZip;
@@ -713,8 +715,8 @@ public class Payment   {
   /**
    * Get banklistRegisterno
    * @return banklistRegisterno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getBanklistRegisterno() {
     return banklistRegisterno;
@@ -732,8 +734,8 @@ public class Payment   {
   /**
    * Get bankPaymentDate
    * @return bankPaymentDate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getBankPaymentDate() {
     return bankPaymentDate;
@@ -751,8 +753,8 @@ public class Payment   {
   /**
    * Get bankPaymentDocumentno
    * @return bankPaymentDocumentno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getBankPaymentDocumentno() {
     return bankPaymentDocumentno;
@@ -770,8 +772,8 @@ public class Payment   {
   /**
    * Get bankPaymentMsgDescription
    * @return bankPaymentMsgDescription
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getBankPaymentMsgDescription() {
     return bankPaymentMsgDescription;
@@ -789,8 +791,8 @@ public class Payment   {
   /**
    * Get cActivityId
    * @return cActivityId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCActivityId() {
     return cActivityId;
@@ -808,8 +810,8 @@ public class Payment   {
   /**
    * Get cBankaccountId
    * @return cBankaccountId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBankaccountId() {
@@ -828,8 +830,8 @@ public class Payment   {
   /**
    * Get cBankId
    * @return cBankId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBankId() {
     return cBankId;
@@ -847,8 +849,8 @@ public class Payment   {
   /**
    * Get cBankpaymentstatusId
    * @return cBankpaymentstatusId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBankpaymentstatusId() {
     return cBankpaymentstatusId;
@@ -866,8 +868,8 @@ public class Payment   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -886,8 +888,8 @@ public class Payment   {
   /**
    * Get cBpBankaccountId
    * @return cBpBankaccountId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBpBankaccountId() {
     return cBpBankaccountId;
@@ -905,8 +907,8 @@ public class Payment   {
   /**
    * Get cCampaignId
    * @return cCampaignId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCampaignId() {
     return cCampaignId;
@@ -924,8 +926,8 @@ public class Payment   {
   /**
    * Get cChargeId
    * @return cChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -943,8 +945,8 @@ public class Payment   {
   /**
    * Get cConversiontypeId
    * @return cConversiontypeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCConversiontypeId() {
     return cConversiontypeId;
@@ -962,8 +964,8 @@ public class Payment   {
   /**
    * Get cCurrencyId
    * @return cCurrencyId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCCurrencyId() {
@@ -982,8 +984,8 @@ public class Payment   {
   /**
    * Get cDoctypeId
    * @return cDoctypeId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCDoctypeId() {
@@ -1002,8 +1004,8 @@ public class Payment   {
   /**
    * Get chargeamt
    * @return chargeamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getChargeamt() {
     return chargeamt;
@@ -1021,8 +1023,8 @@ public class Payment   {
   /**
    * Get checked
    * @return checked
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isChecked() {
@@ -1041,8 +1043,8 @@ public class Payment   {
   /**
    * Get checkno
    * @return checkno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCheckno() {
     return checkno;
@@ -1060,8 +1062,8 @@ public class Payment   {
   /**
    * Get checkstatus
    * @return checkstatus
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCheckstatus() {
     return checkstatus;
@@ -1079,8 +1081,8 @@ public class Payment   {
   /**
    * Get cInvoiceCheckRejectedId
    * @return cInvoiceCheckRejectedId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoiceCheckRejectedId() {
     return cInvoiceCheckRejectedId;
@@ -1098,8 +1100,8 @@ public class Payment   {
   /**
    * Get cInvoiceId
    * @return cInvoiceId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -1117,8 +1119,8 @@ public class Payment   {
   /**
    * Get cOrderId
    * @return cOrderId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCOrderId() {
     return cOrderId;
@@ -1136,8 +1138,8 @@ public class Payment   {
   /**
    * Get couponbatchnumber
    * @return couponbatchnumber
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCouponbatchnumber() {
     return couponbatchnumber;
@@ -1155,8 +1157,8 @@ public class Payment   {
   /**
    * Get couponnumber
    * @return couponnumber
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCouponnumber() {
     return couponnumber;
@@ -1174,8 +1176,8 @@ public class Payment   {
   /**
    * Get cPaymentbatchId
    * @return cPaymentbatchId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPaymentbatchId() {
     return cPaymentbatchId;
@@ -1193,8 +1195,8 @@ public class Payment   {
   /**
    * Get cPaymentId
    * @return cPaymentId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCPaymentId() {
@@ -1213,8 +1215,8 @@ public class Payment   {
   /**
    * Get cPosjournalId
    * @return cPosjournalId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPosjournalId() {
     return cPosjournalId;
@@ -1232,8 +1234,8 @@ public class Payment   {
   /**
    * Get cPospaymentmediumId
    * @return cPospaymentmediumId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -1251,8 +1253,8 @@ public class Payment   {
   /**
    * Get cProjectId
    * @return cProjectId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -1270,8 +1272,8 @@ public class Payment   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -1290,8 +1292,8 @@ public class Payment   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -1310,8 +1312,8 @@ public class Payment   {
   /**
    * Get creditcardexpmm
    * @return creditcardexpmm
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCreditcardexpmm() {
     return creditcardexpmm;
@@ -1329,8 +1331,8 @@ public class Payment   {
   /**
    * Get creditcardexpyy
    * @return creditcardexpyy
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCreditcardexpyy() {
     return creditcardexpyy;
@@ -1348,8 +1350,8 @@ public class Payment   {
   /**
    * Get creditcardnumber
    * @return creditcardnumber
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCreditcardnumber() {
     return creditcardnumber;
@@ -1367,8 +1369,8 @@ public class Payment   {
   /**
    * Get creditcardtype
    * @return creditcardtype
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCreditcardtype() {
     return creditcardtype;
@@ -1386,8 +1388,8 @@ public class Payment   {
   /**
    * Get creditcardvv
    * @return creditcardvv
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCreditcardvv() {
     return creditcardvv;
@@ -1405,8 +1407,8 @@ public class Payment   {
   /**
    * Get dateacct
    * @return dateacct
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDateacct() {
@@ -1425,8 +1427,8 @@ public class Payment   {
   /**
    * Get dateemissioncheck
    * @return dateemissioncheck
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDateemissioncheck() {
     return dateemissioncheck;
@@ -1444,8 +1446,8 @@ public class Payment   {
   /**
    * Get datetrx
    * @return datetrx
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDatetrx() {
@@ -1464,8 +1466,8 @@ public class Payment   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -1483,8 +1485,8 @@ public class Payment   {
   /**
    * Get discountamt
    * @return discountamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getDiscountamt() {
@@ -1503,8 +1505,8 @@ public class Payment   {
   /**
    * Get docstatus
    * @return docstatus
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocstatus() {
@@ -1523,8 +1525,8 @@ public class Payment   {
   /**
    * Get documentno
    * @return documentno
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocumentno() {
@@ -1543,8 +1545,8 @@ public class Payment   {
   /**
    * Get duedate
    * @return duedate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDuedate() {
     return duedate;
@@ -1562,8 +1564,8 @@ public class Payment   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -1582,8 +1584,8 @@ public class Payment   {
   /**
    * Get isallocated
    * @return isallocated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsallocated() {
@@ -1602,8 +1604,8 @@ public class Payment   {
   /**
    * Get isapproved
    * @return isapproved
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -1622,8 +1624,8 @@ public class Payment   {
   /**
    * Get isdelayedcapture
    * @return isdelayedcapture
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsdelayedcapture() {
@@ -1642,8 +1644,8 @@ public class Payment   {
   /**
    * Get ismanual
    * @return ismanual
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsmanual() {
@@ -1662,8 +1664,8 @@ public class Payment   {
   /**
    * Get isonline
    * @return isonline
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsonline() {
@@ -1682,8 +1684,8 @@ public class Payment   {
   /**
    * Get isoverunderpayment
    * @return isoverunderpayment
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsoverunderpayment() {
@@ -1702,8 +1704,8 @@ public class Payment   {
   /**
    * Get isprepayment
    * @return isprepayment
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsprepayment() {
@@ -1722,8 +1724,8 @@ public class Payment   {
   /**
    * Get isreceipt
    * @return isreceipt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getIsreceipt() {
@@ -1742,8 +1744,8 @@ public class Payment   {
   /**
    * Get isreconciled
    * @return isreconciled
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsreconciled() {
@@ -1762,8 +1764,8 @@ public class Payment   {
   /**
    * Get isselfservice
    * @return isselfservice
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsselfservice() {
@@ -1782,8 +1784,8 @@ public class Payment   {
   /**
    * Get issotrx
    * @return issotrx
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIssotrx() {
@@ -1802,8 +1804,8 @@ public class Payment   {
   /**
    * Get mBoletadepositoId
    * @return mBoletadepositoId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMBoletadepositoId() {
     return mBoletadepositoId;
@@ -1821,8 +1823,8 @@ public class Payment   {
   /**
    * Get mEntidadfinancieraplanId
    * @return mEntidadfinancieraplanId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMEntidadfinancieraplanId() {
     return mEntidadfinancieraplanId;
@@ -1840,8 +1842,8 @@ public class Payment   {
   /**
    * Get micr
    * @return micr
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getMicr() {
     return micr;
@@ -1859,8 +1861,8 @@ public class Payment   {
   /**
    * Get originalRefPaymentId
    * @return originalRefPaymentId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getOriginalRefPaymentId() {
     return originalRefPaymentId;
@@ -1878,8 +1880,8 @@ public class Payment   {
   /**
    * Get origTrxid
    * @return origTrxid
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getOrigTrxid() {
     return origTrxid;
@@ -1897,8 +1899,8 @@ public class Payment   {
   /**
    * Get overunderamt
    * @return overunderamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getOverunderamt() {
@@ -1917,8 +1919,8 @@ public class Payment   {
   /**
    * Get payamt
    * @return payamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1938,8 +1940,8 @@ public class Payment   {
   /**
    * Get ponum
    * @return ponum
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPonum() {
     return ponum;
@@ -1957,8 +1959,8 @@ public class Payment   {
   /**
    * Get posnet
    * @return posnet
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPosnet() {
     return posnet;
@@ -1976,8 +1978,8 @@ public class Payment   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -1996,8 +1998,8 @@ public class Payment   {
   /**
    * Get rAuthcode
    * @return rAuthcode
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRAuthcode() {
     return rAuthcode;
@@ -2015,8 +2017,8 @@ public class Payment   {
   /**
    * Get rAuthcodeDc
    * @return rAuthcodeDc
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRAuthcodeDc() {
     return rAuthcodeDc;
@@ -2034,8 +2036,8 @@ public class Payment   {
   /**
    * Get rAvsaddr
    * @return rAvsaddr
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRAvsaddr() {
     return rAvsaddr;
@@ -2053,8 +2055,8 @@ public class Payment   {
   /**
    * Get rAvszip
    * @return rAvszip
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRAvszip() {
     return rAvszip;
@@ -2072,8 +2074,8 @@ public class Payment   {
   /**
    * Get rCvv2match
    * @return rCvv2match
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isRCvv2match() {
     return rCvv2match;
@@ -2091,8 +2093,8 @@ public class Payment   {
   /**
    * Get refPaymentId
    * @return refPaymentId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getRefPaymentId() {
     return refPaymentId;
@@ -2110,8 +2112,8 @@ public class Payment   {
   /**
    * Get rejectedcomments
    * @return rejectedcomments
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRejectedcomments() {
     return rejectedcomments;
@@ -2129,8 +2131,8 @@ public class Payment   {
   /**
    * Get rejecteddate
    * @return rejecteddate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRejecteddate() {
     return rejecteddate;
@@ -2148,8 +2150,8 @@ public class Payment   {
   /**
    * Get rInfo
    * @return rInfo
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRInfo() {
     return rInfo;
@@ -2167,8 +2169,8 @@ public class Payment   {
   /**
    * Get routingno
    * @return routingno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRoutingno() {
     return routingno;
@@ -2186,8 +2188,8 @@ public class Payment   {
   /**
    * Get rPnref
    * @return rPnref
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRPnref() {
     return rPnref;
@@ -2205,8 +2207,8 @@ public class Payment   {
   /**
    * Get rPnrefDc
    * @return rPnrefDc
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRPnrefDc() {
     return rPnrefDc;
@@ -2224,8 +2226,8 @@ public class Payment   {
   /**
    * Get rRespmsg
    * @return rRespmsg
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRRespmsg() {
     return rRespmsg;
@@ -2243,8 +2245,8 @@ public class Payment   {
   /**
    * Get rResult
    * @return rResult
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRResult() {
     return rResult;
@@ -2262,8 +2264,8 @@ public class Payment   {
   /**
    * Get swipe
    * @return swipe
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getSwipe() {
     return swipe;
@@ -2281,8 +2283,8 @@ public class Payment   {
   /**
    * Get taxamt
    * @return taxamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getTaxamt() {
@@ -2301,8 +2303,8 @@ public class Payment   {
   /**
    * Get tendertype
    * @return tendertype
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getTendertype() {
@@ -2321,8 +2323,8 @@ public class Payment   {
   /**
    * Get trxtype
    * @return trxtype
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getTrxtype() {
@@ -2341,8 +2343,8 @@ public class Payment   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -2361,8 +2363,8 @@ public class Payment   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -2381,8 +2383,8 @@ public class Payment   {
   /**
    * Get user1Id
    * @return user1Id
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getUser1Id() {
     return user1Id;
@@ -2400,8 +2402,8 @@ public class Payment   {
   /**
    * Get user2Id
    * @return user2Id
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getUser2Id() {
     return user2Id;
@@ -2419,8 +2421,8 @@ public class Payment   {
   /**
    * Get voiceauthcode
    * @return voiceauthcode
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getVoiceauthcode() {
     return voiceauthcode;
@@ -2438,8 +2440,8 @@ public class Payment   {
   /**
    * Get writeoffamt
    * @return writeoffamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getWriteoffamt() {

@@ -43,7 +43,7 @@ public class InOutController extends AbstractController implements InoutApi {
     }
 
     @Override
-    public ResponseEntity<String> updateInOut(InOut body, Integer id) {
+    public ResponseEntity<String> updateInOut(Integer id, InOut body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 

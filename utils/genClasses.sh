@@ -1,4 +1,4 @@
-# wget https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.20/swagger-codegen-cli-3.0.20.jar
+# wget https://repo1.maven.org/maven2/io/swagger/codegen/v3/swagger-codegen-cli/3.0.46/swagger-codegen-cli-3.0.46.jar
 
 # Generacion de definiciones de modelo a partir de metadatos de LY
 ./genSchema.sh
@@ -14,14 +14,14 @@ TARGET_DIR=../src/main/java/org/libertya/api
 
 rm -rf $TEMP_DIR/genStub
 
-java -jar swagger-codegen-cli-3.0.20.jar generate \
+java -jar swagger-codegen-cli-3.0.46.jar generate \
         --api-package org.libertya.api.stub.iface \
         --model-package org.libertya.api.stub.model \
         -c config.json \
         -i ../src/main/resources/ly-rest-api.yaml \
         -l spring \
         -o $TEMP_DIR/genStub \
-        --additional-properties hideGenerationTimestamp=true
+        --additional-properties useOas3=true,hideGenerationTimestamp=true
 
 rm -rf $TARGET_DIR/stub
 

@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * OrderLine
  */
 @Validated
+
+
+
 public class OrderLine   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -197,8 +199,8 @@ public class OrderLine   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -217,8 +219,8 @@ public class OrderLine   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -237,8 +239,8 @@ public class OrderLine   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -256,8 +258,8 @@ public class OrderLine   {
   /**
    * Get cBpartnerLocationId
    * @return cBpartnerLocationId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBpartnerLocationId() {
@@ -276,8 +278,8 @@ public class OrderLine   {
   /**
    * Get cChargeId
    * @return cChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -295,8 +297,8 @@ public class OrderLine   {
   /**
    * Get cCurrencyId
    * @return cCurrencyId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCCurrencyId() {
@@ -315,8 +317,8 @@ public class OrderLine   {
   /**
    * Get checkoutplace
    * @return checkoutplace
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCheckoutplace() {
     return checkoutplace;
@@ -334,8 +336,8 @@ public class OrderLine   {
   /**
    * Get cOrderId
    * @return cOrderId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCOrderId() {
@@ -354,8 +356,8 @@ public class OrderLine   {
   /**
    * Get cOrderlineId
    * @return cOrderlineId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCOrderlineId() {
@@ -374,8 +376,8 @@ public class OrderLine   {
   /**
    * Get cProjectId
    * @return cProjectId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -393,8 +395,8 @@ public class OrderLine   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -413,8 +415,8 @@ public class OrderLine   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -433,8 +435,8 @@ public class OrderLine   {
   /**
    * Get cTaxId
    * @return cTaxId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCTaxId() {
@@ -453,8 +455,8 @@ public class OrderLine   {
   /**
    * Get cUomId
    * @return cUomId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCUomId() {
@@ -473,8 +475,8 @@ public class OrderLine   {
   /**
    * Get datedelivered
    * @return datedelivered
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDatedelivered() {
     return datedelivered;
@@ -492,8 +494,8 @@ public class OrderLine   {
   /**
    * Get dateinvoiced
    * @return dateinvoiced
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDateinvoiced() {
     return dateinvoiced;
@@ -511,8 +513,8 @@ public class OrderLine   {
   /**
    * Get dateordered
    * @return dateordered
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDateordered() {
@@ -531,8 +533,8 @@ public class OrderLine   {
   /**
    * Get datepromised
    * @return datepromised
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDatepromised() {
     return datepromised;
@@ -550,8 +552,8 @@ public class OrderLine   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -569,8 +571,8 @@ public class OrderLine   {
   /**
    * Get diffamt
    * @return diffamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getDiffamt() {
@@ -589,8 +591,8 @@ public class OrderLine   {
   /**
    * Get discount
    * @return discount
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getDiscount() {
@@ -609,8 +611,8 @@ public class OrderLine   {
   /**
    * Get documentdiscountamt
    * @return documentdiscountamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -630,8 +632,8 @@ public class OrderLine   {
   /**
    * Get freightamt
    * @return freightamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -651,8 +653,8 @@ public class OrderLine   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -671,8 +673,8 @@ public class OrderLine   {
   /**
    * Get isdescription
    * @return isdescription
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsdescription() {
@@ -691,8 +693,8 @@ public class OrderLine   {
   /**
    * Get line
    * @return line
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getLine() {
@@ -711,8 +713,8 @@ public class OrderLine   {
   /**
    * Get linebonusamt
    * @return linebonusamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -732,8 +734,8 @@ public class OrderLine   {
   /**
    * Get linediscountamt
    * @return linediscountamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -753,8 +755,8 @@ public class OrderLine   {
   /**
    * Get linenetamt
    * @return linenetamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -774,8 +776,8 @@ public class OrderLine   {
   /**
    * Get linetotalamt
    * @return linetotalamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -795,8 +797,8 @@ public class OrderLine   {
   /**
    * Get manualgeneraldiscountamt
    * @return manualgeneraldiscountamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getManualgeneraldiscountamt() {
@@ -815,8 +817,8 @@ public class OrderLine   {
   /**
    * Get mAttributesetinstanceId
    * @return mAttributesetinstanceId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -835,8 +837,8 @@ public class OrderLine   {
   /**
    * Get mProductId
    * @return mProductId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMProductId() {
     return mProductId;
@@ -854,8 +856,8 @@ public class OrderLine   {
   /**
    * Get mShipperId
    * @return mShipperId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMShipperId() {
     return mShipperId;
@@ -873,8 +875,8 @@ public class OrderLine   {
   /**
    * Get mWarehouseId
    * @return mWarehouseId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMWarehouseId() {
@@ -893,8 +895,8 @@ public class OrderLine   {
   /**
    * Get orderMin
    * @return orderMin
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getOrderMin() {
@@ -913,8 +915,8 @@ public class OrderLine   {
   /**
    * Get orderPack
    * @return orderPack
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getOrderPack() {
@@ -933,8 +935,8 @@ public class OrderLine   {
   /**
    * Get priceactual
    * @return priceactual
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -954,8 +956,8 @@ public class OrderLine   {
   /**
    * Get pricediff
    * @return pricediff
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getPricediff() {
@@ -974,8 +976,8 @@ public class OrderLine   {
   /**
    * Get priceentered
    * @return priceentered
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -995,8 +997,8 @@ public class OrderLine   {
   /**
    * Get pricelimit
    * @return pricelimit
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1016,8 +1018,8 @@ public class OrderLine   {
   /**
    * Get pricelist
    * @return pricelist
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1037,8 +1039,8 @@ public class OrderLine   {
   /**
    * Get pricereception
    * @return pricereception
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getPricereception() {
@@ -1057,8 +1059,8 @@ public class OrderLine   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -1077,8 +1079,8 @@ public class OrderLine   {
   /**
    * Get qtydelivered
    * @return qtydelivered
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1098,8 +1100,8 @@ public class OrderLine   {
   /**
    * Get qtydiff
    * @return qtydiff
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getQtydiff() {
@@ -1118,8 +1120,8 @@ public class OrderLine   {
   /**
    * Get qtyentered
    * @return qtyentered
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1139,8 +1141,8 @@ public class OrderLine   {
   /**
    * Get qtyinvoiced
    * @return qtyinvoiced
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1160,8 +1162,8 @@ public class OrderLine   {
   /**
    * Get qtyordered
    * @return qtyordered
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1181,8 +1183,8 @@ public class OrderLine   {
   /**
    * Get qtyreception
    * @return qtyreception
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getQtyreception() {
@@ -1201,8 +1203,8 @@ public class OrderLine   {
   /**
    * Get qtyreserved
    * @return qtyreserved
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1222,8 +1224,8 @@ public class OrderLine   {
   /**
    * Get qtyreturned
    * @return qtyreturned
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1243,8 +1245,8 @@ public class OrderLine   {
   /**
    * Get qtytransferred
    * @return qtytransferred
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -1264,8 +1266,8 @@ public class OrderLine   {
   /**
    * Get receptionamt
    * @return receptionamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getReceptionamt() {
@@ -1284,8 +1286,8 @@ public class OrderLine   {
   /**
    * Get refOrderlineId
    * @return refOrderlineId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getRefOrderlineId() {
     return refOrderlineId;
@@ -1303,8 +1305,8 @@ public class OrderLine   {
   /**
    * Get salesrepOrigId
    * @return salesrepOrigId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getSalesrepOrigId() {
     return salesrepOrigId;
@@ -1322,8 +1324,8 @@ public class OrderLine   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -1342,8 +1344,8 @@ public class OrderLine   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {

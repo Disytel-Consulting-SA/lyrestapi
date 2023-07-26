@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * AllocationHdr
  */
 @Validated
+
+
+
 public class AllocationHdr   {
   @JsonProperty("actiondetail")
   private String actiondetail = null;
@@ -107,8 +109,8 @@ public class AllocationHdr   {
   /**
    * Get actiondetail
    * @return actiondetail
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getActiondetail() {
     return actiondetail;
@@ -126,8 +128,8 @@ public class AllocationHdr   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -146,8 +148,8 @@ public class AllocationHdr   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -166,8 +168,8 @@ public class AllocationHdr   {
   /**
    * Get allocationaction
    * @return allocationaction
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAllocationaction() {
     return allocationaction;
@@ -185,8 +187,8 @@ public class AllocationHdr   {
   /**
    * Get allocationtype
    * @return allocationtype
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getAllocationtype() {
@@ -205,8 +207,8 @@ public class AllocationHdr   {
   /**
    * Get approvalamt
    * @return approvalamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -226,8 +228,8 @@ public class AllocationHdr   {
   /**
    * Get cAllocationhdrId
    * @return cAllocationhdrId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCAllocationhdrId() {
@@ -246,8 +248,8 @@ public class AllocationHdr   {
   /**
    * Get cBanklistId
    * @return cBanklistId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBanklistId() {
     return cBanklistId;
@@ -265,8 +267,8 @@ public class AllocationHdr   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -284,8 +286,8 @@ public class AllocationHdr   {
   /**
    * Get cCurrencyId
    * @return cCurrencyId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCCurrencyId() {
@@ -304,8 +306,8 @@ public class AllocationHdr   {
   /**
    * Get cDoctypeId
    * @return cDoctypeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCDoctypeId() {
     return cDoctypeId;
@@ -323,8 +325,8 @@ public class AllocationHdr   {
   /**
    * Get cPosjournalId
    * @return cPosjournalId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPosjournalId() {
     return cPosjournalId;
@@ -342,8 +344,8 @@ public class AllocationHdr   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -362,8 +364,8 @@ public class AllocationHdr   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -382,8 +384,8 @@ public class AllocationHdr   {
   /**
    * Get dateacct
    * @return dateacct
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDateacct() {
@@ -402,8 +404,8 @@ public class AllocationHdr   {
   /**
    * Get datetrx
    * @return datetrx
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDatetrx() {
@@ -422,8 +424,8 @@ public class AllocationHdr   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -441,8 +443,8 @@ public class AllocationHdr   {
   /**
    * Get docstatus
    * @return docstatus
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocstatus() {
@@ -461,8 +463,8 @@ public class AllocationHdr   {
   /**
    * Get documentno
    * @return documentno
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocumentno() {
@@ -481,8 +483,8 @@ public class AllocationHdr   {
   /**
    * Get grandtotal
    * @return grandtotal
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -502,8 +504,8 @@ public class AllocationHdr   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -522,8 +524,8 @@ public class AllocationHdr   {
   /**
    * Get isapproved
    * @return isapproved
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -542,8 +544,8 @@ public class AllocationHdr   {
   /**
    * Get ismanual
    * @return ismanual
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsmanual() {
@@ -562,8 +564,8 @@ public class AllocationHdr   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -582,8 +584,8 @@ public class AllocationHdr   {
   /**
    * Get processing
    * @return processing
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isProcessing() {
     return processing;
@@ -601,8 +603,8 @@ public class AllocationHdr   {
   /**
    * Get retencionAmt
    * @return retencionAmt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -622,8 +624,8 @@ public class AllocationHdr   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -642,8 +644,8 @@ public class AllocationHdr   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {

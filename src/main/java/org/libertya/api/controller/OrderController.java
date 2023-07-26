@@ -43,7 +43,7 @@ public class OrderController extends AbstractController implements OrderApi {
     }
 
     @Override
-    public ResponseEntity<String> updateOrder(Order body, Integer id) {
+    public ResponseEntity<String> updateOrder(Integer id, Order body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 

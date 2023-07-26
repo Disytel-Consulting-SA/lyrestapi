@@ -39,7 +39,7 @@ public class ProductPriceController extends AbstractController implements Produc
     }
 
     @Override
-    public ResponseEntity<String> updateProductPrice(ProductPrice body, Integer idProduct, Integer idPriceListVersion) {
+    public ResponseEntity<String> updateProductPrice(Integer idProduct, Integer idPriceListVersion, ProductPrice body) {
         return updateAction(request, (info) -> repository.update(info, new int[]{idProduct, idPriceListVersion}, body));
     }
 }

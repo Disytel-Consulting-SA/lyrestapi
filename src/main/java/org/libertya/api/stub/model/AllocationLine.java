@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * AllocationLine
  */
 @Validated
+
+
+
 public class AllocationLine   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -95,8 +97,8 @@ public class AllocationLine   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -115,8 +117,8 @@ public class AllocationLine   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -135,8 +137,8 @@ public class AllocationLine   {
   /**
    * Get amount
    * @return amount
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -156,8 +158,8 @@ public class AllocationLine   {
   /**
    * Get cAllocationhdrId
    * @return cAllocationhdrId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCAllocationhdrId() {
@@ -176,8 +178,8 @@ public class AllocationLine   {
   /**
    * Get cAllocationlineId
    * @return cAllocationlineId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCAllocationlineId() {
@@ -196,8 +198,8 @@ public class AllocationLine   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -215,8 +217,8 @@ public class AllocationLine   {
   /**
    * Get cCashlineId
    * @return cCashlineId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCashlineId() {
     return cCashlineId;
@@ -234,8 +236,8 @@ public class AllocationLine   {
   /**
    * Get cCurrencyId
    * @return cCurrencyId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCurrencyId() {
     return cCurrencyId;
@@ -253,8 +255,8 @@ public class AllocationLine   {
   /**
    * Get changeamt
    * @return changeamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getChangeamt() {
@@ -273,8 +275,8 @@ public class AllocationLine   {
   /**
    * Get cInvoiceCreditId
    * @return cInvoiceCreditId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoiceCreditId() {
     return cInvoiceCreditId;
@@ -292,8 +294,8 @@ public class AllocationLine   {
   /**
    * Get cInvoiceId
    * @return cInvoiceId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -311,8 +313,8 @@ public class AllocationLine   {
   /**
    * Get cOrderId
    * @return cOrderId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCOrderId() {
     return cOrderId;
@@ -330,8 +332,8 @@ public class AllocationLine   {
   /**
    * Get cPaymentId
    * @return cPaymentId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPaymentId() {
     return cPaymentId;
@@ -349,8 +351,8 @@ public class AllocationLine   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -369,8 +371,8 @@ public class AllocationLine   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -389,8 +391,8 @@ public class AllocationLine   {
   /**
    * Get datetrx
    * @return datetrx
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDatetrx() {
     return datetrx;
@@ -408,8 +410,8 @@ public class AllocationLine   {
   /**
    * Get discountamt
    * @return discountamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -429,8 +431,8 @@ public class AllocationLine   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -449,8 +451,8 @@ public class AllocationLine   {
   /**
    * Get ismanual
    * @return ismanual
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isIsmanual() {
     return ismanual;
@@ -468,8 +470,8 @@ public class AllocationLine   {
   /**
    * Get lineDescription
    * @return lineDescription
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getLineDescription() {
     return lineDescription;
@@ -487,8 +489,8 @@ public class AllocationLine   {
   /**
    * Get overunderamt
    * @return overunderamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getOverunderamt() {
@@ -507,8 +509,8 @@ public class AllocationLine   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -527,8 +529,8 @@ public class AllocationLine   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -547,8 +549,8 @@ public class AllocationLine   {
   /**
    * Get writeoffamt
    * @return writeoffamt
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid

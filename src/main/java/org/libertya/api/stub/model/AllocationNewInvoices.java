@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * AllocationNewInvoices
  */
 @Validated
+
+
+
 public class AllocationNewInvoices   {
   @JsonProperty("c_invoice_id")
   private Integer cInvoiceId = null;
@@ -29,8 +31,8 @@ public class AllocationNewInvoices   {
   /**
    * Get cInvoiceId
    * @return cInvoiceId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -48,8 +50,8 @@ public class AllocationNewInvoices   {
   /**
    * Get amount
    * @return amount
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getAmount() {

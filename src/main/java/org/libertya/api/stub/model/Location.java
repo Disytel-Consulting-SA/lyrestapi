@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,6 +12,9 @@ import javax.validation.constraints.*;
  * Location
  */
 @Validated
+
+
+
 public class Location   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -85,8 +87,8 @@ public class Location   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -105,8 +107,8 @@ public class Location   {
   /**
    * Get adComponentobjectuid
    * @return adComponentobjectuid
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -124,8 +126,8 @@ public class Location   {
   /**
    * Get address1
    * @return address1
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAddress1() {
     return address1;
@@ -143,8 +145,8 @@ public class Location   {
   /**
    * Get address2
    * @return address2
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAddress2() {
     return address2;
@@ -162,8 +164,8 @@ public class Location   {
   /**
    * Get address3
    * @return address3
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAddress3() {
     return address3;
@@ -181,8 +183,8 @@ public class Location   {
   /**
    * Get address4
    * @return address4
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAddress4() {
     return address4;
@@ -200,8 +202,8 @@ public class Location   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -220,8 +222,8 @@ public class Location   {
   /**
    * Get cCityId
    * @return cCityId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCityId() {
     return cCityId;
@@ -239,8 +241,8 @@ public class Location   {
   /**
    * Get cCountryId
    * @return cCountryId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCCountryId() {
@@ -259,8 +261,8 @@ public class Location   {
   /**
    * Get city
    * @return city
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCity() {
     return city;
@@ -278,8 +280,8 @@ public class Location   {
   /**
    * Get cLocationId
    * @return cLocationId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCLocationId() {
@@ -298,8 +300,8 @@ public class Location   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -318,8 +320,8 @@ public class Location   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -338,8 +340,8 @@ public class Location   {
   /**
    * Get cRegionId
    * @return cRegionId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCRegionId() {
     return cRegionId;
@@ -357,8 +359,8 @@ public class Location   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -377,8 +379,8 @@ public class Location   {
   /**
    * Get plaza
    * @return plaza
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPlaza() {
     return plaza;
@@ -396,8 +398,8 @@ public class Location   {
   /**
    * Get postal
    * @return postal
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPostal() {
     return postal;
@@ -415,8 +417,8 @@ public class Location   {
   /**
    * Get postalAdd
    * @return postalAdd
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPostalAdd() {
     return postalAdd;
@@ -434,8 +436,8 @@ public class Location   {
   /**
    * Get regionname
    * @return regionname
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getRegionname() {
     return regionname;
@@ -453,8 +455,8 @@ public class Location   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -473,8 +475,8 @@ public class Location   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {

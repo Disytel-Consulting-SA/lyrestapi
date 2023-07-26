@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -13,6 +12,9 @@ import javax.validation.constraints.*;
  * BPartnerLocation
  */
 @Validated
+
+
+
 public class BPartnerLocation   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -91,8 +93,8 @@ public class BPartnerLocation   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -111,8 +113,8 @@ public class BPartnerLocation   {
   /**
    * Get adComponentobjectuid
    * @return adComponentobjectuid
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -130,8 +132,8 @@ public class BPartnerLocation   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -150,8 +152,8 @@ public class BPartnerLocation   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -170,8 +172,8 @@ public class BPartnerLocation   {
   /**
    * Get cBpartnerLocationId
    * @return cBpartnerLocationId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBpartnerLocationId() {
@@ -190,8 +192,8 @@ public class BPartnerLocation   {
   /**
    * Get cLocationId
    * @return cLocationId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCLocationId() {
@@ -210,8 +212,8 @@ public class BPartnerLocation   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -230,8 +232,8 @@ public class BPartnerLocation   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -250,8 +252,8 @@ public class BPartnerLocation   {
   /**
    * Get cSalesregionId
    * @return cSalesregionId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCSalesregionId() {
     return cSalesregionId;
@@ -269,8 +271,8 @@ public class BPartnerLocation   {
   /**
    * Get email
    * @return email
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getEmail() {
     return email;
@@ -288,8 +290,8 @@ public class BPartnerLocation   {
   /**
    * Get fax
    * @return fax
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getFax() {
     return fax;
@@ -307,8 +309,8 @@ public class BPartnerLocation   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -327,8 +329,8 @@ public class BPartnerLocation   {
   /**
    * Get isbillto
    * @return isbillto
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsbillto() {
@@ -347,8 +349,8 @@ public class BPartnerLocation   {
   /**
    * Get isdn
    * @return isdn
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getIsdn() {
     return isdn;
@@ -366,8 +368,8 @@ public class BPartnerLocation   {
   /**
    * Get ispayfrom
    * @return ispayfrom
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIspayfrom() {
@@ -386,8 +388,8 @@ public class BPartnerLocation   {
   /**
    * Get isremitto
    * @return isremitto
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsremitto() {
@@ -406,8 +408,8 @@ public class BPartnerLocation   {
   /**
    * Get isshipto
    * @return isshipto
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsshipto() {
@@ -426,8 +428,8 @@ public class BPartnerLocation   {
   /**
    * Get istemporal
    * @return istemporal
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isIstemporal() {
     return istemporal;
@@ -445,8 +447,8 @@ public class BPartnerLocation   {
   /**
    * Get name
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getName() {
@@ -465,8 +467,8 @@ public class BPartnerLocation   {
   /**
    * Get phone
    * @return phone
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPhone() {
     return phone;
@@ -484,8 +486,8 @@ public class BPartnerLocation   {
   /**
    * Get phone2
    * @return phone2
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPhone2() {
     return phone2;
@@ -503,8 +505,8 @@ public class BPartnerLocation   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -523,8 +525,8 @@ public class BPartnerLocation   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {

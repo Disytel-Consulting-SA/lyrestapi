@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * Inventory
  */
 @Validated
+
+
+
 public class Inventory   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -107,8 +109,8 @@ public class Inventory   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -127,8 +129,8 @@ public class Inventory   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -147,8 +149,8 @@ public class Inventory   {
   /**
    * Get adOrgtrxId
    * @return adOrgtrxId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAdOrgtrxId() {
     return adOrgtrxId;
@@ -166,8 +168,8 @@ public class Inventory   {
   /**
    * Get approvalamt
    * @return approvalamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getApprovalamt() {
@@ -186,8 +188,8 @@ public class Inventory   {
   /**
    * Get cActivityId
    * @return cActivityId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCActivityId() {
     return cActivityId;
@@ -205,8 +207,8 @@ public class Inventory   {
   /**
    * Get cCampaignId
    * @return cCampaignId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCampaignId() {
     return cCampaignId;
@@ -224,8 +226,8 @@ public class Inventory   {
   /**
    * Get cChargeId
    * @return cChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -243,8 +245,8 @@ public class Inventory   {
   /**
    * Get cDoctypeId
    * @return cDoctypeId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCDoctypeId() {
@@ -263,8 +265,8 @@ public class Inventory   {
   /**
    * Get cProjectId
    * @return cProjectId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -282,8 +284,8 @@ public class Inventory   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -302,8 +304,8 @@ public class Inventory   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -322,8 +324,8 @@ public class Inventory   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -341,8 +343,8 @@ public class Inventory   {
   /**
    * Get docstatus
    * @return docstatus
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocstatus() {
@@ -361,8 +363,8 @@ public class Inventory   {
   /**
    * Get documentno
    * @return documentno
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocumentno() {
@@ -381,8 +383,8 @@ public class Inventory   {
   /**
    * Get inventorykind
    * @return inventorykind
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getInventorykind() {
@@ -401,8 +403,8 @@ public class Inventory   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -421,8 +423,8 @@ public class Inventory   {
   /**
    * Get isapproved
    * @return isapproved
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -441,8 +443,8 @@ public class Inventory   {
   /**
    * Get mInventoryId
    * @return mInventoryId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMInventoryId() {
@@ -461,8 +463,8 @@ public class Inventory   {
   /**
    * Get movementdate
    * @return movementdate
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getMovementdate() {
@@ -481,8 +483,8 @@ public class Inventory   {
   /**
    * Get mPerpetualinvId
    * @return mPerpetualinvId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMPerpetualinvId() {
     return mPerpetualinvId;
@@ -500,8 +502,8 @@ public class Inventory   {
   /**
    * Get mWarehouseId
    * @return mWarehouseId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMWarehouseId() {
@@ -520,8 +522,8 @@ public class Inventory   {
   /**
    * Get paperForm
    * @return paperForm
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPaperForm() {
     return paperForm;
@@ -539,8 +541,8 @@ public class Inventory   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -559,8 +561,8 @@ public class Inventory   {
   /**
    * Get processing
    * @return processing
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isProcessing() {
     return processing;
@@ -578,8 +580,8 @@ public class Inventory   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -598,8 +600,8 @@ public class Inventory   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -618,8 +620,8 @@ public class Inventory   {
   /**
    * Get user1Id
    * @return user1Id
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getUser1Id() {
     return user1Id;
@@ -637,8 +639,8 @@ public class Inventory   {
   /**
    * Get user2Id
    * @return user2Id
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getUser2Id() {
     return user2Id;

@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.libertya.api.stub.model.Inventory;
@@ -17,6 +16,9 @@ import javax.validation.constraints.*;
  * InventoryDocument
  */
 @Validated
+
+
+
 public class InventoryDocument   {
   @JsonProperty("header")
   private Inventory header = null;
@@ -33,8 +35,8 @@ public class InventoryDocument   {
   /**
    * Get header
    * @return header
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Inventory getHeader() {
@@ -61,8 +63,8 @@ public class InventoryDocument   {
   /**
    * Get lines
    * @return lines
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<InventoryLine> getLines() {
     return lines;

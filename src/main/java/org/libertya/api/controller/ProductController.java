@@ -39,7 +39,7 @@ public class ProductController extends AbstractController implements ProductApi 
     }
 
     @Override
-    public ResponseEntity<String> updateProduct(Product body, Integer id) {
+    public ResponseEntity<String> updateProduct(Integer id, Product body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 

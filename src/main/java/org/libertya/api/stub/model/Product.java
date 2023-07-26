@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * Product
  */
 @Validated
+
+
+
 public class Product   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -233,8 +235,8 @@ public class Product   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -253,8 +255,8 @@ public class Product   {
   /**
    * Get adComponentobjectuid
    * @return adComponentobjectuid
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -272,8 +274,8 @@ public class Product   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -292,8 +294,8 @@ public class Product   {
   /**
    * Get amortizationperc
    * @return amortizationperc
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -313,8 +315,8 @@ public class Product   {
   /**
    * Get checkoutplace
    * @return checkoutplace
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCheckoutplace() {
@@ -333,8 +335,8 @@ public class Product   {
   /**
    * Get classification
    * @return classification
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getClassification() {
     return classification;
@@ -352,8 +354,8 @@ public class Product   {
   /**
    * Get commonRef
    * @return commonRef
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getCommonRef() {
@@ -372,8 +374,8 @@ public class Product   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -392,8 +394,8 @@ public class Product   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -412,8 +414,8 @@ public class Product   {
   /**
    * Get cRevenuerecognitionId
    * @return cRevenuerecognitionId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCRevenuerecognitionId() {
     return cRevenuerecognitionId;
@@ -431,8 +433,8 @@ public class Product   {
   /**
    * Get cSubscriptiontypeId
    * @return cSubscriptiontypeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCSubscriptiontypeId() {
     return cSubscriptiontypeId;
@@ -450,8 +452,8 @@ public class Product   {
   /**
    * Get cTaxcategoryId
    * @return cTaxcategoryId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCTaxcategoryId() {
@@ -470,8 +472,8 @@ public class Product   {
   /**
    * Get cUomId
    * @return cUomId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCUomId() {
@@ -490,8 +492,8 @@ public class Product   {
   /**
    * Get deliverytimePromised
    * @return deliverytimePromised
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getDeliverytimePromised() {
@@ -510,8 +512,8 @@ public class Product   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -529,8 +531,8 @@ public class Product   {
   /**
    * Get descriptionurl
    * @return descriptionurl
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescriptionurl() {
     return descriptionurl;
@@ -548,8 +550,8 @@ public class Product   {
   /**
    * Get discontinued
    * @return discontinued
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isDiscontinued() {
     return discontinued;
@@ -567,8 +569,8 @@ public class Product   {
   /**
    * Get discontinuedby
    * @return discontinuedby
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDiscontinuedby() {
     return discontinuedby;
@@ -586,8 +588,8 @@ public class Product   {
   /**
    * Get documentnote
    * @return documentnote
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDocumentnote() {
     return documentnote;
@@ -605,8 +607,8 @@ public class Product   {
   /**
    * Get guaranteedays
    * @return guaranteedays
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getGuaranteedays() {
     return guaranteedays;
@@ -624,8 +626,8 @@ public class Product   {
   /**
    * Get guaranteedaysmin
    * @return guaranteedaysmin
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getGuaranteedaysmin() {
     return guaranteedaysmin;
@@ -643,8 +645,8 @@ public class Product   {
   /**
    * Get help
    * @return help
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getHelp() {
     return help;
@@ -662,8 +664,8 @@ public class Product   {
   /**
    * Get imageurl
    * @return imageurl
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getImageurl() {
     return imageurl;
@@ -681,8 +683,8 @@ public class Product   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -701,8 +703,8 @@ public class Product   {
   /**
    * Get isbom
    * @return isbom
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsbom() {
@@ -721,8 +723,8 @@ public class Product   {
   /**
    * Get isdropship
    * @return isdropship
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsdropship() {
@@ -741,8 +743,8 @@ public class Product   {
   /**
    * Get ishelp
    * @return ishelp
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isIshelp() {
     return ishelp;
@@ -760,8 +762,8 @@ public class Product   {
   /**
    * Get isinventoried
    * @return isinventoried
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsinventoried() {
@@ -780,8 +782,8 @@ public class Product   {
   /**
    * Get isinvoiceprintdetails
    * @return isinvoiceprintdetails
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsinvoiceprintdetails() {
@@ -800,8 +802,8 @@ public class Product   {
   /**
    * Get ispicklistprintdetails
    * @return ispicklistprintdetails
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIspicklistprintdetails() {
@@ -820,8 +822,8 @@ public class Product   {
   /**
    * Get ispurchased
    * @return ispurchased
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIspurchased() {
@@ -840,8 +842,8 @@ public class Product   {
   /**
    * Get isselfservice
    * @return isselfservice
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsselfservice() {
@@ -860,8 +862,8 @@ public class Product   {
   /**
    * Get issold
    * @return issold
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIssold() {
@@ -880,8 +882,8 @@ public class Product   {
   /**
    * Get isstocked
    * @return isstocked
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsstocked() {
@@ -900,8 +902,8 @@ public class Product   {
   /**
    * Get issummary
    * @return issummary
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIssummary() {
@@ -920,8 +922,8 @@ public class Product   {
   /**
    * Get istoformule
    * @return istoformule
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isIstoformule() {
     return istoformule;
@@ -939,8 +941,8 @@ public class Product   {
   /**
    * Get isverified
    * @return isverified
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsverified() {
@@ -959,8 +961,8 @@ public class Product   {
   /**
    * Get iswebstorefeatured
    * @return iswebstorefeatured
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIswebstorefeatured() {
@@ -979,8 +981,8 @@ public class Product   {
   /**
    * Get lowlevel
    * @return lowlevel
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getLowlevel() {
     return lowlevel;
@@ -998,8 +1000,8 @@ public class Product   {
   /**
    * Get marketingblocked
    * @return marketingblocked
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isMarketingblocked() {
     return marketingblocked;
@@ -1017,8 +1019,8 @@ public class Product   {
   /**
    * Get marketingblockeddescr
    * @return marketingblockeddescr
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getMarketingblockeddescr() {
     return marketingblockeddescr;
@@ -1036,8 +1038,8 @@ public class Product   {
   /**
    * Get mAttributesetId
    * @return mAttributesetId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMAttributesetId() {
     return mAttributesetId;
@@ -1055,8 +1057,8 @@ public class Product   {
   /**
    * Get mAttributesetinstanceId
    * @return mAttributesetinstanceId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -1075,8 +1077,8 @@ public class Product   {
   /**
    * Get mFreightcategoryId
    * @return mFreightcategoryId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMFreightcategoryId() {
     return mFreightcategoryId;
@@ -1094,8 +1096,8 @@ public class Product   {
   /**
    * Get mIntrastatcodeId
    * @return mIntrastatcodeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getMIntrastatcodeId() {
@@ -1114,8 +1116,8 @@ public class Product   {
   /**
    * Get mLocatorId
    * @return mLocatorId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMLocatorId() {
     return mLocatorId;
@@ -1133,8 +1135,8 @@ public class Product   {
   /**
    * Get mProductCategoryId
    * @return mProductCategoryId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMProductCategoryId() {
@@ -1153,8 +1155,8 @@ public class Product   {
   /**
    * Get mProductFamilyId
    * @return mProductFamilyId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMProductFamilyId() {
     return mProductFamilyId;
@@ -1172,8 +1174,8 @@ public class Product   {
   /**
    * Get mProductId
    * @return mProductId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMProductId() {
@@ -1192,8 +1194,8 @@ public class Product   {
   /**
    * Get name
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getName() {
@@ -1212,8 +1214,8 @@ public class Product   {
   /**
    * Get producttype
    * @return producttype
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getProducttype() {
@@ -1232,8 +1234,8 @@ public class Product   {
   /**
    * Get rMailtextId
    * @return rMailtextId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getRMailtextId() {
     return rMailtextId;
@@ -1251,8 +1253,8 @@ public class Product   {
   /**
    * Get salesOrderMin
    * @return salesOrderMin
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getSalesOrderMin() {
@@ -1271,8 +1273,8 @@ public class Product   {
   /**
    * Get salesOrderPack
    * @return salesOrderPack
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getSalesOrderPack() {
@@ -1291,8 +1293,8 @@ public class Product   {
   /**
    * Get salesrepId
    * @return salesrepId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getSalesrepId() {
     return salesrepId;
@@ -1310,8 +1312,8 @@ public class Product   {
   /**
    * Get sExpensetypeId
    * @return sExpensetypeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getSExpensetypeId() {
     return sExpensetypeId;
@@ -1329,8 +1331,8 @@ public class Product   {
   /**
    * Get shelfdepth
    * @return shelfdepth
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getShelfdepth() {
     return shelfdepth;
@@ -1348,8 +1350,8 @@ public class Product   {
   /**
    * Get shelfheight
    * @return shelfheight
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getShelfheight() {
     return shelfheight;
@@ -1367,8 +1369,8 @@ public class Product   {
   /**
    * Get shelfwidth
    * @return shelfwidth
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getShelfwidth() {
     return shelfwidth;
@@ -1386,8 +1388,8 @@ public class Product   {
   /**
    * Get sku
    * @return sku
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getSku() {
     return sku;
@@ -1405,8 +1407,8 @@ public class Product   {
   /**
    * Get sResourceId
    * @return sResourceId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getSResourceId() {
     return sResourceId;
@@ -1424,8 +1426,8 @@ public class Product   {
   /**
    * Get unitsperpallet
    * @return unitsperpallet
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getUnitsperpallet() {
     return unitsperpallet;
@@ -1443,8 +1445,8 @@ public class Product   {
   /**
    * Get upc
    * @return upc
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getUpc() {
     return upc;
@@ -1462,8 +1464,8 @@ public class Product   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -1482,8 +1484,8 @@ public class Product   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -1502,8 +1504,8 @@ public class Product   {
   /**
    * Get value
    * @return value
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getValue() {
@@ -1522,8 +1524,8 @@ public class Product   {
   /**
    * Get versionno
    * @return versionno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getVersionno() {
     return versionno;
@@ -1541,8 +1543,8 @@ public class Product   {
   /**
    * Get volume
    * @return volume
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getVolume() {
@@ -1561,8 +1563,8 @@ public class Product   {
   /**
    * Get weight
    * @return weight
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getWeight() {
@@ -1581,8 +1583,8 @@ public class Product   {
   /**
    * Get yearlife
    * @return yearlife
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getYearlife() {

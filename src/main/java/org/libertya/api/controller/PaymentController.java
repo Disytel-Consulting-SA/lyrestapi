@@ -42,7 +42,7 @@ public class PaymentController extends AbstractController implements PaymentApi 
     }
 
     @Override
-    public ResponseEntity<String> updatePayment(Payment body, Integer id) {
+    public ResponseEntity<String> updatePayment(Integer id, Payment body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 

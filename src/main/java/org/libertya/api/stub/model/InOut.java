@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * InOut
  */
 @Validated
+
+
+
 public class InOut   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -203,8 +205,8 @@ public class InOut   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -223,8 +225,8 @@ public class InOut   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -243,8 +245,8 @@ public class InOut   {
   /**
    * Get adOrgtrxId
    * @return adOrgtrxId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAdOrgtrxId() {
     return adOrgtrxId;
@@ -262,8 +264,8 @@ public class InOut   {
   /**
    * Get adUserId
    * @return adUserId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAdUserId() {
     return adUserId;
@@ -281,8 +283,8 @@ public class InOut   {
   /**
    * Get cActivityId
    * @return cActivityId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCActivityId() {
     return cActivityId;
@@ -300,8 +302,8 @@ public class InOut   {
   /**
    * Get cai
    * @return cai
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getCai() {
     return cai;
@@ -319,8 +321,8 @@ public class InOut   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -339,8 +341,8 @@ public class InOut   {
   /**
    * Get cBpartnerLocationId
    * @return cBpartnerLocationId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCBpartnerLocationId() {
@@ -359,8 +361,8 @@ public class InOut   {
   /**
    * Get cCampaignId
    * @return cCampaignId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCampaignId() {
     return cCampaignId;
@@ -378,8 +380,8 @@ public class InOut   {
   /**
    * Get cChargeId
    * @return cChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -397,8 +399,8 @@ public class InOut   {
   /**
    * Get cDoctypeId
    * @return cDoctypeId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCDoctypeId() {
@@ -417,8 +419,8 @@ public class InOut   {
   /**
    * Get chargeamt
    * @return chargeamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getChargeamt() {
@@ -437,8 +439,8 @@ public class InOut   {
   /**
    * Get cInvoiceId
    * @return cInvoiceId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -456,8 +458,8 @@ public class InOut   {
   /**
    * Get clearancenumber
    * @return clearancenumber
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getClearancenumber() {
     return clearancenumber;
@@ -475,8 +477,8 @@ public class InOut   {
   /**
    * Get cOrderId
    * @return cOrderId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCOrderId() {
     return cOrderId;
@@ -494,8 +496,8 @@ public class InOut   {
   /**
    * Get cProjectId
    * @return cProjectId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -513,8 +515,8 @@ public class InOut   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -533,8 +535,8 @@ public class InOut   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -553,8 +555,8 @@ public class InOut   {
   /**
    * Get dateacct
    * @return dateacct
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDateacct() {
@@ -573,8 +575,8 @@ public class InOut   {
   /**
    * Get datecai
    * @return datecai
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDatecai() {
     return datecai;
@@ -592,8 +594,8 @@ public class InOut   {
   /**
    * Get dateordered
    * @return dateordered
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDateordered() {
     return dateordered;
@@ -611,8 +613,8 @@ public class InOut   {
   /**
    * Get dateprinted
    * @return dateprinted
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDateprinted() {
     return dateprinted;
@@ -630,8 +632,8 @@ public class InOut   {
   /**
    * Get datereceived
    * @return datereceived
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDatereceived() {
     return datereceived;
@@ -649,8 +651,8 @@ public class InOut   {
   /**
    * Get deliveryrule
    * @return deliveryrule
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDeliveryrule() {
@@ -669,8 +671,8 @@ public class InOut   {
   /**
    * Get deliveryviarule
    * @return deliveryviarule
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDeliveryviarule() {
@@ -689,8 +691,8 @@ public class InOut   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -708,8 +710,8 @@ public class InOut   {
   /**
    * Get docstatus
    * @return docstatus
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocstatus() {
@@ -728,8 +730,8 @@ public class InOut   {
   /**
    * Get documentno
    * @return documentno
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocumentno() {
@@ -748,8 +750,8 @@ public class InOut   {
   /**
    * Get freightamt
    * @return freightamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getFreightamt() {
@@ -768,8 +770,8 @@ public class InOut   {
   /**
    * Get freightcostrule
    * @return freightcostrule
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getFreightcostrule() {
@@ -788,8 +790,8 @@ public class InOut   {
   /**
    * Get inoutdate
    * @return inoutdate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getInoutdate() {
     return inoutdate;
@@ -807,8 +809,8 @@ public class InOut   {
   /**
    * Get inoutreceptiondate
    * @return inoutreceptiondate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getInoutreceptiondate() {
     return inoutreceptiondate;
@@ -826,8 +828,8 @@ public class InOut   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -846,8 +848,8 @@ public class InOut   {
   /**
    * Get isapproved
    * @return isapproved
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -866,8 +868,8 @@ public class InOut   {
   /**
    * Get isindispute
    * @return isindispute
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsindispute() {
@@ -886,8 +888,8 @@ public class InOut   {
   /**
    * Get isintransit
    * @return isintransit
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsintransit() {
@@ -906,8 +908,8 @@ public class InOut   {
   /**
    * Get isprinted
    * @return isprinted
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsprinted() {
@@ -926,8 +928,8 @@ public class InOut   {
   /**
    * Get issotrx
    * @return issotrx
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIssotrx() {
@@ -946,8 +948,8 @@ public class InOut   {
   /**
    * Get mInoutId
    * @return mInoutId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMInoutId() {
@@ -966,8 +968,8 @@ public class InOut   {
   /**
    * Get movementdate
    * @return movementdate
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getMovementdate() {
@@ -986,8 +988,8 @@ public class InOut   {
   /**
    * Get movementtype
    * @return movementtype
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getMovementtype() {
@@ -1006,8 +1008,8 @@ public class InOut   {
   /**
    * Get mShipperId
    * @return mShipperId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMShipperId() {
     return mShipperId;
@@ -1025,8 +1027,8 @@ public class InOut   {
   /**
    * Get mWarehouseId
    * @return mWarehouseId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMWarehouseId() {
@@ -1045,8 +1047,8 @@ public class InOut   {
   /**
    * Get nopackages
    * @return nopackages
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getNopackages() {
     return nopackages;
@@ -1064,8 +1066,8 @@ public class InOut   {
   /**
    * Get pickdate
    * @return pickdate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPickdate() {
     return pickdate;
@@ -1083,8 +1085,8 @@ public class InOut   {
   /**
    * Get poreference
    * @return poreference
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPoreference() {
     return poreference;
@@ -1102,8 +1104,8 @@ public class InOut   {
   /**
    * Get preprintedDocno
    * @return preprintedDocno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPreprintedDocno() {
     return preprintedDocno;
@@ -1121,8 +1123,8 @@ public class InOut   {
   /**
    * Get printtype
    * @return printtype
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getPrinttype() {
     return printtype;
@@ -1140,8 +1142,8 @@ public class InOut   {
   /**
    * Get priorityrule
    * @return priorityrule
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getPriorityrule() {
@@ -1160,8 +1162,8 @@ public class InOut   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -1180,8 +1182,8 @@ public class InOut   {
   /**
    * Get receptiondate
    * @return receptiondate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getReceptiondate() {
     return receptiondate;
@@ -1199,8 +1201,8 @@ public class InOut   {
   /**
    * Get refInoutId
    * @return refInoutId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getRefInoutId() {
     return refInoutId;
@@ -1218,8 +1220,8 @@ public class InOut   {
   /**
    * Get salesrepId
    * @return salesrepId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getSalesrepId() {
     return salesrepId;
@@ -1237,8 +1239,8 @@ public class InOut   {
   /**
    * Get sendemail
    * @return sendemail
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isSendemail() {
@@ -1257,8 +1259,8 @@ public class InOut   {
   /**
    * Get shipdate
    * @return shipdate
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getShipdate() {
     return shipdate;
@@ -1276,8 +1278,8 @@ public class InOut   {
   /**
    * Get trackingno
    * @return trackingno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getTrackingno() {
     return trackingno;
@@ -1295,8 +1297,8 @@ public class InOut   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -1315,8 +1317,8 @@ public class InOut   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -1335,8 +1337,8 @@ public class InOut   {
   /**
    * Get user1Id
    * @return user1Id
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getUser1Id() {
     return user1Id;
@@ -1354,8 +1356,8 @@ public class InOut   {
   /**
    * Get user2Id
    * @return user2Id
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getUser2Id() {
     return user2Id;

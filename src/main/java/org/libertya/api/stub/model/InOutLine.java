@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * InOutLine
  */
 @Validated
+
+
+
 public class InOutLine   {
   @JsonProperty("ad_client_id")
   private Integer adClientId = null;
@@ -125,8 +127,8 @@ public class InOutLine   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -145,8 +147,8 @@ public class InOutLine   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -165,8 +167,8 @@ public class InOutLine   {
   /**
    * Get cChargeId
    * @return cChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -184,8 +186,8 @@ public class InOutLine   {
   /**
    * Get cCountryId
    * @return cCountryId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCountryId() {
     return cCountryId;
@@ -203,8 +205,8 @@ public class InOutLine   {
   /**
    * Get cInvoicelineId
    * @return cInvoicelineId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoicelineId() {
     return cInvoicelineId;
@@ -222,8 +224,8 @@ public class InOutLine   {
   /**
    * Get confirmedqty
    * @return confirmedqty
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getConfirmedqty() {
@@ -242,8 +244,8 @@ public class InOutLine   {
   /**
    * Get cOrderlineId
    * @return cOrderlineId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCOrderlineId() {
     return cOrderlineId;
@@ -261,8 +263,8 @@ public class InOutLine   {
   /**
    * Get costprice
    * @return costprice
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -282,8 +284,8 @@ public class InOutLine   {
   /**
    * Get cProjectId
    * @return cProjectId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -301,8 +303,8 @@ public class InOutLine   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -321,8 +323,8 @@ public class InOutLine   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -341,8 +343,8 @@ public class InOutLine   {
   /**
    * Get cUomId
    * @return cUomId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCUomId() {
@@ -361,8 +363,8 @@ public class InOutLine   {
   /**
    * Get declarationno
    * @return declarationno
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDeclarationno() {
     return declarationno;
@@ -380,8 +382,8 @@ public class InOutLine   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -399,8 +401,8 @@ public class InOutLine   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -419,8 +421,8 @@ public class InOutLine   {
   /**
    * Get isdescription
    * @return isdescription
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsdescription() {
@@ -439,8 +441,8 @@ public class InOutLine   {
   /**
    * Get isinvoiced
    * @return isinvoiced
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsinvoiced() {
@@ -459,8 +461,8 @@ public class InOutLine   {
   /**
    * Get isselected
    * @return isselected
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsselected() {
@@ -479,8 +481,8 @@ public class InOutLine   {
   /**
    * Get line
    * @return line
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getLine() {
@@ -499,8 +501,8 @@ public class InOutLine   {
   /**
    * Get mAttributesetinstanceId
    * @return mAttributesetinstanceId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -519,8 +521,8 @@ public class InOutLine   {
   /**
    * Get mImportClearanceId
    * @return mImportClearanceId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getMImportClearanceId() {
     return mImportClearanceId;
@@ -538,8 +540,8 @@ public class InOutLine   {
   /**
    * Get mInoutId
    * @return mInoutId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMInoutId() {
@@ -558,8 +560,8 @@ public class InOutLine   {
   /**
    * Get mInoutlineId
    * @return mInoutlineId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMInoutlineId() {
@@ -578,8 +580,8 @@ public class InOutLine   {
   /**
    * Get mLocatorId
    * @return mLocatorId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMLocatorId() {
@@ -598,8 +600,8 @@ public class InOutLine   {
   /**
    * Get movementqty
    * @return movementqty
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -619,8 +621,8 @@ public class InOutLine   {
   /**
    * Get mProductId
    * @return mProductId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getMProductId() {
@@ -639,8 +641,8 @@ public class InOutLine   {
   /**
    * Get pickedqty
    * @return pickedqty
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getPickedqty() {
@@ -659,8 +661,8 @@ public class InOutLine   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -679,8 +681,8 @@ public class InOutLine   {
   /**
    * Get qtyentered
    * @return qtyentered
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -700,8 +702,8 @@ public class InOutLine   {
   /**
    * Get refInoutlineId
    * @return refInoutlineId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getRefInoutlineId() {
     return refInoutlineId;
@@ -719,8 +721,8 @@ public class InOutLine   {
   /**
    * Get scrappedqty
    * @return scrappedqty
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getScrappedqty() {
@@ -739,8 +741,8 @@ public class InOutLine   {
   /**
    * Get targetqty
    * @return targetqty
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getTargetqty() {
@@ -759,8 +761,8 @@ public class InOutLine   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -779,8 +781,8 @@ public class InOutLine   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {

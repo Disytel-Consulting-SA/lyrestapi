@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -14,6 +13,9 @@ import javax.validation.constraints.*;
  * CashLine
  */
 @Validated
+
+
+
 public class CashLine   {
   @JsonProperty("accounting_c_charge_id")
   private Integer accountingCChargeId = null;
@@ -143,8 +145,8 @@ public class CashLine   {
   /**
    * Get accountingCChargeId
    * @return accountingCChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getAccountingCChargeId() {
     return accountingCChargeId;
@@ -162,8 +164,8 @@ public class CashLine   {
   /**
    * Get adClientId
    * @return adClientId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdClientId() {
@@ -182,8 +184,8 @@ public class CashLine   {
   /**
    * Get adOrgId
    * @return adOrgId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -202,8 +204,8 @@ public class CashLine   {
   /**
    * Get amount
    * @return amount
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -223,8 +225,8 @@ public class CashLine   {
   /**
    * Get authcode
    * @return authcode
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getAuthcode() {
     return authcode;
@@ -242,8 +244,8 @@ public class CashLine   {
   /**
    * Get authmatch
    * @return authmatch
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isAuthmatch() {
     return authmatch;
@@ -261,8 +263,8 @@ public class CashLine   {
   /**
    * Get automaticgenerated
    * @return automaticgenerated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isAutomaticgenerated() {
@@ -281,8 +283,8 @@ public class CashLine   {
   /**
    * Get cAllocationhdrId
    * @return cAllocationhdrId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCAllocationhdrId() {
     return cAllocationhdrId;
@@ -300,8 +302,8 @@ public class CashLine   {
   /**
    * Get cashamount
    * @return cashamount
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     @Valid
@@ -321,8 +323,8 @@ public class CashLine   {
   /**
    * Get cashtype
    * @return cashtype
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCashtype() {
@@ -341,8 +343,8 @@ public class CashLine   {
   /**
    * Get cBankaccountId
    * @return cBankaccountId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBankaccountId() {
     return cBankaccountId;
@@ -360,8 +362,8 @@ public class CashLine   {
   /**
    * Get cBpartnerId
    * @return cBpartnerId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -379,8 +381,8 @@ public class CashLine   {
   /**
    * Get cCashcurrencyId
    * @return cCashcurrencyId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCashcurrencyId() {
     return cCashcurrencyId;
@@ -398,8 +400,8 @@ public class CashLine   {
   /**
    * Get cCashId
    * @return cCashId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCCashId() {
@@ -418,8 +420,8 @@ public class CashLine   {
   /**
    * Get cCashlineId
    * @return cCashlineId
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCCashlineId() {
@@ -438,8 +440,8 @@ public class CashLine   {
   /**
    * Get cChargeId
    * @return cChargeId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -457,8 +459,8 @@ public class CashLine   {
   /**
    * Get cCurrencyId
    * @return cCurrencyId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCCurrencyId() {
     return cCurrencyId;
@@ -476,8 +478,8 @@ public class CashLine   {
   /**
    * Get cInvoiceId
    * @return cInvoiceId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -495,8 +497,8 @@ public class CashLine   {
   /**
    * Get cPaymentId
    * @return cPaymentId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPaymentId() {
     return cPaymentId;
@@ -514,8 +516,8 @@ public class CashLine   {
   /**
    * Get cPosjournalId
    * @return cPosjournalId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPosjournalId() {
     return cPosjournalId;
@@ -533,8 +535,8 @@ public class CashLine   {
   /**
    * Get cPospaymentmediumId
    * @return cPospaymentmediumId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -552,8 +554,8 @@ public class CashLine   {
   /**
    * Get cProjectId
    * @return cProjectId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -571,8 +573,8 @@ public class CashLine   {
   /**
    * Get created
    * @return created
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getCreated() {
@@ -591,8 +593,8 @@ public class CashLine   {
   /**
    * Get createdby
    * @return createdby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getCreatedby() {
@@ -611,8 +613,8 @@ public class CashLine   {
   /**
    * Get description
    * @return description
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public String getDescription() {
     return description;
@@ -630,8 +632,8 @@ public class CashLine   {
   /**
    * Get discountamt
    * @return discountamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getDiscountamt() {
@@ -650,8 +652,8 @@ public class CashLine   {
   /**
    * Get docstatus
    * @return docstatus
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getDocstatus() {
@@ -670,8 +672,8 @@ public class CashLine   {
   /**
    * Get isactive
    * @return isactive
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsactive() {
@@ -690,8 +692,8 @@ public class CashLine   {
   /**
    * Get isallocated
    * @return isallocated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isIsallocated() {
@@ -710,8 +712,8 @@ public class CashLine   {
   /**
    * Get isgenerated
    * @return isgenerated
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isIsgenerated() {
     return isgenerated;
@@ -729,8 +731,8 @@ public class CashLine   {
   /**
    * Get line
    * @return line
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getLine() {
@@ -749,8 +751,8 @@ public class CashLine   {
   /**
    * Get processed
    * @return processed
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isProcessed() {
@@ -769,8 +771,8 @@ public class CashLine   {
   /**
    * Get processing
    * @return processing
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Boolean isProcessing() {
     return processing;
@@ -788,8 +790,8 @@ public class CashLine   {
   /**
    * Get transfercashId
    * @return transfercashId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getTransfercashId() {
     return transfercashId;
@@ -807,8 +809,8 @@ public class CashLine   {
   /**
    * Get transfercashlineId
    * @return transfercashlineId
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     public Integer getTransfercashlineId() {
     return transfercashlineId;
@@ -826,8 +828,8 @@ public class CashLine   {
   /**
    * Get updatebpbalance
    * @return updatebpbalance
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Boolean isUpdatebpbalance() {
@@ -846,8 +848,8 @@ public class CashLine   {
   /**
    * Get updated
    * @return updated
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public String getUpdated() {
@@ -866,8 +868,8 @@ public class CashLine   {
   /**
    * Get updatedby
    * @return updatedby
-  **/
-  @ApiModelProperty(required = true, value = "")
+   **/
+  @Schema(required = true, description = "")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -886,8 +888,8 @@ public class CashLine   {
   /**
    * Get whiteoffamt
    * @return whiteoffamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getWhiteoffamt() {
@@ -906,8 +908,8 @@ public class CashLine   {
   /**
    * Get writeoffamt
    * @return writeoffamt
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public BigDecimal getWriteoffamt() {

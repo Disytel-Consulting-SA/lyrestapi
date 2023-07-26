@@ -39,7 +39,7 @@ public class BPartnerController extends AbstractController implements BpartnerAp
     }
 
     @Override
-    public ResponseEntity<String> updateBPartner(BPartner body, Integer id) {
+    public ResponseEntity<String> updateBPartner(Integer id, BPartner body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 

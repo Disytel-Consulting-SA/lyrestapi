@@ -3,8 +3,7 @@ package org.libertya.api.stub.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.libertya.api.stub.model.Order;
@@ -18,6 +17,9 @@ import javax.validation.constraints.*;
  * OrderDocument
  */
 @Validated
+
+
+
 public class OrderDocument   {
   @JsonProperty("header")
   private Order header = null;
@@ -38,8 +40,8 @@ public class OrderDocument   {
   /**
    * Get header
    * @return header
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
   
     @Valid
     public Order getHeader() {
@@ -66,8 +68,8 @@ public class OrderDocument   {
   /**
    * Get lines
    * @return lines
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<OrderLine> getLines() {
     return lines;
@@ -93,8 +95,8 @@ public class OrderDocument   {
   /**
    * Get taxes
    * @return taxes
-  **/
-  @ApiModelProperty(value = "")
+   **/
+  @Schema(description = "")
       @Valid
     public List<OrderTax> getTaxes() {
     return taxes;

@@ -39,7 +39,7 @@ public class LocationController extends AbstractController implements LocationAp
     }
 
     @Override
-    public ResponseEntity<String> updateLocation(Location body, Integer id) {
+    public ResponseEntity<String> updateLocation(Integer id, Location body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 }

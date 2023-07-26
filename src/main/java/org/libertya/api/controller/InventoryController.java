@@ -43,7 +43,7 @@ public class InventoryController extends AbstractController implements Inventory
     }
 
     @Override
-    public ResponseEntity<String> updateInventory(Inventory body, Integer id) {
+    public ResponseEntity<String> updateInventory(Integer id, Inventory body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 
