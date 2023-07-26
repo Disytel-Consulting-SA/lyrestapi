@@ -57,7 +57,8 @@ public interface ProductApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nuevo articulo", description = "Agrega un nuevo articulo", tags={ "product" })
+    @Operation(summary = "Nuevo articulo", description = "Agrega un nuevo articulo", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "product" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de producto creado es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -83,7 +84,8 @@ public interface ProductApi {
     }
 
 
-    @Operation(summary = "Elimina un articulo", description = "Elimina un articulo existente", tags={ "product" })
+    @Operation(summary = "Elimina un articulo", description = "Elimina un articulo existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "product" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -110,7 +112,8 @@ public interface ProductApi {
     }
 
 
-    @Operation(summary = "Retrieve all products", description = "Retorna la lista completa de articulos", tags={ "product" })
+    @Operation(summary = "Retrieve all products", description = "Retorna la lista completa de articulos", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "product" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Product.class)))) })
     @RequestMapping(value = "/v1.0/products",
@@ -133,7 +136,8 @@ public interface ProductApi {
     }
 
 
-    @Operation(summary = "Recupera un producto en particular", description = "Recupera la informacion de un articulo en particular", tags={ "product" })
+    @Operation(summary = "Recupera un producto en particular", description = "Recupera la informacion de un articulo en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "product" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Product.class))) })
     @RequestMapping(value = "/v1.0/products/{id}",
@@ -156,7 +160,8 @@ public interface ProductApi {
     }
 
 
-    @Operation(summary = "Actualiza por completo un articulo existente", description = "", tags={ "product" })
+    @Operation(summary = "Actualiza por completo un articulo existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "product" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

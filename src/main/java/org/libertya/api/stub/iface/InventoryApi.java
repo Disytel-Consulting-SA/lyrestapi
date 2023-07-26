@@ -58,7 +58,8 @@ public interface InventoryApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nuevo inventario", description = "Agrega una nuevo inventario", tags={ "inventory" })
+    @Operation(summary = "Nuevo inventario", description = "Agrega una nuevo inventario", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inventory" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de inventario creado es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -84,7 +85,8 @@ public interface InventoryApi {
     }
 
 
-    @Operation(summary = "Elimina un inventario", description = "Elimina un inventario existente", tags={ "inventory" })
+    @Operation(summary = "Elimina un inventario", description = "Elimina un inventario existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inventory" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -111,7 +113,8 @@ public interface InventoryApi {
     }
 
 
-    @Operation(summary = "Retrieve inventories", description = "Retorna una lista de inventarios", tags={ "inventory" })
+    @Operation(summary = "Retrieve inventories", description = "Retorna una lista de inventarios", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inventory" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Inventory.class)))) })
     @RequestMapping(value = "/v1.0/inventories",
@@ -134,7 +137,8 @@ public interface InventoryApi {
     }
 
 
-    @Operation(summary = "Procesa un inventario", description = "", tags={ "inventory" })
+    @Operation(summary = "Procesa un inventario", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inventory" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -161,7 +165,8 @@ public interface InventoryApi {
     }
 
 
-    @Operation(summary = "Recupera un inventario en particular", description = "Recupera la informacion de un inventario en particular", tags={ "inventory" })
+    @Operation(summary = "Recupera un inventario en particular", description = "Recupera la informacion de un inventario en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inventory" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InventoryDocument.class))) })
     @RequestMapping(value = "/v1.0/inventories/{id}",
@@ -184,7 +189,8 @@ public interface InventoryApi {
     }
 
 
-    @Operation(summary = "Actualiza un inventario existente", description = "", tags={ "inventory" })
+    @Operation(summary = "Actualiza un inventario existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inventory" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

@@ -58,7 +58,8 @@ public interface OrderApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nuevo pedido", description = "Agrega un nuev pedido", tags={ "order" })
+    @Operation(summary = "Nuevo pedido", description = "Agrega un nuev pedido", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "order" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de pedido creado es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -84,7 +85,8 @@ public interface OrderApi {
     }
 
 
-    @Operation(summary = "Elimina un pedido", description = "Elimina un pedido existente", tags={ "order" })
+    @Operation(summary = "Elimina un pedido", description = "Elimina un pedido existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "order" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -111,7 +113,8 @@ public interface OrderApi {
     }
 
 
-    @Operation(summary = "Retrieve orders", description = "Retorna una lista de pedidos", tags={ "order" })
+    @Operation(summary = "Retrieve orders", description = "Retorna una lista de pedidos", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "order" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Order.class)))) })
     @RequestMapping(value = "/v1.0/orders",
@@ -134,7 +137,8 @@ public interface OrderApi {
     }
 
 
-    @Operation(summary = "Procesa un pedido", description = "", tags={ "order" })
+    @Operation(summary = "Procesa un pedido", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "order" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -161,7 +165,8 @@ public interface OrderApi {
     }
 
 
-    @Operation(summary = "Recupera un pedido en particular", description = "Recupera la informacion de un pedido en particular", tags={ "order" })
+    @Operation(summary = "Recupera un pedido en particular", description = "Recupera la informacion de un pedido en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "order" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = OrderDocument.class))) })
     @RequestMapping(value = "/v1.0/orders/{id}",
@@ -184,7 +189,8 @@ public interface OrderApi {
     }
 
 
-    @Operation(summary = "Actualiza un pedido existente", description = "", tags={ "order" })
+    @Operation(summary = "Actualiza un pedido existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "order" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

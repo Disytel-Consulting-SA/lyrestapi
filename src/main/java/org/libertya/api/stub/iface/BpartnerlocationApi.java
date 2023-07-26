@@ -57,7 +57,8 @@ public interface BpartnerlocationApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nueva direccion de entidad comercial", description = "Agrega una nueva direccion de entidad comercial", tags={ "bpartnerlocation" })
+    @Operation(summary = "Nueva direccion de entidad comercial", description = "Agrega una nueva direccion de entidad comercial", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "bpartnerlocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de direccion de entidad comercial creada es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -83,7 +84,8 @@ public interface BpartnerlocationApi {
     }
 
 
-    @Operation(summary = "Elimina una direccion de entidad comercial", description = "Elimina una direccion de entidad comercial existente", tags={ "bpartnerlocation" })
+    @Operation(summary = "Elimina una direccion de entidad comercial", description = "Elimina una direccion de entidad comercial existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "bpartnerlocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -110,7 +112,8 @@ public interface BpartnerlocationApi {
     }
 
 
-    @Operation(summary = "Retrieve all bpartner locations", description = "Retorna la lista completa de direcciones de entidad comercial", tags={ "bpartnerlocation" })
+    @Operation(summary = "Retrieve all bpartner locations", description = "Retorna la lista completa de direcciones de entidad comercial", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "bpartnerlocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = BPartnerLocation.class)))) })
     @RequestMapping(value = "/v1.0/bpartnerlocations",
@@ -133,7 +136,8 @@ public interface BpartnerlocationApi {
     }
 
 
-    @Operation(summary = "Recupera una direccion de entidad comercial en particular", description = "Recupera la informacion de una direccion  de entidad comercial  en particular", tags={ "bpartnerlocation" })
+    @Operation(summary = "Recupera una direccion de entidad comercial en particular", description = "Recupera la informacion de una direccion  de entidad comercial  en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "bpartnerlocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BPartnerLocation.class))) })
     @RequestMapping(value = "/v1.0/bpartnerlocations/{id}",
@@ -156,7 +160,8 @@ public interface BpartnerlocationApi {
     }
 
 
-    @Operation(summary = "Actualiza una direccion de entidad comercial existente", description = "", tags={ "bpartnerlocation" })
+    @Operation(summary = "Actualiza una direccion de entidad comercial existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "bpartnerlocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

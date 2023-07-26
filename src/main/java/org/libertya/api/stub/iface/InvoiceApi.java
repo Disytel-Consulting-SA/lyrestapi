@@ -58,7 +58,8 @@ public interface InvoiceApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nueva factura", description = "Agrega una nueva factura", tags={ "invoice" })
+    @Operation(summary = "Nueva factura", description = "Agrega una nueva factura", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de factura creada es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -84,7 +85,8 @@ public interface InvoiceApi {
     }
 
 
-    @Operation(summary = "Elimina una factura", description = "Elimina una factura existente", tags={ "invoice" })
+    @Operation(summary = "Elimina una factura", description = "Elimina una factura existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -111,7 +113,8 @@ public interface InvoiceApi {
     }
 
 
-    @Operation(summary = "Retrieve invoices", description = "Retorna una lista de facturas", tags={ "invoice" })
+    @Operation(summary = "Retrieve invoices", description = "Retorna una lista de facturas", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Invoice.class)))) })
     @RequestMapping(value = "/v1.0/invoices",
@@ -134,7 +137,8 @@ public interface InvoiceApi {
     }
 
 
-    @Operation(summary = "Procesa una factura", description = "", tags={ "invoice" })
+    @Operation(summary = "Procesa una factura", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -161,7 +165,8 @@ public interface InvoiceApi {
     }
 
 
-    @Operation(summary = "Recupera una factura en particular", description = "Recupera la informacion de una factura en particular", tags={ "invoice" })
+    @Operation(summary = "Recupera una factura en particular", description = "Recupera la informacion de una factura en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InvoiceDocument.class))) })
     @RequestMapping(value = "/v1.0/invoices/{id}",
@@ -184,7 +189,8 @@ public interface InvoiceApi {
     }
 
 
-    @Operation(summary = "Actualiza una factura existente", description = "", tags={ "invoice" })
+    @Operation(summary = "Actualiza una factura existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

@@ -57,7 +57,8 @@ public interface PaymentApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nuevo pago", description = "Agrega un nuevo pago", tags={ "payment" })
+    @Operation(summary = "Nuevo pago", description = "Agrega un nuevo pago", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "payment" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de pago creado es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -83,7 +84,8 @@ public interface PaymentApi {
     }
 
 
-    @Operation(summary = "Elimina un pago", description = "Elimina un pago existente", tags={ "payment" })
+    @Operation(summary = "Elimina un pago", description = "Elimina un pago existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "payment" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -110,7 +112,8 @@ public interface PaymentApi {
     }
 
 
-    @Operation(summary = "Retrieve all payments", description = "Retorna la lista completa de pagos", tags={ "payment" })
+    @Operation(summary = "Retrieve all payments", description = "Retorna la lista completa de pagos", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "payment" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Payment.class)))) })
     @RequestMapping(value = "/v1.0/payments",
@@ -133,7 +136,8 @@ public interface PaymentApi {
     }
 
 
-    @Operation(summary = "Procesa un pago", description = "", tags={ "payment" })
+    @Operation(summary = "Procesa un pago", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "payment" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -160,7 +164,8 @@ public interface PaymentApi {
     }
 
 
-    @Operation(summary = "Recupera un pago en particular", description = "Recupera la informacion de un pago en particular", tags={ "payment" })
+    @Operation(summary = "Recupera un pago en particular", description = "Recupera la informacion de un pago en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "payment" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Payment.class))) })
     @RequestMapping(value = "/v1.0/payments/{id}",
@@ -183,7 +188,8 @@ public interface PaymentApi {
     }
 
 
-    @Operation(summary = "Actualiza por completo un pago existente", description = "", tags={ "payment" })
+    @Operation(summary = "Actualiza por completo un pago existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "payment" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

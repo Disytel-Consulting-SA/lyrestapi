@@ -59,7 +59,8 @@ public interface AllocationApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nuevoa OP/RC", description = "Agrega una nueva OP/RC", tags={ "allocation" })
+    @Operation(summary = "Nuevoa OP/RC", description = "Agrega una nueva OP/RC", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "allocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de OP/RC creada es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -85,7 +86,8 @@ public interface AllocationApi {
     }
 
 
-    @Operation(summary = "Elimina una OP/RC", description = "Elimina una OP/RC existente", tags={ "allocation" })
+    @Operation(summary = "Elimina una OP/RC", description = "Elimina una OP/RC existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "allocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -112,7 +114,8 @@ public interface AllocationApi {
     }
 
 
-    @Operation(summary = "Retrieve allocations", description = "Retorna una lista de OP/RC", tags={ "allocation" })
+    @Operation(summary = "Retrieve allocations", description = "Retorna una lista de OP/RC", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "allocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AllocationHdr.class)))) })
     @RequestMapping(value = "/v1.0/allocations",
@@ -135,7 +138,8 @@ public interface AllocationApi {
     }
 
 
-    @Operation(summary = "Procesa una OP/RC", description = "", tags={ "allocation" })
+    @Operation(summary = "Procesa una OP/RC", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "allocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -162,7 +166,8 @@ public interface AllocationApi {
     }
 
 
-    @Operation(summary = "Recupera una OP/RC en particular", description = "Recupera la informacion de una OP/RC en particular", tags={ "allocation" })
+    @Operation(summary = "Recupera una OP/RC en particular", description = "Recupera la informacion de una OP/RC en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "allocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AllocationDocument.class))) })
     @RequestMapping(value = "/v1.0/allocations/{id}",
@@ -185,7 +190,8 @@ public interface AllocationApi {
     }
 
 
-    @Operation(summary = "Actualiza una OP/RC existente", description = "", tags={ "allocation" })
+    @Operation(summary = "Actualiza una OP/RC existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "allocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

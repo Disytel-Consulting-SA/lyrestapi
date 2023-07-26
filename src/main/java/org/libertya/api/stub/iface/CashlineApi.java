@@ -57,7 +57,8 @@ public interface CashlineApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nueva linea de efectivo", description = "Agrega una nueva linea de efectivo", tags={ "cashline" })
+    @Operation(summary = "Nueva linea de efectivo", description = "Agrega una nueva linea de efectivo", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "cashline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de linea de efectivo es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -83,7 +84,8 @@ public interface CashlineApi {
     }
 
 
-    @Operation(summary = "Elimina una linea de efectivo", description = "Elimina una linea de efectivo existente", tags={ "cashline" })
+    @Operation(summary = "Elimina una linea de efectivo", description = "Elimina una linea de efectivo existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "cashline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -110,7 +112,8 @@ public interface CashlineApi {
     }
 
 
-    @Operation(summary = "Retrieve all cash lines", description = "Retorna la lista completa de lineas de efectivo", tags={ "cashline" })
+    @Operation(summary = "Retrieve all cash lines", description = "Retorna la lista completa de lineas de efectivo", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "cashline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CashLine.class)))) })
     @RequestMapping(value = "/v1.0/cashlines",
@@ -133,7 +136,8 @@ public interface CashlineApi {
     }
 
 
-    @Operation(summary = "Procesa una linea de efectivo", description = "", tags={ "cashline" })
+    @Operation(summary = "Procesa una linea de efectivo", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "cashline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -160,7 +164,8 @@ public interface CashlineApi {
     }
 
 
-    @Operation(summary = "Recupera una linea de efectivo particular", description = "Recupera la informacion de una linea de efectivo en particular", tags={ "cashline" })
+    @Operation(summary = "Recupera una linea de efectivo particular", description = "Recupera la informacion de una linea de efectivo en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "cashline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CashLine.class))) })
     @RequestMapping(value = "/v1.0/cashlines/{id}",
@@ -183,7 +188,8 @@ public interface CashlineApi {
     }
 
 
-    @Operation(summary = "Actualiza por completo una linea de efectivo existente", description = "", tags={ "cashline" })
+    @Operation(summary = "Actualiza por completo una linea de efectivo existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "cashline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

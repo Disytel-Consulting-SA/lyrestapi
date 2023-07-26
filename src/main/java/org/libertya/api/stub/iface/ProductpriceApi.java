@@ -57,7 +57,8 @@ public interface ProductpriceApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nuevo precio de articulo", description = "Agrega un nuevo precio a un articulo", tags={ "productprice" })
+    @Operation(summary = "Nuevo precio de articulo", description = "Agrega un nuevo precio a un articulo", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "productprice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID del precio de producto creado es retornado, el cual es formato por su ID de Producto y ID de Version de Lista de Precio", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -83,7 +84,8 @@ public interface ProductpriceApi {
     }
 
 
-    @Operation(summary = "Elimina un precio de articulo", description = "Elimina un precio de articulo existente", tags={ "productprice" })
+    @Operation(summary = "Elimina un precio de articulo", description = "Elimina un precio de articulo existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "productprice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -110,7 +112,8 @@ public interface ProductpriceApi {
     }
 
 
-    @Operation(summary = "Retrieve all product prices", description = "Retorna la lista completa de precios", tags={ "productprice" })
+    @Operation(summary = "Retrieve all product prices", description = "Retorna la lista completa de precios", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "productprice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductPrice.class)))) })
     @RequestMapping(value = "/v1.0/productprices",
@@ -133,7 +136,8 @@ public interface ProductpriceApi {
     }
 
 
-    @Operation(summary = "Recupera un precio de producto en particular", description = "Recupera la informacion del precio de un articulo en particular", tags={ "productprice" })
+    @Operation(summary = "Recupera un precio de producto en particular", description = "Recupera la informacion del precio de un articulo en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "productprice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ProductPrice.class))) })
     @RequestMapping(value = "/v1.0/productprices/{idProduct}/{idPriceListVersion}",
@@ -156,7 +160,8 @@ public interface ProductpriceApi {
     }
 
 
-    @Operation(summary = "Actualiza el precio de un articulo existente", description = "", tags={ "productprice" })
+    @Operation(summary = "Actualiza el precio de un articulo existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "productprice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

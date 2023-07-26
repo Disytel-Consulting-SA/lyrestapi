@@ -57,7 +57,8 @@ public interface LocationApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nueva direccion", description = "Agrega una nueva direccion", tags={ "location" })
+    @Operation(summary = "Nueva direccion", description = "Agrega una nueva direccion", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "location" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de direccion creada es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -83,7 +84,8 @@ public interface LocationApi {
     }
 
 
-    @Operation(summary = "Elimina una direccion", description = "Elimina una direccion existente", tags={ "location" })
+    @Operation(summary = "Elimina una direccion", description = "Elimina una direccion existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "location" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -110,7 +112,8 @@ public interface LocationApi {
     }
 
 
-    @Operation(summary = "Retrieve all locations", description = "Retorna la lista completa de direcciones", tags={ "location" })
+    @Operation(summary = "Retrieve all locations", description = "Retorna la lista completa de direcciones", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "location" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Location.class)))) })
     @RequestMapping(value = "/v1.0/locations",
@@ -133,7 +136,8 @@ public interface LocationApi {
     }
 
 
-    @Operation(summary = "Recupera una direccion en particular", description = "Recupera la informacion de una direccion en particular", tags={ "location" })
+    @Operation(summary = "Recupera una direccion en particular", description = "Recupera la informacion de una direccion en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "location" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Location.class))) })
     @RequestMapping(value = "/v1.0/locations/{id}",
@@ -156,7 +160,8 @@ public interface LocationApi {
     }
 
 
-    @Operation(summary = "Actualiza una direccion existente", description = "", tags={ "location" })
+    @Operation(summary = "Actualiza una direccion existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "location" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

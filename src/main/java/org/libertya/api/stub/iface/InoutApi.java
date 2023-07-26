@@ -58,7 +58,8 @@ public interface InoutApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Nuevo remito", description = "Agrega un nuevo remito", tags={ "inout" })
+    @Operation(summary = "Nuevo remito", description = "Agrega un nuevo remito", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inout" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK. ID de remito creado es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -84,7 +85,8 @@ public interface InoutApi {
     }
 
 
-    @Operation(summary = "Elimina un remito", description = "Elimina un remito existente", tags={ "inout" })
+    @Operation(summary = "Elimina un remito", description = "Elimina un remito existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inout" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -111,7 +113,8 @@ public interface InoutApi {
     }
 
 
-    @Operation(summary = "Retrieve inouts", description = "Retorna una lista de remitos", tags={ "inout" })
+    @Operation(summary = "Retrieve inouts", description = "Retorna una lista de remitos", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inout" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = InOut.class)))) })
     @RequestMapping(value = "/v1.0/inouts",
@@ -134,7 +137,8 @@ public interface InoutApi {
     }
 
 
-    @Operation(summary = "Procesa un remito", description = "", tags={ "inout" })
+    @Operation(summary = "Procesa un remito", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inout" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         
@@ -161,7 +165,8 @@ public interface InoutApi {
     }
 
 
-    @Operation(summary = "Recupera un remito en particular", description = "Recupera la informacion de un remito en particular", tags={ "inout" })
+    @Operation(summary = "Recupera un remito en particular", description = "Recupera la informacion de un remito en particular", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inout" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = InOutDocument.class))) })
     @RequestMapping(value = "/v1.0/inouts/{id}",
@@ -184,7 +189,8 @@ public interface InoutApi {
     }
 
 
-    @Operation(summary = "Actualiza un remito existente", description = "", tags={ "inout" })
+    @Operation(summary = "Actualiza un remito existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "inout" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
         

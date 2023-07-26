@@ -8,6 +8,17 @@ info:
 tags:
   - name: "LYRESTAPI"
 
+security:
+  - jwtAuth: []
+
+components:
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+
 paths:
   /v1.0/products:
     $ref: ./paths/products.yaml
