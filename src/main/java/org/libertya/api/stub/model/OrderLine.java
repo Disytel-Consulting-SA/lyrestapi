@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -190,6 +193,10 @@ public class OrderLine   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public OrderLine adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -1356,6 +1363,33 @@ public class OrderLine   {
     this.updatedby = updatedby;
   }
 
+  public OrderLine referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public OrderLine addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -1423,12 +1457,13 @@ public class OrderLine   {
         Objects.equals(this.refOrderlineId, orderLine.refOrderlineId) &&
         Objects.equals(this.salesrepOrigId, orderLine.salesrepOrigId) &&
         Objects.equals(this.updated, orderLine.updated) &&
-        Objects.equals(this.updatedby, orderLine.updatedby);
+        Objects.equals(this.updatedby, orderLine.updatedby) &&
+        Objects.equals(this.referencedvalues, orderLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, cBpartnerId, cBpartnerLocationId, cChargeId, cCurrencyId, checkoutplace, cOrderId, cOrderlineId, cProjectId, created, createdby, cTaxId, cUomId, datedelivered, dateinvoiced, dateordered, datepromised, description, diffamt, discount, documentdiscountamt, freightamt, isactive, isdescription, line, linebonusamt, linediscountamt, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mProductId, mShipperId, mWarehouseId, orderMin, orderPack, priceactual, pricediff, priceentered, pricelimit, pricelist, pricereception, processed, qtydelivered, qtydiff, qtyentered, qtyinvoiced, qtyordered, qtyreception, qtyreserved, qtyreturned, qtytransferred, receptionamt, refOrderlineId, salesrepOrigId, updated, updatedby);
+    return Objects.hash(adClientId, adOrgId, cBpartnerId, cBpartnerLocationId, cChargeId, cCurrencyId, checkoutplace, cOrderId, cOrderlineId, cProjectId, created, createdby, cTaxId, cUomId, datedelivered, dateinvoiced, dateordered, datepromised, description, diffamt, discount, documentdiscountamt, freightamt, isactive, isdescription, line, linebonusamt, linediscountamt, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mProductId, mShipperId, mWarehouseId, orderMin, orderPack, priceactual, pricediff, priceentered, pricelimit, pricelist, pricereception, processed, qtydelivered, qtydiff, qtyentered, qtyinvoiced, qtyordered, qtyreception, qtyreserved, qtyreturned, qtytransferred, receptionamt, refOrderlineId, salesrepOrigId, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -1494,6 +1529,7 @@ public class OrderLine   {
     sb.append("    salesrepOrigId: ").append(toIndentedString(salesrepOrigId)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

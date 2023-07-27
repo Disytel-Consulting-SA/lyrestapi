@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -61,6 +64,10 @@ public class OrderTax   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public OrderTax adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -363,6 +370,33 @@ public class OrderTax   {
     this.updatedby = updatedby;
   }
 
+  public OrderTax referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public OrderTax addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -387,12 +421,13 @@ public class OrderTax   {
         Objects.equals(this.taxamt, orderTax.taxamt) &&
         Objects.equals(this.taxbaseamt, orderTax.taxbaseamt) &&
         Objects.equals(this.updated, orderTax.updated) &&
-        Objects.equals(this.updatedby, orderTax.updatedby);
+        Objects.equals(this.updatedby, orderTax.updatedby) &&
+        Objects.equals(this.referencedvalues, orderTax.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, arcibanormcode, cOrderId, created, createdby, cTaxId, isactive, istaxincluded, processed, rate, taxamt, taxbaseamt, updated, updatedby);
+    return Objects.hash(adClientId, adOrgId, arcibanormcode, cOrderId, created, createdby, cTaxId, isactive, istaxincluded, processed, rate, taxamt, taxbaseamt, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -415,6 +450,7 @@ public class OrderTax   {
     sb.append("    taxbaseamt: ").append(toIndentedString(taxbaseamt)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

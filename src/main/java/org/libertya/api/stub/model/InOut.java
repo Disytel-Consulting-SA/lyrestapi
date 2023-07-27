@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -196,6 +199,10 @@ public class InOut   {
 
   @JsonProperty("user2_id")
   private Integer user2Id = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public InOut adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -1367,6 +1374,33 @@ public class InOut   {
     this.user2Id = user2Id;
   }
 
+  public InOut referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public InOut addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -1436,12 +1470,13 @@ public class InOut   {
         Objects.equals(this.updated, inOut.updated) &&
         Objects.equals(this.updatedby, inOut.updatedby) &&
         Objects.equals(this.user1Id, inOut.user1Id) &&
-        Objects.equals(this.user2Id, inOut.user2Id);
+        Objects.equals(this.user2Id, inOut.user2Id) &&
+        Objects.equals(this.referencedvalues, inOut.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adOrgtrxId, adUserId, cActivityId, cai, cBpartnerId, cBpartnerLocationId, cCampaignId, cChargeId, cDoctypeId, chargeamt, cInvoiceId, clearancenumber, cOrderId, cProjectId, created, createdby, dateacct, datecai, dateordered, dateprinted, datereceived, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, inoutdate, inoutreceptiondate, isactive, isapproved, isindispute, isintransit, isprinted, issotrx, mInoutId, movementdate, movementtype, mShipperId, mWarehouseId, nopackages, pickdate, poreference, preprintedDocno, printtype, priorityrule, processed, receptiondate, refInoutId, salesrepId, sendemail, shipdate, trackingno, updated, updatedby, user1Id, user2Id);
+    return Objects.hash(adClientId, adOrgId, adOrgtrxId, adUserId, cActivityId, cai, cBpartnerId, cBpartnerLocationId, cCampaignId, cChargeId, cDoctypeId, chargeamt, cInvoiceId, clearancenumber, cOrderId, cProjectId, created, createdby, dateacct, datecai, dateordered, dateprinted, datereceived, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, inoutdate, inoutreceptiondate, isactive, isapproved, isindispute, isintransit, isprinted, issotrx, mInoutId, movementdate, movementtype, mShipperId, mWarehouseId, nopackages, pickdate, poreference, preprintedDocno, printtype, priorityrule, processed, receptiondate, refInoutId, salesrepId, sendemail, shipdate, trackingno, updated, updatedby, user1Id, user2Id, referencedvalues);
   }
 
   @Override
@@ -1509,6 +1544,7 @@ public class InOut   {
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    user1Id: ").append(toIndentedString(user1Id)).append("\n");
     sb.append("    user2Id: ").append(toIndentedString(user2Id)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

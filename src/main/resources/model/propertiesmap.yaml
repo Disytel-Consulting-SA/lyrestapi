@@ -1,0 +1,7 @@
+propertiesmap:
+  type: object
+  properties:
+    key:
+      type: string
+    value:
+      type: string

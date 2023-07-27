@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -226,6 +229,10 @@ public class Product   {
 
   @JsonProperty("yearlife")
   private Integer yearlife = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public Product adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -1595,6 +1602,33 @@ public class Product   {
     this.yearlife = yearlife;
   }
 
+  public Product referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public Product addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -1674,12 +1708,13 @@ public class Product   {
         Objects.equals(this.versionno, product.versionno) &&
         Objects.equals(this.volume, product.volume) &&
         Objects.equals(this.weight, product.weight) &&
-        Objects.equals(this.yearlife, product.yearlife);
+        Objects.equals(this.yearlife, product.yearlife) &&
+        Objects.equals(this.referencedvalues, product.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, referencedvalues);
   }
 
   @Override
@@ -1757,6 +1792,7 @@ public class Product   {
     sb.append("    volume: ").append(toIndentedString(volume)).append("\n");
     sb.append("    weight: ").append(toIndentedString(weight)).append("\n");
     sb.append("    yearlife: ").append(toIndentedString(yearlife)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

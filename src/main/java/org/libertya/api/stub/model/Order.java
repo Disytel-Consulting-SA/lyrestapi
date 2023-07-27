@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -292,6 +295,10 @@ public class Order   {
 
   @JsonProperty("validto")
   private String validto = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public Order acceptance(BigDecimal acceptance) {
     this.acceptance = acceptance;
@@ -2097,6 +2104,33 @@ public class Order   {
     this.validto = validto;
   }
 
+  public Order referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public Order addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -2198,12 +2232,13 @@ public class Order   {
         Objects.equals(this.updatedby, order.updatedby) &&
         Objects.equals(this.user1Id, order.user1Id) &&
         Objects.equals(this.user2Id, order.user2Id) &&
-        Objects.equals(this.validto, order.validto);
+        Objects.equals(this.validto, order.validto) &&
+        Objects.equals(this.referencedvalues, order.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(acceptance, adClientId, adOrgId, adOrgTransferId, adOrgtrxId, adUserId, allowchangepricelist, authorizationchainstatus, billBpartnerId, billLocationId, billUserId, cActivityId, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceOrigId, codigocategoriaiva, cOrderId, cPaymentId, cPaymenttermId, cProjectId, created, createdby, creditrequesttype, cRepairOrderId, cuit, dateacct, dateordered, dateprinted, dateprod, datepromised, daterealprod, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, grandtotal, invoiceAdress, invoicerule, isactive, isapproved, iscreditapproved, isdelivered, isdiscountprinted, isdropship, isexchange, isinvoiced, isprinted, isreactivated, isselected, isselfservice, issotrx, istaxincluded, istpvused, istransferred, manualgeneraldiscount, mAuthorizationchainId, mPricelistId, mShipperId, mWarehouseId, mWarehouseTransferId, nombrecli, nroidentificcliente, oldgrandtotal, payBpartnerId, payLocationId, paymentrule, poreference, priorityrule, processed, programInvoice, refOrderId, repairPriority, repairState, salesrepId, sendemail, totallines, updated, updatedby, user1Id, user2Id, validto);
+    return Objects.hash(acceptance, adClientId, adOrgId, adOrgTransferId, adOrgtrxId, adUserId, allowchangepricelist, authorizationchainstatus, billBpartnerId, billLocationId, billUserId, cActivityId, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceOrigId, codigocategoriaiva, cOrderId, cPaymentId, cPaymenttermId, cProjectId, created, createdby, creditrequesttype, cRepairOrderId, cuit, dateacct, dateordered, dateprinted, dateprod, datepromised, daterealprod, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, grandtotal, invoiceAdress, invoicerule, isactive, isapproved, iscreditapproved, isdelivered, isdiscountprinted, isdropship, isexchange, isinvoiced, isprinted, isreactivated, isselected, isselfservice, issotrx, istaxincluded, istpvused, istransferred, manualgeneraldiscount, mAuthorizationchainId, mPricelistId, mShipperId, mWarehouseId, mWarehouseTransferId, nombrecli, nroidentificcliente, oldgrandtotal, payBpartnerId, payLocationId, paymentrule, poreference, priorityrule, processed, programInvoice, refOrderId, repairPriority, repairState, salesrepId, sendemail, totallines, updated, updatedby, user1Id, user2Id, validto, referencedvalues);
   }
 
   @Override
@@ -2303,6 +2338,7 @@ public class Order   {
     sb.append("    user1Id: ").append(toIndentedString(user1Id)).append("\n");
     sb.append("    user2Id: ").append(toIndentedString(user2Id)).append("\n");
     sb.append("    validto: ").append(toIndentedString(validto)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

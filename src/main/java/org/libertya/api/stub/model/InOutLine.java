@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -118,6 +121,10 @@ public class InOutLine   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public InOutLine adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -793,6 +800,33 @@ public class InOutLine   {
     this.updatedby = updatedby;
   }
 
+  public InOutLine referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public InOutLine addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -836,12 +870,13 @@ public class InOutLine   {
         Objects.equals(this.scrappedqty, inOutLine.scrappedqty) &&
         Objects.equals(this.targetqty, inOutLine.targetqty) &&
         Objects.equals(this.updated, inOutLine.updated) &&
-        Objects.equals(this.updatedby, inOutLine.updatedby);
+        Objects.equals(this.updatedby, inOutLine.updatedby) &&
+        Objects.equals(this.referencedvalues, inOutLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, cChargeId, cCountryId, cInvoicelineId, confirmedqty, cOrderlineId, costprice, cProjectId, created, createdby, cUomId, declarationno, description, isactive, isdescription, isinvoiced, isselected, line, mAttributesetinstanceId, mImportClearanceId, mInoutId, mInoutlineId, mLocatorId, movementqty, mProductId, pickedqty, processed, qtyentered, refInoutlineId, scrappedqty, targetqty, updated, updatedby);
+    return Objects.hash(adClientId, adOrgId, cChargeId, cCountryId, cInvoicelineId, confirmedqty, cOrderlineId, costprice, cProjectId, created, createdby, cUomId, declarationno, description, isactive, isdescription, isinvoiced, isselected, line, mAttributesetinstanceId, mImportClearanceId, mInoutId, mInoutlineId, mLocatorId, movementqty, mProductId, pickedqty, processed, qtyentered, refInoutlineId, scrappedqty, targetqty, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -883,6 +918,7 @@ public class InOutLine   {
     sb.append("    targetqty: ").append(toIndentedString(targetqty)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -52,6 +55,10 @@ public class ProductPrice   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public ProductPrice adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -296,6 +303,33 @@ public class ProductPrice   {
     this.updatedby = updatedby;
   }
 
+  public ProductPrice referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public ProductPrice addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -317,12 +351,13 @@ public class ProductPrice   {
         Objects.equals(this.pricelist, productPrice.pricelist) &&
         Objects.equals(this.pricestd, productPrice.pricestd) &&
         Objects.equals(this.updated, productPrice.updated) &&
-        Objects.equals(this.updatedby, productPrice.updatedby);
+        Objects.equals(this.updatedby, productPrice.updatedby) &&
+        Objects.equals(this.referencedvalues, productPrice.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, created, createdby, isactive, mPricelistVersionId, mProductId, pricelimit, pricelist, pricestd, updated, updatedby);
+    return Objects.hash(adClientId, adOrgId, created, createdby, isactive, mPricelistVersionId, mProductId, pricelimit, pricelist, pricestd, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -342,6 +377,7 @@ public class ProductPrice   {
     sb.append("    pricestd: ").append(toIndentedString(pricestd)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -88,6 +91,10 @@ public class AllocationLine   {
 
   @JsonProperty("writeoffamt")
   private BigDecimal writeoffamt = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public AllocationLine adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -562,6 +569,33 @@ public class AllocationLine   {
     this.writeoffamt = writeoffamt;
   }
 
+  public AllocationLine referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public AllocationLine addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -595,12 +629,13 @@ public class AllocationLine   {
         Objects.equals(this.overunderamt, allocationLine.overunderamt) &&
         Objects.equals(this.updated, allocationLine.updated) &&
         Objects.equals(this.updatedby, allocationLine.updatedby) &&
-        Objects.equals(this.writeoffamt, allocationLine.writeoffamt);
+        Objects.equals(this.writeoffamt, allocationLine.writeoffamt) &&
+        Objects.equals(this.referencedvalues, allocationLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, amount, cAllocationhdrId, cAllocationlineId, cBpartnerId, cCashlineId, cCurrencyId, changeamt, cInvoiceCreditId, cInvoiceId, cOrderId, cPaymentId, created, createdby, datetrx, discountamt, isactive, ismanual, lineDescription, overunderamt, updated, updatedby, writeoffamt);
+    return Objects.hash(adClientId, adOrgId, amount, cAllocationhdrId, cAllocationlineId, cBpartnerId, cCashlineId, cCurrencyId, changeamt, cInvoiceCreditId, cInvoiceId, cOrderId, cPaymentId, created, createdby, datetrx, discountamt, isactive, ismanual, lineDescription, overunderamt, updated, updatedby, writeoffamt, referencedvalues);
   }
 
   @Override
@@ -632,6 +667,7 @@ public class AllocationLine   {
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    writeoffamt: ").append(toIndentedString(writeoffamt)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

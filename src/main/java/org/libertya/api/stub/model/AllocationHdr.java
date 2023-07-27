@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -100,6 +103,10 @@ public class AllocationHdr   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public AllocationHdr actiondetail(String actiondetail) {
     this.actiondetail = actiondetail;
@@ -656,6 +663,33 @@ public class AllocationHdr   {
     this.updatedby = updatedby;
   }
 
+  public AllocationHdr referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public AllocationHdr addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -693,12 +727,13 @@ public class AllocationHdr   {
         Objects.equals(this.processing, allocationHdr.processing) &&
         Objects.equals(this.retencionAmt, allocationHdr.retencionAmt) &&
         Objects.equals(this.updated, allocationHdr.updated) &&
-        Objects.equals(this.updatedby, allocationHdr.updatedby);
+        Objects.equals(this.updatedby, allocationHdr.updatedby) &&
+        Objects.equals(this.referencedvalues, allocationHdr.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(actiondetail, adClientId, adOrgId, allocationaction, allocationtype, approvalamt, cAllocationhdrId, cBanklistId, cBpartnerId, cCurrencyId, cDoctypeId, cPosjournalId, created, createdby, dateacct, datetrx, description, docstatus, documentno, grandtotal, isactive, isapproved, ismanual, processed, processing, retencionAmt, updated, updatedby);
+    return Objects.hash(actiondetail, adClientId, adOrgId, allocationaction, allocationtype, approvalamt, cAllocationhdrId, cBanklistId, cBpartnerId, cCurrencyId, cDoctypeId, cPosjournalId, created, createdby, dateacct, datetrx, description, docstatus, documentno, grandtotal, isactive, isapproved, ismanual, processed, processing, retencionAmt, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -734,6 +769,7 @@ public class AllocationHdr   {
     sb.append("    retencionAmt: ").append(toIndentedString(retencionAmt)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

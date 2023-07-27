@@ -7,6 +7,7 @@ import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
 import org.libertya.api.security.ClientOrgAuth;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.libertya.api.util.SchemaUtils;
 import org.openXpertya.model.MOrg;
 import org.openXpertya.model.M_Column;
@@ -127,12 +128,15 @@ public abstract class AbstractRepository {
      * @param aColumn columna que contiene el valor a asignar
      * @param value valor a asignar
      */
-    protected void setValueToObject(Object target, Field property, M_Column aColumn, Object value) throws ModelException {
+    protected void setValueToObject(UserInfo info, Object target, Field property, M_Column aColumn, Object value) throws ModelException {
         try {
             if (value == null)
                 property.set(target, null);
-            else if (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false))
+            else if (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false)) {
                 property.set(target, value);
+                if (useReferencedValues(info))
+                    setReferencedValue(target, value, aColumn);
+            }
             else if (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false)) {
                 // Workaround de resolucion de tipos debido al código en DisplayType de CORE
                 try {
@@ -148,6 +152,131 @@ public abstract class AbstractRepository {
         } catch (Exception e) {
             throw new ModelException("Error al setear " + value + " a columna " + aColumn.getColumnName() + ". " + e.getMessage());
         }
+    }
+
+    /** Setea (si corresponde) el valor de las columna referencial aColumn a partir del valor val en la propiedad referencedvalues del objeto target */
+    protected void setReferencedValue(Object target, Object val, M_Column aColumn) {
+        if (!isTableReference(aColumn) || val==null)
+            return;
+        try
+        {
+            // Recuperar nombre de tabla y columna referenciada
+            ArrayList<String> reference = getReferencedColumnAndTableName(aColumn);
+            String tableName = reference.get(0);
+            String columnName = reference.get(1);
+            // si se obtuvo una referencia válida, recuperar el dato
+            if (columnName!=null && tableName!=null && columnName.length()>0 && tableName.length() > 0)
+            {
+                // Obtener las columnas identificadoras de la tabla destino
+                StringBuffer identifierColumns = new StringBuffer("");
+                for (String identifierColumn : M_Table.getIdentifierColumns(null, tableName))
+                    identifierColumns.append(" COALESCE(").append(identifierColumn).append("::varchar, '') || '_' || ");
+                // Adicionalmente, existe en la tabla referenciada la columna value?
+                int valueCol = DB.getSQLValue(null, "SELECT count(1) " +
+                        " FROM information_schema.columns " +
+                        " WHERE table_name = '"+tableName.toLowerCase()+"'" +
+                        " AND column_name = 'value'");
+                // Si no hay identificadores, no hay columna Value, y no hay columnas adicionales a recuperar... entonces no hay nada mas que hacer
+                if (identifierColumns.length()==0 && valueCol==0)
+                    return;
+                // Si hay identificadores, borrar ultimo concatenador
+                if (identifierColumns.length()>0)
+                    identifierColumns.delete(identifierColumns.length()-11, identifierColumns.length()-1);
+
+                // Obtener el dato referenciado y cargar los identificadoes en la map de detalles (y el value también si es que este existe)
+                String sql = " SELECT null as dummyColumnForResultSet " +
+                        (identifierColumns.length() > 0 ? ", COALESCE(" + identifierColumns.toString() + ") as detail " : "") +
+                        (valueCol>0?", value ":"") +
+                        " FROM " + tableName +
+                        " WHERE " + columnName + " = ? ";
+                PreparedStatement ps = DB.prepareStatement(sql, null);
+                Object value;
+                Integer intValue;
+                String strValue = String.valueOf(val.toString());
+                try{
+                    intValue = Integer.parseInt(strValue);
+                    ps.setInt(1, intValue);
+                } catch(NumberFormatException cce){
+                    value = strValue;
+                    ps.setObject(1, value);
+                }
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()) {
+                    Field field = target.getClass().getDeclaredField("referencedvalues");
+                    field.setAccessible(true);
+                    // Cargar la nomina de identificadores del registro referenciado
+                    if (identifierColumns.length() > 0 && rs.getString("detail") != null)
+                        addPropToProps((ArrayList<Propertiesmap>)field.get(target), field, target, aColumn.getColumnName().toLowerCase() + schemaUtils.getReferencedValuesDetailSuffix(), rs.getString("detail"));
+                    // Cargar el value del registro referenciado
+                    if (valueCol > 0 && rs.getString("value") != null)
+                        addPropToProps((ArrayList<Propertiesmap>)field.get(target), field, target, aColumn.getColumnName().toLowerCase() + schemaUtils.getReferencedValuesValueSuffix(), rs.getString("value"));
+                }
+            }
+        }
+        catch (Exception e) {
+            // Por el momento ignorar el error
+        }
+    }
+
+    /** Incorpora una nueva property a la lista de props */
+    protected void addPropToProps(ArrayList<Propertiesmap> props, Field field, Object target, String name, String value) throws Exception {
+        if (props==null)
+            props = new ArrayList<>();
+        Propertiesmap prop = new Propertiesmap();
+        prop.setKey(name);
+        prop.setValue(value);
+        props.add(prop);
+        field.set(target, props);
+    }
+
+    /**
+     * Verifica si una columna dada referencia a
+     * @param aColumn la columna a evaluar
+     * @return verdadero si hay referencia hacia otra tabla o falso en caso contrario
+     */
+    protected boolean isTableReference(M_Column aColumn)
+    {
+        boolean isReference = false;
+        if(DisplayType.isTableReference(aColumn.getAD_Reference_ID()))
+            isReference = true;
+        else if(!aColumn.isKey() && aColumn.getColumnName().toUpperCase().endsWith("_ID")){
+            String tablename = aColumn.getColumnName().substring(0, aColumn.getColumnName().lastIndexOf("_"));
+            String sql = "SELECT count(1) FROM ad_table WHERE upper(tablename) = upper(?)";
+            isReference = DB.getSQLValue(null, sql, tablename) > 0;
+        }
+        return isReference;
+    }
+
+    /**
+     * Dada una M_Columnm, retorna el nombre de la tabla y columna de tipo ID referenciada en dicha M_Column
+     * @param aColumn columna que contiene la referencia
+     * @return un ArrayList conteniendo:
+     * 		1. Nombre de la tabla referenciada
+     * 		2. Nombre de la columna de tipo ID referenciada
+     */
+    protected ArrayList<String> getReferencedColumnAndTableName(M_Column aColumn) throws Exception {
+        String tableName = null;
+        String columnName = null;
+        // Si la columna termina en _ID la tabla referenciada se determina de manera directa
+        if(aColumn.getColumnName().toUpperCase().endsWith("_ID"))
+        {
+            tableName = aColumn.getColumnName().substring(0, aColumn.getColumnName().lastIndexOf("_"));
+            columnName = aColumn.getColumnName();
+        }
+        // Si la columna tiene tiene una referencia seteada, entonces buscar la definición allí
+        if(aColumn.getAD_Reference_Value_ID() != 0)
+        {
+            // Recuperar nombre de tabla y columna que está referenciando la columna actual
+            int tableID = 0, key = 0;
+            tableID = schemaUtils.getTableIDFromReferenceID(aColumn.getAD_Reference_Value_ID());
+            key = schemaUtils.getKeyFromReferenceID(aColumn.getAD_Reference_Value_ID());
+            tableName = schemaUtils.getTableNameFromTableID(tableID);
+            columnName = M_Column.getColumnName(Env.getCtx(), key);
+        }
+        ArrayList<String> retValue = new ArrayList<String>();
+        retValue.add(tableName);
+        retValue.add(columnName);
+        return retValue;
     }
 
     /**
@@ -290,7 +419,7 @@ public abstract class AbstractRepository {
             M_Column aColumn = columnNameMap.get(fieldName);
             if (aColumn != null && (includeFields == null || includeFields.contains(fieldName))) {
                 field.setAccessible(true);
-                setValueToObject(object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
+                setValueToObject(info, object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
             }
         }
         return (Optional<T>)Optional.of(object);
@@ -355,6 +484,15 @@ public abstract class AbstractRepository {
     protected boolean useDefaults(UserInfo info) {
         try {
             return "Y".equalsIgnoreCase((String)info.getCtx().get("#USE_DEFAULTS"));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /** Usar valores referenciaos? */
+    protected boolean useReferencedValues(UserInfo info) {
+        try {
+            return "Y".equalsIgnoreCase((String)info.getCtx().get("#USE_REFERENCED_VALUES"));
         } catch (Exception e) {
             return false;
         }

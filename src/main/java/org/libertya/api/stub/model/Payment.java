@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -343,6 +346,10 @@ public class Payment   {
 
   @JsonProperty("writeoffamt")
   private BigDecimal writeoffamt = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public Payment aBank(String aBank) {
     this.aBank = aBank;
@@ -2452,6 +2459,33 @@ public class Payment   {
     this.writeoffamt = writeoffamt;
   }
 
+  public Payment referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public Payment addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -2570,12 +2604,13 @@ public class Payment   {
         Objects.equals(this.user1Id, payment.user1Id) &&
         Objects.equals(this.user2Id, payment.user2Id) &&
         Objects.equals(this.voiceauthcode, payment.voiceauthcode) &&
-        Objects.equals(this.writeoffamt, payment.writeoffamt);
+        Objects.equals(this.writeoffamt, payment.writeoffamt) &&
+        Objects.equals(this.referencedvalues, payment.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(aBank, accountingCChargeId, accountno, aCity, aCountry, aCuit, adClientId, adOrgId, adOrgtrxId, aEmail, aIdentDl, aIdentSsn, aName, aState, aStreet, auditstatus, authcode, authmatch, aZip, banklistRegisterno, bankPaymentDate, bankPaymentDocumentno, bankPaymentMsgDescription, cActivityId, cBankaccountId, cBankId, cBankpaymentstatusId, cBpartnerId, cBpBankaccountId, cCampaignId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, chargeamt, checked, checkno, checkstatus, cInvoiceCheckRejectedId, cInvoiceId, cOrderId, couponbatchnumber, couponnumber, cPaymentbatchId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, creditcardexpmm, creditcardexpyy, creditcardnumber, creditcardtype, creditcardvv, dateacct, dateemissioncheck, datetrx, description, discountamt, docstatus, documentno, duedate, isactive, isallocated, isapproved, isdelayedcapture, ismanual, isonline, isoverunderpayment, isprepayment, isreceipt, isreconciled, isselfservice, issotrx, mBoletadepositoId, mEntidadfinancieraplanId, micr, originalRefPaymentId, origTrxid, overunderamt, payamt, ponum, posnet, processed, rAuthcode, rAuthcodeDc, rAvsaddr, rAvszip, rCvv2match, refPaymentId, rejectedcomments, rejecteddate, rInfo, routingno, rPnref, rPnrefDc, rRespmsg, rResult, swipe, taxamt, tendertype, trxtype, updated, updatedby, user1Id, user2Id, voiceauthcode, writeoffamt);
+    return Objects.hash(aBank, accountingCChargeId, accountno, aCity, aCountry, aCuit, adClientId, adOrgId, adOrgtrxId, aEmail, aIdentDl, aIdentSsn, aName, aState, aStreet, auditstatus, authcode, authmatch, aZip, banklistRegisterno, bankPaymentDate, bankPaymentDocumentno, bankPaymentMsgDescription, cActivityId, cBankaccountId, cBankId, cBankpaymentstatusId, cBpartnerId, cBpBankaccountId, cCampaignId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, chargeamt, checked, checkno, checkstatus, cInvoiceCheckRejectedId, cInvoiceId, cOrderId, couponbatchnumber, couponnumber, cPaymentbatchId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, creditcardexpmm, creditcardexpyy, creditcardnumber, creditcardtype, creditcardvv, dateacct, dateemissioncheck, datetrx, description, discountamt, docstatus, documentno, duedate, isactive, isallocated, isapproved, isdelayedcapture, ismanual, isonline, isoverunderpayment, isprepayment, isreceipt, isreconciled, isselfservice, issotrx, mBoletadepositoId, mEntidadfinancieraplanId, micr, originalRefPaymentId, origTrxid, overunderamt, payamt, ponum, posnet, processed, rAuthcode, rAuthcodeDc, rAvsaddr, rAvszip, rCvv2match, refPaymentId, rejectedcomments, rejecteddate, rInfo, routingno, rPnref, rPnrefDc, rRespmsg, rResult, swipe, taxamt, tendertype, trxtype, updated, updatedby, user1Id, user2Id, voiceauthcode, writeoffamt, referencedvalues);
   }
 
   @Override
@@ -2692,6 +2727,7 @@ public class Payment   {
     sb.append("    user2Id: ").append(toIndentedString(user2Id)).append("\n");
     sb.append("    voiceauthcode: ").append(toIndentedString(voiceauthcode)).append("\n");
     sb.append("    writeoffamt: ").append(toIndentedString(writeoffamt)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -4,6 +4,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -78,6 +81,10 @@ public class Location   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public Location adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -487,6 +494,33 @@ public class Location   {
     this.updatedby = updatedby;
   }
 
+  public Location referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public Location addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -517,12 +551,13 @@ public class Location   {
         Objects.equals(this.postalAdd, location.postalAdd) &&
         Objects.equals(this.regionname, location.regionname) &&
         Objects.equals(this.updated, location.updated) &&
-        Objects.equals(this.updatedby, location.updatedby);
+        Objects.equals(this.updatedby, location.updatedby) &&
+        Objects.equals(this.referencedvalues, location.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, address1, address2, address3, address4, adOrgId, cCityId, cCountryId, city, cLocationId, created, createdby, cRegionId, isactive, plaza, postal, postalAdd, regionname, updated, updatedby);
+    return Objects.hash(adClientId, adComponentobjectuid, address1, address2, address3, address4, adOrgId, cCityId, cCountryId, city, cLocationId, created, createdby, cRegionId, isactive, plaza, postal, postalAdd, regionname, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -551,6 +586,7 @@ public class Location   {
     sb.append("    regionname: ").append(toIndentedString(regionname)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

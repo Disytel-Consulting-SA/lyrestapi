@@ -35,6 +35,8 @@ public class StartupLYService {
     @Value("${restapi.libertya.app.useDefaults}")
     private String useDefaults;
 
+    @Value("${restapi.libertya.app.referencedValues}")
+    private String referencedValues;
 
 
     /**
@@ -82,6 +84,7 @@ public class StartupLYService {
             throw new Exception ("Error al iniciar entorno (Hay conexión a Base de Datos?) ");
         setCurrency(Env.getCtx());
         setUseDefaults(Env.getCtx());
+        setReferencedValues(Env.getCtx());
     }
 
     /**
@@ -101,6 +104,11 @@ public class StartupLYService {
     /** Usar valores por defecto definidos en los metadatos de las columnas? */
     protected void setUseDefaults(Properties ctx) {
         Env.setContext(ctx, "#USE_DEFAULTS", useDefaults);
+    }
+
+    /** Retornar tambien los valores de las columnas que referencias a registos otras tablas? */
+    protected void setReferencedValues(Properties ctx) {
+        Env.setContext(ctx, "#USE_REFERENCED_VALUES", referencedValues);
     }
 
 }

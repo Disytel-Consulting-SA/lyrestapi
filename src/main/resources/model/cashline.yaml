@@ -83,6 +83,10 @@ components:
           type: number
         writeoffamt:
           type: number
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
       required:
          - ad_client_id
          - ad_org_id

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -82,6 +85,10 @@ public class InventoryLine   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public InventoryLine adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -524,6 +531,33 @@ public class InventoryLine   {
     this.updatedby = updatedby;
   }
 
+  public InventoryLine referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public InventoryLine addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -555,12 +589,13 @@ public class InventoryLine   {
         Objects.equals(this.qtycountwithoutchargesign, inventoryLine.qtycountwithoutchargesign) &&
         Objects.equals(this.qtyinternaluse, inventoryLine.qtyinternaluse) &&
         Objects.equals(this.updated, inventoryLine.updated) &&
-        Objects.equals(this.updatedby, inventoryLine.updatedby);
+        Objects.equals(this.updatedby, inventoryLine.updatedby) &&
+        Objects.equals(this.referencedvalues, inventoryLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, cChargeId, cost, created, createdby, description, inventorytype, isactive, line, mAttributesetinstanceId, mInventoryId, mInventorylineId, mLocatorId, mProductId, processed, qtybook, qtycount, qtycountwithoutchargesign, qtyinternaluse, updated, updatedby);
+    return Objects.hash(adClientId, adOrgId, cChargeId, cost, created, createdby, description, inventorytype, isactive, line, mAttributesetinstanceId, mInventoryId, mInventorylineId, mLocatorId, mProductId, processed, qtybook, qtycount, qtycountwithoutchargesign, qtyinternaluse, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -590,6 +625,7 @@ public class InventoryLine   {
     sb.append("    qtyinternaluse: ").append(toIndentedString(qtyinternaluse)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

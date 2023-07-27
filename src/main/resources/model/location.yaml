@@ -45,6 +45,10 @@ components:
           type: string
         updatedby:
           type: integer
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
       required:
          - ad_client_id
          - ad_org_id

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -64,6 +67,10 @@ public class InvoiceTax   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public InvoiceTax adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -386,6 +393,33 @@ public class InvoiceTax   {
     this.updatedby = updatedby;
   }
 
+  public InvoiceTax referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public InvoiceTax addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -411,12 +445,13 @@ public class InvoiceTax   {
         Objects.equals(this.taxamt, invoiceTax.taxamt) &&
         Objects.equals(this.taxbaseamt, invoiceTax.taxbaseamt) &&
         Objects.equals(this.updated, invoiceTax.updated) &&
-        Objects.equals(this.updatedby, invoiceTax.updatedby);
+        Objects.equals(this.updatedby, invoiceTax.updatedby) &&
+        Objects.equals(this.referencedvalues, invoiceTax.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, arcibanormcode, cInvoiceId, created, createdby, cTaxId, isactive, isperceptionsincluded, istaxincluded, processed, rate, taxamt, taxbaseamt, updated, updatedby);
+    return Objects.hash(adClientId, adOrgId, arcibanormcode, cInvoiceId, created, createdby, cTaxId, isactive, isperceptionsincluded, istaxincluded, processed, rate, taxamt, taxbaseamt, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -440,6 +475,7 @@ public class InvoiceTax   {
     sb.append("    taxbaseamt: ").append(toIndentedString(taxbaseamt)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

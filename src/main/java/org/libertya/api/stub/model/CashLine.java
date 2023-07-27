@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -136,6 +139,10 @@ public class CashLine   {
 
   @JsonProperty("writeoffamt")
   private BigDecimal writeoffamt = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public CashLine accountingCChargeId(Integer accountingCChargeId) {
     this.accountingCChargeId = accountingCChargeId;
@@ -920,6 +927,33 @@ public class CashLine   {
     this.writeoffamt = writeoffamt;
   }
 
+  public CashLine referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public CashLine addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -969,12 +1003,13 @@ public class CashLine   {
         Objects.equals(this.updated, cashLine.updated) &&
         Objects.equals(this.updatedby, cashLine.updatedby) &&
         Objects.equals(this.whiteoffamt, cashLine.whiteoffamt) &&
-        Objects.equals(this.writeoffamt, cashLine.writeoffamt);
+        Objects.equals(this.writeoffamt, cashLine.writeoffamt) &&
+        Objects.equals(this.referencedvalues, cashLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(accountingCChargeId, adClientId, adOrgId, amount, authcode, authmatch, automaticgenerated, cAllocationhdrId, cashamount, cashtype, cBankaccountId, cBpartnerId, cCashcurrencyId, cCashId, cCashlineId, cChargeId, cCurrencyId, cInvoiceId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, description, discountamt, docstatus, isactive, isallocated, isgenerated, line, processed, processing, transfercashId, transfercashlineId, updatebpbalance, updated, updatedby, whiteoffamt, writeoffamt);
+    return Objects.hash(accountingCChargeId, adClientId, adOrgId, amount, authcode, authmatch, automaticgenerated, cAllocationhdrId, cashamount, cashtype, cBankaccountId, cBpartnerId, cCashcurrencyId, cCashId, cCashlineId, cChargeId, cCurrencyId, cInvoiceId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, description, discountamt, docstatus, isactive, isallocated, isgenerated, line, processed, processing, transfercashId, transfercashlineId, updatebpbalance, updated, updatedby, whiteoffamt, writeoffamt, referencedvalues);
   }
 
   @Override
@@ -1022,6 +1057,7 @@ public class CashLine   {
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    whiteoffamt: ").append(toIndentedString(whiteoffamt)).append("\n");
     sb.append("    writeoffamt: ").append(toIndentedString(writeoffamt)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }

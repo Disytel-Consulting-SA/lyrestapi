@@ -4,6 +4,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
+import java.util.List;
+import org.libertya.api.stub.model.Propertiesmap;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -84,6 +87,10 @@ public class BPartnerLocation   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("referencedvalues")
+  @Valid
+  private List<Propertiesmap> referencedvalues = null;
 
   public BPartnerLocation adClientId(Integer adClientId) {
     this.adClientId = adClientId;
@@ -537,6 +544,33 @@ public class BPartnerLocation   {
     this.updatedby = updatedby;
   }
 
+  public BPartnerLocation referencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+    return this;
+  }
+
+  public BPartnerLocation addReferencedvaluesItem(Propertiesmap referencedvaluesItem) {
+    if (this.referencedvalues == null) {
+      this.referencedvalues = new ArrayList<>();
+    }
+    this.referencedvalues.add(referencedvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get referencedvalues
+   * @return referencedvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getReferencedvalues() {
+    return referencedvalues;
+  }
+
+  public void setReferencedvalues(List<Propertiesmap> referencedvalues) {
+    this.referencedvalues = referencedvalues;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -569,12 +603,13 @@ public class BPartnerLocation   {
         Objects.equals(this.phone, bpartnerLocation.phone) &&
         Objects.equals(this.phone2, bpartnerLocation.phone2) &&
         Objects.equals(this.updated, bpartnerLocation.updated) &&
-        Objects.equals(this.updatedby, bpartnerLocation.updatedby);
+        Objects.equals(this.updatedby, bpartnerLocation.updatedby) &&
+        Objects.equals(this.referencedvalues, bpartnerLocation.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cBpartnerId, cBpartnerLocationId, cLocationId, created, createdby, cSalesregionId, email, fax, isactive, isbillto, isdn, ispayfrom, isremitto, isshipto, istemporal, name, phone, phone2, updated, updatedby);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cBpartnerId, cBpartnerLocationId, cLocationId, created, createdby, cSalesregionId, email, fax, isactive, isbillto, isdn, ispayfrom, isremitto, isshipto, istemporal, name, phone, phone2, updated, updatedby, referencedvalues);
   }
 
   @Override
@@ -605,6 +640,7 @@ public class BPartnerLocation   {
     sb.append("    phone2: ").append(toIndentedString(phone2)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
   }
