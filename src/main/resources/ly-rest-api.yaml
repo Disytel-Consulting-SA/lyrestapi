@@ -34,18 +34,30 @@ paths:
     $ref: ./paths/invoices_id.yaml
   /v1.0/invoices/{id}/process:
     $ref: ./paths/invoices_id_process.yaml
+  /v1.0/invoicelines:
+    $ref: ./paths/invoicelines.yaml
+  /v1.0/invoicelines/{id}:
+    $ref: ./paths/invoicelines_id.yaml
   /v1.0/orders:
     $ref: ./paths/orders.yaml
   /v1.0/orders/{id}:
     $ref: ./paths/orders_id.yaml
   /v1.0/orders/{id}/process:
     $ref: ./paths/orders_id_process.yaml
+  /v1.0/orderlines:
+    $ref: ./paths/orderlines.yaml
+  /v1.0/orderlines/{id}:
+    $ref: ./paths/orderlines_id.yaml
   /v1.0/inouts:
     $ref: ./paths/inouts.yaml
   /v1.0/inouts/{id}:
     $ref: ./paths/inouts_id.yaml
   /v1.0/inouts/{id}/process:
     $ref: ./paths/inouts_id_process.yaml
+  /v1.0/inoutlines:
+    $ref: ./paths/inoutlines.yaml
+  /v1.0/inoutlines/{id}:
+    $ref: ./paths/inoutlines_id.yaml
   /v1.0/payments:
     $ref: ./paths/payments.yaml
   /v1.0/payments/{id}:
@@ -74,6 +86,10 @@ paths:
     $ref: ./paths/inventories_id.yaml
   /v1.0/inventories/{id}/process:
     $ref: ./paths/inventories_id_process.yaml
+  /v1.0/inventorylines:
+    $ref: ./paths/inventorylines.yaml
+  /v1.0/inventorylines/{id}:
+    $ref: ./paths/inventorylines_id.yaml
   /v1.0/locations:
     $ref: ./paths/locations.yaml
   /v1.0/locations/{id}:

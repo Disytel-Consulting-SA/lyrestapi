@@ -1,0 +1,67 @@
+get:
+  tags:
+    - "inoutline"
+  summary: Retrieve inout lines
+  description: Retorna una lista de lineas de remito
+  operationId: getAllInOutLines
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/inoutline.yaml#/components/schemas/InOutLine'
+post:
+  tags:
+    - "inoutline"
+  summary: Nueva linea de remito
+  description: Agrega una nueva linea de remito
+  operationId: addInOutLine
+  responses:
+    "200":
+      description: OK. ID de linea de remito creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/inoutline.yaml#/components/schemas/InOutLine'

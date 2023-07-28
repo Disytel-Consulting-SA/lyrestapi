@@ -1,0 +1,90 @@
+get:
+  tags:
+    - "orderline"
+  summary: Recupera una linea de pedido en particular
+  parameters:
+    - name: id
+      in: path
+      description: ID de la linea de pedido
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una linea de pedido en particular
+  operationId: retrieveOrderLine
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/orderline.yaml#/components/schemas/OrderLine'
+delete:
+  tags:
+    - "orderline"
+  summary: Elimina una linea de pedido
+  parameters:
+    - name: id
+      in: path
+      description: ID de la linea de pedido
+      required: true
+      schema:
+        type: integer
+  description: Elimina una linea de pedido existente
+  operationId: deleteOrderLine
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  tags:
+    - "orderline"
+  summary: Actualiza una linea de pedido existente
+  operationId: updateOrderLine
+  parameters:
+    - name: id
+      in: path
+      description: ID de la linea de pedido a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/orderline.yaml#/components/schemas/OrderLine'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
