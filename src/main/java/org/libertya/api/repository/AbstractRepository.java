@@ -545,7 +545,7 @@ public abstract class AbstractRepository {
             boolean ok =
                     po.get_ColumnIndex(aColumn.getColumnName()) > 0 &&
                     (
-                        (null == value && po.set_ValueNoCheck(aColumn.getColumnName(), null)) ||
+                        ((null == value || schemaUtils.getNullValue().equals(value)) && po.set_ValueNoCheck(aColumn.getColumnName(), null)) ||
                         (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), value)) ||
                         (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Integer.parseInt(value.toString()))) ||
                         (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), new BigDecimal(value.toString()))) ||

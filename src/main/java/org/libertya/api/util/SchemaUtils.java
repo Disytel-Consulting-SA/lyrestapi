@@ -23,6 +23,9 @@ public class SchemaUtils {
     @Value("${restapi.libertya.app.referencedValuesValueSuffix}")
     private String referencedValuesValueSuffix;
 
+    @Value("${restapi.libertya.app.nullValue}")
+    private String nullValue;
+
     /**
      * Obtiene el map de columnas para una tabla y lo almacena en la caché
      * @param tableName el nombre de la tabla.
@@ -75,5 +78,12 @@ public class SchemaUtils {
         if (!Util.isEmpty(referencedValuesValueSuffix))
             return referencedValuesValueSuffix;
         return "__value";
+    }
+
+    /** Retorna el valor para seteo de nulls en actualizaciones o un valor por defecto si el mismo no esta configurado */
+    public String getNullValue() {
+        if (!Util.isEmpty(nullValue))
+            return nullValue;
+        return "[NULL]";
     }
 }
