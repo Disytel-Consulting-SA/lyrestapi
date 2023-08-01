@@ -468,13 +468,13 @@ public abstract class AbstractRepository {
             if (Integer.class == clazz &&
                     (po.get_Value(columnName) == null || "0".equals(po.get_ValueAsString(columnName))) &&
                     (aColumn.getDefaultValue() != null && aColumn.getDefaultValue().length() > 0 && !aColumn.getDefaultValue().trim().startsWith("@")))
-                setValue(po, aColumn, aColumn.getDefaultValue());
+                setValue(po, aColumn, aColumn.getDefaultValue(), true);
 
             // Solo para tipo BigDecimal
             if (BigDecimal.class == clazz &&
                     (po.get_Value(columnName) == null || BigDecimal.ZERO.compareTo(new BigDecimal(po.get_ValueAsString(columnName))) == 0) &&
                     (aColumn.getDefaultValue() != null && aColumn.getDefaultValue().length() > 0 && !aColumn.getDefaultValue().trim().startsWith("@")))
-                setValue(po, aColumn, aColumn.getDefaultValue());
+                setValue(po, aColumn, aColumn.getDefaultValue(), true);
         } catch (Exception e) {
             throw new ModelException("No es posible setear valor por defecto" + aColumn.getDefaultValue() + " en columna " + aColumn.getColumnName() + " de entidad " + po.get_TableName() + "(" + e.getMessage() + ")");
         }
@@ -528,7 +528,7 @@ public abstract class AbstractRepository {
                 }
                 // El valor podría haber sido definido previamente al especificar los defaults
                 if (aPO.get_Value(aColumn.getColumnName()) == null || value != null) {
-                    setValue(aPO, aColumn, value);
+                    setValue(aPO, aColumn, value, inserting);
                 }
             }
         }
@@ -536,24 +536,67 @@ public abstract class AbstractRepository {
 
     /**
      * Setea el valor en PO dependiendo su tipo
-     * @param po el PO a asignar el valor
+     *
+     * @param po      el PO a asignar el valor
      * @param aColumn columna a asignar
-     * @param value valor a asignar
+     * @param value   valor a asignar
      */
-    protected void setValue(PO po, M_Column aColumn, Object value) throws ModelException {
+    protected boolean setValue(PO po, M_Column aColumn, Object value, boolean inserting) throws ModelException {
         try {
-            boolean ok =
-                    po.get_ColumnIndex(aColumn.getColumnName()) > 0 &&
+            // Se esta insertando o se solicitó omitir el modelo?
+            if (inserting || schemaUtils.shouldForceValues()) {
+                return po.get_ColumnIndex(aColumn.getColumnName()) > 0 &&
+                        (
+                                ((null == value || schemaUtils.getNullValue().equals(value)) && po.set_ValueNoCheck(aColumn.getColumnName(), null)) ||
+                                        (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), value)) ||
+                                        (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Integer.parseInt(value.toString()))) ||
+                                        (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), new BigDecimal(value.toString()))) ||
+                                        (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Timestamp.valueOf(value.toString())))
+                        );
+            }
+            // Validar contra el modelo la actualizacion en cuestion
+            checkAlwaysUpdatable(po, aColumn);
+            boolean ok = po.get_ColumnIndex(aColumn.getColumnName()) > 0 &&
                     (
-                        ((null == value || schemaUtils.getNullValue().equals(value)) && po.set_ValueNoCheck(aColumn.getColumnName(), null)) ||
-                        (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), value)) ||
-                        (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Integer.parseInt(value.toString()))) ||
-                        (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), new BigDecimal(value.toString()))) ||
-                        (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Timestamp.valueOf(value.toString())))
+                            ((null == value || schemaUtils.getNullValue().equals(value)) && po.set_Value(aColumn.getColumnName(), null)) ||
+                                    (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), value)) ||
+                                    (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), Integer.parseInt(value.toString()))) ||
+                                    (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), new BigDecimal(value.toString()))) ||
+                                    (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), Timestamp.valueOf(value.toString())))
                     );
+            if (!ok) throw new Exception("Imposible actualizar.");
+            return true;
         } catch (Exception e) {
-            throw new ModelException("Error al setear valor " + (value==null?"null":value) + " en columna " + aColumn.getColumnName() + " de entidad " + po.get_TableName() + ". " + e);
+            throw new ModelException("Error al setear valor " + (value == null ? "null" : value) + " en columna " + aColumn.getColumnName() + " de entidad " + po.get_TableName() + ". " + e);
         }
+    }
+
+    /**
+     * Logica de validación por "siempre actualizable" para columnas incluidas en tablas con lógica de documentos
+     * @param po el objeto a intentar modificar
+     * @param aColumn columna a intentar setear un nuevo valor.
+     * @throws ModelException en caso de que el po se encuentra procesado y la columna no tiene setead isAlwaysUpdateable en true
+     *
+     * La logica NO generará excepciones si el documento puede ser actualizable, debido a alguna de las siguientes razones:
+     * 		1) No existe el dato processed de po, con lo cual el valor isAlwaysUpdateable ya no es necesario
+     * 		2) El dato processed de po se encuentra en false, con lo cual estamos en un escenario similar a 1
+     * 		3) El dato processed de po se encuentra en true, pero la columna está configurada como isAlwaysUpdateable
+     *
+     */
+    protected void checkAlwaysUpdatable(PO po, M_Column aColumn) throws ModelException {
+        // Intentar recuperar el campo Processed
+        Object oo = po.get_Value("Processed");
+        // Si no hay campo processed, entonces solo hay que evaluar la logica de isUpdateable
+        if (oo == null)
+            return;
+        // Determinar si el registro está procesado o no (similar al codigo generado en las clases X_
+        boolean isProcessed = (oo instanceof Boolean) ? ((Boolean)oo).booleanValue() : "Y".equals(oo);
+        // Si el registro no fue procesado, entonces no hay inconvenientes
+        if (!isProcessed)
+            return;
+        // Si llegamos hasta aqui es debido a que solo se podrá actualizar si el campo isAlwaysUpdateable = Y
+        if (!aColumn.isAlwaysUpdateable())
+            throw new ModelException(" El documento se encuentra procesado, y la columna a setear no esta configurada como Siempre Actualizable.");
     }
 
     /**

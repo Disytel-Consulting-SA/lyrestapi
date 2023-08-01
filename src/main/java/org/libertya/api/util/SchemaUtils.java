@@ -9,7 +9,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
@@ -25,6 +24,9 @@ public class SchemaUtils {
 
     @Value("${restapi.libertya.app.nullValue}")
     private String nullValue;
+
+    @Value("${org.libertya.api.service.forceValues}")
+    private String forceValues;
 
     /**
      * Obtiene el map de columnas para una tabla y lo almacena en la caché
@@ -85,5 +87,10 @@ public class SchemaUtils {
         if (!Util.isEmpty(nullValue))
             return nullValue;
         return "[NULL]";
+    }
+
+    /** Forzar la asignacion de valores omitiendo el modelo? Retorna el valor configurado o false en caso contrario */
+    public boolean shouldForceValues() {
+        return (!Util.isEmpty(forceValues) && "Y".equalsIgnoreCase(forceValues));
     }
 }
