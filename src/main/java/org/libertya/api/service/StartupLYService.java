@@ -1,13 +1,8 @@
 package org.libertya.api.service;
 
 import java.util.Properties;
-
-import org.openXpertya.OpenXpertya;
-import org.openXpertya.model.MUser;
-import org.openXpertya.util.DB;
-import org.openXpertya.util.Env;
-import org.openXpertya.util.Ini;
-import org.openXpertya.util.Secure;
+import org.openXpertya.db.CConnection;
+import org.openXpertya.util.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -76,15 +71,27 @@ public class StartupLYService {
      */
     protected void startupEnvironment() throws Exception
     {
-        System.setProperty("OXP_HOME", System.getenv("OXP_HOME"));
         Env.setContext(Env.getCtx(), "#AD_Language", "es_AR");
         Env.setContext(Env.getCtx(), "#AD_Client_ID", clientID);
         Env.setContext(Env.getCtx(), "#AD_Org_ID", 0);
-        if (!OpenXpertya.startup( false ))
+        if (!setup())
             throw new Exception ("Error al iniciar entorno (Hay conexión a Base de Datos?) ");
         setCurrency(Env.getCtx());
         setUseDefaults(Env.getCtx());
         setReferencedValues(Env.getCtx());
+    }
+
+    protected boolean setup() {
+        if (DB.isConnected())
+            return true;
+        // La gestion de log corre por cuenta del aspect EventLogAspect
+        CLogMgt.shutdown();
+        // Gestion server-side
+        Ini.setClient(false);
+        // Conectar a BDD
+        CConnection cc = CConnection.get();
+        DB.setDBTarget(cc);
+        return DB.isConnected();
     }
 
     /**
