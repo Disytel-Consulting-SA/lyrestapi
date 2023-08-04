@@ -76,6 +76,10 @@ paths:
     $ref: ./paths/allocations_id.yaml
   /v1.0/allocations/{id}/process:
     $ref: ./paths/allocations_id_process.yaml
+  /v1.0/allocationlines:
+    $ref: ./paths/allocationlines.yaml
+  /v1.0/allocationlines/{id}:
+    $ref: ./paths/allocationlines_id.yaml
   /v1.0/productprices:
     $ref: ./paths/productprices.yaml
   /v1.0/productprices/{idProduct}/{idPriceListVersion}:
