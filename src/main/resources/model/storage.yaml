@@ -1,0 +1,51 @@
+components:
+  schemas:
+    Storage:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        datelastinventory:
+          type: string
+        isactive:
+          type: boolean
+        m_attributesetinstance_id:
+          type: integer
+        m_locator_id:
+          type: integer
+        m_product_id:
+          type: integer
+        qtyonhand:
+          type: number
+        qtyordered:
+          type: number
+        qtyreserved:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - isactive
+         - m_attributesetinstance_id
+         - m_locator_id
+         - m_product_id
+         - qtyonhand
+         - qtyordered
+         - qtyreserved
+         - updated
+         - updatedby

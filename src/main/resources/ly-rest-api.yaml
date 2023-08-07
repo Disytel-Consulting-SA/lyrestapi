@@ -84,6 +84,12 @@ paths:
     $ref: ./paths/productprices.yaml
   /v1.0/productprices/{idProduct}/{idPriceListVersion}:
     $ref: ./paths/productprices_id_id.yaml
+  /v1.0/storages:
+    $ref: ./paths/storages.yaml
+  /v1.0/storages/{idProduct}:
+    $ref: ./paths/storages_id.yaml
+  /v1.0/storages/{idProduct}/{idLocator}:
+    $ref: ./paths/storages_id_id.yaml
   /v1.0/inventories:
     $ref: ./paths/inventories.yaml
   /v1.0/inventories/{id}:

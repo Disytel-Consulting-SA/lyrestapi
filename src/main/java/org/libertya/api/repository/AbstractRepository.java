@@ -405,7 +405,7 @@ public abstract class AbstractRepository {
         Set<String> includeFields = getFilterFields(filterFields);
         // Recuperar el PO asociado en BDD
         PO aPO = getPO(info, tableName, id, trxName);
-        if (aPO == null || aPO.getID() == 0) {
+        if (aPO==null || (pkColumns==null && aPO.getID()==0)) {
             return Optional.empty();
         }
         // Instanciar objeto del modelo segun corresponda

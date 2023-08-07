@@ -1,0 +1,22 @@
+get:
+  summary: Recupera el stock en cada ubicacion de un articulo particular
+  tags:
+    - "storage"
+  parameters:
+    - name: idProduct
+      in: path
+      description: ID del articulo
+      required: true
+      schema:
+        type: integer
+  description: Recupera el stock en cada ubicacion de un articulo particular
+  operationId: retrieveStoragesOfProduct
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/storage.yaml#/components/schemas/Storage'
