@@ -41,6 +41,7 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.7.0'
 	implementation 'org.springdoc:springdoc-openapi-security:1.7.0'
 	implementation 'org.springdoc:springdoc-openapi-javadoc:1.7.0'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 

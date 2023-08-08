@@ -1,5 +1,6 @@
 package org.libertya.api.service;
 
+import java.time.Instant;
 import java.util.Properties;
 import org.openXpertya.db.CConnection;
 import org.openXpertya.util.*;
@@ -33,6 +34,7 @@ public class StartupLYService {
     @Value("${restapi.libertya.app.referencedValues}")
     private String referencedValues;
 
+    Instant startTime;
 
     /**
      * Realiza la configuración inicial a partir de la información recibida
@@ -40,6 +42,7 @@ public class StartupLYService {
      */
     public void init() throws Exception
     {
+        startTime = Instant.now();
         setConnection();
         startupEnvironment();
     }
@@ -117,5 +120,10 @@ public class StartupLYService {
     protected void setReferencedValues(Properties ctx) {
         Env.setContext(ctx, "#USE_REFERENCED_VALUES", referencedValues);
     }
+
+    public Instant getStartTime() {
+        return startTime;
+    }
+
 
 }
