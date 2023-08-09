@@ -37,7 +37,7 @@ public class CommonIntegrationTests {
     public static final String API_VERSION = "v1.0";
 
     /** Datos de acceso a la compañía para obtencion del token a utilizar en las pruebas */
-    String[] credentials = new String[]{"username=AdminLibertya", "password=AdminLibertya", "clientid=1010016", "orgid=0"};
+    String[] credentials = new String[]{"username=AdminLibertya", "password=AdminLibertya", "clientid=1010016", "orgid=1010053"};
 
     /** Contenido del token a utilizar en las pruebas */
     String token;

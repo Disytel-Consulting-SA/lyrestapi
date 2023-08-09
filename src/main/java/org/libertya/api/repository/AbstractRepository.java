@@ -681,7 +681,8 @@ public abstract class AbstractRepository {
             if (aPO.getID() <= 0)
                 throw new NotFoundException();
             if (!DocumentEngine.processAndSave((DocAction) aPO, action.toUpperCase(), false)) {
-                throw new ModelException(Msg.parseTranslation(getCtx(info), ((DocAction) aPO).getProcessMsg()));
+                String err = Msg.parseTranslation(getCtx(info), ((DocAction) aPO).getProcessMsg());
+                throw new ModelException(!Util.isEmpty(err) ? err : "Error al procesar la entidad (no hay mas detalles disponibles)");
             }
             // Validar si pudo cambiarse la nuevo estado, dado que DocumentEngine.processIt no realiza dicha actividad
             String currentStatus = ((DocAction) aPO).getDocStatus();

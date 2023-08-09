@@ -153,4 +153,15 @@ public class InventoryIntegrationTest extends CommonIntegrationTests {
         assertThat(response.getStatusCode().toString()).contains("409");
     }
 
+
+    @Test
+    @Order(1500)
+    void voidCompletedInventoryShouldReturnOK() {
+        ResponseEntity<String> response =
+                restTemplate.exchange(getBaseURL("inventories/" + documentID + "/process?action=VO"),	// <- Inventario procesado cuyo AD_Client_ID = 1010016
+                        HttpMethod.PUT,
+                        new HttpEntity<>("{ \"ad_org_id\" : 1010053 }", getAuthHeaders()),
+                        String.class);
+        assertThat(response.getStatusCode().toString()).contains("200");
+    }
 }
