@@ -165,4 +165,15 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 		assertThat(response.getStatusCode().toString()).contains("409");
 	}
 
+	@Test
+	@Order(1500)
+	void voidCompletedInvoiceShouldReturnOK() {
+		ResponseEntity<String> response =
+				restTemplate.exchange(getBaseURL("invoices/" + documentID + "/process?action=VO"),	// <- Factura procesada cuyo AD_Client_ID = 1010016
+						HttpMethod.PUT,
+						new HttpEntity<>(null, getAuthHeaders()),
+						String.class);
+		assertThat(response.getStatusCode().toString()).contains("200");
+	}
+
 }

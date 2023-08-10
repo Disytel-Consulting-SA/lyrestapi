@@ -678,16 +678,20 @@ public abstract class AbstractRepository {
         PO aPO = getPO(info, tableName, id, trxName);
         loadPOInitialValues(info, aPO, false);
         try {
-            if (aPO.getID() <= 0)
+            if (aPO.getID() <= 0) {
                 throw new NotFoundException();
-            if (!DocumentEngine.processAndSave((DocAction) aPO, action.toUpperCase(), false)) {
+            }
+            // Si el status ya coincide con el action, entonces no hay nada por hacer
+            if (action.equalsIgnoreCase(((DocAction)aPO).getDocStatus())) {
+                throw new ModelException(String.format("Imposible procesar.  La accion %s a aplicar ya coincide con el estado actual %s", action.toUpperCase(), ((DocAction)aPO).getDocStatus()));
+            }
+            if (!DocumentEngine.processAndSave((DocAction) aPO, action.toUpperCase(), true)) {
                 String err = Msg.parseTranslation(getCtx(info), ((DocAction) aPO).getProcessMsg());
                 throw new ModelException(!Util.isEmpty(err) ? err : "Error al procesar la entidad (no hay mas detalles disponibles)");
             }
             // Validar si pudo cambiarse la nuevo estado, dado que DocumentEngine.processIt no realiza dicha actividad
-            String currentStatus = ((DocAction) aPO).getDocStatus();
-            if (!action.equalsIgnoreCase(currentStatus)) {
-                throw new ModelException(String.format("Imposible procesar.  La accion %s no puede aplicarse al estado actual %s", action.toUpperCase(), currentStatus));
+            if (!action.equalsIgnoreCase(((DocAction)aPO).getDocStatus())) {
+                throw new ModelException(String.format("Imposible procesar.  La accion %s no puede aplicarse al estado actual %s", action.toUpperCase(), ((DocAction)aPO).getDocStatus()));
             }
             if (handleTrx) {
                 commitTransaction(trxName);

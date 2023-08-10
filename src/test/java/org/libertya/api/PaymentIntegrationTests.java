@@ -161,4 +161,15 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
         assertThat(response.getStatusCode().toString()).contains("200");
     }
 
+    @Test
+    @Order(1500)
+    void voidVoidedPaymentShouldReturnKO() {
+        ResponseEntity<String> response =
+                restTemplate.exchange(getBaseURL("payments/" + documentID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
+                        HttpMethod.PUT,
+                        new HttpEntity<>(null, getAuthHeaders()),
+                        String.class);
+        assertThat(response.getStatusCode().toString()).contains("409");
+    }
+
 }

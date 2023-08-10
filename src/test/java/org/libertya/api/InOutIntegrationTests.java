@@ -164,4 +164,15 @@ class InOutIntegrationTests extends CommonIntegrationTests {
         assertThat(response.getStatusCode().toString()).contains("409");
     }
 
+    @Test
+    @Order(1500)
+    void voidCompletedInOutShouldReturnOK() {
+        ResponseEntity<String> response =
+                restTemplate.exchange(getBaseURL("inouts/" + documentID + "/process?action=VO"),	// <- Registro procesado cuyo AD_Client_ID = 1010016
+                        HttpMethod.PUT,
+                        new HttpEntity<>(null, getAuthHeaders()),
+                        String.class);
+        assertThat(response.getStatusCode().toString()).contains("200");
+    }
+
 }
