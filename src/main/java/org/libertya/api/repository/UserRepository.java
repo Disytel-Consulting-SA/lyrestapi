@@ -1,5 +1,6 @@
 package org.libertya.api.repository;
 
+import org.libertya.api.stub.model.User;
 import org.openXpertya.model.PO;
 import org.openXpertya.model.X_AD_User;
 import org.springframework.stereotype.Repository;
@@ -8,6 +9,11 @@ import java.util.Optional;
 
 @Repository
 public class UserRepository extends AbstractRepository {
+
+    public UserRepository() {
+        tableName = X_AD_User.Table_Name;
+        iface = User::new;
+    }
 
     public Optional<PO> findUser(String username, String password, String clientId, String orgId) {
         int[] ids = PO.getAllIDs(

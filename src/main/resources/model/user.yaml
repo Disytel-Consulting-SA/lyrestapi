@@ -1,0 +1,101 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        ad_orgtrx_id:
+          type: integer
+        ad_user_id:
+          type: integer
+        birthday:
+          type: string
+        c_bpartner_contact_id:
+          type: integer
+        c_bpartner_id:
+          type: integer
+        c_bpartner_location_id:
+          type: integer
+        c_greeting_id:
+          type: integer
+        comments:
+          type: string
+        created:
+          type: string
+        createdby:
+          type: integer
+        description:
+          type: string
+        email:
+          type: string
+        emailuser:
+          type: string
+        emailuserpw:
+          type: string
+        emailverify:
+          type: string
+        emailverifydate:
+          type: string
+        fax:
+          type: string
+        isactive:
+          type: boolean
+        isldapauthorized:
+          type: boolean
+        issystemaccess:
+          type: boolean
+        lastcontact:
+          type: string
+        lastpasswordchangedate:
+          type: string
+        lastresult:
+          type: string
+        name:
+          type: string
+        notificationtype:
+          type: string
+        notifyonconversationactivity:
+          type: boolean
+        pa_goal_id:
+          type: integer
+        pa_goalprivate_id:
+          type: integer
+        password:
+          type: string
+        phone:
+          type: string
+        phone2:
+          type: string
+        phone3:
+          type: string
+        supervisor_id:
+          type: integer
+        title:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_user_id
+         - created
+         - createdby
+         - isactive
+         - isldapauthorized
+         - issystemaccess
+         - name
+         - notificationtype
+         - notifyonconversationactivity
+         - updated
+         - updatedby

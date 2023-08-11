@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 
+import javax.rmi.CORBA.Util;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -30,9 +31,11 @@ public abstract class AbstractController {
                     .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                     .orElseGet(() -> new ResponseEntity(null, HttpStatus.NOT_FOUND));
         } catch (AuthException e3) {
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            String message = e3!=null && e3.getMessage()!=null ? e3.getMessage() : "Error al recuperar la entidad";
+            return new ResponseEntity<T>((T)e3.getMessage(), HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            String message = e!=null && e.getMessage()!=null ? e.getMessage() : "Error al recuperar la entidad";
+            return new ResponseEntity<T>((T)message, HttpStatus.NOT_FOUND);
         }
     }
 

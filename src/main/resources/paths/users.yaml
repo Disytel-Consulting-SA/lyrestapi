@@ -1,0 +1,26 @@
+post:
+  summary: Nuevo usuario
+  tags:
+    - "user"
+  description: Agrega un nuevo usuario
+  operationId: addUser
+  responses:
+    "200":
+      description: OK. ID de usuario creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/user.yaml#/components/schemas/User'

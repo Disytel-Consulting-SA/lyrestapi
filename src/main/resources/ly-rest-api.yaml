@@ -108,3 +108,7 @@ paths:
     $ref: ./paths/bpartnerlocations.yaml
   /v1.0/bpartnerlocations/{id}:
     $ref: ./paths/bpartnerlocations_id.yaml
+  /v1.0/users:
+    $ref: ./paths/users.yaml
+  /v1.0/users/{id}:
+    $ref: ./paths/users_id.yaml
