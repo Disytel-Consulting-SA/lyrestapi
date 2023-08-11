@@ -32,7 +32,7 @@ public abstract class AbstractController {
                     .orElseGet(() -> new ResponseEntity(null, HttpStatus.NOT_FOUND));
         } catch (AuthException e3) {
             String message = e3!=null && e3.getMessage()!=null ? e3.getMessage() : "Error al recuperar la entidad";
-            return new ResponseEntity<T>((T)e3.getMessage(), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<T>((T)message, HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             String message = e!=null && e.getMessage()!=null ? e.getMessage() : "Error al recuperar la entidad";
             return new ResponseEntity<T>((T)message, HttpStatus.NOT_FOUND);
