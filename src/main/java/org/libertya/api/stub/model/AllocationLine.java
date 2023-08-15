@@ -92,6 +92,10 @@ public class AllocationLine   {
   @JsonProperty("writeoffamt")
   private BigDecimal writeoffamt = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -569,6 +573,33 @@ public class AllocationLine   {
     this.writeoffamt = writeoffamt;
   }
 
+  public AllocationLine additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public AllocationLine addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public AllocationLine referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -630,12 +661,13 @@ public class AllocationLine   {
         Objects.equals(this.updated, allocationLine.updated) &&
         Objects.equals(this.updatedby, allocationLine.updatedby) &&
         Objects.equals(this.writeoffamt, allocationLine.writeoffamt) &&
+        Objects.equals(this.additionalvalues, allocationLine.additionalvalues) &&
         Objects.equals(this.referencedvalues, allocationLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, amount, cAllocationhdrId, cAllocationlineId, cBpartnerId, cCashlineId, cCurrencyId, changeamt, cInvoiceCreditId, cInvoiceId, cOrderId, cPaymentId, created, createdby, datetrx, discountamt, isactive, ismanual, lineDescription, overunderamt, updated, updatedby, writeoffamt, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, amount, cAllocationhdrId, cAllocationlineId, cBpartnerId, cCashlineId, cCurrencyId, changeamt, cInvoiceCreditId, cInvoiceId, cOrderId, cPaymentId, created, createdby, datetrx, discountamt, isactive, ismanual, lineDescription, overunderamt, updated, updatedby, writeoffamt, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -667,6 +699,7 @@ public class AllocationLine   {
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    writeoffamt: ").append(toIndentedString(writeoffamt)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

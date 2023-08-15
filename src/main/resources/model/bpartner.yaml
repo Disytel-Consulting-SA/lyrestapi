@@ -217,6 +217,10 @@ components:
           type: string
         value:
           type: string
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
         referencedvalues:
           type: array
           items:

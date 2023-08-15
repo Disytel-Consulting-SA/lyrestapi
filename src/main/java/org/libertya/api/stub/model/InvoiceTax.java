@@ -68,6 +68,10 @@ public class InvoiceTax   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -393,6 +397,33 @@ public class InvoiceTax   {
     this.updatedby = updatedby;
   }
 
+  public InvoiceTax additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public InvoiceTax addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public InvoiceTax referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -446,12 +477,13 @@ public class InvoiceTax   {
         Objects.equals(this.taxbaseamt, invoiceTax.taxbaseamt) &&
         Objects.equals(this.updated, invoiceTax.updated) &&
         Objects.equals(this.updatedby, invoiceTax.updatedby) &&
+        Objects.equals(this.additionalvalues, invoiceTax.additionalvalues) &&
         Objects.equals(this.referencedvalues, invoiceTax.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, arcibanormcode, cInvoiceId, created, createdby, cTaxId, isactive, isperceptionsincluded, istaxincluded, processed, rate, taxamt, taxbaseamt, updated, updatedby, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, arcibanormcode, cInvoiceId, created, createdby, cTaxId, isactive, isperceptionsincluded, istaxincluded, processed, rate, taxamt, taxbaseamt, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -475,6 +507,7 @@ public class InvoiceTax   {
     sb.append("    taxbaseamt: ").append(toIndentedString(taxbaseamt)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

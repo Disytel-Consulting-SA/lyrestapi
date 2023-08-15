@@ -123,6 +123,10 @@ components:
           type: integer
         user2_id:
           type: integer
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
         referencedvalues:
           type: array
           items:

@@ -413,16 +413,38 @@ public abstract class AbstractRepository {
         Field[] fields = object.getClass().getDeclaredFields();
 
         Map<String, M_Column> columnNameMap = schemaUtils.getColumnNameMap(aPO.get_TableName(), getCtx(info));
+        Set<String> assignedFields = new HashSet<>();
         // Iterar por los campos del objeto, asignando los valores en cada matcheo
         for (Field field : fields) {
             String fieldName = schemaUtils.normalize(field.getName());
-            M_Column aColumn = columnNameMap.get(fieldName);
-            if (aColumn != null && (includeFields == null || includeFields.contains(fieldName))) {
-                field.setAccessible(true);
-                setValueToObject(info, object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
+            loadValueToEntity(info, aPO, columnNameMap, fieldName, field, object, includeFields);
+            assignedFields.add(fieldName);
+        }
+        // Queda informacion por asignar por fuera de la estructura pre-establecida del objeto?
+        try {
+            Field field = object.getClass().getDeclaredField("additionalvalues");
+            field.setAccessible(true);
+            ArrayList<Propertiesmap> props = new ArrayList<>();
+            M_Column[] columns = M_Table.get(getCtx(info), tableName).getColumns(false);
+            for (M_Column column : columns) {
+                String colName = column.getColumnName();
+                // Ya fue asignado previamente en las propiedades predefinidas? Omitir
+                if (!assignedFields.contains(schemaUtils.normalize(colName)) && aPO.get_Value(colName)!=null)
+                    addPropToProps(props, field, object, schemaUtils.normalize(colName), aPO.get_Value(colName).toString());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return (Optional<T>)Optional.of(object);
+    }
+
+    /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en la map de columnas columnNameMap */
+    protected void loadValueToEntity(UserInfo info, PO aPO, Map<String, M_Column> columnNameMap, String fieldName, Field field, Object object, Set<String> includeFields) throws ModelException {
+        M_Column aColumn = columnNameMap.get(fieldName);
+        if (aColumn != null && (includeFields == null || includeFields.contains(fieldName))) {
+            field.setAccessible(true);
+            setValueToObject(info, object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
+        }
     }
 
     /**
@@ -521,15 +543,30 @@ public abstract class AbstractRepository {
                 e.printStackTrace();
             }
             String fieldName = schemaUtils.normalize(field.getName());
-            M_Column aColumn = columnNameMap.get(fieldName);
-            if (aColumn != null) {
-                if (inserting && useDefaults(info)) {
-                    setDefaultValue(aColumn, aPO);
+
+            // Informacion contenida en additionalvalues (informacion dinamica)
+            if ("additionalvalues".equalsIgnoreCase(field.getName()) && value!=null) {
+                for (Propertiesmap map : (List<Propertiesmap>)value) {
+                    loadValueToPO(info, aPO, columnNameMap, map.getKey(), map.getValue(), inserting);
                 }
-                // El valor podría haber sido definido previamente al especificar los defaults
-                if (aPO.get_Value(aColumn.getColumnName()) == null || value != null) {
-                    setValue(aPO, aColumn, value, inserting);
-                }
+                continue;
+            }
+
+            // Volcar value de la property al PO (informacion pre-establecida)
+            loadValueToPO(info, aPO, columnNameMap, fieldName, value, inserting);
+        }
+    }
+
+    /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en la map de columnas columnNameMap */
+    protected void loadValueToPO(UserInfo info, PO aPO, Map<String, M_Column> columnNameMap, String fieldName, Object value, boolean inserting ) throws ModelException {
+        M_Column aColumn = columnNameMap.get(fieldName);
+        if (aColumn != null) {
+            if (inserting && useDefaults(info)) {
+                setDefaultValue(aColumn, aPO);
+            }
+            // El valor podría haber sido definido previamente al especificar los defaults
+            if (aPO.get_Value(aColumn.getColumnName()) == null || value != null) {
+                setValue(aPO, aColumn, value, inserting);
             }
         }
     }

@@ -122,6 +122,10 @@ public class InOutLine   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -800,6 +804,33 @@ public class InOutLine   {
     this.updatedby = updatedby;
   }
 
+  public InOutLine additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public InOutLine addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public InOutLine referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -871,12 +902,13 @@ public class InOutLine   {
         Objects.equals(this.targetqty, inOutLine.targetqty) &&
         Objects.equals(this.updated, inOutLine.updated) &&
         Objects.equals(this.updatedby, inOutLine.updatedby) &&
+        Objects.equals(this.additionalvalues, inOutLine.additionalvalues) &&
         Objects.equals(this.referencedvalues, inOutLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, cChargeId, cCountryId, cInvoicelineId, confirmedqty, cOrderlineId, costprice, cProjectId, created, createdby, cUomId, declarationno, description, isactive, isdescription, isinvoiced, isselected, line, mAttributesetinstanceId, mImportClearanceId, mInoutId, mInoutlineId, mLocatorId, movementqty, mProductId, pickedqty, processed, qtyentered, refInoutlineId, scrappedqty, targetqty, updated, updatedby, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, cChargeId, cCountryId, cInvoicelineId, confirmedqty, cOrderlineId, costprice, cProjectId, created, createdby, cUomId, declarationno, description, isactive, isdescription, isinvoiced, isselected, line, mAttributesetinstanceId, mImportClearanceId, mInoutId, mInoutlineId, mLocatorId, movementqty, mProductId, pickedqty, processed, qtyentered, refInoutlineId, scrappedqty, targetqty, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -918,6 +950,7 @@ public class InOutLine   {
     sb.append("    targetqty: ").append(toIndentedString(targetqty)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

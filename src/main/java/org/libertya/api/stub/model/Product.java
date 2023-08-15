@@ -230,6 +230,10 @@ public class Product   {
   @JsonProperty("yearlife")
   private Integer yearlife = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -1602,6 +1606,33 @@ public class Product   {
     this.yearlife = yearlife;
   }
 
+  public Product additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public Product addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public Product referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -1709,12 +1740,13 @@ public class Product   {
         Objects.equals(this.volume, product.volume) &&
         Objects.equals(this.weight, product.weight) &&
         Objects.equals(this.yearlife, product.yearlife) &&
+        Objects.equals(this.additionalvalues, product.additionalvalues) &&
         Objects.equals(this.referencedvalues, product.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1792,6 +1824,7 @@ public class Product   {
     sb.append("    volume: ").append(toIndentedString(volume)).append("\n");
     sb.append("    weight: ").append(toIndentedString(weight)).append("\n");
     sb.append("    yearlife: ").append(toIndentedString(yearlife)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

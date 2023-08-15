@@ -136,6 +136,10 @@ public class User   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -894,6 +898,33 @@ public class User   {
     this.updatedby = updatedby;
   }
 
+  public User additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public User addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public User referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -970,12 +1001,13 @@ public class User   {
         Objects.equals(this.title, user.title) &&
         Objects.equals(this.updated, user.updated) &&
         Objects.equals(this.updatedby, user.updatedby) &&
+        Objects.equals(this.additionalvalues, user.additionalvalues) &&
         Objects.equals(this.referencedvalues, user.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, adOrgtrxId, adUserId, birthday, cBpartnerContactId, cBpartnerId, cBpartnerLocationId, cGreetingId, comments, created, createdby, description, email, emailuser, emailuserpw, emailverify, emailverifydate, fax, isactive, isldapauthorized, issystemaccess, lastcontact, lastpasswordchangedate, lastresult, name, notificationtype, notifyonconversationactivity, paGoalId, paGoalprivateId, password, phone, phone2, phone3, supervisorId, title, updated, updatedby, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, adOrgtrxId, adUserId, birthday, cBpartnerContactId, cBpartnerId, cBpartnerLocationId, cGreetingId, comments, created, createdby, description, email, emailuser, emailuserpw, emailverify, emailverifydate, fax, isactive, isldapauthorized, issystemaccess, lastcontact, lastpasswordchangedate, lastresult, name, notificationtype, notifyonconversationactivity, paGoalId, paGoalprivateId, password, phone, phone2, phone3, supervisorId, title, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1022,6 +1054,7 @@ public class User   {
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

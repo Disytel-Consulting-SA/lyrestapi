@@ -296,6 +296,10 @@ public class Order   {
   @JsonProperty("validto")
   private String validto = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -2104,6 +2108,33 @@ public class Order   {
     this.validto = validto;
   }
 
+  public Order additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public Order addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public Order referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -2233,12 +2264,13 @@ public class Order   {
         Objects.equals(this.user1Id, order.user1Id) &&
         Objects.equals(this.user2Id, order.user2Id) &&
         Objects.equals(this.validto, order.validto) &&
+        Objects.equals(this.additionalvalues, order.additionalvalues) &&
         Objects.equals(this.referencedvalues, order.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(acceptance, adClientId, adOrgId, adOrgTransferId, adOrgtrxId, adUserId, allowchangepricelist, authorizationchainstatus, billBpartnerId, billLocationId, billUserId, cActivityId, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceOrigId, codigocategoriaiva, cOrderId, cPaymentId, cPaymenttermId, cProjectId, created, createdby, creditrequesttype, cRepairOrderId, cuit, dateacct, dateordered, dateprinted, dateprod, datepromised, daterealprod, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, grandtotal, invoiceAdress, invoicerule, isactive, isapproved, iscreditapproved, isdelivered, isdiscountprinted, isdropship, isexchange, isinvoiced, isprinted, isreactivated, isselected, isselfservice, issotrx, istaxincluded, istpvused, istransferred, manualgeneraldiscount, mAuthorizationchainId, mPricelistId, mShipperId, mWarehouseId, mWarehouseTransferId, nombrecli, nroidentificcliente, oldgrandtotal, payBpartnerId, payLocationId, paymentrule, poreference, priorityrule, processed, programInvoice, refOrderId, repairPriority, repairState, salesrepId, sendemail, totallines, updated, updatedby, user1Id, user2Id, validto, referencedvalues);
+    return Objects.hash(acceptance, adClientId, adOrgId, adOrgTransferId, adOrgtrxId, adUserId, allowchangepricelist, authorizationchainstatus, billBpartnerId, billLocationId, billUserId, cActivityId, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceOrigId, codigocategoriaiva, cOrderId, cPaymentId, cPaymenttermId, cProjectId, created, createdby, creditrequesttype, cRepairOrderId, cuit, dateacct, dateordered, dateprinted, dateprod, datepromised, daterealprod, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, grandtotal, invoiceAdress, invoicerule, isactive, isapproved, iscreditapproved, isdelivered, isdiscountprinted, isdropship, isexchange, isinvoiced, isprinted, isreactivated, isselected, isselfservice, issotrx, istaxincluded, istpvused, istransferred, manualgeneraldiscount, mAuthorizationchainId, mPricelistId, mShipperId, mWarehouseId, mWarehouseTransferId, nombrecli, nroidentificcliente, oldgrandtotal, payBpartnerId, payLocationId, paymentrule, poreference, priorityrule, processed, programInvoice, refOrderId, repairPriority, repairState, salesrepId, sendemail, totallines, updated, updatedby, user1Id, user2Id, validto, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2338,6 +2370,7 @@ public class Order   {
     sb.append("    user1Id: ").append(toIndentedString(user1Id)).append("\n");
     sb.append("    user2Id: ").append(toIndentedString(user2Id)).append("\n");
     sb.append("    validto: ").append(toIndentedString(validto)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

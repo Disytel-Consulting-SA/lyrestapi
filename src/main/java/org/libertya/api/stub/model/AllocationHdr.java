@@ -104,6 +104,10 @@ public class AllocationHdr   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -663,6 +667,33 @@ public class AllocationHdr   {
     this.updatedby = updatedby;
   }
 
+  public AllocationHdr additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public AllocationHdr addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public AllocationHdr referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -728,12 +759,13 @@ public class AllocationHdr   {
         Objects.equals(this.retencionAmt, allocationHdr.retencionAmt) &&
         Objects.equals(this.updated, allocationHdr.updated) &&
         Objects.equals(this.updatedby, allocationHdr.updatedby) &&
+        Objects.equals(this.additionalvalues, allocationHdr.additionalvalues) &&
         Objects.equals(this.referencedvalues, allocationHdr.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(actiondetail, adClientId, adOrgId, allocationaction, allocationtype, approvalamt, cAllocationhdrId, cBanklistId, cBpartnerId, cCurrencyId, cDoctypeId, cPosjournalId, created, createdby, dateacct, datetrx, description, docstatus, documentno, grandtotal, isactive, isapproved, ismanual, processed, processing, retencionAmt, updated, updatedby, referencedvalues);
+    return Objects.hash(actiondetail, adClientId, adOrgId, allocationaction, allocationtype, approvalamt, cAllocationhdrId, cBanklistId, cBpartnerId, cCurrencyId, cDoctypeId, cPosjournalId, created, createdby, dateacct, datetrx, description, docstatus, documentno, grandtotal, isactive, isapproved, ismanual, processed, processing, retencionAmt, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -769,6 +801,7 @@ public class AllocationHdr   {
     sb.append("    retencionAmt: ").append(toIndentedString(retencionAmt)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

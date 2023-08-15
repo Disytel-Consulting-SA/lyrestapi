@@ -47,6 +47,10 @@ components:
           type: string
         updatedby:
           type: integer
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
         referencedvalues:
           type: array
           items:

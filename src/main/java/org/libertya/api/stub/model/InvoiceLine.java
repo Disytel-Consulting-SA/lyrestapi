@@ -146,6 +146,10 @@ public class InvoiceLine   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -990,6 +994,33 @@ public class InvoiceLine   {
     this.updatedby = updatedby;
   }
 
+  public InvoiceLine additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public InvoiceLine addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public InvoiceLine referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -1069,12 +1100,13 @@ public class InvoiceLine   {
         Objects.equals(this.taxamt, invoiceLine.taxamt) &&
         Objects.equals(this.updated, invoiceLine.updated) &&
         Objects.equals(this.updatedby, invoiceLine.updatedby) &&
+        Objects.equals(this.additionalvalues, invoiceLine.additionalvalues) &&
         Objects.equals(this.referencedvalues, invoiceLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(aAssetId, adClientId, adOrgId, cBpartnerVendorId, cChargeId, cInvoiceId, cInvoicelineId, cOrderlineId, costprice, cProjectId, created, createdby, cTaxId, cUomId, description, documentdiscountamt, isactive, isdescription, isprinted, line, linebonusamt, linediscountamt, linenetamount, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mImportClearanceId, mInoutlineId, mProductId, priceactual, priceentered, pricelimit, pricelist, processed, qtyentered, qtyinvoiced, refInvoicelineId, salesrepOrigId, taxamt, updated, updatedby, referencedvalues);
+    return Objects.hash(aAssetId, adClientId, adOrgId, cBpartnerVendorId, cChargeId, cInvoiceId, cInvoicelineId, cOrderlineId, costprice, cProjectId, created, createdby, cTaxId, cUomId, description, documentdiscountamt, isactive, isdescription, isprinted, line, linebonusamt, linediscountamt, linenetamount, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mImportClearanceId, mInoutlineId, mProductId, priceactual, priceentered, pricelimit, pricelist, processed, qtyentered, qtyinvoiced, refInvoicelineId, salesrepOrigId, taxamt, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1124,6 +1156,7 @@ public class InvoiceLine   {
     sb.append("    taxamt: ").append(toIndentedString(taxamt)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

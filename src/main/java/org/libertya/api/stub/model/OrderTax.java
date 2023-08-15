@@ -65,6 +65,10 @@ public class OrderTax   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -370,6 +374,33 @@ public class OrderTax   {
     this.updatedby = updatedby;
   }
 
+  public OrderTax additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public OrderTax addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public OrderTax referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -422,12 +453,13 @@ public class OrderTax   {
         Objects.equals(this.taxbaseamt, orderTax.taxbaseamt) &&
         Objects.equals(this.updated, orderTax.updated) &&
         Objects.equals(this.updatedby, orderTax.updatedby) &&
+        Objects.equals(this.additionalvalues, orderTax.additionalvalues) &&
         Objects.equals(this.referencedvalues, orderTax.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, arcibanormcode, cOrderId, created, createdby, cTaxId, isactive, istaxincluded, processed, rate, taxamt, taxbaseamt, updated, updatedby, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, arcibanormcode, cOrderId, created, createdby, cTaxId, isactive, istaxincluded, processed, rate, taxamt, taxbaseamt, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -450,6 +482,7 @@ public class OrderTax   {
     sb.append("    taxbaseamt: ").append(toIndentedString(taxbaseamt)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

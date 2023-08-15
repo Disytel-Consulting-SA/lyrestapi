@@ -143,6 +143,10 @@ components:
           type: number
         yearlife:
           type: integer
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
         referencedvalues:
           type: array
           items:

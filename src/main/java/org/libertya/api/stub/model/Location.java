@@ -82,6 +82,10 @@ public class Location   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -494,6 +498,33 @@ public class Location   {
     this.updatedby = updatedby;
   }
 
+  public Location additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public Location addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public Location referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -552,12 +583,13 @@ public class Location   {
         Objects.equals(this.regionname, location.regionname) &&
         Objects.equals(this.updated, location.updated) &&
         Objects.equals(this.updatedby, location.updatedby) &&
+        Objects.equals(this.additionalvalues, location.additionalvalues) &&
         Objects.equals(this.referencedvalues, location.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, address1, address2, address3, address4, adOrgId, cCityId, cCountryId, city, cLocationId, created, createdby, cRegionId, isactive, plaza, postal, postalAdd, regionname, updated, updatedby, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, address1, address2, address3, address4, adOrgId, cCityId, cCountryId, city, cLocationId, created, createdby, cRegionId, isactive, plaza, postal, postalAdd, regionname, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -586,6 +618,7 @@ public class Location   {
     sb.append("    regionname: ").append(toIndentedString(regionname)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

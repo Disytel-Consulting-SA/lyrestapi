@@ -27,16 +27,21 @@ select columnname from
     union
     (
         select 2000 as row,
+            e'        additionalvalues:\n          type: array\n          items:\n            $ref: ''./propertiesmap.yaml#/propertiesmap''' as columnname
+    )
+    union
+    (
+        select 3000 as row,
             e'        referencedvalues:\n          type: array\n          items:\n            $ref: ''./propertiesmap.yaml#/propertiesmap''' as columnname
     )
     union
     (
-        select 3000 + row_number() over () as row,
+        select 4000 + row_number() over () as row,
             e'      required:' as columnname
     )
     union
     (
-        select 4000 + row_number() over () as row,
+        select 5000 + row_number() over () as row,
             e'         - ' || lower(c.columnname)
         from ad_column c
         inner join ad_table t on c.ad_table_id = t.ad_table_id

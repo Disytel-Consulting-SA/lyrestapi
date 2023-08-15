@@ -200,6 +200,10 @@ public class InOut   {
   @JsonProperty("user2_id")
   private Integer user2Id = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -1374,6 +1378,33 @@ public class InOut   {
     this.user2Id = user2Id;
   }
 
+  public InOut additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public InOut addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public InOut referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -1471,12 +1502,13 @@ public class InOut   {
         Objects.equals(this.updatedby, inOut.updatedby) &&
         Objects.equals(this.user1Id, inOut.user1Id) &&
         Objects.equals(this.user2Id, inOut.user2Id) &&
+        Objects.equals(this.additionalvalues, inOut.additionalvalues) &&
         Objects.equals(this.referencedvalues, inOut.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adOrgtrxId, adUserId, cActivityId, cai, cBpartnerId, cBpartnerLocationId, cCampaignId, cChargeId, cDoctypeId, chargeamt, cInvoiceId, clearancenumber, cOrderId, cProjectId, created, createdby, dateacct, datecai, dateordered, dateprinted, datereceived, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, inoutdate, inoutreceptiondate, isactive, isapproved, isindispute, isintransit, isprinted, issotrx, mInoutId, movementdate, movementtype, mShipperId, mWarehouseId, nopackages, pickdate, poreference, preprintedDocno, printtype, priorityrule, processed, receptiondate, refInoutId, salesrepId, sendemail, shipdate, trackingno, updated, updatedby, user1Id, user2Id, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, adOrgtrxId, adUserId, cActivityId, cai, cBpartnerId, cBpartnerLocationId, cCampaignId, cChargeId, cDoctypeId, chargeamt, cInvoiceId, clearancenumber, cOrderId, cProjectId, created, createdby, dateacct, datecai, dateordered, dateprinted, datereceived, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, inoutdate, inoutreceptiondate, isactive, isapproved, isindispute, isintransit, isprinted, issotrx, mInoutId, movementdate, movementtype, mShipperId, mWarehouseId, nopackages, pickdate, poreference, preprintedDocno, printtype, priorityrule, processed, receptiondate, refInoutId, salesrepId, sendemail, shipdate, trackingno, updated, updatedby, user1Id, user2Id, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1544,6 +1576,7 @@ public class InOut   {
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    user1Id: ").append(toIndentedString(user1Id)).append("\n");
     sb.append("    user2Id: ").append(toIndentedString(user2Id)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -194,6 +194,10 @@ public class OrderLine   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -1363,6 +1367,33 @@ public class OrderLine   {
     this.updatedby = updatedby;
   }
 
+  public OrderLine additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public OrderLine addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public OrderLine referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -1458,12 +1489,13 @@ public class OrderLine   {
         Objects.equals(this.salesrepOrigId, orderLine.salesrepOrigId) &&
         Objects.equals(this.updated, orderLine.updated) &&
         Objects.equals(this.updatedby, orderLine.updatedby) &&
+        Objects.equals(this.additionalvalues, orderLine.additionalvalues) &&
         Objects.equals(this.referencedvalues, orderLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, cBpartnerId, cBpartnerLocationId, cChargeId, cCurrencyId, checkoutplace, cOrderId, cOrderlineId, cProjectId, created, createdby, cTaxId, cUomId, datedelivered, dateinvoiced, dateordered, datepromised, description, diffamt, discount, documentdiscountamt, freightamt, isactive, isdescription, line, linebonusamt, linediscountamt, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mProductId, mShipperId, mWarehouseId, orderMin, orderPack, priceactual, pricediff, priceentered, pricelimit, pricelist, pricereception, processed, qtydelivered, qtydiff, qtyentered, qtyinvoiced, qtyordered, qtyreception, qtyreserved, qtyreturned, qtytransferred, receptionamt, refOrderlineId, salesrepOrigId, updated, updatedby, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, cBpartnerId, cBpartnerLocationId, cChargeId, cCurrencyId, checkoutplace, cOrderId, cOrderlineId, cProjectId, created, createdby, cTaxId, cUomId, datedelivered, dateinvoiced, dateordered, datepromised, description, diffamt, discount, documentdiscountamt, freightamt, isactive, isdescription, line, linebonusamt, linediscountamt, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mProductId, mShipperId, mWarehouseId, orderMin, orderPack, priceactual, pricediff, priceentered, pricelimit, pricelist, pricereception, processed, qtydelivered, qtydiff, qtyentered, qtyinvoiced, qtyordered, qtyreception, qtyreserved, qtyreturned, qtytransferred, receptionamt, refOrderlineId, salesrepOrigId, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1529,6 +1561,7 @@ public class OrderLine   {
     sb.append("    salesrepOrigId: ").append(toIndentedString(salesrepOrigId)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

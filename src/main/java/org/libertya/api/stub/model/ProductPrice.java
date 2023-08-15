@@ -56,6 +56,10 @@ public class ProductPrice   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -303,6 +307,33 @@ public class ProductPrice   {
     this.updatedby = updatedby;
   }
 
+  public ProductPrice additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public ProductPrice addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public ProductPrice referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -352,12 +383,13 @@ public class ProductPrice   {
         Objects.equals(this.pricestd, productPrice.pricestd) &&
         Objects.equals(this.updated, productPrice.updated) &&
         Objects.equals(this.updatedby, productPrice.updatedby) &&
+        Objects.equals(this.additionalvalues, productPrice.additionalvalues) &&
         Objects.equals(this.referencedvalues, productPrice.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, created, createdby, isactive, mPricelistVersionId, mProductId, pricelimit, pricelist, pricestd, updated, updatedby, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, created, createdby, isactive, mPricelistVersionId, mProductId, pricelimit, pricelist, pricestd, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -377,6 +409,7 @@ public class ProductPrice   {
     sb.append("    pricestd: ").append(toIndentedString(pricestd)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

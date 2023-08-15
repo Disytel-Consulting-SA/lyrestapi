@@ -221,6 +221,10 @@ components:
           type: string
         writeoffamt:
           type: number
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
         referencedvalues:
           type: array
           items:

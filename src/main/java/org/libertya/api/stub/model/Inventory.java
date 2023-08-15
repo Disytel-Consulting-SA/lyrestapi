@@ -104,6 +104,10 @@ public class Inventory   {
   @JsonProperty("user2_id")
   private Integer user2Id = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -657,6 +661,33 @@ public class Inventory   {
     this.user2Id = user2Id;
   }
 
+  public Inventory additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public Inventory addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public Inventory referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -722,12 +753,13 @@ public class Inventory   {
         Objects.equals(this.updatedby, inventory.updatedby) &&
         Objects.equals(this.user1Id, inventory.user1Id) &&
         Objects.equals(this.user2Id, inventory.user2Id) &&
+        Objects.equals(this.additionalvalues, inventory.additionalvalues) &&
         Objects.equals(this.referencedvalues, inventory.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adOrgtrxId, approvalamt, cActivityId, cCampaignId, cChargeId, cDoctypeId, cProjectId, created, createdby, description, docstatus, documentno, inventorykind, isactive, isapproved, mInventoryId, movementdate, mPerpetualinvId, mWarehouseId, paperForm, processed, processing, updated, updatedby, user1Id, user2Id, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, adOrgtrxId, approvalamt, cActivityId, cCampaignId, cChargeId, cDoctypeId, cProjectId, created, createdby, description, docstatus, documentno, inventorykind, isactive, isapproved, mInventoryId, movementdate, mPerpetualinvId, mWarehouseId, paperForm, processed, processing, updated, updatedby, user1Id, user2Id, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -763,6 +795,7 @@ public class Inventory   {
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    user1Id: ").append(toIndentedString(user1Id)).append("\n");
     sb.append("    user2Id: ").append(toIndentedString(user2Id)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

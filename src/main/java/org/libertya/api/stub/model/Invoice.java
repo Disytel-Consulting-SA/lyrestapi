@@ -356,6 +356,10 @@ public class Invoice   {
   @JsonProperty("vtocae")
   private String vtocae = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -2543,6 +2547,33 @@ public class Invoice   {
     this.vtocae = vtocae;
   }
 
+  public Invoice additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public Invoice addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public Invoice referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -2692,12 +2723,13 @@ public class Invoice   {
         Objects.equals(this.user1Id, invoice.user1Id) &&
         Objects.equals(this.user2Id, invoice.user2Id) &&
         Objects.equals(this.vtocae, invoice.vtocae) &&
+        Objects.equals(this.additionalvalues, invoice.additionalvalues) &&
         Objects.equals(this.referencedvalues, invoice.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(actualizarpreciosconfacturadecompra, adClientId, adOrgId, adOrgtrxId, adUserId, applypercepcion, authcode, authmatch, authorizationchainstatus, cActivityId, cae, caecbte, caeerror, cai, caja, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceId, cInvoiceOrigId, cLetraComprobanteId, codigocategoriaiva, cOrderId, cOrderOrigId, cPaymentId, cPaymenttermId, cPosjournalId, cPospaymentmediumCreditId, cPospaymentmediumId, cProjectId, createcashline, created, createdby, cRegionDeliveryId, cRegionId, cuit, dateacct, datecai, dateinvoiced, dateordered, dateprinted, daterecepted, deliveryviarule, description, docstatus, documentno, fechadetcparaactualizarprecios, fiscalalreadyprinted, fiscaldescription, grandtotal, idcae, importclearance, initialcurrentaccountamt, invoiceAdress, isactive, isapproved, iscopy, isdiscountprinted, isexchange, isindispute, ispaid, ispayschedulevalid, isprinted, isselfservice, issotrx, istaxincluded, istransferred, isvoidable, managedragorderdiscounts, managedragordersurcharges, manualdocumentno, manualgeneraldiscount, mAuthorizationchainId, mInouttransportId, mPricelistId, mRmaId, netamount, nombrecli, notexchangeablecredit, nroidentificcliente, numerocomprobante, numerodedocumento, oldgrandtotal, originvfecha, originvnro, originvptovta, originvtipo, paymentrule, poreference, pricelistcurrency, printtype, processed, puntodeventa, refInvoiceId, salesrepId, sendemail, skipipnocaevalidation, tipocomprobante, totallines, updated, updatedby, updateorderqty, user1Id, user2Id, vtocae, referencedvalues);
+    return Objects.hash(actualizarpreciosconfacturadecompra, adClientId, adOrgId, adOrgtrxId, adUserId, applypercepcion, authcode, authmatch, authorizationchainstatus, cActivityId, cae, caecbte, caeerror, cai, caja, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceId, cInvoiceOrigId, cLetraComprobanteId, codigocategoriaiva, cOrderId, cOrderOrigId, cPaymentId, cPaymenttermId, cPosjournalId, cPospaymentmediumCreditId, cPospaymentmediumId, cProjectId, createcashline, created, createdby, cRegionDeliveryId, cRegionId, cuit, dateacct, datecai, dateinvoiced, dateordered, dateprinted, daterecepted, deliveryviarule, description, docstatus, documentno, fechadetcparaactualizarprecios, fiscalalreadyprinted, fiscaldescription, grandtotal, idcae, importclearance, initialcurrentaccountamt, invoiceAdress, isactive, isapproved, iscopy, isdiscountprinted, isexchange, isindispute, ispaid, ispayschedulevalid, isprinted, isselfservice, issotrx, istaxincluded, istransferred, isvoidable, managedragorderdiscounts, managedragordersurcharges, manualdocumentno, manualgeneraldiscount, mAuthorizationchainId, mInouttransportId, mPricelistId, mRmaId, netamount, nombrecli, notexchangeablecredit, nroidentificcliente, numerocomprobante, numerodedocumento, oldgrandtotal, originvfecha, originvnro, originvptovta, originvtipo, paymentrule, poreference, pricelistcurrency, printtype, processed, puntodeventa, refInvoiceId, salesrepId, sendemail, skipipnocaevalidation, tipocomprobante, totallines, updated, updatedby, updateorderqty, user1Id, user2Id, vtocae, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2817,6 +2849,7 @@ public class Invoice   {
     sb.append("    user1Id: ").append(toIndentedString(user1Id)).append("\n");
     sb.append("    user2Id: ").append(toIndentedString(user2Id)).append("\n");
     sb.append("    vtocae: ").append(toIndentedString(vtocae)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

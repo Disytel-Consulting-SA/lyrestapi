@@ -341,6 +341,10 @@ public class BPartner   {
   @JsonProperty("value")
   private String value = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -2426,6 +2430,33 @@ public class BPartner   {
     this.value = value;
   }
 
+  public BPartner additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public BPartner addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public BPartner referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -2570,12 +2601,13 @@ public class BPartner   {
         Objects.equals(this.updatedby, bpartner.updatedby) &&
         Objects.equals(this.url, bpartner.url) &&
         Objects.equals(this.value, bpartner.value) &&
+        Objects.equals(this.additionalvalues, bpartner.additionalvalues) &&
         Objects.equals(this.referencedvalues, bpartner.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(acqusitioncost, actuallifetimevalue, adClientId, adComponentobjectuid, adLanguage, adOrgId, allowadvancedpaymentreceipts, allowpartialpayment, aNameCheck, automaticcreditnotes, batchPaymentRule, bpartnerParentId, builtcabajurisdiction, cBankaccountId, cBpartnerId, cBpGroupId, cCategoriaIvaId, cDunningId, cGreetingId, cInvoicescheduleId, cJobcategoryId, cLocationId, cPaymenttermId, cPospaymentmediumId, created, createdby, creditminimumamt, creditsituation, cRegionSedeId, customertype, deliveryrule, deliveryviarule, description, discountcontext, documentcopies, duns, emitirMiPyme, endholidays, endholidays2, firstsale, flatdiscount, freightcostrule, goal, iibb, iibbtype, invoicePrintformatId, invoicerule, isactive, iscompoundtax, isconveniomultilateral, iscustomer, isdiscountprinted, isemployee, isgroupinvoices, isiso, ismandatorycai, ismulticuit, isonetime, isprospect, issalesrep, issummary, istaxexempt, isvendor, mDiscountschemaId, minimumpurchasedamt, minOrderQty, mPricelistId, mProductRelatedId, mShipperId, naics, name, name2, numberemployees, paymentblocked, paymentblockeddescr, paymentrule, paymentrulepo, poDiscountschemaId, poPaymenttermId, poPricelistId, poreference, potentiallifetimevalue, programAmt, programAmtUsed, rating, referenceno, salesrepId, salesvolume, searchunallocatedpayments, secondarycreditstatus, sendemail, shareofcustomer, shelflifeminpct, soCreditlimit, socreditstatus, soCreditused, soDescription, startholidays, startholidays2, taxid, taxidtype, totalopenbalance, trxenabled, updated, updatedby, url, value, referencedvalues);
+    return Objects.hash(acqusitioncost, actuallifetimevalue, adClientId, adComponentobjectuid, adLanguage, adOrgId, allowadvancedpaymentreceipts, allowpartialpayment, aNameCheck, automaticcreditnotes, batchPaymentRule, bpartnerParentId, builtcabajurisdiction, cBankaccountId, cBpartnerId, cBpGroupId, cCategoriaIvaId, cDunningId, cGreetingId, cInvoicescheduleId, cJobcategoryId, cLocationId, cPaymenttermId, cPospaymentmediumId, created, createdby, creditminimumamt, creditsituation, cRegionSedeId, customertype, deliveryrule, deliveryviarule, description, discountcontext, documentcopies, duns, emitirMiPyme, endholidays, endholidays2, firstsale, flatdiscount, freightcostrule, goal, iibb, iibbtype, invoicePrintformatId, invoicerule, isactive, iscompoundtax, isconveniomultilateral, iscustomer, isdiscountprinted, isemployee, isgroupinvoices, isiso, ismandatorycai, ismulticuit, isonetime, isprospect, issalesrep, issummary, istaxexempt, isvendor, mDiscountschemaId, minimumpurchasedamt, minOrderQty, mPricelistId, mProductRelatedId, mShipperId, naics, name, name2, numberemployees, paymentblocked, paymentblockeddescr, paymentrule, paymentrulepo, poDiscountschemaId, poPaymenttermId, poPricelistId, poreference, potentiallifetimevalue, programAmt, programAmtUsed, rating, referenceno, salesrepId, salesvolume, searchunallocatedpayments, secondarycreditstatus, sendemail, shareofcustomer, shelflifeminpct, soCreditlimit, socreditstatus, soCreditused, soDescription, startholidays, startholidays2, taxid, taxidtype, totalopenbalance, trxenabled, updated, updatedby, url, value, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2690,6 +2722,7 @@ public class BPartner   {
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();

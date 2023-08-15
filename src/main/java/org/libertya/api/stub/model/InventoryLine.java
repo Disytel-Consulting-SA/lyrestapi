@@ -86,6 +86,10 @@ public class InventoryLine   {
   @JsonProperty("updatedby")
   private Integer updatedby = null;
 
+  @JsonProperty("additionalvalues")
+  @Valid
+  private List<Propertiesmap> additionalvalues = null;
+
   @JsonProperty("referencedvalues")
   @Valid
   private List<Propertiesmap> referencedvalues = null;
@@ -531,6 +535,33 @@ public class InventoryLine   {
     this.updatedby = updatedby;
   }
 
+  public InventoryLine additionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+    return this;
+  }
+
+  public InventoryLine addAdditionalvaluesItem(Propertiesmap additionalvaluesItem) {
+    if (this.additionalvalues == null) {
+      this.additionalvalues = new ArrayList<>();
+    }
+    this.additionalvalues.add(additionalvaluesItem);
+    return this;
+  }
+
+  /**
+   * Get additionalvalues
+   * @return additionalvalues
+   **/
+  @Schema(description = "")
+      @Valid
+    public List<Propertiesmap> getAdditionalvalues() {
+    return additionalvalues;
+  }
+
+  public void setAdditionalvalues(List<Propertiesmap> additionalvalues) {
+    this.additionalvalues = additionalvalues;
+  }
+
   public InventoryLine referencedvalues(List<Propertiesmap> referencedvalues) {
     this.referencedvalues = referencedvalues;
     return this;
@@ -590,12 +621,13 @@ public class InventoryLine   {
         Objects.equals(this.qtyinternaluse, inventoryLine.qtyinternaluse) &&
         Objects.equals(this.updated, inventoryLine.updated) &&
         Objects.equals(this.updatedby, inventoryLine.updatedby) &&
+        Objects.equals(this.additionalvalues, inventoryLine.additionalvalues) &&
         Objects.equals(this.referencedvalues, inventoryLine.referencedvalues);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, cChargeId, cost, created, createdby, description, inventorytype, isactive, line, mAttributesetinstanceId, mInventoryId, mInventorylineId, mLocatorId, mProductId, processed, qtybook, qtycount, qtycountwithoutchargesign, qtyinternaluse, updated, updatedby, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, cChargeId, cost, created, createdby, description, inventorytype, isactive, line, mAttributesetinstanceId, mInventoryId, mInventorylineId, mLocatorId, mProductId, processed, qtybook, qtycount, qtycountwithoutchargesign, qtyinternaluse, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -625,6 +657,7 @@ public class InventoryLine   {
     sb.append("    qtyinternaluse: ").append(toIndentedString(qtyinternaluse)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");
     sb.append("    referencedvalues: ").append(toIndentedString(referencedvalues)).append("\n");
     sb.append("}");
     return sb.toString();
