@@ -422,15 +422,17 @@ public abstract class AbstractRepository {
         }
         // Queda informacion por asignar por fuera de la estructura pre-establecida del objeto?
         try {
-            Field field = object.getClass().getDeclaredField("additionalvalues");
-            field.setAccessible(true);
-            ArrayList<Propertiesmap> props = new ArrayList<>();
-            M_Column[] columns = M_Table.get(getCtx(info), tableName).getColumns(false);
-            for (M_Column column : columns) {
-                String colName = column.getColumnName();
-                // Ya fue asignado previamente en las propiedades predefinidas? Omitir
-                if (!assignedFields.contains(schemaUtils.normalize(colName)) && aPO.get_Value(colName)!=null)
-                    addPropToProps(props, field, object, schemaUtils.normalize(colName), aPO.get_Value(colName).toString());
+            if (includeFields==null || includeFields.contains("additionalvalues")) {
+                Field field = object.getClass().getDeclaredField("additionalvalues");
+                field.setAccessible(true);
+                ArrayList<Propertiesmap> props = new ArrayList<>();
+                M_Column[] columns = M_Table.get(getCtx(info), tableName).getColumns(false);
+                for (M_Column column : columns) {
+                    String colName = column.getColumnName();
+                    // Ya fue asignado previamente en las propiedades predefinidas? Omitir
+                    if (!assignedFields.contains(schemaUtils.normalize(colName)) && aPO.get_Value(colName) != null)
+                        addPropToProps(props, field, object, schemaUtils.normalize(colName), aPO.get_Value(colName).toString());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
