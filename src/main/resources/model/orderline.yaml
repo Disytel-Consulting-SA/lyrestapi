@@ -73,6 +73,8 @@ components:
           type: integer
         m_warehouse_id:
           type: integer
+        openmatrix:
+          type: string
         order_min:
           type: number
         order_pack:
@@ -151,6 +153,7 @@ components:
          - linetotalamt
          - m_attributesetinstance_id
          - m_warehouse_id
+         - openmatrix
          - priceactual
          - priceentered
          - pricelimit

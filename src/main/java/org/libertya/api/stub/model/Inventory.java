@@ -56,11 +56,17 @@ public class Inventory   {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("docaction")
+  private String docaction = null;
+
   @JsonProperty("docstatus")
   private String docstatus = null;
 
   @JsonProperty("documentno")
   private String documentno = null;
+
+  @JsonProperty("generatelist")
+  private String generatelist = null;
 
   @JsonProperty("inventorykind")
   private String inventorykind = null;
@@ -86,6 +92,9 @@ public class Inventory   {
   @JsonProperty("paper_form")
   private String paperForm = null;
 
+  @JsonProperty("posted")
+  private String posted = null;
+
   @JsonProperty("processed")
   private Boolean processed = null;
 
@@ -97,6 +106,9 @@ public class Inventory   {
 
   @JsonProperty("updatedby")
   private Integer updatedby = null;
+
+  @JsonProperty("updateqty")
+  private String updateqty = null;
 
   @JsonProperty("user1_id")
   private Integer user1Id = null;
@@ -346,6 +358,26 @@ public class Inventory   {
     this.description = description;
   }
 
+  public Inventory docaction(String docaction) {
+    this.docaction = docaction;
+    return this;
+  }
+
+  /**
+   * Get docaction
+   * @return docaction
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getDocaction() {
+    return docaction;
+  }
+
+  public void setDocaction(String docaction) {
+    this.docaction = docaction;
+  }
+
   public Inventory docstatus(String docstatus) {
     this.docstatus = docstatus;
     return this;
@@ -384,6 +416,25 @@ public class Inventory   {
 
   public void setDocumentno(String documentno) {
     this.documentno = documentno;
+  }
+
+  public Inventory generatelist(String generatelist) {
+    this.generatelist = generatelist;
+    return this;
+  }
+
+  /**
+   * Get generatelist
+   * @return generatelist
+   **/
+  @Schema(description = "")
+  
+    public String getGeneratelist() {
+    return generatelist;
+  }
+
+  public void setGeneratelist(String generatelist) {
+    this.generatelist = generatelist;
   }
 
   public Inventory inventorykind(String inventorykind) {
@@ -544,6 +595,26 @@ public class Inventory   {
     this.paperForm = paperForm;
   }
 
+  public Inventory posted(String posted) {
+    this.posted = posted;
+    return this;
+  }
+
+  /**
+   * Get posted
+   * @return posted
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getPosted() {
+    return posted;
+  }
+
+  public void setPosted(String posted) {
+    this.posted = posted;
+  }
+
   public Inventory processed(Boolean processed) {
     this.processed = processed;
     return this;
@@ -621,6 +692,25 @@ public class Inventory   {
 
   public void setUpdatedby(Integer updatedby) {
     this.updatedby = updatedby;
+  }
+
+  public Inventory updateqty(String updateqty) {
+    this.updateqty = updateqty;
+    return this;
+  }
+
+  /**
+   * Get updateqty
+   * @return updateqty
+   **/
+  @Schema(description = "")
+  
+    public String getUpdateqty() {
+    return updateqty;
+  }
+
+  public void setUpdateqty(String updateqty) {
+    this.updateqty = updateqty;
   }
 
   public Inventory user1Id(Integer user1Id) {
@@ -737,8 +827,10 @@ public class Inventory   {
         Objects.equals(this.created, inventory.created) &&
         Objects.equals(this.createdby, inventory.createdby) &&
         Objects.equals(this.description, inventory.description) &&
+        Objects.equals(this.docaction, inventory.docaction) &&
         Objects.equals(this.docstatus, inventory.docstatus) &&
         Objects.equals(this.documentno, inventory.documentno) &&
+        Objects.equals(this.generatelist, inventory.generatelist) &&
         Objects.equals(this.inventorykind, inventory.inventorykind) &&
         Objects.equals(this.isactive, inventory.isactive) &&
         Objects.equals(this.isapproved, inventory.isapproved) &&
@@ -747,10 +839,12 @@ public class Inventory   {
         Objects.equals(this.mPerpetualinvId, inventory.mPerpetualinvId) &&
         Objects.equals(this.mWarehouseId, inventory.mWarehouseId) &&
         Objects.equals(this.paperForm, inventory.paperForm) &&
+        Objects.equals(this.posted, inventory.posted) &&
         Objects.equals(this.processed, inventory.processed) &&
         Objects.equals(this.processing, inventory.processing) &&
         Objects.equals(this.updated, inventory.updated) &&
         Objects.equals(this.updatedby, inventory.updatedby) &&
+        Objects.equals(this.updateqty, inventory.updateqty) &&
         Objects.equals(this.user1Id, inventory.user1Id) &&
         Objects.equals(this.user2Id, inventory.user2Id) &&
         Objects.equals(this.additionalvalues, inventory.additionalvalues) &&
@@ -759,7 +853,7 @@ public class Inventory   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adOrgtrxId, approvalamt, cActivityId, cCampaignId, cChargeId, cDoctypeId, cProjectId, created, createdby, description, docstatus, documentno, inventorykind, isactive, isapproved, mInventoryId, movementdate, mPerpetualinvId, mWarehouseId, paperForm, processed, processing, updated, updatedby, user1Id, user2Id, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, adOrgtrxId, approvalamt, cActivityId, cCampaignId, cChargeId, cDoctypeId, cProjectId, created, createdby, description, docaction, docstatus, documentno, generatelist, inventorykind, isactive, isapproved, mInventoryId, movementdate, mPerpetualinvId, mWarehouseId, paperForm, posted, processed, processing, updated, updatedby, updateqty, user1Id, user2Id, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -779,8 +873,10 @@ public class Inventory   {
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    createdby: ").append(toIndentedString(createdby)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
+    sb.append("    generatelist: ").append(toIndentedString(generatelist)).append("\n");
     sb.append("    inventorykind: ").append(toIndentedString(inventorykind)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isapproved: ").append(toIndentedString(isapproved)).append("\n");
@@ -789,10 +885,12 @@ public class Inventory   {
     sb.append("    mPerpetualinvId: ").append(toIndentedString(mPerpetualinvId)).append("\n");
     sb.append("    mWarehouseId: ").append(toIndentedString(mWarehouseId)).append("\n");
     sb.append("    paperForm: ").append(toIndentedString(paperForm)).append("\n");
+    sb.append("    posted: ").append(toIndentedString(posted)).append("\n");
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
     sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
+    sb.append("    updateqty: ").append(toIndentedString(updateqty)).append("\n");
     sb.append("    user1Id: ").append(toIndentedString(user1Id)).append("\n");
     sb.append("    user2Id: ").append(toIndentedString(user2Id)).append("\n");
     sb.append("    additionalvalues: ").append(toIndentedString(additionalvalues)).append("\n");

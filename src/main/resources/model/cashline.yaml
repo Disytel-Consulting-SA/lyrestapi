@@ -55,6 +55,8 @@ components:
           type: string
         discountamt:
           type: number
+        docaction:
+          type: string
         docstatus:
           type: string
         isactive:
@@ -102,6 +104,7 @@ components:
          - c_cashline_id
          - created
          - createdby
+         - docaction
          - docstatus
          - isactive
          - isallocated

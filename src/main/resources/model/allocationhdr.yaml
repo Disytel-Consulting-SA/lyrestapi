@@ -37,6 +37,8 @@ components:
           type: string
         description:
           type: string
+        docaction:
+          type: string
         docstatus:
           type: string
         documentno:
@@ -49,6 +51,8 @@ components:
           type: boolean
         ismanual:
           type: boolean
+        posted:
+          type: string
         processed:
           type: boolean
         processing:
@@ -78,12 +82,14 @@ components:
          - createdby
          - dateacct
          - datetrx
+         - docaction
          - docstatus
          - documentno
          - grandtotal
          - isactive
          - isapproved
          - ismanual
+         - posted
          - processed
          - retencion_amt
          - updated

@@ -44,6 +44,12 @@ public abstract class AbstractRepository {
     /** Numero maximo por defecto de entidades a retornar */
     public static final Integer DEFAULT_LIMIT = 100;
 
+    /** Nombre de la propiedad para valores referenciados */
+    public static final String REFERENCED_VALUES_PROPERTY = "referencedvalues";
+
+    /** Nombre de la propiedad para valores adicionales */
+    public static final String ADDITIONAL_VALUES_PROPERTY = "additionalvalues";
+
     public String getTableName() {
         return tableName;
     }
@@ -202,7 +208,7 @@ public abstract class AbstractRepository {
                 }
                 ResultSet rs = ps.executeQuery();
                 if(rs.next()) {
-                    Field field = target.getClass().getDeclaredField("referencedvalues");
+                    Field field = target.getClass().getDeclaredField(REFERENCED_VALUES_PROPERTY);
                     field.setAccessible(true);
                     // Cargar la nomina de identificadores del registro referenciado
                     if (identifierColumns.length() > 0 && rs.getString("detail") != null)
@@ -422,22 +428,29 @@ public abstract class AbstractRepository {
         }
         // Queda informacion por asignar por fuera de la estructura pre-establecida del objeto?
         try {
-            if (includeFields==null || includeFields.contains("additionalvalues")) {
-                Field field = object.getClass().getDeclaredField("additionalvalues");
+            if (includeFields==null || includeFields.contains(ADDITIONAL_VALUES_PROPERTY)) {
+                Field field = object.getClass().getDeclaredField(ADDITIONAL_VALUES_PROPERTY);
                 field.setAccessible(true);
                 ArrayList<Propertiesmap> props = new ArrayList<>();
                 M_Column[] columns = M_Table.get(getCtx(info), tableName).getColumns(false);
                 for (M_Column column : columns) {
+                    if (shouldSkipColumn(column))
+                        continue;
                     String colName = column.getColumnName();
                     // Ya fue asignado previamente en las propiedades predefinidas? Omitir
                     if (!assignedFields.contains(schemaUtils.normalize(colName)) && aPO.get_Value(colName) != null)
-                        addPropToProps(props, field, object, schemaUtils.normalize(colName), aPO.get_Value(colName).toString());
+                        addPropToProps(props, field, object, colName.toLowerCase(), aPO.get_Value(colName).toString());
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return (Optional<T>)Optional.of(object);
+    }
+
+    /** Nomina de columnas que no deben incluirse en el entity a ser cargado a partir de un PO */
+    protected boolean shouldSkipColumn(M_Column column) {
+        return (column.getAD_Reference_ID() == DisplayType.Binary || column.getAD_Reference_ID() == DisplayType.Image);
     }
 
     /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en la map de columnas columnNameMap */
@@ -546,10 +559,10 @@ public abstract class AbstractRepository {
             }
             String fieldName = schemaUtils.normalize(field.getName());
 
-            // Informacion contenida en additionalvalues (informacion dinamica)
-            if ("additionalvalues".equalsIgnoreCase(field.getName()) && value!=null) {
+            // Informacion adicional contenida en la propiedad additionalvalues (informacion dinamica)
+            if (ADDITIONAL_VALUES_PROPERTY.equalsIgnoreCase(field.getName()) && value!=null) {
                 for (Propertiesmap map : (List<Propertiesmap>)value) {
-                    loadValueToPO(info, aPO, columnNameMap, map.getKey(), map.getValue(), inserting);
+                    loadValueToPO(info, aPO, columnNameMap, schemaUtils.normalize(map.getKey()), map.getValue(), inserting);
                 }
                 continue;
             }

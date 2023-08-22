@@ -200,6 +200,9 @@ public class Payment   {
   @JsonProperty("discountamt")
   private BigDecimal discountamt = null;
 
+  @JsonProperty("docaction")
+  private String docaction = null;
+
   @JsonProperty("docstatus")
   private String docstatus = null;
 
@@ -254,6 +257,9 @@ public class Payment   {
   @JsonProperty("micr")
   private String micr = null;
 
+  @JsonProperty("oprocessing")
+  private String oprocessing = null;
+
   @JsonProperty("original_ref_payment_id")
   private Integer originalRefPaymentId = null;
 
@@ -272,8 +278,14 @@ public class Payment   {
   @JsonProperty("posnet")
   private String posnet = null;
 
+  @JsonProperty("posted")
+  private String posted = null;
+
   @JsonProperty("processed")
   private Boolean processed = null;
+
+  @JsonProperty("processing")
+  private String processing = null;
 
   @JsonProperty("r_authcode")
   private String rAuthcode = null;
@@ -1508,6 +1520,26 @@ public class Payment   {
     this.discountamt = discountamt;
   }
 
+  public Payment docaction(String docaction) {
+    this.docaction = docaction;
+    return this;
+  }
+
+  /**
+   * Get docaction
+   * @return docaction
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getDocaction() {
+    return docaction;
+  }
+
+  public void setDocaction(String docaction) {
+    this.docaction = docaction;
+  }
+
   public Payment docstatus(String docstatus) {
     this.docstatus = docstatus;
     return this;
@@ -1864,6 +1896,25 @@ public class Payment   {
     this.micr = micr;
   }
 
+  public Payment oprocessing(String oprocessing) {
+    this.oprocessing = oprocessing;
+    return this;
+  }
+
+  /**
+   * Get oprocessing
+   * @return oprocessing
+   **/
+  @Schema(description = "")
+  
+    public String getOprocessing() {
+    return oprocessing;
+  }
+
+  public void setOprocessing(String oprocessing) {
+    this.oprocessing = oprocessing;
+  }
+
   public Payment originalRefPaymentId(Integer originalRefPaymentId) {
     this.originalRefPaymentId = originalRefPaymentId;
     return this;
@@ -1981,6 +2032,26 @@ public class Payment   {
     this.posnet = posnet;
   }
 
+  public Payment posted(String posted) {
+    this.posted = posted;
+    return this;
+  }
+
+  /**
+   * Get posted
+   * @return posted
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getPosted() {
+    return posted;
+  }
+
+  public void setPosted(String posted) {
+    this.posted = posted;
+  }
+
   public Payment processed(Boolean processed) {
     this.processed = processed;
     return this;
@@ -1999,6 +2070,25 @@ public class Payment   {
 
   public void setProcessed(Boolean processed) {
     this.processed = processed;
+  }
+
+  public Payment processing(String processing) {
+    this.processing = processing;
+    return this;
+  }
+
+  /**
+   * Get processing
+   * @return processing
+   **/
+  @Schema(description = "")
+  
+    public String getProcessing() {
+    return processing;
+  }
+
+  public void setProcessing(String processing) {
+    this.processing = processing;
   }
 
   public Payment rAuthcode(String rAuthcode) {
@@ -2587,6 +2677,7 @@ public class Payment   {
         Objects.equals(this.datetrx, payment.datetrx) &&
         Objects.equals(this.description, payment.description) &&
         Objects.equals(this.discountamt, payment.discountamt) &&
+        Objects.equals(this.docaction, payment.docaction) &&
         Objects.equals(this.docstatus, payment.docstatus) &&
         Objects.equals(this.documentno, payment.documentno) &&
         Objects.equals(this.duedate, payment.duedate) &&
@@ -2605,13 +2696,16 @@ public class Payment   {
         Objects.equals(this.mBoletadepositoId, payment.mBoletadepositoId) &&
         Objects.equals(this.mEntidadfinancieraplanId, payment.mEntidadfinancieraplanId) &&
         Objects.equals(this.micr, payment.micr) &&
+        Objects.equals(this.oprocessing, payment.oprocessing) &&
         Objects.equals(this.originalRefPaymentId, payment.originalRefPaymentId) &&
         Objects.equals(this.origTrxid, payment.origTrxid) &&
         Objects.equals(this.overunderamt, payment.overunderamt) &&
         Objects.equals(this.payamt, payment.payamt) &&
         Objects.equals(this.ponum, payment.ponum) &&
         Objects.equals(this.posnet, payment.posnet) &&
+        Objects.equals(this.posted, payment.posted) &&
         Objects.equals(this.processed, payment.processed) &&
+        Objects.equals(this.processing, payment.processing) &&
         Objects.equals(this.rAuthcode, payment.rAuthcode) &&
         Objects.equals(this.rAuthcodeDc, payment.rAuthcodeDc) &&
         Objects.equals(this.rAvsaddr, payment.rAvsaddr) &&
@@ -2642,7 +2736,7 @@ public class Payment   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(aBank, accountingCChargeId, accountno, aCity, aCountry, aCuit, adClientId, adOrgId, adOrgtrxId, aEmail, aIdentDl, aIdentSsn, aName, aState, aStreet, auditstatus, authcode, authmatch, aZip, banklistRegisterno, bankPaymentDate, bankPaymentDocumentno, bankPaymentMsgDescription, cActivityId, cBankaccountId, cBankId, cBankpaymentstatusId, cBpartnerId, cBpBankaccountId, cCampaignId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, chargeamt, checked, checkno, checkstatus, cInvoiceCheckRejectedId, cInvoiceId, cOrderId, couponbatchnumber, couponnumber, cPaymentbatchId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, creditcardexpmm, creditcardexpyy, creditcardnumber, creditcardtype, creditcardvv, dateacct, dateemissioncheck, datetrx, description, discountamt, docstatus, documentno, duedate, isactive, isallocated, isapproved, isdelayedcapture, ismanual, isonline, isoverunderpayment, isprepayment, isreceipt, isreconciled, isselfservice, issotrx, mBoletadepositoId, mEntidadfinancieraplanId, micr, originalRefPaymentId, origTrxid, overunderamt, payamt, ponum, posnet, processed, rAuthcode, rAuthcodeDc, rAvsaddr, rAvszip, rCvv2match, refPaymentId, rejectedcomments, rejecteddate, rInfo, routingno, rPnref, rPnrefDc, rRespmsg, rResult, swipe, taxamt, tendertype, trxtype, updated, updatedby, user1Id, user2Id, voiceauthcode, writeoffamt, additionalvalues, referencedvalues);
+    return Objects.hash(aBank, accountingCChargeId, accountno, aCity, aCountry, aCuit, adClientId, adOrgId, adOrgtrxId, aEmail, aIdentDl, aIdentSsn, aName, aState, aStreet, auditstatus, authcode, authmatch, aZip, banklistRegisterno, bankPaymentDate, bankPaymentDocumentno, bankPaymentMsgDescription, cActivityId, cBankaccountId, cBankId, cBankpaymentstatusId, cBpartnerId, cBpBankaccountId, cCampaignId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, chargeamt, checked, checkno, checkstatus, cInvoiceCheckRejectedId, cInvoiceId, cOrderId, couponbatchnumber, couponnumber, cPaymentbatchId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, creditcardexpmm, creditcardexpyy, creditcardnumber, creditcardtype, creditcardvv, dateacct, dateemissioncheck, datetrx, description, discountamt, docaction, docstatus, documentno, duedate, isactive, isallocated, isapproved, isdelayedcapture, ismanual, isonline, isoverunderpayment, isprepayment, isreceipt, isreconciled, isselfservice, issotrx, mBoletadepositoId, mEntidadfinancieraplanId, micr, oprocessing, originalRefPaymentId, origTrxid, overunderamt, payamt, ponum, posnet, posted, processed, processing, rAuthcode, rAuthcodeDc, rAvsaddr, rAvszip, rCvv2match, refPaymentId, rejectedcomments, rejecteddate, rInfo, routingno, rPnref, rPnrefDc, rRespmsg, rResult, swipe, taxamt, tendertype, trxtype, updated, updatedby, user1Id, user2Id, voiceauthcode, writeoffamt, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2710,6 +2804,7 @@ public class Payment   {
     sb.append("    datetrx: ").append(toIndentedString(datetrx)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    discountamt: ").append(toIndentedString(discountamt)).append("\n");
+    sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
     sb.append("    duedate: ").append(toIndentedString(duedate)).append("\n");
@@ -2728,13 +2823,16 @@ public class Payment   {
     sb.append("    mBoletadepositoId: ").append(toIndentedString(mBoletadepositoId)).append("\n");
     sb.append("    mEntidadfinancieraplanId: ").append(toIndentedString(mEntidadfinancieraplanId)).append("\n");
     sb.append("    micr: ").append(toIndentedString(micr)).append("\n");
+    sb.append("    oprocessing: ").append(toIndentedString(oprocessing)).append("\n");
     sb.append("    originalRefPaymentId: ").append(toIndentedString(originalRefPaymentId)).append("\n");
     sb.append("    origTrxid: ").append(toIndentedString(origTrxid)).append("\n");
     sb.append("    overunderamt: ").append(toIndentedString(overunderamt)).append("\n");
     sb.append("    payamt: ").append(toIndentedString(payamt)).append("\n");
     sb.append("    ponum: ").append(toIndentedString(ponum)).append("\n");
     sb.append("    posnet: ").append(toIndentedString(posnet)).append("\n");
+    sb.append("    posted: ").append(toIndentedString(posted)).append("\n");
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
+    sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
     sb.append("    rAuthcode: ").append(toIndentedString(rAuthcode)).append("\n");
     sb.append("    rAuthcodeDc: ").append(toIndentedString(rAuthcodeDc)).append("\n");
     sb.append("    rAvsaddr: ").append(toIndentedString(rAvsaddr)).append("\n");

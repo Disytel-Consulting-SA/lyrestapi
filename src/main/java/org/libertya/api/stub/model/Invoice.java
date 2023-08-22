@@ -47,6 +47,9 @@ public class Invoice   {
   @JsonProperty("authorizationchainstatus")
   private String authorizationchainstatus = null;
 
+  @JsonProperty("authorize")
+  private String authorize = null;
+
   @JsonProperty("c_activity_id")
   private Integer cActivityId = null;
 
@@ -107,6 +110,9 @@ public class Invoice   {
   @JsonProperty("codigocategoriaiva")
   private Integer codigocategoriaiva = null;
 
+  @JsonProperty("copyfrom")
+  private String copyfrom = null;
+
   @JsonProperty("c_order_id")
   private Integer cOrderId = null;
 
@@ -139,6 +145,9 @@ public class Invoice   {
 
   @JsonProperty("createdby")
   private Integer createdby = null;
+
+  @JsonProperty("createfrom")
+  private String createfrom = null;
 
   @JsonProperty("c_region_delivery_id")
   private Integer cRegionDeliveryId = null;
@@ -173,6 +182,9 @@ public class Invoice   {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("docaction")
+  private String docaction = null;
+
   @JsonProperty("docstatus")
   private String docstatus = null;
 
@@ -187,6 +199,9 @@ public class Invoice   {
 
   @JsonProperty("fiscaldescription")
   private String fiscaldescription = null;
+
+  @JsonProperty("generateto")
+  private String generateto = null;
 
   @JsonProperty("grandtotal")
   private BigDecimal grandtotal = null;
@@ -251,6 +266,9 @@ public class Invoice   {
   @JsonProperty("managedragordersurcharges")
   private Boolean managedragordersurcharges = null;
 
+  @JsonProperty("manageelectronicinvoice")
+  private String manageelectronicinvoice = null;
+
   @JsonProperty("manualdocumentno")
   private Boolean manualdocumentno = null;
 
@@ -308,6 +326,9 @@ public class Invoice   {
   @JsonProperty("poreference")
   private String poreference = null;
 
+  @JsonProperty("posted")
+  private String posted = null;
+
   @JsonProperty("pricelistcurrency")
   private Integer pricelistcurrency = null;
 
@@ -316,6 +337,9 @@ public class Invoice   {
 
   @JsonProperty("processed")
   private Boolean processed = null;
+
+  @JsonProperty("processing")
+  private String processing = null;
 
   @JsonProperty("puntodeventa")
   private Integer puntodeventa = null;
@@ -536,6 +560,25 @@ public class Invoice   {
 
   public void setAuthorizationchainstatus(String authorizationchainstatus) {
     this.authorizationchainstatus = authorizationchainstatus;
+  }
+
+  public Invoice authorize(String authorize) {
+    this.authorize = authorize;
+    return this;
+  }
+
+  /**
+   * Get authorize
+   * @return authorize
+   **/
+  @Schema(description = "")
+  
+    public String getAuthorize() {
+    return authorize;
+  }
+
+  public void setAuthorize(String authorize) {
+    this.authorize = authorize;
   }
 
   public Invoice cActivityId(Integer cActivityId) {
@@ -925,6 +968,25 @@ public class Invoice   {
     this.codigocategoriaiva = codigocategoriaiva;
   }
 
+  public Invoice copyfrom(String copyfrom) {
+    this.copyfrom = copyfrom;
+    return this;
+  }
+
+  /**
+   * Get copyfrom
+   * @return copyfrom
+   **/
+  @Schema(description = "")
+  
+    public String getCopyfrom() {
+    return copyfrom;
+  }
+
+  public void setCopyfrom(String copyfrom) {
+    this.copyfrom = copyfrom;
+  }
+
   public Invoice cOrderId(Integer cOrderId) {
     this.cOrderId = cOrderId;
     return this;
@@ -1138,6 +1200,25 @@ public class Invoice   {
     this.createdby = createdby;
   }
 
+  public Invoice createfrom(String createfrom) {
+    this.createfrom = createfrom;
+    return this;
+  }
+
+  /**
+   * Get createfrom
+   * @return createfrom
+   **/
+  @Schema(description = "")
+  
+    public String getCreatefrom() {
+    return createfrom;
+  }
+
+  public void setCreatefrom(String createfrom) {
+    this.createfrom = createfrom;
+  }
+
   public Invoice cRegionDeliveryId(Integer cRegionDeliveryId) {
     this.cRegionDeliveryId = cRegionDeliveryId;
     return this;
@@ -1349,6 +1430,26 @@ public class Invoice   {
     this.description = description;
   }
 
+  public Invoice docaction(String docaction) {
+    this.docaction = docaction;
+    return this;
+  }
+
+  /**
+   * Get docaction
+   * @return docaction
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getDocaction() {
+    return docaction;
+  }
+
+  public void setDocaction(String docaction) {
+    this.docaction = docaction;
+  }
+
   public Invoice docstatus(String docstatus) {
     this.docstatus = docstatus;
     return this;
@@ -1445,6 +1546,25 @@ public class Invoice   {
 
   public void setFiscaldescription(String fiscaldescription) {
     this.fiscaldescription = fiscaldescription;
+  }
+
+  public Invoice generateto(String generateto) {
+    this.generateto = generateto;
+    return this;
+  }
+
+  /**
+   * Get generateto
+   * @return generateto
+   **/
+  @Schema(description = "")
+  
+    public String getGenerateto() {
+    return generateto;
+  }
+
+  public void setGenerateto(String generateto) {
+    this.generateto = generateto;
   }
 
   public Invoice grandtotal(BigDecimal grandtotal) {
@@ -1866,6 +1986,25 @@ public class Invoice   {
     this.managedragordersurcharges = managedragordersurcharges;
   }
 
+  public Invoice manageelectronicinvoice(String manageelectronicinvoice) {
+    this.manageelectronicinvoice = manageelectronicinvoice;
+    return this;
+  }
+
+  /**
+   * Get manageelectronicinvoice
+   * @return manageelectronicinvoice
+   **/
+  @Schema(description = "")
+  
+    public String getManageelectronicinvoice() {
+    return manageelectronicinvoice;
+  }
+
+  public void setManageelectronicinvoice(String manageelectronicinvoice) {
+    this.manageelectronicinvoice = manageelectronicinvoice;
+  }
+
   public Invoice manualdocumentno(Boolean manualdocumentno) {
     this.manualdocumentno = manualdocumentno;
     return this;
@@ -2236,6 +2375,26 @@ public class Invoice   {
     this.poreference = poreference;
   }
 
+  public Invoice posted(String posted) {
+    this.posted = posted;
+    return this;
+  }
+
+  /**
+   * Get posted
+   * @return posted
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getPosted() {
+    return posted;
+  }
+
+  public void setPosted(String posted) {
+    this.posted = posted;
+  }
+
   public Invoice pricelistcurrency(Integer pricelistcurrency) {
     this.pricelistcurrency = pricelistcurrency;
     return this;
@@ -2292,6 +2451,25 @@ public class Invoice   {
 
   public void setProcessed(Boolean processed) {
     this.processed = processed;
+  }
+
+  public Invoice processing(String processing) {
+    this.processing = processing;
+    return this;
+  }
+
+  /**
+   * Get processing
+   * @return processing
+   **/
+  @Schema(description = "")
+  
+    public String getProcessing() {
+    return processing;
+  }
+
+  public void setProcessing(String processing) {
+    this.processing = processing;
   }
 
   public Invoice puntodeventa(Integer puntodeventa) {
@@ -2620,6 +2798,7 @@ public class Invoice   {
         Objects.equals(this.authcode, invoice.authcode) &&
         Objects.equals(this.authmatch, invoice.authmatch) &&
         Objects.equals(this.authorizationchainstatus, invoice.authorizationchainstatus) &&
+        Objects.equals(this.authorize, invoice.authorize) &&
         Objects.equals(this.cActivityId, invoice.cActivityId) &&
         Objects.equals(this.cae, invoice.cae) &&
         Objects.equals(this.caecbte, invoice.caecbte) &&
@@ -2640,6 +2819,7 @@ public class Invoice   {
         Objects.equals(this.cInvoiceOrigId, invoice.cInvoiceOrigId) &&
         Objects.equals(this.cLetraComprobanteId, invoice.cLetraComprobanteId) &&
         Objects.equals(this.codigocategoriaiva, invoice.codigocategoriaiva) &&
+        Objects.equals(this.copyfrom, invoice.copyfrom) &&
         Objects.equals(this.cOrderId, invoice.cOrderId) &&
         Objects.equals(this.cOrderOrigId, invoice.cOrderOrigId) &&
         Objects.equals(this.cPaymentId, invoice.cPaymentId) &&
@@ -2651,6 +2831,7 @@ public class Invoice   {
         Objects.equals(this.createcashline, invoice.createcashline) &&
         Objects.equals(this.created, invoice.created) &&
         Objects.equals(this.createdby, invoice.createdby) &&
+        Objects.equals(this.createfrom, invoice.createfrom) &&
         Objects.equals(this.cRegionDeliveryId, invoice.cRegionDeliveryId) &&
         Objects.equals(this.cRegionId, invoice.cRegionId) &&
         Objects.equals(this.cuit, invoice.cuit) &&
@@ -2662,11 +2843,13 @@ public class Invoice   {
         Objects.equals(this.daterecepted, invoice.daterecepted) &&
         Objects.equals(this.deliveryviarule, invoice.deliveryviarule) &&
         Objects.equals(this.description, invoice.description) &&
+        Objects.equals(this.docaction, invoice.docaction) &&
         Objects.equals(this.docstatus, invoice.docstatus) &&
         Objects.equals(this.documentno, invoice.documentno) &&
         Objects.equals(this.fechadetcparaactualizarprecios, invoice.fechadetcparaactualizarprecios) &&
         Objects.equals(this.fiscalalreadyprinted, invoice.fiscalalreadyprinted) &&
         Objects.equals(this.fiscaldescription, invoice.fiscaldescription) &&
+        Objects.equals(this.generateto, invoice.generateto) &&
         Objects.equals(this.grandtotal, invoice.grandtotal) &&
         Objects.equals(this.idcae, invoice.idcae) &&
         Objects.equals(this.importclearance, invoice.importclearance) &&
@@ -2688,6 +2871,7 @@ public class Invoice   {
         Objects.equals(this.isvoidable, invoice.isvoidable) &&
         Objects.equals(this.managedragorderdiscounts, invoice.managedragorderdiscounts) &&
         Objects.equals(this.managedragordersurcharges, invoice.managedragordersurcharges) &&
+        Objects.equals(this.manageelectronicinvoice, invoice.manageelectronicinvoice) &&
         Objects.equals(this.manualdocumentno, invoice.manualdocumentno) &&
         Objects.equals(this.manualgeneraldiscount, invoice.manualgeneraldiscount) &&
         Objects.equals(this.mAuthorizationchainId, invoice.mAuthorizationchainId) &&
@@ -2707,9 +2891,11 @@ public class Invoice   {
         Objects.equals(this.originvtipo, invoice.originvtipo) &&
         Objects.equals(this.paymentrule, invoice.paymentrule) &&
         Objects.equals(this.poreference, invoice.poreference) &&
+        Objects.equals(this.posted, invoice.posted) &&
         Objects.equals(this.pricelistcurrency, invoice.pricelistcurrency) &&
         Objects.equals(this.printtype, invoice.printtype) &&
         Objects.equals(this.processed, invoice.processed) &&
+        Objects.equals(this.processing, invoice.processing) &&
         Objects.equals(this.puntodeventa, invoice.puntodeventa) &&
         Objects.equals(this.refInvoiceId, invoice.refInvoiceId) &&
         Objects.equals(this.salesrepId, invoice.salesrepId) &&
@@ -2729,7 +2915,7 @@ public class Invoice   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(actualizarpreciosconfacturadecompra, adClientId, adOrgId, adOrgtrxId, adUserId, applypercepcion, authcode, authmatch, authorizationchainstatus, cActivityId, cae, caecbte, caeerror, cai, caja, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceId, cInvoiceOrigId, cLetraComprobanteId, codigocategoriaiva, cOrderId, cOrderOrigId, cPaymentId, cPaymenttermId, cPosjournalId, cPospaymentmediumCreditId, cPospaymentmediumId, cProjectId, createcashline, created, createdby, cRegionDeliveryId, cRegionId, cuit, dateacct, datecai, dateinvoiced, dateordered, dateprinted, daterecepted, deliveryviarule, description, docstatus, documentno, fechadetcparaactualizarprecios, fiscalalreadyprinted, fiscaldescription, grandtotal, idcae, importclearance, initialcurrentaccountamt, invoiceAdress, isactive, isapproved, iscopy, isdiscountprinted, isexchange, isindispute, ispaid, ispayschedulevalid, isprinted, isselfservice, issotrx, istaxincluded, istransferred, isvoidable, managedragorderdiscounts, managedragordersurcharges, manualdocumentno, manualgeneraldiscount, mAuthorizationchainId, mInouttransportId, mPricelistId, mRmaId, netamount, nombrecli, notexchangeablecredit, nroidentificcliente, numerocomprobante, numerodedocumento, oldgrandtotal, originvfecha, originvnro, originvptovta, originvtipo, paymentrule, poreference, pricelistcurrency, printtype, processed, puntodeventa, refInvoiceId, salesrepId, sendemail, skipipnocaevalidation, tipocomprobante, totallines, updated, updatedby, updateorderqty, user1Id, user2Id, vtocae, additionalvalues, referencedvalues);
+    return Objects.hash(actualizarpreciosconfacturadecompra, adClientId, adOrgId, adOrgtrxId, adUserId, applypercepcion, authcode, authmatch, authorizationchainstatus, authorize, cActivityId, cae, caecbte, caeerror, cai, caja, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceId, cInvoiceOrigId, cLetraComprobanteId, codigocategoriaiva, copyfrom, cOrderId, cOrderOrigId, cPaymentId, cPaymenttermId, cPosjournalId, cPospaymentmediumCreditId, cPospaymentmediumId, cProjectId, createcashline, created, createdby, createfrom, cRegionDeliveryId, cRegionId, cuit, dateacct, datecai, dateinvoiced, dateordered, dateprinted, daterecepted, deliveryviarule, description, docaction, docstatus, documentno, fechadetcparaactualizarprecios, fiscalalreadyprinted, fiscaldescription, generateto, grandtotal, idcae, importclearance, initialcurrentaccountamt, invoiceAdress, isactive, isapproved, iscopy, isdiscountprinted, isexchange, isindispute, ispaid, ispayschedulevalid, isprinted, isselfservice, issotrx, istaxincluded, istransferred, isvoidable, managedragorderdiscounts, managedragordersurcharges, manageelectronicinvoice, manualdocumentno, manualgeneraldiscount, mAuthorizationchainId, mInouttransportId, mPricelistId, mRmaId, netamount, nombrecli, notexchangeablecredit, nroidentificcliente, numerocomprobante, numerodedocumento, oldgrandtotal, originvfecha, originvnro, originvptovta, originvtipo, paymentrule, poreference, posted, pricelistcurrency, printtype, processed, processing, puntodeventa, refInvoiceId, salesrepId, sendemail, skipipnocaevalidation, tipocomprobante, totallines, updated, updatedby, updateorderqty, user1Id, user2Id, vtocae, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2746,6 +2932,7 @@ public class Invoice   {
     sb.append("    authcode: ").append(toIndentedString(authcode)).append("\n");
     sb.append("    authmatch: ").append(toIndentedString(authmatch)).append("\n");
     sb.append("    authorizationchainstatus: ").append(toIndentedString(authorizationchainstatus)).append("\n");
+    sb.append("    authorize: ").append(toIndentedString(authorize)).append("\n");
     sb.append("    cActivityId: ").append(toIndentedString(cActivityId)).append("\n");
     sb.append("    cae: ").append(toIndentedString(cae)).append("\n");
     sb.append("    caecbte: ").append(toIndentedString(caecbte)).append("\n");
@@ -2766,6 +2953,7 @@ public class Invoice   {
     sb.append("    cInvoiceOrigId: ").append(toIndentedString(cInvoiceOrigId)).append("\n");
     sb.append("    cLetraComprobanteId: ").append(toIndentedString(cLetraComprobanteId)).append("\n");
     sb.append("    codigocategoriaiva: ").append(toIndentedString(codigocategoriaiva)).append("\n");
+    sb.append("    copyfrom: ").append(toIndentedString(copyfrom)).append("\n");
     sb.append("    cOrderId: ").append(toIndentedString(cOrderId)).append("\n");
     sb.append("    cOrderOrigId: ").append(toIndentedString(cOrderOrigId)).append("\n");
     sb.append("    cPaymentId: ").append(toIndentedString(cPaymentId)).append("\n");
@@ -2777,6 +2965,7 @@ public class Invoice   {
     sb.append("    createcashline: ").append(toIndentedString(createcashline)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    createdby: ").append(toIndentedString(createdby)).append("\n");
+    sb.append("    createfrom: ").append(toIndentedString(createfrom)).append("\n");
     sb.append("    cRegionDeliveryId: ").append(toIndentedString(cRegionDeliveryId)).append("\n");
     sb.append("    cRegionId: ").append(toIndentedString(cRegionId)).append("\n");
     sb.append("    cuit: ").append(toIndentedString(cuit)).append("\n");
@@ -2788,11 +2977,13 @@ public class Invoice   {
     sb.append("    daterecepted: ").append(toIndentedString(daterecepted)).append("\n");
     sb.append("    deliveryviarule: ").append(toIndentedString(deliveryviarule)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
     sb.append("    fechadetcparaactualizarprecios: ").append(toIndentedString(fechadetcparaactualizarprecios)).append("\n");
     sb.append("    fiscalalreadyprinted: ").append(toIndentedString(fiscalalreadyprinted)).append("\n");
     sb.append("    fiscaldescription: ").append(toIndentedString(fiscaldescription)).append("\n");
+    sb.append("    generateto: ").append(toIndentedString(generateto)).append("\n");
     sb.append("    grandtotal: ").append(toIndentedString(grandtotal)).append("\n");
     sb.append("    idcae: ").append(toIndentedString(idcae)).append("\n");
     sb.append("    importclearance: ").append(toIndentedString(importclearance)).append("\n");
@@ -2814,6 +3005,7 @@ public class Invoice   {
     sb.append("    isvoidable: ").append(toIndentedString(isvoidable)).append("\n");
     sb.append("    managedragorderdiscounts: ").append(toIndentedString(managedragorderdiscounts)).append("\n");
     sb.append("    managedragordersurcharges: ").append(toIndentedString(managedragordersurcharges)).append("\n");
+    sb.append("    manageelectronicinvoice: ").append(toIndentedString(manageelectronicinvoice)).append("\n");
     sb.append("    manualdocumentno: ").append(toIndentedString(manualdocumentno)).append("\n");
     sb.append("    manualgeneraldiscount: ").append(toIndentedString(manualgeneraldiscount)).append("\n");
     sb.append("    mAuthorizationchainId: ").append(toIndentedString(mAuthorizationchainId)).append("\n");
@@ -2833,9 +3025,11 @@ public class Invoice   {
     sb.append("    originvtipo: ").append(toIndentedString(originvtipo)).append("\n");
     sb.append("    paymentrule: ").append(toIndentedString(paymentrule)).append("\n");
     sb.append("    poreference: ").append(toIndentedString(poreference)).append("\n");
+    sb.append("    posted: ").append(toIndentedString(posted)).append("\n");
     sb.append("    pricelistcurrency: ").append(toIndentedString(pricelistcurrency)).append("\n");
     sb.append("    printtype: ").append(toIndentedString(printtype)).append("\n");
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
+    sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
     sb.append("    puntodeventa: ").append(toIndentedString(puntodeventa)).append("\n");
     sb.append("    refInvoiceId: ").append(toIndentedString(refInvoiceId)).append("\n");
     sb.append("    salesrepId: ").append(toIndentedString(salesrepId)).append("\n");

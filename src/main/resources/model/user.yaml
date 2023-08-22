@@ -73,6 +73,8 @@ components:
           type: string
         phone3:
           type: string
+        processing:
+          type: string
         supervisor_id:
           type: integer
         title:

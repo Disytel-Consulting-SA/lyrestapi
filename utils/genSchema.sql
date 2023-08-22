@@ -9,7 +9,7 @@ select columnname from
         select 1000 + row_number() over () as row,
             e'        ' || lower(c.columnname) || e':\n          ' ||
                 case
-                    when ad_reference_id in (10, 14, 17, 34, 36) then e'type: string' -- varchars
+                    when ad_reference_id in (10, 14, 17, 34, 36, 28) then e'type: string' -- varchars
                     when ad_reference_id in (11, 13, 18, 19, 30, 21, 31, 35) then e'type: integer' -- integers
                     when ad_reference_id in (12, 22, 37, 11, 29) then e'type: number' -- numberics
                     when ad_reference_id in (15, 16, 24) then e'type: string' -- date-time considered string for swagger
@@ -19,7 +19,6 @@ select columnname from
         inner join ad_table t on c.ad_table_id = t.ad_table_id
         where t.tablename = :tabla
         and c.isactive = 'Y'
-        and c.ad_reference_id <> 28 -- button no es necesario enviar
         and c.ad_reference_id not in (23, 32) -- LOB por el momento no
         and (c.ismandatory = 'Y' or lower(c.columnname) in :columnas)
         order by c.columnname
@@ -47,7 +46,6 @@ select columnname from
         inner join ad_table t on c.ad_table_id = t.ad_table_id
         where t.tablename = :tabla
         and c.isactive = 'Y'
-        and c.ad_reference_id <> 28 -- button no es necesario enviar
         and c.ad_reference_id not in (23, 32) -- LOB por el momento no
         and (c.ismandatory = 'Y' or lower(c.columnname) in :columnas)
         and c.ismandatory = 'Y'

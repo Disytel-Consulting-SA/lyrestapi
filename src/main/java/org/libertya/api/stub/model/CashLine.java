@@ -98,6 +98,9 @@ public class CashLine   {
   @JsonProperty("discountamt")
   private BigDecimal discountamt = null;
 
+  @JsonProperty("docaction")
+  private String docaction = null;
+
   @JsonProperty("docstatus")
   private String docstatus = null;
 
@@ -655,6 +658,26 @@ public class CashLine   {
     this.discountamt = discountamt;
   }
 
+  public CashLine docaction(String docaction) {
+    this.docaction = docaction;
+    return this;
+  }
+
+  /**
+   * Get docaction
+   * @return docaction
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getDocaction() {
+    return docaction;
+  }
+
+  public void setDocaction(String docaction) {
+    this.docaction = docaction;
+  }
+
   public CashLine docstatus(String docstatus) {
     this.docstatus = docstatus;
     return this;
@@ -1021,6 +1044,7 @@ public class CashLine   {
         Objects.equals(this.createdby, cashLine.createdby) &&
         Objects.equals(this.description, cashLine.description) &&
         Objects.equals(this.discountamt, cashLine.discountamt) &&
+        Objects.equals(this.docaction, cashLine.docaction) &&
         Objects.equals(this.docstatus, cashLine.docstatus) &&
         Objects.equals(this.isactive, cashLine.isactive) &&
         Objects.equals(this.isallocated, cashLine.isallocated) &&
@@ -1041,7 +1065,7 @@ public class CashLine   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(accountingCChargeId, adClientId, adOrgId, amount, authcode, authmatch, automaticgenerated, cAllocationhdrId, cashamount, cashtype, cBankaccountId, cBpartnerId, cCashcurrencyId, cCashId, cCashlineId, cChargeId, cCurrencyId, cInvoiceId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, description, discountamt, docstatus, isactive, isallocated, isgenerated, line, processed, processing, transfercashId, transfercashlineId, updatebpbalance, updated, updatedby, whiteoffamt, writeoffamt, additionalvalues, referencedvalues);
+    return Objects.hash(accountingCChargeId, adClientId, adOrgId, amount, authcode, authmatch, automaticgenerated, cAllocationhdrId, cashamount, cashtype, cBankaccountId, cBpartnerId, cCashcurrencyId, cCashId, cCashlineId, cChargeId, cCurrencyId, cInvoiceId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, description, discountamt, docaction, docstatus, isactive, isallocated, isgenerated, line, processed, processing, transfercashId, transfercashlineId, updatebpbalance, updated, updatedby, whiteoffamt, writeoffamt, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1075,6 +1099,7 @@ public class CashLine   {
     sb.append("    createdby: ").append(toIndentedString(createdby)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    discountamt: ").append(toIndentedString(discountamt)).append("\n");
+    sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isallocated: ").append(toIndentedString(isallocated)).append("\n");

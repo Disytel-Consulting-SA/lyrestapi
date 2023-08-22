@@ -27,9 +27,13 @@ components:
           type: integer
         description:
           type: string
+        docaction:
+          type: string
         docstatus:
           type: string
         documentno:
+          type: string
+        generatelist:
           type: string
         inventorykind:
           type: string
@@ -47,6 +51,8 @@ components:
           type: integer
         paper_form:
           type: string
+        posted:
+          type: string
         processed:
           type: boolean
         processing:
@@ -55,6 +61,8 @@ components:
           type: string
         updatedby:
           type: integer
+        updateqty:
+          type: string
         user1_id:
           type: integer
         user2_id:
@@ -73,6 +81,7 @@ components:
          - c_doctype_id
          - created
          - createdby
+         - docaction
          - docstatus
          - documentno
          - inventorykind
@@ -81,6 +90,7 @@ components:
          - m_inventory_id
          - movementdate
          - m_warehouse_id
+         - posted
          - processed
          - updated
          - updatedby

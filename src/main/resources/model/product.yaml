@@ -103,6 +103,8 @@ components:
           type: integer
         name:
           type: string
+        processing:
+          type: string
         producttype:
           type: string
         r_mailtext_id:

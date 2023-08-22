@@ -68,11 +68,20 @@ public class InOut   {
   @JsonProperty("c_project_id")
   private Integer cProjectId = null;
 
+  @JsonProperty("createconfirm")
+  private String createconfirm = null;
+
   @JsonProperty("created")
   private String created = null;
 
   @JsonProperty("createdby")
   private Integer createdby = null;
+
+  @JsonProperty("createfrom")
+  private String createfrom = null;
+
+  @JsonProperty("createpackage")
+  private String createpackage = null;
 
   @JsonProperty("dateacct")
   private String dateacct = null;
@@ -98,6 +107,9 @@ public class InOut   {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("docaction")
+  private String docaction = null;
+
   @JsonProperty("docstatus")
   private String docstatus = null;
 
@@ -109,6 +121,9 @@ public class InOut   {
 
   @JsonProperty("freightcostrule")
   private String freightcostrule = null;
+
+  @JsonProperty("generateto")
+  private String generateto = null;
 
   @JsonProperty("inoutdate")
   private String inoutdate = null;
@@ -158,6 +173,9 @@ public class InOut   {
   @JsonProperty("poreference")
   private String poreference = null;
 
+  @JsonProperty("posted")
+  private String posted = null;
+
   @JsonProperty("preprinted_docno")
   private String preprintedDocno = null;
 
@@ -169,6 +187,9 @@ public class InOut   {
 
   @JsonProperty("processed")
   private Boolean processed = null;
+
+  @JsonProperty("processing")
+  private String processing = null;
 
   @JsonProperty("receptiondate")
   private String receptiondate = null;
@@ -518,6 +539,25 @@ public class InOut   {
     this.cProjectId = cProjectId;
   }
 
+  public InOut createconfirm(String createconfirm) {
+    this.createconfirm = createconfirm;
+    return this;
+  }
+
+  /**
+   * Get createconfirm
+   * @return createconfirm
+   **/
+  @Schema(description = "")
+  
+    public String getCreateconfirm() {
+    return createconfirm;
+  }
+
+  public void setCreateconfirm(String createconfirm) {
+    this.createconfirm = createconfirm;
+  }
+
   public InOut created(String created) {
     this.created = created;
     return this;
@@ -556,6 +596,44 @@ public class InOut   {
 
   public void setCreatedby(Integer createdby) {
     this.createdby = createdby;
+  }
+
+  public InOut createfrom(String createfrom) {
+    this.createfrom = createfrom;
+    return this;
+  }
+
+  /**
+   * Get createfrom
+   * @return createfrom
+   **/
+  @Schema(description = "")
+  
+    public String getCreatefrom() {
+    return createfrom;
+  }
+
+  public void setCreatefrom(String createfrom) {
+    this.createfrom = createfrom;
+  }
+
+  public InOut createpackage(String createpackage) {
+    this.createpackage = createpackage;
+    return this;
+  }
+
+  /**
+   * Get createpackage
+   * @return createpackage
+   **/
+  @Schema(description = "")
+  
+    public String getCreatepackage() {
+    return createpackage;
+  }
+
+  public void setCreatepackage(String createpackage) {
+    this.createpackage = createpackage;
   }
 
   public InOut dateacct(String dateacct) {
@@ -713,6 +791,26 @@ public class InOut   {
     this.description = description;
   }
 
+  public InOut docaction(String docaction) {
+    this.docaction = docaction;
+    return this;
+  }
+
+  /**
+   * Get docaction
+   * @return docaction
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getDocaction() {
+    return docaction;
+  }
+
+  public void setDocaction(String docaction) {
+    this.docaction = docaction;
+  }
+
   public InOut docstatus(String docstatus) {
     this.docstatus = docstatus;
     return this;
@@ -791,6 +889,25 @@ public class InOut   {
 
   public void setFreightcostrule(String freightcostrule) {
     this.freightcostrule = freightcostrule;
+  }
+
+  public InOut generateto(String generateto) {
+    this.generateto = generateto;
+    return this;
+  }
+
+  /**
+   * Get generateto
+   * @return generateto
+   **/
+  @Schema(description = "")
+  
+    public String getGenerateto() {
+    return generateto;
+  }
+
+  public void setGenerateto(String generateto) {
+    this.generateto = generateto;
   }
 
   public InOut inoutdate(String inoutdate) {
@@ -1107,6 +1224,26 @@ public class InOut   {
     this.poreference = poreference;
   }
 
+  public InOut posted(String posted) {
+    this.posted = posted;
+    return this;
+  }
+
+  /**
+   * Get posted
+   * @return posted
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getPosted() {
+    return posted;
+  }
+
+  public void setPosted(String posted) {
+    this.posted = posted;
+  }
+
   public InOut preprintedDocno(String preprintedDocno) {
     this.preprintedDocno = preprintedDocno;
     return this;
@@ -1183,6 +1320,25 @@ public class InOut   {
 
   public void setProcessed(Boolean processed) {
     this.processed = processed;
+  }
+
+  public InOut processing(String processing) {
+    this.processing = processing;
+    return this;
+  }
+
+  /**
+   * Get processing
+   * @return processing
+   **/
+  @Schema(description = "")
+  
+    public String getProcessing() {
+    return processing;
+  }
+
+  public void setProcessing(String processing) {
+    this.processing = processing;
   }
 
   public InOut receptiondate(String receptiondate) {
@@ -1458,8 +1614,11 @@ public class InOut   {
         Objects.equals(this.clearancenumber, inOut.clearancenumber) &&
         Objects.equals(this.cOrderId, inOut.cOrderId) &&
         Objects.equals(this.cProjectId, inOut.cProjectId) &&
+        Objects.equals(this.createconfirm, inOut.createconfirm) &&
         Objects.equals(this.created, inOut.created) &&
         Objects.equals(this.createdby, inOut.createdby) &&
+        Objects.equals(this.createfrom, inOut.createfrom) &&
+        Objects.equals(this.createpackage, inOut.createpackage) &&
         Objects.equals(this.dateacct, inOut.dateacct) &&
         Objects.equals(this.datecai, inOut.datecai) &&
         Objects.equals(this.dateordered, inOut.dateordered) &&
@@ -1468,10 +1627,12 @@ public class InOut   {
         Objects.equals(this.deliveryrule, inOut.deliveryrule) &&
         Objects.equals(this.deliveryviarule, inOut.deliveryviarule) &&
         Objects.equals(this.description, inOut.description) &&
+        Objects.equals(this.docaction, inOut.docaction) &&
         Objects.equals(this.docstatus, inOut.docstatus) &&
         Objects.equals(this.documentno, inOut.documentno) &&
         Objects.equals(this.freightamt, inOut.freightamt) &&
         Objects.equals(this.freightcostrule, inOut.freightcostrule) &&
+        Objects.equals(this.generateto, inOut.generateto) &&
         Objects.equals(this.inoutdate, inOut.inoutdate) &&
         Objects.equals(this.inoutreceptiondate, inOut.inoutreceptiondate) &&
         Objects.equals(this.isactive, inOut.isactive) &&
@@ -1488,10 +1649,12 @@ public class InOut   {
         Objects.equals(this.nopackages, inOut.nopackages) &&
         Objects.equals(this.pickdate, inOut.pickdate) &&
         Objects.equals(this.poreference, inOut.poreference) &&
+        Objects.equals(this.posted, inOut.posted) &&
         Objects.equals(this.preprintedDocno, inOut.preprintedDocno) &&
         Objects.equals(this.printtype, inOut.printtype) &&
         Objects.equals(this.priorityrule, inOut.priorityrule) &&
         Objects.equals(this.processed, inOut.processed) &&
+        Objects.equals(this.processing, inOut.processing) &&
         Objects.equals(this.receptiondate, inOut.receptiondate) &&
         Objects.equals(this.refInoutId, inOut.refInoutId) &&
         Objects.equals(this.salesrepId, inOut.salesrepId) &&
@@ -1508,7 +1671,7 @@ public class InOut   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adOrgtrxId, adUserId, cActivityId, cai, cBpartnerId, cBpartnerLocationId, cCampaignId, cChargeId, cDoctypeId, chargeamt, cInvoiceId, clearancenumber, cOrderId, cProjectId, created, createdby, dateacct, datecai, dateordered, dateprinted, datereceived, deliveryrule, deliveryviarule, description, docstatus, documentno, freightamt, freightcostrule, inoutdate, inoutreceptiondate, isactive, isapproved, isindispute, isintransit, isprinted, issotrx, mInoutId, movementdate, movementtype, mShipperId, mWarehouseId, nopackages, pickdate, poreference, preprintedDocno, printtype, priorityrule, processed, receptiondate, refInoutId, salesrepId, sendemail, shipdate, trackingno, updated, updatedby, user1Id, user2Id, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, adOrgtrxId, adUserId, cActivityId, cai, cBpartnerId, cBpartnerLocationId, cCampaignId, cChargeId, cDoctypeId, chargeamt, cInvoiceId, clearancenumber, cOrderId, cProjectId, createconfirm, created, createdby, createfrom, createpackage, dateacct, datecai, dateordered, dateprinted, datereceived, deliveryrule, deliveryviarule, description, docaction, docstatus, documentno, freightamt, freightcostrule, generateto, inoutdate, inoutreceptiondate, isactive, isapproved, isindispute, isintransit, isprinted, issotrx, mInoutId, movementdate, movementtype, mShipperId, mWarehouseId, nopackages, pickdate, poreference, posted, preprintedDocno, printtype, priorityrule, processed, processing, receptiondate, refInoutId, salesrepId, sendemail, shipdate, trackingno, updated, updatedby, user1Id, user2Id, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1532,8 +1695,11 @@ public class InOut   {
     sb.append("    clearancenumber: ").append(toIndentedString(clearancenumber)).append("\n");
     sb.append("    cOrderId: ").append(toIndentedString(cOrderId)).append("\n");
     sb.append("    cProjectId: ").append(toIndentedString(cProjectId)).append("\n");
+    sb.append("    createconfirm: ").append(toIndentedString(createconfirm)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    createdby: ").append(toIndentedString(createdby)).append("\n");
+    sb.append("    createfrom: ").append(toIndentedString(createfrom)).append("\n");
+    sb.append("    createpackage: ").append(toIndentedString(createpackage)).append("\n");
     sb.append("    dateacct: ").append(toIndentedString(dateacct)).append("\n");
     sb.append("    datecai: ").append(toIndentedString(datecai)).append("\n");
     sb.append("    dateordered: ").append(toIndentedString(dateordered)).append("\n");
@@ -1542,10 +1708,12 @@ public class InOut   {
     sb.append("    deliveryrule: ").append(toIndentedString(deliveryrule)).append("\n");
     sb.append("    deliveryviarule: ").append(toIndentedString(deliveryviarule)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
     sb.append("    freightamt: ").append(toIndentedString(freightamt)).append("\n");
     sb.append("    freightcostrule: ").append(toIndentedString(freightcostrule)).append("\n");
+    sb.append("    generateto: ").append(toIndentedString(generateto)).append("\n");
     sb.append("    inoutdate: ").append(toIndentedString(inoutdate)).append("\n");
     sb.append("    inoutreceptiondate: ").append(toIndentedString(inoutreceptiondate)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
@@ -1562,10 +1730,12 @@ public class InOut   {
     sb.append("    nopackages: ").append(toIndentedString(nopackages)).append("\n");
     sb.append("    pickdate: ").append(toIndentedString(pickdate)).append("\n");
     sb.append("    poreference: ").append(toIndentedString(poreference)).append("\n");
+    sb.append("    posted: ").append(toIndentedString(posted)).append("\n");
     sb.append("    preprintedDocno: ").append(toIndentedString(preprintedDocno)).append("\n");
     sb.append("    printtype: ").append(toIndentedString(printtype)).append("\n");
     sb.append("    priorityrule: ").append(toIndentedString(priorityrule)).append("\n");
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
+    sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
     sb.append("    receptiondate: ").append(toIndentedString(receptiondate)).append("\n");
     sb.append("    refInoutId: ").append(toIndentedString(refInoutId)).append("\n");
     sb.append("    salesrepId: ").append(toIndentedString(salesrepId)).append("\n");

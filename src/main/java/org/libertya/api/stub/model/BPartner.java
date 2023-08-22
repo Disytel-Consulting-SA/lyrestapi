@@ -35,6 +35,9 @@ public class BPartner   {
   @JsonProperty("ad_language")
   private Integer adLanguage = null;
 
+  @JsonProperty("ad_orgbp_id")
+  private String adOrgbpId = null;
+
   @JsonProperty("ad_org_id")
   private Integer adOrgId = null;
 
@@ -85,6 +88,12 @@ public class BPartner   {
 
   @JsonProperty("c_location_id")
   private Integer cLocationId = null;
+
+  @JsonProperty("copyfrom")
+  private String copyfrom = null;
+
+  @JsonProperty("copyvendorproducts")
+  private String copyvendorproducts = null;
 
   @JsonProperty("c_paymentterm_id")
   private Integer cPaymenttermId = null;
@@ -266,6 +275,9 @@ public class BPartner   {
   @JsonProperty("potentiallifetimevalue")
   private BigDecimal potentiallifetimevalue = null;
 
+  @JsonProperty("processpo")
+  private String processpo = null;
+
   @JsonProperty("program_amt")
   private BigDecimal programAmt = null;
 
@@ -328,6 +340,9 @@ public class BPartner   {
 
   @JsonProperty("trxenabled")
   private Boolean trxenabled = null;
+
+  @JsonProperty("updatebalance")
+  private String updatebalance = null;
 
   @JsonProperty("updated")
   private String updated = null;
@@ -445,6 +460,25 @@ public class BPartner   {
 
   public void setAdLanguage(Integer adLanguage) {
     this.adLanguage = adLanguage;
+  }
+
+  public BPartner adOrgbpId(String adOrgbpId) {
+    this.adOrgbpId = adOrgbpId;
+    return this;
+  }
+
+  /**
+   * Get adOrgbpId
+   * @return adOrgbpId
+   **/
+  @Schema(description = "")
+  
+    public String getAdOrgbpId() {
+    return adOrgbpId;
+  }
+
+  public void setAdOrgbpId(String adOrgbpId) {
+    this.adOrgbpId = adOrgbpId;
   }
 
   public BPartner adOrgId(Integer adOrgId) {
@@ -774,6 +808,44 @@ public class BPartner   {
 
   public void setCLocationId(Integer cLocationId) {
     this.cLocationId = cLocationId;
+  }
+
+  public BPartner copyfrom(String copyfrom) {
+    this.copyfrom = copyfrom;
+    return this;
+  }
+
+  /**
+   * Get copyfrom
+   * @return copyfrom
+   **/
+  @Schema(description = "")
+  
+    public String getCopyfrom() {
+    return copyfrom;
+  }
+
+  public void setCopyfrom(String copyfrom) {
+    this.copyfrom = copyfrom;
+  }
+
+  public BPartner copyvendorproducts(String copyvendorproducts) {
+    this.copyvendorproducts = copyvendorproducts;
+    return this;
+  }
+
+  /**
+   * Get copyvendorproducts
+   * @return copyvendorproducts
+   **/
+  @Schema(description = "")
+  
+    public String getCopyvendorproducts() {
+    return copyvendorproducts;
+  }
+
+  public void setCopyvendorproducts(String copyvendorproducts) {
+    this.copyvendorproducts = copyvendorproducts;
   }
 
   public BPartner cPaymenttermId(Integer cPaymenttermId) {
@@ -1941,6 +2013,26 @@ public class BPartner   {
     this.potentiallifetimevalue = potentiallifetimevalue;
   }
 
+  public BPartner processpo(String processpo) {
+    this.processpo = processpo;
+    return this;
+  }
+
+  /**
+   * Get processpo
+   * @return processpo
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getProcesspo() {
+    return processpo;
+  }
+
+  public void setProcesspo(String processpo) {
+    this.processpo = processpo;
+  }
+
   public BPartner programAmt(BigDecimal programAmt) {
     this.programAmt = programAmt;
     return this;
@@ -2351,6 +2443,25 @@ public class BPartner   {
     this.trxenabled = trxenabled;
   }
 
+  public BPartner updatebalance(String updatebalance) {
+    this.updatebalance = updatebalance;
+    return this;
+  }
+
+  /**
+   * Get updatebalance
+   * @return updatebalance
+   **/
+  @Schema(description = "")
+  
+    public String getUpdatebalance() {
+    return updatebalance;
+  }
+
+  public void setUpdatebalance(String updatebalance) {
+    this.updatebalance = updatebalance;
+  }
+
   public BPartner updated(String updated) {
     this.updated = updated;
     return this;
@@ -2499,6 +2610,7 @@ public class BPartner   {
         Objects.equals(this.adClientId, bpartner.adClientId) &&
         Objects.equals(this.adComponentobjectuid, bpartner.adComponentobjectuid) &&
         Objects.equals(this.adLanguage, bpartner.adLanguage) &&
+        Objects.equals(this.adOrgbpId, bpartner.adOrgbpId) &&
         Objects.equals(this.adOrgId, bpartner.adOrgId) &&
         Objects.equals(this.allowadvancedpaymentreceipts, bpartner.allowadvancedpaymentreceipts) &&
         Objects.equals(this.allowpartialpayment, bpartner.allowpartialpayment) &&
@@ -2516,6 +2628,8 @@ public class BPartner   {
         Objects.equals(this.cInvoicescheduleId, bpartner.cInvoicescheduleId) &&
         Objects.equals(this.cJobcategoryId, bpartner.cJobcategoryId) &&
         Objects.equals(this.cLocationId, bpartner.cLocationId) &&
+        Objects.equals(this.copyfrom, bpartner.copyfrom) &&
+        Objects.equals(this.copyvendorproducts, bpartner.copyvendorproducts) &&
         Objects.equals(this.cPaymenttermId, bpartner.cPaymenttermId) &&
         Objects.equals(this.cPospaymentmediumId, bpartner.cPospaymentmediumId) &&
         Objects.equals(this.created, bpartner.created) &&
@@ -2576,6 +2690,7 @@ public class BPartner   {
         Objects.equals(this.poPricelistId, bpartner.poPricelistId) &&
         Objects.equals(this.poreference, bpartner.poreference) &&
         Objects.equals(this.potentiallifetimevalue, bpartner.potentiallifetimevalue) &&
+        Objects.equals(this.processpo, bpartner.processpo) &&
         Objects.equals(this.programAmt, bpartner.programAmt) &&
         Objects.equals(this.programAmtUsed, bpartner.programAmtUsed) &&
         Objects.equals(this.rating, bpartner.rating) &&
@@ -2597,6 +2712,7 @@ public class BPartner   {
         Objects.equals(this.taxidtype, bpartner.taxidtype) &&
         Objects.equals(this.totalopenbalance, bpartner.totalopenbalance) &&
         Objects.equals(this.trxenabled, bpartner.trxenabled) &&
+        Objects.equals(this.updatebalance, bpartner.updatebalance) &&
         Objects.equals(this.updated, bpartner.updated) &&
         Objects.equals(this.updatedby, bpartner.updatedby) &&
         Objects.equals(this.url, bpartner.url) &&
@@ -2607,7 +2723,7 @@ public class BPartner   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(acqusitioncost, actuallifetimevalue, adClientId, adComponentobjectuid, adLanguage, adOrgId, allowadvancedpaymentreceipts, allowpartialpayment, aNameCheck, automaticcreditnotes, batchPaymentRule, bpartnerParentId, builtcabajurisdiction, cBankaccountId, cBpartnerId, cBpGroupId, cCategoriaIvaId, cDunningId, cGreetingId, cInvoicescheduleId, cJobcategoryId, cLocationId, cPaymenttermId, cPospaymentmediumId, created, createdby, creditminimumamt, creditsituation, cRegionSedeId, customertype, deliveryrule, deliveryviarule, description, discountcontext, documentcopies, duns, emitirMiPyme, endholidays, endholidays2, firstsale, flatdiscount, freightcostrule, goal, iibb, iibbtype, invoicePrintformatId, invoicerule, isactive, iscompoundtax, isconveniomultilateral, iscustomer, isdiscountprinted, isemployee, isgroupinvoices, isiso, ismandatorycai, ismulticuit, isonetime, isprospect, issalesrep, issummary, istaxexempt, isvendor, mDiscountschemaId, minimumpurchasedamt, minOrderQty, mPricelistId, mProductRelatedId, mShipperId, naics, name, name2, numberemployees, paymentblocked, paymentblockeddescr, paymentrule, paymentrulepo, poDiscountschemaId, poPaymenttermId, poPricelistId, poreference, potentiallifetimevalue, programAmt, programAmtUsed, rating, referenceno, salesrepId, salesvolume, searchunallocatedpayments, secondarycreditstatus, sendemail, shareofcustomer, shelflifeminpct, soCreditlimit, socreditstatus, soCreditused, soDescription, startholidays, startholidays2, taxid, taxidtype, totalopenbalance, trxenabled, updated, updatedby, url, value, additionalvalues, referencedvalues);
+    return Objects.hash(acqusitioncost, actuallifetimevalue, adClientId, adComponentobjectuid, adLanguage, adOrgbpId, adOrgId, allowadvancedpaymentreceipts, allowpartialpayment, aNameCheck, automaticcreditnotes, batchPaymentRule, bpartnerParentId, builtcabajurisdiction, cBankaccountId, cBpartnerId, cBpGroupId, cCategoriaIvaId, cDunningId, cGreetingId, cInvoicescheduleId, cJobcategoryId, cLocationId, copyfrom, copyvendorproducts, cPaymenttermId, cPospaymentmediumId, created, createdby, creditminimumamt, creditsituation, cRegionSedeId, customertype, deliveryrule, deliveryviarule, description, discountcontext, documentcopies, duns, emitirMiPyme, endholidays, endholidays2, firstsale, flatdiscount, freightcostrule, goal, iibb, iibbtype, invoicePrintformatId, invoicerule, isactive, iscompoundtax, isconveniomultilateral, iscustomer, isdiscountprinted, isemployee, isgroupinvoices, isiso, ismandatorycai, ismulticuit, isonetime, isprospect, issalesrep, issummary, istaxexempt, isvendor, mDiscountschemaId, minimumpurchasedamt, minOrderQty, mPricelistId, mProductRelatedId, mShipperId, naics, name, name2, numberemployees, paymentblocked, paymentblockeddescr, paymentrule, paymentrulepo, poDiscountschemaId, poPaymenttermId, poPricelistId, poreference, potentiallifetimevalue, processpo, programAmt, programAmtUsed, rating, referenceno, salesrepId, salesvolume, searchunallocatedpayments, secondarycreditstatus, sendemail, shareofcustomer, shelflifeminpct, soCreditlimit, socreditstatus, soCreditused, soDescription, startholidays, startholidays2, taxid, taxidtype, totalopenbalance, trxenabled, updatebalance, updated, updatedby, url, value, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2620,6 +2736,7 @@ public class BPartner   {
     sb.append("    adClientId: ").append(toIndentedString(adClientId)).append("\n");
     sb.append("    adComponentobjectuid: ").append(toIndentedString(adComponentobjectuid)).append("\n");
     sb.append("    adLanguage: ").append(toIndentedString(adLanguage)).append("\n");
+    sb.append("    adOrgbpId: ").append(toIndentedString(adOrgbpId)).append("\n");
     sb.append("    adOrgId: ").append(toIndentedString(adOrgId)).append("\n");
     sb.append("    allowadvancedpaymentreceipts: ").append(toIndentedString(allowadvancedpaymentreceipts)).append("\n");
     sb.append("    allowpartialpayment: ").append(toIndentedString(allowpartialpayment)).append("\n");
@@ -2637,6 +2754,8 @@ public class BPartner   {
     sb.append("    cInvoicescheduleId: ").append(toIndentedString(cInvoicescheduleId)).append("\n");
     sb.append("    cJobcategoryId: ").append(toIndentedString(cJobcategoryId)).append("\n");
     sb.append("    cLocationId: ").append(toIndentedString(cLocationId)).append("\n");
+    sb.append("    copyfrom: ").append(toIndentedString(copyfrom)).append("\n");
+    sb.append("    copyvendorproducts: ").append(toIndentedString(copyvendorproducts)).append("\n");
     sb.append("    cPaymenttermId: ").append(toIndentedString(cPaymenttermId)).append("\n");
     sb.append("    cPospaymentmediumId: ").append(toIndentedString(cPospaymentmediumId)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
@@ -2697,6 +2816,7 @@ public class BPartner   {
     sb.append("    poPricelistId: ").append(toIndentedString(poPricelistId)).append("\n");
     sb.append("    poreference: ").append(toIndentedString(poreference)).append("\n");
     sb.append("    potentiallifetimevalue: ").append(toIndentedString(potentiallifetimevalue)).append("\n");
+    sb.append("    processpo: ").append(toIndentedString(processpo)).append("\n");
     sb.append("    programAmt: ").append(toIndentedString(programAmt)).append("\n");
     sb.append("    programAmtUsed: ").append(toIndentedString(programAmtUsed)).append("\n");
     sb.append("    rating: ").append(toIndentedString(rating)).append("\n");
@@ -2718,6 +2838,7 @@ public class BPartner   {
     sb.append("    taxidtype: ").append(toIndentedString(taxidtype)).append("\n");
     sb.append("    totalopenbalance: ").append(toIndentedString(totalopenbalance)).append("\n");
     sb.append("    trxenabled: ").append(toIndentedString(trxenabled)).append("\n");
+    sb.append("    updatebalance: ").append(toIndentedString(updatebalance)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    url: ").append(toIndentedString(url)).append("\n");

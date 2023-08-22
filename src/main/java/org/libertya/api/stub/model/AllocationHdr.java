@@ -71,6 +71,9 @@ public class AllocationHdr   {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("docaction")
+  private String docaction = null;
+
   @JsonProperty("docstatus")
   private String docstatus = null;
 
@@ -88,6 +91,9 @@ public class AllocationHdr   {
 
   @JsonProperty("ismanual")
   private Boolean ismanual = null;
+
+  @JsonProperty("posted")
+  private String posted = null;
 
   @JsonProperty("processed")
   private Boolean processed = null;
@@ -446,6 +452,26 @@ public class AllocationHdr   {
     this.description = description;
   }
 
+  public AllocationHdr docaction(String docaction) {
+    this.docaction = docaction;
+    return this;
+  }
+
+  /**
+   * Get docaction
+   * @return docaction
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getDocaction() {
+    return docaction;
+  }
+
+  public void setDocaction(String docaction) {
+    this.docaction = docaction;
+  }
+
   public AllocationHdr docstatus(String docstatus) {
     this.docstatus = docstatus;
     return this;
@@ -565,6 +591,26 @@ public class AllocationHdr   {
 
   public void setIsmanual(Boolean ismanual) {
     this.ismanual = ismanual;
+  }
+
+  public AllocationHdr posted(String posted) {
+    this.posted = posted;
+    return this;
+  }
+
+  /**
+   * Get posted
+   * @return posted
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getPosted() {
+    return posted;
+  }
+
+  public void setPosted(String posted) {
+    this.posted = posted;
   }
 
   public AllocationHdr processed(Boolean processed) {
@@ -748,12 +794,14 @@ public class AllocationHdr   {
         Objects.equals(this.dateacct, allocationHdr.dateacct) &&
         Objects.equals(this.datetrx, allocationHdr.datetrx) &&
         Objects.equals(this.description, allocationHdr.description) &&
+        Objects.equals(this.docaction, allocationHdr.docaction) &&
         Objects.equals(this.docstatus, allocationHdr.docstatus) &&
         Objects.equals(this.documentno, allocationHdr.documentno) &&
         Objects.equals(this.grandtotal, allocationHdr.grandtotal) &&
         Objects.equals(this.isactive, allocationHdr.isactive) &&
         Objects.equals(this.isapproved, allocationHdr.isapproved) &&
         Objects.equals(this.ismanual, allocationHdr.ismanual) &&
+        Objects.equals(this.posted, allocationHdr.posted) &&
         Objects.equals(this.processed, allocationHdr.processed) &&
         Objects.equals(this.processing, allocationHdr.processing) &&
         Objects.equals(this.retencionAmt, allocationHdr.retencionAmt) &&
@@ -765,7 +813,7 @@ public class AllocationHdr   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(actiondetail, adClientId, adOrgId, allocationaction, allocationtype, approvalamt, cAllocationhdrId, cBanklistId, cBpartnerId, cCurrencyId, cDoctypeId, cPosjournalId, created, createdby, dateacct, datetrx, description, docstatus, documentno, grandtotal, isactive, isapproved, ismanual, processed, processing, retencionAmt, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(actiondetail, adClientId, adOrgId, allocationaction, allocationtype, approvalamt, cAllocationhdrId, cBanklistId, cBpartnerId, cCurrencyId, cDoctypeId, cPosjournalId, created, createdby, dateacct, datetrx, description, docaction, docstatus, documentno, grandtotal, isactive, isapproved, ismanual, posted, processed, processing, retencionAmt, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -790,12 +838,14 @@ public class AllocationHdr   {
     sb.append("    dateacct: ").append(toIndentedString(dateacct)).append("\n");
     sb.append("    datetrx: ").append(toIndentedString(datetrx)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
     sb.append("    grandtotal: ").append(toIndentedString(grandtotal)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isapproved: ").append(toIndentedString(isapproved)).append("\n");
     sb.append("    ismanual: ").append(toIndentedString(ismanual)).append("\n");
+    sb.append("    posted: ").append(toIndentedString(posted)).append("\n");
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
     sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
     sb.append("    retencionAmt: ").append(toIndentedString(retencionAmt)).append("\n");

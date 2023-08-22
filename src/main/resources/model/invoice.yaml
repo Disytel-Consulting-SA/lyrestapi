@@ -21,6 +21,8 @@ components:
           type: boolean
         authorizationchainstatus:
           type: string
+        authorize:
+          type: string
         c_activity_id:
           type: integer
         cae:
@@ -61,6 +63,8 @@ components:
           type: integer
         codigocategoriaiva:
           type: integer
+        copyfrom:
+          type: string
         c_order_id:
           type: integer
         c_order_orig_id:
@@ -83,6 +87,8 @@ components:
           type: string
         createdby:
           type: integer
+        createfrom:
+          type: string
         c_region_delivery_id:
           type: integer
         c_region_id:
@@ -105,6 +111,8 @@ components:
           type: string
         description:
           type: string
+        docaction:
+          type: string
         docstatus:
           type: string
         documentno:
@@ -114,6 +122,8 @@ components:
         fiscalalreadyprinted:
           type: boolean
         fiscaldescription:
+          type: string
+        generateto:
           type: string
         grandtotal:
           type: number
@@ -157,6 +167,8 @@ components:
           type: boolean
         managedragordersurcharges:
           type: boolean
+        manageelectronicinvoice:
+          type: string
         manualdocumentno:
           type: boolean
         manualgeneraldiscount:
@@ -195,12 +207,16 @@ components:
           type: string
         poreference:
           type: string
+        posted:
+          type: string
         pricelistcurrency:
           type: integer
         printtype:
           type: string
         processed:
           type: boolean
+        processing:
+          type: string
         puntodeventa:
           type: integer
         ref_invoice_id:
@@ -251,6 +267,7 @@ components:
          - createdby
          - dateacct
          - dateinvoiced
+         - docaction
          - docstatus
          - documentno
          - fiscalalreadyprinted
@@ -278,6 +295,7 @@ components:
          - netamount
          - notexchangeablecredit
          - paymentrule
+         - posted
          - processed
          - sendemail
          - totallines

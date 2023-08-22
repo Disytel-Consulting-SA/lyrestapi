@@ -124,6 +124,9 @@ public class User   {
   @JsonProperty("phone3")
   private String phone3 = null;
 
+  @JsonProperty("processing")
+  private String processing = null;
+
   @JsonProperty("supervisor_id")
   private Integer supervisorId = null;
 
@@ -820,6 +823,25 @@ public class User   {
     this.phone3 = phone3;
   }
 
+  public User processing(String processing) {
+    this.processing = processing;
+    return this;
+  }
+
+  /**
+   * Get processing
+   * @return processing
+   **/
+  @Schema(description = "")
+  
+    public String getProcessing() {
+    return processing;
+  }
+
+  public void setProcessing(String processing) {
+    this.processing = processing;
+  }
+
   public User supervisorId(Integer supervisorId) {
     this.supervisorId = supervisorId;
     return this;
@@ -997,6 +1019,7 @@ public class User   {
         Objects.equals(this.phone, user.phone) &&
         Objects.equals(this.phone2, user.phone2) &&
         Objects.equals(this.phone3, user.phone3) &&
+        Objects.equals(this.processing, user.processing) &&
         Objects.equals(this.supervisorId, user.supervisorId) &&
         Objects.equals(this.title, user.title) &&
         Objects.equals(this.updated, user.updated) &&
@@ -1007,7 +1030,7 @@ public class User   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, adOrgtrxId, adUserId, birthday, cBpartnerContactId, cBpartnerId, cBpartnerLocationId, cGreetingId, comments, created, createdby, description, email, emailuser, emailuserpw, emailverify, emailverifydate, fax, isactive, isldapauthorized, issystemaccess, lastcontact, lastpasswordchangedate, lastresult, name, notificationtype, notifyonconversationactivity, paGoalId, paGoalprivateId, password, phone, phone2, phone3, supervisorId, title, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, adOrgtrxId, adUserId, birthday, cBpartnerContactId, cBpartnerId, cBpartnerLocationId, cGreetingId, comments, created, createdby, description, email, emailuser, emailuserpw, emailverify, emailverifydate, fax, isactive, isldapauthorized, issystemaccess, lastcontact, lastpasswordchangedate, lastresult, name, notificationtype, notifyonconversationactivity, paGoalId, paGoalprivateId, password, phone, phone2, phone3, processing, supervisorId, title, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1050,6 +1073,7 @@ public class User   {
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    phone2: ").append(toIndentedString(phone2)).append("\n");
     sb.append("    phone3: ").append(toIndentedString(phone3)).append("\n");
+    sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
     sb.append("    supervisorId: ").append(toIndentedString(supervisorId)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");

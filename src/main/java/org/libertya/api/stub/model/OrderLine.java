@@ -125,6 +125,9 @@ public class OrderLine   {
   @JsonProperty("m_warehouse_id")
   private Integer mWarehouseId = null;
 
+  @JsonProperty("openmatrix")
+  private String openmatrix = null;
+
   @JsonProperty("order_min")
   private BigDecimal orderMin = null;
 
@@ -898,6 +901,26 @@ public class OrderLine   {
     this.mWarehouseId = mWarehouseId;
   }
 
+  public OrderLine openmatrix(String openmatrix) {
+    this.openmatrix = openmatrix;
+    return this;
+  }
+
+  /**
+   * Get openmatrix
+   * @return openmatrix
+   **/
+  @Schema(required = true, description = "")
+      @NotNull
+
+    public String getOpenmatrix() {
+    return openmatrix;
+  }
+
+  public void setOpenmatrix(String openmatrix) {
+    this.openmatrix = openmatrix;
+  }
+
   public OrderLine orderMin(BigDecimal orderMin) {
     this.orderMin = orderMin;
     return this;
@@ -1466,6 +1489,7 @@ public class OrderLine   {
         Objects.equals(this.mProductId, orderLine.mProductId) &&
         Objects.equals(this.mShipperId, orderLine.mShipperId) &&
         Objects.equals(this.mWarehouseId, orderLine.mWarehouseId) &&
+        Objects.equals(this.openmatrix, orderLine.openmatrix) &&
         Objects.equals(this.orderMin, orderLine.orderMin) &&
         Objects.equals(this.orderPack, orderLine.orderPack) &&
         Objects.equals(this.priceactual, orderLine.priceactual) &&
@@ -1495,7 +1519,7 @@ public class OrderLine   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, cBpartnerId, cBpartnerLocationId, cChargeId, cCurrencyId, checkoutplace, cOrderId, cOrderlineId, cProjectId, created, createdby, cTaxId, cUomId, datedelivered, dateinvoiced, dateordered, datepromised, description, diffamt, discount, documentdiscountamt, freightamt, isactive, isdescription, line, linebonusamt, linediscountamt, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mProductId, mShipperId, mWarehouseId, orderMin, orderPack, priceactual, pricediff, priceentered, pricelimit, pricelist, pricereception, processed, qtydelivered, qtydiff, qtyentered, qtyinvoiced, qtyordered, qtyreception, qtyreserved, qtyreturned, qtytransferred, receptionamt, refOrderlineId, salesrepOrigId, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, cBpartnerId, cBpartnerLocationId, cChargeId, cCurrencyId, checkoutplace, cOrderId, cOrderlineId, cProjectId, created, createdby, cTaxId, cUomId, datedelivered, dateinvoiced, dateordered, datepromised, description, diffamt, discount, documentdiscountamt, freightamt, isactive, isdescription, line, linebonusamt, linediscountamt, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mProductId, mShipperId, mWarehouseId, openmatrix, orderMin, orderPack, priceactual, pricediff, priceentered, pricelimit, pricelist, pricereception, processed, qtydelivered, qtydiff, qtyentered, qtyinvoiced, qtyordered, qtyreception, qtyreserved, qtyreturned, qtytransferred, receptionamt, refOrderlineId, salesrepOrigId, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1538,6 +1562,7 @@ public class OrderLine   {
     sb.append("    mProductId: ").append(toIndentedString(mProductId)).append("\n");
     sb.append("    mShipperId: ").append(toIndentedString(mShipperId)).append("\n");
     sb.append("    mWarehouseId: ").append(toIndentedString(mWarehouseId)).append("\n");
+    sb.append("    openmatrix: ").append(toIndentedString(openmatrix)).append("\n");
     sb.append("    orderMin: ").append(toIndentedString(orderMin)).append("\n");
     sb.append("    orderPack: ").append(toIndentedString(orderPack)).append("\n");
     sb.append("    priceactual: ").append(toIndentedString(priceactual)).append("\n");

@@ -13,6 +13,8 @@ components:
           type: string
         ad_language:
           type: integer
+        ad_orgbp_id:
+          type: string
         ad_org_id:
           type: integer
         allowadvancedpaymentreceipts:
@@ -47,6 +49,10 @@ components:
           type: integer
         c_location_id:
           type: integer
+        copyfrom:
+          type: string
+        copyvendorproducts:
+          type: string
         c_paymentterm_id:
           type: integer
         c_pospaymentmedium_id:
@@ -167,6 +173,8 @@ components:
           type: string
         potentiallifetimevalue:
           type: number
+        processpo:
+          type: string
         program_amt:
           type: number
         program_amt_used:
@@ -209,6 +217,8 @@ components:
           type: number
         trxenabled:
           type: boolean
+        updatebalance:
+          type: string
         updated:
           type: string
         updatedby:
@@ -252,6 +262,7 @@ components:
          - isvendor
          - minimumpurchasedamt
          - name
+         - processpo
          - searchunallocatedpayments
          - secondarycreditstatus
          - sendemail

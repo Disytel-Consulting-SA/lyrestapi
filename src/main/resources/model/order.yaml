@@ -7,6 +7,8 @@ components:
           type: number
         ad_client_id:
           type: integer
+        addlinesquicker:
+          type: string
         ad_org_id:
           type: integer
         ad_org_transfer_id:
@@ -18,6 +20,8 @@ components:
         allowchangepricelist:
           type: boolean
         authorizationchainstatus:
+          type: string
+        authorize:
           type: string
         bill_bpartner_id:
           type: integer
@@ -51,6 +55,8 @@ components:
           type: integer
         codigocategoriaiva:
           type: integer
+        copyfrom:
+          type: string
         c_order_id:
           type: integer
         c_payment_id:
@@ -63,6 +69,8 @@ components:
           type: string
         createdby:
           type: integer
+        createvendorproductlines:
+          type: string
         creditrequesttype:
           type: string
         c_repair_order_id:
@@ -86,6 +94,8 @@ components:
         deliveryviarule:
           type: string
         description:
+          type: string
+        docaction:
           type: string
         docstatus:
           type: string
@@ -159,10 +169,14 @@ components:
           type: string
         poreference:
           type: string
+        posted:
+          type: string
         priorityrule:
           type: string
         processed:
           type: boolean
+        processing:
+          type: string
         program_invoice:
           type: integer
         ref_order_id:
@@ -213,6 +227,7 @@ components:
          - datepromised
          - deliveryrule
          - deliveryviarule
+         - docaction
          - docstatus
          - documentno
          - freightamt
@@ -238,6 +253,7 @@ components:
          - m_warehouse_id
          - m_warehouse_transfer_id
          - paymentrule
+         - posted
          - priorityrule
          - processed
          - salesrep_id

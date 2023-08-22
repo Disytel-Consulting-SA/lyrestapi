@@ -35,10 +35,16 @@ components:
           type: integer
         c_project_id:
           type: integer
+        createconfirm:
+          type: string
         created:
           type: string
         createdby:
           type: integer
+        createfrom:
+          type: string
+        createpackage:
+          type: string
         dateacct:
           type: string
         datecai:
@@ -55,6 +61,8 @@ components:
           type: string
         description:
           type: string
+        docaction:
+          type: string
         docstatus:
           type: string
         documentno:
@@ -62,6 +70,8 @@ components:
         freightamt:
           type: number
         freightcostrule:
+          type: string
+        generateto:
           type: string
         inoutdate:
           type: string
@@ -95,6 +105,8 @@ components:
           type: string
         poreference:
           type: string
+        posted:
+          type: string
         preprinted_docno:
           type: string
         printtype:
@@ -103,6 +115,8 @@ components:
           type: string
         processed:
           type: boolean
+        processing:
+          type: string
         receptiondate:
           type: string
         ref_inout_id:
@@ -142,6 +156,7 @@ components:
          - dateacct
          - deliveryrule
          - deliveryviarule
+         - docaction
          - docstatus
          - documentno
          - freightcostrule
@@ -155,6 +170,7 @@ components:
          - movementdate
          - movementtype
          - m_warehouse_id
+         - posted
          - priorityrule
          - processed
          - sendemail

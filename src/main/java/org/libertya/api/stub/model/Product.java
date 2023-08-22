@@ -170,6 +170,9 @@ public class Product   {
   @JsonProperty("name")
   private String name = null;
 
+  @JsonProperty("processing")
+  private String processing = null;
+
   @JsonProperty("producttype")
   private String producttype = null;
 
@@ -1217,6 +1220,25 @@ public class Product   {
     this.name = name;
   }
 
+  public Product processing(String processing) {
+    this.processing = processing;
+    return this;
+  }
+
+  /**
+   * Get processing
+   * @return processing
+   **/
+  @Schema(description = "")
+  
+    public String getProcessing() {
+    return processing;
+  }
+
+  public void setProcessing(String processing) {
+    this.processing = processing;
+  }
+
   public Product producttype(String producttype) {
     this.producttype = producttype;
     return this;
@@ -1720,6 +1742,7 @@ public class Product   {
         Objects.equals(this.mProductFamilyId, product.mProductFamilyId) &&
         Objects.equals(this.mProductId, product.mProductId) &&
         Objects.equals(this.name, product.name) &&
+        Objects.equals(this.processing, product.processing) &&
         Objects.equals(this.producttype, product.producttype) &&
         Objects.equals(this.rMailtextId, product.rMailtextId) &&
         Objects.equals(this.salesOrderMin, product.salesOrderMin) &&
@@ -1746,7 +1769,7 @@ public class Product   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, processing, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1804,6 +1827,7 @@ public class Product   {
     sb.append("    mProductFamilyId: ").append(toIndentedString(mProductFamilyId)).append("\n");
     sb.append("    mProductId: ").append(toIndentedString(mProductId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
     sb.append("    producttype: ").append(toIndentedString(producttype)).append("\n");
     sb.append("    rMailtextId: ").append(toIndentedString(rMailtextId)).append("\n");
     sb.append("    salesOrderMin: ").append(toIndentedString(salesOrderMin)).append("\n");

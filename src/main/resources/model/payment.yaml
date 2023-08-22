@@ -123,6 +123,8 @@ components:
           type: string
         discountamt:
           type: number
+        docaction:
+          type: string
         docstatus:
           type: string
         documentno:
@@ -159,6 +161,8 @@ components:
           type: integer
         micr:
           type: string
+        oprocessing:
+          type: string
         original_ref_payment_id:
           type: integer
         orig_trxid:
@@ -171,8 +175,12 @@ components:
           type: string
         posnet:
           type: string
+        posted:
+          type: string
         processed:
           type: boolean
+        processing:
+          type: string
         r_authcode:
           type: string
         r_authcode_dc:
@@ -242,6 +250,7 @@ components:
          - createdby
          - dateacct
          - datetrx
+         - docaction
          - docstatus
          - documentno
          - isactive
@@ -257,6 +266,7 @@ components:
          - isselfservice
          - issotrx
          - payamt
+         - posted
          - processed
          - tendertype
          - trxtype
