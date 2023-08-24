@@ -88,8 +88,8 @@ public class AllocationIntegrationTests extends CommonIntegrationTests {
                         String.class);
         System.out.println(response.getBody());
         assertThat(response.getStatusCode().toString()).contains("200");
-        documentID = Integer.parseInt(response.getBody());
-        assertThat(documentID >0);
+        entityID = Integer.parseInt(response.getBody());
+        assertThat(entityID >0);
     }
 
     // =========================
@@ -100,7 +100,7 @@ public class AllocationIntegrationTests extends CommonIntegrationTests {
     @Order(200)
     void retrieveCreatedAllocationShouldReturnOKAndAmountShouldBeCorrect() throws Exception {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("allocations/" + documentID),
+                restTemplate.exchange(getBaseURL("allocations/" + entityID),
                         HttpMethod.GET,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -118,7 +118,7 @@ public class AllocationIntegrationTests extends CommonIntegrationTests {
     @Order(500)
     void modifyAllocationShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("allocations/" + documentID),
+                restTemplate.exchange(getBaseURL("allocations/" + entityID),
                         HttpMethod.PUT,
                         new HttpEntity<>("{ \"descrption\" : \"Prueba\"}", getAuthHeaders()),
                         String.class);
@@ -174,7 +174,7 @@ public class AllocationIntegrationTests extends CommonIntegrationTests {
     @Order(1000)
     void deleteProcessedAllocationShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("allocations/" + documentID),	// <- Allocation procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("allocations/" + entityID),	// <- Allocation procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -185,7 +185,7 @@ public class AllocationIntegrationTests extends CommonIntegrationTests {
     @Order(1000)
     void voidProcessedAllocationShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("allocations/" + documentID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("allocations/" + entityID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.PUT,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -196,7 +196,7 @@ public class AllocationIntegrationTests extends CommonIntegrationTests {
     @Order(1500)
     void voidVoidedAllocationShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("allocations/" + documentID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("allocations/" + entityID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.PUT,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);

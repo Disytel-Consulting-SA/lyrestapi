@@ -57,8 +57,8 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
                         String.class);
         System.out.println(response.getBody());
         assertThat(response.getStatusCode().toString()).contains("200");
-        documentID = Integer.parseInt(response.getBody());
-        assertThat(documentID >0);
+        entityID = Integer.parseInt(response.getBody());
+        assertThat(entityID >0);
     }
 
     // =========================
@@ -69,7 +69,7 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
     @Order(200)
     void retrieveCreatedPaymentShouldReturnOKAndAmountShouldBeCorrect() throws Exception {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("payments/" + documentID),
+                restTemplate.exchange(getBaseURL("payments/" + entityID),
                         HttpMethod.GET,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -86,7 +86,7 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
     @Order(500)
     void modifyPaymentShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("payments/" + documentID),
+                restTemplate.exchange(getBaseURL("payments/" + entityID),
                         HttpMethod.PUT,
                         new HttpEntity<>("{ \"descrption\" : \"Prueba\"}", getAuthHeaders()),
                         String.class);
@@ -143,7 +143,7 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
     @Order(1000)
     void deleteProcessedPaymentShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("payments/" + documentID),	// <- Pago procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("payments/" + entityID),	// <- Pago procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -154,7 +154,7 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
     @Order(1000)
     void voidProcessedPaymentShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("payments/" + documentID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("payments/" + entityID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.PUT,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -165,7 +165,7 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
     @Order(1500)
     void voidVoidedPaymentShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("payments/" + documentID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("payments/" + entityID + "/process?action=VO"),	// <- Pago procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.PUT,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);

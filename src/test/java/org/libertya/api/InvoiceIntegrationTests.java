@@ -72,8 +72,8 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 						String.class);
 		System.out.println(response.getBody());
 		assertThat(response.getStatusCode().toString()).contains("200");
-		documentID = Integer.parseInt(response.getBody());
-		assertThat(documentID >0);
+		entityID = Integer.parseInt(response.getBody());
+		assertThat(entityID >0);
 	}
 
 	// =========================
@@ -84,7 +84,7 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 	@Order(200)
 	void retrieveCreatedInvoiceShouldReturnOKAndAmountShouldBeCorrect() throws Exception {
 		ResponseEntity<String> response =
-				restTemplate.exchange(getBaseURL("invoices/" + documentID),
+				restTemplate.exchange(getBaseURL("invoices/" + entityID),
 						HttpMethod.GET,
 						new HttpEntity<>(null, getAuthHeaders()),
 						String.class);
@@ -101,7 +101,7 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 	@Order(500)
 	void modifyInvoiceShouldReturnOK() {
 		ResponseEntity<String> response =
-				restTemplate.exchange(getBaseURL("invoices/" + documentID),
+				restTemplate.exchange(getBaseURL("invoices/" + entityID),
 						HttpMethod.PUT,
 						new HttpEntity<>("{ \"descrption\" : \"Prueba\"}", getAuthHeaders()),
 						String.class);
@@ -158,7 +158,7 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 	@Order(1000)
 	void deleteProcessedInvoiceShouldReturnKO() {
 		ResponseEntity<String> response =
-				restTemplate.exchange(getBaseURL("invoices/" + documentID),	// <- Factura procesada cuyo AD_Client_ID = 1010016
+				restTemplate.exchange(getBaseURL("invoices/" + entityID),	// <- Factura procesada cuyo AD_Client_ID = 1010016
 						HttpMethod.DELETE,
 						new HttpEntity<>(null, getAuthHeaders()),
 						String.class);
@@ -169,7 +169,7 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 	@Order(1500)
 	void voidCompletedInvoiceShouldReturnOK() {
 		ResponseEntity<String> response =
-				restTemplate.exchange(getBaseURL("invoices/" + documentID + "/process?action=VO"),	// <- Factura procesada cuyo AD_Client_ID = 1010016
+				restTemplate.exchange(getBaseURL("invoices/" + entityID + "/process?action=VO"),	// <- Factura procesada cuyo AD_Client_ID = 1010016
 						HttpMethod.PUT,
 						new HttpEntity<>(null, getAuthHeaders()),
 						String.class);

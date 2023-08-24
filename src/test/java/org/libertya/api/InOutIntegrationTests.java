@@ -71,8 +71,8 @@ class InOutIntegrationTests extends CommonIntegrationTests {
                         String.class);
         System.out.println(response.getBody());
         assertThat(response.getStatusCode().toString()).contains("200");
-        documentID = Integer.parseInt(response.getBody());
-        assertThat(documentID>0);
+        entityID = Integer.parseInt(response.getBody());
+        assertThat(entityID >0);
     }
 
     // =========================
@@ -83,7 +83,7 @@ class InOutIntegrationTests extends CommonIntegrationTests {
     @Order(200)
     void retrieveCreatedInOutShouldReturnOK() throws Exception {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inouts/" + documentID),
+                restTemplate.exchange(getBaseURL("inouts/" + entityID),
                         HttpMethod.GET,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -100,7 +100,7 @@ class InOutIntegrationTests extends CommonIntegrationTests {
     @Order(500)
     void modifyInOutShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inouts/" + documentID),
+                restTemplate.exchange(getBaseURL("inouts/" + entityID),
                         HttpMethod.PUT,
                         new HttpEntity<>("{ \"descrption\" : \"Prueba\"}", getAuthHeaders()),
                         String.class);
@@ -157,7 +157,7 @@ class InOutIntegrationTests extends CommonIntegrationTests {
     @Order(1000)
     void deleteProcessedInOutShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inouts/" + documentID),	// <- Registro procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("inouts/" + entityID),	// <- Registro procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -168,7 +168,7 @@ class InOutIntegrationTests extends CommonIntegrationTests {
     @Order(1500)
     void voidCompletedInOutShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inouts/" + documentID + "/process?action=VO"),	// <- Registro procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("inouts/" + entityID + "/process?action=VO"),	// <- Registro procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.PUT,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);

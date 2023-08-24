@@ -43,7 +43,7 @@ public class CommonIntegrationTests {
     String token;
 
     /** ID del documento creado en las subclases */
-    int documentID = -1;
+    int entityID = -1;
 
     /** URL base para los requests */
     protected String getBaseURL(String path) {

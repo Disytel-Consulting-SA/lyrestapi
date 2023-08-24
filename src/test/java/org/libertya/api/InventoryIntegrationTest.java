@@ -60,8 +60,8 @@ public class InventoryIntegrationTest extends CommonIntegrationTests {
                         String.class);
         System.out.println(response.getBody());
         assertThat(response.getStatusCode().toString()).contains("200");
-        documentID = Integer.parseInt(response.getBody());
-        assertThat(documentID >0);
+        entityID = Integer.parseInt(response.getBody());
+        assertThat(entityID >0);
     }
 
 
@@ -73,7 +73,7 @@ public class InventoryIntegrationTest extends CommonIntegrationTests {
     @Order(200)
     void retrieveCreatedInventoryShouldReturnOKAndStatusShouldBeCorrect() throws Exception {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inventories/" + documentID),
+                restTemplate.exchange(getBaseURL("inventories/" + entityID),
                         HttpMethod.GET,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -90,7 +90,7 @@ public class InventoryIntegrationTest extends CommonIntegrationTests {
     @Order(500)
     void modifyInventoryShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inventories/" + documentID),
+                restTemplate.exchange(getBaseURL("inventories/" + entityID),
                         HttpMethod.PUT,
                         new HttpEntity<>("{ \"descrption\" : \"Prueba\"}", getAuthHeaders()),
                         String.class);
@@ -146,7 +146,7 @@ public class InventoryIntegrationTest extends CommonIntegrationTests {
     @Order(1000)
     void deleteProcessedInventoryShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inventories/" + documentID),	// <- Inventario procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("inventories/" + entityID),	// <- Inventario procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
@@ -158,7 +158,7 @@ public class InventoryIntegrationTest extends CommonIntegrationTests {
     @Order(1500)
     void voidCompletedInventoryShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("inventories/" + documentID + "/process?action=VO"),	// <- Inventario procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL("inventories/" + entityID + "/process?action=VO"),	// <- Inventario procesado cuyo AD_Client_ID = 1010016
                         HttpMethod.PUT,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
