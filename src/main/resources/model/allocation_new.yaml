@@ -7,6 +7,8 @@ components:
           type: integer
         ad_org_id:
           type: integer
+        c_doctype_id:
+          type: integer
         c_bpartner_id:
           type: integer
         paymentrule:

@@ -26,6 +26,9 @@ public class AllocationNew   {
   @JsonProperty("ad_org_id")
   private Integer adOrgId = null;
 
+  @JsonProperty("c_doctype_id")
+  private Integer cDoctypeId = null;
+
   @JsonProperty("c_bpartner_id")
   private Integer cBpartnerId = null;
 
@@ -79,6 +82,25 @@ public class AllocationNew   {
 
   public void setAdOrgId(Integer adOrgId) {
     this.adOrgId = adOrgId;
+  }
+
+  public AllocationNew cDoctypeId(Integer cDoctypeId) {
+    this.cDoctypeId = cDoctypeId;
+    return this;
+  }
+
+  /**
+   * Get cDoctypeId
+   * @return cDoctypeId
+   **/
+  @Schema(description = "")
+  
+    public Integer getCDoctypeId() {
+    return cDoctypeId;
+  }
+
+  public void setCDoctypeId(Integer cDoctypeId) {
+    this.cDoctypeId = cDoctypeId;
   }
 
   public AllocationNew cBpartnerId(Integer cBpartnerId) {
@@ -204,6 +226,7 @@ public class AllocationNew   {
     AllocationNew allocationNew = (AllocationNew) o;
     return Objects.equals(this.adClientId, allocationNew.adClientId) &&
         Objects.equals(this.adOrgId, allocationNew.adOrgId) &&
+        Objects.equals(this.cDoctypeId, allocationNew.cDoctypeId) &&
         Objects.equals(this.cBpartnerId, allocationNew.cBpartnerId) &&
         Objects.equals(this.paymentrule, allocationNew.paymentrule) &&
         Objects.equals(this.earlypayment, allocationNew.earlypayment) &&
@@ -213,7 +236,7 @@ public class AllocationNew   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, cBpartnerId, paymentrule, earlypayment, invoices, payments);
+    return Objects.hash(adClientId, adOrgId, cDoctypeId, cBpartnerId, paymentrule, earlypayment, invoices, payments);
   }
 
   @Override
@@ -223,6 +246,7 @@ public class AllocationNew   {
     
     sb.append("    adClientId: ").append(toIndentedString(adClientId)).append("\n");
     sb.append("    adOrgId: ").append(toIndentedString(adOrgId)).append("\n");
+    sb.append("    cDoctypeId: ").append(toIndentedString(cDoctypeId)).append("\n");
     sb.append("    cBpartnerId: ").append(toIndentedString(cBpartnerId)).append("\n");
     sb.append("    paymentrule: ").append(toIndentedString(paymentrule)).append("\n");
     sb.append("    earlypayment: ").append(toIndentedString(earlypayment)).append("\n");

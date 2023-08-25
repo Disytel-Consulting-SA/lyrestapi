@@ -73,6 +73,7 @@ public class AllocationService extends AbstractService {
         POCRGenerator rcGenerator = new POCRGenerator(info.getCtx(), POCRType.CUSTOMER_RECEIPT, allocData.getPaymentrule(), trxName);
         MAllocationHdr allocationHdr = rcGenerator.createAllocationHdr();
         allocationHdr.setC_BPartner_ID(allocData.getCBpartnerId());
+        allocationHdr.setC_DocType_ID(allocData.getCDoctypeId());
         allocationHdr.setIsManual(false);
 
         // Guardar encabezado
