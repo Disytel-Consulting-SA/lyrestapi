@@ -3,10 +3,11 @@ package org.libertya.api.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
+import org.libertya.api.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -26,6 +27,12 @@ public class JWTUtils {
 
     @Value("${security.token.exp.days}")
     private Long expDays;
+
+    @Value("${security.access.validate.user}")
+    private String validateUser;
+
+    @Autowired
+    UserRepository repository;
 
     /** Generacion de un nuevo token para el username indicado */
     public String buildToken(HashMap<String, String> credentials) {
@@ -64,9 +71,15 @@ public class JWTUtils {
         try {
             String token = request.getHeader("Authorization").replace("Bearer ", "");
             Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
-            return UserInfo.of(claims.get("userName").toString(), Integer.parseInt(claims.get("clientID").toString()), Integer.parseInt(claims.get("orgID").toString()));
+            String userName = claims.get("userName").toString();
+            String clientID = claims.get("clientID").toString();
+            String orgID = claims.get("orgID").toString();
+            if ("Y".equalsIgnoreCase(validateUser) && !repository.findActiveUser(userName, clientID, orgID).isPresent()) {
+                throw new AuthException(String.format("Usuario:%s-Inexistente/Inactivo",userName));
+            }
+            return UserInfo.of(userName, Integer.parseInt(clientID), Integer.parseInt(orgID));
         } catch (Exception e) {
-            throw new AuthException("Error en autenticacion JWT.");
+            throw new AuthException("Error Autenticacion JWT.: " + e.getMessage());
         }
     }
 }

@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * 	- Debe existir la informacion preexistente de la compañía 1010016 y organizacion 1010053
  * 	- La preferencia org.libertya.api.service.doc.complete en application.properties debe poseer el valor Y
  * 	- El periodo debe estar abierto para la fecha de la factura a fin de poder completar la misma. Ver TEST_DATE.
+ * 	- El usuario AdminLibertya (pass AdminLibertya) debe existir y encontrarse activo
  */
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
