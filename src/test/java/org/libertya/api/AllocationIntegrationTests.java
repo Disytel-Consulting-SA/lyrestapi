@@ -54,6 +54,7 @@ public class AllocationIntegrationTests extends CommonIntegrationTests {
         alloc.setAdOrgId(1010053);
         alloc.setCBpartnerId(1012142);
         alloc.setEarlypayment(false);
+        alloc.setCDoctypeId(1010568);
 
         AllocationNewInvoices invoice = new AllocationNewInvoices();
         invoice.setCInvoiceId(99999999);
