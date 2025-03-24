@@ -112,3 +112,7 @@ paths:
     $ref: ./paths/users.yaml
   /v1.0/users/{id}:
     $ref: ./paths/users_id.yaml
+  /v1.0/productlines:
+    $ref: ./paths/productlines.yaml
+  /v1.0/productlines/{id}:
+    $ref: ./paths/productlines_id.yaml

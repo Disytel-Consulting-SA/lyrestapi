@@ -51,3 +51,4 @@ generateSchema Inventory          M_Inventory           inventory.yaml
 generateSchema InventoryLine      M_InventoryLine       inventoryline.yaml
 generateSchema Storage            M_Storage             storage.yaml
 generateSchema User               AD_User               user.yaml
+generateSchema ProductLines       M_Product_Lines       productlines.yaml

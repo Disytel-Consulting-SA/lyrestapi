@@ -1,0 +1,90 @@
+get:
+  summary: Recupera una linea de producto en particular
+  tags:
+    - "productlines"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la linea de articulo
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una linea de articulo en particular
+  operationId: retrieveProductLine
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/productlines.yaml#/components/schemas/ProductLines'
+delete:
+  summary: Elimina una linea de articulo
+  tags:
+    - "productlines"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la linea de articulo
+      required: true
+      schema:
+        type: integer
+  description: Elimina una linea de articulo existente
+  operationId: deleteProductLine
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza por completo una linea de articulo existente
+  tags:
+    - "productlines"
+  operationId: updateProductLine
+  parameters:
+    - name: id
+      in: path
+      description: ID de la linea de articulo a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/productlines.yaml#/components/schemas/ProductLines'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
