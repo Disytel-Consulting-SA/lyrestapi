@@ -1,0 +1,57 @@
+components:
+  schemas:
+    ProductGamas:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        description:
+          type: string
+        isactive:
+          type: boolean
+        isdefault:
+          type: boolean
+        isselfservice:
+          type: boolean
+        m_product_gamas_id:
+          type: integer
+        m_product_lines_id:
+          type: integer
+        name:
+          type: string
+        processed:
+          type: boolean
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        value:
+          type: string
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - isactive
+         - isdefault
+         - isselfservice
+         - m_product_gamas_id
+         - name
+         - updated
+         - updatedby

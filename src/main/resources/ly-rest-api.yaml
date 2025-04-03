@@ -116,3 +116,7 @@ paths:
     $ref: ./paths/productlines.yaml
   /v1.0/productlines/{id}:
     $ref: ./paths/productlines_id.yaml
+  /v1.0/productgamas:
+    $ref: ./paths/productgamas.yaml
+  /v1.0/productgamas/{id}:
+    $ref: ./paths/productgamas_id.yaml
