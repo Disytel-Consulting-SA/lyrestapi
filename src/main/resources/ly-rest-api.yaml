@@ -120,3 +120,7 @@ paths:
     $ref: ./paths/productgamas.yaml
   /v1.0/productgamas/{id}:
     $ref: ./paths/productgamas_id.yaml
+  /v1.0/productcategories:
+    $ref: ./paths/productcategories.yaml
+  /v1.0/productcategories/{id}:
+    $ref: ./paths/productcategories_id.yaml

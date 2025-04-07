@@ -1,0 +1,72 @@
+components:
+  schemas:
+    ProductCategories:
+      type: object
+      properties:
+        a_asset_group_id:
+          type: integer
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        ad_printcolor_id:
+          type: integer
+        amortizationperc:
+          type: number
+        created:
+          type: string
+        createdby:
+          type: integer
+        description:
+          type: string
+        isactive:
+          type: boolean
+        isdefault:
+          type: boolean
+        isselfservice:
+          type: boolean
+        mmpolicy:
+          type: string
+        m_product_category_id:
+          type: integer
+        m_product_gamas_id:
+          type: integer
+        name:
+          type: string
+        plannedmargin:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        value:
+          type: string
+        yearlife:
+          type: integer
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - amortizationperc
+         - created
+         - createdby
+         - isactive
+         - isdefault
+         - isselfservice
+         - mmpolicy
+         - m_product_category_id
+         - name
+         - plannedmargin
+         - updated
+         - updatedby
+         - value
+         - yearlife
