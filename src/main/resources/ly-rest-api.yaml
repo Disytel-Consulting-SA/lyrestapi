@@ -124,3 +124,7 @@ paths:
     $ref: ./paths/productcategories.yaml
   /v1.0/productcategories/{id}:
     $ref: ./paths/productcategories_id.yaml
+  /v1.0/productfamilies:
+    $ref: ./paths/productfamilies.yaml
+  /v1.0/productfamilies/{id}:
+    $ref: ./paths/productfamilies_id.yaml

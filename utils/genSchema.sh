@@ -54,3 +54,4 @@ generateSchema User               AD_User               user.yaml
 generateSchema ProductLines       M_Product_Lines       productlines.yaml
 generateSchema ProductGamas       M_Product_Gamas       productgamas.yaml
 generateSchema ProductCategories  M_Product_Category    productcategories.yaml
+generateSchema ProductFamilies    M_Product_Family      productfamilies.yaml

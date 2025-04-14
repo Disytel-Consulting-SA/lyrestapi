@@ -1,9 +1,9 @@
 package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.libertya.api.repository.ProductLinesRepository;
-import org.libertya.api.stub.iface.ProductlinesApi;
-import org.libertya.api.stub.model.ProductLines;
+import org.libertya.api.repository.ProductFamiliesRepository;
+import org.libertya.api.stub.iface.ProductfamiliesApi;
+import org.libertya.api.stub.model.ProductFamilies;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
@@ -12,34 +12,34 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class ProductLinesController extends AbstractController implements ProductlinesApi {
+public class ProductFamiliesController extends AbstractController implements ProductfamiliesApi {
 
     private final HttpServletRequest request;
 
-    private final ProductLinesRepository repository;
+    private final ProductFamiliesRepository repository;
 
     @Override
-    public ResponseEntity<String> addProductLine(ProductLines body) {
+    public ResponseEntity<String> addProductFamily(ProductFamilies body) {
         return insertAction(request, (info) -> repository.insert(info, body));
     }
 
     @Override
-    public ResponseEntity<String> deleteProductLine(Integer id) {
+    public ResponseEntity<String> deleteProductFamily(Integer id) {
         return deleteAction(request, (info) -> repository.delete(info, id));
     }
 
     @Override
-    public ResponseEntity<List<ProductLines>> getAllProductLines(String filter, String fields, String sort, Integer limit, Integer page) {
+    public ResponseEntity<List<ProductFamilies>> getAllProductFamilies(String filter, String fields, String sort, Integer limit, Integer page) {
         return retrieveAllAction(request, repository, query(filter, fields, sort, limit, page));
     }
 
     @Override
-    public ResponseEntity<ProductLines> retrieveProductLine(Integer id) {
+    public ResponseEntity<ProductFamilies> retrieveProductFamily(Integer id) {
         return retrieveAction(request, (info) -> repository.retrieve(info, id));
     }
 
     @Override
-    public ResponseEntity<String> updateProductLine(Integer id, ProductLines body) {
+    public ResponseEntity<String> updateProductFamily(Integer id, ProductFamilies body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
     }
 }
