@@ -1,0 +1,53 @@
+components:
+  schemas:
+    TaxCategory:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        commoditycode:
+          type: string
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_taxcategory_id:
+          type: integer
+        description:
+          type: string
+        isactive:
+          type: boolean
+        isdefault:
+          type: boolean
+        ismanual:
+          type: boolean
+        name:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - c_taxcategory_id
+         - isactive
+         - isdefault
+         - ismanual
+         - name
+         - updated
+         - updatedby

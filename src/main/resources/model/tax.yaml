@@ -1,0 +1,108 @@
+components:
+  schemas:
+    Tax:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        arcibanormcode:
+          type: string
+        c_bp_group_id:
+          type: integer
+        c_country_id:
+          type: integer
+        codigooperacion:
+          type: string
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_region_id:
+          type: integer
+        c_taxcategory_id:
+          type: integer
+        c_tax_id:
+          type: integer
+        description:
+          type: string
+        isactive:
+          type: boolean
+        isdefault:
+          type: boolean
+        isdocumentlevel:
+          type: boolean
+        ispercepcion:
+          type: boolean
+        issummary:
+          type: boolean
+        istaxexempt:
+          type: boolean
+        m_product_category_id:
+          type: integer
+        m_product_id:
+          type: integer
+        name:
+          type: string
+        parent_tax_id:
+          type: integer
+        perceptiontype:
+          type: string
+        rate:
+          type: number
+        requirestaxcertificate:
+          type: boolean
+        sopotype:
+          type: string
+        taxaccusation:
+          type: string
+        taxareatype:
+          type: string
+        taxindicator:
+          type: string
+        taxtype:
+          type: string
+        to_country_id:
+          type: integer
+        to_region_id:
+          type: integer
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        validfrom:
+          type: string
+        wsfecode:
+          type: integer
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - c_taxcategory_id
+         - c_tax_id
+         - isactive
+         - isdefault
+         - isdocumentlevel
+         - ispercepcion
+         - issummary
+         - istaxexempt
+         - name
+         - rate
+         - requirestaxcertificate
+         - sopotype
+         - taxtype
+         - updated
+         - updatedby
+         - validfrom
