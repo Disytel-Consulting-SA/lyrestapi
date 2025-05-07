@@ -1,0 +1,252 @@
+components:
+  schemas:
+    DocType:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        ad_printformat_id:
+          type: integer
+        ad_process_id:
+          type: integer
+        allowchangepricelist:
+          type: boolean
+        allowdeliveryreturned:
+          type: boolean
+        allowonlyproviders:
+          type: boolean
+        allowotherbatchpaymentdate:
+          type: boolean
+        allowproposaldue:
+          type: boolean
+        applyperception:
+          type: boolean
+        applyretention:
+          type: boolean
+        cai:
+          type: string
+        caicontrol:
+          type: boolean
+        c_controlador_fiscal_id:
+          type: integer
+        c_doctypedifference_id:
+          type: integer
+        c_doctype_id:
+          type: integer
+        c_doctypeinvoice_id:
+          type: integer
+        c_doctypeproforma_id:
+          type: integer
+        c_doctypeshipment_id:
+          type: integer
+        c_invoice_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_reversedoctype_id:
+          type: integer
+        datecai:
+          type: string
+        description:
+          type: string
+        docbasetype:
+          type: string
+        docnosequence_id:
+          type: integer
+        docnosequence_unique_id:
+          type: integer
+        docsubtypecae:
+          type: string
+        docsubtypeinv:
+          type: string
+        docsubtypeso:
+          type: string
+        doctypekey:
+          type: string
+        documentcopies:
+          type: integer
+        documentnote:
+          type: string
+        dragorderdocumentdiscounts:
+          type: boolean
+        dragorderdocumentsurcharges:
+          type: boolean
+        dragorderlinediscounts:
+          type: boolean
+        dragorderlinesurcharges:
+          type: boolean
+        dragorderprice:
+          type: boolean
+        enabledinpos:
+          type: boolean
+        enableincreatefromshipment:
+          type: boolean
+        fiscaldocument:
+          type: string
+        fiscalprintingfooterlegends:
+          type: string
+        gl_category_id:
+          type: integer
+        hascharges:
+          type: boolean
+        hasproforma:
+          type: boolean
+        inout_allow_greater_qtyordered:
+          type: boolean
+        isactive:
+          type: boolean
+        ischeckoutplacerestricted:
+          type: boolean
+        iscreatecounter:
+          type: boolean
+        isdefault:
+          type: boolean
+        isdefaultcounterdoc:
+          type: boolean
+        isdocnocontrolled:
+          type: boolean
+        iselectronic:
+          type: boolean
+        isfiscal:
+          type: boolean
+        isfiscaldocument:
+          type: boolean
+        isintransit:
+          type: boolean
+        ispaymentorderseq:
+          type: boolean
+        ispickqaconfirm:
+          type: boolean
+        isprintatcompleting:
+          type: boolean
+        isprintpreview:
+          type: boolean
+        isreceiptseq:
+          type: boolean
+        isshipconfirm:
+          type: boolean
+        issotrx:
+          type: boolean
+        issplitwhendifference:
+          type: boolean
+        iswarehouseclosurecontrol:
+          type: boolean
+        linescountmax:
+          type: integer
+        lockseq:
+          type: boolean
+        m_trannaturecodea_id:
+          type: number
+        m_trannaturecodeb_id:
+          type: number
+        name:
+          type: string
+        notinvoiceable:
+          type: boolean
+        onlyvendorproducts:
+          type: boolean
+        open_close_by_pos:
+          type: boolean
+        posenabledue:
+          type: boolean
+        posenableduedays:
+          type: integer
+        printername:
+          type: string
+        printname:
+          type: string
+        reservestockmanagment:
+          type: boolean
+        reusedocumentno:
+          type: boolean
+        signo_issotrx:
+          type: string
+        skipcurrentaccounts:
+          type: boolean
+        transactiontypefrontliva:
+          type: string
+        uniquedocumentno:
+          type: boolean
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        useorderwarehouse:
+          type: boolean
+        validateseqlength:
+          type: boolean
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - allowchangepricelist
+         - allowdeliveryreturned
+         - allowonlyproviders
+         - allowotherbatchpaymentdate
+         - allowproposaldue
+         - applyperception
+         - applyretention
+         - caicontrol
+         - c_doctype_id
+         - created
+         - createdby
+         - docbasetype
+         - doctypekey
+         - documentcopies
+         - dragorderdocumentdiscounts
+         - dragorderdocumentsurcharges
+         - dragorderlinediscounts
+         - dragorderlinesurcharges
+         - dragorderprice
+         - enabledinpos
+         - enableincreatefromshipment
+         - fiscaldocument
+         - gl_category_id
+         - hascharges
+         - inout_allow_greater_qtyordered
+         - isactive
+         - ischeckoutplacerestricted
+         - iscreatecounter
+         - isdefault
+         - isdefaultcounterdoc
+         - isdocnocontrolled
+         - isfiscal
+         - isfiscaldocument
+         - isintransit
+         - ispickqaconfirm
+         - isprintatcompleting
+         - isprintpreview
+         - isshipconfirm
+         - issotrx
+         - issplitwhendifference
+         - iswarehouseclosurecontrol
+         - linescountmax
+         - lockseq
+         - name
+         - notinvoiceable
+         - onlyvendorproducts
+         - open_close_by_pos
+         - posenabledue
+         - posenableduedays
+         - printname
+         - reservestockmanagment
+         - reusedocumentno
+         - signo_issotrx
+         - skipcurrentaccounts
+         - uniquedocumentno
+         - updated
+         - updatedby
+         - useorderwarehouse

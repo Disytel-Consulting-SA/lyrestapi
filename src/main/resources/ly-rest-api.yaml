@@ -136,3 +136,7 @@ paths:
     $ref: ./paths/taxes.yaml
   /v1.0/taxes/{id}:
     $ref: ./paths/taxes_id.yaml
+  /v1.0/doctypes:
+    $ref: ./paths/doctypes.yaml
+  /v1.0/doctypes/{id}:
+    $ref: ./paths/doctypes_id.yaml
