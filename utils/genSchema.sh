@@ -58,3 +58,4 @@ generateSchema ProductFamilies    M_Product_Family      productfamilies.yaml
 generateSchema TaxCategory        C_TaxCategory         taxcategory.yaml
 generateSchema Tax                C_Tax                 tax.yaml
 generateSchema DocType            C_DocType             doctype.yaml
+generateSchema Org                AD_Org                org.yaml

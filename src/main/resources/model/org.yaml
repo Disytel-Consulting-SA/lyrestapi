@@ -1,0 +1,46 @@
+components:
+  schemas:
+    Org:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        description:
+          type: string
+        isactive:
+          type: boolean
+        issummary:
+          type: boolean
+        name:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        value:
+          type: string
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - isactive
+         - issummary
+         - name
+         - updated
+         - updatedby
+         - value

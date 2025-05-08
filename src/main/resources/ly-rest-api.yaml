@@ -140,3 +140,7 @@ paths:
     $ref: ./paths/doctypes.yaml
   /v1.0/doctypes/{id}:
     $ref: ./paths/doctypes_id.yaml
+  /v1.0/orgs:
+    $ref: ./paths/orgs.yaml
+  /v1.0/orgs/{id}:
+    $ref: ./paths/orgs_id.yaml
