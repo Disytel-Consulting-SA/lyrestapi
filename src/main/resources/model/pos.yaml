@@ -1,0 +1,164 @@
+components:
+  schemas:
+    POS:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        ad_role_id:
+          type: integer
+        allowcreditnotesearch:
+          type: boolean
+        authorizegeneralmanualdiscount:
+          type: boolean
+        c_bankaccount_id:
+          type: integer
+        c_bpartnercashtrx_id:
+          type: integer
+        c_cashbook_id:
+          type: integer
+        c_doctype_id:
+          type: integer
+        c_inoutdoctype_id:
+          type: integer
+        c_invoicedoctype_id:
+          type: integer
+        c_orderdoctype_id:
+          type: integer
+        c_pos_id:
+          type: integer
+        c_poskeylayout_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        creditcardcashretirement_charge_id:
+          type: integer
+        creditcardcashretirement_doctype_id:
+          type: integer
+        creditcardcashretirement_product_id:
+          type: integer
+        description:
+          type: string
+        draftedinout:
+          type: boolean
+        help:
+          type: string
+        initialposauthorization:
+          type: boolean
+        isactive:
+          type: boolean
+        isallowcreditcardcashretirement:
+          type: boolean
+        iscopyentity:
+          type: boolean
+        iscreateinvoice:
+          type: boolean
+        isdeliverorderinwarehouse:
+          type: boolean
+        ismodifyprice:
+          type: boolean
+        isprintcurrentaccountdocument:
+          type: boolean
+        isprintwarehousedeliverdocument:
+          type: boolean
+        issalewithoutstock:
+          type: boolean
+        issearchbyname:
+          type: boolean
+        issearchbynamelike:
+          type: boolean
+        issearchbyupc:
+          type: boolean
+        issearchbyupclike:
+          type: boolean
+        issearchbyvalue:
+          type: boolean
+        issearchbyvaluelike:
+          type: boolean
+        issearchtoday:
+          type: boolean
+        lockedclosed:
+          type: boolean
+        maxreturnedcashincn:
+          type: number
+        m_pricelist_id:
+          type: integer
+        m_warehouse_id:
+          type: integer
+        name:
+          type: string
+        operationmode:
+          type: string
+        posnet:
+          type: string
+        posnumber:
+          type: integer
+        printername:
+          type: string
+        returnedcashincncontrol:
+          type: boolean
+        salesrep_id:
+          type: integer
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        voiddocuments:
+          type: boolean
+        voiddocuments_ef:
+          type: boolean
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_role_id
+         - allowcreditnotesearch
+         - authorizegeneralmanualdiscount
+         - c_bankaccount_id
+         - c_bpartnercashtrx_id
+         - c_cashbook_id
+         - c_invoicedoctype_id
+         - c_orderdoctype_id
+         - c_pos_id
+         - created
+         - createdby
+         - draftedinout
+         - initialposauthorization
+         - isactive
+         - isallowcreditcardcashretirement
+         - iscreateinvoice
+         - isdeliverorderinwarehouse
+         - ismodifyprice
+         - isprintcurrentaccountdocument
+         - isprintwarehousedeliverdocument
+         - issalewithoutstock
+         - issearchbyname
+         - issearchbynamelike
+         - issearchbyupc
+         - issearchbyupclike
+         - issearchbyvalue
+         - issearchbyvaluelike
+         - lockedclosed
+         - maxreturnedcashincn
+         - m_pricelist_id
+         - m_warehouse_id
+         - name
+         - operationmode
+         - posnumber
+         - returnedcashincncontrol
+         - salesrep_id
+         - updated
+         - updatedby
+         - voiddocuments
+         - voiddocuments_ef

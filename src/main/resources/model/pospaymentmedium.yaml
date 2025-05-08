@@ -1,0 +1,88 @@
+components:
+  schemas:
+    POSPaymentMedium:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_componentversion_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        bank:
+          type: string
+        beforecheckdeadlinefrom:
+          type: string
+        beforecheckdeadlineto:
+          type: string
+        c_bank_id:
+          type: integer
+        c_currency_id:
+          type: integer
+        checkdeadline:
+          type: string
+        context:
+          type: string
+        c_pospaymentmedium_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        datefrom:
+          type: string
+        dateto:
+          type: string
+        description:
+          type: string
+        isactive:
+          type: boolean
+        ismandatorybank:
+          type: boolean
+        isnormalizedbank:
+          type: boolean
+        m_discountschema_id:
+          type: integer
+        m_entidadfinanciera_id:
+          type: integer
+        name:
+          type: string
+        tendertype:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        validatebeforecheckdeadlines:
+          type: boolean
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - beforecheckdeadlinefrom
+         - c_currency_id
+         - checkdeadline
+         - context
+         - c_pospaymentmedium_id
+         - created
+         - createdby
+         - datefrom
+         - dateto
+         - isactive
+         - ismandatorybank
+         - isnormalizedbank
+         - m_entidadfinanciera_id
+         - name
+         - tendertype
+         - updated
+         - updatedby
+         - validatebeforecheckdeadlines

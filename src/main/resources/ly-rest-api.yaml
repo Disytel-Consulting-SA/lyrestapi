@@ -148,3 +148,11 @@ paths:
     $ref: ./paths/orgpercepcions.yaml
   /v1.0/orgpercepcions/{id}:
     $ref: ./paths/orgpercepcions_id.yaml
+  /v1.0/pos:
+    $ref: ./paths/pos.yaml
+  /v1.0/pos/{id}:
+    $ref: ./paths/pos_id.yaml
+  /v1.0/pospaymentmediums:
+    $ref: ./paths/pospaymentmediums.yaml
+  /v1.0/pospaymentmediums/{id}:
+    $ref: ./paths/pospaymentmediums_id.yaml
