@@ -144,3 +144,7 @@ paths:
     $ref: ./paths/orgs.yaml
   /v1.0/orgs/{id}:
     $ref: ./paths/orgs_id.yaml
+  /v1.0/orgpercepcions:
+    $ref: ./paths/orgpercepcions.yaml
+  /v1.0/orgpercepcions/{id}:
+    $ref: ./paths/orgpercepcions_id.yaml

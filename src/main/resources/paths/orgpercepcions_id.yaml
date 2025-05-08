@@ -1,0 +1,90 @@
+get:
+  summary: Recupera una percepcion de organizacion en particular
+  tags:
+    - "orgpercepcion"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la percepcion de organizacion
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una percepcion de organizacion en particular
+  operationId: retrieveOrgPerception
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/orgpercepcion.yaml#/components/schemas/OrgPercepcion'
+delete:
+  summary: Elimina una percepcion de organizacion
+  tags:
+    - "orgpercepcion"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la percepcion de organizacion
+      required: true
+      schema:
+        type: integer
+  description: Elimina una percepcion de organizacion existente
+  operationId: deleteOrgPerception
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza una percepcion de organizacion existente
+  tags:
+    - "orgpercepcion"
+  operationId: updateOrgPerception
+  parameters:
+    - name: id
+      in: path
+      description: ID de la percepcion de organizacion a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/orgpercepcion.yaml#/components/schemas/OrgPercepcion'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

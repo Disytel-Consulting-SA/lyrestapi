@@ -1,0 +1,14 @@
+components:
+  schemas:
+    OrgPercepcion:
+      type: object
+      properties:
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:

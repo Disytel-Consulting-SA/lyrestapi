@@ -1,0 +1,70 @@
+components:
+  schemas:
+    OrgPercepcion:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_org_id:
+          type: integer
+        ad_org_percepcion_id:
+          type: integer
+        alicuota:
+          type: number
+        created:
+          type: string
+        createdby:
+          type: integer
+        c_retencionprocessor_id:
+          type: integer
+        c_tax_id:
+          type: integer
+        description:
+          type: string
+        isactive:
+          type: boolean
+        isconveniomultilateral:
+          type: boolean
+        minimumnetamount:
+          type: number
+        minimumpercepcionamt:
+          type: number
+        name:
+          type: string
+        partialreturn:
+          type: boolean
+        totalreturn:
+          type: boolean
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        usecabajurisdiction:
+          type: boolean
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_org_percepcion_id
+         - alicuota
+         - created
+         - createdby
+         - c_retencionprocessor_id
+         - c_tax_id
+         - isactive
+         - isconveniomultilateral
+         - minimumnetamount
+         - minimumpercepcionamt
+         - name
+         - partialreturn
+         - totalreturn
+         - updated
+         - updatedby
+         - usecabajurisdiction
