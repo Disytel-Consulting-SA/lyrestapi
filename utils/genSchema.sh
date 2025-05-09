@@ -62,3 +62,5 @@ generateSchema Org                AD_Org                org.yaml
 generateSchema OrgPercepcion      AD_OrgPercepcion      orgercepcion.yaml
 generateSchema POS                C_POS                 pos.yaml
 generateSchema POSPaymentMedium   C_POSPaymentMedium    pospaymentmedium.yaml
+generateSchema PaySchedule        C_PaySchedule         payschedule.yaml
+generateSchema PaymentTerm        C_PaymentTerm         paymentterm.yaml

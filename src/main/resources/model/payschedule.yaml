@@ -1,0 +1,65 @@
+components:
+  schemas:
+    PaySchedule:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        c_paymentterm_id:
+          type: integer
+        c_payschedule_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        discount:
+          type: number
+        discountapplicationtype:
+          type: string
+        discountdays:
+          type: integer
+        gracedays:
+          type: integer
+        isactive:
+          type: boolean
+        isvalid:
+          type: boolean
+        netday:
+          type: string
+        netdays:
+          type: integer
+        percentage:
+          type: number
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_paymentterm_id
+         - c_payschedule_id
+         - created
+         - createdby
+         - discount
+         - discountdays
+         - gracedays
+         - isactive
+         - isvalid
+         - netdays
+         - percentage
+         - updated
+         - updatedby

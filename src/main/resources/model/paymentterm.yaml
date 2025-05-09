@@ -1,0 +1,108 @@
+components:
+  schemas:
+    PaymentTerm:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+        ad_componentobjectuid:
+          type: string
+        ad_org_id:
+          type: integer
+        afterdelivery:
+          type: boolean
+        applicationcontext:
+          type: string
+        applicationdate:
+          type: string
+        c_paymentterm_id:
+          type: integer
+        c_pospaymentmedium_id:
+          type: integer
+        created:
+          type: string
+        createdby:
+          type: integer
+        description:
+          type: string
+        discount:
+          type: number
+        discount2:
+          type: number
+        discountapplicationtype:
+          type: string
+        discountapplicationtype2:
+          type: string
+        discountdays:
+          type: integer
+        discountdays2:
+          type: integer
+        documentnote:
+          type: string
+        fixmonthcutoff:
+          type: integer
+        fixmonthday:
+          type: integer
+        fixmonthday2:
+          type: integer
+        fixmonthoffset:
+          type: integer
+        gracedays:
+          type: integer
+        gracedays2:
+          type: integer
+        isactive:
+          type: boolean
+        isdefault:
+          type: boolean
+        isduefixed:
+          type: boolean
+        isnextbusinessday:
+          type: boolean
+        isvalid:
+          type: boolean
+        name:
+          type: string
+        netday:
+          type: string
+        netdays:
+          type: integer
+        processing:
+          type: string
+        updated:
+          type: string
+        updatedby:
+          type: integer
+        value:
+          type: string
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - afterdelivery
+         - applicationcontext
+         - applicationdate
+         - c_paymentterm_id
+         - created
+         - createdby
+         - discount
+         - discount2
+         - discountdays
+         - discountdays2
+         - gracedays
+         - gracedays2
+         - isactive
+         - isduefixed
+         - isvalid
+         - name
+         - netdays
+         - updated
+         - updatedby
+         - value

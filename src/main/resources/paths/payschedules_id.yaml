@@ -1,0 +1,90 @@
+get:
+  summary: Recupera un esquema de pago en particular
+  tags:
+    - "payschedule"
+  parameters:
+    - name: id
+      in: path
+      description: ID del esquema de pago
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un esquema de pago en particular
+  operationId: retrievePaySchedule
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/payschedule.yaml#/components/schemas/PaySchedule'
+delete:
+  summary: Elimina un esquema de pago
+  tags:
+    - "payschedule"
+  parameters:
+    - name: id
+      in: path
+      description: ID del esquema de pago
+      required: true
+      schema:
+        type: integer
+  description: Elimina un esquema de pago existente
+  operationId: deletePaySchedule
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza un esquema de pago existente
+  tags:
+    - "payschedule"
+  operationId: updatePaySchedule
+  parameters:
+    - name: id
+      in: path
+      description: ID del esquema de pago a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/payschedule.yaml#/components/schemas/PaySchedule'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

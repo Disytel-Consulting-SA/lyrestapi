@@ -156,3 +156,11 @@ paths:
     $ref: ./paths/pospaymentmediums.yaml
   /v1.0/pospaymentmediums/{id}:
     $ref: ./paths/pospaymentmediums_id.yaml
+  /v1.0/paymentterms:
+    $ref: ./paths/paymentterms.yaml
+  /v1.0/paymentterms/{id}:
+    $ref: ./paths/paymentterms_id.yaml
+  /v1.0/payschedules:
+    $ref: ./paths/payschedules.yaml
+  /v1.0/payschedules/{id}:
+    $ref: ./paths/payschedules_id.yaml
