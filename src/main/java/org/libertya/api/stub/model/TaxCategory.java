@@ -75,10 +75,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -95,10 +95,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -114,10 +114,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -134,10 +134,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get commoditycode
+   * Código de mercancía usado para cálculo de impuestos
    * @return commoditycode
    **/
-  @Schema(description = "")
+  @Schema(description = "Código de mercancía usado para cálculo de impuestos")
   
     public String getCommoditycode() {
     return commoditycode;
@@ -153,10 +153,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -173,10 +173,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -193,10 +193,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get cTaxcategoryId
+   * Categoría del Impuesto
    * @return cTaxcategoryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Categoría del Impuesto")
       @NotNull
 
     public Integer getCTaxcategoryId() {
@@ -213,10 +213,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -232,10 +232,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -252,10 +252,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get isdefault
+   * Valor Predeterminado
    * @return isdefault
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Valor Predeterminado")
       @NotNull
 
     public Boolean isIsdefault() {
@@ -272,10 +272,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get ismanual
+   * Éste es un proceso manual
    * @return ismanual
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Éste es un proceso manual")
       @NotNull
 
     public Boolean isIsmanual() {
@@ -292,10 +292,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -312,10 +312,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -332,10 +332,10 @@ public class TaxCategory   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

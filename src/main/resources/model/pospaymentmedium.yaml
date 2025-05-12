@@ -5,58 +5,85 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_componentversion_id:
           type: integer
+          description: "Versión de Componente propietaria de este registro"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         bank:
           type: string
+          description: "Nombre del Banco asociado"
         beforecheckdeadlinefrom:
           type: string
+          description: "Valor inicial del rango"
         beforecheckdeadlineto:
           type: string
+          description: "Valor final del rango"
         c_bank_id:
           type: integer
+          description: "Banco"
         c_currency_id:
           type: integer
+          description: "Moneda para este registro"
         checkdeadline:
           type: string
+          description: "Plazo de Cobro de Cheque"
         context:
           type: string
+          description: " "
         c_pospaymentmedium_id:
           type: integer
+          description: "Medio de Pago de Terminal Punto de Venta"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         datefrom:
           type: string
+          description: "Fecha de inicio para un rango"
         dateto:
           type: string
+          description: "Fecha final de un rango (inclusive)"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         ismandatorybank:
           type: boolean
+          description: " "
         isnormalizedbank:
           type: boolean
+          description: " "
         m_discountschema_id:
           type: integer
+          description: "Esquema para calcular el porcentaje de descuento comercial"
         m_entidadfinanciera_id:
           type: integer
+          description: " "
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         tendertype:
           type: string
+          description: "Método de pago"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         validatebeforecheckdeadlines:
           type: boolean
+          description: "Validar plazos anteriores en el TPV"
         additionalvalues:
           type: array
           items:

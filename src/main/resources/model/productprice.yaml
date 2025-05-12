@@ -5,28 +5,40 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         m_pricelist_version_id:
           type: integer
+          description: "Versión de Tarifa"
         m_product_id:
           type: integer
+          description: "Producto; servicio o Artículo"
         pricelimit:
           type: number
+          description: "Precio más bajo del producto"
         pricelist:
           type: number
+          description: "Precio de Tarifa"
         pricestd:
           type: number
+          description: "Precio Estándar"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

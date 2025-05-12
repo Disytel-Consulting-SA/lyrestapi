@@ -82,10 +82,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -102,10 +102,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -122,10 +122,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get arcibanormcode
+   *  
    * @return arcibanormcode
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getArcibanormcode() {
     return arcibanormcode;
@@ -141,10 +141,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get cInvoiceId
+   * Identificador de la factura
    * @return cInvoiceId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador de la factura")
       @NotNull
 
     public Integer getCInvoiceId() {
@@ -161,10 +161,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -181,10 +181,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -201,10 +201,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get cTaxId
+   * Identificador del Impuesto
    * @return cTaxId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador del Impuesto")
       @NotNull
 
     public Integer getCTaxId() {
@@ -221,10 +221,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -241,10 +241,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get isperceptionsincluded
+   *  
    * @return isperceptionsincluded
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsperceptionsincluded() {
@@ -261,10 +261,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get istaxincluded
+   * Impuesto incluido en el precio
    * @return istaxincluded
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Impuesto incluido en el precio")
       @NotNull
 
     public Boolean isIstaxincluded() {
@@ -281,10 +281,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -301,10 +301,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get rate
+   * Tasa o Impuesto o Conversión
    * @return rate
    **/
-  @Schema(description = "")
+  @Schema(description = "Tasa o Impuesto o Conversión")
   
     @Valid
     public BigDecimal getRate() {
@@ -321,10 +321,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get taxamt
+   * Importe del Impuesto
    * @return taxamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe del Impuesto")
       @NotNull
 
     @Valid
@@ -342,10 +342,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get taxbaseamt
+   * Base para calcular el Importe del impuesto
    * @return taxbaseamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Base para calcular el Importe del impuesto")
       @NotNull
 
     @Valid
@@ -363,10 +363,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -383,10 +383,10 @@ public class InvoiceTax   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

@@ -301,10 +301,10 @@ public class DocType   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -321,10 +321,10 @@ public class DocType   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -340,10 +340,10 @@ public class DocType   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -360,10 +360,10 @@ public class DocType   {
   }
 
   /**
-   * Get adPrintformatId
+   * Formato de Impresión de datos
    * @return adPrintformatId
    **/
-  @Schema(description = "")
+  @Schema(description = "Formato de Impresión de datos")
   
     public Integer getAdPrintformatId() {
     return adPrintformatId;
@@ -379,10 +379,10 @@ public class DocType   {
   }
 
   /**
-   * Get adProcessId
+   * Proceso o Reporte
    * @return adProcessId
    **/
-  @Schema(description = "")
+  @Schema(description = "Proceso o Reporte")
   
     public Integer getAdProcessId() {
     return adProcessId;
@@ -398,10 +398,10 @@ public class DocType   {
   }
 
   /**
-   * Get allowchangepricelist
+   * Es posible modificar la tarifa del documento. Todos los precios de las líneas serán modificados.
    * @return allowchangepricelist
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Es posible modificar la tarifa del documento. Todos los precios de las líneas serán modificados.")
       @NotNull
 
     public Boolean isAllowchangepricelist() {
@@ -418,10 +418,10 @@ public class DocType   {
   }
 
   /**
-   * Get allowdeliveryreturned
+   * Permitir hacer entrega de artículos que fueron ingresados por Devoluciones
    * @return allowdeliveryreturned
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permitir hacer entrega de artículos que fueron ingresados por Devoluciones")
       @NotNull
 
     public Boolean isAllowdeliveryreturned() {
@@ -438,10 +438,10 @@ public class DocType   {
   }
 
   /**
-   * Get allowonlyproviders
+   *  
    * @return allowonlyproviders
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isAllowonlyproviders() {
@@ -458,10 +458,10 @@ public class DocType   {
   }
 
   /**
-   * Get allowotherbatchpaymentdate
+   * Permitir Lote fuera de fecha, caso contrario setea la fecha actual automáticamente al procesar
    * @return allowotherbatchpaymentdate
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permitir Lote fuera de fecha, caso contrario setea la fecha actual automáticamente al procesar")
       @NotNull
 
     public Boolean isAllowotherbatchpaymentdate() {
@@ -478,10 +478,10 @@ public class DocType   {
   }
 
   /**
-   * Get allowproposaldue
+   * Permitir crear documentos a partir de presupuestos vencidos
    * @return allowproposaldue
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permitir crear documentos a partir de presupuestos vencidos")
       @NotNull
 
     public Boolean isAllowproposaldue() {
@@ -498,10 +498,10 @@ public class DocType   {
   }
 
   /**
-   * Get applyperception
+   * Marca que permite o no aplicar percepciones automáticamente para comprobantes de ventas
    * @return applyperception
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Marca que permite o no aplicar percepciones automáticamente para comprobantes de ventas")
       @NotNull
 
     public Boolean isApplyperception() {
@@ -518,10 +518,10 @@ public class DocType   {
   }
 
   /**
-   * Get applyretention
+   *  
    * @return applyretention
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isApplyretention() {
@@ -538,10 +538,10 @@ public class DocType   {
   }
 
   /**
-   * Get cai
+   *  
    * @return cai
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCai() {
     return cai;
@@ -557,10 +557,10 @@ public class DocType   {
   }
 
   /**
-   * Get caicontrol
+   * Permite gestionar CAI del tipo de documento desde la ventana Gestión de CAI
    * @return caicontrol
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permite gestionar CAI del tipo de documento desde la ventana Gestión de CAI")
       @NotNull
 
     public Boolean isCaicontrol() {
@@ -577,10 +577,10 @@ public class DocType   {
   }
 
   /**
-   * Get cControladorFiscalId
+   *  
    * @return cControladorFiscalId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCControladorFiscalId() {
     return cControladorFiscalId;
@@ -596,10 +596,10 @@ public class DocType   {
   }
 
   /**
-   * Get cDoctypedifferenceId
+   * Documento de Diferencia para envios en disputa
    * @return cDoctypedifferenceId
    **/
-  @Schema(description = "")
+  @Schema(description = "Documento de Diferencia para envios en disputa")
   
     public Integer getCDoctypedifferenceId() {
     return cDoctypedifferenceId;
@@ -615,10 +615,10 @@ public class DocType   {
   }
 
   /**
-   * Get cDoctypeId
+   * Tipo de documento o reglas
    * @return cDoctypeId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de documento o reglas")
       @NotNull
 
     public Integer getCDoctypeId() {
@@ -635,10 +635,10 @@ public class DocType   {
   }
 
   /**
-   * Get cDoctypeinvoiceId
+   * Tipo del documento usado para facturas generadas desde este documento de ventas
    * @return cDoctypeinvoiceId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo del documento usado para facturas generadas desde este documento de ventas")
   
     public Integer getCDoctypeinvoiceId() {
     return cDoctypeinvoiceId;
@@ -654,10 +654,10 @@ public class DocType   {
   }
 
   /**
-   * Get cDoctypeproformaId
+   * Tipo del documento usado para facturas pro forma generadas desde este documento de ventas
    * @return cDoctypeproformaId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo del documento usado para facturas pro forma generadas desde este documento de ventas")
   
     public Integer getCDoctypeproformaId() {
     return cDoctypeproformaId;
@@ -673,10 +673,10 @@ public class DocType   {
   }
 
   /**
-   * Get cDoctypeshipmentId
+   * Tipo del documento usado para la entrega generados desde este documento de ventas
    * @return cDoctypeshipmentId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo del documento usado para la entrega generados desde este documento de ventas")
   
     public Integer getCDoctypeshipmentId() {
     return cDoctypeshipmentId;
@@ -692,10 +692,10 @@ public class DocType   {
   }
 
   /**
-   * Get cInvoiceId
+   * Identificador de la factura
    * @return cInvoiceId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador de la factura")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -711,10 +711,10 @@ public class DocType   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -731,10 +731,10 @@ public class DocType   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -751,10 +751,10 @@ public class DocType   {
   }
 
   /**
-   * Get cReversedoctypeId
+   *  
    * @return cReversedoctypeId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCReversedoctypeId() {
     return cReversedoctypeId;
@@ -770,10 +770,10 @@ public class DocType   {
   }
 
   /**
-   * Get datecai
+   *  
    * @return datecai
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDatecai() {
     return datecai;
@@ -789,10 +789,10 @@ public class DocType   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -808,10 +808,10 @@ public class DocType   {
   }
 
   /**
-   * Get docbasetype
+   * Identifica el punto de inicio para un documento
    * @return docbasetype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identifica el punto de inicio para un documento")
       @NotNull
 
     public String getDocbasetype() {
@@ -828,10 +828,10 @@ public class DocType   {
   }
 
   /**
-   * Get docnosequenceId
+   * La secuencia del documento determina la numeración del documento
    * @return docnosequenceId
    **/
-  @Schema(description = "")
+  @Schema(description = "La secuencia del documento determina la numeración del documento")
   
     public Integer getDocnosequenceId() {
     return docnosequenceId;
@@ -847,10 +847,10 @@ public class DocType   {
   }
 
   /**
-   * Get docnosequenceUniqueId
+   *  
    * @return docnosequenceUniqueId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getDocnosequenceUniqueId() {
     return docnosequenceUniqueId;
@@ -866,10 +866,10 @@ public class DocType   {
   }
 
   /**
-   * Get docsubtypecae
+   *  
    * @return docsubtypecae
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDocsubtypecae() {
     return docsubtypecae;
@@ -885,10 +885,10 @@ public class DocType   {
   }
 
   /**
-   * Get docsubtypeinv
+   *  
    * @return docsubtypeinv
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDocsubtypeinv() {
     return docsubtypeinv;
@@ -904,10 +904,10 @@ public class DocType   {
   }
 
   /**
-   * Get docsubtypeso
+   * Subtipo Pedido de Cliente
    * @return docsubtypeso
    **/
-  @Schema(description = "")
+  @Schema(description = "Subtipo Pedido de Cliente")
   
     public String getDocsubtypeso() {
     return docsubtypeso;
@@ -923,10 +923,10 @@ public class DocType   {
   }
 
   /**
-   * Get doctypekey
+   * Clave única de identificación del tipo de documento
    * @return doctypekey
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Clave única de identificación del tipo de documento")
       @NotNull
 
     public String getDoctypekey() {
@@ -943,10 +943,10 @@ public class DocType   {
   }
 
   /**
-   * Get documentcopies
+   * Número de copias a ser impresas
    * @return documentcopies
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de copias a ser impresas")
       @NotNull
 
     public Integer getDocumentcopies() {
@@ -963,10 +963,10 @@ public class DocType   {
   }
 
   /**
-   * Get documentnote
+   * Información adicional para un Documento
    * @return documentnote
    **/
-  @Schema(description = "")
+  @Schema(description = "Información adicional para un Documento")
   
     public String getDocumentnote() {
     return documentnote;
@@ -982,10 +982,10 @@ public class DocType   {
   }
 
   /**
-   * Get dragorderdocumentdiscounts
+   * Arrastrar descuentos de nivel de documento aplicados en el pedido
    * @return dragorderdocumentdiscounts
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Arrastrar descuentos de nivel de documento aplicados en el pedido")
       @NotNull
 
     public Boolean isDragorderdocumentdiscounts() {
@@ -1002,10 +1002,10 @@ public class DocType   {
   }
 
   /**
-   * Get dragorderdocumentsurcharges
+   * Arrastrar recargos de nivel de documento aplicados en el pedido
    * @return dragorderdocumentsurcharges
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Arrastrar recargos de nivel de documento aplicados en el pedido")
       @NotNull
 
     public Boolean isDragorderdocumentsurcharges() {
@@ -1022,10 +1022,10 @@ public class DocType   {
   }
 
   /**
-   * Get dragorderlinediscounts
+   * Arrastrar descuentos de nivel de línea del pedido
    * @return dragorderlinediscounts
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Arrastrar descuentos de nivel de línea del pedido")
       @NotNull
 
     public Boolean isDragorderlinediscounts() {
@@ -1042,10 +1042,10 @@ public class DocType   {
   }
 
   /**
-   * Get dragorderlinesurcharges
+   * Arrastrar recargos de nivel de línea del pedido
    * @return dragorderlinesurcharges
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Arrastrar recargos de nivel de línea del pedido")
       @NotNull
 
     public Boolean isDragorderlinesurcharges() {
@@ -1062,10 +1062,10 @@ public class DocType   {
   }
 
   /**
-   * Get dragorderprice
+   * Arrastrar precios del pedido
    * @return dragorderprice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Arrastrar precios del pedido")
       @NotNull
 
     public Boolean isDragorderprice() {
@@ -1082,10 +1082,10 @@ public class DocType   {
   }
 
   /**
-   * Get enabledinpos
+   * Uso del documento habilitado en el TPV
    * @return enabledinpos
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Uso del documento habilitado en el TPV")
       @NotNull
 
     public Boolean isEnabledinpos() {
@@ -1102,10 +1102,10 @@ public class DocType   {
   }
 
   /**
-   * Get enableincreatefromshipment
+   * Habilitado para la creación de Remitos a partir de este documento
    * @return enableincreatefromshipment
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Habilitado para la creación de Remitos a partir de este documento")
       @NotNull
 
     public Boolean isEnableincreatefromshipment() {
@@ -1122,10 +1122,10 @@ public class DocType   {
   }
 
   /**
-   * Get fiscaldocument
+   * Tipo de comprobante a emitir por el controlador fiscal
    * @return fiscaldocument
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de comprobante a emitir por el controlador fiscal")
       @NotNull
 
     public String getFiscaldocument() {
@@ -1142,10 +1142,10 @@ public class DocType   {
   }
 
   /**
-   * Get fiscalprintingfooterlegends
+   * Las leyendas de la impresión fiscal se deben agregar separadas por el caracter punto y coma (;)
    * @return fiscalprintingfooterlegends
    **/
-  @Schema(description = "")
+  @Schema(description = "Las leyendas de la impresión fiscal se deben agregar separadas por el caracter punto y coma (;)")
   
     public String getFiscalprintingfooterlegends() {
     return fiscalprintingfooterlegends;
@@ -1161,10 +1161,10 @@ public class DocType   {
   }
 
   /**
-   * Get glCategoryId
+   * Categoría de Contabilidad General
    * @return glCategoryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Categoría de Contabilidad General")
       @NotNull
 
     public Integer getGlCategoryId() {
@@ -1181,10 +1181,10 @@ public class DocType   {
   }
 
   /**
-   * Get hascharges
+   * Cargos pueden ser agregados al documento
    * @return hascharges
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cargos pueden ser agregados al documento")
       @NotNull
 
     public Boolean isHascharges() {
@@ -1201,10 +1201,10 @@ public class DocType   {
   }
 
   /**
-   * Get hasproforma
+   * Indica si facturas Pro Forma pueden ser generadas desde este documento
    * @return hasproforma
    **/
-  @Schema(description = "")
+  @Schema(description = "Indica si facturas Pro Forma pueden ser generadas desde este documento")
   
     public Boolean isHasproforma() {
     return hasproforma;
@@ -1220,10 +1220,10 @@ public class DocType   {
   }
 
   /**
-   * Get inoutAllowGreaterQtyordered
+   * Permitir Cantidades Mayores a Líneas de Pedido
    * @return inoutAllowGreaterQtyordered
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permitir Cantidades Mayores a Líneas de Pedido")
       @NotNull
 
     public Boolean isInoutAllowGreaterQtyordered() {
@@ -1240,10 +1240,10 @@ public class DocType   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -1260,10 +1260,10 @@ public class DocType   {
   }
 
   /**
-   * Get ischeckoutplacerestricted
+   * Valida que los artículos agregados al documento sean retirados por Almacén o Ambos (Almacén + TPV)
    * @return ischeckoutplacerestricted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Valida que los artículos agregados al documento sean retirados por Almacén o Ambos (Almacén + TPV)")
       @NotNull
 
     public Boolean isIscheckoutplacerestricted() {
@@ -1280,10 +1280,10 @@ public class DocType   {
   }
 
   /**
-   * Get iscreatecounter
+   * Crear Documento Asociado
    * @return iscreatecounter
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Crear Documento Asociado")
       @NotNull
 
     public Boolean isIscreatecounter() {
@@ -1300,10 +1300,10 @@ public class DocType   {
   }
 
   /**
-   * Get isdefault
+   * Valor Predeterminado
    * @return isdefault
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Valor Predeterminado")
       @NotNull
 
     public Boolean isIsdefault() {
@@ -1320,10 +1320,10 @@ public class DocType   {
   }
 
   /**
-   * Get isdefaultcounterdoc
+   * Contrapartida por Defecto
    * @return isdefaultcounterdoc
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Contrapartida por Defecto")
       @NotNull
 
     public Boolean isIsdefaultcounterdoc() {
@@ -1340,10 +1340,10 @@ public class DocType   {
   }
 
   /**
-   * Get isdocnocontrolled
+   * El documento tiene una secuencia de documento
    * @return isdocnocontrolled
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento tiene una secuencia de documento")
       @NotNull
 
     public Boolean isIsdocnocontrolled() {
@@ -1360,10 +1360,10 @@ public class DocType   {
   }
 
   /**
-   * Get iselectronic
+   *  
    * @return iselectronic
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isIselectronic() {
     return iselectronic;
@@ -1379,10 +1379,10 @@ public class DocType   {
   }
 
   /**
-   * Get isfiscal
+   *  
    * @return isfiscal
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsfiscal() {
@@ -1399,10 +1399,10 @@ public class DocType   {
   }
 
   /**
-   * Get isfiscaldocument
+   * Un Documento Fiscal tiene asociadas una serie de validación que dependen de cada Localización
    * @return isfiscaldocument
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Un Documento Fiscal tiene asociadas una serie de validación que dependen de cada Localización")
       @NotNull
 
     public Boolean isIsfiscaldocument() {
@@ -1419,10 +1419,10 @@ public class DocType   {
   }
 
   /**
-   * Get isintransit
+   * El Movimiento de Material esta en Tránsito
    * @return isintransit
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El Movimiento de Material esta en Tránsito")
       @NotNull
 
     public Boolean isIsintransit() {
@@ -1439,10 +1439,10 @@ public class DocType   {
   }
 
   /**
-   * Get ispaymentorderseq
+   *  
    * @return ispaymentorderseq
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isIspaymentorderseq() {
     return ispaymentorderseq;
@@ -1458,10 +1458,10 @@ public class DocType   {
   }
 
   /**
-   * Get ispickqaconfirm
+   * Requiere Confirmación de Recogida antes de procesar
    * @return ispickqaconfirm
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Requiere Confirmación de Recogida antes de procesar")
       @NotNull
 
     public Boolean isIspickqaconfirm() {
@@ -1478,10 +1478,10 @@ public class DocType   {
   }
 
   /**
-   * Get isprintatcompleting
+   * El documento se imprimirá cuando se haya completado.
    * @return isprintatcompleting
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento se imprimirá cuando se haya completado.")
       @NotNull
 
     public Boolean isIsprintatcompleting() {
@@ -1498,10 +1498,10 @@ public class DocType   {
   }
 
   /**
-   * Get isprintpreview
+   *  
    * @return isprintpreview
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsprintpreview() {
@@ -1518,10 +1518,10 @@ public class DocType   {
   }
 
   /**
-   * Get isreceiptseq
+   *  
    * @return isreceiptseq
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isIsreceiptseq() {
     return isreceiptseq;
@@ -1537,10 +1537,10 @@ public class DocType   {
   }
 
   /**
-   * Get isshipconfirm
+   * Pedir Confirmación Envio/Recogida antes de procesar
    * @return isshipconfirm
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Pedir Confirmación Envio/Recogida antes de procesar")
       @NotNull
 
     public Boolean isIsshipconfirm() {
@@ -1557,10 +1557,10 @@ public class DocType   {
   }
 
   /**
-   * Get issotrx
+   * Esta es una transacción de ventas
    * @return issotrx
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Esta es una transacción de ventas")
       @NotNull
 
     public Boolean isIssotrx() {
@@ -1577,10 +1577,10 @@ public class DocType   {
   }
 
   /**
-   * Get issplitwhendifference
+   * Dividir el documento si hay diferencia
    * @return issplitwhendifference
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Dividir el documento si hay diferencia")
       @NotNull
 
     public Boolean isIssplitwhendifference() {
@@ -1597,10 +1597,10 @@ public class DocType   {
   }
 
   /**
-   * Get iswarehouseclosurecontrol
+   * Se debe realizar el control de Cierre de Depósito cuando este está activado
    * @return iswarehouseclosurecontrol
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Se debe realizar el control de Cierre de Depósito cuando este está activado")
       @NotNull
 
     public Boolean isIswarehouseclosurecontrol() {
@@ -1617,10 +1617,10 @@ public class DocType   {
   }
 
   /**
-   * Get linescountmax
+   * Cantidad máxima de líneas del documento
    * @return linescountmax
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad máxima de líneas del documento")
       @NotNull
 
     public Integer getLinescountmax() {
@@ -1637,10 +1637,10 @@ public class DocType   {
   }
 
   /**
-   * Get lockseq
+   * Activar Bloqueo de Secuencia del Documento
    * @return lockseq
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Activar Bloqueo de Secuencia del Documento")
       @NotNull
 
     public Boolean isLockseq() {
@@ -1657,10 +1657,10 @@ public class DocType   {
   }
 
   /**
-   * Get mTrannaturecodeaId
+   *  
    * @return mTrannaturecodeaId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getMTrannaturecodeaId() {
@@ -1677,10 +1677,10 @@ public class DocType   {
   }
 
   /**
-   * Get mTrannaturecodebId
+   *  
    * @return mTrannaturecodebId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getMTrannaturecodebId() {
@@ -1697,10 +1697,10 @@ public class DocType   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -1717,10 +1717,10 @@ public class DocType   {
   }
 
   /**
-   * Get notinvoiceable
+   * No Facturable
    * @return notinvoiceable
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "No Facturable")
       @NotNull
 
     public Boolean isNotinvoiceable() {
@@ -1737,10 +1737,10 @@ public class DocType   {
   }
 
   /**
-   * Get onlyvendorproducts
+   * Sólo es posible utilizar artículos del proveedor del pedido.
    * @return onlyvendorproducts
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Sólo es posible utilizar artículos del proveedor del pedido.")
       @NotNull
 
     public Boolean isOnlyvendorproducts() {
@@ -1757,10 +1757,10 @@ public class DocType   {
   }
 
   /**
-   * Get openCloseByPos
+   *  
    * @return openCloseByPos
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isOpenCloseByPos() {
@@ -1777,10 +1777,10 @@ public class DocType   {
   }
 
   /**
-   * Get posenabledue
+   * Documento donde su habilitación en el TPV tiene vencimiento
    * @return posenabledue
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Documento donde su habilitación en el TPV tiene vencimiento")
       @NotNull
 
     public Boolean isPosenabledue() {
@@ -1797,10 +1797,10 @@ public class DocType   {
   }
 
   /**
-   * Get posenableduedays
+   * Cantidad de días luego de la fecha de la transacción en que se encuentra habilitado para ser utilizado en el TPV
    * @return posenableduedays
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad de días luego de la fecha de la transacción en que se encuentra habilitado para ser utilizado en el TPV")
       @NotNull
 
     public Integer getPosenableduedays() {
@@ -1817,10 +1817,10 @@ public class DocType   {
   }
 
   /**
-   * Get printername
+   * Nombre de Impresora
    * @return printername
    **/
-  @Schema(description = "")
+  @Schema(description = "Nombre de Impresora")
   
     public String getPrintername() {
     return printername;
@@ -1836,10 +1836,10 @@ public class DocType   {
   }
 
   /**
-   * Get printname
+   * Texto a Imprimir
    * @return printname
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Texto a Imprimir")
       @NotNull
 
     public String getPrintname() {
@@ -1856,10 +1856,10 @@ public class DocType   {
   }
 
   /**
-   * Get reservestockmanagment
+   * Gestionar cantidades reservadas de pedidos y del stock
    * @return reservestockmanagment
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Gestionar cantidades reservadas de pedidos y del stock")
       @NotNull
 
     public Boolean isReservestockmanagment() {
@@ -1876,10 +1876,10 @@ public class DocType   {
   }
 
   /**
-   * Get reusedocumentno
+   *  
    * @return reusedocumentno
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isReusedocumentno() {
@@ -1896,10 +1896,10 @@ public class DocType   {
   }
 
   /**
-   * Get signoIssotrx
+   *  
    * @return signoIssotrx
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public String getSignoIssotrx() {
@@ -1916,10 +1916,10 @@ public class DocType   {
   }
 
   /**
-   * Get skipcurrentaccounts
+   * Omitir validaciones y actualizaciones relacionadas a Cuenta Corriente
    * @return skipcurrentaccounts
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Omitir validaciones y actualizaciones relacionadas a Cuenta Corriente")
       @NotNull
 
     public Boolean isSkipcurrentaccounts() {
@@ -1936,10 +1936,10 @@ public class DocType   {
   }
 
   /**
-   * Get transactiontypefrontliva
+   * Tipo de transacción frente al libro de iva
    * @return transactiontypefrontliva
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo de transacción frente al libro de iva")
   
     public String getTransactiontypefrontliva() {
     return transactiontypefrontliva;
@@ -1955,10 +1955,10 @@ public class DocType   {
   }
 
   /**
-   * Get uniquedocumentno
+   *  
    * @return uniquedocumentno
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isUniquedocumentno() {
@@ -1975,10 +1975,10 @@ public class DocType   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -1995,10 +1995,10 @@ public class DocType   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -2015,10 +2015,10 @@ public class DocType   {
   }
 
   /**
-   * Get useorderwarehouse
+   *  
    * @return useorderwarehouse
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isUseorderwarehouse() {
@@ -2035,10 +2035,10 @@ public class DocType   {
   }
 
   /**
-   * Get validateseqlength
+   *  
    * @return validateseqlength
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isValidateseqlength() {
     return validateseqlength;

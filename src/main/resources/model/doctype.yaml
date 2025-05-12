@@ -5,182 +5,271 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_printformat_id:
           type: integer
+          description: "Formato de Impresión de datos"
         ad_process_id:
           type: integer
+          description: "Proceso o Reporte"
         allowchangepricelist:
           type: boolean
+          description: "Es posible modificar la tarifa del documento. Todos los precios de las líneas serán modificados."
         allowdeliveryreturned:
           type: boolean
+          description: "Permitir hacer entrega de artículos que fueron ingresados por Devoluciones"
         allowonlyproviders:
           type: boolean
+          description: " "
         allowotherbatchpaymentdate:
           type: boolean
+          description: "Permitir Lote fuera de fecha, caso contrario setea la fecha actual automáticamente al procesar"
         allowproposaldue:
           type: boolean
+          description: "Permitir crear documentos a partir de presupuestos vencidos"
         applyperception:
           type: boolean
+          description: "Marca que permite o no aplicar percepciones automáticamente para comprobantes de ventas"
         applyretention:
           type: boolean
+          description: " "
         cai:
           type: string
+          description: " "
         caicontrol:
           type: boolean
+          description: "Permite gestionar CAI del tipo de documento desde la ventana Gestión de CAI"
         c_controlador_fiscal_id:
           type: integer
+          description: " "
         c_doctypedifference_id:
           type: integer
+          description: "Documento de Diferencia para envios en disputa"
         c_doctype_id:
           type: integer
+          description: "Tipo de documento o reglas"
         c_doctypeinvoice_id:
           type: integer
+          description: "Tipo del documento usado para facturas generadas desde este documento de ventas"
         c_doctypeproforma_id:
           type: integer
+          description: "Tipo del documento usado para facturas pro forma generadas desde este documento de ventas"
         c_doctypeshipment_id:
           type: integer
+          description: "Tipo del documento usado para la entrega generados desde este documento de ventas"
         c_invoice_id:
           type: integer
+          description: "Identificador de la factura"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_reversedoctype_id:
           type: integer
+          description: " "
         datecai:
           type: string
+          description: " "
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         docbasetype:
           type: string
+          description: "Identifica el punto de inicio para un documento"
         docnosequence_id:
           type: integer
+          description: "La secuencia del documento determina la numeración del documento"
         docnosequence_unique_id:
           type: integer
+          description: " "
         docsubtypecae:
           type: string
+          description: " "
         docsubtypeinv:
           type: string
+          description: " "
         docsubtypeso:
           type: string
+          description: "Subtipo Pedido de Cliente"
         doctypekey:
           type: string
+          description: "Clave única de identificación del tipo de documento"
         documentcopies:
           type: integer
+          description: "Número de copias a ser impresas"
         documentnote:
           type: string
+          description: "Información adicional para un Documento"
         dragorderdocumentdiscounts:
           type: boolean
+          description: "Arrastrar descuentos de nivel de documento aplicados en el pedido"
         dragorderdocumentsurcharges:
           type: boolean
+          description: "Arrastrar recargos de nivel de documento aplicados en el pedido"
         dragorderlinediscounts:
           type: boolean
+          description: "Arrastrar descuentos de nivel de línea del pedido"
         dragorderlinesurcharges:
           type: boolean
+          description: "Arrastrar recargos de nivel de línea del pedido"
         dragorderprice:
           type: boolean
+          description: "Arrastrar precios del pedido"
         enabledinpos:
           type: boolean
+          description: "Uso del documento habilitado en el TPV"
         enableincreatefromshipment:
           type: boolean
+          description: "Habilitado para la creación de Remitos a partir de este documento"
         fiscaldocument:
           type: string
+          description: "Tipo de comprobante a emitir por el controlador fiscal"
         fiscalprintingfooterlegends:
           type: string
+          description: "Las leyendas de la impresión fiscal se deben agregar separadas por el caracter punto y coma (;)"
         gl_category_id:
           type: integer
+          description: "Categoría de Contabilidad General"
         hascharges:
           type: boolean
+          description: "Cargos pueden ser agregados al documento"
         hasproforma:
           type: boolean
+          description: "Indica si facturas Pro Forma pueden ser generadas desde este documento"
         inout_allow_greater_qtyordered:
           type: boolean
+          description: "Permitir Cantidades Mayores a Líneas de Pedido"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         ischeckoutplacerestricted:
           type: boolean
+          description: "Valida que los artículos agregados al documento sean retirados por Almacén o Ambos (Almacén + TPV)"
         iscreatecounter:
           type: boolean
+          description: "Crear Documento Asociado"
         isdefault:
           type: boolean
+          description: "Valor Predeterminado"
         isdefaultcounterdoc:
           type: boolean
+          description: "Contrapartida por Defecto"
         isdocnocontrolled:
           type: boolean
+          description: "El documento tiene una secuencia de documento"
         iselectronic:
           type: boolean
+          description: " "
         isfiscal:
           type: boolean
+          description: " "
         isfiscaldocument:
           type: boolean
+          description: "Un Documento Fiscal tiene asociadas una serie de validación que dependen de cada Localización"
         isintransit:
           type: boolean
+          description: "El Movimiento de Material esta en Tránsito"
         ispaymentorderseq:
           type: boolean
+          description: " "
         ispickqaconfirm:
           type: boolean
+          description: "Requiere Confirmación de Recogida antes de procesar"
         isprintatcompleting:
           type: boolean
+          description: "El documento se imprimirá cuando se haya completado."
         isprintpreview:
           type: boolean
+          description: " "
         isreceiptseq:
           type: boolean
+          description: " "
         isshipconfirm:
           type: boolean
+          description: "Pedir Confirmación Envio/Recogida antes de procesar"
         issotrx:
           type: boolean
+          description: "Esta es una transacción de ventas"
         issplitwhendifference:
           type: boolean
+          description: "Dividir el documento si hay diferencia"
         iswarehouseclosurecontrol:
           type: boolean
+          description: "Se debe realizar el control de Cierre de Depósito cuando este está activado"
         linescountmax:
           type: integer
+          description: "Cantidad máxima de líneas del documento"
         lockseq:
           type: boolean
+          description: "Activar Bloqueo de Secuencia del Documento"
         m_trannaturecodea_id:
           type: number
+          description: " "
         m_trannaturecodeb_id:
           type: number
+          description: " "
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         notinvoiceable:
           type: boolean
+          description: "No Facturable"
         onlyvendorproducts:
           type: boolean
+          description: "Sólo es posible utilizar artículos del proveedor del pedido."
         open_close_by_pos:
           type: boolean
+          description: " "
         posenabledue:
           type: boolean
+          description: "Documento donde su habilitación en el TPV tiene vencimiento"
         posenableduedays:
           type: integer
+          description: "Cantidad de días luego de la fecha de la transacción en que se encuentra habilitado para ser utilizado en el TPV"
         printername:
           type: string
+          description: "Nombre de Impresora"
         printname:
           type: string
+          description: "Texto a Imprimir"
         reservestockmanagment:
           type: boolean
+          description: "Gestionar cantidades reservadas de pedidos y del stock"
         reusedocumentno:
           type: boolean
+          description: " "
         signo_issotrx:
           type: string
+          description: " "
         skipcurrentaccounts:
           type: boolean
+          description: "Omitir validaciones y actualizaciones relacionadas a Cuenta Corriente"
         transactiontypefrontliva:
           type: string
+          description: "Tipo de transacción frente al libro de iva"
         uniquedocumentno:
           type: boolean
+          description: " "
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         useorderwarehouse:
           type: boolean
+          description: " "
         validateseqlength:
           type: boolean
+          description: " "
         additionalvalues:
           type: array
           items:

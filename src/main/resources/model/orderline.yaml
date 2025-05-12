@@ -5,123 +5,182 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_bpartner_location_id:
           type: integer
+          description: "Dirección de la Entidad Comercial"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_currency_id:
           type: integer
+          description: "Moneda para este registro"
         checkoutplace:
           type: string
+          description: "Lugar donde el cliente retira el artículo"
         c_order_id:
           type: integer
+          description: "Pedido"
         c_orderline_id:
           type: integer
+          description: "Línea de Pedido de Cliente"
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_tax_id:
           type: integer
+          description: "Identificador del Impuesto"
         c_uom_id:
           type: integer
+          description: "Unidad de Medida"
         datedelivered:
           type: string
+          description: " "
         dateinvoiced:
           type: string
+          description: "Fecha impresa en la factura"
         dateordered:
           type: string
+          description: "Fecha del Pedido"
         datepromised:
           type: string
+          description: "Fecha Indicada del Pedido"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         diffamt:
           type: number
+          description: " "
         discount:
           type: number
+          description: "Descuento en porcentaje"
         documentdiscountamt:
           type: number
+          description: "Descuento a Nivel de Documento calculado para esta Línea"
         freightamt:
           type: number
+          description: "Importe de Transporte"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isdescription:
           type: boolean
+          description: "Sólo Descripción"
         line:
           type: integer
+          description: "No. Línea único para este documento"
         linebonusamt:
           type: number
+          description: "Importe de bonificación de la línea"
         linediscountamt:
           type: number
+          description: "Descuento de línea como un porcentaje"
         linenetamt:
           type: number
+          description: "Importe Neto de la Línea (Cantidad * Precio Actual) sin Fletes ni Cargos"
         linetotalamt:
           type: number
+          description: "Total de Línea (Impuestos Incluidos)"
         manualgeneraldiscountamt:
           type: number
+          description: "Importe de Descuento General"
         m_attributesetinstance_id:
           type: integer
+          description: "Instancia del Conjunto de Attributos del Producto"
         m_product_id:
           type: integer
+          description: "Producto; servicio o Artículo"
         m_shipper_id:
           type: integer
+          description: "Método o manera de entrega del producto"
         m_warehouse_id:
           type: integer
+          description: "Almacén"
         openmatrix:
           type: string
+          description: " "
         order_min:
           type: number
+          description: "Cantidad Mínima de Pedido en la UM"
         order_pack:
           type: number
+          description: "Tamaño del paquete a ordenar en UM (Ej. Conjunto a ordenar de 5 unidades)"
         priceactual:
           type: number
+          description: "Precio Actual"
         pricediff:
           type: number
+          description: " "
         priceentered:
           type: number
+          description: "Precio"
         pricelimit:
           type: number
+          description: "Precio más bajo del producto"
         pricelist:
           type: number
+          description: "Precio de Tarifa"
         pricereception:
           type: number
+          description: " "
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         qtydelivered:
           type: number
+          description: "Cantidad entregada"
         qtydiff:
           type: number
+          description: " "
         qtyentered:
           type: number
+          description: "Cantidad"
         qtyinvoiced:
           type: number
+          description: "Cantidad facturada"
         qtyordered:
           type: number
+          description: "Cantidad ordenada"
         qtyreception:
           type: number
+          description: " "
         qtyreserved:
           type: number
+          description: "Cantidad reservada"
         qtyreturned:
           type: number
+          description: " "
         qtytransferred:
           type: number
+          description: " "
         receptionamt:
           type: number
+          description: " "
         ref_orderline_id:
           type: integer
+          description: "Referencia Pedido Proveedor/Pedido Cliente"
         salesrep_orig_id:
           type: integer
+          description: "Responsable de Ventas Original"
 
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

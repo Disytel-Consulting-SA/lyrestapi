@@ -69,10 +69,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -89,10 +89,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -108,10 +108,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -128,10 +128,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get cLetraComprobanteId
+   *  
    * @return cLetraComprobanteId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Integer getCLetraComprobanteId() {
@@ -148,10 +148,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -168,10 +168,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -188,10 +188,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -207,10 +207,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -227,10 +227,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get isdefault
+   * Valor Predeterminado
    * @return isdefault
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Valor Predeterminado")
       @NotNull
 
     public Boolean isIsdefault() {
@@ -247,10 +247,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get letra
+   *  
    * @return letra
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public String getLetra() {
@@ -267,10 +267,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -287,10 +287,10 @@ public class LetraComprobante   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

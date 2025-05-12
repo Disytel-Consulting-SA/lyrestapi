@@ -5,86 +5,127 @@ components:
       properties:
         accounting_c_charge_id:
           type: integer
+          description: "Cuenta Contable Alternativa"
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         amount:
           type: number
+          description: "Importe en una moneda definida"
         authcode:
           type: string
+          description: "Código de Autorización Offline"
         authmatch:
           type: boolean
+          description: " "
         automaticgenerated:
           type: boolean
+          description: " "
         c_allocationhdr_id:
           type: integer
+          description: "Asignación de pagos"
         cashamount:
           type: number
+          description: "Importe en la moneda del Libro de Caja"
         cashtype:
           type: string
+          description: "Fuente de Efectivo"
         c_bankaccount_id:
           type: integer
+          description: "Cuenta Bancaria"
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_cashcurrency_id:
           type: integer
+          description: "Moneda original del Libro de Caja"
         c_cash_id:
           type: integer
+          description: "Libro de Caja"
         c_cashline_id:
           type: integer
+          description: "Línea del Libro de Caja"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_currency_id:
           type: integer
+          description: "Moneda para este registro"
         c_invoice_id:
           type: integer
+          description: "Identificador de la factura"
         c_payment_id:
           type: integer
+          description: "Identificador del pago"
         c_posjournal_id:
           type: integer
+          description: "Caja Diaria"
         c_pospaymentmedium_id:
           type: integer
+          description: "Medio de Pago de Terminal Punto de Venta"
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         discountamt:
           type: number
+          description: "Importe del Descuento calculado"
         docaction:
           type: string
+          description: "El estado destino del documento"
         docstatus:
           type: string
+          description: "El estado actual del documento"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isallocated:
           type: boolean
+          description: "Indica si el pago ha sido asignado"
         isgenerated:
           type: boolean
+          description: "Esta línea es generada"
         line:
           type: integer
+          description: "No. Línea único para este documento"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         processing:
           type: boolean
+          description: " "
         transfercash_id:
           type: integer
+          description: "Caja Destino para la transferencia de efectivo"
         transfercashline_id:
           type: integer
+          description: "Línea de Caja generada por una transferencia de efectivo entre cajas"
         updatebpbalance:
           type: boolean
+          description: " "
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         whiteoffamt:
           type: number
+          description: " "
         writeoffamt:
           type: number
+          description: "Importe del Ajuste"
         additionalvalues:
           type: array
           items:

@@ -5,68 +5,100 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_orgtrx_id:
           type: integer
+          description: "Organización que inicia o ejecuta la transacción"
         approvalamt:
           type: number
+          description: "Cantidad Aprobada para el Documento"
         c_activity_id:
           type: integer
+          description: "Actividad de Negocio"
         c_campaign_id:
           type: integer
+          description: "Campaña de Marketing"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_doctype_id:
           type: integer
+          description: "Tipo de documento o reglas"
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         docaction:
           type: string
+          description: "El estado destino del documento"
         docstatus:
           type: string
+          description: "El estado actual del documento"
         documentno:
           type: string
+          description: "Número de secuencia del documento para cada documento"
         generatelist:
           type: string
+          description: " "
         inventorykind:
           type: string
+          description: "Clase u origen del inventario físico"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isapproved:
           type: boolean
+          description: "Indica si este documento requiere aprobación"
         m_inventory_id:
           type: integer
+          description: "Parámetros para el Inventario Físico"
         movementdate:
           type: string
+          description: "Fecha en que un producto fue movido (dentro o fuera) del inventario"
         m_perpetualinv_id:
           type: integer
+          description: "Reglas para generar el inventario físico"
         m_warehouse_id:
           type: integer
+          description: "Almacén"
         paper_form:
           type: string
+          description: " "
         posted:
           type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         processing:
           type: boolean
+          description: " "
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         updateqty:
           type: string
+          description: "Determina si se actualizan las cantidades"
         user1_id:
           type: integer
+          description: "El usuario definió el elemento # 1"
         user2_id:
           type: integer
+          description: "El usuario definió el elemento # 2"
         additionalvalues:
           type: array
           items:

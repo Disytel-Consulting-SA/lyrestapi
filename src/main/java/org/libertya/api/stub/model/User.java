@@ -153,10 +153,10 @@ public class User   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -173,10 +173,10 @@ public class User   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -192,10 +192,10 @@ public class User   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -212,10 +212,10 @@ public class User   {
   }
 
   /**
-   * Get adOrgtrxId
+   * Organización que inicia o ejecuta la transacción
    * @return adOrgtrxId
    **/
-  @Schema(description = "")
+  @Schema(description = "Organización que inicia o ejecuta la transacción")
   
     public Integer getAdOrgtrxId() {
     return adOrgtrxId;
@@ -231,10 +231,10 @@ public class User   {
   }
 
   /**
-   * Get adUserId
+   * ID de Usuario dentro del sistema
    * @return adUserId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "ID de Usuario dentro del sistema")
       @NotNull
 
     public Integer getAdUserId() {
@@ -251,10 +251,10 @@ public class User   {
   }
 
   /**
-   * Get birthday
+   * Cumpleaños o día de aniversario
    * @return birthday
    **/
-  @Schema(description = "")
+  @Schema(description = "Cumpleaños o día de aniversario")
   
     public String getBirthday() {
     return birthday;
@@ -270,10 +270,10 @@ public class User   {
   }
 
   /**
-   * Get cBpartnerContactId
+   *  
    * @return cBpartnerContactId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCBpartnerContactId() {
     return cBpartnerContactId;
@@ -289,10 +289,10 @@ public class User   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica una Entidad Comercial")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -308,10 +308,10 @@ public class User   {
   }
 
   /**
-   * Get cBpartnerLocationId
+   * Dirección de la Entidad Comercial
    * @return cBpartnerLocationId
    **/
-  @Schema(description = "")
+  @Schema(description = "Dirección de la Entidad Comercial")
   
     public Integer getCBpartnerLocationId() {
     return cBpartnerLocationId;
@@ -327,10 +327,10 @@ public class User   {
   }
 
   /**
-   * Get cGreetingId
+   * Saludo para imprimir en la correspondencia
    * @return cGreetingId
    **/
-  @Schema(description = "")
+  @Schema(description = "Saludo para imprimir en la correspondencia")
   
     public Integer getCGreetingId() {
     return cGreetingId;
@@ -346,10 +346,10 @@ public class User   {
   }
 
   /**
-   * Get comments
+   * Comentarios o información adicional
    * @return comments
    **/
-  @Schema(description = "")
+  @Schema(description = "Comentarios o información adicional")
   
     public String getComments() {
     return comments;
@@ -365,10 +365,10 @@ public class User   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -385,10 +385,10 @@ public class User   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -405,10 +405,10 @@ public class User   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -424,10 +424,10 @@ public class User   {
   }
 
   /**
-   * Get email
+   * ID de correo electrónico
    * @return email
    **/
-  @Schema(description = "")
+  @Schema(description = "ID de correo electrónico")
   
     public String getEmail() {
     return email;
@@ -443,10 +443,10 @@ public class User   {
   }
 
   /**
-   * Get emailuser
+   * ID del Usuario
    * @return emailuser
    **/
-  @Schema(description = "")
+  @Schema(description = "ID del Usuario")
   
     public String getEmailuser() {
     return emailuser;
@@ -462,10 +462,10 @@ public class User   {
   }
 
   /**
-   * Get emailuserpw
+   * Contraseña de su usuario de email
    * @return emailuserpw
    **/
-  @Schema(description = "")
+  @Schema(description = "Contraseña de su usuario de email")
   
     public String getEmailuserpw() {
     return emailuserpw;
@@ -481,10 +481,10 @@ public class User   {
   }
 
   /**
-   * Get emailverify
+   * Verificación de dirección de E-Mail
    * @return emailverify
    **/
-  @Schema(description = "")
+  @Schema(description = "Verificación de dirección de E-Mail")
   
     public String getEmailverify() {
     return emailverify;
@@ -500,10 +500,10 @@ public class User   {
   }
 
   /**
-   * Get emailverifydate
+   * Verificar E-mail
    * @return emailverifydate
    **/
-  @Schema(description = "")
+  @Schema(description = "Verificar E-mail")
   
     public String getEmailverifydate() {
     return emailverifydate;
@@ -519,10 +519,10 @@ public class User   {
   }
 
   /**
-   * Get fax
+   * Número de Fax
    * @return fax
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Fax")
   
     public String getFax() {
     return fax;
@@ -538,10 +538,10 @@ public class User   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -558,10 +558,10 @@ public class User   {
   }
 
   /**
-   * Get isldapauthorized
+   * Autorizar via LDAP
    * @return isldapauthorized
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Autorizar via LDAP")
       @NotNull
 
     public Boolean isIsldapauthorized() {
@@ -578,10 +578,10 @@ public class User   {
   }
 
   /**
-   * Get issystemaccess
+   * Usuario con acceso al sistema
    * @return issystemaccess
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario con acceso al sistema")
       @NotNull
 
     public Boolean isIssystemaccess() {
@@ -598,10 +598,10 @@ public class User   {
   }
 
   /**
-   * Get lastcontact
+   * Fecha en que este individuo fue contactado por última vez
    * @return lastcontact
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha en que este individuo fue contactado por última vez")
   
     public String getLastcontact() {
     return lastcontact;
@@ -617,10 +617,10 @@ public class User   {
   }
 
   /**
-   * Get lastpasswordchangedate
+   * Última fecha de cambio de clave
    * @return lastpasswordchangedate
    **/
-  @Schema(description = "")
+  @Schema(description = "Última fecha de cambio de clave")
   
     public String getLastpasswordchangedate() {
     return lastpasswordchangedate;
@@ -636,10 +636,10 @@ public class User   {
   }
 
   /**
-   * Get lastresult
+   * Resultado del último contacto
    * @return lastresult
    **/
-  @Schema(description = "")
+  @Schema(description = "Resultado del último contacto")
   
     public String getLastresult() {
     return lastresult;
@@ -655,10 +655,10 @@ public class User   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -675,10 +675,10 @@ public class User   {
   }
 
   /**
-   * Get notificationtype
+   * Tipo de Notificacion
    * @return notificationtype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de Notificacion")
       @NotNull
 
     public String getNotificationtype() {
@@ -695,10 +695,10 @@ public class User   {
   }
 
   /**
-   * Get notifyonconversationactivity
+   *  
    * @return notifyonconversationactivity
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isNotifyonconversationactivity() {
@@ -715,10 +715,10 @@ public class User   {
   }
 
   /**
-   * Get paGoalId
+   * Objetivo de Resultados
    * @return paGoalId
    **/
-  @Schema(description = "")
+  @Schema(description = "Objetivo de Resultados")
   
     public Integer getPaGoalId() {
     return paGoalId;
@@ -734,10 +734,10 @@ public class User   {
   }
 
   /**
-   * Get paGoalprivateId
+   * Jerarquía de objetivos solamente visible para el usuario
    * @return paGoalprivateId
    **/
-  @Schema(description = "")
+  @Schema(description = "Jerarquía de objetivos solamente visible para el usuario")
   
     public Integer getPaGoalprivateId() {
     return paGoalprivateId;
@@ -753,10 +753,10 @@ public class User   {
   }
 
   /**
-   * Get password
+   * Contraseña de cualquier longitud (Sensible a mayúsculas y minúsculas
    * @return password
    **/
-  @Schema(description = "")
+  @Schema(description = "Contraseña de cualquier longitud (Sensible a mayúsculas y minúsculas")
   
     public String getPassword() {
     return password;
@@ -772,10 +772,10 @@ public class User   {
   }
 
   /**
-   * Get phone
+   * Identifica un número telefónico
    * @return phone
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un número telefónico")
   
     public String getPhone() {
     return phone;
@@ -791,10 +791,10 @@ public class User   {
   }
 
   /**
-   * Get phone2
+   * Identifica un número telefónico alterno
    * @return phone2
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un número telefónico alterno")
   
     public String getPhone2() {
     return phone2;
@@ -810,10 +810,10 @@ public class User   {
   }
 
   /**
-   * Get phone3
+   * Identifica un número telefónico
    * @return phone3
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un número telefónico")
   
     public String getPhone3() {
     return phone3;
@@ -829,10 +829,10 @@ public class User   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getProcessing() {
     return processing;
@@ -848,10 +848,10 @@ public class User   {
   }
 
   /**
-   * Get supervisorId
+   * Supervisor para este usuario - usado para escalación
    * @return supervisorId
    **/
-  @Schema(description = "")
+  @Schema(description = "Supervisor para este usuario - usado para escalación")
   
     public Integer getSupervisorId() {
     return supervisorId;
@@ -867,10 +867,10 @@ public class User   {
   }
 
   /**
-   * Get title
+   * Nombre como se conoce esta entidad
    * @return title
    **/
-  @Schema(description = "")
+  @Schema(description = "Nombre como se conoce esta entidad")
   
     public String getTitle() {
     return title;
@@ -886,10 +886,10 @@ public class User   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -906,10 +906,10 @@ public class User   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

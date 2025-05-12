@@ -124,10 +124,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get actiondetail
+   * Detalle del resultado de la ejecución de la acción específica del documento
    * @return actiondetail
    **/
-  @Schema(description = "")
+  @Schema(description = "Detalle del resultado de la ejecución de la acción específica del documento")
   
     public String getActiondetail() {
     return actiondetail;
@@ -143,10 +143,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -163,10 +163,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -183,10 +183,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get allocationaction
+   *  
    * @return allocationaction
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAllocationaction() {
     return allocationaction;
@@ -202,10 +202,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get allocationtype
+   *  
    * @return allocationtype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public String getAllocationtype() {
@@ -222,10 +222,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get approvalamt
+   * Cantidad Aprobada para el Documento
    * @return approvalamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad Aprobada para el Documento")
       @NotNull
 
     @Valid
@@ -243,10 +243,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get cAllocationhdrId
+   * Asignación de pagos
    * @return cAllocationhdrId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Asignación de pagos")
       @NotNull
 
     public Integer getCAllocationhdrId() {
@@ -263,10 +263,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get cBanklistId
+   * Lista de Banco
    * @return cBanklistId
    **/
-  @Schema(description = "")
+  @Schema(description = "Lista de Banco")
   
     public Integer getCBanklistId() {
     return cBanklistId;
@@ -282,10 +282,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica una Entidad Comercial")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -301,10 +301,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get cCurrencyId
+   * Moneda para este registro
    * @return cCurrencyId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Moneda para este registro")
       @NotNull
 
     public Integer getCCurrencyId() {
@@ -321,10 +321,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get cDoctypeId
+   * Tipo de documento o reglas
    * @return cDoctypeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo de documento o reglas")
   
     public Integer getCDoctypeId() {
     return cDoctypeId;
@@ -340,10 +340,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get cPosjournalId
+   * Caja Diaria
    * @return cPosjournalId
    **/
-  @Schema(description = "")
+  @Schema(description = "Caja Diaria")
   
     public Integer getCPosjournalId() {
     return cPosjournalId;
@@ -359,10 +359,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -379,10 +379,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -399,10 +399,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get dateacct
+   * Fecha contable
    * @return dateacct
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha contable")
       @NotNull
 
     public String getDateacct() {
@@ -419,10 +419,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get datetrx
+   * Fecha de la transacción
    * @return datetrx
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de la transacción")
       @NotNull
 
     public String getDatetrx() {
@@ -439,10 +439,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -458,10 +458,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get docaction
+   * El estado destino del documento
    * @return docaction
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado destino del documento")
       @NotNull
 
     public String getDocaction() {
@@ -478,10 +478,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get docstatus
+   * El estado actual del documento
    * @return docstatus
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado actual del documento")
       @NotNull
 
     public String getDocstatus() {
@@ -498,10 +498,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get documentno
+   * Número de secuencia del documento para cada documento
    * @return documentno
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de secuencia del documento para cada documento")
       @NotNull
 
     public String getDocumentno() {
@@ -518,10 +518,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get grandtotal
+   * Importe total del documento
    * @return grandtotal
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe total del documento")
       @NotNull
 
     @Valid
@@ -539,10 +539,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -559,10 +559,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get isapproved
+   * Indica si este documento requiere aprobación
    * @return isapproved
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si este documento requiere aprobación")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -579,10 +579,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get ismanual
+   * Éste es un proceso manual
    * @return ismanual
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Éste es un proceso manual")
       @NotNull
 
     public Boolean isIsmanual() {
@@ -599,10 +599,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get posted
+   * Las transacciones de Contabilidad General han sido procesadas
    * @return posted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Las transacciones de Contabilidad General han sido procesadas")
       @NotNull
 
     public String getPosted() {
@@ -619,10 +619,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -639,10 +639,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isProcessing() {
     return processing;
@@ -658,10 +658,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get retencionAmt
+   *  
    * @return retencionAmt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     @Valid
@@ -679,10 +679,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -699,10 +699,10 @@ public class AllocationHdr   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

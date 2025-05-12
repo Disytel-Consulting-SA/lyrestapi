@@ -157,10 +157,10 @@ public class CashLine   {
   }
 
   /**
-   * Get accountingCChargeId
+   * Cuenta Contable Alternativa
    * @return accountingCChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cuenta Contable Alternativa")
   
     public Integer getAccountingCChargeId() {
     return accountingCChargeId;
@@ -176,10 +176,10 @@ public class CashLine   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -196,10 +196,10 @@ public class CashLine   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -216,10 +216,10 @@ public class CashLine   {
   }
 
   /**
-   * Get amount
+   * Importe en una moneda definida
    * @return amount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe en una moneda definida")
       @NotNull
 
     @Valid
@@ -237,10 +237,10 @@ public class CashLine   {
   }
 
   /**
-   * Get authcode
+   * Código de Autorización Offline
    * @return authcode
    **/
-  @Schema(description = "")
+  @Schema(description = "Código de Autorización Offline")
   
     public String getAuthcode() {
     return authcode;
@@ -256,10 +256,10 @@ public class CashLine   {
   }
 
   /**
-   * Get authmatch
+   *  
    * @return authmatch
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isAuthmatch() {
     return authmatch;
@@ -275,10 +275,10 @@ public class CashLine   {
   }
 
   /**
-   * Get automaticgenerated
+   *  
    * @return automaticgenerated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isAutomaticgenerated() {
@@ -295,10 +295,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cAllocationhdrId
+   * Asignación de pagos
    * @return cAllocationhdrId
    **/
-  @Schema(description = "")
+  @Schema(description = "Asignación de pagos")
   
     public Integer getCAllocationhdrId() {
     return cAllocationhdrId;
@@ -314,10 +314,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cashamount
+   * Importe en la moneda del Libro de Caja
    * @return cashamount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe en la moneda del Libro de Caja")
       @NotNull
 
     @Valid
@@ -335,10 +335,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cashtype
+   * Fuente de Efectivo
    * @return cashtype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fuente de Efectivo")
       @NotNull
 
     public String getCashtype() {
@@ -355,10 +355,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cBankaccountId
+   * Cuenta Bancaria
    * @return cBankaccountId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cuenta Bancaria")
   
     public Integer getCBankaccountId() {
     return cBankaccountId;
@@ -374,10 +374,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica una Entidad Comercial")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -393,10 +393,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cCashcurrencyId
+   * Moneda original del Libro de Caja
    * @return cCashcurrencyId
    **/
-  @Schema(description = "")
+  @Schema(description = "Moneda original del Libro de Caja")
   
     public Integer getCCashcurrencyId() {
     return cCashcurrencyId;
@@ -412,10 +412,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cCashId
+   * Libro de Caja
    * @return cCashId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Libro de Caja")
       @NotNull
 
     public Integer getCCashId() {
@@ -432,10 +432,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cCashlineId
+   * Línea del Libro de Caja
    * @return cCashlineId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Línea del Libro de Caja")
       @NotNull
 
     public Integer getCCashlineId() {
@@ -452,10 +452,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cChargeId
+   * Cargos adicionales del documento
    * @return cChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargos adicionales del documento")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -471,10 +471,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cCurrencyId
+   * Moneda para este registro
    * @return cCurrencyId
    **/
-  @Schema(description = "")
+  @Schema(description = "Moneda para este registro")
   
     public Integer getCCurrencyId() {
     return cCurrencyId;
@@ -490,10 +490,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cInvoiceId
+   * Identificador de la factura
    * @return cInvoiceId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador de la factura")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -509,10 +509,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cPaymentId
+   * Identificador del pago
    * @return cPaymentId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador del pago")
   
     public Integer getCPaymentId() {
     return cPaymentId;
@@ -528,10 +528,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cPosjournalId
+   * Caja Diaria
    * @return cPosjournalId
    **/
-  @Schema(description = "")
+  @Schema(description = "Caja Diaria")
   
     public Integer getCPosjournalId() {
     return cPosjournalId;
@@ -547,10 +547,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cPospaymentmediumId
+   * Medio de Pago de Terminal Punto de Venta
    * @return cPospaymentmediumId
    **/
-  @Schema(description = "")
+  @Schema(description = "Medio de Pago de Terminal Punto de Venta")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -566,10 +566,10 @@ public class CashLine   {
   }
 
   /**
-   * Get cProjectId
+   * Identifica un proyecto único
    * @return cProjectId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un proyecto único")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -585,10 +585,10 @@ public class CashLine   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -605,10 +605,10 @@ public class CashLine   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -625,10 +625,10 @@ public class CashLine   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -644,10 +644,10 @@ public class CashLine   {
   }
 
   /**
-   * Get discountamt
+   * Importe del Descuento calculado
    * @return discountamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe del Descuento calculado")
   
     @Valid
     public BigDecimal getDiscountamt() {
@@ -664,10 +664,10 @@ public class CashLine   {
   }
 
   /**
-   * Get docaction
+   * El estado destino del documento
    * @return docaction
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado destino del documento")
       @NotNull
 
     public String getDocaction() {
@@ -684,10 +684,10 @@ public class CashLine   {
   }
 
   /**
-   * Get docstatus
+   * El estado actual del documento
    * @return docstatus
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado actual del documento")
       @NotNull
 
     public String getDocstatus() {
@@ -704,10 +704,10 @@ public class CashLine   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -724,10 +724,10 @@ public class CashLine   {
   }
 
   /**
-   * Get isallocated
+   * Indica si el pago ha sido asignado
    * @return isallocated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si el pago ha sido asignado")
       @NotNull
 
     public Boolean isIsallocated() {
@@ -744,10 +744,10 @@ public class CashLine   {
   }
 
   /**
-   * Get isgenerated
+   * Esta línea es generada
    * @return isgenerated
    **/
-  @Schema(description = "")
+  @Schema(description = "Esta línea es generada")
   
     public Boolean isIsgenerated() {
     return isgenerated;
@@ -763,10 +763,10 @@ public class CashLine   {
   }
 
   /**
-   * Get line
+   * No. Línea único para este documento
    * @return line
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "No. Línea único para este documento")
       @NotNull
 
     public Integer getLine() {
@@ -783,10 +783,10 @@ public class CashLine   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -803,10 +803,10 @@ public class CashLine   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isProcessing() {
     return processing;
@@ -822,10 +822,10 @@ public class CashLine   {
   }
 
   /**
-   * Get transfercashId
+   * Caja Destino para la transferencia de efectivo
    * @return transfercashId
    **/
-  @Schema(description = "")
+  @Schema(description = "Caja Destino para la transferencia de efectivo")
   
     public Integer getTransfercashId() {
     return transfercashId;
@@ -841,10 +841,10 @@ public class CashLine   {
   }
 
   /**
-   * Get transfercashlineId
+   * Línea de Caja generada por una transferencia de efectivo entre cajas
    * @return transfercashlineId
    **/
-  @Schema(description = "")
+  @Schema(description = "Línea de Caja generada por una transferencia de efectivo entre cajas")
   
     public Integer getTransfercashlineId() {
     return transfercashlineId;
@@ -860,10 +860,10 @@ public class CashLine   {
   }
 
   /**
-   * Get updatebpbalance
+   *  
    * @return updatebpbalance
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isUpdatebpbalance() {
@@ -880,10 +880,10 @@ public class CashLine   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -900,10 +900,10 @@ public class CashLine   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -920,10 +920,10 @@ public class CashLine   {
   }
 
   /**
-   * Get whiteoffamt
+   *  
    * @return whiteoffamt
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getWhiteoffamt() {
@@ -940,10 +940,10 @@ public class CashLine   {
   }
 
   /**
-   * Get writeoffamt
+   * Importe del Ajuste
    * @return writeoffamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe del Ajuste")
   
     @Valid
     public BigDecimal getWriteoffamt() {

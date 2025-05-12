@@ -97,10 +97,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get aAssetGroupId
+   * Grupo de Activos
    * @return aAssetGroupId
    **/
-  @Schema(description = "")
+  @Schema(description = "Grupo de Activos")
   
     public Integer getAAssetGroupId() {
     return aAssetGroupId;
@@ -116,10 +116,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -136,10 +136,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -155,10 +155,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -175,10 +175,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get adPrintcolorId
+   * Color usado para imprimir
    * @return adPrintcolorId
    **/
-  @Schema(description = "")
+  @Schema(description = "Color usado para imprimir")
   
     public Integer getAdPrintcolorId() {
     return adPrintcolorId;
@@ -194,10 +194,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get amortizationperc
+   * Porcentaje de amortización del período de amortización
    * @return amortizationperc
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Porcentaje de amortización del período de amortización")
       @NotNull
 
     @Valid
@@ -215,10 +215,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -235,10 +235,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -255,10 +255,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -274,10 +274,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -294,10 +294,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get isdefault
+   * Valor Predeterminado
    * @return isdefault
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Valor Predeterminado")
       @NotNull
 
     public Boolean isIsdefault() {
@@ -314,10 +314,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get isselfservice
+   * Disp. en Web
    * @return isselfservice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Disp. en Web")
       @NotNull
 
     public Boolean isIsselfservice() {
@@ -334,10 +334,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get mmpolicy
+   * Politica de Material
    * @return mmpolicy
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Politica de Material")
       @NotNull
 
     public String getMmpolicy() {
@@ -354,10 +354,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get mProductCategoryId
+   * Categoría de la que este producto es parte
    * @return mProductCategoryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Categoría de la que este producto es parte")
       @NotNull
 
     public Integer getMProductCategoryId() {
@@ -374,10 +374,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get mProductGamasId
+   *  
    * @return mProductGamasId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getMProductGamasId() {
     return mProductGamasId;
@@ -393,10 +393,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -413,10 +413,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get plannedmargin
+   * % de Margen Planeado para este proyecto
    * @return plannedmargin
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "% de Margen Planeado para este proyecto")
       @NotNull
 
     @Valid
@@ -434,10 +434,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -454,10 +454,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -474,10 +474,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get value
+   * Clave de búsqueda para el registro en el formato requerido; debe ser única
    * @return value
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Clave de búsqueda para el registro en el formato requerido; debe ser única")
       @NotNull
 
     public String getValue() {
@@ -494,10 +494,10 @@ public class ProductCategories   {
   }
 
   /**
-   * Get yearlife
+   * Vida útil en años
    * @return yearlife
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Vida útil en años")
       @NotNull
 
     public Integer getYearlife() {

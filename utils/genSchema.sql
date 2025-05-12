@@ -14,9 +14,12 @@ select columnname from
                     when ad_reference_id in (12, 22, 37, 11, 29) then e'type: number' -- numberics
                     when ad_reference_id in (15, 16, 24) then e'type: string' -- date-time considered string for swagger
                     when ad_reference_id in (20) then e'type: boolean' -- Y/N
-                end
+                end || e'\n' ||
+            e'          description: "' || replace(coalesce(e_trl.description, ' '), '"', '\"') || '"'
         from ad_column c
         inner join ad_table t on c.ad_table_id = t.ad_table_id
+        inner join ad_element e on c.ad_element_id = e.ad_element_id
+        inner join ad_element_trl e_trl on e.ad_element_id = e_trl.ad_element_id and ad_language = 'es_AR'
         where t.tablename = :tabla
         and c.isactive = 'Y'
         and c.ad_reference_id not in (23, 32) -- LOB por el momento no

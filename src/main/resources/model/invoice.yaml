@@ -5,244 +5,376 @@ components:
       properties:
         actualizarpreciosconfacturadecompra:
           type: boolean
+          description: " "
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_orgtrx_id:
           type: integer
+          description: "Organización que inicia o ejecuta la transacción"
         ad_user_id:
           type: integer
+          description: "ID de Usuario dentro del sistema"
         applypercepcion:
           type: boolean
+          description: " "
         authcode:
           type: string
+          description: "Código de Autorización Offline"
         authmatch:
           type: boolean
+          description: " "
         authorizationchainstatus:
           type: string
+          description: " "
         authorize:
           type: string
+          description: " "
         c_activity_id:
           type: integer
+          description: "Actividad de Negocio"
         cae:
           type: string
+          description: " "
         caecbte:
           type: integer
+          description: " "
         caeerror:
           type: string
+          description: " "
         cai:
           type: string
+          description: " "
         caja:
           type: string
+          description: " "
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_bpartner_location_id:
           type: integer
+          description: "Dirección de la Entidad Comercial"
         c_campaign_id:
           type: integer
+          description: "Campaña de Marketing"
         c_cashline_id:
           type: integer
+          description: "Línea del Libro de Caja"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_conversiontype_id:
           type: integer
+          description: "Tipo de Divisa"
         c_currency_id:
           type: integer
+          description: "Moneda para este registro"
         c_doctype_id:
           type: integer
+          description: "Tipo de documento o reglas"
         c_doctypetarget_id:
           type: integer
+          description: "Tipo de documento destino para convertir documentos"
         chargeamt:
           type: number
+          description: "Importe de Cargo"
         c_invoice_id:
           type: integer
+          description: "Identificador de la factura"
         c_invoice_orig_id:
           type: integer
+          description: " "
         c_letra_comprobante_id:
           type: integer
+          description: " "
         codigocategoriaiva:
           type: integer
+          description: " "
         copyfrom:
           type: string
+          description: "Copiar Registros desde"
         c_order_id:
           type: integer
+          description: "Pedido"
         c_order_orig_id:
           type: integer
+          description: " "
         c_payment_id:
           type: integer
+          description: "Identificador del pago"
         c_paymentterm_id:
           type: integer
+          description: "Programa de Vctos."
         c_posjournal_id:
           type: integer
+          description: "Caja Diaria"
         c_pospaymentmedium_credit_id:
           type: integer
+          description: "Medio de cobro crédito relacionado con este comprobante."
         c_pospaymentmedium_id:
           type: integer
+          description: "Medio de Pago de Terminal Punto de Venta"
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         createcashline:
           type: boolean
+          description: "Crear línea de Ingreso/Egreso de Efectivo en el libro de caja correspondiente"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         createfrom:
           type: string
+          description: "Proceso que generará un nuevo documento"
         c_region_delivery_id:
           type: integer
+          description: "Lugar de entrega de la factura. Permite definir el lugar correspondiente de la factura."
         c_region_id:
           type: integer
+          description: "Identifica una región geográfica"
         cuit:
           type: string
+          description: " "
         dateacct:
           type: string
+          description: "Fecha contable"
         datecai:
           type: string
+          description: " "
         dateinvoiced:
           type: string
+          description: "Fecha impresa en la factura"
         dateordered:
           type: string
+          description: "Fecha del Pedido"
         dateprinted:
           type: string
+          description: "Fecha en que el documento fue impreso"
         daterecepted:
           type: string
+          description: " "
         deliveryviarule:
           type: string
+          description: "Como será entregada la orden"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         docaction:
           type: string
+          description: "El estado destino del documento"
         docstatus:
           type: string
+          description: "El estado actual del documento"
+        docsubtypeinv:
+          type: string
+          description: " "
         documentno:
           type: string
+          description: "Número de secuencia del documento para cada documento"
         fechadetcparaactualizarprecios:
           type: string
+          description: " "
         fiscalalreadyprinted:
           type: boolean
+          description: " "
         fiscaldescription:
           type: string
+          description: "Descripción que se imprimirá en el ticket fiscal."
         generateto:
           type: string
+          description: " "
         grandtotal:
           type: number
+          description: "Importe total del documento"
         idcae:
           type: string
+          description: " "
         importclearance:
           type: string
+          description: " "
         initialcurrentaccountamt:
           type: number
+          description: "Monto a Crédito inicial de la factura"
         invoice_adress:
           type: string
+          description: " "
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isapproved:
           type: boolean
+          description: "Indica si este documento requiere aprobación"
         iscopy:
           type: boolean
+          description: "Este registro es copia de otro registro"
         isdiscountprinted:
           type: boolean
+          description: "Imprimir el descuento en la Factura y la Orden"
         isexchange:
           type: boolean
+          description: " "
         isindispute:
           type: boolean
+          description: "Sin Confirmar"
         ispaid:
           type: boolean
+          description: " "
         ispayschedulevalid:
           type: boolean
+          description: "Esquema de Pago Válido"
         isprinted:
           type: boolean
+          description: "Indica si este documento es impreso"
         isselfservice:
           type: boolean
+          description: "Disp. en Web"
         issotrx:
           type: boolean
+          description: "Esta es una transacción de ventas"
         istaxincluded:
           type: boolean
+          description: "Impuesto incluido en el precio"
         istransferred:
           type: boolean
+          description: "Transferido a la Contabilidad General (Contabilizado)"
         isvoidable:
           type: boolean
+          description: "Es Anulable en Anulación global de factura"
+        lyeicaeainformed:
+          type: string
+          description: " "
+        lyeicaeainformeddetail:
+          type: string
+          description: " "
+        lyeimanageelectronicinvoiceprocess:
+          type: string
+          description: " "
         managedragorderdiscounts:
           type: boolean
+          description: "Marca al documento para indicar que debe gestionar los descuentos a nivel de línea o documento arrastrados del pedido"
         managedragordersurcharges:
           type: boolean
+          description: "Marca al documento para indicar que debe gestionar los recargos a nivel de línea o documento arrastrados del pedido"
         manageelectronicinvoice:
           type: string
+          description: " "
         manualdocumentno:
           type: boolean
+          description: "Indica si esta factura posee el nro de documento agregado de forma manual"
         manualgeneraldiscount:
           type: number
+          description: "Descuento manual general"
         m_authorizationchain_id:
           type: integer
+          description: " "
         m_inouttransport_id:
           type: integer
+          description: "Asociado a factura de fletes o transporte"
         m_pricelist_id:
           type: integer
+          description: "Identificador único de mi lista de precios"
         m_rma_id:
           type: integer
+          description: "Autorización de Devolución de Material"
         netamount:
           type: number
+          description: " "
         nombrecli:
           type: string
+          description: " "
         notexchangeablecredit:
           type: boolean
+          description: "Crédito sin la posibilidad de utilizarlo como cobro de crédito"
         nroidentificcliente:
           type: string
+          description: "Número de DNI, Cédula, Libreta de Enrolamiento, Pasaporte o Libreta Cívica del cliente."
         numerocomprobante:
           type: integer
+          description: " "
         numerodedocumento:
           type: string
+          description: " "
         oldgrandtotal:
           type: number
+          description: " "
         originvfecha:
           type: string
+          description: " "
         originvnro:
           type: integer
+          description: " "
         originvptovta:
           type: integer
+          description: " "
         originvtipo:
           type: string
+          description: " "
         paymentrule:
           type: string
+          description: "Como se pagará la factura"
         poreference:
           type: string
+          description: "Referencia de Pedido de la Entidad"
         posted:
           type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
         pricelistcurrency:
           type: integer
+          description: " "
         printtype:
           type: string
+          description: " "
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         processing:
           type: string
+          description: " "
         puntodeventa:
           type: integer
+          description: " "
         ref_invoice_id:
           type: integer
+          description: " "
         salesrep_id:
           type: integer
+          description: "Comercial/Usuario"
         sendemail:
           type: boolean
+          description: "Permite enviar Documentos vía E-Mail"
         skipipnocaevalidation:
           type: boolean
+          description: " "
         tipocomprobante:
           type: string
+          description: " "
         totallines:
           type: number
+          description: "Total de todas las líneas del documento"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         updateorderqty:
           type: boolean
+          description: "Actualiza la cantidad pedida y reservada del pedido relacionado"
         user1_id:
           type: integer
+          description: "El usuario definió el elemento # 1"
         user2_id:
           type: integer
+          description: "El usuario definió el elemento # 2"
         vtocae:
           type: string
+          description: " "
         additionalvalues:
           type: array
           items:

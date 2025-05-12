@@ -370,10 +370,10 @@ public class BPartner   {
   }
 
   /**
-   * Get acqusitioncost
+   * Coste de conseguir el Prospecto como Cliente
    * @return acqusitioncost
    **/
-  @Schema(description = "")
+  @Schema(description = "Coste de conseguir el Prospecto como Cliente")
   
     @Valid
     public BigDecimal getAcqusitioncost() {
@@ -390,10 +390,10 @@ public class BPartner   {
   }
 
   /**
-   * Get actuallifetimevalue
+   * Ingreso en el tiempo de vida real
    * @return actuallifetimevalue
    **/
-  @Schema(description = "")
+  @Schema(description = "Ingreso en el tiempo de vida real")
   
     @Valid
     public BigDecimal getActuallifetimevalue() {
@@ -410,10 +410,10 @@ public class BPartner   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -430,10 +430,10 @@ public class BPartner   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -449,10 +449,10 @@ public class BPartner   {
   }
 
   /**
-   * Get adLanguage
+   * Lenguaje para esta aplicación
    * @return adLanguage
    **/
-  @Schema(description = "")
+  @Schema(description = "Lenguaje para esta aplicación")
   
     public Integer getAdLanguage() {
     return adLanguage;
@@ -468,10 +468,10 @@ public class BPartner   {
   }
 
   /**
-   * Get adOrgbpId
+   * Organización Asociada
    * @return adOrgbpId
    **/
-  @Schema(description = "")
+  @Schema(description = "Organización Asociada")
   
     public String getAdOrgbpId() {
     return adOrgbpId;
@@ -487,10 +487,10 @@ public class BPartner   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -507,10 +507,10 @@ public class BPartner   {
   }
 
   /**
-   * Get allowadvancedpaymentreceipts
+   *  
    * @return allowadvancedpaymentreceipts
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isAllowadvancedpaymentreceipts() {
@@ -527,10 +527,10 @@ public class BPartner   {
   }
 
   /**
-   * Get allowpartialpayment
+   *  
    * @return allowpartialpayment
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isAllowpartialpayment() {
@@ -547,10 +547,10 @@ public class BPartner   {
   }
 
   /**
-   * Get aNameCheck
+   *  
    * @return aNameCheck
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getANameCheck() {
     return aNameCheck;
@@ -566,10 +566,10 @@ public class BPartner   {
   }
 
   /**
-   * Get automaticcreditnotes
+   * Esta configuración permite imputar las notas de crédito automáticamente a las facturas más antiguas. 
    * @return automaticcreditnotes
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Esta configuración permite imputar las notas de crédito automáticamente a las facturas más antiguas. ")
       @NotNull
 
     public Boolean isAutomaticcreditnotes() {
@@ -586,10 +586,10 @@ public class BPartner   {
   }
 
   /**
-   * Get batchPaymentRule
+   *  
    * @return batchPaymentRule
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getBatchPaymentRule() {
     return batchPaymentRule;
@@ -605,10 +605,10 @@ public class BPartner   {
   }
 
   /**
-   * Get bpartnerParentId
+   * Organización Superior de la Entidad
    * @return bpartnerParentId
    **/
-  @Schema(description = "")
+  @Schema(description = "Organización Superior de la Entidad")
   
     public Integer getBpartnerParentId() {
     return bpartnerParentId;
@@ -624,10 +624,10 @@ public class BPartner   {
   }
 
   /**
-   * Get builtcabajurisdiction
+   *  
    * @return builtcabajurisdiction
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isBuiltcabajurisdiction() {
     return builtcabajurisdiction;
@@ -643,10 +643,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cBankaccountId
+   * Cuenta Bancaria
    * @return cBankaccountId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cuenta Bancaria")
   
     public Integer getCBankaccountId() {
     return cBankaccountId;
@@ -662,10 +662,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identifica una Entidad Comercial")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -682,10 +682,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cBpGroupId
+   * ID del Grupo de Entidad Comercial
    * @return cBpGroupId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "ID del Grupo de Entidad Comercial")
       @NotNull
 
     public Integer getCBpGroupId() {
@@ -702,11 +702,12 @@ public class BPartner   {
   }
 
   /**
-   * Get cCategoriaIvaId
+   *  
    * @return cCategoriaIvaId
    **/
-  @Schema(description = "")
-  
+  @Schema(required = true, description = " ")
+      @NotNull
+
     public Integer getCCategoriaIvaId() {
     return cCategoriaIvaId;
   }
@@ -721,10 +722,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cDunningId
+   * Reglas de impagos para facturas vencidas
    * @return cDunningId
    **/
-  @Schema(description = "")
+  @Schema(description = "Reglas de impagos para facturas vencidas")
   
     public Integer getCDunningId() {
     return cDunningId;
@@ -740,10 +741,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cGreetingId
+   * Saludo para imprimir en la correspondencia
    * @return cGreetingId
    **/
-  @Schema(description = "")
+  @Schema(description = "Saludo para imprimir en la correspondencia")
   
     public Integer getCGreetingId() {
     return cGreetingId;
@@ -759,10 +760,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cInvoicescheduleId
+   * Programa para generar facturas
    * @return cInvoicescheduleId
    **/
-  @Schema(description = "")
+  @Schema(description = "Programa para generar facturas")
   
     public Integer getCInvoicescheduleId() {
     return cInvoicescheduleId;
@@ -778,10 +779,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cJobcategoryId
+   * Categoria del Puesto
    * @return cJobcategoryId
    **/
-  @Schema(description = "")
+  @Schema(description = "Categoria del Puesto")
   
     public Integer getCJobcategoryId() {
     return cJobcategoryId;
@@ -797,10 +798,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cLocationId
+   * Ubicación o Dirección
    * @return cLocationId
    **/
-  @Schema(description = "")
+  @Schema(description = "Ubicación o Dirección")
   
     public Integer getCLocationId() {
     return cLocationId;
@@ -816,10 +817,10 @@ public class BPartner   {
   }
 
   /**
-   * Get copyfrom
+   * Copiar Registros desde
    * @return copyfrom
    **/
-  @Schema(description = "")
+  @Schema(description = "Copiar Registros desde")
   
     public String getCopyfrom() {
     return copyfrom;
@@ -835,10 +836,10 @@ public class BPartner   {
   }
 
   /**
-   * Get copyvendorproducts
+   *  
    * @return copyvendorproducts
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCopyvendorproducts() {
     return copyvendorproducts;
@@ -854,10 +855,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cPaymenttermId
+   * Programa de Vctos.
    * @return cPaymenttermId
    **/
-  @Schema(description = "")
+  @Schema(description = "Programa de Vctos.")
   
     public Integer getCPaymenttermId() {
     return cPaymenttermId;
@@ -873,10 +874,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cPospaymentmediumId
+   * Medio de Pago de Terminal Punto de Venta
    * @return cPospaymentmediumId
    **/
-  @Schema(description = "")
+  @Schema(description = "Medio de Pago de Terminal Punto de Venta")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -892,10 +893,10 @@ public class BPartner   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -912,10 +913,10 @@ public class BPartner   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -932,10 +933,10 @@ public class BPartner   {
   }
 
   /**
-   * Get creditminimumamt
+   * El monto mínimo de bloqueo determina un mínimo que se considera al cliente no moroso.
    * @return creditminimumamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El monto mínimo de bloqueo determina un mínimo que se considera al cliente no moroso.")
       @NotNull
 
     @Valid
@@ -953,10 +954,10 @@ public class BPartner   {
   }
 
   /**
-   * Get creditsituation
+   *  
    * @return creditsituation
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCreditsituation() {
     return creditsituation;
@@ -972,10 +973,10 @@ public class BPartner   {
   }
 
   /**
-   * Get cRegionSedeId
+   *  
    * @return cRegionSedeId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCRegionSedeId() {
     return cRegionSedeId;
@@ -991,10 +992,10 @@ public class BPartner   {
   }
 
   /**
-   * Get customertype
+   *  
    * @return customertype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCustomertype() {
     return customertype;
@@ -1010,10 +1011,10 @@ public class BPartner   {
   }
 
   /**
-   * Get deliveryrule
+   * Define los tiempos de entrega
    * @return deliveryrule
    **/
-  @Schema(description = "")
+  @Schema(description = "Define los tiempos de entrega")
   
     public String getDeliveryrule() {
     return deliveryrule;
@@ -1029,10 +1030,10 @@ public class BPartner   {
   }
 
   /**
-   * Get deliveryviarule
+   * Como será entregada la orden
    * @return deliveryviarule
    **/
-  @Schema(description = "")
+  @Schema(description = "Como será entregada la orden")
   
     public String getDeliveryviarule() {
     return deliveryviarule;
@@ -1048,10 +1049,10 @@ public class BPartner   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -1067,10 +1068,10 @@ public class BPartner   {
   }
 
   /**
-   * Get discountcontext
+   * Contexto de aplicación del descuento
    * @return discountcontext
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Contexto de aplicación del descuento")
       @NotNull
 
     public String getDiscountcontext() {
@@ -1087,10 +1088,10 @@ public class BPartner   {
   }
 
   /**
-   * Get documentcopies
+   * Número de copias a ser impresas
    * @return documentcopies
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de copias a ser impresas")
   
     public Integer getDocumentcopies() {
     return documentcopies;
@@ -1106,10 +1107,10 @@ public class BPartner   {
   }
 
   /**
-   * Get duns
+   * Introduzca el CIF/NIF DE LA EMPRESA O PARTICULAR
    * @return duns
    **/
-  @Schema(description = "")
+  @Schema(description = "Introduzca el CIF/NIF DE LA EMPRESA O PARTICULAR")
   
     public String getDuns() {
     return duns;
@@ -1125,10 +1126,10 @@ public class BPartner   {
   }
 
   /**
-   * Get emitirMiPyme
+   *  
    * @return emitirMiPyme
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isEmitirMiPyme() {
@@ -1145,10 +1146,10 @@ public class BPartner   {
   }
 
   /**
-   * Get endholidays
+   *  
    * @return endholidays
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getEndholidays() {
     return endholidays;
@@ -1164,10 +1165,10 @@ public class BPartner   {
   }
 
   /**
-   * Get endholidays2
+   *  
    * @return endholidays2
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getEndholidays2() {
     return endholidays2;
@@ -1183,10 +1184,10 @@ public class BPartner   {
   }
 
   /**
-   * Get firstsale
+   * Fecha de la primera venta
    * @return firstsale
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha de la primera venta")
   
     public String getFirstsale() {
     return firstsale;
@@ -1202,10 +1203,10 @@ public class BPartner   {
   }
 
   /**
-   * Get flatdiscount
+   * Porcentaje de descuento simple
    * @return flatdiscount
    **/
-  @Schema(description = "")
+  @Schema(description = "Porcentaje de descuento simple")
   
     @Valid
     public BigDecimal getFlatdiscount() {
@@ -1222,10 +1223,10 @@ public class BPartner   {
   }
 
   /**
-   * Get freightcostrule
+   * Regla de Coste de Transporte
    * @return freightcostrule
    **/
-  @Schema(description = "")
+  @Schema(description = "Regla de Coste de Transporte")
   
     public String getFreightcostrule() {
     return freightcostrule;
@@ -1241,10 +1242,10 @@ public class BPartner   {
   }
 
   /**
-   * Get goal
+   * Meta del Rendimiento desde 0.1
    * @return goal
    **/
-  @Schema(description = "")
+  @Schema(description = "Meta del Rendimiento desde 0.1")
   
     @Valid
     public BigDecimal getGoal() {
@@ -1261,10 +1262,10 @@ public class BPartner   {
   }
 
   /**
-   * Get iibb
+   *  
    * @return iibb
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getIibb() {
     return iibb;
@@ -1280,10 +1281,10 @@ public class BPartner   {
   }
 
   /**
-   * Get iibbtype
+   *  
    * @return iibbtype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getIibbtype() {
     return iibbtype;
@@ -1299,10 +1300,10 @@ public class BPartner   {
   }
 
   /**
-   * Get invoicePrintformatId
+   * Formato de impresión usado para imprimir facturas
    * @return invoicePrintformatId
    **/
-  @Schema(description = "")
+  @Schema(description = "Formato de impresión usado para imprimir facturas")
   
     public Integer getInvoicePrintformatId() {
     return invoicePrintformatId;
@@ -1318,10 +1319,10 @@ public class BPartner   {
   }
 
   /**
-   * Get invoicerule
+   * Frecuencia y métodos de facturación
    * @return invoicerule
    **/
-  @Schema(description = "")
+  @Schema(description = "Frecuencia y métodos de facturación")
   
     public String getInvoicerule() {
     return invoicerule;
@@ -1337,10 +1338,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -1357,10 +1358,10 @@ public class BPartner   {
   }
 
   /**
-   * Get iscompoundtax
+   *  
    * @return iscompoundtax
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isIscompoundtax() {
     return iscompoundtax;
@@ -1376,10 +1377,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isconveniomultilateral
+   * Entidades comerciales en Convenio Multilateral
    * @return isconveniomultilateral
    **/
-  @Schema(description = "")
+  @Schema(description = "Entidades comerciales en Convenio Multilateral")
   
     public String getIsconveniomultilateral() {
     return isconveniomultilateral;
@@ -1395,10 +1396,10 @@ public class BPartner   {
   }
 
   /**
-   * Get iscustomer
+   * Indica si la Entidad Comercial es un cliente de la compañia
    * @return iscustomer
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si la Entidad Comercial es un cliente de la compañia")
       @NotNull
 
     public Boolean isIscustomer() {
@@ -1415,10 +1416,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isdiscountprinted
+   * Imprimir el descuento en la Factura y la Orden
    * @return isdiscountprinted
    **/
-  @Schema(description = "")
+  @Schema(description = "Imprimir el descuento en la Factura y la Orden")
   
     public Boolean isIsdiscountprinted() {
     return isdiscountprinted;
@@ -1434,10 +1435,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isemployee
+   * Indica si el Socio Comercial es un empleado
    * @return isemployee
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si el Socio Comercial es un empleado")
       @NotNull
 
     public Boolean isIsemployee() {
@@ -1454,10 +1455,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isgroupinvoices
+   * Indica que en Recibos de Cliente se deben agrupar las facturas.
    * @return isgroupinvoices
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica que en Recibos de Cliente se deben agrupar las facturas.")
       @NotNull
 
     public Boolean isIsgroupinvoices() {
@@ -1474,10 +1475,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isiso
+   *  
    * @return isiso
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsiso() {
@@ -1494,10 +1495,10 @@ public class BPartner   {
   }
 
   /**
-   * Get ismandatorycai
+   * Validar CAI Obligatorio
    * @return ismandatorycai
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Validar CAI Obligatorio")
       @NotNull
 
     public Boolean isIsmandatorycai() {
@@ -1514,10 +1515,10 @@ public class BPartner   {
   }
 
   /**
-   * Get ismulticuit
+   * El CUIT/CUIL ingresado puede repetirse dentro del sistema
    * @return ismulticuit
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El CUIT/CUIL ingresado puede repetirse dentro del sistema")
       @NotNull
 
     public Boolean isIsmulticuit() {
@@ -1534,10 +1535,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isonetime
+   *  
    * @return isonetime
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsonetime() {
@@ -1554,10 +1555,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isprospect
+   * Cliente potencial u objetivo posible.
    * @return isprospect
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cliente potencial u objetivo posible.")
       @NotNull
 
     public Boolean isIsprospect() {
@@ -1574,10 +1575,10 @@ public class BPartner   {
   }
 
   /**
-   * Get issalesrep
+   * Indica si el empleado es un Comercial
    * @return issalesrep
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si el empleado es un Comercial")
       @NotNull
 
     public Boolean isIssalesrep() {
@@ -1594,10 +1595,10 @@ public class BPartner   {
   }
 
   /**
-   * Get issummary
+   * Carpeta
    * @return issummary
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Carpeta")
       @NotNull
 
     public Boolean isIssummary() {
@@ -1614,10 +1615,10 @@ public class BPartner   {
   }
 
   /**
-   * Get istaxexempt
+   * Este Socio del Negocio esta exento del impuesto de ventas
    * @return istaxexempt
    **/
-  @Schema(description = "")
+  @Schema(description = "Este Socio del Negocio esta exento del impuesto de ventas")
   
     public Boolean isIstaxexempt() {
     return istaxexempt;
@@ -1633,10 +1634,10 @@ public class BPartner   {
   }
 
   /**
-   * Get isvendor
+   * Indica si el Socio Comercial es un Proveedor
    * @return isvendor
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si el Socio Comercial es un Proveedor")
       @NotNull
 
     public Boolean isIsvendor() {
@@ -1653,10 +1654,10 @@ public class BPartner   {
   }
 
   /**
-   * Get mDiscountschemaId
+   * Esquema para calcular el porcentaje de descuento comercial
    * @return mDiscountschemaId
    **/
-  @Schema(description = "")
+  @Schema(description = "Esquema para calcular el porcentaje de descuento comercial")
   
     public Integer getMDiscountschemaId() {
     return mDiscountschemaId;
@@ -1672,10 +1673,10 @@ public class BPartner   {
   }
 
   /**
-   * Get minimumpurchasedamt
+   * No se permite realizar una orden de compra por debajo de este monto.
    * @return minimumpurchasedamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "No se permite realizar una orden de compra por debajo de este monto.")
       @NotNull
 
     @Valid
@@ -1693,10 +1694,10 @@ public class BPartner   {
   }
 
   /**
-   * Get minOrderQty
+   *  
    * @return minOrderQty
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getMinOrderQty() {
@@ -1713,10 +1714,10 @@ public class BPartner   {
   }
 
   /**
-   * Get mPricelistId
+   * Identificador único de mi lista de precios
    * @return mPricelistId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador único de mi lista de precios")
   
     public Integer getMPricelistId() {
     return mPricelistId;
@@ -1732,10 +1733,10 @@ public class BPartner   {
   }
 
   /**
-   * Get mProductRelatedId
+   * Artículo Vinculado en Facturas Generadas Automáticamente
    * @return mProductRelatedId
    **/
-  @Schema(description = "")
+  @Schema(description = "Artículo Vinculado en Facturas Generadas Automáticamente")
   
     public Integer getMProductRelatedId() {
     return mProductRelatedId;
@@ -1751,10 +1752,10 @@ public class BPartner   {
   }
 
   /**
-   * Get mShipperId
+   * Método o manera de entrega del producto
    * @return mShipperId
    **/
-  @Schema(description = "")
+  @Schema(description = "Método o manera de entrega del producto")
   
     public Integer getMShipperId() {
     return mShipperId;
@@ -1770,10 +1771,10 @@ public class BPartner   {
   }
 
   /**
-   * Get naics
+   * Standard Industry Code o su susesor NAIC - http://www.osha.gov/oshstats/sicser.html
    * @return naics
    **/
-  @Schema(description = "")
+  @Schema(description = "Standard Industry Code o su susesor NAIC - http://www.osha.gov/oshstats/sicser.html")
   
     public String getNaics() {
     return naics;
@@ -1789,10 +1790,10 @@ public class BPartner   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -1809,10 +1810,10 @@ public class BPartner   {
   }
 
   /**
-   * Get name2
+   * Nombre adicional
    * @return name2
    **/
-  @Schema(description = "")
+  @Schema(description = "Nombre adicional")
   
     public String getName2() {
     return name2;
@@ -1828,10 +1829,10 @@ public class BPartner   {
   }
 
   /**
-   * Get numberemployees
+   * Número de empleados
    * @return numberemployees
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de empleados")
   
     public Integer getNumberemployees() {
     return numberemployees;
@@ -1847,10 +1848,10 @@ public class BPartner   {
   }
 
   /**
-   * Get paymentblocked
+   *  
    * @return paymentblocked
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isPaymentblocked() {
     return paymentblocked;
@@ -1866,10 +1867,10 @@ public class BPartner   {
   }
 
   /**
-   * Get paymentblockeddescr
+   *  
    * @return paymentblockeddescr
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getPaymentblockeddescr() {
     return paymentblockeddescr;
@@ -1885,10 +1886,10 @@ public class BPartner   {
   }
 
   /**
-   * Get paymentrule
+   * Como se pagará la factura
    * @return paymentrule
    **/
-  @Schema(description = "")
+  @Schema(description = "Como se pagará la factura")
   
     public String getPaymentrule() {
     return paymentrule;
@@ -1904,10 +1905,10 @@ public class BPartner   {
   }
 
   /**
-   * Get paymentrulepo
+   * Opción de pago por compras
    * @return paymentrulepo
    **/
-  @Schema(description = "")
+  @Schema(description = "Opción de pago por compras")
   
     public String getPaymentrulepo() {
     return paymentrulepo;
@@ -1923,10 +1924,10 @@ public class BPartner   {
   }
 
   /**
-   * Get poDiscountschemaId
+   * Esquema Del Descuento en Pedido a Proveedor
    * @return poDiscountschemaId
    **/
-  @Schema(description = "")
+  @Schema(description = "Esquema Del Descuento en Pedido a Proveedor")
   
     public Integer getPoDiscountschemaId() {
     return poDiscountschemaId;
@@ -1942,10 +1943,10 @@ public class BPartner   {
   }
 
   /**
-   * Get poPaymenttermId
+   * Reglas de Pago en Pedido de Cliente
    * @return poPaymenttermId
    **/
-  @Schema(description = "")
+  @Schema(description = "Reglas de Pago en Pedido de Cliente")
   
     public Integer getPoPaymenttermId() {
     return poPaymenttermId;
@@ -1961,10 +1962,10 @@ public class BPartner   {
   }
 
   /**
-   * Get poPricelistId
+   * Lista de precios usada por este Socio del Negocio
    * @return poPricelistId
    **/
-  @Schema(description = "")
+  @Schema(description = "Lista de precios usada por este Socio del Negocio")
   
     public Integer getPoPricelistId() {
     return poPricelistId;
@@ -1980,10 +1981,10 @@ public class BPartner   {
   }
 
   /**
-   * Get poreference
+   * Referencia de Pedido de la Entidad
    * @return poreference
    **/
-  @Schema(description = "")
+  @Schema(description = "Referencia de Pedido de la Entidad")
   
     public String getPoreference() {
     return poreference;
@@ -1999,10 +2000,10 @@ public class BPartner   {
   }
 
   /**
-   * Get potentiallifetimevalue
+   * Total de ingresos esperados
    * @return potentiallifetimevalue
    **/
-  @Schema(description = "")
+  @Schema(description = "Total de ingresos esperados")
   
     @Valid
     public BigDecimal getPotentiallifetimevalue() {
@@ -2019,10 +2020,10 @@ public class BPartner   {
   }
 
   /**
-   * Get processpo
+   *  
    * @return processpo
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public String getProcesspo() {
@@ -2039,10 +2040,10 @@ public class BPartner   {
   }
 
   /**
-   * Get programAmt
+   *  
    * @return programAmt
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getProgramAmt() {
@@ -2059,10 +2060,10 @@ public class BPartner   {
   }
 
   /**
-   * Get programAmtUsed
+   *  
    * @return programAmtUsed
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getProgramAmtUsed() {
@@ -2079,10 +2080,10 @@ public class BPartner   {
   }
 
   /**
-   * Get rating
+   * Valoración
    * @return rating
    **/
-  @Schema(description = "")
+  @Schema(description = "Valoración")
   
     public String getRating() {
     return rating;
@@ -2098,10 +2099,10 @@ public class BPartner   {
   }
 
   /**
-   * Get referenceno
+   * Su número de cliente o proveedor con el Socio Comercial
    * @return referenceno
    **/
-  @Schema(description = "")
+  @Schema(description = "Su número de cliente o proveedor con el Socio Comercial")
   
     public String getReferenceno() {
     return referenceno;
@@ -2117,10 +2118,10 @@ public class BPartner   {
   }
 
   /**
-   * Get salesrepId
+   * Comercial/Usuario
    * @return salesrepId
    **/
-  @Schema(description = "")
+  @Schema(description = "Comercial/Usuario")
   
     public Integer getSalesrepId() {
     return salesrepId;
@@ -2136,10 +2137,10 @@ public class BPartner   {
   }
 
   /**
-   * Get salesvolume
+   * Volumen total de Ventas
    * @return salesvolume
    **/
-  @Schema(description = "")
+  @Schema(description = "Volumen total de Ventas")
   
     public Integer getSalesvolume() {
     return salesvolume;
@@ -2155,10 +2156,10 @@ public class BPartner   {
   }
 
   /**
-   * Get searchunallocatedpayments
+   * Buscar Pagos/Cobros sin asignar en Ordenes de Pago/Recibos de Cliente
    * @return searchunallocatedpayments
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Buscar Pagos/Cobros sin asignar en Ordenes de Pago/Recibos de Cliente")
       @NotNull
 
     public Boolean isSearchunallocatedpayments() {
@@ -2175,10 +2176,10 @@ public class BPartner   {
   }
 
   /**
-   * Get secondarycreditstatus
+   * Este estado de crédito describe la situación actual del cliente
    * @return secondarycreditstatus
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Este estado de crédito describe la situación actual del cliente")
       @NotNull
 
     public String getSecondarycreditstatus() {
@@ -2195,10 +2196,10 @@ public class BPartner   {
   }
 
   /**
-   * Get sendemail
+   * Permite enviar Documentos vía E-Mail
    * @return sendemail
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permite enviar Documentos vía E-Mail")
       @NotNull
 
     public Boolean isSendemail() {
@@ -2215,10 +2216,10 @@ public class BPartner   {
   }
 
   /**
-   * Get shareofcustomer
+   * Participación del Cliente
    * @return shareofcustomer
    **/
-  @Schema(description = "")
+  @Schema(description = "Participación del Cliente")
   
     public Integer getShareofcustomer() {
     return shareofcustomer;
@@ -2234,10 +2235,10 @@ public class BPartner   {
   }
 
   /**
-   * Get shelflifeminpct
+   * Minimo de Vida en Estanteria (%)
    * @return shelflifeminpct
    **/
-  @Schema(description = "")
+  @Schema(description = "Minimo de Vida en Estanteria (%)")
   
     public Integer getShelflifeminpct() {
     return shelflifeminpct;
@@ -2253,10 +2254,10 @@ public class BPartner   {
   }
 
   /**
-   * Get soCreditlimit
+   * Total pendiente del importe de la factura pendiente
    * @return soCreditlimit
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Total pendiente del importe de la factura pendiente")
       @NotNull
 
     @Valid
@@ -2274,10 +2275,10 @@ public class BPartner   {
   }
 
   /**
-   * Get socreditstatus
+   * Estado de Crédito de Ventas
    * @return socreditstatus
    **/
-  @Schema(description = "")
+  @Schema(description = "Estado de Crédito de Ventas")
   
     public String getSocreditstatus() {
     return socreditstatus;
@@ -2293,10 +2294,10 @@ public class BPartner   {
   }
 
   /**
-   * Get soCreditused
+   * Balance actual abierto
    * @return soCreditused
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Balance actual abierto")
       @NotNull
 
     @Valid
@@ -2314,10 +2315,10 @@ public class BPartner   {
   }
 
   /**
-   * Get soDescription
+   * Descripción a ser usada en órdenes
    * @return soDescription
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción a ser usada en órdenes")
   
     public String getSoDescription() {
     return soDescription;
@@ -2333,10 +2334,10 @@ public class BPartner   {
   }
 
   /**
-   * Get startholidays
+   *  
    * @return startholidays
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getStartholidays() {
     return startholidays;
@@ -2352,10 +2353,10 @@ public class BPartner   {
   }
 
   /**
-   * Get startholidays2
+   *  
    * @return startholidays2
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getStartholidays2() {
     return startholidays2;
@@ -2371,10 +2372,10 @@ public class BPartner   {
   }
 
   /**
-   * Get taxid
+   * Codigo único de Identificacion Tributaria / Documento Nacional de Identidad
    * @return taxid
    **/
-  @Schema(description = "")
+  @Schema(description = "Codigo único de Identificacion Tributaria / Documento Nacional de Identidad")
   
     public String getTaxid() {
     return taxid;
@@ -2390,10 +2391,10 @@ public class BPartner   {
   }
 
   /**
-   * Get taxidtype
+   *  
    * @return taxidtype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getTaxidtype() {
     return taxidtype;
@@ -2409,10 +2410,10 @@ public class BPartner   {
   }
 
   /**
-   * Get totalopenbalance
+   * Balance Abierto
    * @return totalopenbalance
    **/
-  @Schema(description = "")
+  @Schema(description = "Balance Abierto")
   
     @Valid
     public BigDecimal getTotalopenbalance() {
@@ -2429,10 +2430,10 @@ public class BPartner   {
   }
 
   /**
-   * Get trxenabled
+   * La entidad comercial está habilitada para realizar transacciones dentro del sistema
    * @return trxenabled
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "La entidad comercial está habilitada para realizar transacciones dentro del sistema")
       @NotNull
 
     public Boolean isTrxenabled() {
@@ -2449,10 +2450,10 @@ public class BPartner   {
   }
 
   /**
-   * Get updatebalance
+   * Actualizar Saldo de la Entidad Comercial
    * @return updatebalance
    **/
-  @Schema(description = "")
+  @Schema(description = "Actualizar Saldo de la Entidad Comercial")
   
     public String getUpdatebalance() {
     return updatebalance;
@@ -2468,10 +2469,10 @@ public class BPartner   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -2488,10 +2489,10 @@ public class BPartner   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -2508,10 +2509,10 @@ public class BPartner   {
   }
 
   /**
-   * Get url
+   * URL
    * @return url
    **/
-  @Schema(description = "")
+  @Schema(description = "URL")
   
     public String getUrl() {
     return url;
@@ -2527,10 +2528,10 @@ public class BPartner   {
   }
 
   /**
-   * Get value
+   * Clave de búsqueda para el registro en el formato requerido; debe ser única
    * @return value
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Clave de búsqueda para el registro en el formato requerido; debe ser única")
       @NotNull
 
     public String getValue() {

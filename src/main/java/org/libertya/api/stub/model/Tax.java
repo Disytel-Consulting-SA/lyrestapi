@@ -145,10 +145,10 @@ public class Tax   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -165,10 +165,10 @@ public class Tax   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -184,10 +184,10 @@ public class Tax   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -204,10 +204,10 @@ public class Tax   {
   }
 
   /**
-   * Get arcibanormcode
+   *  
    * @return arcibanormcode
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getArcibanormcode() {
     return arcibanormcode;
@@ -223,10 +223,10 @@ public class Tax   {
   }
 
   /**
-   * Get cBpGroupId
+   * ID del Grupo de Entidad Comercial
    * @return cBpGroupId
    **/
-  @Schema(description = "")
+  @Schema(description = "ID del Grupo de Entidad Comercial")
   
     public Integer getCBpGroupId() {
     return cBpGroupId;
@@ -242,10 +242,10 @@ public class Tax   {
   }
 
   /**
-   * Get cCountryId
+   * País
    * @return cCountryId
    **/
-  @Schema(description = "")
+  @Schema(description = "País")
   
     public Integer getCCountryId() {
     return cCountryId;
@@ -261,10 +261,10 @@ public class Tax   {
   }
 
   /**
-   * Get codigooperacion
+   *  
    * @return codigooperacion
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCodigooperacion() {
     return codigooperacion;
@@ -280,10 +280,10 @@ public class Tax   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -300,10 +300,10 @@ public class Tax   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -320,10 +320,10 @@ public class Tax   {
   }
 
   /**
-   * Get cRegionId
+   * Identifica una región geográfica
    * @return cRegionId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica una región geográfica")
   
     public Integer getCRegionId() {
     return cRegionId;
@@ -339,10 +339,10 @@ public class Tax   {
   }
 
   /**
-   * Get cTaxcategoryId
+   * Categoría del Impuesto
    * @return cTaxcategoryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Categoría del Impuesto")
       @NotNull
 
     public Integer getCTaxcategoryId() {
@@ -359,10 +359,10 @@ public class Tax   {
   }
 
   /**
-   * Get cTaxId
+   * Identificador del Impuesto
    * @return cTaxId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador del Impuesto")
       @NotNull
 
     public Integer getCTaxId() {
@@ -379,10 +379,10 @@ public class Tax   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -398,10 +398,10 @@ public class Tax   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -418,10 +418,10 @@ public class Tax   {
   }
 
   /**
-   * Get isdefault
+   * Valor Predeterminado
    * @return isdefault
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Valor Predeterminado")
       @NotNull
 
     public Boolean isIsdefault() {
@@ -438,10 +438,10 @@ public class Tax   {
   }
 
   /**
-   * Get isdocumentlevel
+   * El Impuesto es calculado a nivel de Documento (No línea por línea)
    * @return isdocumentlevel
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El Impuesto es calculado a nivel de Documento (No línea por línea)")
       @NotNull
 
     public Boolean isIsdocumentlevel() {
@@ -458,10 +458,10 @@ public class Tax   {
   }
 
   /**
-   * Get ispercepcion
+   * Este impuesto es de percepción
    * @return ispercepcion
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Este impuesto es de percepción")
       @NotNull
 
     public Boolean isIspercepcion() {
@@ -478,10 +478,10 @@ public class Tax   {
   }
 
   /**
-   * Get issummary
+   * Carpeta
    * @return issummary
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Carpeta")
       @NotNull
 
     public Boolean isIssummary() {
@@ -498,10 +498,10 @@ public class Tax   {
   }
 
   /**
-   * Get istaxexempt
+   * Este Socio del Negocio esta exento del impuesto de ventas
    * @return istaxexempt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Este Socio del Negocio esta exento del impuesto de ventas")
       @NotNull
 
     public Boolean isIstaxexempt() {
@@ -518,10 +518,10 @@ public class Tax   {
   }
 
   /**
-   * Get mProductCategoryId
+   * Categoría de la que este producto es parte
    * @return mProductCategoryId
    **/
-  @Schema(description = "")
+  @Schema(description = "Categoría de la que este producto es parte")
   
     public Integer getMProductCategoryId() {
     return mProductCategoryId;
@@ -537,10 +537,10 @@ public class Tax   {
   }
 
   /**
-   * Get mProductId
+   * Producto; servicio o Artículo
    * @return mProductId
    **/
-  @Schema(description = "")
+  @Schema(description = "Producto; servicio o Artículo")
   
     public Integer getMProductId() {
     return mProductId;
@@ -556,10 +556,10 @@ public class Tax   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -576,10 +576,10 @@ public class Tax   {
   }
 
   /**
-   * Get parentTaxId
+   * Impuesto Compuesto indica un impuesto que esta formado por múltiples impuestos
    * @return parentTaxId
    **/
-  @Schema(description = "")
+  @Schema(description = "Impuesto Compuesto indica un impuesto que esta formado por múltiples impuestos")
   
     public Integer getParentTaxId() {
     return parentTaxId;
@@ -595,10 +595,10 @@ public class Tax   {
   }
 
   /**
-   * Get perceptiontype
+   *  
    * @return perceptiontype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getPerceptiontype() {
     return perceptiontype;
@@ -614,10 +614,10 @@ public class Tax   {
   }
 
   /**
-   * Get rate
+   * Tasa o Impuesto o Conversión
    * @return rate
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tasa o Impuesto o Conversión")
       @NotNull
 
     @Valid
@@ -635,10 +635,10 @@ public class Tax   {
   }
 
   /**
-   * Get requirestaxcertificate
+   * Esta tasa de impuesto requiere que el Socio Comercial este exento de impuesto
    * @return requirestaxcertificate
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Esta tasa de impuesto requiere que el Socio Comercial este exento de impuesto")
       @NotNull
 
     public Boolean isRequirestaxcertificate() {
@@ -655,10 +655,10 @@ public class Tax   {
   }
 
   /**
-   * Get sopotype
+   * Tipo Impuesto PP/PC
    * @return sopotype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo Impuesto PP/PC")
       @NotNull
 
     public String getSopotype() {
@@ -675,10 +675,10 @@ public class Tax   {
   }
 
   /**
-   * Get taxaccusation
+   *  
    * @return taxaccusation
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getTaxaccusation() {
     return taxaccusation;
@@ -694,10 +694,10 @@ public class Tax   {
   }
 
   /**
-   * Get taxareatype
+   *  
    * @return taxareatype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getTaxareatype() {
     return taxareatype;
@@ -713,10 +713,10 @@ public class Tax   {
   }
 
   /**
-   * Get taxindicator
+   * Forma corta para que el impuesto sea impreso en los documentos
    * @return taxindicator
    **/
-  @Schema(description = "")
+  @Schema(description = "Forma corta para que el impuesto sea impreso en los documentos")
   
     public String getTaxindicator() {
     return taxindicator;
@@ -732,10 +732,10 @@ public class Tax   {
   }
 
   /**
-   * Get taxtype
+   *  
    * @return taxtype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public String getTaxtype() {
@@ -752,10 +752,10 @@ public class Tax   {
   }
 
   /**
-   * Get toCountryId
+   * País que recibe
    * @return toCountryId
    **/
-  @Schema(description = "")
+  @Schema(description = "País que recibe")
   
     public Integer getToCountryId() {
     return toCountryId;
@@ -771,10 +771,10 @@ public class Tax   {
   }
 
   /**
-   * Get toRegionId
+   * Región que recibe
    * @return toRegionId
    **/
-  @Schema(description = "")
+  @Schema(description = "Región que recibe")
   
     public Integer getToRegionId() {
     return toRegionId;
@@ -790,10 +790,10 @@ public class Tax   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -810,10 +810,10 @@ public class Tax   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -830,10 +830,10 @@ public class Tax   {
   }
 
   /**
-   * Get validfrom
+   * Válido desde; incluyendo esta fecha (primer día)
    * @return validfrom
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Válido desde; incluyendo esta fecha (primer día)")
       @NotNull
 
     public String getValidfrom() {
@@ -850,10 +850,10 @@ public class Tax   {
   }
 
   /**
-   * Get wsfecode
+   * Código WSFE
    * @return wsfecode
    **/
-  @Schema(description = "")
+  @Schema(description = "Código WSFE")
   
     public Integer getWsfecode() {
     return wsfecode;

@@ -5,89 +5,131 @@ components:
       properties:
         a_asset_id:
           type: integer
+          description: "Activo usado por la compañía o sus clientes"
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         c_bpartner_vendor_id:
           type: integer
+          description: "Proveedor actual del artículo de la línea de la factura"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_invoice_id:
           type: integer
+          description: "Identificador de la factura"
         c_invoiceline_id:
           type: integer
+          description: "Línea de detalle de la factura"
         c_orderline_id:
           type: integer
+          description: "Línea de Pedido de Cliente"
         costprice:
           type: number
+          description: "Precio de costo actual del artículo"
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_tax_id:
           type: integer
+          description: "Identificador del Impuesto"
         c_uom_id:
           type: integer
+          description: "Unidad de Medida"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         documentdiscountamt:
           type: number
+          description: "Descuento a Nivel de Documento calculado para esta Línea"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isdescription:
           type: boolean
+          description: "Sólo Descripción"
         isprinted:
           type: boolean
+          description: "Indica si este documento es impreso"
         line:
           type: integer
+          description: "No. Línea único para este documento"
         linebonusamt:
           type: number
+          description: "Importe de bonificación de la línea"
         linediscountamt:
           type: number
+          description: "Descuento de línea como un porcentaje"
         linenetamount:
           type: number
+          description: " "
         linenetamt:
           type: number
+          description: "Importe Neto de la Línea (Cantidad * Precio Actual) sin Fletes ni Cargos"
         linetotalamt:
           type: number
+          description: "Total de Línea (Impuestos Incluidos)"
         manualgeneraldiscountamt:
           type: number
+          description: "Importe de Descuento General"
         m_attributesetinstance_id:
           type: integer
+          description: "Instancia del Conjunto de Attributos del Producto"
         m_import_clearance_id:
           type: integer
+          description: " "
         m_inoutline_id:
           type: integer
+          description: "Línea en el Entrega o Documento de Recibo"
         m_product_id:
           type: integer
+          description: "Producto; servicio o Artículo"
         priceactual:
           type: number
+          description: "Precio Actual"
         priceentered:
           type: number
+          description: "Precio"
         pricelimit:
           type: number
+          description: "Precio más bajo del producto"
         pricelist:
           type: number
+          description: "Precio de Tarifa"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         qtyentered:
           type: number
+          description: "Cantidad"
         qtyinvoiced:
           type: number
+          description: "Cantidad facturada"
         ref_invoiceline_id:
           type: integer
+          description: " "
         salesrep_orig_id:
           type: integer
+          description: "Responsable de Ventas Original"
 
         taxamt:
           type: number
+          description: "Importe del Impuesto"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

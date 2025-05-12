@@ -5,50 +5,73 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_bpartner_location_id:
           type: integer
+          description: "Dirección de la Entidad Comercial"
         c_location_id:
           type: integer
+          description: "Ubicación o Dirección"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_salesregion_id:
           type: integer
+          description: "Región de cobertura de ventas"
         email:
           type: string
+          description: "ID de correo electrónico"
         fax:
           type: string
+          description: "Número de Fax"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isbillto:
           type: boolean
+          description: "Indica que esta dirección es la dirección de Facturar A"
         isdn:
           type: string
+          description: "ISDN o línea con módem"
         ispayfrom:
           type: boolean
+          description: "El Socio Comercial paga desde esta dirección y a donde se envían las cartas de Imapgo"
         isremitto:
           type: boolean
+          description: "Dirección a la que enviamos el pago"
         isshipto:
           type: boolean
+          description: "Dirección del Socio Comercial a donde se envían los bienes"
         istemporal:
           type: boolean
+          description: " "
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         phone:
           type: string
+          description: "Identifica un número telefónico"
         phone2:
           type: string
+          description: "Identifica un número telefónico alterno"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

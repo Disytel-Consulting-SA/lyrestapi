@@ -5,64 +5,94 @@ components:
       properties:
         actiondetail:
           type: string
+          description: "Detalle del resultado de la ejecución de la acción específica del documento"
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         allocationaction:
           type: string
+          description: " "
         allocationtype:
           type: string
+          description: " "
         approvalamt:
           type: number
+          description: "Cantidad Aprobada para el Documento"
         c_allocationhdr_id:
           type: integer
+          description: "Asignación de pagos"
         c_banklist_id:
           type: integer
+          description: "Lista de Banco"
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_currency_id:
           type: integer
+          description: "Moneda para este registro"
         c_doctype_id:
           type: integer
+          description: "Tipo de documento o reglas"
         c_posjournal_id:
           type: integer
+          description: "Caja Diaria"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         dateacct:
           type: string
+          description: "Fecha contable"
         datetrx:
           type: string
+          description: "Fecha de la transacción"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         docaction:
           type: string
+          description: "El estado destino del documento"
         docstatus:
           type: string
+          description: "El estado actual del documento"
         documentno:
           type: string
+          description: "Número de secuencia del documento para cada documento"
         grandtotal:
           type: number
+          description: "Importe total del documento"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isapproved:
           type: boolean
+          description: "Indica si este documento requiere aprobación"
         ismanual:
           type: boolean
+          description: "Éste es un proceso manual"
         posted:
           type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         processing:
           type: boolean
+          description: " "
         retencion_amt:
           type: number
+          description: " "
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

@@ -188,6 +188,9 @@ public class Invoice   {
   @JsonProperty("docstatus")
   private String docstatus = null;
 
+  @JsonProperty("docsubtypeinv")
+  private String docsubtypeinv = null;
+
   @JsonProperty("documentno")
   private String documentno = null;
 
@@ -259,6 +262,15 @@ public class Invoice   {
 
   @JsonProperty("isvoidable")
   private Boolean isvoidable = null;
+
+  @JsonProperty("lyeicaeainformed")
+  private String lyeicaeainformed = null;
+
+  @JsonProperty("lyeicaeainformeddetail")
+  private String lyeicaeainformeddetail = null;
+
+  @JsonProperty("lyeimanageelectronicinvoiceprocess")
+  private String lyeimanageelectronicinvoiceprocess = null;
 
   @JsonProperty("managedragorderdiscounts")
   private Boolean managedragorderdiscounts = null;
@@ -394,10 +406,10 @@ public class Invoice   {
   }
 
   /**
-   * Get actualizarpreciosconfacturadecompra
+   *  
    * @return actualizarpreciosconfacturadecompra
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isActualizarpreciosconfacturadecompra() {
     return actualizarpreciosconfacturadecompra;
@@ -413,10 +425,10 @@ public class Invoice   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -433,10 +445,10 @@ public class Invoice   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -453,10 +465,10 @@ public class Invoice   {
   }
 
   /**
-   * Get adOrgtrxId
+   * Organización que inicia o ejecuta la transacción
    * @return adOrgtrxId
    **/
-  @Schema(description = "")
+  @Schema(description = "Organización que inicia o ejecuta la transacción")
   
     public Integer getAdOrgtrxId() {
     return adOrgtrxId;
@@ -472,10 +484,10 @@ public class Invoice   {
   }
 
   /**
-   * Get adUserId
+   * ID de Usuario dentro del sistema
    * @return adUserId
    **/
-  @Schema(description = "")
+  @Schema(description = "ID de Usuario dentro del sistema")
   
     public Integer getAdUserId() {
     return adUserId;
@@ -491,10 +503,10 @@ public class Invoice   {
   }
 
   /**
-   * Get applypercepcion
+   *  
    * @return applypercepcion
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isApplypercepcion() {
@@ -511,10 +523,10 @@ public class Invoice   {
   }
 
   /**
-   * Get authcode
+   * Código de Autorización Offline
    * @return authcode
    **/
-  @Schema(description = "")
+  @Schema(description = "Código de Autorización Offline")
   
     public String getAuthcode() {
     return authcode;
@@ -530,10 +542,10 @@ public class Invoice   {
   }
 
   /**
-   * Get authmatch
+   *  
    * @return authmatch
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isAuthmatch() {
     return authmatch;
@@ -549,10 +561,10 @@ public class Invoice   {
   }
 
   /**
-   * Get authorizationchainstatus
+   *  
    * @return authorizationchainstatus
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAuthorizationchainstatus() {
     return authorizationchainstatus;
@@ -568,10 +580,10 @@ public class Invoice   {
   }
 
   /**
-   * Get authorize
+   *  
    * @return authorize
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAuthorize() {
     return authorize;
@@ -587,10 +599,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cActivityId
+   * Actividad de Negocio
    * @return cActivityId
    **/
-  @Schema(description = "")
+  @Schema(description = "Actividad de Negocio")
   
     public Integer getCActivityId() {
     return cActivityId;
@@ -606,10 +618,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cae
+   *  
    * @return cae
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCae() {
     return cae;
@@ -625,10 +637,10 @@ public class Invoice   {
   }
 
   /**
-   * Get caecbte
+   *  
    * @return caecbte
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCaecbte() {
     return caecbte;
@@ -644,10 +656,10 @@ public class Invoice   {
   }
 
   /**
-   * Get caeerror
+   *  
    * @return caeerror
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCaeerror() {
     return caeerror;
@@ -663,10 +675,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cai
+   *  
    * @return cai
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCai() {
     return cai;
@@ -682,10 +694,10 @@ public class Invoice   {
   }
 
   /**
-   * Get caja
+   *  
    * @return caja
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCaja() {
     return caja;
@@ -701,10 +713,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identifica una Entidad Comercial")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -721,10 +733,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cBpartnerLocationId
+   * Dirección de la Entidad Comercial
    * @return cBpartnerLocationId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Dirección de la Entidad Comercial")
       @NotNull
 
     public Integer getCBpartnerLocationId() {
@@ -741,10 +753,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cCampaignId
+   * Campaña de Marketing
    * @return cCampaignId
    **/
-  @Schema(description = "")
+  @Schema(description = "Campaña de Marketing")
   
     public Integer getCCampaignId() {
     return cCampaignId;
@@ -760,10 +772,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cCashlineId
+   * Línea del Libro de Caja
    * @return cCashlineId
    **/
-  @Schema(description = "")
+  @Schema(description = "Línea del Libro de Caja")
   
     public Integer getCCashlineId() {
     return cCashlineId;
@@ -779,10 +791,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cChargeId
+   * Cargos adicionales del documento
    * @return cChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargos adicionales del documento")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -798,10 +810,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cConversiontypeId
+   * Tipo de Divisa
    * @return cConversiontypeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo de Divisa")
   
     public Integer getCConversiontypeId() {
     return cConversiontypeId;
@@ -817,10 +829,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cCurrencyId
+   * Moneda para este registro
    * @return cCurrencyId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Moneda para este registro")
       @NotNull
 
     public Integer getCCurrencyId() {
@@ -837,10 +849,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cDoctypeId
+   * Tipo de documento o reglas
    * @return cDoctypeId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de documento o reglas")
       @NotNull
 
     public Integer getCDoctypeId() {
@@ -857,10 +869,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cDoctypetargetId
+   * Tipo de documento destino para convertir documentos
    * @return cDoctypetargetId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de documento destino para convertir documentos")
       @NotNull
 
     public Integer getCDoctypetargetId() {
@@ -877,10 +889,10 @@ public class Invoice   {
   }
 
   /**
-   * Get chargeamt
+   * Importe de Cargo
    * @return chargeamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe de Cargo")
   
     @Valid
     public BigDecimal getChargeamt() {
@@ -897,10 +909,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cInvoiceId
+   * Identificador de la factura
    * @return cInvoiceId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador de la factura")
       @NotNull
 
     public Integer getCInvoiceId() {
@@ -917,10 +929,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cInvoiceOrigId
+   *  
    * @return cInvoiceOrigId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCInvoiceOrigId() {
     return cInvoiceOrigId;
@@ -936,10 +948,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cLetraComprobanteId
+   *  
    * @return cLetraComprobanteId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCLetraComprobanteId() {
     return cLetraComprobanteId;
@@ -955,10 +967,10 @@ public class Invoice   {
   }
 
   /**
-   * Get codigocategoriaiva
+   *  
    * @return codigocategoriaiva
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCodigocategoriaiva() {
     return codigocategoriaiva;
@@ -974,10 +986,10 @@ public class Invoice   {
   }
 
   /**
-   * Get copyfrom
+   * Copiar Registros desde
    * @return copyfrom
    **/
-  @Schema(description = "")
+  @Schema(description = "Copiar Registros desde")
   
     public String getCopyfrom() {
     return copyfrom;
@@ -993,10 +1005,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cOrderId
+   * Pedido
    * @return cOrderId
    **/
-  @Schema(description = "")
+  @Schema(description = "Pedido")
   
     public Integer getCOrderId() {
     return cOrderId;
@@ -1012,10 +1024,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cOrderOrigId
+   *  
    * @return cOrderOrigId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCOrderOrigId() {
     return cOrderOrigId;
@@ -1031,10 +1043,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cPaymentId
+   * Identificador del pago
    * @return cPaymentId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador del pago")
   
     public Integer getCPaymentId() {
     return cPaymentId;
@@ -1050,10 +1062,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cPaymenttermId
+   * Programa de Vctos.
    * @return cPaymenttermId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Programa de Vctos.")
       @NotNull
 
     public Integer getCPaymenttermId() {
@@ -1070,10 +1082,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cPosjournalId
+   * Caja Diaria
    * @return cPosjournalId
    **/
-  @Schema(description = "")
+  @Schema(description = "Caja Diaria")
   
     public Integer getCPosjournalId() {
     return cPosjournalId;
@@ -1089,10 +1101,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cPospaymentmediumCreditId
+   * Medio de cobro crédito relacionado con este comprobante.
    * @return cPospaymentmediumCreditId
    **/
-  @Schema(description = "")
+  @Schema(description = "Medio de cobro crédito relacionado con este comprobante.")
   
     public Integer getCPospaymentmediumCreditId() {
     return cPospaymentmediumCreditId;
@@ -1108,10 +1120,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cPospaymentmediumId
+   * Medio de Pago de Terminal Punto de Venta
    * @return cPospaymentmediumId
    **/
-  @Schema(description = "")
+  @Schema(description = "Medio de Pago de Terminal Punto de Venta")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -1127,10 +1139,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cProjectId
+   * Identifica un proyecto único
    * @return cProjectId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un proyecto único")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -1146,10 +1158,10 @@ public class Invoice   {
   }
 
   /**
-   * Get createcashline
+   * Crear línea de Ingreso/Egreso de Efectivo en el libro de caja correspondiente
    * @return createcashline
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Crear línea de Ingreso/Egreso de Efectivo en el libro de caja correspondiente")
       @NotNull
 
     public Boolean isCreatecashline() {
@@ -1166,10 +1178,10 @@ public class Invoice   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -1186,10 +1198,10 @@ public class Invoice   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -1206,10 +1218,10 @@ public class Invoice   {
   }
 
   /**
-   * Get createfrom
+   * Proceso que generará un nuevo documento
    * @return createfrom
    **/
-  @Schema(description = "")
+  @Schema(description = "Proceso que generará un nuevo documento")
   
     public String getCreatefrom() {
     return createfrom;
@@ -1225,10 +1237,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cRegionDeliveryId
+   * Lugar de entrega de la factura. Permite definir el lugar correspondiente de la factura.
    * @return cRegionDeliveryId
    **/
-  @Schema(description = "")
+  @Schema(description = "Lugar de entrega de la factura. Permite definir el lugar correspondiente de la factura.")
   
     public Integer getCRegionDeliveryId() {
     return cRegionDeliveryId;
@@ -1244,10 +1256,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cRegionId
+   * Identifica una región geográfica
    * @return cRegionId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica una región geográfica")
   
     public Integer getCRegionId() {
     return cRegionId;
@@ -1263,10 +1275,10 @@ public class Invoice   {
   }
 
   /**
-   * Get cuit
+   *  
    * @return cuit
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCuit() {
     return cuit;
@@ -1282,10 +1294,10 @@ public class Invoice   {
   }
 
   /**
-   * Get dateacct
+   * Fecha contable
    * @return dateacct
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha contable")
       @NotNull
 
     public String getDateacct() {
@@ -1302,10 +1314,10 @@ public class Invoice   {
   }
 
   /**
-   * Get datecai
+   *  
    * @return datecai
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDatecai() {
     return datecai;
@@ -1321,10 +1333,10 @@ public class Invoice   {
   }
 
   /**
-   * Get dateinvoiced
+   * Fecha impresa en la factura
    * @return dateinvoiced
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha impresa en la factura")
       @NotNull
 
     public String getDateinvoiced() {
@@ -1341,10 +1353,10 @@ public class Invoice   {
   }
 
   /**
-   * Get dateordered
+   * Fecha del Pedido
    * @return dateordered
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha del Pedido")
   
     public String getDateordered() {
     return dateordered;
@@ -1360,10 +1372,10 @@ public class Invoice   {
   }
 
   /**
-   * Get dateprinted
+   * Fecha en que el documento fue impreso
    * @return dateprinted
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha en que el documento fue impreso")
   
     public String getDateprinted() {
     return dateprinted;
@@ -1379,10 +1391,10 @@ public class Invoice   {
   }
 
   /**
-   * Get daterecepted
+   *  
    * @return daterecepted
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDaterecepted() {
     return daterecepted;
@@ -1398,10 +1410,10 @@ public class Invoice   {
   }
 
   /**
-   * Get deliveryviarule
+   * Como será entregada la orden
    * @return deliveryviarule
    **/
-  @Schema(description = "")
+  @Schema(description = "Como será entregada la orden")
   
     public String getDeliveryviarule() {
     return deliveryviarule;
@@ -1417,10 +1429,10 @@ public class Invoice   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -1436,10 +1448,10 @@ public class Invoice   {
   }
 
   /**
-   * Get docaction
+   * El estado destino del documento
    * @return docaction
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado destino del documento")
       @NotNull
 
     public String getDocaction() {
@@ -1456,10 +1468,10 @@ public class Invoice   {
   }
 
   /**
-   * Get docstatus
+   * El estado actual del documento
    * @return docstatus
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado actual del documento")
       @NotNull
 
     public String getDocstatus() {
@@ -1470,16 +1482,35 @@ public class Invoice   {
     this.docstatus = docstatus;
   }
 
+  public Invoice docsubtypeinv(String docsubtypeinv) {
+    this.docsubtypeinv = docsubtypeinv;
+    return this;
+  }
+
+  /**
+   *  
+   * @return docsubtypeinv
+   **/
+  @Schema(description = " ")
+  
+    public String getDocsubtypeinv() {
+    return docsubtypeinv;
+  }
+
+  public void setDocsubtypeinv(String docsubtypeinv) {
+    this.docsubtypeinv = docsubtypeinv;
+  }
+
   public Invoice documentno(String documentno) {
     this.documentno = documentno;
     return this;
   }
 
   /**
-   * Get documentno
+   * Número de secuencia del documento para cada documento
    * @return documentno
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de secuencia del documento para cada documento")
       @NotNull
 
     public String getDocumentno() {
@@ -1496,10 +1527,10 @@ public class Invoice   {
   }
 
   /**
-   * Get fechadetcparaactualizarprecios
+   *  
    * @return fechadetcparaactualizarprecios
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getFechadetcparaactualizarprecios() {
     return fechadetcparaactualizarprecios;
@@ -1515,10 +1546,10 @@ public class Invoice   {
   }
 
   /**
-   * Get fiscalalreadyprinted
+   *  
    * @return fiscalalreadyprinted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isFiscalalreadyprinted() {
@@ -1535,10 +1566,10 @@ public class Invoice   {
   }
 
   /**
-   * Get fiscaldescription
+   * Descripción que se imprimirá en el ticket fiscal.
    * @return fiscaldescription
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción que se imprimirá en el ticket fiscal.")
   
     public String getFiscaldescription() {
     return fiscaldescription;
@@ -1554,10 +1585,10 @@ public class Invoice   {
   }
 
   /**
-   * Get generateto
+   *  
    * @return generateto
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getGenerateto() {
     return generateto;
@@ -1573,10 +1604,10 @@ public class Invoice   {
   }
 
   /**
-   * Get grandtotal
+   * Importe total del documento
    * @return grandtotal
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe total del documento")
       @NotNull
 
     @Valid
@@ -1594,10 +1625,10 @@ public class Invoice   {
   }
 
   /**
-   * Get idcae
+   *  
    * @return idcae
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getIdcae() {
     return idcae;
@@ -1613,10 +1644,10 @@ public class Invoice   {
   }
 
   /**
-   * Get importclearance
+   *  
    * @return importclearance
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getImportclearance() {
     return importclearance;
@@ -1632,10 +1663,10 @@ public class Invoice   {
   }
 
   /**
-   * Get initialcurrentaccountamt
+   * Monto a Crédito inicial de la factura
    * @return initialcurrentaccountamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Monto a Crédito inicial de la factura")
       @NotNull
 
     @Valid
@@ -1653,10 +1684,10 @@ public class Invoice   {
   }
 
   /**
-   * Get invoiceAdress
+   *  
    * @return invoiceAdress
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getInvoiceAdress() {
     return invoiceAdress;
@@ -1672,10 +1703,10 @@ public class Invoice   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -1692,10 +1723,10 @@ public class Invoice   {
   }
 
   /**
-   * Get isapproved
+   * Indica si este documento requiere aprobación
    * @return isapproved
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si este documento requiere aprobación")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -1712,10 +1743,10 @@ public class Invoice   {
   }
 
   /**
-   * Get iscopy
+   * Este registro es copia de otro registro
    * @return iscopy
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Este registro es copia de otro registro")
       @NotNull
 
     public Boolean isIscopy() {
@@ -1732,10 +1763,10 @@ public class Invoice   {
   }
 
   /**
-   * Get isdiscountprinted
+   * Imprimir el descuento en la Factura y la Orden
    * @return isdiscountprinted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Imprimir el descuento en la Factura y la Orden")
       @NotNull
 
     public Boolean isIsdiscountprinted() {
@@ -1752,10 +1783,10 @@ public class Invoice   {
   }
 
   /**
-   * Get isexchange
+   *  
    * @return isexchange
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsexchange() {
@@ -1772,10 +1803,10 @@ public class Invoice   {
   }
 
   /**
-   * Get isindispute
+   * Sin Confirmar
    * @return isindispute
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Sin Confirmar")
       @NotNull
 
     public Boolean isIsindispute() {
@@ -1792,10 +1823,10 @@ public class Invoice   {
   }
 
   /**
-   * Get ispaid
+   *  
    * @return ispaid
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIspaid() {
@@ -1812,10 +1843,10 @@ public class Invoice   {
   }
 
   /**
-   * Get ispayschedulevalid
+   * Esquema de Pago Válido
    * @return ispayschedulevalid
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Esquema de Pago Válido")
       @NotNull
 
     public Boolean isIspayschedulevalid() {
@@ -1832,10 +1863,10 @@ public class Invoice   {
   }
 
   /**
-   * Get isprinted
+   * Indica si este documento es impreso
    * @return isprinted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si este documento es impreso")
       @NotNull
 
     public Boolean isIsprinted() {
@@ -1852,10 +1883,10 @@ public class Invoice   {
   }
 
   /**
-   * Get isselfservice
+   * Disp. en Web
    * @return isselfservice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Disp. en Web")
       @NotNull
 
     public Boolean isIsselfservice() {
@@ -1872,10 +1903,10 @@ public class Invoice   {
   }
 
   /**
-   * Get issotrx
+   * Esta es una transacción de ventas
    * @return issotrx
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Esta es una transacción de ventas")
       @NotNull
 
     public Boolean isIssotrx() {
@@ -1892,10 +1923,10 @@ public class Invoice   {
   }
 
   /**
-   * Get istaxincluded
+   * Impuesto incluido en el precio
    * @return istaxincluded
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Impuesto incluido en el precio")
       @NotNull
 
     public Boolean isIstaxincluded() {
@@ -1912,10 +1943,10 @@ public class Invoice   {
   }
 
   /**
-   * Get istransferred
+   * Transferido a la Contabilidad General (Contabilizado)
    * @return istransferred
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Transferido a la Contabilidad General (Contabilizado)")
       @NotNull
 
     public Boolean isIstransferred() {
@@ -1932,10 +1963,10 @@ public class Invoice   {
   }
 
   /**
-   * Get isvoidable
+   * Es Anulable en Anulación global de factura
    * @return isvoidable
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Es Anulable en Anulación global de factura")
       @NotNull
 
     public Boolean isIsvoidable() {
@@ -1946,16 +1977,73 @@ public class Invoice   {
     this.isvoidable = isvoidable;
   }
 
+  public Invoice lyeicaeainformed(String lyeicaeainformed) {
+    this.lyeicaeainformed = lyeicaeainformed;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeicaeainformed
+   **/
+  @Schema(description = " ")
+  
+    public String getLyeicaeainformed() {
+    return lyeicaeainformed;
+  }
+
+  public void setLyeicaeainformed(String lyeicaeainformed) {
+    this.lyeicaeainformed = lyeicaeainformed;
+  }
+
+  public Invoice lyeicaeainformeddetail(String lyeicaeainformeddetail) {
+    this.lyeicaeainformeddetail = lyeicaeainformeddetail;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeicaeainformeddetail
+   **/
+  @Schema(description = " ")
+  
+    public String getLyeicaeainformeddetail() {
+    return lyeicaeainformeddetail;
+  }
+
+  public void setLyeicaeainformeddetail(String lyeicaeainformeddetail) {
+    this.lyeicaeainformeddetail = lyeicaeainformeddetail;
+  }
+
+  public Invoice lyeimanageelectronicinvoiceprocess(String lyeimanageelectronicinvoiceprocess) {
+    this.lyeimanageelectronicinvoiceprocess = lyeimanageelectronicinvoiceprocess;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeimanageelectronicinvoiceprocess
+   **/
+  @Schema(description = " ")
+  
+    public String getLyeimanageelectronicinvoiceprocess() {
+    return lyeimanageelectronicinvoiceprocess;
+  }
+
+  public void setLyeimanageelectronicinvoiceprocess(String lyeimanageelectronicinvoiceprocess) {
+    this.lyeimanageelectronicinvoiceprocess = lyeimanageelectronicinvoiceprocess;
+  }
+
   public Invoice managedragorderdiscounts(Boolean managedragorderdiscounts) {
     this.managedragorderdiscounts = managedragorderdiscounts;
     return this;
   }
 
   /**
-   * Get managedragorderdiscounts
+   * Marca al documento para indicar que debe gestionar los descuentos a nivel de línea o documento arrastrados del pedido
    * @return managedragorderdiscounts
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Marca al documento para indicar que debe gestionar los descuentos a nivel de línea o documento arrastrados del pedido")
       @NotNull
 
     public Boolean isManagedragorderdiscounts() {
@@ -1972,10 +2060,10 @@ public class Invoice   {
   }
 
   /**
-   * Get managedragordersurcharges
+   * Marca al documento para indicar que debe gestionar los recargos a nivel de línea o documento arrastrados del pedido
    * @return managedragordersurcharges
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Marca al documento para indicar que debe gestionar los recargos a nivel de línea o documento arrastrados del pedido")
       @NotNull
 
     public Boolean isManagedragordersurcharges() {
@@ -1992,10 +2080,10 @@ public class Invoice   {
   }
 
   /**
-   * Get manageelectronicinvoice
+   *  
    * @return manageelectronicinvoice
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getManageelectronicinvoice() {
     return manageelectronicinvoice;
@@ -2011,10 +2099,10 @@ public class Invoice   {
   }
 
   /**
-   * Get manualdocumentno
+   * Indica si esta factura posee el nro de documento agregado de forma manual
    * @return manualdocumentno
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si esta factura posee el nro de documento agregado de forma manual")
       @NotNull
 
     public Boolean isManualdocumentno() {
@@ -2031,10 +2119,10 @@ public class Invoice   {
   }
 
   /**
-   * Get manualgeneraldiscount
+   * Descuento manual general
    * @return manualgeneraldiscount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Descuento manual general")
       @NotNull
 
     @Valid
@@ -2052,10 +2140,10 @@ public class Invoice   {
   }
 
   /**
-   * Get mAuthorizationchainId
+   *  
    * @return mAuthorizationchainId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getMAuthorizationchainId() {
     return mAuthorizationchainId;
@@ -2071,10 +2159,10 @@ public class Invoice   {
   }
 
   /**
-   * Get mInouttransportId
+   * Asociado a factura de fletes o transporte
    * @return mInouttransportId
    **/
-  @Schema(description = "")
+  @Schema(description = "Asociado a factura de fletes o transporte")
   
     public Integer getMInouttransportId() {
     return mInouttransportId;
@@ -2090,10 +2178,10 @@ public class Invoice   {
   }
 
   /**
-   * Get mPricelistId
+   * Identificador único de mi lista de precios
    * @return mPricelistId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador único de mi lista de precios")
       @NotNull
 
     public Integer getMPricelistId() {
@@ -2110,10 +2198,10 @@ public class Invoice   {
   }
 
   /**
-   * Get mRmaId
+   * Autorización de Devolución de Material
    * @return mRmaId
    **/
-  @Schema(description = "")
+  @Schema(description = "Autorización de Devolución de Material")
   
     public Integer getMRmaId() {
     return mRmaId;
@@ -2129,10 +2217,10 @@ public class Invoice   {
   }
 
   /**
-   * Get netamount
+   *  
    * @return netamount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     @Valid
@@ -2150,10 +2238,10 @@ public class Invoice   {
   }
 
   /**
-   * Get nombrecli
+   *  
    * @return nombrecli
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getNombrecli() {
     return nombrecli;
@@ -2169,10 +2257,10 @@ public class Invoice   {
   }
 
   /**
-   * Get notexchangeablecredit
+   * Crédito sin la posibilidad de utilizarlo como cobro de crédito
    * @return notexchangeablecredit
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Crédito sin la posibilidad de utilizarlo como cobro de crédito")
       @NotNull
 
     public Boolean isNotexchangeablecredit() {
@@ -2189,10 +2277,10 @@ public class Invoice   {
   }
 
   /**
-   * Get nroidentificcliente
+   * Número de DNI, Cédula, Libreta de Enrolamiento, Pasaporte o Libreta Cívica del cliente.
    * @return nroidentificcliente
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de DNI, Cédula, Libreta de Enrolamiento, Pasaporte o Libreta Cívica del cliente.")
   
     public String getNroidentificcliente() {
     return nroidentificcliente;
@@ -2208,10 +2296,10 @@ public class Invoice   {
   }
 
   /**
-   * Get numerocomprobante
+   *  
    * @return numerocomprobante
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getNumerocomprobante() {
     return numerocomprobante;
@@ -2227,10 +2315,10 @@ public class Invoice   {
   }
 
   /**
-   * Get numerodedocumento
+   *  
    * @return numerodedocumento
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getNumerodedocumento() {
     return numerodedocumento;
@@ -2246,10 +2334,10 @@ public class Invoice   {
   }
 
   /**
-   * Get oldgrandtotal
+   *  
    * @return oldgrandtotal
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getOldgrandtotal() {
@@ -2266,10 +2354,10 @@ public class Invoice   {
   }
 
   /**
-   * Get originvfecha
+   *  
    * @return originvfecha
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getOriginvfecha() {
     return originvfecha;
@@ -2285,10 +2373,10 @@ public class Invoice   {
   }
 
   /**
-   * Get originvnro
+   *  
    * @return originvnro
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getOriginvnro() {
     return originvnro;
@@ -2304,10 +2392,10 @@ public class Invoice   {
   }
 
   /**
-   * Get originvptovta
+   *  
    * @return originvptovta
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getOriginvptovta() {
     return originvptovta;
@@ -2323,10 +2411,10 @@ public class Invoice   {
   }
 
   /**
-   * Get originvtipo
+   *  
    * @return originvtipo
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getOriginvtipo() {
     return originvtipo;
@@ -2342,10 +2430,10 @@ public class Invoice   {
   }
 
   /**
-   * Get paymentrule
+   * Como se pagará la factura
    * @return paymentrule
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Como se pagará la factura")
       @NotNull
 
     public String getPaymentrule() {
@@ -2362,10 +2450,10 @@ public class Invoice   {
   }
 
   /**
-   * Get poreference
+   * Referencia de Pedido de la Entidad
    * @return poreference
    **/
-  @Schema(description = "")
+  @Schema(description = "Referencia de Pedido de la Entidad")
   
     public String getPoreference() {
     return poreference;
@@ -2381,10 +2469,10 @@ public class Invoice   {
   }
 
   /**
-   * Get posted
+   * Las transacciones de Contabilidad General han sido procesadas
    * @return posted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Las transacciones de Contabilidad General han sido procesadas")
       @NotNull
 
     public String getPosted() {
@@ -2401,10 +2489,10 @@ public class Invoice   {
   }
 
   /**
-   * Get pricelistcurrency
+   *  
    * @return pricelistcurrency
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getPricelistcurrency() {
     return pricelistcurrency;
@@ -2420,10 +2508,10 @@ public class Invoice   {
   }
 
   /**
-   * Get printtype
+   *  
    * @return printtype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getPrinttype() {
     return printtype;
@@ -2439,10 +2527,10 @@ public class Invoice   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -2459,10 +2547,10 @@ public class Invoice   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getProcessing() {
     return processing;
@@ -2478,10 +2566,10 @@ public class Invoice   {
   }
 
   /**
-   * Get puntodeventa
+   *  
    * @return puntodeventa
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getPuntodeventa() {
     return puntodeventa;
@@ -2497,10 +2585,10 @@ public class Invoice   {
   }
 
   /**
-   * Get refInvoiceId
+   *  
    * @return refInvoiceId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getRefInvoiceId() {
     return refInvoiceId;
@@ -2516,10 +2604,10 @@ public class Invoice   {
   }
 
   /**
-   * Get salesrepId
+   * Comercial/Usuario
    * @return salesrepId
    **/
-  @Schema(description = "")
+  @Schema(description = "Comercial/Usuario")
   
     public Integer getSalesrepId() {
     return salesrepId;
@@ -2535,10 +2623,10 @@ public class Invoice   {
   }
 
   /**
-   * Get sendemail
+   * Permite enviar Documentos vía E-Mail
    * @return sendemail
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permite enviar Documentos vía E-Mail")
       @NotNull
 
     public Boolean isSendemail() {
@@ -2555,10 +2643,10 @@ public class Invoice   {
   }
 
   /**
-   * Get skipipnocaevalidation
+   *  
    * @return skipipnocaevalidation
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isSkipipnocaevalidation() {
     return skipipnocaevalidation;
@@ -2574,10 +2662,10 @@ public class Invoice   {
   }
 
   /**
-   * Get tipocomprobante
+   *  
    * @return tipocomprobante
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getTipocomprobante() {
     return tipocomprobante;
@@ -2593,10 +2681,10 @@ public class Invoice   {
   }
 
   /**
-   * Get totallines
+   * Total de todas las líneas del documento
    * @return totallines
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Total de todas las líneas del documento")
       @NotNull
 
     @Valid
@@ -2614,10 +2702,10 @@ public class Invoice   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -2634,10 +2722,10 @@ public class Invoice   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -2654,10 +2742,10 @@ public class Invoice   {
   }
 
   /**
-   * Get updateorderqty
+   * Actualiza la cantidad pedida y reservada del pedido relacionado
    * @return updateorderqty
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Actualiza la cantidad pedida y reservada del pedido relacionado")
       @NotNull
 
     public Boolean isUpdateorderqty() {
@@ -2674,10 +2762,10 @@ public class Invoice   {
   }
 
   /**
-   * Get user1Id
+   * El usuario definió el elemento # 1
    * @return user1Id
    **/
-  @Schema(description = "")
+  @Schema(description = "El usuario definió el elemento # 1")
   
     public Integer getUser1Id() {
     return user1Id;
@@ -2693,10 +2781,10 @@ public class Invoice   {
   }
 
   /**
-   * Get user2Id
+   * El usuario definió el elemento # 2
    * @return user2Id
    **/
-  @Schema(description = "")
+  @Schema(description = "El usuario definió el elemento # 2")
   
     public Integer getUser2Id() {
     return user2Id;
@@ -2712,10 +2800,10 @@ public class Invoice   {
   }
 
   /**
-   * Get vtocae
+   *  
    * @return vtocae
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getVtocae() {
     return vtocae;
@@ -2845,6 +2933,7 @@ public class Invoice   {
         Objects.equals(this.description, invoice.description) &&
         Objects.equals(this.docaction, invoice.docaction) &&
         Objects.equals(this.docstatus, invoice.docstatus) &&
+        Objects.equals(this.docsubtypeinv, invoice.docsubtypeinv) &&
         Objects.equals(this.documentno, invoice.documentno) &&
         Objects.equals(this.fechadetcparaactualizarprecios, invoice.fechadetcparaactualizarprecios) &&
         Objects.equals(this.fiscalalreadyprinted, invoice.fiscalalreadyprinted) &&
@@ -2869,6 +2958,9 @@ public class Invoice   {
         Objects.equals(this.istaxincluded, invoice.istaxincluded) &&
         Objects.equals(this.istransferred, invoice.istransferred) &&
         Objects.equals(this.isvoidable, invoice.isvoidable) &&
+        Objects.equals(this.lyeicaeainformed, invoice.lyeicaeainformed) &&
+        Objects.equals(this.lyeicaeainformeddetail, invoice.lyeicaeainformeddetail) &&
+        Objects.equals(this.lyeimanageelectronicinvoiceprocess, invoice.lyeimanageelectronicinvoiceprocess) &&
         Objects.equals(this.managedragorderdiscounts, invoice.managedragorderdiscounts) &&
         Objects.equals(this.managedragordersurcharges, invoice.managedragordersurcharges) &&
         Objects.equals(this.manageelectronicinvoice, invoice.manageelectronicinvoice) &&
@@ -2915,7 +3007,7 @@ public class Invoice   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(actualizarpreciosconfacturadecompra, adClientId, adOrgId, adOrgtrxId, adUserId, applypercepcion, authcode, authmatch, authorizationchainstatus, authorize, cActivityId, cae, caecbte, caeerror, cai, caja, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceId, cInvoiceOrigId, cLetraComprobanteId, codigocategoriaiva, copyfrom, cOrderId, cOrderOrigId, cPaymentId, cPaymenttermId, cPosjournalId, cPospaymentmediumCreditId, cPospaymentmediumId, cProjectId, createcashline, created, createdby, createfrom, cRegionDeliveryId, cRegionId, cuit, dateacct, datecai, dateinvoiced, dateordered, dateprinted, daterecepted, deliveryviarule, description, docaction, docstatus, documentno, fechadetcparaactualizarprecios, fiscalalreadyprinted, fiscaldescription, generateto, grandtotal, idcae, importclearance, initialcurrentaccountamt, invoiceAdress, isactive, isapproved, iscopy, isdiscountprinted, isexchange, isindispute, ispaid, ispayschedulevalid, isprinted, isselfservice, issotrx, istaxincluded, istransferred, isvoidable, managedragorderdiscounts, managedragordersurcharges, manageelectronicinvoice, manualdocumentno, manualgeneraldiscount, mAuthorizationchainId, mInouttransportId, mPricelistId, mRmaId, netamount, nombrecli, notexchangeablecredit, nroidentificcliente, numerocomprobante, numerodedocumento, oldgrandtotal, originvfecha, originvnro, originvptovta, originvtipo, paymentrule, poreference, posted, pricelistcurrency, printtype, processed, processing, puntodeventa, refInvoiceId, salesrepId, sendemail, skipipnocaevalidation, tipocomprobante, totallines, updated, updatedby, updateorderqty, user1Id, user2Id, vtocae, additionalvalues, referencedvalues);
+    return Objects.hash(actualizarpreciosconfacturadecompra, adClientId, adOrgId, adOrgtrxId, adUserId, applypercepcion, authcode, authmatch, authorizationchainstatus, authorize, cActivityId, cae, caecbte, caeerror, cai, caja, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceId, cInvoiceOrigId, cLetraComprobanteId, codigocategoriaiva, copyfrom, cOrderId, cOrderOrigId, cPaymentId, cPaymenttermId, cPosjournalId, cPospaymentmediumCreditId, cPospaymentmediumId, cProjectId, createcashline, created, createdby, createfrom, cRegionDeliveryId, cRegionId, cuit, dateacct, datecai, dateinvoiced, dateordered, dateprinted, daterecepted, deliveryviarule, description, docaction, docstatus, docsubtypeinv, documentno, fechadetcparaactualizarprecios, fiscalalreadyprinted, fiscaldescription, generateto, grandtotal, idcae, importclearance, initialcurrentaccountamt, invoiceAdress, isactive, isapproved, iscopy, isdiscountprinted, isexchange, isindispute, ispaid, ispayschedulevalid, isprinted, isselfservice, issotrx, istaxincluded, istransferred, isvoidable, lyeicaeainformed, lyeicaeainformeddetail, lyeimanageelectronicinvoiceprocess, managedragorderdiscounts, managedragordersurcharges, manageelectronicinvoice, manualdocumentno, manualgeneraldiscount, mAuthorizationchainId, mInouttransportId, mPricelistId, mRmaId, netamount, nombrecli, notexchangeablecredit, nroidentificcliente, numerocomprobante, numerodedocumento, oldgrandtotal, originvfecha, originvnro, originvptovta, originvtipo, paymentrule, poreference, posted, pricelistcurrency, printtype, processed, processing, puntodeventa, refInvoiceId, salesrepId, sendemail, skipipnocaevalidation, tipocomprobante, totallines, updated, updatedby, updateorderqty, user1Id, user2Id, vtocae, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2979,6 +3071,7 @@ public class Invoice   {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
+    sb.append("    docsubtypeinv: ").append(toIndentedString(docsubtypeinv)).append("\n");
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
     sb.append("    fechadetcparaactualizarprecios: ").append(toIndentedString(fechadetcparaactualizarprecios)).append("\n");
     sb.append("    fiscalalreadyprinted: ").append(toIndentedString(fiscalalreadyprinted)).append("\n");
@@ -3003,6 +3096,9 @@ public class Invoice   {
     sb.append("    istaxincluded: ").append(toIndentedString(istaxincluded)).append("\n");
     sb.append("    istransferred: ").append(toIndentedString(istransferred)).append("\n");
     sb.append("    isvoidable: ").append(toIndentedString(isvoidable)).append("\n");
+    sb.append("    lyeicaeainformed: ").append(toIndentedString(lyeicaeainformed)).append("\n");
+    sb.append("    lyeicaeainformeddetail: ").append(toIndentedString(lyeicaeainformeddetail)).append("\n");
+    sb.append("    lyeimanageelectronicinvoiceprocess: ").append(toIndentedString(lyeimanageelectronicinvoiceprocess)).append("\n");
     sb.append("    managedragorderdiscounts: ").append(toIndentedString(managedragorderdiscounts)).append("\n");
     sb.append("    managedragordersurcharges: ").append(toIndentedString(managedragordersurcharges)).append("\n");
     sb.append("    manageelectronicinvoice: ").append(toIndentedString(manageelectronicinvoice)).append("\n");

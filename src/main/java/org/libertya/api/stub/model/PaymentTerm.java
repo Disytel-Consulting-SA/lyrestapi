@@ -142,10 +142,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -162,10 +162,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -181,10 +181,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -201,10 +201,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get afterdelivery
+   * Vencimiento después de la entrega y no después de la facturación
    * @return afterdelivery
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Vencimiento después de la entrega y no después de la facturación")
       @NotNull
 
     public Boolean isAfterdelivery() {
@@ -221,10 +221,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get applicationcontext
+   *  
    * @return applicationcontext
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public String getApplicationcontext() {
@@ -241,10 +241,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get applicationdate
+   *  
    * @return applicationdate
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public String getApplicationdate() {
@@ -261,10 +261,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get cPaymenttermId
+   * Programa de Vctos.
    * @return cPaymenttermId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Programa de Vctos.")
       @NotNull
 
     public Integer getCPaymenttermId() {
@@ -281,10 +281,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get cPospaymentmediumId
+   * Medio de Pago de Terminal Punto de Venta
    * @return cPospaymentmediumId
    **/
-  @Schema(description = "")
+  @Schema(description = "Medio de Pago de Terminal Punto de Venta")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -300,10 +300,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -320,10 +320,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -340,10 +340,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -359,10 +359,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get discount
+   * Descuento en porcentaje
    * @return discount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Descuento en porcentaje")
       @NotNull
 
     @Valid
@@ -380,10 +380,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get discount2
+   * Descuento en porcentaje
    * @return discount2
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Descuento en porcentaje")
       @NotNull
 
     @Valid
@@ -401,10 +401,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get discountapplicationtype
+   *  
    * @return discountapplicationtype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDiscountapplicationtype() {
     return discountapplicationtype;
@@ -420,10 +420,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get discountapplicationtype2
+   *  
    * @return discountapplicationtype2
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDiscountapplicationtype2() {
     return discountapplicationtype2;
@@ -439,10 +439,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get discountdays
+   * Número de días desde la fecha de la factura hasta la fecha de descuento
    * @return discountdays
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de días desde la fecha de la factura hasta la fecha de descuento")
       @NotNull
 
     public Integer getDiscountdays() {
@@ -459,10 +459,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get discountdays2
+   * Número de días desde la fecha de la factura para ser elegible para descuento
    * @return discountdays2
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de días desde la fecha de la factura para ser elegible para descuento")
       @NotNull
 
     public Integer getDiscountdays2() {
@@ -479,10 +479,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get documentnote
+   * Información adicional para un Documento
    * @return documentnote
    **/
-  @Schema(description = "")
+  @Schema(description = "Información adicional para un Documento")
   
     public String getDocumentnote() {
     return documentnote;
@@ -498,10 +498,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get fixmonthcutoff
+   * Último día a incluir en la siguiente fecha de vencimiento
    * @return fixmonthcutoff
    **/
-  @Schema(description = "")
+  @Schema(description = "Último día a incluir en la siguiente fecha de vencimiento")
   
     public Integer getFixmonthcutoff() {
     return fixmonthcutoff;
@@ -517,10 +517,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get fixmonthday
+   * Día del mes de la fecha de vencimiento
    * @return fixmonthday
    **/
-  @Schema(description = "")
+  @Schema(description = "Día del mes de la fecha de vencimiento")
   
     public Integer getFixmonthday() {
     return fixmonthday;
@@ -536,10 +536,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get fixmonthday2
+   *  
    * @return fixmonthday2
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getFixmonthday2() {
     return fixmonthday2;
@@ -555,10 +555,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get fixmonthoffset
+   * Número de meses (0=mismo; 1=siguiente)
    * @return fixmonthoffset
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de meses (0=mismo; 1=siguiente)")
   
     public Integer getFixmonthoffset() {
     return fixmonthoffset;
@@ -574,10 +574,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get gracedays
+   * Días después de la fecha de vencimiento para enviar la primera carta de morosidad
    * @return gracedays
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Días después de la fecha de vencimiento para enviar la primera carta de morosidad")
       @NotNull
 
     public Integer getGracedays() {
@@ -594,10 +594,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get gracedays2
+   *  
    * @return gracedays2
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Integer getGracedays2() {
@@ -614,10 +614,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -634,10 +634,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get isdefault
+   * Valor Predeterminado
    * @return isdefault
    **/
-  @Schema(description = "")
+  @Schema(description = "Valor Predeterminado")
   
     public Boolean isIsdefault() {
     return isdefault;
@@ -653,10 +653,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get isduefixed
+   * El pago se vence en una fecha fija
    * @return isduefixed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El pago se vence en una fecha fija")
       @NotNull
 
     public Boolean isIsduefixed() {
@@ -673,10 +673,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get isnextbusinessday
+   * Pago vence en el siguiente día hábil
    * @return isnextbusinessday
    **/
-  @Schema(description = "")
+  @Schema(description = "Pago vence en el siguiente día hábil")
   
     public Boolean isIsnextbusinessday() {
     return isnextbusinessday;
@@ -692,10 +692,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get isvalid
+   * El Elemento es Válido
    * @return isvalid
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El Elemento es Válido")
       @NotNull
 
     public Boolean isIsvalid() {
@@ -712,10 +712,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -732,10 +732,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get netday
+   * Día Vencimiento Neto del Pago
    * @return netday
    **/
-  @Schema(description = "")
+  @Schema(description = "Día Vencimiento Neto del Pago")
   
     public String getNetday() {
     return netday;
@@ -751,10 +751,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get netdays
+   * Días Netos en los cuales el pago se vence
    * @return netdays
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Días Netos en los cuales el pago se vence")
       @NotNull
 
     public Integer getNetdays() {
@@ -771,10 +771,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getProcessing() {
     return processing;
@@ -790,10 +790,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -810,10 +810,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -830,10 +830,10 @@ public class PaymentTerm   {
   }
 
   /**
-   * Get value
+   * Clave de búsqueda para el registro en el formato requerido; debe ser única
    * @return value
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Clave de búsqueda para el registro en el formato requerido; debe ser única")
       @NotNull
 
     public String getValue() {

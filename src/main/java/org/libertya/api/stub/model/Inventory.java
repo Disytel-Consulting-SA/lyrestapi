@@ -130,10 +130,10 @@ public class Inventory   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -150,10 +150,10 @@ public class Inventory   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -170,10 +170,10 @@ public class Inventory   {
   }
 
   /**
-   * Get adOrgtrxId
+   * Organización que inicia o ejecuta la transacción
    * @return adOrgtrxId
    **/
-  @Schema(description = "")
+  @Schema(description = "Organización que inicia o ejecuta la transacción")
   
     public Integer getAdOrgtrxId() {
     return adOrgtrxId;
@@ -189,10 +189,10 @@ public class Inventory   {
   }
 
   /**
-   * Get approvalamt
+   * Cantidad Aprobada para el Documento
    * @return approvalamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Cantidad Aprobada para el Documento")
   
     @Valid
     public BigDecimal getApprovalamt() {
@@ -209,10 +209,10 @@ public class Inventory   {
   }
 
   /**
-   * Get cActivityId
+   * Actividad de Negocio
    * @return cActivityId
    **/
-  @Schema(description = "")
+  @Schema(description = "Actividad de Negocio")
   
     public Integer getCActivityId() {
     return cActivityId;
@@ -228,10 +228,10 @@ public class Inventory   {
   }
 
   /**
-   * Get cCampaignId
+   * Campaña de Marketing
    * @return cCampaignId
    **/
-  @Schema(description = "")
+  @Schema(description = "Campaña de Marketing")
   
     public Integer getCCampaignId() {
     return cCampaignId;
@@ -247,10 +247,10 @@ public class Inventory   {
   }
 
   /**
-   * Get cChargeId
+   * Cargos adicionales del documento
    * @return cChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargos adicionales del documento")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -266,10 +266,10 @@ public class Inventory   {
   }
 
   /**
-   * Get cDoctypeId
+   * Tipo de documento o reglas
    * @return cDoctypeId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de documento o reglas")
       @NotNull
 
     public Integer getCDoctypeId() {
@@ -286,10 +286,10 @@ public class Inventory   {
   }
 
   /**
-   * Get cProjectId
+   * Identifica un proyecto único
    * @return cProjectId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un proyecto único")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -305,10 +305,10 @@ public class Inventory   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -325,10 +325,10 @@ public class Inventory   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -345,10 +345,10 @@ public class Inventory   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -364,10 +364,10 @@ public class Inventory   {
   }
 
   /**
-   * Get docaction
+   * El estado destino del documento
    * @return docaction
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado destino del documento")
       @NotNull
 
     public String getDocaction() {
@@ -384,10 +384,10 @@ public class Inventory   {
   }
 
   /**
-   * Get docstatus
+   * El estado actual del documento
    * @return docstatus
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado actual del documento")
       @NotNull
 
     public String getDocstatus() {
@@ -404,10 +404,10 @@ public class Inventory   {
   }
 
   /**
-   * Get documentno
+   * Número de secuencia del documento para cada documento
    * @return documentno
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de secuencia del documento para cada documento")
       @NotNull
 
     public String getDocumentno() {
@@ -424,10 +424,10 @@ public class Inventory   {
   }
 
   /**
-   * Get generatelist
+   *  
    * @return generatelist
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getGeneratelist() {
     return generatelist;
@@ -443,10 +443,10 @@ public class Inventory   {
   }
 
   /**
-   * Get inventorykind
+   * Clase u origen del inventario físico
    * @return inventorykind
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Clase u origen del inventario físico")
       @NotNull
 
     public String getInventorykind() {
@@ -463,10 +463,10 @@ public class Inventory   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -483,10 +483,10 @@ public class Inventory   {
   }
 
   /**
-   * Get isapproved
+   * Indica si este documento requiere aprobación
    * @return isapproved
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si este documento requiere aprobación")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -503,10 +503,10 @@ public class Inventory   {
   }
 
   /**
-   * Get mInventoryId
+   * Parámetros para el Inventario Físico
    * @return mInventoryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Parámetros para el Inventario Físico")
       @NotNull
 
     public Integer getMInventoryId() {
@@ -523,10 +523,10 @@ public class Inventory   {
   }
 
   /**
-   * Get movementdate
+   * Fecha en que un producto fue movido (dentro o fuera) del inventario
    * @return movementdate
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha en que un producto fue movido (dentro o fuera) del inventario")
       @NotNull
 
     public String getMovementdate() {
@@ -543,10 +543,10 @@ public class Inventory   {
   }
 
   /**
-   * Get mPerpetualinvId
+   * Reglas para generar el inventario físico
    * @return mPerpetualinvId
    **/
-  @Schema(description = "")
+  @Schema(description = "Reglas para generar el inventario físico")
   
     public Integer getMPerpetualinvId() {
     return mPerpetualinvId;
@@ -562,10 +562,10 @@ public class Inventory   {
   }
 
   /**
-   * Get mWarehouseId
+   * Almacén
    * @return mWarehouseId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Almacén")
       @NotNull
 
     public Integer getMWarehouseId() {
@@ -582,10 +582,10 @@ public class Inventory   {
   }
 
   /**
-   * Get paperForm
+   *  
    * @return paperForm
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getPaperForm() {
     return paperForm;
@@ -601,10 +601,10 @@ public class Inventory   {
   }
 
   /**
-   * Get posted
+   * Las transacciones de Contabilidad General han sido procesadas
    * @return posted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Las transacciones de Contabilidad General han sido procesadas")
       @NotNull
 
     public String getPosted() {
@@ -621,10 +621,10 @@ public class Inventory   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -641,10 +641,10 @@ public class Inventory   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isProcessing() {
     return processing;
@@ -660,10 +660,10 @@ public class Inventory   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -680,10 +680,10 @@ public class Inventory   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -700,10 +700,10 @@ public class Inventory   {
   }
 
   /**
-   * Get updateqty
+   * Determina si se actualizan las cantidades
    * @return updateqty
    **/
-  @Schema(description = "")
+  @Schema(description = "Determina si se actualizan las cantidades")
   
     public String getUpdateqty() {
     return updateqty;
@@ -719,10 +719,10 @@ public class Inventory   {
   }
 
   /**
-   * Get user1Id
+   * El usuario definió el elemento # 1
    * @return user1Id
    **/
-  @Schema(description = "")
+  @Schema(description = "El usuario definió el elemento # 1")
   
     public Integer getUser1Id() {
     return user1Id;
@@ -738,10 +738,10 @@ public class Inventory   {
   }
 
   /**
-   * Get user2Id
+   * El usuario definió el elemento # 2
    * @return user2Id
    **/
-  @Schema(description = "")
+  @Schema(description = "El usuario definió el elemento # 2")
   
     public Integer getUser2Id() {
     return user2Id;

@@ -76,10 +76,10 @@ public class Storage   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -96,10 +96,10 @@ public class Storage   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -116,10 +116,10 @@ public class Storage   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -136,10 +136,10 @@ public class Storage   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -156,10 +156,10 @@ public class Storage   {
   }
 
   /**
-   * Get datelastinventory
+   * Ultima Fecha de Recuento de Inventarios
    * @return datelastinventory
    **/
-  @Schema(description = "")
+  @Schema(description = "Ultima Fecha de Recuento de Inventarios")
   
     public String getDatelastinventory() {
     return datelastinventory;
@@ -175,10 +175,10 @@ public class Storage   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -195,10 +195,10 @@ public class Storage   {
   }
 
   /**
-   * Get mAttributesetinstanceId
+   * Instancia del Conjunto de Attributos del Producto
    * @return mAttributesetinstanceId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Instancia del Conjunto de Attributos del Producto")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -215,10 +215,10 @@ public class Storage   {
   }
 
   /**
-   * Get mLocatorId
+   * Ubicación de Almacén
    * @return mLocatorId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Ubicación de Almacén")
       @NotNull
 
     public Integer getMLocatorId() {
@@ -235,10 +235,10 @@ public class Storage   {
   }
 
   /**
-   * Get mProductId
+   * Producto; servicio o Artículo
    * @return mProductId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Producto; servicio o Artículo")
       @NotNull
 
     public Integer getMProductId() {
@@ -255,10 +255,10 @@ public class Storage   {
   }
 
   /**
-   * Get qtyonhand
+   * Cantidad en existencia
    * @return qtyonhand
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad en existencia")
       @NotNull
 
     @Valid
@@ -276,10 +276,10 @@ public class Storage   {
   }
 
   /**
-   * Get qtyordered
+   * Cantidad ordenada
    * @return qtyordered
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad ordenada")
       @NotNull
 
     @Valid
@@ -297,10 +297,10 @@ public class Storage   {
   }
 
   /**
-   * Get qtyreserved
+   * Cantidad reservada
    * @return qtyreserved
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad reservada")
       @NotNull
 
     @Valid
@@ -318,10 +318,10 @@ public class Storage   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -338,10 +338,10 @@ public class Storage   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

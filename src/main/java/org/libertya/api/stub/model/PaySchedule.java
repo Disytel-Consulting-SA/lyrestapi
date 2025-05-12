@@ -88,10 +88,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -108,10 +108,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -127,10 +127,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -147,10 +147,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get cPaymenttermId
+   * Programa de Vctos.
    * @return cPaymenttermId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Programa de Vctos.")
       @NotNull
 
     public Integer getCPaymenttermId() {
@@ -167,10 +167,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get cPayscheduleId
+   * Plantilla de Esquema de Pago
    * @return cPayscheduleId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Plantilla de Esquema de Pago")
       @NotNull
 
     public Integer getCPayscheduleId() {
@@ -187,10 +187,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -207,10 +207,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -227,10 +227,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get discount
+   * Descuento en porcentaje
    * @return discount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Descuento en porcentaje")
       @NotNull
 
     @Valid
@@ -248,10 +248,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get discountapplicationtype
+   *  
    * @return discountapplicationtype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDiscountapplicationtype() {
     return discountapplicationtype;
@@ -267,10 +267,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get discountdays
+   * Número de días desde la fecha de la factura hasta la fecha de descuento
    * @return discountdays
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de días desde la fecha de la factura hasta la fecha de descuento")
       @NotNull
 
     public Integer getDiscountdays() {
@@ -287,10 +287,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get gracedays
+   * Días después de la fecha de vencimiento para enviar la primera carta de morosidad
    * @return gracedays
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Días después de la fecha de vencimiento para enviar la primera carta de morosidad")
       @NotNull
 
     public Integer getGracedays() {
@@ -307,10 +307,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -327,10 +327,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get isvalid
+   * El Elemento es Válido
    * @return isvalid
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El Elemento es Válido")
       @NotNull
 
     public Boolean isIsvalid() {
@@ -347,10 +347,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get netday
+   * Día Vencimiento Neto del Pago
    * @return netday
    **/
-  @Schema(description = "")
+  @Schema(description = "Día Vencimiento Neto del Pago")
   
     public String getNetday() {
     return netday;
@@ -366,10 +366,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get netdays
+   * Días Netos en los cuales el pago se vence
    * @return netdays
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Días Netos en los cuales el pago se vence")
       @NotNull
 
     public Integer getNetdays() {
@@ -386,10 +386,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get percentage
+   * Porcentaje de la cantidad total
    * @return percentage
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Porcentaje de la cantidad total")
       @NotNull
 
     @Valid
@@ -407,10 +407,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -427,10 +427,10 @@ public class PaySchedule   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

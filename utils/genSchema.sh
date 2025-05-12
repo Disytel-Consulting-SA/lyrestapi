@@ -11,7 +11,7 @@ DB_NAME=libertya_core_for_rel_22
 # Funciones
 generateSchema() {
   if [ -z "$4" ]; then
-    COLUMNAS="(lower(columnname))"
+    COLUMNAS="(lower(c.columnname))"
     FILTRO=" sin filtro de columnas"
   else
     COLUMNAS=$4

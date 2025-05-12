@@ -5,52 +5,76 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         amount:
           type: number
+          description: "Importe en una moneda definida"
         c_allocationhdr_id:
           type: integer
+          description: "Asignación de pagos"
         c_allocationline_id:
           type: integer
+          description: "Línea de Ubicación"
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_cashline_id:
           type: integer
+          description: "Línea del Libro de Caja"
         c_currency_id:
           type: integer
+          description: "Moneda para este registro"
         changeamt:
           type: number
+          description: "Cambio o vuelto de la transacción"
         c_invoice_credit_id:
           type: integer
+          description: " "
         c_invoice_id:
           type: integer
+          description: "Identificador de la factura"
         c_order_id:
           type: integer
+          description: "Pedido"
         c_payment_id:
           type: integer
+          description: "Identificador del pago"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         datetrx:
           type: string
+          description: "Fecha de la transacción"
         discountamt:
           type: number
+          description: "Importe del Descuento calculado"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         ismanual:
           type: boolean
+          description: "Éste es un proceso manual"
         line_description:
           type: string
+          description: " "
         overunderamt:
           type: number
+          description: "Importes con sobre/sub pago"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         writeoffamt:
           type: number
+          description: "Importe del Ajuste"
         additionalvalues:
           type: array
           items:

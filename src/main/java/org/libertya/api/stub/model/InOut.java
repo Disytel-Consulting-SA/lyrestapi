@@ -235,10 +235,10 @@ public class InOut   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -255,10 +255,10 @@ public class InOut   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -275,10 +275,10 @@ public class InOut   {
   }
 
   /**
-   * Get adOrgtrxId
+   * Organización que inicia o ejecuta la transacción
    * @return adOrgtrxId
    **/
-  @Schema(description = "")
+  @Schema(description = "Organización que inicia o ejecuta la transacción")
   
     public Integer getAdOrgtrxId() {
     return adOrgtrxId;
@@ -294,10 +294,10 @@ public class InOut   {
   }
 
   /**
-   * Get adUserId
+   * ID de Usuario dentro del sistema
    * @return adUserId
    **/
-  @Schema(description = "")
+  @Schema(description = "ID de Usuario dentro del sistema")
   
     public Integer getAdUserId() {
     return adUserId;
@@ -313,10 +313,10 @@ public class InOut   {
   }
 
   /**
-   * Get cActivityId
+   * Actividad de Negocio
    * @return cActivityId
    **/
-  @Schema(description = "")
+  @Schema(description = "Actividad de Negocio")
   
     public Integer getCActivityId() {
     return cActivityId;
@@ -332,10 +332,10 @@ public class InOut   {
   }
 
   /**
-   * Get cai
+   *  
    * @return cai
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCai() {
     return cai;
@@ -351,10 +351,10 @@ public class InOut   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identifica una Entidad Comercial")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -371,10 +371,10 @@ public class InOut   {
   }
 
   /**
-   * Get cBpartnerLocationId
+   * Dirección de la Entidad Comercial
    * @return cBpartnerLocationId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Dirección de la Entidad Comercial")
       @NotNull
 
     public Integer getCBpartnerLocationId() {
@@ -391,10 +391,10 @@ public class InOut   {
   }
 
   /**
-   * Get cCampaignId
+   * Campaña de Marketing
    * @return cCampaignId
    **/
-  @Schema(description = "")
+  @Schema(description = "Campaña de Marketing")
   
     public Integer getCCampaignId() {
     return cCampaignId;
@@ -410,10 +410,10 @@ public class InOut   {
   }
 
   /**
-   * Get cChargeId
+   * Cargos adicionales del documento
    * @return cChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargos adicionales del documento")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -429,10 +429,10 @@ public class InOut   {
   }
 
   /**
-   * Get cDoctypeId
+   * Tipo de documento o reglas
    * @return cDoctypeId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de documento o reglas")
       @NotNull
 
     public Integer getCDoctypeId() {
@@ -449,10 +449,10 @@ public class InOut   {
   }
 
   /**
-   * Get chargeamt
+   * Importe de Cargo
    * @return chargeamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe de Cargo")
   
     @Valid
     public BigDecimal getChargeamt() {
@@ -469,10 +469,10 @@ public class InOut   {
   }
 
   /**
-   * Get cInvoiceId
+   * Identificador de la factura
    * @return cInvoiceId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador de la factura")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -488,10 +488,10 @@ public class InOut   {
   }
 
   /**
-   * Get clearancenumber
+   * Número de Despacho de Importación
    * @return clearancenumber
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Despacho de Importación")
   
     public String getClearancenumber() {
     return clearancenumber;
@@ -507,10 +507,10 @@ public class InOut   {
   }
 
   /**
-   * Get cOrderId
+   * Pedido
    * @return cOrderId
    **/
-  @Schema(description = "")
+  @Schema(description = "Pedido")
   
     public Integer getCOrderId() {
     return cOrderId;
@@ -526,10 +526,10 @@ public class InOut   {
   }
 
   /**
-   * Get cProjectId
+   * Identifica un proyecto único
    * @return cProjectId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un proyecto único")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -545,10 +545,10 @@ public class InOut   {
   }
 
   /**
-   * Get createconfirm
+   * Confimar Creación
    * @return createconfirm
    **/
-  @Schema(description = "")
+  @Schema(description = "Confimar Creación")
   
     public String getCreateconfirm() {
     return createconfirm;
@@ -564,10 +564,10 @@ public class InOut   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -584,10 +584,10 @@ public class InOut   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -604,10 +604,10 @@ public class InOut   {
   }
 
   /**
-   * Get createfrom
+   * Proceso que generará un nuevo documento
    * @return createfrom
    **/
-  @Schema(description = "")
+  @Schema(description = "Proceso que generará un nuevo documento")
   
     public String getCreatefrom() {
     return createfrom;
@@ -623,10 +623,10 @@ public class InOut   {
   }
 
   /**
-   * Get createpackage
+   * Crear Paquete
    * @return createpackage
    **/
-  @Schema(description = "")
+  @Schema(description = "Crear Paquete")
   
     public String getCreatepackage() {
     return createpackage;
@@ -642,10 +642,10 @@ public class InOut   {
   }
 
   /**
-   * Get dateacct
+   * Fecha contable
    * @return dateacct
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha contable")
       @NotNull
 
     public String getDateacct() {
@@ -662,10 +662,10 @@ public class InOut   {
   }
 
   /**
-   * Get datecai
+   *  
    * @return datecai
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDatecai() {
     return datecai;
@@ -681,10 +681,10 @@ public class InOut   {
   }
 
   /**
-   * Get dateordered
+   * Fecha del Pedido
    * @return dateordered
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha del Pedido")
   
     public String getDateordered() {
     return dateordered;
@@ -700,10 +700,10 @@ public class InOut   {
   }
 
   /**
-   * Get dateprinted
+   * Fecha en que el documento fue impreso
    * @return dateprinted
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha en que el documento fue impreso")
   
     public String getDateprinted() {
     return dateprinted;
@@ -719,10 +719,10 @@ public class InOut   {
   }
 
   /**
-   * Get datereceived
+   * Fecha en que un producto fue recibido
    * @return datereceived
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha en que un producto fue recibido")
   
     public String getDatereceived() {
     return datereceived;
@@ -738,10 +738,10 @@ public class InOut   {
   }
 
   /**
-   * Get deliveryrule
+   * Define los tiempos de entrega
    * @return deliveryrule
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Define los tiempos de entrega")
       @NotNull
 
     public String getDeliveryrule() {
@@ -758,10 +758,10 @@ public class InOut   {
   }
 
   /**
-   * Get deliveryviarule
+   * Como será entregada la orden
    * @return deliveryviarule
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Como será entregada la orden")
       @NotNull
 
     public String getDeliveryviarule() {
@@ -778,10 +778,10 @@ public class InOut   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -797,10 +797,10 @@ public class InOut   {
   }
 
   /**
-   * Get docaction
+   * El estado destino del documento
    * @return docaction
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado destino del documento")
       @NotNull
 
     public String getDocaction() {
@@ -817,10 +817,10 @@ public class InOut   {
   }
 
   /**
-   * Get docstatus
+   * El estado actual del documento
    * @return docstatus
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado actual del documento")
       @NotNull
 
     public String getDocstatus() {
@@ -837,10 +837,10 @@ public class InOut   {
   }
 
   /**
-   * Get documentno
+   * Número de secuencia del documento para cada documento
    * @return documentno
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de secuencia del documento para cada documento")
       @NotNull
 
     public String getDocumentno() {
@@ -857,10 +857,10 @@ public class InOut   {
   }
 
   /**
-   * Get freightamt
+   * Importe de Transporte
    * @return freightamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe de Transporte")
   
     @Valid
     public BigDecimal getFreightamt() {
@@ -877,10 +877,10 @@ public class InOut   {
   }
 
   /**
-   * Get freightcostrule
+   * Regla de Coste de Transporte
    * @return freightcostrule
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Regla de Coste de Transporte")
       @NotNull
 
     public String getFreightcostrule() {
@@ -897,10 +897,10 @@ public class InOut   {
   }
 
   /**
-   * Get generateto
+   *  
    * @return generateto
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getGenerateto() {
     return generateto;
@@ -916,10 +916,10 @@ public class InOut   {
   }
 
   /**
-   * Get inoutdate
+   *  
    * @return inoutdate
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getInoutdate() {
     return inoutdate;
@@ -935,10 +935,10 @@ public class InOut   {
   }
 
   /**
-   * Get inoutreceptiondate
+   *  
    * @return inoutreceptiondate
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getInoutreceptiondate() {
     return inoutreceptiondate;
@@ -954,10 +954,10 @@ public class InOut   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -974,10 +974,10 @@ public class InOut   {
   }
 
   /**
-   * Get isapproved
+   * Indica si este documento requiere aprobación
    * @return isapproved
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si este documento requiere aprobación")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -994,10 +994,10 @@ public class InOut   {
   }
 
   /**
-   * Get isindispute
+   * Sin Confirmar
    * @return isindispute
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Sin Confirmar")
       @NotNull
 
     public Boolean isIsindispute() {
@@ -1014,10 +1014,10 @@ public class InOut   {
   }
 
   /**
-   * Get isintransit
+   * El Movimiento de Material esta en Tránsito
    * @return isintransit
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El Movimiento de Material esta en Tránsito")
       @NotNull
 
     public Boolean isIsintransit() {
@@ -1034,10 +1034,10 @@ public class InOut   {
   }
 
   /**
-   * Get isprinted
+   * Indica si este documento es impreso
    * @return isprinted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si este documento es impreso")
       @NotNull
 
     public Boolean isIsprinted() {
@@ -1054,10 +1054,10 @@ public class InOut   {
   }
 
   /**
-   * Get issotrx
+   * Esta es una transacción de ventas
    * @return issotrx
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Esta es una transacción de ventas")
       @NotNull
 
     public Boolean isIssotrx() {
@@ -1074,10 +1074,10 @@ public class InOut   {
   }
 
   /**
-   * Get mInoutId
+   * Documento de entrega o recibo
    * @return mInoutId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Documento de entrega o recibo")
       @NotNull
 
     public Integer getMInoutId() {
@@ -1094,10 +1094,10 @@ public class InOut   {
   }
 
   /**
-   * Get movementdate
+   * Fecha en que un producto fue movido (dentro o fuera) del inventario
    * @return movementdate
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha en que un producto fue movido (dentro o fuera) del inventario")
       @NotNull
 
     public String getMovementdate() {
@@ -1114,10 +1114,10 @@ public class InOut   {
   }
 
   /**
-   * Get movementtype
+   * Método de movimiento de inventario
    * @return movementtype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Método de movimiento de inventario")
       @NotNull
 
     public String getMovementtype() {
@@ -1134,10 +1134,10 @@ public class InOut   {
   }
 
   /**
-   * Get mShipperId
+   * Método o manera de entrega del producto
    * @return mShipperId
    **/
-  @Schema(description = "")
+  @Schema(description = "Método o manera de entrega del producto")
   
     public Integer getMShipperId() {
     return mShipperId;
@@ -1153,10 +1153,10 @@ public class InOut   {
   }
 
   /**
-   * Get mWarehouseId
+   * Almacén
    * @return mWarehouseId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Almacén")
       @NotNull
 
     public Integer getMWarehouseId() {
@@ -1173,10 +1173,10 @@ public class InOut   {
   }
 
   /**
-   * Get nopackages
+   * Número de Paquetes en el envío
    * @return nopackages
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Paquetes en el envío")
   
     public Integer getNopackages() {
     return nopackages;
@@ -1192,10 +1192,10 @@ public class InOut   {
   }
 
   /**
-   * Get pickdate
+   * Fecha de Recogida del Envio
    * @return pickdate
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha de Recogida del Envio")
   
     public String getPickdate() {
     return pickdate;
@@ -1211,10 +1211,10 @@ public class InOut   {
   }
 
   /**
-   * Get poreference
+   * Referencia de Pedido de la Entidad
    * @return poreference
    **/
-  @Schema(description = "")
+  @Schema(description = "Referencia de Pedido de la Entidad")
   
     public String getPoreference() {
     return poreference;
@@ -1230,10 +1230,10 @@ public class InOut   {
   }
 
   /**
-   * Get posted
+   * Las transacciones de Contabilidad General han sido procesadas
    * @return posted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Las transacciones de Contabilidad General han sido procesadas")
       @NotNull
 
     public String getPosted() {
@@ -1250,10 +1250,10 @@ public class InOut   {
   }
 
   /**
-   * Get preprintedDocno
+   * Nro de Documento Preimpreso
    * @return preprintedDocno
    **/
-  @Schema(description = "")
+  @Schema(description = "Nro de Documento Preimpreso")
   
     public String getPreprintedDocno() {
     return preprintedDocno;
@@ -1269,10 +1269,10 @@ public class InOut   {
   }
 
   /**
-   * Get printtype
+   *  
    * @return printtype
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getPrinttype() {
     return printtype;
@@ -1288,10 +1288,10 @@ public class InOut   {
   }
 
   /**
-   * Get priorityrule
+   * Prioridad de un documento
    * @return priorityrule
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Prioridad de un documento")
       @NotNull
 
     public String getPriorityrule() {
@@ -1308,10 +1308,10 @@ public class InOut   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -1328,10 +1328,10 @@ public class InOut   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getProcessing() {
     return processing;
@@ -1347,10 +1347,10 @@ public class InOut   {
   }
 
   /**
-   * Get receptiondate
+   *  
    * @return receptiondate
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getReceptiondate() {
     return receptiondate;
@@ -1366,10 +1366,10 @@ public class InOut   {
   }
 
   /**
-   * Get refInoutId
+   * Envio Referenciado
    * @return refInoutId
    **/
-  @Schema(description = "")
+  @Schema(description = "Envio Referenciado")
   
     public Integer getRefInoutId() {
     return refInoutId;
@@ -1385,10 +1385,10 @@ public class InOut   {
   }
 
   /**
-   * Get salesrepId
+   * Comercial/Usuario
    * @return salesrepId
    **/
-  @Schema(description = "")
+  @Schema(description = "Comercial/Usuario")
   
     public Integer getSalesrepId() {
     return salesrepId;
@@ -1404,10 +1404,10 @@ public class InOut   {
   }
 
   /**
-   * Get sendemail
+   * Permite enviar Documentos vía E-Mail
    * @return sendemail
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permite enviar Documentos vía E-Mail")
       @NotNull
 
     public Boolean isSendemail() {
@@ -1424,10 +1424,10 @@ public class InOut   {
   }
 
   /**
-   * Get shipdate
+   * Fecha de Envio
    * @return shipdate
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha de Envio")
   
     public String getShipdate() {
     return shipdate;
@@ -1443,10 +1443,10 @@ public class InOut   {
   }
 
   /**
-   * Get trackingno
+   * Nro Seguimiento del Envio
    * @return trackingno
    **/
-  @Schema(description = "")
+  @Schema(description = "Nro Seguimiento del Envio")
   
     public String getTrackingno() {
     return trackingno;
@@ -1462,10 +1462,10 @@ public class InOut   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -1482,10 +1482,10 @@ public class InOut   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -1502,10 +1502,10 @@ public class InOut   {
   }
 
   /**
-   * Get user1Id
+   * El usuario definió el elemento # 1
    * @return user1Id
    **/
-  @Schema(description = "")
+  @Schema(description = "El usuario definió el elemento # 1")
   
     public Integer getUser1Id() {
     return user1Id;
@@ -1521,10 +1521,10 @@ public class InOut   {
   }
 
   /**
-   * Get user2Id
+   * El usuario definió el elemento # 2
    * @return user2Id
    **/
-  @Schema(description = "")
+  @Schema(description = "El usuario definió el elemento # 2")
   
     public Integer getUser2Id() {
     return user2Id;

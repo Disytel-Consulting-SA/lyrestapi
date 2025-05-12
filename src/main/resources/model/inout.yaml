@@ -5,138 +5,205 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_orgtrx_id:
           type: integer
+          description: "Organización que inicia o ejecuta la transacción"
         ad_user_id:
           type: integer
+          description: "ID de Usuario dentro del sistema"
         c_activity_id:
           type: integer
+          description: "Actividad de Negocio"
         cai:
           type: string
+          description: " "
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_bpartner_location_id:
           type: integer
+          description: "Dirección de la Entidad Comercial"
         c_campaign_id:
           type: integer
+          description: "Campaña de Marketing"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_doctype_id:
           type: integer
+          description: "Tipo de documento o reglas"
         chargeamt:
           type: number
+          description: "Importe de Cargo"
         c_invoice_id:
           type: integer
+          description: "Identificador de la factura"
         clearancenumber:
           type: string
+          description: "Número de Despacho de Importación"
         c_order_id:
           type: integer
+          description: "Pedido"
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         createconfirm:
           type: string
+          description: "Confimar Creación"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         createfrom:
           type: string
+          description: "Proceso que generará un nuevo documento"
         createpackage:
           type: string
+          description: "Crear Paquete"
         dateacct:
           type: string
+          description: "Fecha contable"
         datecai:
           type: string
+          description: " "
         dateordered:
           type: string
+          description: "Fecha del Pedido"
         dateprinted:
           type: string
+          description: "Fecha en que el documento fue impreso"
         datereceived:
           type: string
+          description: "Fecha en que un producto fue recibido"
         deliveryrule:
           type: string
+          description: "Define los tiempos de entrega"
         deliveryviarule:
           type: string
+          description: "Como será entregada la orden"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         docaction:
           type: string
+          description: "El estado destino del documento"
         docstatus:
           type: string
+          description: "El estado actual del documento"
         documentno:
           type: string
+          description: "Número de secuencia del documento para cada documento"
         freightamt:
           type: number
+          description: "Importe de Transporte"
         freightcostrule:
           type: string
+          description: "Regla de Coste de Transporte"
         generateto:
           type: string
+          description: " "
         inoutdate:
           type: string
+          description: " "
         inoutreceptiondate:
           type: string
+          description: " "
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isapproved:
           type: boolean
+          description: "Indica si este documento requiere aprobación"
         isindispute:
           type: boolean
+          description: "Sin Confirmar"
         isintransit:
           type: boolean
+          description: "El Movimiento de Material esta en Tránsito"
         isprinted:
           type: boolean
+          description: "Indica si este documento es impreso"
         issotrx:
           type: boolean
+          description: "Esta es una transacción de ventas"
         m_inout_id:
           type: integer
+          description: "Documento de entrega o recibo"
         movementdate:
           type: string
+          description: "Fecha en que un producto fue movido (dentro o fuera) del inventario"
         movementtype:
           type: string
+          description: "Método de movimiento de inventario"
         m_shipper_id:
           type: integer
+          description: "Método o manera de entrega del producto"
         m_warehouse_id:
           type: integer
+          description: "Almacén"
         nopackages:
           type: integer
+          description: "Número de Paquetes en el envío"
         pickdate:
           type: string
+          description: "Fecha de Recogida del Envio"
         poreference:
           type: string
+          description: "Referencia de Pedido de la Entidad"
         posted:
           type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
         preprinted_docno:
           type: string
+          description: "Nro de Documento Preimpreso"
         printtype:
           type: string
+          description: " "
         priorityrule:
           type: string
+          description: "Prioridad de un documento"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         processing:
           type: string
+          description: " "
         receptiondate:
           type: string
+          description: " "
         ref_inout_id:
           type: integer
+          description: "Envio Referenciado"
         salesrep_id:
           type: integer
+          description: "Comercial/Usuario"
         sendemail:
           type: boolean
+          description: "Permite enviar Documentos vía E-Mail"
         shipdate:
           type: string
+          description: "Fecha de Envio"
         trackingno:
           type: string
+          description: "Nro Seguimiento del Envio"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         user1_id:
           type: integer
+          description: "El usuario definió el elemento # 1"
         user2_id:
           type: integer
+          description: "El usuario definió el elemento # 2"
         additionalvalues:
           type: array
           items:

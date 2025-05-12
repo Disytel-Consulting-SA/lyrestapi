@@ -5,48 +5,70 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         cost:
           type: number
+          description: "Información Coste"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         inventorytype:
           type: string
+          description: "Tipo de Diferencia de Inventario"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         line:
           type: integer
+          description: "No. Línea único para este documento"
         m_attributesetinstance_id:
           type: integer
+          description: "Instancia del Conjunto de Attributos del Producto"
         m_inventory_id:
           type: integer
+          description: "Parámetros para el Inventario Físico"
         m_inventoryline_id:
           type: integer
+          description: "Línea única en un documento de Inventario"
         m_locator_id:
           type: integer
+          description: "Ubicación de Almacén"
         m_product_id:
           type: integer
+          description: "Producto; servicio o Artículo"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         qtybook:
           type: number
+          description: "Cantidad en Libros"
         qtycount:
           type: number
+          description: "Cantidad Contada"
         qtycountwithoutchargesign:
           type: number
+          description: "Cantidad sin el signo del cargo"
         qtyinternaluse:
           type: number
+          description: "Cantidad de Uso Interno"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

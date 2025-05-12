@@ -5,72 +5,106 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_country_id:
           type: integer
+          description: "País"
         c_invoiceline_id:
           type: integer
+          description: "Línea de detalle de la factura"
         confirmedqty:
           type: number
+          description: "Confirmación de cantidad recibida"
         c_orderline_id:
           type: integer
+          description: "Línea de Pedido de Cliente"
         costprice:
           type: number
+          description: "Precio de costo actual del artículo"
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_uom_id:
           type: integer
+          description: "Unidad de Medida"
         declarationno:
           type: string
+          description: " "
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isdescription:
           type: boolean
+          description: "Sólo Descripción"
         isinvoiced:
           type: boolean
+          description: " "
         isselected:
           type: boolean
+          description: " "
         line:
           type: integer
+          description: "No. Línea único para este documento"
         m_attributesetinstance_id:
           type: integer
+          description: "Instancia del Conjunto de Attributos del Producto"
         m_import_clearance_id:
           type: integer
+          description: " "
         m_inout_id:
           type: integer
+          description: "Documento de entrega o recibo"
         m_inoutline_id:
           type: integer
+          description: "Línea en el Entrega o Documento de Recibo"
         m_locator_id:
           type: integer
+          description: "Ubicación de Almacén"
         movementqty:
           type: number
+          description: "Cantidad de un producto movido"
         m_product_id:
           type: integer
+          description: "Producto; servicio o Artículo"
         pickedqty:
           type: number
+          description: "Cantidad Recogida"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         qtyentered:
           type: number
+          description: "Cantidad"
         ref_inoutline_id:
           type: integer
+          description: " "
         scrappedqty:
           type: number
+          description: "Cantidad Desechada"
         targetqty:
           type: number
+          description: "Cantidad Destino del Movimiento"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

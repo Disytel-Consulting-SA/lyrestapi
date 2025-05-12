@@ -373,10 +373,10 @@ public class Payment   {
   }
 
   /**
-   * Get aBank
+   *  
    * @return aBank
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getABank() {
     return aBank;
@@ -392,10 +392,10 @@ public class Payment   {
   }
 
   /**
-   * Get accountingCChargeId
+   * Cuenta Contable Alternativa
    * @return accountingCChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cuenta Contable Alternativa")
   
     public Integer getAccountingCChargeId() {
     return accountingCChargeId;
@@ -411,10 +411,10 @@ public class Payment   {
   }
 
   /**
-   * Get accountno
+   * Número de cuenta
    * @return accountno
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de cuenta")
   
     public String getAccountno() {
     return accountno;
@@ -430,10 +430,10 @@ public class Payment   {
   }
 
   /**
-   * Get aCity
+   * Ciudad en la Tarjeta de Crédito o el Poseedor de la cuenta
    * @return aCity
    **/
-  @Schema(description = "")
+  @Schema(description = "Ciudad en la Tarjeta de Crédito o el Poseedor de la cuenta")
   
     public String getACity() {
     return aCity;
@@ -449,10 +449,10 @@ public class Payment   {
   }
 
   /**
-   * Get aCountry
+   * País
    * @return aCountry
    **/
-  @Schema(description = "")
+  @Schema(description = "País")
   
     public String getACountry() {
     return aCountry;
@@ -468,10 +468,10 @@ public class Payment   {
   }
 
   /**
-   * Get aCuit
+   *  
    * @return aCuit
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getACuit() {
     return aCuit;
@@ -487,10 +487,10 @@ public class Payment   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -507,10 +507,10 @@ public class Payment   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -527,10 +527,10 @@ public class Payment   {
   }
 
   /**
-   * Get adOrgtrxId
+   * Organización que inicia o ejecuta la transacción
    * @return adOrgtrxId
    **/
-  @Schema(description = "")
+  @Schema(description = "Organización que inicia o ejecuta la transacción")
   
     public Integer getAdOrgtrxId() {
     return adOrgtrxId;
@@ -546,10 +546,10 @@ public class Payment   {
   }
 
   /**
-   * Get aEmail
+   * Dirección de Correo Electrónico
    * @return aEmail
    **/
-  @Schema(description = "")
+  @Schema(description = "Dirección de Correo Electrónico")
   
     public String getAEmail() {
     return aEmail;
@@ -565,10 +565,10 @@ public class Payment   {
   }
 
   /**
-   * Get aIdentDl
+   * Identificación de pago - Licencia de Conducir
    * @return aIdentDl
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificación de pago - Licencia de Conducir")
   
     public String getAIdentDl() {
     return aIdentDl;
@@ -584,10 +584,10 @@ public class Payment   {
   }
 
   /**
-   * Get aIdentSsn
+   * Identificación de pago - No. Del Seguro Social
    * @return aIdentSsn
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificación de pago - No. Del Seguro Social")
   
     public String getAIdentSsn() {
     return aIdentSsn;
@@ -603,10 +603,10 @@ public class Payment   {
   }
 
   /**
-   * Get aName
+   * Nombre de la Tarjeta de Crédito o el Poseedor de la cuenta
    * @return aName
    **/
-  @Schema(description = "")
+  @Schema(description = "Nombre de la Tarjeta de Crédito o el Poseedor de la cuenta")
   
     public String getAName() {
     return aName;
@@ -622,10 +622,10 @@ public class Payment   {
   }
 
   /**
-   * Get aState
+   * Estado de la Tarjeta de Crédito o el Poseedor de la cuenta
    * @return aState
    **/
-  @Schema(description = "")
+  @Schema(description = "Estado de la Tarjeta de Crédito o el Poseedor de la cuenta")
   
     public String getAState() {
     return aState;
@@ -641,10 +641,10 @@ public class Payment   {
   }
 
   /**
-   * Get aStreet
+   * Direccion en la Tarjeta de Crédito 
    * @return aStreet
    **/
-  @Schema(description = "")
+  @Schema(description = "Direccion en la Tarjeta de Crédito ")
   
     public String getAStreet() {
     return aStreet;
@@ -660,10 +660,10 @@ public class Payment   {
   }
 
   /**
-   * Get auditstatus
+   *  
    * @return auditstatus
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAuditstatus() {
     return auditstatus;
@@ -679,10 +679,10 @@ public class Payment   {
   }
 
   /**
-   * Get authcode
+   * Código de Autorización Offline
    * @return authcode
    **/
-  @Schema(description = "")
+  @Schema(description = "Código de Autorización Offline")
   
     public String getAuthcode() {
     return authcode;
@@ -698,10 +698,10 @@ public class Payment   {
   }
 
   /**
-   * Get authmatch
+   *  
    * @return authmatch
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isAuthmatch() {
     return authmatch;
@@ -717,10 +717,10 @@ public class Payment   {
   }
 
   /**
-   * Get aZip
+   * Código Postal de la Tarjeta de Crédito o el Poseedor de la cuenta
    * @return aZip
    **/
-  @Schema(description = "")
+  @Schema(description = "Código Postal de la Tarjeta de Crédito o el Poseedor de la cuenta")
   
     public String getAZip() {
     return aZip;
@@ -736,10 +736,10 @@ public class Payment   {
   }
 
   /**
-   * Get banklistRegisterno
+   * Número de Registro de Orden en la Lista
    * @return banklistRegisterno
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Registro de Orden en la Lista")
   
     public String getBanklistRegisterno() {
     return banklistRegisterno;
@@ -755,10 +755,10 @@ public class Payment   {
   }
 
   /**
-   * Get bankPaymentDate
+   *  
    * @return bankPaymentDate
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getBankPaymentDate() {
     return bankPaymentDate;
@@ -774,10 +774,10 @@ public class Payment   {
   }
 
   /**
-   * Get bankPaymentDocumentno
+   *  
    * @return bankPaymentDocumentno
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getBankPaymentDocumentno() {
     return bankPaymentDocumentno;
@@ -793,10 +793,10 @@ public class Payment   {
   }
 
   /**
-   * Get bankPaymentMsgDescription
+   * Descripción de Mensaje de Estado Adicional
    * @return bankPaymentMsgDescription
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción de Mensaje de Estado Adicional")
   
     public String getBankPaymentMsgDescription() {
     return bankPaymentMsgDescription;
@@ -812,10 +812,10 @@ public class Payment   {
   }
 
   /**
-   * Get cActivityId
+   * Actividad de Negocio
    * @return cActivityId
    **/
-  @Schema(description = "")
+  @Schema(description = "Actividad de Negocio")
   
     public Integer getCActivityId() {
     return cActivityId;
@@ -831,10 +831,10 @@ public class Payment   {
   }
 
   /**
-   * Get cBankaccountId
+   * Cuenta Bancaria
    * @return cBankaccountId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cuenta Bancaria")
       @NotNull
 
     public Integer getCBankaccountId() {
@@ -851,10 +851,10 @@ public class Payment   {
   }
 
   /**
-   * Get cBankId
+   * Banco
    * @return cBankId
    **/
-  @Schema(description = "")
+  @Schema(description = "Banco")
   
     public Integer getCBankId() {
     return cBankId;
@@ -870,10 +870,10 @@ public class Payment   {
   }
 
   /**
-   * Get cBankpaymentstatusId
+   *  
    * @return cBankpaymentstatusId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCBankpaymentstatusId() {
     return cBankpaymentstatusId;
@@ -889,10 +889,10 @@ public class Payment   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identifica una Entidad Comercial")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -909,10 +909,10 @@ public class Payment   {
   }
 
   /**
-   * Get cBpBankaccountId
+   * Cuenta de Banco de la Entidad
    * @return cBpBankaccountId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cuenta de Banco de la Entidad")
   
     public Integer getCBpBankaccountId() {
     return cBpBankaccountId;
@@ -928,10 +928,10 @@ public class Payment   {
   }
 
   /**
-   * Get cCampaignId
+   * Campaña de Marketing
    * @return cCampaignId
    **/
-  @Schema(description = "")
+  @Schema(description = "Campaña de Marketing")
   
     public Integer getCCampaignId() {
     return cCampaignId;
@@ -947,10 +947,10 @@ public class Payment   {
   }
 
   /**
-   * Get cChargeId
+   * Cargos adicionales del documento
    * @return cChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargos adicionales del documento")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -966,10 +966,10 @@ public class Payment   {
   }
 
   /**
-   * Get cConversiontypeId
+   * Tipo de Divisa
    * @return cConversiontypeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo de Divisa")
   
     public Integer getCConversiontypeId() {
     return cConversiontypeId;
@@ -985,10 +985,10 @@ public class Payment   {
   }
 
   /**
-   * Get cCurrencyId
+   * Moneda para este registro
    * @return cCurrencyId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Moneda para este registro")
       @NotNull
 
     public Integer getCCurrencyId() {
@@ -1005,10 +1005,10 @@ public class Payment   {
   }
 
   /**
-   * Get cDoctypeId
+   * Tipo de documento o reglas
    * @return cDoctypeId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de documento o reglas")
       @NotNull
 
     public Integer getCDoctypeId() {
@@ -1025,10 +1025,10 @@ public class Payment   {
   }
 
   /**
-   * Get chargeamt
+   * Importe de Cargo
    * @return chargeamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe de Cargo")
   
     public Integer getChargeamt() {
     return chargeamt;
@@ -1044,10 +1044,10 @@ public class Payment   {
   }
 
   /**
-   * Get checked
+   *  
    * @return checked
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isChecked() {
@@ -1064,10 +1064,10 @@ public class Payment   {
   }
 
   /**
-   * Get checkno
+   * Nro. de Cheque
    * @return checkno
    **/
-  @Schema(description = "")
+  @Schema(description = "Nro. de Cheque")
   
     public String getCheckno() {
     return checkno;
@@ -1083,10 +1083,10 @@ public class Payment   {
   }
 
   /**
-   * Get checkstatus
+   *  
    * @return checkstatus
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getCheckstatus() {
     return checkstatus;
@@ -1102,10 +1102,10 @@ public class Payment   {
   }
 
   /**
-   * Get cInvoiceCheckRejectedId
+   * Comprobante generado por el proceso de cheque rechazado
    * @return cInvoiceCheckRejectedId
    **/
-  @Schema(description = "")
+  @Schema(description = "Comprobante generado por el proceso de cheque rechazado")
   
     public Integer getCInvoiceCheckRejectedId() {
     return cInvoiceCheckRejectedId;
@@ -1121,10 +1121,10 @@ public class Payment   {
   }
 
   /**
-   * Get cInvoiceId
+   * Identificador de la factura
    * @return cInvoiceId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador de la factura")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -1140,10 +1140,10 @@ public class Payment   {
   }
 
   /**
-   * Get cOrderId
+   * Pedido
    * @return cOrderId
    **/
-  @Schema(description = "")
+  @Schema(description = "Pedido")
   
     public Integer getCOrderId() {
     return cOrderId;
@@ -1159,10 +1159,10 @@ public class Payment   {
   }
 
   /**
-   * Get couponbatchnumber
+   * Número de lote del cupón
    * @return couponbatchnumber
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de lote del cupón")
   
     public String getCouponbatchnumber() {
     return couponbatchnumber;
@@ -1178,10 +1178,10 @@ public class Payment   {
   }
 
   /**
-   * Get couponnumber
+   * Número del Cupón del Cobro/Pago mediante Tarjeta de Crédito
    * @return couponnumber
    **/
-  @Schema(description = "")
+  @Schema(description = "Número del Cupón del Cobro/Pago mediante Tarjeta de Crédito")
   
     public String getCouponnumber() {
     return couponnumber;
@@ -1197,10 +1197,10 @@ public class Payment   {
   }
 
   /**
-   * Get cPaymentbatchId
+   *  
    * @return cPaymentbatchId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCPaymentbatchId() {
     return cPaymentbatchId;
@@ -1216,10 +1216,10 @@ public class Payment   {
   }
 
   /**
-   * Get cPaymentId
+   * Identificador del pago
    * @return cPaymentId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador del pago")
       @NotNull
 
     public Integer getCPaymentId() {
@@ -1236,10 +1236,10 @@ public class Payment   {
   }
 
   /**
-   * Get cPosjournalId
+   * Caja Diaria
    * @return cPosjournalId
    **/
-  @Schema(description = "")
+  @Schema(description = "Caja Diaria")
   
     public Integer getCPosjournalId() {
     return cPosjournalId;
@@ -1255,10 +1255,10 @@ public class Payment   {
   }
 
   /**
-   * Get cPospaymentmediumId
+   * Medio de Pago de Terminal Punto de Venta
    * @return cPospaymentmediumId
    **/
-  @Schema(description = "")
+  @Schema(description = "Medio de Pago de Terminal Punto de Venta")
   
     public Integer getCPospaymentmediumId() {
     return cPospaymentmediumId;
@@ -1274,10 +1274,10 @@ public class Payment   {
   }
 
   /**
-   * Get cProjectId
+   * Identifica un proyecto único
    * @return cProjectId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un proyecto único")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -1293,10 +1293,10 @@ public class Payment   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -1313,10 +1313,10 @@ public class Payment   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -1333,10 +1333,10 @@ public class Payment   {
   }
 
   /**
-   * Get creditcardexpmm
+   * Mes de expiración
    * @return creditcardexpmm
    **/
-  @Schema(description = "")
+  @Schema(description = "Mes de expiración")
   
     public Integer getCreditcardexpmm() {
     return creditcardexpmm;
@@ -1352,10 +1352,10 @@ public class Payment   {
   }
 
   /**
-   * Get creditcardexpyy
+   * Valido hasta (Año)
    * @return creditcardexpyy
    **/
-  @Schema(description = "")
+  @Schema(description = "Valido hasta (Año)")
   
     public Integer getCreditcardexpyy() {
     return creditcardexpyy;
@@ -1371,10 +1371,10 @@ public class Payment   {
   }
 
   /**
-   * Get creditcardnumber
+   * Número de Tarjeta de Crédito
    * @return creditcardnumber
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Tarjeta de Crédito")
   
     public String getCreditcardnumber() {
     return creditcardnumber;
@@ -1390,10 +1390,10 @@ public class Payment   {
   }
 
   /**
-   * Get creditcardtype
+   * Tarjeta de Crédito 
    * @return creditcardtype
    **/
-  @Schema(description = "")
+  @Schema(description = "Tarjeta de Crédito ")
   
     public String getCreditcardtype() {
     return creditcardtype;
@@ -1409,10 +1409,10 @@ public class Payment   {
   }
 
   /**
-   * Get creditcardvv
+   * Código de verificación en la tarjeta de crédito
    * @return creditcardvv
    **/
-  @Schema(description = "")
+  @Schema(description = "Código de verificación en la tarjeta de crédito")
   
     public String getCreditcardvv() {
     return creditcardvv;
@@ -1428,10 +1428,10 @@ public class Payment   {
   }
 
   /**
-   * Get dateacct
+   * Fecha contable
    * @return dateacct
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha contable")
       @NotNull
 
     public String getDateacct() {
@@ -1448,10 +1448,10 @@ public class Payment   {
   }
 
   /**
-   * Get dateemissioncheck
+   *  
    * @return dateemissioncheck
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDateemissioncheck() {
     return dateemissioncheck;
@@ -1467,10 +1467,10 @@ public class Payment   {
   }
 
   /**
-   * Get datetrx
+   * Fecha de la transacción
    * @return datetrx
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de la transacción")
       @NotNull
 
     public String getDatetrx() {
@@ -1487,10 +1487,10 @@ public class Payment   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -1506,10 +1506,10 @@ public class Payment   {
   }
 
   /**
-   * Get discountamt
+   * Importe del Descuento calculado
    * @return discountamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe del Descuento calculado")
   
     @Valid
     public BigDecimal getDiscountamt() {
@@ -1526,10 +1526,10 @@ public class Payment   {
   }
 
   /**
-   * Get docaction
+   * El estado destino del documento
    * @return docaction
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado destino del documento")
       @NotNull
 
     public String getDocaction() {
@@ -1546,10 +1546,10 @@ public class Payment   {
   }
 
   /**
-   * Get docstatus
+   * El estado actual del documento
    * @return docstatus
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El estado actual del documento")
       @NotNull
 
     public String getDocstatus() {
@@ -1566,10 +1566,10 @@ public class Payment   {
   }
 
   /**
-   * Get documentno
+   * Número de secuencia del documento para cada documento
    * @return documentno
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número de secuencia del documento para cada documento")
       @NotNull
 
     public String getDocumentno() {
@@ -1586,10 +1586,10 @@ public class Payment   {
   }
 
   /**
-   * Get duedate
+   * Fecha de Vencimiento
    * @return duedate
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha de Vencimiento")
   
     public String getDuedate() {
     return duedate;
@@ -1605,10 +1605,10 @@ public class Payment   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -1625,10 +1625,10 @@ public class Payment   {
   }
 
   /**
-   * Get isallocated
+   * Indica si el pago ha sido asignado
    * @return isallocated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si el pago ha sido asignado")
       @NotNull
 
     public Boolean isIsallocated() {
@@ -1645,10 +1645,10 @@ public class Payment   {
   }
 
   /**
-   * Get isapproved
+   * Indica si este documento requiere aprobación
    * @return isapproved
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si este documento requiere aprobación")
       @NotNull
 
     public Boolean isIsapproved() {
@@ -1665,10 +1665,10 @@ public class Payment   {
   }
 
   /**
-   * Get isdelayedcapture
+   * Pago tras Envio
    * @return isdelayedcapture
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Pago tras Envio")
       @NotNull
 
     public Boolean isIsdelayedcapture() {
@@ -1685,10 +1685,10 @@ public class Payment   {
   }
 
   /**
-   * Get ismanual
+   * Éste es un proceso manual
    * @return ismanual
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Éste es un proceso manual")
       @NotNull
 
     public Boolean isIsmanual() {
@@ -1705,10 +1705,10 @@ public class Payment   {
   }
 
   /**
-   * Get isonline
+   * Puede ser accedido en línea
    * @return isonline
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Puede ser accedido en línea")
       @NotNull
 
     public Boolean isIsonline() {
@@ -1725,10 +1725,10 @@ public class Payment   {
   }
 
   /**
-   * Get isoverunderpayment
+   * Sobre pago (no contabilizado) o sub pago (pago parcial)
    * @return isoverunderpayment
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Sobre pago (no contabilizado) o sub pago (pago parcial)")
       @NotNull
 
     public Boolean isIsoverunderpayment() {
@@ -1745,10 +1745,10 @@ public class Payment   {
   }
 
   /**
-   * Get isprepayment
+   * Prepago
    * @return isprepayment
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Prepago")
       @NotNull
 
     public Boolean isIsprepayment() {
@@ -1765,10 +1765,10 @@ public class Payment   {
   }
 
   /**
-   * Get isreceipt
+   * Ésta es una transacción de ventas
    * @return isreceipt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Ésta es una transacción de ventas")
       @NotNull
 
     public String getIsreceipt() {
@@ -1785,10 +1785,10 @@ public class Payment   {
   }
 
   /**
-   * Get isreconciled
+   *  
    * @return isreconciled
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsreconciled() {
@@ -1805,10 +1805,10 @@ public class Payment   {
   }
 
   /**
-   * Get isselfservice
+   * Disp. en Web
    * @return isselfservice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Disp. en Web")
       @NotNull
 
     public Boolean isIsselfservice() {
@@ -1825,10 +1825,10 @@ public class Payment   {
   }
 
   /**
-   * Get issotrx
+   * Esta es una transacción de ventas
    * @return issotrx
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Esta es una transacción de ventas")
       @NotNull
 
     public Boolean isIssotrx() {
@@ -1845,10 +1845,10 @@ public class Payment   {
   }
 
   /**
-   * Get mBoletadepositoId
+   *  
    * @return mBoletadepositoId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getMBoletadepositoId() {
     return mBoletadepositoId;
@@ -1864,10 +1864,10 @@ public class Payment   {
   }
 
   /**
-   * Get mEntidadfinancieraplanId
+   * Plan de Entidad Financiera
    * @return mEntidadfinancieraplanId
    **/
-  @Schema(description = "")
+  @Schema(description = "Plan de Entidad Financiera")
   
     public Integer getMEntidadfinancieraplanId() {
     return mEntidadfinancieraplanId;
@@ -1883,10 +1883,10 @@ public class Payment   {
   }
 
   /**
-   * Get micr
+   * Combinación de No. de Sucursal; Cta. y Cheque
    * @return micr
    **/
-  @Schema(description = "")
+  @Schema(description = "Combinación de No. de Sucursal; Cta. y Cheque")
   
     public String getMicr() {
     return micr;
@@ -1902,10 +1902,10 @@ public class Payment   {
   }
 
   /**
-   * Get oprocessing
+   * Este pago puede ser procesado en línea
    * @return oprocessing
    **/
-  @Schema(description = "")
+  @Schema(description = "Este pago puede ser procesado en línea")
   
     public String getOprocessing() {
     return oprocessing;
@@ -1921,10 +1921,10 @@ public class Payment   {
   }
 
   /**
-   * Get originalRefPaymentId
+   * Referencia al Pago Original ya que semánticamente el registro actual actúa como duplicado
    * @return originalRefPaymentId
    **/
-  @Schema(description = "")
+  @Schema(description = "Referencia al Pago Original ya que semánticamente el registro actual actúa como duplicado")
   
     public Integer getOriginalRefPaymentId() {
     return originalRefPaymentId;
@@ -1940,10 +1940,10 @@ public class Payment   {
   }
 
   /**
-   * Get origTrxid
+   * ID de la transacción original
    * @return origTrxid
    **/
-  @Schema(description = "")
+  @Schema(description = "ID de la transacción original")
   
     public String getOrigTrxid() {
     return origTrxid;
@@ -1959,10 +1959,10 @@ public class Payment   {
   }
 
   /**
-   * Get overunderamt
+   * Importes con sobre/sub pago
    * @return overunderamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importes con sobre/sub pago")
   
     @Valid
     public BigDecimal getOverunderamt() {
@@ -1979,10 +1979,10 @@ public class Payment   {
   }
 
   /**
-   * Get payamt
+   * Importe del Pago
    * @return payamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe del Pago")
       @NotNull
 
     @Valid
@@ -2000,10 +2000,10 @@ public class Payment   {
   }
 
   /**
-   * Get ponum
+   * Número de Pedido de Clientes
    * @return ponum
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Pedido de Clientes")
   
     public String getPonum() {
     return ponum;
@@ -2019,10 +2019,10 @@ public class Payment   {
   }
 
   /**
-   * Get posnet
+   *  
    * @return posnet
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getPosnet() {
     return posnet;
@@ -2038,10 +2038,10 @@ public class Payment   {
   }
 
   /**
-   * Get posted
+   * Las transacciones de Contabilidad General han sido procesadas
    * @return posted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Las transacciones de Contabilidad General han sido procesadas")
       @NotNull
 
     public String getPosted() {
@@ -2058,10 +2058,10 @@ public class Payment   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -2078,10 +2078,10 @@ public class Payment   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getProcessing() {
     return processing;
@@ -2097,10 +2097,10 @@ public class Payment   {
   }
 
   /**
-   * Get rAuthcode
+   * Autorización del Código devuelto
    * @return rAuthcode
    **/
-  @Schema(description = "")
+  @Schema(description = "Autorización del Código devuelto")
   
     public String getRAuthcode() {
     return rAuthcode;
@@ -2116,10 +2116,10 @@ public class Payment   {
   }
 
   /**
-   * Get rAuthcodeDc
+   * Codigo de Autorización (DC)
    * @return rAuthcodeDc
    **/
-  @Schema(description = "")
+  @Schema(description = "Codigo de Autorización (DC)")
   
     public String getRAuthcodeDc() {
     return rAuthcodeDc;
@@ -2135,10 +2135,10 @@ public class Payment   {
   }
 
   /**
-   * Get rAvsaddr
+   * Esta dirección ha sido devuelta
    * @return rAvsaddr
    **/
-  @Schema(description = "")
+  @Schema(description = "Esta dirección ha sido devuelta")
   
     public String getRAvsaddr() {
     return rAvsaddr;
@@ -2154,10 +2154,10 @@ public class Payment   {
   }
 
   /**
-   * Get rAvszip
+   * El Código Postal ha sido verificado
    * @return rAvszip
    **/
-  @Schema(description = "")
+  @Schema(description = "El Código Postal ha sido verificado")
   
     public String getRAvszip() {
     return rAvszip;
@@ -2173,10 +2173,10 @@ public class Payment   {
   }
 
   /**
-   * Get rCvv2match
+   * Comprobación del Código de Verificación de la Tarjeta de Crédito
    * @return rCvv2match
    **/
-  @Schema(description = "")
+  @Schema(description = "Comprobación del Código de Verificación de la Tarjeta de Crédito")
   
     public Boolean isRCvv2match() {
     return rCvv2match;
@@ -2192,10 +2192,10 @@ public class Payment   {
   }
 
   /**
-   * Get refPaymentId
+   *  
    * @return refPaymentId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getRefPaymentId() {
     return refPaymentId;
@@ -2211,10 +2211,10 @@ public class Payment   {
   }
 
   /**
-   * Get rejectedcomments
+   *  
    * @return rejectedcomments
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getRejectedcomments() {
     return rejectedcomments;
@@ -2230,10 +2230,10 @@ public class Payment   {
   }
 
   /**
-   * Get rejecteddate
+   *  
    * @return rejecteddate
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getRejecteddate() {
     return rejecteddate;
@@ -2249,10 +2249,10 @@ public class Payment   {
   }
 
   /**
-   * Get rInfo
+   * Respuesta info
    * @return rInfo
    **/
-  @Schema(description = "")
+  @Schema(description = "Respuesta info")
   
     public String getRInfo() {
     return rInfo;
@@ -2268,10 +2268,10 @@ public class Payment   {
   }
 
   /**
-   * Get routingno
+   * Número de sucursal bancaria
    * @return routingno
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de sucursal bancaria")
   
     public String getRoutingno() {
     return routingno;
@@ -2287,10 +2287,10 @@ public class Payment   {
   }
 
   /**
-   * Get rPnref
+   * Referencia del pago
    * @return rPnref
    **/
-  @Schema(description = "")
+  @Schema(description = "Referencia del pago")
   
     public String getRPnref() {
     return rPnref;
@@ -2306,10 +2306,10 @@ public class Payment   {
   }
 
   /**
-   * Get rPnrefDc
+   * Referencia de Pago pendiente
    * @return rPnrefDc
    **/
-  @Schema(description = "")
+  @Schema(description = "Referencia de Pago pendiente")
   
     public String getRPnrefDc() {
     return rPnrefDc;
@@ -2325,10 +2325,10 @@ public class Payment   {
   }
 
   /**
-   * Get rRespmsg
+   * Mensaje de respuesta
    * @return rRespmsg
    **/
-  @Schema(description = "")
+  @Schema(description = "Mensaje de respuesta")
   
     public String getRRespmsg() {
     return rRespmsg;
@@ -2344,10 +2344,10 @@ public class Payment   {
   }
 
   /**
-   * Get rResult
+   * Resultado de la transmisión
    * @return rResult
    **/
-  @Schema(description = "")
+  @Schema(description = "Resultado de la transmisión")
   
     public String getRResult() {
     return rResult;
@@ -2363,10 +2363,10 @@ public class Payment   {
   }
 
   /**
-   * Get swipe
+   * Pista 1 y 2 de la Tarjeta de Credito
    * @return swipe
    **/
-  @Schema(description = "")
+  @Schema(description = "Pista 1 y 2 de la Tarjeta de Credito")
   
     public String getSwipe() {
     return swipe;
@@ -2382,10 +2382,10 @@ public class Payment   {
   }
 
   /**
-   * Get taxamt
+   * Importe del Impuesto
    * @return taxamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe del Impuesto")
   
     @Valid
     public BigDecimal getTaxamt() {
@@ -2402,10 +2402,10 @@ public class Payment   {
   }
 
   /**
-   * Get tendertype
+   * Método de pago
    * @return tendertype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Método de pago")
       @NotNull
 
     public String getTendertype() {
@@ -2422,10 +2422,10 @@ public class Payment   {
   }
 
   /**
-   * Get trxtype
+   * Tipo de transacción de la tarjeta de crédito
    * @return trxtype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de transacción de la tarjeta de crédito")
       @NotNull
 
     public String getTrxtype() {
@@ -2442,10 +2442,10 @@ public class Payment   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -2462,10 +2462,10 @@ public class Payment   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -2482,10 +2482,10 @@ public class Payment   {
   }
 
   /**
-   * Get user1Id
+   * El usuario definió el elemento # 1
    * @return user1Id
    **/
-  @Schema(description = "")
+  @Schema(description = "El usuario definió el elemento # 1")
   
     public Integer getUser1Id() {
     return user1Id;
@@ -2501,10 +2501,10 @@ public class Payment   {
   }
 
   /**
-   * Get user2Id
+   * El usuario definió el elemento # 2
    * @return user2Id
    **/
-  @Schema(description = "")
+  @Schema(description = "El usuario definió el elemento # 2")
   
     public Integer getUser2Id() {
     return user2Id;
@@ -2520,10 +2520,10 @@ public class Payment   {
   }
 
   /**
-   * Get voiceauthcode
+   * Código de Autorización de voz de la compañía de la tarjeta de crédito
    * @return voiceauthcode
    **/
-  @Schema(description = "")
+  @Schema(description = "Código de Autorización de voz de la compañía de la tarjeta de crédito")
   
     public String getVoiceauthcode() {
     return voiceauthcode;
@@ -2539,10 +2539,10 @@ public class Payment   {
   }
 
   /**
-   * Get writeoffamt
+   * Importe del Ajuste
    * @return writeoffamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe del Ajuste")
   
     @Valid
     public BigDecimal getWriteoffamt() {

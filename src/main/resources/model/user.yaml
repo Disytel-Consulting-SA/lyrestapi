@@ -5,84 +5,124 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_orgtrx_id:
           type: integer
+          description: "Organización que inicia o ejecuta la transacción"
         ad_user_id:
           type: integer
+          description: "ID de Usuario dentro del sistema"
         birthday:
           type: string
+          description: "Cumpleaños o día de aniversario"
         c_bpartner_contact_id:
           type: integer
+          description: " "
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_bpartner_location_id:
           type: integer
+          description: "Dirección de la Entidad Comercial"
         c_greeting_id:
           type: integer
+          description: "Saludo para imprimir en la correspondencia"
         comments:
           type: string
+          description: "Comentarios o información adicional"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         email:
           type: string
+          description: "ID de correo electrónico"
         emailuser:
           type: string
+          description: "ID del Usuario"
         emailuserpw:
           type: string
+          description: "Contraseña de su usuario de email"
         emailverify:
           type: string
+          description: "Verificación de dirección de E-Mail"
         emailverifydate:
           type: string
+          description: "Verificar E-mail"
         fax:
           type: string
+          description: "Número de Fax"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isldapauthorized:
           type: boolean
+          description: "Autorizar via LDAP"
         issystemaccess:
           type: boolean
+          description: "Usuario con acceso al sistema"
         lastcontact:
           type: string
+          description: "Fecha en que este individuo fue contactado por última vez"
         lastpasswordchangedate:
           type: string
+          description: "Última fecha de cambio de clave"
         lastresult:
           type: string
+          description: "Resultado del último contacto"
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         notificationtype:
           type: string
+          description: "Tipo de Notificacion"
         notifyonconversationactivity:
           type: boolean
+          description: " "
         pa_goal_id:
           type: integer
+          description: "Objetivo de Resultados"
         pa_goalprivate_id:
           type: integer
+          description: "Jerarquía de objetivos solamente visible para el usuario"
         password:
           type: string
+          description: "Contraseña de cualquier longitud (Sensible a mayúsculas y minúsculas"
         phone:
           type: string
+          description: "Identifica un número telefónico"
         phone2:
           type: string
+          description: "Identifica un número telefónico alterno"
         phone3:
           type: string
+          description: "Identifica un número telefónico"
         processing:
           type: string
+          description: " "
         supervisor_id:
           type: integer
+          description: "Supervisor para este usuario - usado para escalación"
         title:
           type: string
+          description: "Nombre como se conoce esta entidad"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

@@ -1,4 +1,5 @@
 propertiesmap:
+  title: Propertiesmap
   type: object
   properties:
     key:

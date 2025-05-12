@@ -160,10 +160,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get aAssetId
+   * Activo usado por la compañía o sus clientes
    * @return aAssetId
    **/
-  @Schema(description = "")
+  @Schema(description = "Activo usado por la compañía o sus clientes")
   
     public Integer getAAssetId() {
     return aAssetId;
@@ -179,10 +179,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -199,10 +199,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -219,10 +219,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get cBpartnerVendorId
+   * Proveedor actual del artículo de la línea de la factura
    * @return cBpartnerVendorId
    **/
-  @Schema(description = "")
+  @Schema(description = "Proveedor actual del artículo de la línea de la factura")
   
     public Integer getCBpartnerVendorId() {
     return cBpartnerVendorId;
@@ -238,10 +238,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get cChargeId
+   * Cargos adicionales del documento
    * @return cChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargos adicionales del documento")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -257,10 +257,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get cInvoiceId
+   * Identificador de la factura
    * @return cInvoiceId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador de la factura")
       @NotNull
 
     public Integer getCInvoiceId() {
@@ -277,10 +277,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get cInvoicelineId
+   * Línea de detalle de la factura
    * @return cInvoicelineId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Línea de detalle de la factura")
       @NotNull
 
     public Integer getCInvoicelineId() {
@@ -297,10 +297,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get cOrderlineId
+   * Línea de Pedido de Cliente
    * @return cOrderlineId
    **/
-  @Schema(description = "")
+  @Schema(description = "Línea de Pedido de Cliente")
   
     public Integer getCOrderlineId() {
     return cOrderlineId;
@@ -316,10 +316,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get costprice
+   * Precio de costo actual del artículo
    * @return costprice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio de costo actual del artículo")
       @NotNull
 
     @Valid
@@ -337,10 +337,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get cProjectId
+   * Identifica un proyecto único
    * @return cProjectId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un proyecto único")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -356,10 +356,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -376,10 +376,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -396,10 +396,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get cTaxId
+   * Identificador del Impuesto
    * @return cTaxId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador del Impuesto")
       @NotNull
 
     public Integer getCTaxId() {
@@ -416,10 +416,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get cUomId
+   * Unidad de Medida
    * @return cUomId
    **/
-  @Schema(description = "")
+  @Schema(description = "Unidad de Medida")
   
     public Integer getCUomId() {
     return cUomId;
@@ -435,10 +435,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -454,10 +454,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get documentdiscountamt
+   * Descuento a Nivel de Documento calculado para esta Línea
    * @return documentdiscountamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Descuento a Nivel de Documento calculado para esta Línea")
       @NotNull
 
     @Valid
@@ -475,10 +475,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -495,10 +495,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get isdescription
+   * Sólo Descripción
    * @return isdescription
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Sólo Descripción")
       @NotNull
 
     public Boolean isIsdescription() {
@@ -515,10 +515,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get isprinted
+   * Indica si este documento es impreso
    * @return isprinted
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica si este documento es impreso")
       @NotNull
 
     public Boolean isIsprinted() {
@@ -535,10 +535,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get line
+   * No. Línea único para este documento
    * @return line
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "No. Línea único para este documento")
       @NotNull
 
     public Integer getLine() {
@@ -555,10 +555,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get linebonusamt
+   * Importe de bonificación de la línea
    * @return linebonusamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe de bonificación de la línea")
       @NotNull
 
     @Valid
@@ -576,10 +576,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get linediscountamt
+   * Descuento de línea como un porcentaje
    * @return linediscountamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Descuento de línea como un porcentaje")
       @NotNull
 
     @Valid
@@ -597,10 +597,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get linenetamount
+   *  
    * @return linenetamount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     @Valid
@@ -618,10 +618,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get linenetamt
+   * Importe Neto de la Línea (Cantidad * Precio Actual) sin Fletes ni Cargos
    * @return linenetamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe Neto de la Línea (Cantidad * Precio Actual) sin Fletes ni Cargos")
       @NotNull
 
     @Valid
@@ -639,10 +639,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get linetotalamt
+   * Total de Línea (Impuestos Incluidos)
    * @return linetotalamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Total de Línea (Impuestos Incluidos)")
   
     @Valid
     public BigDecimal getLinetotalamt() {
@@ -659,10 +659,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get manualgeneraldiscountamt
+   * Importe de Descuento General
    * @return manualgeneraldiscountamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe de Descuento General")
   
     @Valid
     public BigDecimal getManualgeneraldiscountamt() {
@@ -679,10 +679,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get mAttributesetinstanceId
+   * Instancia del Conjunto de Attributos del Producto
    * @return mAttributesetinstanceId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Instancia del Conjunto de Attributos del Producto")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -699,10 +699,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get mImportClearanceId
+   *  
    * @return mImportClearanceId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getMImportClearanceId() {
     return mImportClearanceId;
@@ -718,10 +718,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get mInoutlineId
+   * Línea en el Entrega o Documento de Recibo
    * @return mInoutlineId
    **/
-  @Schema(description = "")
+  @Schema(description = "Línea en el Entrega o Documento de Recibo")
   
     public Integer getMInoutlineId() {
     return mInoutlineId;
@@ -737,10 +737,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get mProductId
+   * Producto; servicio o Artículo
    * @return mProductId
    **/
-  @Schema(description = "")
+  @Schema(description = "Producto; servicio o Artículo")
   
     public Integer getMProductId() {
     return mProductId;
@@ -756,10 +756,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get priceactual
+   * Precio Actual
    * @return priceactual
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio Actual")
       @NotNull
 
     @Valid
@@ -777,10 +777,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get priceentered
+   * Precio
    * @return priceentered
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio")
       @NotNull
 
     @Valid
@@ -798,10 +798,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get pricelimit
+   * Precio más bajo del producto
    * @return pricelimit
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio más bajo del producto")
       @NotNull
 
     @Valid
@@ -819,10 +819,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get pricelist
+   * Precio de Tarifa
    * @return pricelist
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio de Tarifa")
       @NotNull
 
     @Valid
@@ -840,10 +840,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -860,10 +860,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get qtyentered
+   * Cantidad
    * @return qtyentered
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad")
       @NotNull
 
     @Valid
@@ -881,10 +881,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get qtyinvoiced
+   * Cantidad facturada
    * @return qtyinvoiced
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad facturada")
       @NotNull
 
     @Valid
@@ -902,10 +902,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get refInvoicelineId
+   *  
    * @return refInvoicelineId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getRefInvoicelineId() {
     return refInvoicelineId;
@@ -921,10 +921,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get salesrepOrigId
+   * Responsable de Ventas Original
    * @return salesrepOrigId
    **/
-  @Schema(description = "")
+  @Schema(description = "Responsable de Ventas Original")
   
     public Integer getSalesrepOrigId() {
     return salesrepOrigId;
@@ -940,10 +940,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get taxamt
+   * Importe del Impuesto
    * @return taxamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importe del Impuesto")
   
     @Valid
     public BigDecimal getTaxamt() {
@@ -960,10 +960,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -980,10 +980,10 @@ public class InvoiceLine   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

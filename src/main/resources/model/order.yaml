@@ -5,202 +5,301 @@ components:
       properties:
         acceptance:
           type: number
+          description: " "
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         addlinesquicker:
           type: string
+          description: "Carga rápida de líneas por clave de artículo y cantidad"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_org_transfer_id:
           type: integer
+          description: " "
         ad_orgtrx_id:
           type: integer
+          description: "Organización que inicia o ejecuta la transacción"
         ad_user_id:
           type: integer
+          description: "ID de Usuario dentro del sistema"
         allowchangepricelist:
           type: boolean
+          description: "Es posible modificar la tarifa del documento. Todos los precios de las líneas serán modificados."
         authorizationchainstatus:
           type: string
+          description: " "
         authorize:
           type: string
+          description: " "
         bill_bpartner_id:
           type: integer
+          description: "Entidad Comercial de Recogida"
         bill_location_id:
           type: integer
+          description: "Localización de Recogida de Envio del Socio Comercial"
         bill_user_id:
           type: integer
+          description: "Contacto de la Entidad para Recogida de Envio"
         c_activity_id:
           type: integer
+          description: "Actividad de Negocio"
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_bpartner_location_id:
           type: integer
+          description: "Dirección de la Entidad Comercial"
         c_campaign_id:
           type: integer
+          description: "Campaña de Marketing"
         c_cashline_id:
           type: integer
+          description: "Línea del Libro de Caja"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_conversiontype_id:
           type: integer
+          description: "Tipo de Divisa"
         c_currency_id:
           type: integer
+          description: "Moneda para este registro"
         c_doctype_id:
           type: integer
+          description: "Tipo de documento o reglas"
         c_doctypetarget_id:
           type: integer
+          description: "Tipo de documento destino para convertir documentos"
         chargeamt:
           type: number
+          description: "Importe de Cargo"
         c_invoice_orig_id:
           type: integer
+          description: " "
         codigocategoriaiva:
           type: integer
+          description: " "
         copyfrom:
           type: string
+          description: "Copiar Registros desde"
         c_order_id:
           type: integer
+          description: "Pedido"
         c_payment_id:
           type: integer
+          description: "Identificador del pago"
         c_paymentterm_id:
           type: integer
+          description: "Programa de Vctos."
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         createvendorproductlines:
           type: string
+          description: "Crea una línea de documento por cada artículo configurado para el proveedor"
         creditrequesttype:
           type: string
+          description: " "
         c_repair_order_id:
           type: integer
+          description: " "
         cuit:
           type: string
+          description: " "
         dateacct:
           type: string
+          description: "Fecha contable"
         dateordered:
           type: string
+          description: "Fecha del Pedido"
         dateprinted:
           type: string
+          description: "Fecha en que el documento fue impreso"
         dateprod:
           type: string
+          description: "Fecha del Pedido"
         datepromised:
           type: string
+          description: "Fecha Indicada del Pedido"
         daterealprod:
           type: string
+          description: "Fecha del Pedido"
         deliveryrule:
           type: string
+          description: "Define los tiempos de entrega"
         deliveryviarule:
           type: string
+          description: "Como será entregada la orden"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         docaction:
           type: string
+          description: "El estado destino del documento"
         docstatus:
           type: string
+          description: "El estado actual del documento"
         documentno:
           type: string
+          description: "Número de secuencia del documento para cada documento"
         freightamt:
           type: number
+          description: "Importe de Transporte"
         freightcostrule:
           type: string
+          description: "Regla de Coste de Transporte"
         grandtotal:
           type: number
+          description: "Importe total del documento"
         invoice_adress:
           type: string
+          description: " "
         invoicerule:
           type: string
+          description: "Frecuencia y métodos de facturación"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isapproved:
           type: boolean
+          description: "Indica si este documento requiere aprobación"
         iscreditapproved:
           type: boolean
+          description: "El crédito ha sido aprobado"
         isdelivered:
           type: boolean
+          description: " "
         isdiscountprinted:
           type: boolean
+          description: "Imprimir el descuento en la Factura y la Orden"
         isdropship:
           type: boolean
+          description: "Los Envío Indirectos son enviados por el proveedor directamente al cliente"
         isexchange:
           type: boolean
+          description: " "
         isinvoiced:
           type: boolean
+          description: " "
         isprinted:
           type: boolean
+          description: "Indica si este documento es impreso"
         isreactivated:
           type: boolean
+          description: "Indica si el registro fue recientemente reactivado"
         isselected:
           type: boolean
+          description: " "
         isselfservice:
           type: boolean
+          description: "Disp. en Web"
         issotrx:
           type: boolean
+          description: "Esta es una transacción de ventas"
         istaxincluded:
           type: boolean
+          description: "Impuesto incluido en el precio"
         istpvused:
           type: boolean
+          description: " "
         istransferred:
           type: boolean
+          description: "Transferido a la Contabilidad General (Contabilizado)"
         manualgeneraldiscount:
           type: number
+          description: "Descuento manual general"
         m_authorizationchain_id:
           type: integer
+          description: " "
         m_pricelist_id:
           type: integer
+          description: "Identificador único de mi lista de precios"
         m_shipper_id:
           type: integer
+          description: "Método o manera de entrega del producto"
         m_warehouse_id:
           type: integer
+          description: "Almacén"
         m_warehouse_transfer_id:
           type: integer
+          description: " "
         nombrecli:
           type: string
+          description: " "
         nroidentificcliente:
           type: string
+          description: "Número de DNI, Cédula, Libreta de Enrolamiento, Pasaporte o Libreta Cívica del cliente."
         oldgrandtotal:
           type: number
+          description: " "
         pay_bpartner_id:
           type: integer
+          description: "Entidad Comercial del Pago"
         pay_location_id:
           type: integer
+          description: "Ubicación del Socio Comercial responsable del Pago"
         paymentrule:
           type: string
+          description: "Como se pagará la factura"
         poreference:
           type: string
+          description: "Referencia de Pedido de la Entidad"
         posted:
           type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
         priorityrule:
           type: string
+          description: "Prioridad de un documento"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         processing:
           type: string
+          description: " "
         program_invoice:
           type: integer
+          description: " "
         ref_order_id:
           type: integer
+          description: "Orden Referenciada"
         repair_priority:
           type: string
+          description: " "
         repair_state:
           type: string
+          description: " "
         salesrep_id:
           type: integer
+          description: "Comercial/Usuario"
         sendemail:
           type: boolean
+          description: "Permite enviar Documentos vía E-Mail"
         totallines:
           type: number
+          description: "Total de todas las líneas del documento"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         user1_id:
           type: integer
+          description: "El usuario definió el elemento # 1"
         user2_id:
           type: integer
+          description: "El usuario definió el elemento # 2"
         validto:
           type: string
+          description: "Válido hasta; incluyendo esta fecha (ultimo día)"
         additionalvalues:
           type: array
           items:

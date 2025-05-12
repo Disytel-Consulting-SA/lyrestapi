@@ -106,10 +106,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -126,10 +126,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -146,10 +146,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get amount
+   * Importe en una moneda definida
    * @return amount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe en una moneda definida")
       @NotNull
 
     @Valid
@@ -167,10 +167,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cAllocationhdrId
+   * Asignación de pagos
    * @return cAllocationhdrId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Asignación de pagos")
       @NotNull
 
     public Integer getCAllocationhdrId() {
@@ -187,10 +187,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cAllocationlineId
+   * Línea de Ubicación
    * @return cAllocationlineId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Línea de Ubicación")
       @NotNull
 
     public Integer getCAllocationlineId() {
@@ -207,10 +207,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica una Entidad Comercial")
   
     public Integer getCBpartnerId() {
     return cBpartnerId;
@@ -226,10 +226,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cCashlineId
+   * Línea del Libro de Caja
    * @return cCashlineId
    **/
-  @Schema(description = "")
+  @Schema(description = "Línea del Libro de Caja")
   
     public Integer getCCashlineId() {
     return cCashlineId;
@@ -245,10 +245,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cCurrencyId
+   * Moneda para este registro
    * @return cCurrencyId
    **/
-  @Schema(description = "")
+  @Schema(description = "Moneda para este registro")
   
     public Integer getCCurrencyId() {
     return cCurrencyId;
@@ -264,10 +264,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get changeamt
+   * Cambio o vuelto de la transacción
    * @return changeamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Cambio o vuelto de la transacción")
   
     @Valid
     public BigDecimal getChangeamt() {
@@ -284,10 +284,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cInvoiceCreditId
+   *  
    * @return cInvoiceCreditId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCInvoiceCreditId() {
     return cInvoiceCreditId;
@@ -303,10 +303,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cInvoiceId
+   * Identificador de la factura
    * @return cInvoiceId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador de la factura")
   
     public Integer getCInvoiceId() {
     return cInvoiceId;
@@ -322,10 +322,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cOrderId
+   * Pedido
    * @return cOrderId
    **/
-  @Schema(description = "")
+  @Schema(description = "Pedido")
   
     public Integer getCOrderId() {
     return cOrderId;
@@ -341,10 +341,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get cPaymentId
+   * Identificador del pago
    * @return cPaymentId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identificador del pago")
   
     public Integer getCPaymentId() {
     return cPaymentId;
@@ -360,10 +360,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -380,10 +380,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -400,10 +400,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get datetrx
+   * Fecha de la transacción
    * @return datetrx
    **/
-  @Schema(description = "")
+  @Schema(description = "Fecha de la transacción")
   
     public String getDatetrx() {
     return datetrx;
@@ -419,10 +419,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get discountamt
+   * Importe del Descuento calculado
    * @return discountamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe del Descuento calculado")
       @NotNull
 
     @Valid
@@ -440,10 +440,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -460,10 +460,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get ismanual
+   * Éste es un proceso manual
    * @return ismanual
    **/
-  @Schema(description = "")
+  @Schema(description = "Éste es un proceso manual")
   
     public Boolean isIsmanual() {
     return ismanual;
@@ -479,10 +479,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get lineDescription
+   *  
    * @return lineDescription
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getLineDescription() {
     return lineDescription;
@@ -498,10 +498,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get overunderamt
+   * Importes con sobre/sub pago
    * @return overunderamt
    **/
-  @Schema(description = "")
+  @Schema(description = "Importes con sobre/sub pago")
   
     @Valid
     public BigDecimal getOverunderamt() {
@@ -518,10 +518,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -538,10 +538,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -558,10 +558,10 @@ public class AllocationLine   {
   }
 
   /**
-   * Get writeoffamt
+   * Importe del Ajuste
    * @return writeoffamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe del Ajuste")
       @NotNull
 
     @Valid

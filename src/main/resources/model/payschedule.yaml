@@ -5,40 +5,58 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         c_paymentterm_id:
           type: integer
+          description: "Programa de Vctos."
         c_payschedule_id:
           type: integer
+          description: "Plantilla de Esquema de Pago"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         discount:
           type: number
+          description: "Descuento en porcentaje"
         discountapplicationtype:
           type: string
+          description: " "
         discountdays:
           type: integer
+          description: "Número de días desde la fecha de la factura hasta la fecha de descuento"
         gracedays:
           type: integer
+          description: "Días después de la fecha de vencimiento para enviar la primera carta de morosidad"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isvalid:
           type: boolean
+          description: "El Elemento es Válido"
         netday:
           type: string
+          description: "Día Vencimiento Neto del Pago"
         netdays:
           type: integer
+          description: "Días Netos en los cuales el pago se vence"
         percentage:
           type: number
+          description: "Porcentaje de la cantidad total"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

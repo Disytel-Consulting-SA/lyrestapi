@@ -5,36 +5,52 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         arcibanormcode:
           type: string
+          description: " "
         c_invoice_id:
           type: integer
+          description: "Identificador de la factura"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_tax_id:
           type: integer
+          description: "Identificador del Impuesto"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isperceptionsincluded:
           type: boolean
+          description: " "
         istaxincluded:
           type: boolean
+          description: "Impuesto incluido en el precio"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         rate:
           type: number
+          description: "Tasa o Impuesto o Conversión"
         taxamt:
           type: number
+          description: "Importe del Impuesto"
         taxbaseamt:
           type: number
+          description: "Base para calcular el Importe del impuesto"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

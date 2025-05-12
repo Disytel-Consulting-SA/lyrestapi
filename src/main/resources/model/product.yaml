@@ -5,146 +5,223 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         amortizationperc:
           type: number
+          description: "Porcentaje de amortización del período de amortización"
         checkoutplace:
           type: string
+          description: "Lugar donde el cliente retira el artículo"
         classification:
           type: string
+          description: "Clasificación para agrupaciones de productos"
         common_ref:
           type: number
+          description: " "
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_revenuerecognition_id:
           type: integer
+          description: "Método para registro de ingresos"
         c_subscriptiontype_id:
           type: integer
+          description: "Tipo de Suscripción"
         c_taxcategory_id:
           type: integer
+          description: "Categoría del Impuesto"
         c_uom_id:
           type: integer
+          description: "Unidad de Medida"
         deliverytime_promised:
           type: number
+          description: "Días prometidos entre la orden y la entrega"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         descriptionurl:
           type: string
+          description: "Url de la Descripción"
         discontinued:
           type: boolean
+          description: "Este registro ya no esta disponible"
         discontinuedby:
           type: string
+          description: "Descontinuado Por"
         documentnote:
           type: string
+          description: "Información adicional para un Documento"
         guaranteedays:
           type: integer
+          description: "Número de días que el producto está garantizado o disponible"
         guaranteedaysmin:
           type: integer
+          description: "Días Minimos de Garantía"
         help:
           type: string
+          description: "Ayuda; Comentario o Sugerencia"
         imageurl:
           type: string
+          description: "URL de la estructura de la imagen"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isbom:
           type: boolean
+          description: "Lista de Materiales"
         isdropship:
           type: boolean
+          description: "Los Envío Indirectos son enviados por el proveedor directamente al cliente"
         ishelp:
           type: boolean
+          description: "Ayuda; Comentario o Sugerencia"
         isinventoried:
           type: boolean
+          description: "Artículo contemplado en la generación de lista de inventario"
         isinvoiceprintdetails:
           type: boolean
+          description: "Imprimir detalle de elementos de LDM en la factura"
         ispicklistprintdetails:
           type: boolean
+          description: "Imprimir detalle en lista de recogida"
         ispurchased:
           type: boolean
+          description: "Organización que compra este producto"
         isselfservice:
           type: boolean
+          description: "Disp. en Web"
         issold:
           type: boolean
+          description: "La Organización vende este producto"
         isstocked:
           type: boolean
+          description: "La Organización almacena este producto"
         issummary:
           type: boolean
+          description: "Carpeta"
         istoformule:
           type: boolean
+          description: " "
         isverified:
           type: boolean
+          description: "La configuración de LDM ha sido verificada"
         iswebstorefeatured:
           type: boolean
+          description: "Si se selecciona, el producto se muestra en la búsqueda inicial o cualquier búsqueda vacia"
         lowlevel:
           type: integer
+          description: "Número de Paquetes"
+        lyeicodigomtx:
+          type: string
+          description: " "
+        lyeiunidadesmtx:
+          type: integer
+          description: " "
         marketingblocked:
           type: boolean
+          description: " "
         marketingblockeddescr:
           type: string
+          description: " "
         m_attributeset_id:
           type: integer
+          description: "Conjunto de Atributos de Producto"
         m_attributesetinstance_id:
           type: integer
+          description: "Instancia del Conjunto de Attributos del Producto"
         m_freightcategory_id:
           type: integer
+          description: "Categoría de Transporte"
         m_intrastatcode_id:
           type: number
+          description: " "
         m_locator_id:
           type: integer
+          description: "Ubicación de Almacén"
         m_product_category_id:
           type: integer
+          description: "Categoría de la que este producto es parte"
         m_product_family_id:
           type: integer
+          description: " "
         m_product_id:
           type: integer
+          description: "Producto; servicio o Artículo"
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         processing:
           type: string
+          description: " "
         producttype:
           type: string
+          description: "Tipo de Producto"
         r_mailtext_id:
           type: integer
+          description: "Plantilla de Correo"
         sales_order_min:
           type: number
+          description: "Cantidad Mínima de Pedido de Ventas en la UM"
         sales_order_pack:
           type: number
+          description: "Tamaño del paquete a ordenar en UM (Ej. Conjunto a ordenar de 5 unidades)"
         salesrep_id:
           type: integer
+          description: "Comercial/Usuario"
         s_expensetype_id:
           type: integer
+          description: "Tipo de reporte de gasto"
         shelfdepth:
           type: integer
+          description: "Profundidad de la Estanteria"
         shelfheight:
           type: integer
+          description: "Altura de la Estanteria requerida"
         shelfwidth:
           type: integer
+          description: "Ancho de la Estanteria"
         sku:
           type: string
+          description: "Unidad de Mantenimiento en Inventario"
         s_resource_id:
           type: integer
+          description: "Recurso"
         unitsperpallet:
           type: integer
+          description: "Unidades por Pallet"
         upc:
           type: string
+          description: "Código de Barras (Universal Product Code o su súper conjunto European Article NUMERIC)"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         value:
           type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
         versionno:
           type: string
+          description: "Número de Versión"
         volume:
           type: number
+          description: "Volumen del producto"
         weight:
           type: number
+          description: "Peso del Producto"
         yearlife:
           type: integer
+          description: "Vida útil en años"
         additionalvalues:
           type: array
           items:

@@ -70,10 +70,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -90,10 +90,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -110,10 +110,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -130,10 +130,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -150,10 +150,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -170,10 +170,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get mPricelistVersionId
+   * Versión de Tarifa
    * @return mPricelistVersionId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Versión de Tarifa")
       @NotNull
 
     public Integer getMPricelistVersionId() {
@@ -190,10 +190,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get mProductId
+   * Producto; servicio o Artículo
    * @return mProductId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Producto; servicio o Artículo")
       @NotNull
 
     public Integer getMProductId() {
@@ -210,10 +210,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get pricelimit
+   * Precio más bajo del producto
    * @return pricelimit
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio más bajo del producto")
       @NotNull
 
     @Valid
@@ -231,10 +231,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get pricelist
+   * Precio de Tarifa
    * @return pricelist
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio de Tarifa")
       @NotNull
 
     @Valid
@@ -252,10 +252,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get pricestd
+   * Precio Estándar
    * @return pricestd
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio Estándar")
       @NotNull
 
     @Valid
@@ -273,10 +273,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -293,10 +293,10 @@ public class ProductPrice   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

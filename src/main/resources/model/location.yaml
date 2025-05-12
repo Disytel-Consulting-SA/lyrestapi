@@ -5,46 +5,67 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         address1:
           type: string
+          description: "Dirección para esta ubicación"
         address2:
           type: string
+          description: "Dirección 2 para esta ubicación"
         address3:
           type: string
+          description: "Dirección Adicional 3"
         address4:
           type: string
+          description: "Dirección Adicional 3"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         c_city_id:
           type: integer
+          description: "Ciudad"
         c_country_id:
           type: integer
+          description: "País"
         city:
           type: string
+          description: "Identifica una Ciudad"
         c_location_id:
           type: integer
+          description: "Ubicación o Dirección"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_region_id:
           type: integer
+          description: "Identifica una región geográfica"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         plaza:
           type: string
+          description: " "
         postal:
           type: string
+          description: "Código Postal"
         postal_add:
           type: string
+          description: "Código Postal Adicional"
         regionname:
           type: string
+          description: "Nombre de esta Región"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:

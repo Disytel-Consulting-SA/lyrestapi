@@ -5,26 +5,37 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         issummary:
           type: boolean
+          description: "Carpeta"
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         value:
           type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
         additionalvalues:
           type: array
           items:

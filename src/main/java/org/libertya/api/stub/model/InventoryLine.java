@@ -100,10 +100,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -120,10 +120,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -140,10 +140,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get cChargeId
+   * Cargos adicionales del documento
    * @return cChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargos adicionales del documento")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -159,10 +159,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get cost
+   * Información Coste
    * @return cost
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Información Coste")
       @NotNull
 
     @Valid
@@ -180,10 +180,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -200,10 +200,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -220,10 +220,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -239,10 +239,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get inventorytype
+   * Tipo de Diferencia de Inventario
    * @return inventorytype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de Diferencia de Inventario")
       @NotNull
 
     public String getInventorytype() {
@@ -259,10 +259,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -279,10 +279,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get line
+   * No. Línea único para este documento
    * @return line
    **/
-  @Schema(description = "")
+  @Schema(description = "No. Línea único para este documento")
   
     public Integer getLine() {
     return line;
@@ -298,10 +298,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get mAttributesetinstanceId
+   * Instancia del Conjunto de Attributos del Producto
    * @return mAttributesetinstanceId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Instancia del Conjunto de Attributos del Producto")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -318,10 +318,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get mInventoryId
+   * Parámetros para el Inventario Físico
    * @return mInventoryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Parámetros para el Inventario Físico")
       @NotNull
 
     public Integer getMInventoryId() {
@@ -338,10 +338,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get mInventorylineId
+   * Línea única en un documento de Inventario
    * @return mInventorylineId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Línea única en un documento de Inventario")
       @NotNull
 
     public Integer getMInventorylineId() {
@@ -358,10 +358,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get mLocatorId
+   * Ubicación de Almacén
    * @return mLocatorId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Ubicación de Almacén")
       @NotNull
 
     public Integer getMLocatorId() {
@@ -378,10 +378,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get mProductId
+   * Producto; servicio o Artículo
    * @return mProductId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Producto; servicio o Artículo")
       @NotNull
 
     public Integer getMProductId() {
@@ -398,10 +398,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -418,10 +418,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get qtybook
+   * Cantidad en Libros
    * @return qtybook
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad en Libros")
       @NotNull
 
     @Valid
@@ -439,10 +439,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get qtycount
+   * Cantidad Contada
    * @return qtycount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad Contada")
       @NotNull
 
     @Valid
@@ -460,10 +460,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get qtycountwithoutchargesign
+   * Cantidad sin el signo del cargo
    * @return qtycountwithoutchargesign
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad sin el signo del cargo")
       @NotNull
 
     @Valid
@@ -481,10 +481,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get qtyinternaluse
+   * Cantidad de Uso Interno
    * @return qtyinternaluse
    **/
-  @Schema(description = "")
+  @Schema(description = "Cantidad de Uso Interno")
   
     @Valid
     public BigDecimal getQtyinternaluse() {
@@ -501,10 +501,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -521,10 +521,10 @@ public class InventoryLine   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

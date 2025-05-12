@@ -136,10 +136,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -156,10 +156,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -176,10 +176,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get cChargeId
+   * Cargos adicionales del documento
    * @return cChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargos adicionales del documento")
   
     public Integer getCChargeId() {
     return cChargeId;
@@ -195,10 +195,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get cCountryId
+   * País
    * @return cCountryId
    **/
-  @Schema(description = "")
+  @Schema(description = "País")
   
     public Integer getCCountryId() {
     return cCountryId;
@@ -214,10 +214,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get cInvoicelineId
+   * Línea de detalle de la factura
    * @return cInvoicelineId
    **/
-  @Schema(description = "")
+  @Schema(description = "Línea de detalle de la factura")
   
     public Integer getCInvoicelineId() {
     return cInvoicelineId;
@@ -233,10 +233,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get confirmedqty
+   * Confirmación de cantidad recibida
    * @return confirmedqty
    **/
-  @Schema(description = "")
+  @Schema(description = "Confirmación de cantidad recibida")
   
     @Valid
     public BigDecimal getConfirmedqty() {
@@ -253,10 +253,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get cOrderlineId
+   * Línea de Pedido de Cliente
    * @return cOrderlineId
    **/
-  @Schema(description = "")
+  @Schema(description = "Línea de Pedido de Cliente")
   
     public Integer getCOrderlineId() {
     return cOrderlineId;
@@ -272,10 +272,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get costprice
+   * Precio de costo actual del artículo
    * @return costprice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Precio de costo actual del artículo")
       @NotNull
 
     @Valid
@@ -293,10 +293,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get cProjectId
+   * Identifica un proyecto único
    * @return cProjectId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un proyecto único")
   
     public Integer getCProjectId() {
     return cProjectId;
@@ -312,10 +312,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -332,10 +332,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -352,10 +352,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get cUomId
+   * Unidad de Medida
    * @return cUomId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Unidad de Medida")
       @NotNull
 
     public Integer getCUomId() {
@@ -372,10 +372,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get declarationno
+   *  
    * @return declarationno
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getDeclarationno() {
     return declarationno;
@@ -391,10 +391,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -410,10 +410,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -430,10 +430,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get isdescription
+   * Sólo Descripción
    * @return isdescription
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Sólo Descripción")
       @NotNull
 
     public Boolean isIsdescription() {
@@ -450,10 +450,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get isinvoiced
+   *  
    * @return isinvoiced
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsinvoiced() {
@@ -470,10 +470,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get isselected
+   *  
    * @return isselected
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsselected() {
@@ -490,10 +490,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get line
+   * No. Línea único para este documento
    * @return line
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "No. Línea único para este documento")
       @NotNull
 
     public Integer getLine() {
@@ -510,10 +510,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get mAttributesetinstanceId
+   * Instancia del Conjunto de Attributos del Producto
    * @return mAttributesetinstanceId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Instancia del Conjunto de Attributos del Producto")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -530,10 +530,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get mImportClearanceId
+   *  
    * @return mImportClearanceId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getMImportClearanceId() {
     return mImportClearanceId;
@@ -549,10 +549,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get mInoutId
+   * Documento de entrega o recibo
    * @return mInoutId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Documento de entrega o recibo")
       @NotNull
 
     public Integer getMInoutId() {
@@ -569,10 +569,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get mInoutlineId
+   * Línea en el Entrega o Documento de Recibo
    * @return mInoutlineId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Línea en el Entrega o Documento de Recibo")
       @NotNull
 
     public Integer getMInoutlineId() {
@@ -589,10 +589,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get mLocatorId
+   * Ubicación de Almacén
    * @return mLocatorId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Ubicación de Almacén")
       @NotNull
 
     public Integer getMLocatorId() {
@@ -609,10 +609,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get movementqty
+   * Cantidad de un producto movido
    * @return movementqty
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad de un producto movido")
       @NotNull
 
     @Valid
@@ -630,10 +630,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get mProductId
+   * Producto; servicio o Artículo
    * @return mProductId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Producto; servicio o Artículo")
       @NotNull
 
     public Integer getMProductId() {
@@ -650,10 +650,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get pickedqty
+   * Cantidad Recogida
    * @return pickedqty
    **/
-  @Schema(description = "")
+  @Schema(description = "Cantidad Recogida")
   
     @Valid
     public BigDecimal getPickedqty() {
@@ -670,10 +670,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -690,10 +690,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get qtyentered
+   * Cantidad
    * @return qtyentered
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cantidad")
       @NotNull
 
     @Valid
@@ -711,10 +711,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get refInoutlineId
+   *  
    * @return refInoutlineId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getRefInoutlineId() {
     return refInoutlineId;
@@ -730,10 +730,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get scrappedqty
+   * Cantidad Desechada
    * @return scrappedqty
    **/
-  @Schema(description = "")
+  @Schema(description = "Cantidad Desechada")
   
     @Valid
     public BigDecimal getScrappedqty() {
@@ -750,10 +750,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get targetqty
+   * Cantidad Destino del Movimiento
    * @return targetqty
    **/
-  @Schema(description = "")
+  @Schema(description = "Cantidad Destino del Movimiento")
   
     @Valid
     public BigDecimal getTargetqty() {
@@ -770,10 +770,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -790,10 +790,10 @@ public class InOutLine   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

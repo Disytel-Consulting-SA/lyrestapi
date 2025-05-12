@@ -75,10 +75,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -95,10 +95,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -114,10 +114,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -134,10 +134,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -154,10 +154,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -174,10 +174,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -193,10 +193,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -213,10 +213,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get isdefault
+   * Valor Predeterminado
    * @return isdefault
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Valor Predeterminado")
       @NotNull
 
     public Boolean isIsdefault() {
@@ -233,10 +233,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get isselfservice
+   * Disp. en Web
    * @return isselfservice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Disp. en Web")
       @NotNull
 
     public Boolean isIsselfservice() {
@@ -253,10 +253,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get mProductFamilyId
+   *  
    * @return mProductFamilyId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Integer getMProductFamilyId() {
@@ -273,10 +273,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -293,10 +293,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -313,10 +313,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -333,10 +333,10 @@ public class ProductFamilies   {
   }
 
   /**
-   * Get value
+   * Clave de búsqueda para el registro en el formato requerido; debe ser única
    * @return value
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Clave de búsqueda para el registro en el formato requerido; debe ser única")
       @NotNull
 
     public String getValue() {

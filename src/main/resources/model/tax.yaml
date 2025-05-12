@@ -5,78 +5,115 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         arcibanormcode:
           type: string
+          description: " "
         c_bp_group_id:
           type: integer
+          description: "ID del Grupo de Entidad Comercial"
         c_country_id:
           type: integer
+          description: "País"
         codigooperacion:
           type: string
+          description: " "
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         c_region_id:
           type: integer
+          description: "Identifica una región geográfica"
         c_taxcategory_id:
           type: integer
+          description: "Categoría del Impuesto"
         c_tax_id:
           type: integer
+          description: "Identificador del Impuesto"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isdefault:
           type: boolean
+          description: "Valor Predeterminado"
         isdocumentlevel:
           type: boolean
+          description: "El Impuesto es calculado a nivel de Documento (No línea por línea)"
         ispercepcion:
           type: boolean
+          description: "Este impuesto es de percepción"
         issummary:
           type: boolean
+          description: "Carpeta"
         istaxexempt:
           type: boolean
+          description: "Este Socio del Negocio esta exento del impuesto de ventas"
         m_product_category_id:
           type: integer
+          description: "Categoría de la que este producto es parte"
         m_product_id:
           type: integer
+          description: "Producto; servicio o Artículo"
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         parent_tax_id:
           type: integer
+          description: "Impuesto Compuesto indica un impuesto que esta formado por múltiples impuestos"
         perceptiontype:
           type: string
+          description: " "
         rate:
           type: number
+          description: "Tasa o Impuesto o Conversión"
         requirestaxcertificate:
           type: boolean
+          description: "Esta tasa de impuesto requiere que el Socio Comercial este exento de impuesto"
         sopotype:
           type: string
+          description: "Tipo Impuesto PP/PC"
         taxaccusation:
           type: string
+          description: " "
         taxareatype:
           type: string
+          description: " "
         taxindicator:
           type: string
+          description: "Forma corta para que el impuesto sea impreso en los documentos"
         taxtype:
           type: string
+          description: " "
         to_country_id:
           type: integer
+          description: "País que recibe"
         to_region_id:
           type: integer
+          description: "Región que recibe"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         validfrom:
           type: string
+          description: "Válido desde; incluyendo esta fecha (primer día)"
         wsfecode:
           type: integer
+          description: "Código WSFE"
         additionalvalues:
           type: array
           items:

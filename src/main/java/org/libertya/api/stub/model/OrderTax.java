@@ -79,10 +79,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -99,10 +99,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -119,10 +119,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get arcibanormcode
+   *  
    * @return arcibanormcode
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getArcibanormcode() {
     return arcibanormcode;
@@ -138,10 +138,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get cOrderId
+   * Pedido
    * @return cOrderId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Pedido")
       @NotNull
 
     public Integer getCOrderId() {
@@ -158,10 +158,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -178,10 +178,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -198,10 +198,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get cTaxId
+   * Identificador del Impuesto
    * @return cTaxId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador del Impuesto")
       @NotNull
 
     public Integer getCTaxId() {
@@ -218,10 +218,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -238,10 +238,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get istaxincluded
+   * Impuesto incluido en el precio
    * @return istaxincluded
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Impuesto incluido en el precio")
       @NotNull
 
     public Boolean isIstaxincluded() {
@@ -258,10 +258,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get processed
+   * El documento ha sido procesado
    * @return processed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El documento ha sido procesado")
       @NotNull
 
     public Boolean isProcessed() {
@@ -278,10 +278,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get rate
+   * Tasa o Impuesto o Conversión
    * @return rate
    **/
-  @Schema(description = "")
+  @Schema(description = "Tasa o Impuesto o Conversión")
   
     @Valid
     public BigDecimal getRate() {
@@ -298,10 +298,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get taxamt
+   * Importe del Impuesto
    * @return taxamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Importe del Impuesto")
       @NotNull
 
     @Valid
@@ -319,10 +319,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get taxbaseamt
+   * Base para calcular el Importe del impuesto
    * @return taxbaseamt
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Base para calcular el Importe del impuesto")
       @NotNull
 
     @Valid
@@ -340,10 +340,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -360,10 +360,10 @@ public class OrderTax   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

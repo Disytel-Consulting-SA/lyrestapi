@@ -102,10 +102,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -122,10 +122,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -141,10 +141,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -161,10 +161,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get cBpartnerId
+   * Identifica una Entidad Comercial
    * @return cBpartnerId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identifica una Entidad Comercial")
       @NotNull
 
     public Integer getCBpartnerId() {
@@ -181,10 +181,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get cBpartnerLocationId
+   * Dirección de la Entidad Comercial
    * @return cBpartnerLocationId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Dirección de la Entidad Comercial")
       @NotNull
 
     public Integer getCBpartnerLocationId() {
@@ -201,10 +201,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get cLocationId
+   * Ubicación o Dirección
    * @return cLocationId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Ubicación o Dirección")
       @NotNull
 
     public Integer getCLocationId() {
@@ -221,10 +221,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -241,10 +241,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -261,10 +261,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get cSalesregionId
+   * Región de cobertura de ventas
    * @return cSalesregionId
    **/
-  @Schema(description = "")
+  @Schema(description = "Región de cobertura de ventas")
   
     public Integer getCSalesregionId() {
     return cSalesregionId;
@@ -280,10 +280,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get email
+   * ID de correo electrónico
    * @return email
    **/
-  @Schema(description = "")
+  @Schema(description = "ID de correo electrónico")
   
     public String getEmail() {
     return email;
@@ -299,10 +299,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get fax
+   * Número de Fax
    * @return fax
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Fax")
   
     public String getFax() {
     return fax;
@@ -318,10 +318,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -338,10 +338,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get isbillto
+   * Indica que esta dirección es la dirección de Facturar A
    * @return isbillto
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Indica que esta dirección es la dirección de Facturar A")
       @NotNull
 
     public Boolean isIsbillto() {
@@ -358,10 +358,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get isdn
+   * ISDN o línea con módem
    * @return isdn
    **/
-  @Schema(description = "")
+  @Schema(description = "ISDN o línea con módem")
   
     public String getIsdn() {
     return isdn;
@@ -377,10 +377,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get ispayfrom
+   * El Socio Comercial paga desde esta dirección y a donde se envían las cartas de Imapgo
    * @return ispayfrom
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El Socio Comercial paga desde esta dirección y a donde se envían las cartas de Imapgo")
       @NotNull
 
     public Boolean isIspayfrom() {
@@ -397,10 +397,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get isremitto
+   * Dirección a la que enviamos el pago
    * @return isremitto
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Dirección a la que enviamos el pago")
       @NotNull
 
     public Boolean isIsremitto() {
@@ -417,10 +417,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get isshipto
+   * Dirección del Socio Comercial a donde se envían los bienes
    * @return isshipto
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Dirección del Socio Comercial a donde se envían los bienes")
       @NotNull
 
     public Boolean isIsshipto() {
@@ -437,10 +437,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get istemporal
+   *  
    * @return istemporal
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isIstemporal() {
     return istemporal;
@@ -456,10 +456,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -476,10 +476,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get phone
+   * Identifica un número telefónico
    * @return phone
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un número telefónico")
   
     public String getPhone() {
     return phone;
@@ -495,10 +495,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get phone2
+   * Identifica un número telefónico alterno
    * @return phone2
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica un número telefónico alterno")
   
     public String getPhone2() {
     return phone2;
@@ -514,10 +514,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -534,10 +534,10 @@ public class BPartnerLocation   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

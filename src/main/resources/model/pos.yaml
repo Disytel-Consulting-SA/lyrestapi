@@ -5,112 +5,166 @@ components:
       properties:
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_role_id:
           type: integer
+          description: "Perfil"
         allowcreditnotesearch:
           type: boolean
+          description: "Permite realizar búsquedas de Notas de Crédito permitiendo abrir la ventana de Información"
         authorizegeneralmanualdiscount:
           type: boolean
+          description: "Autorizar Descuento/Recargo General Manual"
         c_bankaccount_id:
           type: integer
+          description: "Cuenta Bancaria"
         c_bpartnercashtrx_id:
           type: integer
+          description: "Socio Comercial usado para crear nuevos Socios Comercial rápidamente"
         c_cashbook_id:
           type: integer
+          description: "Libro de Efectivo para registrar transacciones de caja chica"
         c_doctype_id:
           type: integer
+          description: "Tipo de documento o reglas"
         c_inoutdoctype_id:
           type: integer
+          description: " "
         c_invoicedoctype_id:
           type: integer
+          description: " "
         c_orderdoctype_id:
           type: integer
+          description: " "
         c_pos_id:
           type: integer
+          description: "Terminal TPV"
         c_poskeylayout_id:
           type: integer
+          description: "Config. Teclas Rápidas TPV"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         creditcardcashretirement_charge_id:
           type: integer
+          description: "Cargo de la línea de caja para el retiro de efectivo de tarjeta de crédito"
         creditcardcashretirement_doctype_id:
           type: integer
+          description: "Tipo de Documento del débito que se genera por el retiro e imputa a la tarjeta de crédito"
         creditcardcashretirement_product_id:
           type: integer
+          description: "Artículo para la línea del documento de débito generado por el retiro de efectivo"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         draftedinout:
           type: boolean
+          description: "El remito generado queda en estado borrador"
         help:
           type: string
+          description: "Ayuda; Comentario o Sugerencia"
         initialposauthorization:
           type: boolean
+          description: "Supervisión al iniciar la ventana TPV"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isallowcreditcardcashretirement:
           type: boolean
+          description: "El retiro de efectivo de tarjeta de crédito está permitido"
         iscopyentity:
           type: boolean
+          description: " "
         iscreateinvoice:
           type: boolean
+          description: "Inidica si se debe crear o no la factura"
         isdeliverorderinwarehouse:
           type: boolean
+          description: "Los artículos de los pedidos agregados (pre-creados) no se incluyen en el remito que crea el TPV"
         ismodifyprice:
           type: boolean
+          description: "Modificar precio"
         isprintcurrentaccountdocument:
           type: boolean
+          description: "Imprimir Documento de Cuenta Corriente"
         isprintwarehousedeliverdocument:
           type: boolean
+          description: "Imprimir un comprobante con el detalle de los artículos que se retiran por Almacén"
         issalewithoutstock:
           type: boolean
+          description: "Permite vender artículos sin que se posea stock del mismo"
         issearchbyname:
           type: boolean
+          description: "Realiza una búsqueda exacta por nombre"
         issearchbynamelike:
           type: boolean
+          description: "Realiza una búsqueda parcial por nombre utilizando comodines en el texto ingresado"
         issearchbyupc:
           type: boolean
+          description: "Realiza una búsqueda exacta por UPC/EAN"
         issearchbyupclike:
           type: boolean
+          description: "Realiza una búsqueda parcial por UPC/EAN utilizando comodines en el texto ingresado"
         issearchbyvalue:
           type: boolean
+          description: "Realiza una búsqueda exacta por Clave de Búsqueda"
         issearchbyvaluelike:
           type: boolean
+          description: "Realiza una búsqueda parcial por Clave de Búsqueda utilizando comodines en el texto ingresado"
         issearchtoday:
           type: boolean
+          description: " "
         lockedclosed:
           type: boolean
+          description: "Cierre de la ventana y de la aplicación bloqueado si el TPV posee líneas cargadas en la venta"
         maxreturnedcashincn:
           type: number
+          description: "Devolución máxima en efectivo permitida sin autorización"
         m_pricelist_id:
           type: integer
+          description: "Identificador único de mi lista de precios"
         m_warehouse_id:
           type: integer
+          description: "Almacén"
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         operationmode:
           type: string
+          description: "Modo de Operación de este TPV"
         posnet:
           type: string
+          description: " "
         posnumber:
           type: integer
+          description: "Número del punto de venta para el cual se generan las facturas"
         printername:
           type: string
+          description: "Nombre de Impresora"
         returnedcashincncontrol:
           type: boolean
+          description: "Control de Devolución de efectivo de Notas de Crédito"
         salesrep_id:
           type: integer
+          description: "Comercial/Usuario"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         voiddocuments:
           type: boolean
+          description: "Esta configuración permite anular comprobantes en caso de error. Si no está tildado, al anular se le pedirá clave de supervisor. "
         voiddocuments_ef:
           type: boolean
+          description: "Anular Comprobantes Electrónicos luego de error en impresión fiscal"
         additionalvalues:
           type: array
           items:

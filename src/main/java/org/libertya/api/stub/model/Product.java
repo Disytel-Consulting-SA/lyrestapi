@@ -137,6 +137,12 @@ public class Product   {
   @JsonProperty("lowlevel")
   private Integer lowlevel = null;
 
+  @JsonProperty("lyeicodigomtx")
+  private String lyeicodigomtx = null;
+
+  @JsonProperty("lyeiunidadesmtx")
+  private Integer lyeiunidadesmtx = null;
+
   @JsonProperty("marketingblocked")
   private Boolean marketingblocked = null;
 
@@ -247,10 +253,10 @@ public class Product   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -267,10 +273,10 @@ public class Product   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -286,10 +292,10 @@ public class Product   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -306,10 +312,10 @@ public class Product   {
   }
 
   /**
-   * Get amortizationperc
+   * Porcentaje de amortización del período de amortización
    * @return amortizationperc
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Porcentaje de amortización del período de amortización")
       @NotNull
 
     @Valid
@@ -327,10 +333,10 @@ public class Product   {
   }
 
   /**
-   * Get checkoutplace
+   * Lugar donde el cliente retira el artículo
    * @return checkoutplace
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Lugar donde el cliente retira el artículo")
       @NotNull
 
     public String getCheckoutplace() {
@@ -347,10 +353,10 @@ public class Product   {
   }
 
   /**
-   * Get classification
+   * Clasificación para agrupaciones de productos
    * @return classification
    **/
-  @Schema(description = "")
+  @Schema(description = "Clasificación para agrupaciones de productos")
   
     public String getClassification() {
     return classification;
@@ -366,10 +372,10 @@ public class Product   {
   }
 
   /**
-   * Get commonRef
+   *  
    * @return commonRef
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getCommonRef() {
@@ -386,10 +392,10 @@ public class Product   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -406,10 +412,10 @@ public class Product   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -426,10 +432,10 @@ public class Product   {
   }
 
   /**
-   * Get cRevenuerecognitionId
+   * Método para registro de ingresos
    * @return cRevenuerecognitionId
    **/
-  @Schema(description = "")
+  @Schema(description = "Método para registro de ingresos")
   
     public Integer getCRevenuerecognitionId() {
     return cRevenuerecognitionId;
@@ -445,10 +451,10 @@ public class Product   {
   }
 
   /**
-   * Get cSubscriptiontypeId
+   * Tipo de Suscripción
    * @return cSubscriptiontypeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo de Suscripción")
   
     public Integer getCSubscriptiontypeId() {
     return cSubscriptiontypeId;
@@ -464,10 +470,10 @@ public class Product   {
   }
 
   /**
-   * Get cTaxcategoryId
+   * Categoría del Impuesto
    * @return cTaxcategoryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Categoría del Impuesto")
       @NotNull
 
     public Integer getCTaxcategoryId() {
@@ -484,10 +490,10 @@ public class Product   {
   }
 
   /**
-   * Get cUomId
+   * Unidad de Medida
    * @return cUomId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Unidad de Medida")
       @NotNull
 
     public Integer getCUomId() {
@@ -504,10 +510,10 @@ public class Product   {
   }
 
   /**
-   * Get deliverytimePromised
+   * Días prometidos entre la orden y la entrega
    * @return deliverytimePromised
    **/
-  @Schema(description = "")
+  @Schema(description = "Días prometidos entre la orden y la entrega")
   
     @Valid
     public BigDecimal getDeliverytimePromised() {
@@ -524,10 +530,10 @@ public class Product   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -543,10 +549,10 @@ public class Product   {
   }
 
   /**
-   * Get descriptionurl
+   * Url de la Descripción
    * @return descriptionurl
    **/
-  @Schema(description = "")
+  @Schema(description = "Url de la Descripción")
   
     public String getDescriptionurl() {
     return descriptionurl;
@@ -562,10 +568,10 @@ public class Product   {
   }
 
   /**
-   * Get discontinued
+   * Este registro ya no esta disponible
    * @return discontinued
    **/
-  @Schema(description = "")
+  @Schema(description = "Este registro ya no esta disponible")
   
     public Boolean isDiscontinued() {
     return discontinued;
@@ -581,10 +587,10 @@ public class Product   {
   }
 
   /**
-   * Get discontinuedby
+   * Descontinuado Por
    * @return discontinuedby
    **/
-  @Schema(description = "")
+  @Schema(description = "Descontinuado Por")
   
     public String getDiscontinuedby() {
     return discontinuedby;
@@ -600,10 +606,10 @@ public class Product   {
   }
 
   /**
-   * Get documentnote
+   * Información adicional para un Documento
    * @return documentnote
    **/
-  @Schema(description = "")
+  @Schema(description = "Información adicional para un Documento")
   
     public String getDocumentnote() {
     return documentnote;
@@ -619,10 +625,10 @@ public class Product   {
   }
 
   /**
-   * Get guaranteedays
+   * Número de días que el producto está garantizado o disponible
    * @return guaranteedays
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de días que el producto está garantizado o disponible")
   
     public Integer getGuaranteedays() {
     return guaranteedays;
@@ -638,10 +644,10 @@ public class Product   {
   }
 
   /**
-   * Get guaranteedaysmin
+   * Días Minimos de Garantía
    * @return guaranteedaysmin
    **/
-  @Schema(description = "")
+  @Schema(description = "Días Minimos de Garantía")
   
     public Integer getGuaranteedaysmin() {
     return guaranteedaysmin;
@@ -657,10 +663,10 @@ public class Product   {
   }
 
   /**
-   * Get help
+   * Ayuda; Comentario o Sugerencia
    * @return help
    **/
-  @Schema(description = "")
+  @Schema(description = "Ayuda; Comentario o Sugerencia")
   
     public String getHelp() {
     return help;
@@ -676,10 +682,10 @@ public class Product   {
   }
 
   /**
-   * Get imageurl
+   * URL de la estructura de la imagen
    * @return imageurl
    **/
-  @Schema(description = "")
+  @Schema(description = "URL de la estructura de la imagen")
   
     public String getImageurl() {
     return imageurl;
@@ -695,10 +701,10 @@ public class Product   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -715,10 +721,10 @@ public class Product   {
   }
 
   /**
-   * Get isbom
+   * Lista de Materiales
    * @return isbom
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Lista de Materiales")
       @NotNull
 
     public Boolean isIsbom() {
@@ -735,10 +741,10 @@ public class Product   {
   }
 
   /**
-   * Get isdropship
+   * Los Envío Indirectos son enviados por el proveedor directamente al cliente
    * @return isdropship
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Los Envío Indirectos son enviados por el proveedor directamente al cliente")
       @NotNull
 
     public Boolean isIsdropship() {
@@ -755,10 +761,10 @@ public class Product   {
   }
 
   /**
-   * Get ishelp
+   * Ayuda; Comentario o Sugerencia
    * @return ishelp
    **/
-  @Schema(description = "")
+  @Schema(description = "Ayuda; Comentario o Sugerencia")
   
     public Boolean isIshelp() {
     return ishelp;
@@ -774,10 +780,10 @@ public class Product   {
   }
 
   /**
-   * Get isinventoried
+   * Artículo contemplado en la generación de lista de inventario
    * @return isinventoried
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Artículo contemplado en la generación de lista de inventario")
       @NotNull
 
     public Boolean isIsinventoried() {
@@ -794,10 +800,10 @@ public class Product   {
   }
 
   /**
-   * Get isinvoiceprintdetails
+   * Imprimir detalle de elementos de LDM en la factura
    * @return isinvoiceprintdetails
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Imprimir detalle de elementos de LDM en la factura")
       @NotNull
 
     public Boolean isIsinvoiceprintdetails() {
@@ -814,10 +820,10 @@ public class Product   {
   }
 
   /**
-   * Get ispicklistprintdetails
+   * Imprimir detalle en lista de recogida
    * @return ispicklistprintdetails
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Imprimir detalle en lista de recogida")
       @NotNull
 
     public Boolean isIspicklistprintdetails() {
@@ -834,10 +840,10 @@ public class Product   {
   }
 
   /**
-   * Get ispurchased
+   * Organización que compra este producto
    * @return ispurchased
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Organización que compra este producto")
       @NotNull
 
     public Boolean isIspurchased() {
@@ -854,10 +860,10 @@ public class Product   {
   }
 
   /**
-   * Get isselfservice
+   * Disp. en Web
    * @return isselfservice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Disp. en Web")
       @NotNull
 
     public Boolean isIsselfservice() {
@@ -874,10 +880,10 @@ public class Product   {
   }
 
   /**
-   * Get issold
+   * La Organización vende este producto
    * @return issold
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "La Organización vende este producto")
       @NotNull
 
     public Boolean isIssold() {
@@ -894,10 +900,10 @@ public class Product   {
   }
 
   /**
-   * Get isstocked
+   * La Organización almacena este producto
    * @return isstocked
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "La Organización almacena este producto")
       @NotNull
 
     public Boolean isIsstocked() {
@@ -914,10 +920,10 @@ public class Product   {
   }
 
   /**
-   * Get issummary
+   * Carpeta
    * @return issummary
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Carpeta")
       @NotNull
 
     public Boolean isIssummary() {
@@ -934,10 +940,10 @@ public class Product   {
   }
 
   /**
-   * Get istoformule
+   *  
    * @return istoformule
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isIstoformule() {
     return istoformule;
@@ -953,10 +959,10 @@ public class Product   {
   }
 
   /**
-   * Get isverified
+   * La configuración de LDM ha sido verificada
    * @return isverified
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "La configuración de LDM ha sido verificada")
       @NotNull
 
     public Boolean isIsverified() {
@@ -973,10 +979,10 @@ public class Product   {
   }
 
   /**
-   * Get iswebstorefeatured
+   * Si se selecciona, el producto se muestra en la búsqueda inicial o cualquier búsqueda vacia
    * @return iswebstorefeatured
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Si se selecciona, el producto se muestra en la búsqueda inicial o cualquier búsqueda vacia")
       @NotNull
 
     public Boolean isIswebstorefeatured() {
@@ -993,10 +999,10 @@ public class Product   {
   }
 
   /**
-   * Get lowlevel
+   * Número de Paquetes
    * @return lowlevel
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Paquetes")
   
     public Integer getLowlevel() {
     return lowlevel;
@@ -1006,16 +1012,54 @@ public class Product   {
     this.lowlevel = lowlevel;
   }
 
+  public Product lyeicodigomtx(String lyeicodigomtx) {
+    this.lyeicodigomtx = lyeicodigomtx;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeicodigomtx
+   **/
+  @Schema(description = " ")
+  
+    public String getLyeicodigomtx() {
+    return lyeicodigomtx;
+  }
+
+  public void setLyeicodigomtx(String lyeicodigomtx) {
+    this.lyeicodigomtx = lyeicodigomtx;
+  }
+
+  public Product lyeiunidadesmtx(Integer lyeiunidadesmtx) {
+    this.lyeiunidadesmtx = lyeiunidadesmtx;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeiunidadesmtx
+   **/
+  @Schema(description = " ")
+  
+    public Integer getLyeiunidadesmtx() {
+    return lyeiunidadesmtx;
+  }
+
+  public void setLyeiunidadesmtx(Integer lyeiunidadesmtx) {
+    this.lyeiunidadesmtx = lyeiunidadesmtx;
+  }
+
   public Product marketingblocked(Boolean marketingblocked) {
     this.marketingblocked = marketingblocked;
     return this;
   }
 
   /**
-   * Get marketingblocked
+   *  
    * @return marketingblocked
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isMarketingblocked() {
     return marketingblocked;
@@ -1031,10 +1075,10 @@ public class Product   {
   }
 
   /**
-   * Get marketingblockeddescr
+   *  
    * @return marketingblockeddescr
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getMarketingblockeddescr() {
     return marketingblockeddescr;
@@ -1050,10 +1094,10 @@ public class Product   {
   }
 
   /**
-   * Get mAttributesetId
+   * Conjunto de Atributos de Producto
    * @return mAttributesetId
    **/
-  @Schema(description = "")
+  @Schema(description = "Conjunto de Atributos de Producto")
   
     public Integer getMAttributesetId() {
     return mAttributesetId;
@@ -1069,10 +1113,10 @@ public class Product   {
   }
 
   /**
-   * Get mAttributesetinstanceId
+   * Instancia del Conjunto de Attributos del Producto
    * @return mAttributesetinstanceId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Instancia del Conjunto de Attributos del Producto")
       @NotNull
 
     public Integer getMAttributesetinstanceId() {
@@ -1089,10 +1133,10 @@ public class Product   {
   }
 
   /**
-   * Get mFreightcategoryId
+   * Categoría de Transporte
    * @return mFreightcategoryId
    **/
-  @Schema(description = "")
+  @Schema(description = "Categoría de Transporte")
   
     public Integer getMFreightcategoryId() {
     return mFreightcategoryId;
@@ -1108,10 +1152,10 @@ public class Product   {
   }
 
   /**
-   * Get mIntrastatcodeId
+   *  
    * @return mIntrastatcodeId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     @Valid
     public BigDecimal getMIntrastatcodeId() {
@@ -1128,10 +1172,10 @@ public class Product   {
   }
 
   /**
-   * Get mLocatorId
+   * Ubicación de Almacén
    * @return mLocatorId
    **/
-  @Schema(description = "")
+  @Schema(description = "Ubicación de Almacén")
   
     public Integer getMLocatorId() {
     return mLocatorId;
@@ -1147,10 +1191,10 @@ public class Product   {
   }
 
   /**
-   * Get mProductCategoryId
+   * Categoría de la que este producto es parte
    * @return mProductCategoryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Categoría de la que este producto es parte")
       @NotNull
 
     public Integer getMProductCategoryId() {
@@ -1167,10 +1211,10 @@ public class Product   {
   }
 
   /**
-   * Get mProductFamilyId
+   *  
    * @return mProductFamilyId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getMProductFamilyId() {
     return mProductFamilyId;
@@ -1186,10 +1230,10 @@ public class Product   {
   }
 
   /**
-   * Get mProductId
+   * Producto; servicio o Artículo
    * @return mProductId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Producto; servicio o Artículo")
       @NotNull
 
     public Integer getMProductId() {
@@ -1206,10 +1250,10 @@ public class Product   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -1226,10 +1270,10 @@ public class Product   {
   }
 
   /**
-   * Get processing
+   *  
    * @return processing
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getProcessing() {
     return processing;
@@ -1245,10 +1289,10 @@ public class Product   {
   }
 
   /**
-   * Get producttype
+   * Tipo de Producto
    * @return producttype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Tipo de Producto")
       @NotNull
 
     public String getProducttype() {
@@ -1265,10 +1309,10 @@ public class Product   {
   }
 
   /**
-   * Get rMailtextId
+   * Plantilla de Correo
    * @return rMailtextId
    **/
-  @Schema(description = "")
+  @Schema(description = "Plantilla de Correo")
   
     public Integer getRMailtextId() {
     return rMailtextId;
@@ -1284,10 +1328,10 @@ public class Product   {
   }
 
   /**
-   * Get salesOrderMin
+   * Cantidad Mínima de Pedido de Ventas en la UM
    * @return salesOrderMin
    **/
-  @Schema(description = "")
+  @Schema(description = "Cantidad Mínima de Pedido de Ventas en la UM")
   
     @Valid
     public BigDecimal getSalesOrderMin() {
@@ -1304,10 +1348,10 @@ public class Product   {
   }
 
   /**
-   * Get salesOrderPack
+   * Tamaño del paquete a ordenar en UM (Ej. Conjunto a ordenar de 5 unidades)
    * @return salesOrderPack
    **/
-  @Schema(description = "")
+  @Schema(description = "Tamaño del paquete a ordenar en UM (Ej. Conjunto a ordenar de 5 unidades)")
   
     @Valid
     public BigDecimal getSalesOrderPack() {
@@ -1324,10 +1368,10 @@ public class Product   {
   }
 
   /**
-   * Get salesrepId
+   * Comercial/Usuario
    * @return salesrepId
    **/
-  @Schema(description = "")
+  @Schema(description = "Comercial/Usuario")
   
     public Integer getSalesrepId() {
     return salesrepId;
@@ -1343,10 +1387,10 @@ public class Product   {
   }
 
   /**
-   * Get sExpensetypeId
+   * Tipo de reporte de gasto
    * @return sExpensetypeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo de reporte de gasto")
   
     public Integer getSExpensetypeId() {
     return sExpensetypeId;
@@ -1362,10 +1406,10 @@ public class Product   {
   }
 
   /**
-   * Get shelfdepth
+   * Profundidad de la Estanteria
    * @return shelfdepth
    **/
-  @Schema(description = "")
+  @Schema(description = "Profundidad de la Estanteria")
   
     public Integer getShelfdepth() {
     return shelfdepth;
@@ -1381,10 +1425,10 @@ public class Product   {
   }
 
   /**
-   * Get shelfheight
+   * Altura de la Estanteria requerida
    * @return shelfheight
    **/
-  @Schema(description = "")
+  @Schema(description = "Altura de la Estanteria requerida")
   
     public Integer getShelfheight() {
     return shelfheight;
@@ -1400,10 +1444,10 @@ public class Product   {
   }
 
   /**
-   * Get shelfwidth
+   * Ancho de la Estanteria
    * @return shelfwidth
    **/
-  @Schema(description = "")
+  @Schema(description = "Ancho de la Estanteria")
   
     public Integer getShelfwidth() {
     return shelfwidth;
@@ -1419,10 +1463,10 @@ public class Product   {
   }
 
   /**
-   * Get sku
+   * Unidad de Mantenimiento en Inventario
    * @return sku
    **/
-  @Schema(description = "")
+  @Schema(description = "Unidad de Mantenimiento en Inventario")
   
     public String getSku() {
     return sku;
@@ -1438,10 +1482,10 @@ public class Product   {
   }
 
   /**
-   * Get sResourceId
+   * Recurso
    * @return sResourceId
    **/
-  @Schema(description = "")
+  @Schema(description = "Recurso")
   
     public Integer getSResourceId() {
     return sResourceId;
@@ -1457,10 +1501,10 @@ public class Product   {
   }
 
   /**
-   * Get unitsperpallet
+   * Unidades por Pallet
    * @return unitsperpallet
    **/
-  @Schema(description = "")
+  @Schema(description = "Unidades por Pallet")
   
     public Integer getUnitsperpallet() {
     return unitsperpallet;
@@ -1476,10 +1520,10 @@ public class Product   {
   }
 
   /**
-   * Get upc
+   * Código de Barras (Universal Product Code o su súper conjunto European Article NUMERIC)
    * @return upc
    **/
-  @Schema(description = "")
+  @Schema(description = "Código de Barras (Universal Product Code o su súper conjunto European Article NUMERIC)")
   
     public String getUpc() {
     return upc;
@@ -1495,10 +1539,10 @@ public class Product   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -1515,10 +1559,10 @@ public class Product   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -1535,10 +1579,10 @@ public class Product   {
   }
 
   /**
-   * Get value
+   * Clave de búsqueda para el registro en el formato requerido; debe ser única
    * @return value
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Clave de búsqueda para el registro en el formato requerido; debe ser única")
       @NotNull
 
     public String getValue() {
@@ -1555,10 +1599,10 @@ public class Product   {
   }
 
   /**
-   * Get versionno
+   * Número de Versión
    * @return versionno
    **/
-  @Schema(description = "")
+  @Schema(description = "Número de Versión")
   
     public String getVersionno() {
     return versionno;
@@ -1574,10 +1618,10 @@ public class Product   {
   }
 
   /**
-   * Get volume
+   * Volumen del producto
    * @return volume
    **/
-  @Schema(description = "")
+  @Schema(description = "Volumen del producto")
   
     @Valid
     public BigDecimal getVolume() {
@@ -1594,10 +1638,10 @@ public class Product   {
   }
 
   /**
-   * Get weight
+   * Peso del Producto
    * @return weight
    **/
-  @Schema(description = "")
+  @Schema(description = "Peso del Producto")
   
     @Valid
     public BigDecimal getWeight() {
@@ -1614,10 +1658,10 @@ public class Product   {
   }
 
   /**
-   * Get yearlife
+   * Vida útil en años
    * @return yearlife
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Vida útil en años")
       @NotNull
 
     public Integer getYearlife() {
@@ -1731,6 +1775,8 @@ public class Product   {
         Objects.equals(this.isverified, product.isverified) &&
         Objects.equals(this.iswebstorefeatured, product.iswebstorefeatured) &&
         Objects.equals(this.lowlevel, product.lowlevel) &&
+        Objects.equals(this.lyeicodigomtx, product.lyeicodigomtx) &&
+        Objects.equals(this.lyeiunidadesmtx, product.lyeiunidadesmtx) &&
         Objects.equals(this.marketingblocked, product.marketingblocked) &&
         Objects.equals(this.marketingblockeddescr, product.marketingblockeddescr) &&
         Objects.equals(this.mAttributesetId, product.mAttributesetId) &&
@@ -1769,7 +1815,7 @@ public class Product   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, processing, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, lyeicodigomtx, lyeiunidadesmtx, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, processing, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1816,6 +1862,8 @@ public class Product   {
     sb.append("    isverified: ").append(toIndentedString(isverified)).append("\n");
     sb.append("    iswebstorefeatured: ").append(toIndentedString(iswebstorefeatured)).append("\n");
     sb.append("    lowlevel: ").append(toIndentedString(lowlevel)).append("\n");
+    sb.append("    lyeicodigomtx: ").append(toIndentedString(lyeicodigomtx)).append("\n");
+    sb.append("    lyeiunidadesmtx: ").append(toIndentedString(lyeiunidadesmtx)).append("\n");
     sb.append("    marketingblocked: ").append(toIndentedString(marketingblocked)).append("\n");
     sb.append("    marketingblockeddescr: ").append(toIndentedString(marketingblockeddescr)).append("\n");
     sb.append("    mAttributesetId: ").append(toIndentedString(mAttributesetId)).append("\n");

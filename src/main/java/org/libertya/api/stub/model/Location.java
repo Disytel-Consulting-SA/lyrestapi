@@ -96,10 +96,10 @@ public class Location   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -116,10 +116,10 @@ public class Location   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -135,10 +135,10 @@ public class Location   {
   }
 
   /**
-   * Get address1
+   * Dirección para esta ubicación
    * @return address1
    **/
-  @Schema(description = "")
+  @Schema(description = "Dirección para esta ubicación")
   
     public String getAddress1() {
     return address1;
@@ -154,10 +154,10 @@ public class Location   {
   }
 
   /**
-   * Get address2
+   * Dirección 2 para esta ubicación
    * @return address2
    **/
-  @Schema(description = "")
+  @Schema(description = "Dirección 2 para esta ubicación")
   
     public String getAddress2() {
     return address2;
@@ -173,10 +173,10 @@ public class Location   {
   }
 
   /**
-   * Get address3
+   * Dirección Adicional 3
    * @return address3
    **/
-  @Schema(description = "")
+  @Schema(description = "Dirección Adicional 3")
   
     public String getAddress3() {
     return address3;
@@ -192,10 +192,10 @@ public class Location   {
   }
 
   /**
-   * Get address4
+   * Dirección Adicional 3
    * @return address4
    **/
-  @Schema(description = "")
+  @Schema(description = "Dirección Adicional 3")
   
     public String getAddress4() {
     return address4;
@@ -211,10 +211,10 @@ public class Location   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -231,10 +231,10 @@ public class Location   {
   }
 
   /**
-   * Get cCityId
+   * Ciudad
    * @return cCityId
    **/
-  @Schema(description = "")
+  @Schema(description = "Ciudad")
   
     public Integer getCCityId() {
     return cCityId;
@@ -250,10 +250,10 @@ public class Location   {
   }
 
   /**
-   * Get cCountryId
+   * País
    * @return cCountryId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "País")
       @NotNull
 
     public Integer getCCountryId() {
@@ -270,10 +270,10 @@ public class Location   {
   }
 
   /**
-   * Get city
+   * Identifica una Ciudad
    * @return city
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica una Ciudad")
   
     public String getCity() {
     return city;
@@ -289,10 +289,10 @@ public class Location   {
   }
 
   /**
-   * Get cLocationId
+   * Ubicación o Dirección
    * @return cLocationId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Ubicación o Dirección")
       @NotNull
 
     public Integer getCLocationId() {
@@ -309,10 +309,10 @@ public class Location   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -329,10 +329,10 @@ public class Location   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -349,10 +349,10 @@ public class Location   {
   }
 
   /**
-   * Get cRegionId
+   * Identifica una región geográfica
    * @return cRegionId
    **/
-  @Schema(description = "")
+  @Schema(description = "Identifica una región geográfica")
   
     public Integer getCRegionId() {
     return cRegionId;
@@ -368,10 +368,10 @@ public class Location   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -388,10 +388,10 @@ public class Location   {
   }
 
   /**
-   * Get plaza
+   *  
    * @return plaza
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getPlaza() {
     return plaza;
@@ -407,10 +407,10 @@ public class Location   {
   }
 
   /**
-   * Get postal
+   * Código Postal
    * @return postal
    **/
-  @Schema(description = "")
+  @Schema(description = "Código Postal")
   
     public String getPostal() {
     return postal;
@@ -426,10 +426,10 @@ public class Location   {
   }
 
   /**
-   * Get postalAdd
+   * Código Postal Adicional
    * @return postalAdd
    **/
-  @Schema(description = "")
+  @Schema(description = "Código Postal Adicional")
   
     public String getPostalAdd() {
     return postalAdd;
@@ -445,10 +445,10 @@ public class Location   {
   }
 
   /**
-   * Get regionname
+   * Nombre de esta Región
    * @return regionname
    **/
-  @Schema(description = "")
+  @Schema(description = "Nombre de esta Región")
   
     public String getRegionname() {
     return regionname;
@@ -464,10 +464,10 @@ public class Location   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -484,10 +484,10 @@ public class Location   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {

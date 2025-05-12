@@ -5,228 +5,340 @@ components:
       properties:
         acqusitioncost:
           type: number
+          description: "Coste de conseguir el Prospecto como Cliente"
         actuallifetimevalue:
           type: number
+          description: "Ingreso en el tiempo de vida real"
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_language:
           type: integer
+          description: "Lenguaje para esta aplicación"
         ad_orgbp_id:
           type: string
+          description: "Organización Asociada"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         allowadvancedpaymentreceipts:
           type: boolean
+          description: " "
         allowpartialpayment:
           type: boolean
+          description: " "
         a_name_check:
           type: string
+          description: " "
         automaticcreditnotes:
           type: boolean
+          description: "Esta configuración permite imputar las notas de crédito automáticamente a las facturas más antiguas. "
         batch_payment_rule:
           type: string
+          description: " "
         bpartner_parent_id:
           type: integer
+          description: "Organización Superior de la Entidad"
         builtcabajurisdiction:
           type: boolean
+          description: " "
         c_bankaccount_id:
           type: integer
+          description: "Cuenta Bancaria"
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_bp_group_id:
           type: integer
+          description: "ID del Grupo de Entidad Comercial"
         c_categoria_iva_id:
           type: integer
+          description: " "
         c_dunning_id:
           type: integer
+          description: "Reglas de impagos para facturas vencidas"
         c_greeting_id:
           type: integer
+          description: "Saludo para imprimir en la correspondencia"
         c_invoiceschedule_id:
           type: integer
+          description: "Programa para generar facturas"
         c_jobcategory_id:
           type: integer
+          description: "Categoria del Puesto"
         c_location_id:
           type: integer
+          description: "Ubicación o Dirección"
         copyfrom:
           type: string
+          description: "Copiar Registros desde"
         copyvendorproducts:
           type: string
+          description: " "
         c_paymentterm_id:
           type: integer
+          description: "Programa de Vctos."
         c_pospaymentmedium_id:
           type: integer
+          description: "Medio de Pago de Terminal Punto de Venta"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         creditminimumamt:
           type: number
+          description: "El monto mínimo de bloqueo determina un mínimo que se considera al cliente no moroso."
         creditsituation:
           type: string
+          description: " "
         c_region_sede_id:
           type: integer
+          description: " "
         customertype:
           type: string
+          description: " "
         deliveryrule:
           type: string
+          description: "Define los tiempos de entrega"
         deliveryviarule:
           type: string
+          description: "Como será entregada la orden"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         discountcontext:
           type: string
+          description: "Contexto de aplicación del descuento"
         documentcopies:
           type: integer
+          description: "Número de copias a ser impresas"
         duns:
           type: string
+          description: "Introduzca el CIF/NIF DE LA EMPRESA O PARTICULAR"
         emitir_mi_pyme:
           type: boolean
+          description: " "
         endholidays:
           type: string
+          description: " "
         endholidays2:
           type: string
+          description: " "
         firstsale:
           type: string
+          description: "Fecha de la primera venta"
         flatdiscount:
           type: number
+          description: "Porcentaje de descuento simple"
         freightcostrule:
           type: string
+          description: "Regla de Coste de Transporte"
         goal:
           type: number
+          description: "Meta del Rendimiento desde 0.1"
         iibb:
           type: string
+          description: " "
         iibbtype:
           type: string
+          description: " "
         invoice_printformat_id:
           type: integer
+          description: "Formato de impresión usado para imprimir facturas"
         invoicerule:
           type: string
+          description: "Frecuencia y métodos de facturación"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         iscompoundtax:
           type: boolean
+          description: " "
         isconveniomultilateral:
           type: string
+          description: "Entidades comerciales en Convenio Multilateral"
         iscustomer:
           type: boolean
+          description: "Indica si la Entidad Comercial es un cliente de la compañia"
         isdiscountprinted:
           type: boolean
+          description: "Imprimir el descuento en la Factura y la Orden"
         isemployee:
           type: boolean
+          description: "Indica si el Socio Comercial es un empleado"
         isgroupinvoices:
           type: boolean
+          description: "Indica que en Recibos de Cliente se deben agrupar las facturas."
         isiso:
           type: boolean
+          description: " "
         ismandatorycai:
           type: boolean
+          description: "Validar CAI Obligatorio"
         ismulticuit:
           type: boolean
+          description: "El CUIT/CUIL ingresado puede repetirse dentro del sistema"
         isonetime:
           type: boolean
+          description: " "
         isprospect:
           type: boolean
+          description: "Cliente potencial u objetivo posible."
         issalesrep:
           type: boolean
+          description: "Indica si el empleado es un Comercial"
         issummary:
           type: boolean
+          description: "Carpeta"
         istaxexempt:
           type: boolean
+          description: "Este Socio del Negocio esta exento del impuesto de ventas"
         isvendor:
           type: boolean
+          description: "Indica si el Socio Comercial es un Proveedor"
         m_discountschema_id:
           type: integer
+          description: "Esquema para calcular el porcentaje de descuento comercial"
         minimumpurchasedamt:
           type: number
+          description: "No se permite realizar una orden de compra por debajo de este monto."
         min_order_qty:
           type: number
+          description: " "
         m_pricelist_id:
           type: integer
+          description: "Identificador único de mi lista de precios"
         m_product_related_id:
           type: integer
+          description: "Artículo Vinculado en Facturas Generadas Automáticamente"
         m_shipper_id:
           type: integer
+          description: "Método o manera de entrega del producto"
         naics:
           type: string
+          description: "Standard Industry Code o su susesor NAIC - http://www.osha.gov/oshstats/sicser.html"
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         name2:
           type: string
+          description: "Nombre adicional"
         numberemployees:
           type: integer
+          description: "Número de empleados"
         paymentblocked:
           type: boolean
+          description: " "
         paymentblockeddescr:
           type: string
+          description: " "
         paymentrule:
           type: string
+          description: "Como se pagará la factura"
         paymentrulepo:
           type: string
+          description: "Opción de pago por compras"
         po_discountschema_id:
           type: integer
+          description: "Esquema Del Descuento en Pedido a Proveedor"
         po_paymentterm_id:
           type: integer
+          description: "Reglas de Pago en Pedido de Cliente"
         po_pricelist_id:
           type: integer
+          description: "Lista de precios usada por este Socio del Negocio"
         poreference:
           type: string
+          description: "Referencia de Pedido de la Entidad"
         potentiallifetimevalue:
           type: number
+          description: "Total de ingresos esperados"
         processpo:
           type: string
+          description: " "
         program_amt:
           type: number
+          description: " "
         program_amt_used:
           type: number
+          description: " "
         rating:
           type: string
+          description: "Valoración"
         referenceno:
           type: string
+          description: "Su número de cliente o proveedor con el Socio Comercial"
         salesrep_id:
           type: integer
+          description: "Comercial/Usuario"
         salesvolume:
           type: integer
+          description: "Volumen total de Ventas"
         searchunallocatedpayments:
           type: boolean
+          description: "Buscar Pagos/Cobros sin asignar en Ordenes de Pago/Recibos de Cliente"
         secondarycreditstatus:
           type: string
+          description: "Este estado de crédito describe la situación actual del cliente"
         sendemail:
           type: boolean
+          description: "Permite enviar Documentos vía E-Mail"
         shareofcustomer:
           type: integer
+          description: "Participación del Cliente"
         shelflifeminpct:
           type: integer
+          description: "Minimo de Vida en Estanteria (%)"
         so_creditlimit:
           type: number
+          description: "Total pendiente del importe de la factura pendiente"
         socreditstatus:
           type: string
+          description: "Estado de Crédito de Ventas"
         so_creditused:
           type: number
+          description: "Balance actual abierto"
         so_description:
           type: string
+          description: "Descripción a ser usada en órdenes"
         startholidays:
           type: string
+          description: " "
         startholidays2:
           type: string
+          description: " "
         taxid:
           type: string
+          description: "Codigo único de Identificacion Tributaria / Documento Nacional de Identidad"
         taxidtype:
           type: string
+          description: " "
         totalopenbalance:
           type: number
+          description: "Balance Abierto"
         trxenabled:
           type: boolean
+          description: "La entidad comercial está habilitada para realizar transacciones dentro del sistema"
         updatebalance:
           type: string
+          description: "Actualizar Saldo de la Entidad Comercial"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         url:
           type: string
+          description: "URL"
         value:
           type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
         additionalvalues:
           type: array
           items:
@@ -243,6 +355,7 @@ components:
          - automaticcreditnotes
          - c_bpartner_id
          - c_bp_group_id
+         - c_categoria_iva_id
          - created
          - createdby
          - creditminimumamt

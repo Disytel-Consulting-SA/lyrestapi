@@ -196,10 +196,10 @@ public class POS   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -216,10 +216,10 @@ public class POS   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -236,10 +236,10 @@ public class POS   {
   }
 
   /**
-   * Get adRoleId
+   * Perfil
    * @return adRoleId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Perfil")
       @NotNull
 
     public Integer getAdRoleId() {
@@ -256,10 +256,10 @@ public class POS   {
   }
 
   /**
-   * Get allowcreditnotesearch
+   * Permite realizar búsquedas de Notas de Crédito permitiendo abrir la ventana de Información
    * @return allowcreditnotesearch
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permite realizar búsquedas de Notas de Crédito permitiendo abrir la ventana de Información")
       @NotNull
 
     public Boolean isAllowcreditnotesearch() {
@@ -276,10 +276,10 @@ public class POS   {
   }
 
   /**
-   * Get authorizegeneralmanualdiscount
+   * Autorizar Descuento/Recargo General Manual
    * @return authorizegeneralmanualdiscount
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Autorizar Descuento/Recargo General Manual")
       @NotNull
 
     public Boolean isAuthorizegeneralmanualdiscount() {
@@ -296,10 +296,10 @@ public class POS   {
   }
 
   /**
-   * Get cBankaccountId
+   * Cuenta Bancaria
    * @return cBankaccountId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cuenta Bancaria")
       @NotNull
 
     public Integer getCBankaccountId() {
@@ -316,10 +316,10 @@ public class POS   {
   }
 
   /**
-   * Get cBpartnercashtrxId
+   * Socio Comercial usado para crear nuevos Socios Comercial rápidamente
    * @return cBpartnercashtrxId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Socio Comercial usado para crear nuevos Socios Comercial rápidamente")
       @NotNull
 
     public Integer getCBpartnercashtrxId() {
@@ -336,10 +336,10 @@ public class POS   {
   }
 
   /**
-   * Get cCashbookId
+   * Libro de Efectivo para registrar transacciones de caja chica
    * @return cCashbookId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Libro de Efectivo para registrar transacciones de caja chica")
       @NotNull
 
     public Integer getCCashbookId() {
@@ -356,10 +356,10 @@ public class POS   {
   }
 
   /**
-   * Get cDoctypeId
+   * Tipo de documento o reglas
    * @return cDoctypeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo de documento o reglas")
   
     public Integer getCDoctypeId() {
     return cDoctypeId;
@@ -375,10 +375,10 @@ public class POS   {
   }
 
   /**
-   * Get cInoutdoctypeId
+   *  
    * @return cInoutdoctypeId
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Integer getCInoutdoctypeId() {
     return cInoutdoctypeId;
@@ -394,10 +394,10 @@ public class POS   {
   }
 
   /**
-   * Get cInvoicedoctypeId
+   *  
    * @return cInvoicedoctypeId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Integer getCInvoicedoctypeId() {
@@ -414,10 +414,10 @@ public class POS   {
   }
 
   /**
-   * Get cOrderdoctypeId
+   *  
    * @return cOrderdoctypeId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Integer getCOrderdoctypeId() {
@@ -434,10 +434,10 @@ public class POS   {
   }
 
   /**
-   * Get cPosId
+   * Terminal TPV
    * @return cPosId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Terminal TPV")
       @NotNull
 
     public Integer getCPosId() {
@@ -454,10 +454,10 @@ public class POS   {
   }
 
   /**
-   * Get cPoskeylayoutId
+   * Config. Teclas Rápidas TPV
    * @return cPoskeylayoutId
    **/
-  @Schema(description = "")
+  @Schema(description = "Config. Teclas Rápidas TPV")
   
     public Integer getCPoskeylayoutId() {
     return cPoskeylayoutId;
@@ -473,10 +473,10 @@ public class POS   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -493,10 +493,10 @@ public class POS   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -513,10 +513,10 @@ public class POS   {
   }
 
   /**
-   * Get creditcardcashretirementChargeId
+   * Cargo de la línea de caja para el retiro de efectivo de tarjeta de crédito
    * @return creditcardcashretirementChargeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Cargo de la línea de caja para el retiro de efectivo de tarjeta de crédito")
   
     public Integer getCreditcardcashretirementChargeId() {
     return creditcardcashretirementChargeId;
@@ -532,10 +532,10 @@ public class POS   {
   }
 
   /**
-   * Get creditcardcashretirementDoctypeId
+   * Tipo de Documento del débito que se genera por el retiro e imputa a la tarjeta de crédito
    * @return creditcardcashretirementDoctypeId
    **/
-  @Schema(description = "")
+  @Schema(description = "Tipo de Documento del débito que se genera por el retiro e imputa a la tarjeta de crédito")
   
     public Integer getCreditcardcashretirementDoctypeId() {
     return creditcardcashretirementDoctypeId;
@@ -551,10 +551,10 @@ public class POS   {
   }
 
   /**
-   * Get creditcardcashretirementProductId
+   * Artículo para la línea del documento de débito generado por el retiro de efectivo
    * @return creditcardcashretirementProductId
    **/
-  @Schema(description = "")
+  @Schema(description = "Artículo para la línea del documento de débito generado por el retiro de efectivo")
   
     public Integer getCreditcardcashretirementProductId() {
     return creditcardcashretirementProductId;
@@ -570,10 +570,10 @@ public class POS   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -589,10 +589,10 @@ public class POS   {
   }
 
   /**
-   * Get draftedinout
+   * El remito generado queda en estado borrador
    * @return draftedinout
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El remito generado queda en estado borrador")
       @NotNull
 
     public Boolean isDraftedinout() {
@@ -609,10 +609,10 @@ public class POS   {
   }
 
   /**
-   * Get help
+   * Ayuda; Comentario o Sugerencia
    * @return help
    **/
-  @Schema(description = "")
+  @Schema(description = "Ayuda; Comentario o Sugerencia")
   
     public String getHelp() {
     return help;
@@ -628,10 +628,10 @@ public class POS   {
   }
 
   /**
-   * Get initialposauthorization
+   * Supervisión al iniciar la ventana TPV
    * @return initialposauthorization
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Supervisión al iniciar la ventana TPV")
       @NotNull
 
     public Boolean isInitialposauthorization() {
@@ -648,10 +648,10 @@ public class POS   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -668,10 +668,10 @@ public class POS   {
   }
 
   /**
-   * Get isallowcreditcardcashretirement
+   * El retiro de efectivo de tarjeta de crédito está permitido
    * @return isallowcreditcardcashretirement
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El retiro de efectivo de tarjeta de crédito está permitido")
       @NotNull
 
     public Boolean isIsallowcreditcardcashretirement() {
@@ -688,10 +688,10 @@ public class POS   {
   }
 
   /**
-   * Get iscopyentity
+   *  
    * @return iscopyentity
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isIscopyentity() {
     return iscopyentity;
@@ -707,10 +707,10 @@ public class POS   {
   }
 
   /**
-   * Get iscreateinvoice
+   * Inidica si se debe crear o no la factura
    * @return iscreateinvoice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Inidica si se debe crear o no la factura")
       @NotNull
 
     public Boolean isIscreateinvoice() {
@@ -727,10 +727,10 @@ public class POS   {
   }
 
   /**
-   * Get isdeliverorderinwarehouse
+   * Los artículos de los pedidos agregados (pre-creados) no se incluyen en el remito que crea el TPV
    * @return isdeliverorderinwarehouse
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Los artículos de los pedidos agregados (pre-creados) no se incluyen en el remito que crea el TPV")
       @NotNull
 
     public Boolean isIsdeliverorderinwarehouse() {
@@ -747,10 +747,10 @@ public class POS   {
   }
 
   /**
-   * Get ismodifyprice
+   * Modificar precio
    * @return ismodifyprice
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Modificar precio")
       @NotNull
 
     public Boolean isIsmodifyprice() {
@@ -767,10 +767,10 @@ public class POS   {
   }
 
   /**
-   * Get isprintcurrentaccountdocument
+   * Imprimir Documento de Cuenta Corriente
    * @return isprintcurrentaccountdocument
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Imprimir Documento de Cuenta Corriente")
       @NotNull
 
     public Boolean isIsprintcurrentaccountdocument() {
@@ -787,10 +787,10 @@ public class POS   {
   }
 
   /**
-   * Get isprintwarehousedeliverdocument
+   * Imprimir un comprobante con el detalle de los artículos que se retiran por Almacén
    * @return isprintwarehousedeliverdocument
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Imprimir un comprobante con el detalle de los artículos que se retiran por Almacén")
       @NotNull
 
     public Boolean isIsprintwarehousedeliverdocument() {
@@ -807,10 +807,10 @@ public class POS   {
   }
 
   /**
-   * Get issalewithoutstock
+   * Permite vender artículos sin que se posea stock del mismo
    * @return issalewithoutstock
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Permite vender artículos sin que se posea stock del mismo")
       @NotNull
 
     public Boolean isIssalewithoutstock() {
@@ -827,10 +827,10 @@ public class POS   {
   }
 
   /**
-   * Get issearchbyname
+   * Realiza una búsqueda exacta por nombre
    * @return issearchbyname
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Realiza una búsqueda exacta por nombre")
       @NotNull
 
     public Boolean isIssearchbyname() {
@@ -847,10 +847,10 @@ public class POS   {
   }
 
   /**
-   * Get issearchbynamelike
+   * Realiza una búsqueda parcial por nombre utilizando comodines en el texto ingresado
    * @return issearchbynamelike
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Realiza una búsqueda parcial por nombre utilizando comodines en el texto ingresado")
       @NotNull
 
     public Boolean isIssearchbynamelike() {
@@ -867,10 +867,10 @@ public class POS   {
   }
 
   /**
-   * Get issearchbyupc
+   * Realiza una búsqueda exacta por UPC/EAN
    * @return issearchbyupc
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Realiza una búsqueda exacta por UPC/EAN")
       @NotNull
 
     public Boolean isIssearchbyupc() {
@@ -887,10 +887,10 @@ public class POS   {
   }
 
   /**
-   * Get issearchbyupclike
+   * Realiza una búsqueda parcial por UPC/EAN utilizando comodines en el texto ingresado
    * @return issearchbyupclike
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Realiza una búsqueda parcial por UPC/EAN utilizando comodines en el texto ingresado")
       @NotNull
 
     public Boolean isIssearchbyupclike() {
@@ -907,10 +907,10 @@ public class POS   {
   }
 
   /**
-   * Get issearchbyvalue
+   * Realiza una búsqueda exacta por Clave de Búsqueda
    * @return issearchbyvalue
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Realiza una búsqueda exacta por Clave de Búsqueda")
       @NotNull
 
     public Boolean isIssearchbyvalue() {
@@ -927,10 +927,10 @@ public class POS   {
   }
 
   /**
-   * Get issearchbyvaluelike
+   * Realiza una búsqueda parcial por Clave de Búsqueda utilizando comodines en el texto ingresado
    * @return issearchbyvaluelike
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Realiza una búsqueda parcial por Clave de Búsqueda utilizando comodines en el texto ingresado")
       @NotNull
 
     public Boolean isIssearchbyvaluelike() {
@@ -947,10 +947,10 @@ public class POS   {
   }
 
   /**
-   * Get issearchtoday
+   *  
    * @return issearchtoday
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public Boolean isIssearchtoday() {
     return issearchtoday;
@@ -966,10 +966,10 @@ public class POS   {
   }
 
   /**
-   * Get lockedclosed
+   * Cierre de la ventana y de la aplicación bloqueado si el TPV posee líneas cargadas en la venta
    * @return lockedclosed
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Cierre de la ventana y de la aplicación bloqueado si el TPV posee líneas cargadas en la venta")
       @NotNull
 
     public Boolean isLockedclosed() {
@@ -986,10 +986,10 @@ public class POS   {
   }
 
   /**
-   * Get maxreturnedcashincn
+   * Devolución máxima en efectivo permitida sin autorización
    * @return maxreturnedcashincn
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Devolución máxima en efectivo permitida sin autorización")
       @NotNull
 
     @Valid
@@ -1007,10 +1007,10 @@ public class POS   {
   }
 
   /**
-   * Get mPricelistId
+   * Identificador único de mi lista de precios
    * @return mPricelistId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador único de mi lista de precios")
       @NotNull
 
     public Integer getMPricelistId() {
@@ -1027,10 +1027,10 @@ public class POS   {
   }
 
   /**
-   * Get mWarehouseId
+   * Almacén
    * @return mWarehouseId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Almacén")
       @NotNull
 
     public Integer getMWarehouseId() {
@@ -1047,10 +1047,10 @@ public class POS   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -1067,10 +1067,10 @@ public class POS   {
   }
 
   /**
-   * Get operationmode
+   * Modo de Operación de este TPV
    * @return operationmode
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Modo de Operación de este TPV")
       @NotNull
 
     public String getOperationmode() {
@@ -1087,10 +1087,10 @@ public class POS   {
   }
 
   /**
-   * Get posnet
+   *  
    * @return posnet
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getPosnet() {
     return posnet;
@@ -1106,10 +1106,10 @@ public class POS   {
   }
 
   /**
-   * Get posnumber
+   * Número del punto de venta para el cual se generan las facturas
    * @return posnumber
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Número del punto de venta para el cual se generan las facturas")
       @NotNull
 
     public Integer getPosnumber() {
@@ -1126,10 +1126,10 @@ public class POS   {
   }
 
   /**
-   * Get printername
+   * Nombre de Impresora
    * @return printername
    **/
-  @Schema(description = "")
+  @Schema(description = "Nombre de Impresora")
   
     public String getPrintername() {
     return printername;
@@ -1145,10 +1145,10 @@ public class POS   {
   }
 
   /**
-   * Get returnedcashincncontrol
+   * Control de Devolución de efectivo de Notas de Crédito
    * @return returnedcashincncontrol
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Control de Devolución de efectivo de Notas de Crédito")
       @NotNull
 
     public Boolean isReturnedcashincncontrol() {
@@ -1165,10 +1165,10 @@ public class POS   {
   }
 
   /**
-   * Get salesrepId
+   * Comercial/Usuario
    * @return salesrepId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Comercial/Usuario")
       @NotNull
 
     public Integer getSalesrepId() {
@@ -1185,10 +1185,10 @@ public class POS   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -1205,10 +1205,10 @@ public class POS   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -1225,10 +1225,10 @@ public class POS   {
   }
 
   /**
-   * Get voiddocuments
+   * Esta configuración permite anular comprobantes en caso de error. Si no está tildado, al anular se le pedirá clave de supervisor. 
    * @return voiddocuments
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Esta configuración permite anular comprobantes en caso de error. Si no está tildado, al anular se le pedirá clave de supervisor. ")
       @NotNull
 
     public Boolean isVoiddocuments() {
@@ -1245,10 +1245,10 @@ public class POS   {
   }
 
   /**
-   * Get voiddocumentsEf
+   * Anular Comprobantes Electrónicos luego de error en impresión fiscal
    * @return voiddocumentsEf
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Anular Comprobantes Electrónicos luego de error en impresión fiscal")
       @NotNull
 
     public Boolean isVoiddocumentsEf() {

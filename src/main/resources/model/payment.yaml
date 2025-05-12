@@ -5,230 +5,343 @@ components:
       properties:
         a_bank:
           type: string
+          description: " "
         accounting_c_charge_id:
           type: integer
+          description: "Cuenta Contable Alternativa"
         accountno:
           type: string
+          description: "Número de cuenta"
         a_city:
           type: string
+          description: "Ciudad en la Tarjeta de Crédito o el Poseedor de la cuenta"
         a_country:
           type: string
+          description: "País"
         a_cuit:
           type: string
+          description: " "
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_orgtrx_id:
           type: integer
+          description: "Organización que inicia o ejecuta la transacción"
         a_email:
           type: string
+          description: "Dirección de Correo Electrónico"
         a_ident_dl:
           type: string
+          description: "Identificación de pago - Licencia de Conducir"
         a_ident_ssn:
           type: string
+          description: "Identificación de pago - No. Del Seguro Social"
         a_name:
           type: string
+          description: "Nombre de la Tarjeta de Crédito o el Poseedor de la cuenta"
         a_state:
           type: string
+          description: "Estado de la Tarjeta de Crédito o el Poseedor de la cuenta"
         a_street:
           type: string
+          description: "Direccion en la Tarjeta de Crédito "
         auditstatus:
           type: string
+          description: " "
         authcode:
           type: string
+          description: "Código de Autorización Offline"
         authmatch:
           type: boolean
+          description: " "
         a_zip:
           type: string
+          description: "Código Postal de la Tarjeta de Crédito o el Poseedor de la cuenta"
         banklist_registerno:
           type: string
+          description: "Número de Registro de Orden en la Lista"
         bank_payment_date:
           type: string
+          description: " "
         bank_payment_documentno:
           type: string
+          description: " "
         bank_payment_msg_description:
           type: string
+          description: "Descripción de Mensaje de Estado Adicional"
         c_activity_id:
           type: integer
+          description: "Actividad de Negocio"
         c_bankaccount_id:
           type: integer
+          description: "Cuenta Bancaria"
         c_bank_id:
           type: integer
+          description: "Banco"
         c_bankpaymentstatus_id:
           type: integer
+          description: " "
         c_bpartner_id:
           type: integer
+          description: "Identifica una Entidad Comercial"
         c_bp_bankaccount_id:
           type: integer
+          description: "Cuenta de Banco de la Entidad"
         c_campaign_id:
           type: integer
+          description: "Campaña de Marketing"
         c_charge_id:
           type: integer
+          description: "Cargos adicionales del documento"
         c_conversiontype_id:
           type: integer
+          description: "Tipo de Divisa"
         c_currency_id:
           type: integer
+          description: "Moneda para este registro"
         c_doctype_id:
           type: integer
+          description: "Tipo de documento o reglas"
         chargeamt:
           type: integer
+          description: "Importe de Cargo"
         checked:
           type: boolean
+          description: " "
         checkno:
           type: string
+          description: "Nro. de Cheque"
         checkstatus:
           type: string
+          description: " "
         c_invoice_check_rejected_id:
           type: integer
+          description: "Comprobante generado por el proceso de cheque rechazado"
         c_invoice_id:
           type: integer
+          description: "Identificador de la factura"
         c_order_id:
           type: integer
+          description: "Pedido"
         couponbatchnumber:
           type: string
+          description: "Número de lote del cupón"
         couponnumber:
           type: string
+          description: "Número del Cupón del Cobro/Pago mediante Tarjeta de Crédito"
         c_paymentbatch_id:
           type: integer
+          description: " "
         c_payment_id:
           type: integer
+          description: "Identificador del pago"
         c_posjournal_id:
           type: integer
+          description: "Caja Diaria"
         c_pospaymentmedium_id:
           type: integer
+          description: "Medio de Pago de Terminal Punto de Venta"
         c_project_id:
           type: integer
+          description: "Identifica un proyecto único"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         creditcardexpmm:
           type: integer
+          description: "Mes de expiración"
         creditcardexpyy:
           type: integer
+          description: "Valido hasta (Año)"
         creditcardnumber:
           type: string
+          description: "Número de Tarjeta de Crédito"
         creditcardtype:
           type: string
+          description: "Tarjeta de Crédito "
         creditcardvv:
           type: string
+          description: "Código de verificación en la tarjeta de crédito"
         dateacct:
           type: string
+          description: "Fecha contable"
         dateemissioncheck:
           type: string
+          description: " "
         datetrx:
           type: string
+          description: "Fecha de la transacción"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         discountamt:
           type: number
+          description: "Importe del Descuento calculado"
         docaction:
           type: string
+          description: "El estado destino del documento"
         docstatus:
           type: string
+          description: "El estado actual del documento"
         documentno:
           type: string
+          description: "Número de secuencia del documento para cada documento"
         duedate:
           type: string
+          description: "Fecha de Vencimiento"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isallocated:
           type: boolean
+          description: "Indica si el pago ha sido asignado"
         isapproved:
           type: boolean
+          description: "Indica si este documento requiere aprobación"
         isdelayedcapture:
           type: boolean
+          description: "Pago tras Envio"
         ismanual:
           type: boolean
+          description: "Éste es un proceso manual"
         isonline:
           type: boolean
+          description: "Puede ser accedido en línea"
         isoverunderpayment:
           type: boolean
+          description: "Sobre pago (no contabilizado) o sub pago (pago parcial)"
         isprepayment:
           type: boolean
+          description: "Prepago"
         isreceipt:
           type: string
+          description: "Ésta es una transacción de ventas"
         isreconciled:
           type: boolean
+          description: " "
         isselfservice:
           type: boolean
+          description: "Disp. en Web"
         issotrx:
           type: boolean
+          description: "Esta es una transacción de ventas"
         m_boletadeposito_id:
           type: integer
+          description: " "
         m_entidadfinancieraplan_id:
           type: integer
+          description: "Plan de Entidad Financiera"
         micr:
           type: string
+          description: "Combinación de No. de Sucursal; Cta. y Cheque"
         oprocessing:
           type: string
+          description: "Este pago puede ser procesado en línea"
         original_ref_payment_id:
           type: integer
+          description: "Referencia al Pago Original ya que semánticamente el registro actual actúa como duplicado"
         orig_trxid:
           type: string
+          description: "ID de la transacción original"
         overunderamt:
           type: number
+          description: "Importes con sobre/sub pago"
         payamt:
           type: number
+          description: "Importe del Pago"
         ponum:
           type: string
+          description: "Número de Pedido de Clientes"
         posnet:
           type: string
+          description: " "
         posted:
           type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
         processed:
           type: boolean
+          description: "El documento ha sido procesado"
         processing:
           type: string
+          description: " "
         r_authcode:
           type: string
+          description: "Autorización del Código devuelto"
         r_authcode_dc:
           type: string
+          description: "Codigo de Autorización (DC)"
         r_avsaddr:
           type: string
+          description: "Esta dirección ha sido devuelta"
         r_avszip:
           type: string
+          description: "El Código Postal ha sido verificado"
         r_cvv2match:
           type: boolean
+          description: "Comprobación del Código de Verificación de la Tarjeta de Crédito"
         ref_payment_id:
           type: integer
+          description: " "
         rejectedcomments:
           type: string
+          description: " "
         rejecteddate:
           type: string
+          description: " "
         r_info:
           type: string
+          description: "Respuesta info"
         routingno:
           type: string
+          description: "Número de sucursal bancaria"
         r_pnref:
           type: string
+          description: "Referencia del pago"
         r_pnref_dc:
           type: string
+          description: "Referencia de Pago pendiente"
         r_respmsg:
           type: string
+          description: "Mensaje de respuesta"
         r_result:
           type: string
+          description: "Resultado de la transmisión"
         swipe:
           type: string
+          description: "Pista 1 y 2 de la Tarjeta de Credito"
         taxamt:
           type: number
+          description: "Importe del Impuesto"
         tendertype:
           type: string
+          description: "Método de pago"
         trxtype:
           type: string
+          description: "Tipo de transacción de la tarjeta de crédito"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         user1_id:
           type: integer
+          description: "El usuario definió el elemento # 1"
         user2_id:
           type: integer
+          description: "El usuario definió el elemento # 2"
         voiceauthcode:
           type: string
+          description: "Código de Autorización de voz de la compañía de la tarjeta de crédito"
         writeoffamt:
           type: number
+          description: "Importe del Ajuste"
         additionalvalues:
           type: array
           items:

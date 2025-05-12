@@ -5,46 +5,67 @@ components:
       properties:
         a_asset_group_id:
           type: integer
+          description: "Grupo de Activos"
         ad_client_id:
           type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
+          description: " "
         ad_org_id:
           type: integer
+          description: "Entidad organizacional dentro de la compañía"
         ad_printcolor_id:
           type: integer
+          description: "Color usado para imprimir"
         amortizationperc:
           type: number
+          description: "Porcentaje de amortización del período de amortización"
         created:
           type: string
+          description: "Fecha de creación de este registro"
         createdby:
           type: integer
+          description: "Usuario que creó este registro"
         description:
           type: string
+          description: "Descripción corta opcional del registro"
         isactive:
           type: boolean
+          description: "El registro está activo en el sistema"
         isdefault:
           type: boolean
+          description: "Valor Predeterminado"
         isselfservice:
           type: boolean
+          description: "Disp. en Web"
         mmpolicy:
           type: string
+          description: "Politica de Material"
         m_product_category_id:
           type: integer
+          description: "Categoría de la que este producto es parte"
         m_product_gamas_id:
           type: integer
+          description: " "
         name:
           type: string
+          description: "Identificador alfanumérico de la Entidad"
         plannedmargin:
           type: number
+          description: "% de Margen Planeado para este proyecto"
         updated:
           type: string
+          description: "Determina si el campo esta actualizado"
         updatedby:
           type: integer
+          description: "Determina quien actualizó el campo"
         value:
           type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
         yearlife:
           type: integer
+          description: "Vida útil en años"
         additionalvalues:
           type: array
           items:

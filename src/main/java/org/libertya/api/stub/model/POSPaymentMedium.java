@@ -114,10 +114,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get adClientId
+   * Compañía o empresa que utiliza ésta instalación
    * @return adClientId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Compañía o empresa que utiliza ésta instalación")
       @NotNull
 
     public Integer getAdClientId() {
@@ -134,10 +134,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get adComponentobjectuid
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "")
+  @Schema(description = " ")
   
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
@@ -153,10 +153,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get adComponentversionId
+   * Versión de Componente propietaria de este registro
    * @return adComponentversionId
    **/
-  @Schema(description = "")
+  @Schema(description = "Versión de Componente propietaria de este registro")
   
     public Integer getAdComponentversionId() {
     return adComponentversionId;
@@ -172,10 +172,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get adOrgId
+   * Entidad organizacional dentro de la compañía
    * @return adOrgId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Entidad organizacional dentro de la compañía")
       @NotNull
 
     public Integer getAdOrgId() {
@@ -192,10 +192,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get bank
+   * Nombre del Banco asociado
    * @return bank
    **/
-  @Schema(description = "")
+  @Schema(description = "Nombre del Banco asociado")
   
     public String getBank() {
     return bank;
@@ -211,10 +211,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get beforecheckdeadlinefrom
+   * Valor inicial del rango
    * @return beforecheckdeadlinefrom
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Valor inicial del rango")
       @NotNull
 
     public String getBeforecheckdeadlinefrom() {
@@ -231,10 +231,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get beforecheckdeadlineto
+   * Valor final del rango
    * @return beforecheckdeadlineto
    **/
-  @Schema(description = "")
+  @Schema(description = "Valor final del rango")
   
     public String getBeforecheckdeadlineto() {
     return beforecheckdeadlineto;
@@ -250,10 +250,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get cBankId
+   * Banco
    * @return cBankId
    **/
-  @Schema(description = "")
+  @Schema(description = "Banco")
   
     public Integer getCBankId() {
     return cBankId;
@@ -269,10 +269,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get cCurrencyId
+   * Moneda para este registro
    * @return cCurrencyId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Moneda para este registro")
       @NotNull
 
     public Integer getCCurrencyId() {
@@ -289,10 +289,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get checkdeadline
+   * Plazo de Cobro de Cheque
    * @return checkdeadline
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Plazo de Cobro de Cheque")
       @NotNull
 
     public String getCheckdeadline() {
@@ -309,10 +309,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get context
+   *  
    * @return context
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public String getContext() {
@@ -329,10 +329,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get cPospaymentmediumId
+   * Medio de Pago de Terminal Punto de Venta
    * @return cPospaymentmediumId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Medio de Pago de Terminal Punto de Venta")
       @NotNull
 
     public Integer getCPospaymentmediumId() {
@@ -349,10 +349,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get created
+   * Fecha de creación de este registro
    * @return created
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de creación de este registro")
       @NotNull
 
     public String getCreated() {
@@ -369,10 +369,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get createdby
+   * Usuario que creó este registro
    * @return createdby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Usuario que creó este registro")
       @NotNull
 
     public Integer getCreatedby() {
@@ -389,10 +389,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get datefrom
+   * Fecha de inicio para un rango
    * @return datefrom
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha de inicio para un rango")
       @NotNull
 
     public String getDatefrom() {
@@ -409,10 +409,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get dateto
+   * Fecha final de un rango (inclusive)
    * @return dateto
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Fecha final de un rango (inclusive)")
       @NotNull
 
     public String getDateto() {
@@ -429,10 +429,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get description
+   * Descripción corta opcional del registro
    * @return description
    **/
-  @Schema(description = "")
+  @Schema(description = "Descripción corta opcional del registro")
   
     public String getDescription() {
     return description;
@@ -448,10 +448,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get isactive
+   * El registro está activo en el sistema
    * @return isactive
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "El registro está activo en el sistema")
       @NotNull
 
     public Boolean isIsactive() {
@@ -468,10 +468,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get ismandatorybank
+   *  
    * @return ismandatorybank
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsmandatorybank() {
@@ -488,10 +488,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get isnormalizedbank
+   *  
    * @return isnormalizedbank
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Boolean isIsnormalizedbank() {
@@ -508,10 +508,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get mDiscountschemaId
+   * Esquema para calcular el porcentaje de descuento comercial
    * @return mDiscountschemaId
    **/
-  @Schema(description = "")
+  @Schema(description = "Esquema para calcular el porcentaje de descuento comercial")
   
     public Integer getMDiscountschemaId() {
     return mDiscountschemaId;
@@ -527,10 +527,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get mEntidadfinancieraId
+   *  
    * @return mEntidadfinancieraId
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = " ")
       @NotNull
 
     public Integer getMEntidadfinancieraId() {
@@ -547,10 +547,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get name
+   * Identificador alfanumérico de la Entidad
    * @return name
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Identificador alfanumérico de la Entidad")
       @NotNull
 
     public String getName() {
@@ -567,10 +567,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get tendertype
+   * Método de pago
    * @return tendertype
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Método de pago")
       @NotNull
 
     public String getTendertype() {
@@ -587,10 +587,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get updated
+   * Determina si el campo esta actualizado
    * @return updated
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina si el campo esta actualizado")
       @NotNull
 
     public String getUpdated() {
@@ -607,10 +607,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get updatedby
+   * Determina quien actualizó el campo
    * @return updatedby
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Determina quien actualizó el campo")
       @NotNull
 
     public Integer getUpdatedby() {
@@ -627,10 +627,10 @@ public class POSPaymentMedium   {
   }
 
   /**
-   * Get validatebeforecheckdeadlines
+   * Validar plazos anteriores en el TPV
    * @return validatebeforecheckdeadlines
    **/
-  @Schema(required = true, description = "")
+  @Schema(required = true, description = "Validar plazos anteriores en el TPV")
       @NotNull
 
     public Boolean isValidatebeforecheckdeadlines() {
