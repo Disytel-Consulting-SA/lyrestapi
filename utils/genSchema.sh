@@ -64,3 +64,5 @@ generateSchema POS                C_POS                 pos.yaml
 generateSchema POSPaymentMedium   C_POSPaymentMedium    pospaymentmedium.yaml
 generateSchema PaySchedule        C_PaySchedule         payschedule.yaml
 generateSchema PaymentTerm        C_PaymentTerm         paymentterm.yaml
+generateSchema LetraComprobante   C_Letra_Comprobante   letracomprobante.yaml
+generateSchema LetraAceptaIVA     C_Letra_Acepta_IVA    letraaceptaiva.yaml

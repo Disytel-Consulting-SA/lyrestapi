@@ -1,0 +1,66 @@
+get:
+  tags:
+    - "letracomprobante"
+  description: Retorna la lista completa letras de comprobante
+  operationId: getAllLetrasComprobante
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/letracomprobante.yaml#/components/schemas/LetraComprobante'
+post:
+  summary: Nueva letra de comprobante
+  tags:
+    - "letracomprobante"
+  description: Agrega una letra de comprobante
+  operationId: addLetraComprobante
+  responses:
+    "200":
+      description: OK. ID de la letra de comprobante creada es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/letracomprobante.yaml#/components/schemas/LetraComprobante'

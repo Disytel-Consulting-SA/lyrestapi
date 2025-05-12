@@ -164,3 +164,11 @@ paths:
     $ref: ./paths/payschedules.yaml
   /v1.0/payschedules/{id}:
     $ref: ./paths/payschedules_id.yaml
+  /v1.0/letrascomprobante:
+    $ref: ./paths/letrascomprobante.yaml
+  /v1.0/letrascomprobante/{id}:
+    $ref: ./paths/letrascomprobante_id.yaml
+  /v1.0/letrasaceptaiva:
+    $ref: ./paths/letrasaceptaiva.yaml
+  /v1.0/letrasaceptaiva/{id}:
+    $ref: ./paths/letrasaceptaiva_id.yaml

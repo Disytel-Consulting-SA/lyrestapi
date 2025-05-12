@@ -1,0 +1,90 @@
+get:
+  summary: Recupera una letra acepta IVA en particular
+  tags:
+    - "letraaceptaiva"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la letra acepta IVA
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una letra acepta IVA en particular
+  operationId: retrieveLetraAceptaIVA
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/letraaceptaiva.yaml#/components/schemas/LetraAceptaIVA'
+delete:
+  summary: Elimina una letra acepta IVA
+  tags:
+    - "letraaceptaiva"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la letra acepta IVA
+      required: true
+      schema:
+        type: integer
+  description: Elimina una letra acepta IVA existente
+  operationId: deleteLetraAceptaIVA
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza una letra acepta IVA existente
+  tags:
+    - "letraaceptaiva"
+  operationId: updateLetraAceptaIVA
+  parameters:
+    - name: id
+      in: path
+      description: ID de la letra acepta IVA a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/letraaceptaiva.yaml#/components/schemas/LetraAceptaIVA'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
