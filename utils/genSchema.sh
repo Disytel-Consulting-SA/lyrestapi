@@ -6,7 +6,7 @@ TARGET_DIR=../src/main/resources
 HOST_NAME=localhost
 HOST_PORT=5432
 USER_NAME=libertya
-DB_NAME=libertya_core_for_rel_22
+DB_NAME=libertya_rel_22ar_for_api
 
 # Funciones
 generateSchema() {
@@ -66,3 +66,5 @@ generateSchema PaySchedule        C_PaySchedule         payschedule.yaml
 generateSchema PaymentTerm        C_PaymentTerm         paymentterm.yaml
 generateSchema LetraComprobante   C_Letra_Comprobante   letracomprobante.yaml
 generateSchema LetraAceptaIVA     C_Letra_Acepta_IVA    letraaceptaiva.yaml
+generateSchema PriceList          M_PriceList           pricelist.yaml
+generateSchema PriceListVersion   M_PriceList_Version   pricelistversion.yaml

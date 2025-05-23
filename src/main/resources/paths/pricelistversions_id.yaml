@@ -1,0 +1,90 @@
+get:
+  summary: Recupera una version de lista de precio particular
+  tags:
+    - "pricelistversion"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la version de lista de precio
+      required: true
+      schema:
+        type: integer
+  description: Recupera la version de lista de precio en particular
+  operationId: retrievePriceListVersion
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/pricelistversion.yaml#/components/schemas/PriceListVersion'
+delete:
+  summary: Elimina una version de lista de precio
+  tags:
+    - "pricelistversion"
+  parameters:
+    - name: id
+      in: path
+      description: ID de version de lista de precio
+      required: true
+      schema:
+        type: integer
+  description: Elimina una version de lista de precio existente
+  operationId: deletePriceListVersion
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza por una version de lista de precio
+  tags:
+    - "pricelistversion"
+  operationId: updatePriceListVersion
+  parameters:
+    - name: id
+      in: path
+      description: ID de la version de lista de precio a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/pricelistversion.yaml#/components/schemas/PriceListVersion'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

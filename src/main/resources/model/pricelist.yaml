@@ -1,0 +1,93 @@
+components:
+  schemas:
+    PriceList:
+      type: object
+      properties:
+        actualizarpreciosconfacturadecompra:
+          type: boolean
+          description: " "
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        basepricelist_id:
+          type: integer
+          description: "Lista de precios a ser usada; si el producto no se encontró en esta Lista de precios"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        enforcepricelimit:
+          type: boolean
+          description: "No se permiten precios por debajo del Precio Límite"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isdefault:
+          type: boolean
+          description: "Valor Predeterminado"
+        isperceptionsincluded:
+          type: boolean
+          description: " "
+        issopricelist:
+          type: boolean
+          description: "Esta es una Lista de Precios de Venta"
+        istaxincluded:
+          type: boolean
+          description: "Impuesto incluido en el precio"
+        m_pricelist_id:
+          type: integer
+          description: "Identificador único de mi lista de precios"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        priceprecision:
+          type: number
+          description: "Precision en el Precio"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_currency_id
+         - created
+         - createdby
+         - enforcepricelimit
+         - isactive
+         - isdefault
+         - isperceptionsincluded
+         - issopricelist
+         - istaxincluded
+         - m_pricelist_id
+         - name
+         - priceprecision
+         - updated
+         - updatedby

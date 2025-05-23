@@ -1,0 +1,67 @@
+get:
+  summary: Retrieve all price list versions
+  tags:
+    - "pricelistversion"
+  description: Retorna la lista completa de versiones de lista de precio
+  operationId: getAllPriceListVersions
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/pricelistversion.yaml#/components/schemas/PriceListVersion'
+post:
+  summary: Nueva version de lista de precio
+  tags:
+    - "pricelistversion"
+  description: Agrega una nueva version de lista de precio
+  operationId: addPriceListVersion
+  responses:
+    "200":
+      description: OK. ID de version de precio es creada es retornada
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/pricelistversion.yaml#/components/schemas/PriceListVersion'

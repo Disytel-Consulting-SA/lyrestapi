@@ -1,0 +1,77 @@
+components:
+  schemas:
+    PriceListVersion:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        m_discountschema_id:
+          type: integer
+          description: "Esquema para calcular el porcentaje de descuento comercial"
+        m_pricelist_id:
+          type: integer
+          description: "Identificador único de mi lista de precios"
+        m_pricelist_version_base_id:
+          type: integer
+          description: "Fuente para el cálculo de la Lista de Precios"
+        m_pricelist_version_id:
+          type: integer
+          description: "Versión de Tarifa"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        proccreate:
+          type: string
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        validfrom:
+          type: string
+          description: "Válido desde; incluyendo esta fecha (primer día)"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - isactive
+         - m_discountschema_id
+         - m_pricelist_id
+         - m_pricelist_version_id
+         - name
+         - updated
+         - updatedby
+         - validfrom

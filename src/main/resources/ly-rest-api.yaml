@@ -172,3 +172,11 @@ paths:
     $ref: ./paths/letrasaceptaiva.yaml
   /v1.0/letrasaceptaiva/{id}:
     $ref: ./paths/letrasaceptaiva_id.yaml
+  /v1.0/pricelists:
+    $ref: ./paths/pricelists.yaml
+  /v1.0/pricelists/{id}:
+    $ref: ./paths/pricelists_id.yaml
+  /v1.0/pricelistversions:
+    $ref: ./paths/pricelistversions.yaml
+  /v1.0/pricelistversions/{id}:
+    $ref: ./paths/pricelistversions_id.yaml
