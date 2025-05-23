@@ -68,3 +68,5 @@ generateSchema LetraComprobante   C_Letra_Comprobante   letracomprobante.yaml
 generateSchema LetraAceptaIVA     C_Letra_Acepta_IVA    letraaceptaiva.yaml
 generateSchema PriceList          M_PriceList           pricelist.yaml
 generateSchema PriceListVersion   M_PriceList_Version   pricelistversion.yaml
+generateSchema Bank               C_Bank                bank.yaml
+generateSchema BankAccount        C_BankAccount         bankaccount.yaml

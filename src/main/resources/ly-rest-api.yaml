@@ -180,3 +180,12 @@ paths:
     $ref: ./paths/pricelistversions.yaml
   /v1.0/pricelistversions/{id}:
     $ref: ./paths/pricelistversions_id.yaml
+  /v1.0/banks:
+    $ref: ./paths/banks.yaml
+  /v1.0/banks/{id}:
+    $ref: ./paths/banks_id.yaml
+  /v1.0/bankaccounts:
+    $ref: ./paths/bankaccounts.yaml
+  /v1.0/bankaccounts/{id}:
+    $ref: ./paths/bankaccounts_id.yaml
+

@@ -1,0 +1,112 @@
+components:
+  schemas:
+    BankAccount:
+      type: object
+      properties:
+        accountno:
+          type: string
+          description: "Número de cuenta"
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        bankaccounttype:
+          type: string
+          description: "Tipo de cuenta Bancaria"
+        bban:
+          type: string
+          description: "Numero de Cuenta Basico"
+        c_bankaccount_id:
+          type: integer
+          description: "Cuenta Bancaria"
+        c_bankaccount_location_id:
+          type: integer
+          description: " "
+        c_bank_id:
+          type: integer
+          description: "Banco"
+        cc:
+          type: string
+          description: "Cuenta Corriente"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        creditlimit:
+          type: number
+          description: "Importe de Crédito permitido"
+        currentbalance:
+          type: number
+          description: "Saldo Actual"
+        dc:
+          type: string
+          description: "DC"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        electronicpaymentsaccount:
+          type: boolean
+          description: " "
+        iban:
+          type: string
+          description: "Numero de Cuenta Bancaria Internacional"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        ischequesencartera:
+          type: boolean
+          description: "Indica que esta cuenta bancaria es utilizada como cuenta de cheques en cartera"
+        isdefault:
+          type: boolean
+          description: "Valor Predeterminado"
+        oficina:
+          type: string
+          description: "Oficina"
+        sucursal:
+          type: string
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - accountno
+         - ad_client_id
+         - ad_org_id
+         - bankaccounttype
+         - c_bankaccount_id
+         - c_bank_id
+         - cc
+         - c_currency_id
+         - created
+         - createdby
+         - creditlimit
+         - currentbalance
+         - description
+         - isactive
+         - ischequesencartera
+         - isdefault
+         - oficina
+         - sucursal
+         - updated
+         - updatedby
