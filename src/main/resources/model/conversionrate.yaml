@@ -1,0 +1,73 @@
+components:
+  schemas:
+    ConversionRate:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_conversion_rate_id:
+          type: integer
+          description: "Tasa usada para conversión de monedas"
+        c_conversiontype_id:
+          type: integer
+          description: "Tipo de Divisa"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        c_currency_id_to:
+          type: integer
+          description: "Moneda a convertir"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        dividerate:
+          type: number
+          description: "Convierte el número fuente a número destino; el fuente entre el número divisor"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        multiplyrate:
+          type: number
+          description: "Tasa por la que se multiplica la fuente para encontrar el objetivo"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        validfrom:
+          type: string
+          description: "Válido desde; incluyendo esta fecha (primer día)"
+        validto:
+          type: string
+          description: "Válido hasta; incluyendo esta fecha (ultimo día)"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_conversion_rate_id
+         - c_conversiontype_id
+         - c_currency_id
+         - c_currency_id_to
+         - created
+         - createdby
+         - dividerate
+         - isactive
+         - multiplyrate
+         - updated
+         - updatedby
+         - validfrom

@@ -1,0 +1,90 @@
+get:
+  summary: Recupera una tasa de conversion en particular
+  tags:
+    - "conversionrate"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la tasa de conversion
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una tasa de conversion en particular
+  operationId: retrieveConversionRate
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/conversionrate.yaml#/components/schemas/ConversionRate'
+delete:
+  summary: Elimina una tasa de conversion
+  tags:
+    - "conversionrate"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la tasa de conversion
+      required: true
+      schema:
+        type: integer
+  description: Elimina una tasa de conversion existente
+  operationId: deleteConversionRate
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza una tasa de conversion existente
+  tags:
+    - "conversionrate"
+  operationId: updateConversionRate
+  parameters:
+    - name: id
+      in: path
+      description: ID de la tasa de conversion a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/conversionrate.yaml#/components/schemas/ConversionRate'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

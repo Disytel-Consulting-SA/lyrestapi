@@ -192,3 +192,11 @@ paths:
     $ref: ./paths/uoms.yaml
   /v1.0/uoms/{id}:
     $ref: ./paths/uoms_id.yaml
+  /v1.0/currencies:
+    $ref: ./paths/currencies.yaml
+  /v1.0/currencies/{id}:
+    $ref: ./paths/currencies_id.yaml
+  /v1.0/conversionrates:
+    $ref: ./paths/conversionrates.yaml
+  /v1.0/conversionrates/{id}:
+    $ref: ./paths/conversionrates_id.yaml

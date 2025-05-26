@@ -1,0 +1,85 @@
+components:
+  schemas:
+    Currency:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        costingprecision:
+          type: integer
+          description: "Redondeo usado en el cálculo de costes"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        cursymbol:
+          type: string
+          description: "Símbolo de la Moneda (opción usada sólo para impresión)"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        emuentrydate:
+          type: string
+          description: "Fecha en que la moneda se unió / unirá a la EMU"
+        emurate:
+          type: number
+          description: "Tasa oficial para convertir al Euro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isemumember:
+          type: boolean
+          description: "La moneda es una moneda de la Unión Monetaria Europea"
+        iseuro:
+          type: boolean
+          description: "La moneda es el Euro"
+        iso_code:
+          type: string
+          description: "Código ISO 4217 de la moneda"
+        stdprecision:
+          type: integer
+          description: "Regla de redondeo para los importes calculados"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        wsfecode:
+          type: string
+          description: "Código WSFE"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_currency_id
+         - costingprecision
+         - created
+         - createdby
+         - description
+         - isactive
+         - isemumember
+         - iseuro
+         - iso_code
+         - stdprecision
+         - updated
+         - updatedby
