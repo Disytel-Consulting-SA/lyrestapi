@@ -1,0 +1,127 @@
+components:
+  schemas:
+    Cash:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_orgtrx_id:
+          type: integer
+          description: "Organización que inicia o ejecuta la transacción"
+        beginningbalance:
+          type: number
+          description: "Saldo anterior a cualquier transacción"
+        c_activity_id:
+          type: integer
+          description: "Actividad de Negocio"
+        cashbooktype:
+          type: string
+          description: "Tipo de Caja"
+        c_campaign_id:
+          type: integer
+          description: "Campaña de Marketing"
+        c_cashbook_id:
+          type: integer
+          description: "Libro de Efectivo para registrar transacciones de caja chica"
+        c_cash_id:
+          type: integer
+          description: "Libro de Caja"
+        c_posjournal_id:
+          type: integer
+          description: "Caja Diaria"
+        c_project_id:
+          type: integer
+          description: "Identifica un proyecto único"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        dateacct:
+          type: string
+          description: "Fecha contable"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        docaction:
+          type: string
+          description: "El estado destino del documento"
+        docstatus:
+          type: string
+          description: "El estado actual del documento"
+        endingbalance:
+          type: number
+          description: "Saldo final o al cierre"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isapproved:
+          type: boolean
+          description: "Indica si este documento requiere aprobación"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        posted:
+          type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
+        processed:
+          type: boolean
+          description: "El documento ha sido procesado"
+        processing:
+          type: boolean
+          description: " "
+        statementdate:
+          type: string
+          description: "Fecha de proceso de un Estado de Cuentas"
+        statementdifference:
+          type: number
+          description: "Diferencia entre el saldo final del Estado de Cuentas y el saldo final actual"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        user1_id:
+          type: integer
+          description: "El usuario definió el elemento # 1"
+        user2_id:
+          type: integer
+          description: "El usuario definió el elemento # 2"
+        validateposjournal:
+          type: boolean
+          description: "Determina si la caja debe validar la funcionalidad de cajas diarias"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - beginningbalance
+         - c_cashbook_id
+         - c_cash_id
+         - created
+         - createdby
+         - dateacct
+         - docaction
+         - docstatus
+         - endingbalance
+         - isactive
+         - isapproved
+         - name
+         - posted
+         - processed
+         - statementdate
+         - updated
+         - updatedby
+         - validateposjournal

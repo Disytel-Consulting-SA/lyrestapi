@@ -200,3 +200,13 @@ paths:
     $ref: ./paths/conversionrates.yaml
   /v1.0/conversionrates/{id}:
     $ref: ./paths/conversionrates_id.yaml
+  /v1.0/cashbooks:
+    $ref: ./paths/cashbooks.yaml
+  /v1.0/cashbooks/{id}:
+    $ref: ./paths/cashbooks_id.yaml
+  /v1.0/cash:
+    $ref: ./paths/cash.yaml
+  /v1.0/cash/{id}:
+    $ref: ./paths/cash_id.yaml
+  /v1.0/cash/{id}/process:
+    $ref: ./paths/cash_id_process.yaml

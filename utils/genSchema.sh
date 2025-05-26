@@ -73,3 +73,5 @@ generateSchema BankAccount        C_BankAccount         bankaccount.yaml
 generateSchema UOM                C_UOM                 uom.yaml
 generateSchema Currency           C_Currency            currency.yaml
 generateSchema ConversionRate     C_Conversion_Rate     conversionrate.yaml
+generateSchema CashBook           C_CashBook            cashbook.yaml
+generateSchema Cash               C_Cash                cash.yaml

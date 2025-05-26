@@ -1,0 +1,65 @@
+components:
+  schemas:
+    CashBook:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        cashbooktype:
+          type: string
+          description: "Tipo de Caja"
+        c_cashbook_id:
+          type: integer
+          description: "Libro de Efectivo para registrar transacciones de caja chica"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isdefault:
+          type: boolean
+          description: "Valor Predeterminado"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - cashbooktype
+         - c_cashbook_id
+         - c_currency_id
+         - created
+         - createdby
+         - isactive
+         - isdefault
+         - name
+         - updated
+         - updatedby
