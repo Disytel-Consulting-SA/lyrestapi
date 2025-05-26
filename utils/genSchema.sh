@@ -70,3 +70,4 @@ generateSchema PriceList          M_PriceList           pricelist.yaml
 generateSchema PriceListVersion   M_PriceList_Version   pricelistversion.yaml
 generateSchema Bank               C_Bank                bank.yaml
 generateSchema BankAccount        C_BankAccount         bankaccount.yaml
+generateSchema UOM                C_UOM                 uom.yaml

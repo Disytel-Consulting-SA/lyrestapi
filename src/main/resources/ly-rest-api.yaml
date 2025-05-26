@@ -188,4 +188,7 @@ paths:
     $ref: ./paths/bankaccounts.yaml
   /v1.0/bankaccounts/{id}:
     $ref: ./paths/bankaccounts_id.yaml
-
+  /v1.0/uoms:
+    $ref: ./paths/uoms.yaml
+  /v1.0/uoms/{id}:
+    $ref: ./paths/uoms_id.yaml
