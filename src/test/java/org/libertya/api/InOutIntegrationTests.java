@@ -28,8 +28,10 @@ class InOutIntegrationTests extends CommonIntegrationTests {
         inout.setCBpartnerId(1012145);
         inout.setCBpartnerLocationId(1012158);
         inout.setCDoctypeId(1010522);
-        inout.setMovementdate("2023-06-01 18:00:00");
-        inout.setDateacct("2023-06-01 18:00:00");
+        inout.setMovementdate("2025-05-15 18:00:00");
+        inout.setDateacct("2025-05-15 18:00:00");
+//        inout.setMovementdate("2023-06-01 18:00:00");
+//        inout.setDateacct("2023-06-01 18:00:00");
         inout.setMWarehouseId(1010048);
         inout.setMovementtype("V+");
 
