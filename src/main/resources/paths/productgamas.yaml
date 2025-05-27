@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all product gamas
+  summary: Retorna la lista de familia de articulos
   tags:
     - "productgamas"
   description: Retorna la lista completa de familia de articulos

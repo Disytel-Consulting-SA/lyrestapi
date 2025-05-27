@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all tax categories
+  summary: Retorna la lista de categorias de impuesto
   tags:
     - "taxcategory"
   description: Retorna la lista completa de categorias de impuesto

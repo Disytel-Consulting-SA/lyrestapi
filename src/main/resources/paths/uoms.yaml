@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all units of measure
+  summary: Retorna la lista de unidades de medida
   tags:
     - "uom"
   description: Retorna la lista completa de unidades de medida

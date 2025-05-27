@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all payment terms
+  summary: Retorna la lista de programas de vencimientos
   tags:
     - "paymentterm"
   description: Retorna la lista completa de programas de vencimientos

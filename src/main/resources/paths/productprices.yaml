@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all product prices
+  summary: Retorna la lista de precios
   tags:
     - "productprice"
   description: Retorna la lista completa de precios

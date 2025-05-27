@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve pay schedules
+  summary: Retorna la lista de esquemas de pago
   tags:
     - "payschedule"
   description: Retorna la lista completa de esquemas de pago

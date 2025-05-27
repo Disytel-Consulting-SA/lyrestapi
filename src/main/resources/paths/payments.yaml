@@ -1,7 +1,7 @@
 get:
   tags:
     - "payment"
-  summary: Retrieve all payments
+  summary: Retorna pagos
   description: Retorna la lista completa de pagos
   operationId: getAllPayments
   parameters:

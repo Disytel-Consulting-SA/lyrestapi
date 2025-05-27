@@ -1,7 +1,7 @@
 get:
   tags:
     - "bpartner"
-  summary: Retrieve all business partners
+  summary: Retorna la lista de articulos
   description: Retorna la lista completa de articulos
   operationId: getAllBPartners
   parameters:

@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all POS configurations
+  summary: Retorna la lista de configuraciones TPV
   tags:
     - "pos"
   description: Retorna la lista completa de configuraciones TPV

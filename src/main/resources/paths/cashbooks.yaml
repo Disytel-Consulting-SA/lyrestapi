@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all cashbooks
+  summary: Retorna la lista de configuraciones de libro de caja
   tags:
     - "cashbook"
   description: Retorna la lista completa de configuraciones de libro de caja

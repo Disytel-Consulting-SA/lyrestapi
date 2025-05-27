@@ -1,7 +1,7 @@
 get:
   tags:
     - "location"
-  summary: Retrieve all locations
+  summary: Retorna la lista de direcciones
   description: Retorna la lista completa de direcciones
   operationId: getAllLocations
   parameters:

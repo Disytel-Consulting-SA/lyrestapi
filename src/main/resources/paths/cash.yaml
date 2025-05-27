@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all cash entries
+  summary: Retorna la lista de libros de caja
   tags:
     - "cash"
   description: Retorna la lista completa de libros de caja

@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all storages
+  summary: Retorna la lista de stock
   tags:
     - "storage"
   description: Retorna la lista completa de stock

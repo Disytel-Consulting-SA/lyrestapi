@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all taxes
+  summary: Retorna la lista de impuestos
   tags:
     - "tax"
   description: Retorna la lista completa de impuestos

@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all bank accounts
+  summary: Retorna la lista de cuentas bancarias
   tags:
     - "bankaccount"
   description: Retorna la lista completa de cuentas bancarias

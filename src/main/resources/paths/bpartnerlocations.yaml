@@ -1,7 +1,7 @@
 get:
   tags:
     - "bpartnerlocation"
-  summary: Retrieve all bpartner locations
+  summary: Retorna la lista de direcciones de entidad comercial
   description: Retorna la lista completa de direcciones de entidad comercial
   operationId: getAllBPartnerLocations
   parameters:

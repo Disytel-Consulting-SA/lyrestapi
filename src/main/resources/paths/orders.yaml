@@ -1,7 +1,7 @@
 get:
   tags:
     - "order"
-  summary: Retrieve orders
+  summary: Retorna pedidos
   description: Retorna una lista de pedidos
   operationId: getAllOrders
   parameters:

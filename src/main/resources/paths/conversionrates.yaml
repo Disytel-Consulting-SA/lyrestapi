@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all conversion rates
+  summary: Retorna la lista de tasas de conversion
   tags:
     - "conversionrate"
   description: Retorna la lista completa de tasas de conversion

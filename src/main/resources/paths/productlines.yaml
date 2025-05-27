@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all product lines
+  summary: Retorna la lista de lineas de articulos
   tags:
     - "productlines"
   description: Retorna la lista completa de lineas de articulos

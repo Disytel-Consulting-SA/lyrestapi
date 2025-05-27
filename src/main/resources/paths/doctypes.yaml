@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all document types
+  summary: Retorna la lista de tipos de documento
   tags:
     - "doctype"
   description: Retorna la lista completa de tipos de documento

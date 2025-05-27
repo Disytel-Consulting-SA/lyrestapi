@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all currencies
+  summary: Retorna la lista de monedas
   tags:
     - "currency"
   description: Retorna la lista completa de monedas

@@ -1,7 +1,7 @@
 get:
   tags:
     - "allocation"
-  summary: Retrieve allocations
+  summary: Retorna la lista de OP/RC
   description: Retorna una lista de OP/RC
   operationId: getAllAllocations
   parameters:

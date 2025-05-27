@@ -1,7 +1,7 @@
 get:
   tags:
     - "invoiceline"
-  summary: Retrieve invoice lines
+  summary: Retorna lineas de facturas
   description: Retorna una lista de lineas de facturas
   operationId: getAllInvoiceLines
   parameters:

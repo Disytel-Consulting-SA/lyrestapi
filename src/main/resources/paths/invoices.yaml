@@ -1,7 +1,7 @@
 get:
   tags:
     - "invoice"
-  summary: Retrieve invoices
+  summary: Retorna facturas
   description: Retorna una lista de facturas
   operationId: getAllInvoices
   parameters:

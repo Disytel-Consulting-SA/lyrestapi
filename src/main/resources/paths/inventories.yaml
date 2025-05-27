@@ -1,7 +1,7 @@
 get:
   tags:
     - "inventory"
-  summary: Retrieve inventories
+  summary: Retorna la lista de inventarios
   description: Retorna una lista de inventarios
   operationId: getAllInventories
   parameters:

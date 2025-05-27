@@ -1,7 +1,7 @@
 get:
   tags:
     - "cashline"
-  summary: Retrieve all cash lines
+  summary: Retorna la lista de lineas de efectivo
   description: Retorna la lista completa de lineas de efectivo
   operationId: getAllCashLines
   parameters:

@@ -1,7 +1,7 @@
 get:
   tags:
     - "inoutline"
-  summary: Retrieve inout lines
+  summary: Retorna la lista de lineas de remito
   description: Retorna una lista de lineas de remito
   operationId: getAllInOutLines
   parameters:

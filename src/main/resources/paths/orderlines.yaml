@@ -1,7 +1,7 @@
 get:
   tags:
     - "orderline"
-  summary: Retrieve order lines
+  summary: Retorna lineas de pedido
   description: Retorna una lista de lineas de pedido
   operationId: getAllOrderLines
   parameters:

@@ -1,5 +1,5 @@
 get:
-  summary: Retrieve all POS Payment Medium configurations
+  summary: Retorna la lista de medios de pago TPV
   tags:
     - "pospaymentmedium"
   description: Retorna la lista completa de medios de pago TPV

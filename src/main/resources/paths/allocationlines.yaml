@@ -1,7 +1,7 @@
 get:
   tags:
     - "allocationline"
-  summary: Retrieve allocation lines
+  summary: Retorna una lista de lineas de OP/RC
   description: Retorna una lista de lineas de OP/RC
   operationId: getAllAllocationLines
   parameters:
