@@ -1,36 +1,33 @@
 package org.libertya.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public abstract class DocumentIntegrationTests extends CommonIntegrationTests{
+public abstract class MaestroIntegrationTests extends CommonIntegrationTests{
 
-    /** Generacion de un documento.  Basado en contenido inicial en BDD bajo compañía Libertya (1010016) */
-    protected abstract String getDocumentContent() throws JsonProcessingException;
+    /** Generacion de un maestro.  Basado en contenido inicial en BDD bajo compañía Libertya (1010016) */
+    protected abstract String getMaestroContent() throws JsonProcessingException;
 
-    // path a utilizar, ej: "invoices/"
-    protected abstract String getDocumentPath();
+    // path a utilizar, ej: "locations/"
+    protected abstract String getMaestroPath();
 
     // ==================
     // CREACION ENTIDADES
     // ==================
 
     @Test
-    @org.junit.jupiter.api.Order(1)
-    void createDocumentShouldReturnOK() throws Exception {
+    @Order(1)
+    void createMaestroShouldReturnOK() throws Exception {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL(getDocumentPath()),
+                restTemplate.exchange(getBaseURL(getMaestroPath()),
                         HttpMethod.POST,
-                        new HttpEntity<>(getDocumentContent(), getAuthHeaders()),
+                        new HttpEntity<>(getMaestroContent(), getAuthHeaders()),
                         String.class);
         System.out.println(response.getBody());
         assertThat(response.getStatusCode().toString()).contains("200");
@@ -43,15 +40,14 @@ public abstract class DocumentIntegrationTests extends CommonIntegrationTests{
     // =========================
 
     @Test
-    @org.junit.jupiter.api.Order(200)
-    void retrieveCreatedDocumentShouldReturnOK() throws Exception {
+    @Order(200)
+    void retrieveCreatedMaestroShouldReturnOK() throws Exception {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL(getDocumentPath() + entityID),
+                restTemplate.exchange(getBaseURL(getMaestroPath() + entityID),
                         HttpMethod.GET,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
         assertThat(response.getStatusCode().toString()).contains("200");
-        afterRetrieve(response.getBody());
     }
 
     // Método hook para validaciones ad-hoc post retrieve
@@ -65,31 +61,30 @@ public abstract class DocumentIntegrationTests extends CommonIntegrationTests{
 //        assertThat(doc.getHeader().getGrandtotal().equals(new BigDecimal(350)));
 //    }
 
-
     // ======================
     // MODIFICACION ENTIDADES
     // ======================
 
     @Test
-    @org.junit.jupiter.api.Order(500)
-    void modifyDocumentShouldReturnOK() {
+    @Order(500)
+    void modifyMaestroShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL(getDocumentPath() + entityID),
+                restTemplate.exchange(getBaseURL(getMaestroPath() + entityID),
                         HttpMethod.PUT,
                         new HttpEntity<>(getModificationBody(), getAuthHeaders()),
                         String.class);
         assertThat(response.getStatusCode().toString()).contains("200");
     }
 
-    // método hook para declarar el body a utilizar en la modificación del documento, ej:
-    // return "{ \"descrption\" : \"Prueba en order\"}"
+    // método hook para declarar el body a utilizar en la modificación del maestro, ej:
+    // return "{ \"descrption\" : \"Prueba en location\"}"
     protected abstract String getModificationBody();
 
     @Test
-    @org.junit.jupiter.api.Order(500)
-    void modifyInexistentDocumentShouldReturnKO() {
+    @Order(500)
+    void modifyInexistentMaestroShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL(getDocumentPath() +"-1"),
+                restTemplate.exchange(getBaseURL(getMaestroPath()+"-1"),
                         HttpMethod.PUT,
                         new HttpEntity<>(getModificationBody(), getAuthHeaders()),
                         String.class);
@@ -102,9 +97,9 @@ public abstract class DocumentIntegrationTests extends CommonIntegrationTests{
     // =====================
 
     @Test
-    void deleteDocumentWithWrongTokenShouldReturnKO() {
+    void deleteMaestroWithWrongTokenShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL(getDocumentPath()+"1"),
+                restTemplate.exchange(getBaseURL(getMaestroPath()+"1"),
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, getUnauthHeaders()),
                         String.class);
@@ -112,47 +107,40 @@ public abstract class DocumentIntegrationTests extends CommonIntegrationTests{
     }
 
     @Test
-    void deleteInexistentDocumentShouldReturnKO() {
+    void deleteInexistentMaestroShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL(getDocumentPath()+"-1"), // <- Registro inexistente
+                restTemplate.exchange(getBaseURL(getMaestroPath()+"-1"), // <- Registro inexistente
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
         assertThat(response.getStatusCode().toString()).contains("404");
     }
 
-    /* PENDIENTE -> necesita customización para obtener el registro a utilizar, quizás como hook */
-//    @Test
-//    void deleteDocumentWithCompanyMismatchShouldReturnKO() {
-//        ResponseEntity<String> response =
-//                restTemplate.exchange(getBaseURL("orders/1003820"),	// <- Registro de AD_Client_ID = 1000005
-//                        HttpMethod.DELETE,
-//                        new HttpEntity<>(null, getAuthHeaders()),
-//                        String.class);
-//        assertThat(response.getStatusCode().toString()).contains("401");
-//    }
-
     @Test
-    @org.junit.jupiter.api.Order(1000)
-    void deleteProcessedDocumentShouldReturnKO() {
+    void deleteMaestroWithCompanyMismatchShouldReturnKO() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL(getDocumentPath() + entityID),	// <- Document procesado cuyo AD_Client_ID = 1010016
+                restTemplate.exchange(getBaseURL(getMaestroPath()+getRecordIDWithComapnyMismatch()),	// <- Registro de AD_Client_ID = 1000005
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
-        assertThat(response.getStatusCode().toString()).contains("409");
+        assertThat(response.getStatusCode().toString()).contains("401");
     }
 
+    // método hook para declarar ID de registro a utilizar con distinto AD_Client_ID ej: 1000005
+    protected abstract String getRecordIDWithComapnyMismatch();
+
     @Test
-    @org.junit.jupiter.api.Order(1500)
-    void voidCompletedDocumentShouldReturnOK() {
+    @Order(1000)
+    void deleteMaestroShouldReturnOK() {
         ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL(getDocumentPath() + entityID + "/process?action=VO"),	// <- Document procesado cuyo AD_Client_ID = 1010016
-                        HttpMethod.PUT,
+                restTemplate.exchange(getBaseURL(getMaestroPath() + entityID),	// <- Maestro creado cuyo AD_Client_ID = 1010016
+                        HttpMethod.DELETE,
                         new HttpEntity<>(null, getAuthHeaders()),
                         String.class);
-        assertThat(response.getStatusCode().toString()).contains("200");
+        assertThat(response.getStatusCode().toString()).contains("204");
     }
+
+
 
 
 }

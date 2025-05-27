@@ -176,4 +176,34 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 		assertThat(response.getStatusCode().toString()).contains("200");
 	}
 
+	// =====================
+	// INVOICE LINES
+	// =====================
+
+	/* Se descartan los tests de invoice lines haciendolo desde un unico payload en el create de invoice */
+
+//	protected String getInvoiceLineContent() throws JsonProcessingException {
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		InvoiceLine line = new InvoiceLine();
+//		line.setLine(30);
+//		line.setCInvoiceId(entityID);
+//		line.setAdOrgId(1010053);
+//		line.setQtyinvoiced(new BigDecimal(9));
+//		line.setPriceactual(new BigDecimal(900));
+//		return objectMapper.writeValueAsString(line);
+//	}
+
+//	@Test
+//	@Order(50)
+//	void createInvoiceLineShouldReturnOK() throws Exception {
+//		ResponseEntity<String> response =
+//				restTemplate.exchange(getBaseURL("invoicelines/"),
+//						HttpMethod.POST,
+//						new HttpEntity<>(getInvoiceLineContent(), getAuthHeaders()),
+//						String.class);
+//		System.out.println(response.getBody());
+//		assertThat(response.getStatusCode().toString()).contains("200");
+//	}
+
+
 }
