@@ -112,7 +112,7 @@ public interface PayscheduleApi {
     }
 
 
-    @Operation(summary = "Retrieve pay schedules", description = "Retorna la lista completa de esquemas de pago", security = {
+    @Operation(summary = "Retorna la lista de esquemas de pago", description = "Retorna la lista completa de esquemas de pago", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "payschedule" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PaySchedule.class)))) })

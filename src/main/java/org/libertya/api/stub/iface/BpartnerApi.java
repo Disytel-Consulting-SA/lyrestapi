@@ -112,7 +112,7 @@ public interface BpartnerApi {
     }
 
 
-    @Operation(summary = "Retrieve all business partners", description = "Retorna la lista completa de articulos", security = {
+    @Operation(summary = "Retorna la lista de articulos", description = "Retorna la lista completa de articulos", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "bpartner" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = BPartner.class)))) })

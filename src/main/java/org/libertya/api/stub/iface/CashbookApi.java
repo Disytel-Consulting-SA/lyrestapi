@@ -112,7 +112,7 @@ public interface CashbookApi {
     }
 
 
-    @Operation(summary = "Retrieve all cashbooks", description = "Retorna la lista completa de configuraciones de libro de caja", security = {
+    @Operation(summary = "Retorna la lista de configuraciones de libro de caja", description = "Retorna la lista completa de configuraciones de libro de caja", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "cashbook" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = CashBook.class)))) })

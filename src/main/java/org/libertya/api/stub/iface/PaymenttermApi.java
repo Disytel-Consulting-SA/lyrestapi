@@ -112,7 +112,7 @@ public interface PaymenttermApi {
     }
 
 
-    @Operation(summary = "Retrieve all payment terms", description = "Retorna la lista completa de programas de vencimientos", security = {
+    @Operation(summary = "Retorna la lista de programas de vencimientos", description = "Retorna la lista completa de programas de vencimientos", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "paymentterm" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PaymentTerm.class)))) })

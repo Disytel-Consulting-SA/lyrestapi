@@ -112,7 +112,7 @@ public interface LetracomprobanteApi {
     }
 
 
-    @Operation(summary = "", description = "Retorna la lista completa letras de comprobante", security = {
+    @Operation(summary = "Retorna la lista de letras de comprobante", description = "Retorna la lista completa de letras de comprobante", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "letracomprobante" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = LetraComprobante.class)))) })

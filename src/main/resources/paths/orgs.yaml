@@ -1,6 +1,7 @@
 get:
   tags:
     - "org"
+  summary: Retorna la lista de organizaciones
   description: Retorna la lista completa de organizaciones
   operationId: getAllOrgs
   parameters:

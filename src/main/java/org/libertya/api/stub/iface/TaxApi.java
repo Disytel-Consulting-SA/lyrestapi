@@ -112,7 +112,7 @@ public interface TaxApi {
     }
 
 
-    @Operation(summary = "Retrieve all taxes", description = "Retorna la lista completa de impuestos", security = {
+    @Operation(summary = "Retorna la lista de impuestos", description = "Retorna la lista completa de impuestos", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "tax" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Tax.class)))) })

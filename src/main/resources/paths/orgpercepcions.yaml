@@ -1,6 +1,7 @@
 get:
   tags:
     - "orgpercepcion"
+  summary: Retorna la lista de percepciones de organizacion
   description: Retorna la lista completa de percepciones de organizacion
   operationId: getAllOrgPerceptions
   parameters:

@@ -112,7 +112,7 @@ public interface BpartnerlocationApi {
     }
 
 
-    @Operation(summary = "Retrieve all bpartner locations", description = "Retorna la lista completa de direcciones de entidad comercial", security = {
+    @Operation(summary = "Retorna la lista de direcciones de entidad comercial", description = "Retorna la lista completa de direcciones de entidad comercial", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "bpartnerlocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = BPartnerLocation.class)))) })

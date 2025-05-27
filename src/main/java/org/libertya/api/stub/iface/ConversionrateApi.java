@@ -112,7 +112,7 @@ public interface ConversionrateApi {
     }
 
 
-    @Operation(summary = "Retrieve all conversion rates", description = "Retorna la lista completa de tasas de conversion", security = {
+    @Operation(summary = "Retorna la lista de tasas de conversion", description = "Retorna la lista completa de tasas de conversion", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "conversionrate" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ConversionRate.class)))) })

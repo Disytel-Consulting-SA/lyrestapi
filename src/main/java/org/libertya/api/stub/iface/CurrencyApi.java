@@ -112,7 +112,7 @@ public interface CurrencyApi {
     }
 
 
-    @Operation(summary = "Retrieve all currencies", description = "Retorna la lista completa de monedas", security = {
+    @Operation(summary = "Retorna la lista de monedas", description = "Retorna la lista completa de monedas", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "currency" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Currency.class)))) })

@@ -112,7 +112,7 @@ public interface InventorylineApi {
     }
 
 
-    @Operation(summary = "Retrieve inventory lines", description = "Retorna una lista de lineas de inventario", security = {
+    @Operation(summary = "Retorna la lista de lineas de inventario", description = "Retorna una lista de lineas de inventario", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "inventoryline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = InventoryLine.class)))) })

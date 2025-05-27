@@ -112,7 +112,7 @@ public interface PosApi {
     }
 
 
-    @Operation(summary = "Retrieve all POS configurations", description = "Retorna la lista completa de configuraciones TPV", security = {
+    @Operation(summary = "Retorna la lista de configuraciones TPV", description = "Retorna la lista completa de configuraciones TPV", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "pos" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = POS.class)))) })

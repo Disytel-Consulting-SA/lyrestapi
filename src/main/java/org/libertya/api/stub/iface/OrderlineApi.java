@@ -112,7 +112,7 @@ public interface OrderlineApi {
     }
 
 
-    @Operation(summary = "Retrieve order lines", description = "Retorna una lista de lineas de pedido", security = {
+    @Operation(summary = "Retorna lineas de pedido", description = "Retorna una lista de lineas de pedido", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "orderline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = OrderLine.class)))) })

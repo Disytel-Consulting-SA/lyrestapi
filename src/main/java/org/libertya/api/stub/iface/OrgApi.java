@@ -112,7 +112,7 @@ public interface OrgApi {
     }
 
 
-    @Operation(summary = "", description = "Retorna la lista completa de organizaciones", security = {
+    @Operation(summary = "Retorna la lista de organizaciones", description = "Retorna la lista completa de organizaciones", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "org" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Org.class)))) })

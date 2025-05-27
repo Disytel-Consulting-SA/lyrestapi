@@ -114,7 +114,7 @@ public interface AllocationApi {
     }
 
 
-    @Operation(summary = "Retrieve allocations", description = "Retorna una lista de OP/RC", security = {
+    @Operation(summary = "Retorna la lista de OP/RC", description = "Retorna una lista de OP/RC", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "allocation" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AllocationHdr.class)))) })

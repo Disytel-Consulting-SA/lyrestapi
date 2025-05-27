@@ -112,7 +112,7 @@ public interface InvoicelineApi {
     }
 
 
-    @Operation(summary = "Retrieve invoice lines", description = "Retorna una lista de lineas de facturas", security = {
+    @Operation(summary = "Retorna lineas de facturas", description = "Retorna una lista de lineas de facturas", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoiceline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = InvoiceLine.class)))) })

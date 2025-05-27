@@ -113,7 +113,7 @@ public interface InoutApi {
     }
 
 
-    @Operation(summary = "Retrieve inouts", description = "Retorna una lista de remitos", security = {
+    @Operation(summary = "Retorna la lista de remitos", description = "Retorna una lista de remitos", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "inout" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = InOut.class)))) })

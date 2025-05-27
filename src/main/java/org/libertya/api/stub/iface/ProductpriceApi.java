@@ -112,7 +112,7 @@ public interface ProductpriceApi {
     }
 
 
-    @Operation(summary = "Retrieve all product prices", description = "Retorna la lista completa de precios", security = {
+    @Operation(summary = "Retorna la lista de precios", description = "Retorna la lista completa de precios", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "productprice" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductPrice.class)))) })

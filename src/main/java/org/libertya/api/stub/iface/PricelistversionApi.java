@@ -112,7 +112,7 @@ public interface PricelistversionApi {
     }
 
 
-    @Operation(summary = "Retrieve all price list versions", description = "Retorna la lista completa de versiones de lista de precio", security = {
+    @Operation(summary = "Retorna la lista de versiones de lista de precio", description = "Retorna la lista completa de versiones de lista de precio", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "pricelistversion" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PriceListVersion.class)))) })

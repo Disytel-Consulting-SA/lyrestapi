@@ -112,7 +112,7 @@ public interface CashApi {
     }
 
 
-    @Operation(summary = "Retrieve all cash entries", description = "Retorna la lista completa de libros de caja", security = {
+    @Operation(summary = "Retorna la lista de libros de caja", description = "Retorna la lista completa de libros de caja", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "cash" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Cash.class)))) })

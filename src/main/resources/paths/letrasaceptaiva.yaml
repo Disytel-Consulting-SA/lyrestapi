@@ -1,6 +1,7 @@
 get:
   tags:
     - "letraaceptaiva"
+  summary: Retorna la lista completa de letra acepta IVA
   description: Retorna la lista completa de letra acepta IVA
   operationId: getAllLetraAceptaIVA
   parameters:

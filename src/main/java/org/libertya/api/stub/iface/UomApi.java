@@ -112,7 +112,7 @@ public interface UomApi {
     }
 
 
-    @Operation(summary = "Retrieve all units of measure", description = "Retorna la lista completa de unidades de medida", security = {
+    @Operation(summary = "Retorna la lista de unidades de medida", description = "Retorna la lista completa de unidades de medida", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "uom" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UOM.class)))) })

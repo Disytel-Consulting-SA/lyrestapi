@@ -112,7 +112,7 @@ public interface DoctypeApi {
     }
 
 
-    @Operation(summary = "Retrieve all document types", description = "Retorna la lista completa de tipos de documento", security = {
+    @Operation(summary = "Retorna la lista de tipos de documento", description = "Retorna la lista completa de tipos de documento", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "doctype" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DocType.class)))) })

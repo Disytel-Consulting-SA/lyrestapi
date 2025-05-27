@@ -112,7 +112,7 @@ public interface InoutlineApi {
     }
 
 
-    @Operation(summary = "Retrieve inout lines", description = "Retorna una lista de lineas de remito", security = {
+    @Operation(summary = "Retorna la lista de lineas de remito", description = "Retorna una lista de lineas de remito", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "inoutline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = InOutLine.class)))) })

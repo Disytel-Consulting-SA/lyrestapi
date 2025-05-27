@@ -112,7 +112,7 @@ public interface LetraaceptaivaApi {
     }
 
 
-    @Operation(summary = "", description = "Retorna la lista completa de letra acepta IVA", security = {
+    @Operation(summary = "Retorna la lista completa de letra acepta IVA", description = "Retorna la lista completa de letra acepta IVA", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "letraaceptaiva" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = LetraAceptaIVA.class)))) })

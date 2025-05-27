@@ -112,7 +112,7 @@ public interface PospaymentmediumApi {
     }
 
 
-    @Operation(summary = "Retrieve all POS Payment Medium configurations", description = "Retorna la lista completa de medios de pago TPV", security = {
+    @Operation(summary = "Retorna la lista de medios de pago TPV", description = "Retorna la lista completa de medios de pago TPV", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "pospaymentmedium" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = POSPaymentMedium.class)))) })

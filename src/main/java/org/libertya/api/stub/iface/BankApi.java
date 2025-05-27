@@ -112,7 +112,7 @@ public interface BankApi {
     }
 
 
-    @Operation(summary = "Retrieve all banks", description = "Retorna la lista completa de bancos", security = {
+    @Operation(summary = "Retorna la lista de bancos", description = "Retorna la lista completa de bancos", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "bank" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Bank.class)))) })

@@ -112,7 +112,7 @@ public interface ProductcategoriesApi {
     }
 
 
-    @Operation(summary = "Retrieve all product categories", description = "Retorna la lista completa de subfamilia de articulos", security = {
+    @Operation(summary = "Retorna la lista de subfamilia de articulos", description = "Retorna la lista completa de subfamilia de articulos", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "productcategories" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ProductCategories.class)))) })

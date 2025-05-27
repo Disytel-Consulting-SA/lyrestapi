@@ -1,7 +1,8 @@
 get:
   tags:
     - "letracomprobante"
-  description: Retorna la lista completa letras de comprobante
+  summary: Retorna la lista de letras de comprobante
+  description: Retorna la lista completa de letras de comprobante
   operationId: getAllLetrasComprobante
   parameters:
     - in: query

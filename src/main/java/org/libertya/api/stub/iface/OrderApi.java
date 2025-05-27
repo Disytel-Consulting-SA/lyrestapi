@@ -113,7 +113,7 @@ public interface OrderApi {
     }
 
 
-    @Operation(summary = "Retrieve orders", description = "Retorna una lista de pedidos", security = {
+    @Operation(summary = "Retorna pedidos", description = "Retorna una lista de pedidos", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "order" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Order.class)))) })

@@ -112,7 +112,7 @@ public interface AllocationlineApi {
     }
 
 
-    @Operation(summary = "Retrieve allocation lines", description = "Retorna una lista de lineas de OP/RC", security = {
+    @Operation(summary = "Retorna una lista de lineas de OP/RC", description = "Retorna una lista de lineas de OP/RC", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "allocationline" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = AllocationLine.class)))) })

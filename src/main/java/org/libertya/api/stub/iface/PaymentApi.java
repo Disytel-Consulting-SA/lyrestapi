@@ -112,7 +112,7 @@ public interface PaymentApi {
     }
 
 
-    @Operation(summary = "Retrieve all payments", description = "Retorna la lista completa de pagos", security = {
+    @Operation(summary = "Retorna pagos", description = "Retorna la lista completa de pagos", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "payment" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Payment.class)))) })

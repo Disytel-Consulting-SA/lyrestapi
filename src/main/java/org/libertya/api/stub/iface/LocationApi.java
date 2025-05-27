@@ -112,7 +112,7 @@ public interface LocationApi {
     }
 
 
-    @Operation(summary = "Retrieve all locations", description = "Retorna la lista completa de direcciones", security = {
+    @Operation(summary = "Retorna la lista de direcciones", description = "Retorna la lista completa de direcciones", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "location" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Location.class)))) })

@@ -112,7 +112,7 @@ public interface OrgpercepcionApi {
     }
 
 
-    @Operation(summary = "", description = "Retorna la lista completa de percepciones de organizacion", security = {
+    @Operation(summary = "Retorna la lista de percepciones de organizacion", description = "Retorna la lista completa de percepciones de organizacion", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "orgpercepcion" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = OrgPercepcion.class)))) })

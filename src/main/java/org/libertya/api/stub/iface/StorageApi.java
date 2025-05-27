@@ -57,7 +57,7 @@ public interface StorageApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @Operation(summary = "Retrieve all storages", description = "Retorna la lista completa de stock", security = {
+    @Operation(summary = "Retorna la lista de stock", description = "Retorna la lista completa de stock", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "storage" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Storage.class)))) })
