@@ -78,7 +78,9 @@ public abstract class MaestroIntegrationTests extends CommonIntegrationTests{
 
     // método hook para declarar el body a utilizar en la modificación del maestro, ej:
     // return "{ \"descrption\" : \"Prueba en location\"}"
-    protected abstract String getModificationBody();
+    protected String getModificationBody(){
+        return "{ \"descrption\" : \"Prueba\"}";
+    }
 
     @Test
     @Order(500)
