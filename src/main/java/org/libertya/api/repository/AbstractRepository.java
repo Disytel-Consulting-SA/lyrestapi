@@ -597,7 +597,7 @@ public abstract class AbstractRepository {
         try {
             // Se esta insertando o se solicitó omitir el modelo?
             if (inserting || schemaUtils.shouldForceValues()) {
-                return po.get_ColumnIndex(aColumn.getColumnName()) > 0 &&
+                return po.get_ColumnIndex(aColumn.getColumnName()) >= 0 &&
                         (
                                 ((null == value || schemaUtils.getNullValue().equals(value)) && po.set_ValueNoCheck(aColumn.getColumnName(), null)) ||
                                         (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), value)) ||
@@ -608,7 +608,7 @@ public abstract class AbstractRepository {
             }
             // Validar contra el modelo la actualizacion en cuestion
             checkAlwaysUpdatable(po, aColumn);
-            boolean ok = po.get_ColumnIndex(aColumn.getColumnName()) > 0 &&
+            boolean ok = po.get_ColumnIndex(aColumn.getColumnName()) >= 0 &&
                     (
                             ((null == value || schemaUtils.getNullValue().equals(value)) && po.set_Value(aColumn.getColumnName(), null)) ||
                                     (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), value)) ||
