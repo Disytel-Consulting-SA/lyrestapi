@@ -3,6 +3,48 @@ components:
     LetraAceptaIVA:
       type: object
       properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        categoria_customer:
+          type: integer
+          description: " "
+        categoria_vendor:
+          type: integer
+          description: " "
+        c_letra_acepta_iva_id:
+          type: integer
+          description: " "
+        c_letra_comprobante_id:
+          type: integer
+          description: " "
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        c_tax_id:
+          type: integer
+          description: "Identificador del Impuesto"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        montomax:
+          type: number
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
         additionalvalues:
           type: array
           items:
@@ -12,3 +54,14 @@ components:
           items:
             $ref: './propertiesmap.yaml#/propertiesmap'
       required:
+         - ad_client_id
+         - ad_org_id
+         - categoria_customer
+         - categoria_vendor
+         - c_letra_acepta_iva_id
+         - c_letra_comprobante_id
+         - created
+         - createdby
+         - isactive
+         - updated
+         - updatedby

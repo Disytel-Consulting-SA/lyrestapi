@@ -20,7 +20,7 @@ select columnname from
         inner join ad_table t on c.ad_table_id = t.ad_table_id
         inner join ad_element e on c.ad_element_id = e.ad_element_id
         inner join ad_element_trl e_trl on e.ad_element_id = e_trl.ad_element_id and ad_language = 'es_AR'
-        where t.tablename = :tabla
+        where lower(t.tablename) = lower(:tabla)
         and c.isactive = 'Y'
         and c.ad_reference_id not in (23, 32) -- LOB por el momento no
         and (c.ismandatory = 'Y' or lower(c.columnname) in :columnas)
@@ -47,7 +47,7 @@ select columnname from
             e'         - ' || lower(c.columnname)
         from ad_column c
         inner join ad_table t on c.ad_table_id = t.ad_table_id
-        where t.tablename = :tabla
+        where lower(t.tablename) = lower(:tabla)
         and c.isactive = 'Y'
         and c.ad_reference_id not in (23, 32) -- LOB por el momento no
         and (c.ismandatory = 'Y' or lower(c.columnname) in :columnas)

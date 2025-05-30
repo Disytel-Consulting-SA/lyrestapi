@@ -12,13 +12,13 @@ public class LetrasAceptaIVAIntegrationTests extends MaestroIntegrationTests{
         ObjectMapper objectMapper = new ObjectMapper();
 
         LetraAceptaIVA letraAceptaIva = new LetraAceptaIVA();
-//        letraAceptaIva.setcategoriavendor(1010288);
-//        letraAceptaIva.setCategoriaCustomer(1010288);
-//        letraAceptaIva.setMontoMax(null);
-//        letraAceptaIva.setCLetraComprobanteId(1010277);
-//        letraAceptaIva.setAdClientId(1010016);
-//        letraAceptaIva.setAdOrgId(1010053);
-//        letraAceptaIva.setCTaxId(null);
+        letraAceptaIva.setCategoriaVendor(1010288);
+        letraAceptaIva.setCategoriaCustomer(1010288);
+        letraAceptaIva.setMontomax(null);
+        letraAceptaIva.setCLetraComprobanteId(1010277);
+        letraAceptaIva.setAdClientId(1010016);
+        letraAceptaIva.setAdOrgId(1010053);
+        letraAceptaIva.setCTaxId(null);
 
         return objectMapper.writeValueAsString(letraAceptaIva);
     }
