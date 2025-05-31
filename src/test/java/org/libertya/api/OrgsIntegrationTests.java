@@ -12,8 +12,8 @@ public class OrgsIntegrationTests extends MaestroIntegrationTests{
         ObjectMapper objectMapper = new ObjectMapper();
         Org org = new Org();
         org.setAdClientId(1010016);
-        org.setValue("Prueba");
-        org.setName("Prueba");
+        org.setValue("Test");
+        org.setName("Test");
         org.setDescription(null);
         org.setIssummary(false);
         return objectMapper.writeValueAsString(org);
