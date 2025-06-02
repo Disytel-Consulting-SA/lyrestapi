@@ -136,9 +136,11 @@ public abstract class AbstractRepository {
      */
     protected void setValueToObject(UserInfo info, Object target, Field property, M_Column aColumn, Object value) throws ModelException {
         try {
+            // Workaround para DisplayType.  Table (18) lo considera de uso con enteros (withoutQuotes = true), pero esto afecta a AD_Language por ejemplo (el cual es un string).
+            Class valueClass = (value != null ? value.getClass() : null);
             if (value == null)
                 property.set(target, null);
-            else if (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false)) {
+            else if (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && (String.class != valueClass)) {
                 property.set(target, value);
                 if (useReferencedValues(info))
                     setReferencedValue(target, value, aColumn);
