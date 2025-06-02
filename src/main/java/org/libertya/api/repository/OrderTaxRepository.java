@@ -10,5 +10,6 @@ public class OrderTaxRepository  extends AbstractRepository {
     public OrderTaxRepository() {
         tableName = X_C_OrderTax.Table_Name;
         iface = OrderTax::new;
+        pkColumns = new String[]{"C_Order_ID", "C_Tax_ID"};
     }
 }
