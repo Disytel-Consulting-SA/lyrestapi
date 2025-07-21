@@ -51,6 +51,7 @@ public class AllocationIntegrationTests extends CommonIntegrationTests {
         ObjectMapper objectMapper = new ObjectMapper();
 
         AllocationNew alloc = new AllocationNew();
+        alloc.setAdClientId(1010016);
         alloc.setAdOrgId(1010053);
         alloc.setCBpartnerId(1012142);
         alloc.setEarlypayment(false);
