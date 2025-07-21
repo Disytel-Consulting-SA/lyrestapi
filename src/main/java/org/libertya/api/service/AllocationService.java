@@ -103,6 +103,7 @@ public class AllocationService extends AbstractService {
         }
 
         // Generar las lineas del allocation en funcion de los pagos y facturas cargados en rcGenerator
+        rcGenerator.setDocType(allocData.getCDoctypeId());
         rcGenerator.generateLines();
         rcGenerator.completeAllocation();
 
