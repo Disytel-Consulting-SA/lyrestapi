@@ -507,16 +507,23 @@ public abstract class AbstractRepository {
             if (Integer.class == clazz &&
                     (po.get_Value(columnName) == null || "0".equals(po.get_ValueAsString(columnName))) &&
                     (aColumn.getDefaultValue() != null && aColumn.getDefaultValue().length() > 0 && !aColumn.getDefaultValue().trim().startsWith("@")))
-                setValue(po, aColumn, aColumn.getDefaultValue(), true);
+                setValue(po, aColumn, getDefaultValue(aColumn), true);
 
             // Solo para tipo BigDecimal
             if (BigDecimal.class == clazz &&
                     (po.get_Value(columnName) == null || BigDecimal.ZERO.compareTo(new BigDecimal(po.get_ValueAsString(columnName))) == 0) &&
                     (aColumn.getDefaultValue() != null && aColumn.getDefaultValue().length() > 0 && !aColumn.getDefaultValue().trim().startsWith("@")))
-                setValue(po, aColumn, aColumn.getDefaultValue(), true);
+                setValue(po, aColumn, getDefaultValue(aColumn), true);
         } catch (Exception e) {
             throw new ModelException("No es posible setear valor por defecto" + aColumn.getDefaultValue() + " en columna " + aColumn.getColumnName() + " de entidad " + po.get_TableName() + "(" + e.getMessage() + ")");
         }
+    }
+
+    /**  */
+    String getDefaultValue(M_Column aColumn) {
+        if (aColumn.getDefaultValue()==null || aColumn.getDefaultValue().equalsIgnoreCase("null"))
+            return null;
+        return aColumn.getDefaultValue();
     }
 
     /** Usar valores por defecto? */
