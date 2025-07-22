@@ -33,7 +33,8 @@ public class BPartnerIntegrationTests extends MaestroIntegrationTests{
         bp.setDuns(null);
         bp.setUrl(null);
 //        bp.setAdLanguage("es_AR");
-        bp.setTaxid("33-69345024-9");
+        bp.setTaxid("20-12801863-9");
+        bp.setTaxidtype("80");
         bp.setIstaxexempt(false);
         bp.setCPaymenttermId(1010083);
         bp.setMPricelistId(1000587);
@@ -63,7 +64,7 @@ public class BPartnerIntegrationTests extends MaestroIntegrationTests{
         bp.setPaymentblocked(false);
         bp.setTrxenabled(true);
         bp.setEmitirMiPyme(false);
-        bp.setCBankaccountId(99999999); // <-- obtengo: java.lang.NumberFormatException: For input string: "null"
+        bp.setCBankaccountId(9999999); // <-- obtengo: java.lang.NumberFormatException: For input string: "null"
 
         return objectMapper.writeValueAsString(bp);
     }
