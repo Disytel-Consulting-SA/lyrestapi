@@ -43,12 +43,16 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 		line1.setAdOrgId(1010053);
 		line1.setQtyinvoiced(new BigDecimal(2));
 		line1.setPriceactual(new BigDecimal(100));
+		line1.setPricelist(new BigDecimal(100));
+		line1.setPriceentered(new BigDecimal(100));
 
 		InvoiceLine line2 = new InvoiceLine();
 		line2.setLine(20);
 		line2.setAdOrgId(1010053);
 		line2.setQtyinvoiced(new BigDecimal(5));
 		line2.setPriceactual(new BigDecimal(30));
+		line2.setPricelist(new BigDecimal(30));
+		line2.setPriceentered(new BigDecimal(30));
 
 		InvoiceDocument doc = new InvoiceDocument();
 		doc.setHeader(inv);
