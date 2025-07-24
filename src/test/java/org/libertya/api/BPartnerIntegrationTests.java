@@ -3,6 +3,7 @@ package org.libertya.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.libertya.api.stub.model.BPartner;
+import org.openXpertya.util.DB;
 
 import java.math.BigDecimal;
 
@@ -11,6 +12,12 @@ public class BPartnerIntegrationTests extends MaestroIntegrationTests{
 
     @Override
     protected String getMaestroContent() throws JsonProcessingException {
+
+        // Se requiere categoria de iva
+        DB.executeUpdate("INSERT INTO c_categoria_iva " +
+                "(c_categoria_iva_id, name, created, createdby, updated, updatedby, ad_client_id, ad_org_id, isactive, codigo, c_sicore, requierecuit, ad_componentobjectuid, ispercepcionliable, c_tax_id, i_tipo_iva, fiscalprintercodigo) " +
+                "VALUES (1010287, 'CONSUMIDOR FINAL', '2022-05-05 10:02:48.572504', 101, '2022-05-05 10:02:48.572504', 101, 1010016, 0, 'Y', '1', NULL, 'N', 'L_AR-C_Categoria_Iva-1010017', 'N', NULL, 'CF', NULL);");
+
         ObjectMapper objectMapper = new ObjectMapper();
 
         BPartner bp = new BPartner();

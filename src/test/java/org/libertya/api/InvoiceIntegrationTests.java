@@ -31,8 +31,8 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 		inv.setCDoctypeId(1010507);
 		inv.setCDoctypetargetId(1010507);
 		inv.setCPaymenttermId(1010083);
-		inv.setDateacct(TEST_DATE);
-		inv.setDateinvoiced(TEST_DATE);
+		inv.setDateacct(getFormattedDate());
+		inv.setDateinvoiced(getFormattedDate());
 		inv.setMPricelistId(1010595);
 		inv.setPaymentrule("S");
 		inv.setSalesrepId(100);
