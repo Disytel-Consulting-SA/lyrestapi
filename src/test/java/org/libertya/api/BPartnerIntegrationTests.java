@@ -71,7 +71,7 @@ public class BPartnerIntegrationTests extends MaestroIntegrationTests{
         bp.setPaymentblocked(false);
         bp.setTrxenabled(true);
         bp.setEmitirMiPyme(false);
-        bp.setCBankaccountId(9999999); // <-- obtengo: java.lang.NumberFormatException: For input string: "null"
+        bp.setCBankaccountId(99999999); // <-- obtengo: java.lang.NumberFormatException: For input string: "null"
 
         return objectMapper.writeValueAsString(bp);
     }
