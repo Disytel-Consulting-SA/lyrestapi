@@ -11,6 +11,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -28,10 +31,8 @@ class InOutIntegrationTests extends CommonIntegrationTests {
         inout.setCBpartnerId(1012145);
         inout.setCBpartnerLocationId(1012158);
         inout.setCDoctypeId(1010522);
-        inout.setMovementdate("2025-05-15 18:00:00");
-        inout.setDateacct("2025-05-15 18:00:00");
-//        inout.setMovementdate("2023-06-01 18:00:00");
-//        inout.setDateacct("2023-06-01 18:00:00");
+        inout.setMovementdate(getFormattedDate());
+        inout.setDateacct(getFormattedDate());
         inout.setMWarehouseId(1010048);
         inout.setMovementtype("V+");
 

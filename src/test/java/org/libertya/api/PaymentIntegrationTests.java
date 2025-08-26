@@ -33,8 +33,8 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
         payment.setCBpartnerId(1012145);
         payment.setCCurrencyId(118);
         payment.setCDoctypeId(1010512);
-        payment.setDateacct(TEST_DATE);
-        payment.setBankPaymentDate(TEST_DATE);
+        payment.setDateacct(getFormattedDate());
+        payment.setBankPaymentDate(getFormattedDate());
         payment.setPayamt(new BigDecimal(350));
         payment.setTendertype("K");
         payment.setDateemissioncheck(TEST_DATE);

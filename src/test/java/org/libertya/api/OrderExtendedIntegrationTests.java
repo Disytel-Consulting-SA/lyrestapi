@@ -22,8 +22,8 @@ public class OrderExtendedIntegrationTests extends DocumentIntegrationTests{
         order.setCDoctypeId(1010532);
         order.setCDoctypetargetId(1010532);
         order.setCPaymenttermId(1010083);
-        order.setDateordered(TEST_DATE);
-        order.setDateacct(TEST_DATE);
+        order.setDateordered(getFormattedDate());
+        order.setDateacct(getFormattedDate());
         order.setMPricelistId(1010595);
         order.setPaymentrule("S");
         order.setSalesrepId(100);

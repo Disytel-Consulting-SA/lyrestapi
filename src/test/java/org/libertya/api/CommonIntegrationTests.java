@@ -10,6 +10,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -73,6 +76,12 @@ public class CommonIntegrationTests {
     /** Obtiene los headers SIN autorizacion correctos */
     protected HttpHeaders getUnauthHeaders() {
         return getHeaders(new String[]{"Content-Type=application/json", "Authorization=Bearer FOOBAR"});
+    }
+
+    protected String getFormattedDate(){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
     }
 
     // =============

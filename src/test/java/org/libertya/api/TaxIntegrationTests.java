@@ -3,6 +3,7 @@ package org.libertya.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.libertya.api.stub.model.Tax;
+import org.openXpertya.util.DB;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -10,6 +11,10 @@ import java.sql.Timestamp;
 public class TaxIntegrationTests extends MaestroIntegrationTests{
     @Override
     protected String getMaestroContent() throws JsonProcessingException {
+
+        DB.executeUpdate("INSERT INTO c_taxcategory " +
+                "(c_taxcategory_id, ad_client_id, ad_org_id, isactive, created, createdby, updated, updatedby, name, description, commoditycode, isdefault, ismanual, ad_componentobjectuid) " +
+                "VALUES (1010328, 1010016, 1010053, 'Y', '2022-05-05 10:03:41.748672', 101, '2022-05-05 10:03:41.748672', 101, 'Percepciones', NULL, NULL, 'N', 'Y', 'L_AR-C_TaxCategory-1010068');");
 
         ObjectMapper objectMapper = new ObjectMapper();
         Tax tax = new Tax();
