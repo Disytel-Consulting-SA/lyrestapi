@@ -147,6 +147,11 @@ public abstract class AbstractController {
                 }
             }
         }
+        // Si no se especifico limit/page, se toman los valores por defecto
+        if (limit == -1 && page == -1) {
+            limit = AbstractRepository.DEFAULT_LIMIT;
+            page = 1;
+        }
         if (limit != -1 && page != -1) {
             String path = uri.getPath();
             String baseLink = uri.getScheme() + "://" + uri.getAuthority() + path;
