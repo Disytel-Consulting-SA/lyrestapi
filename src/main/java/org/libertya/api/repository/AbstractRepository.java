@@ -17,6 +17,7 @@ import org.openXpertya.process.DocAction;
 import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -57,6 +58,9 @@ public abstract class AbstractRepository {
     public String[] getPkColumns() {
         return pkColumns;
     }
+
+    @Value("${restapi.libertya.app.sqlDetailsOnError}")
+    private String sqlDetailsOnError;
 
     /**
      * Recupera un objeto persistente a partir de su ID
@@ -677,7 +681,7 @@ public abstract class AbstractRepository {
         loadPOInitialValues(info, aPO, false);
         loadPOFromEntity(info, aPO, source, ignoreNulls, false);
         if (!aPO.save())
-            throw new ModelException(CLogger.retrieveErrorAsString());
+            throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
     }
 
     /**
@@ -697,7 +701,7 @@ public abstract class AbstractRepository {
             throw new ModelException("Organizacion " + aPO.getAD_Org_ID() + " inexistente para compañía " + info.getClientID());
         }
         if (!aPO.save())
-            throw new ModelException(CLogger.retrieveErrorAsString());
+            throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
         return getID(aPO);
     }
 
@@ -713,8 +717,35 @@ public abstract class AbstractRepository {
         if (aPO.getID()<=0)
             throw new NotFoundException();
         if (!aPO.delete(false))
-            throw new ModelException(CLogger.retrieveErrorAsString());
+            throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
     }
+
+    /**
+     * Gestiona el mensaje de error segun configuracion de detalle
+     */
+    protected String parseErrorMsg(String errorMsg) {
+        // No hay mensaje de error alguno?
+        if (errorMsg == null || errorMsg.length()==0)
+            return "Error: Imposible realizar la operacin solicitada.";
+
+        // Retornar el mensaje completo si la configuracion asi lo especifica
+        if ("Y".equalsIgnoreCase(sqlDetailsOnError))
+            return errorMsg;
+
+        // Si el mensaje de error no contiene detalles de bajo nivel, propagarlo directamente
+        int sqlDetailPos = errorMsg.indexOf("org.postgresql.util.PSQLException:");
+        if (sqlDetailPos < 0)
+            return errorMsg;
+
+        // Si el mensaja de error contiene detalles de bajo nivel, determinar si solo contiene la cadena "Error: : - "?
+        String shortErrorMsg = errorMsg.substring(0, sqlDetailPos);
+        if ("error".equalsIgnoreCase(shortErrorMsg.replace(":", "").replace("-", "").trim())) {
+            return "Error: Imposible realizar la operacin solicitada.";
+        }
+        // Enviar el mensaje de error sin detalles de bajo nivel
+        return shortErrorMsg;
+    }
+
 
     /**
      * Realiza el procesamiento de un documento
