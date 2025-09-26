@@ -210,3 +210,19 @@ paths:
     $ref: ./paths/cash_id.yaml
   /v1.0/cash/{id}/process:
     $ref: ./paths/cash_id_process.yaml
+  /v1.0/documentdiscounts:
+    $ref: ./paths/documentdiscounts.yaml
+  /v1.0/documentdiscounts/{id}:
+    $ref: ./paths/documentdiscounts_id.yaml
+  /v1.0/discountschemas:
+    $ref: ./paths/discountschemas.yaml
+  /v1.0/discountschemas/{id}:
+    $ref: ./paths/discountschemas_id.yaml
+  /v1.0/discountschemabreaks:
+    $ref: ./paths/discountschemabreaks.yaml
+  /v1.0/discountschemabreaks/{id}:
+    $ref: ./paths/discountschemabreaks_id.yaml
+  /v1.0/discountconfigs:
+    $ref: ./paths/discountconfigs.yaml
+  /v1.0/discountconfigs/{id}:
+    $ref: ./paths/discountconfigs_id.yaml

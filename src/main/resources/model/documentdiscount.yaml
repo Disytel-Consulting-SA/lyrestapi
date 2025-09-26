@@ -1,0 +1,90 @@
+components:
+  schemas:
+    DocumentDiscount:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_documentdiscount_id:
+          type: integer
+          description: "Descuento de Documento"
+        c_documentdiscount_parent_id:
+          type: integer
+          description: "Descuento de documento al cual pertenece este descuento por tasa de impuesto"
+        c_invoice_id:
+          type: integer
+          description: "Identificador de la factura"
+        c_invoiceline_id:
+          type: integer
+          description: "Línea de detalle de la factura"
+        c_order_id:
+          type: integer
+          description: "Pedido"
+        c_orderline_id:
+          type: integer
+          description: "Línea de Pedido de Cliente"
+        c_payment_id:
+          type: integer
+          description: "Identificador del pago"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        cumulativelevel:
+          type: string
+          description: "Nivel para cálculos acumulados"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        discountamt:
+          type: number
+          description: "Importe del Descuento calculado"
+        discountapplication:
+          type: string
+          description: "Forma de Aplicación del Descuento"
+        discountbaseamt:
+          type: number
+          description: "Importe Base de aplicación del Descuento"
+        discountkind:
+          type: string
+          description: "Tipo u Origen del Descuento"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        m_discountschema_id:
+          type: integer
+          description: "Esquema para calcular el porcentaje de descuento comercial"
+        taxrate:
+          type: number
+          description: "Tasa del Impuesto"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_documentdiscount_id
+         - created
+         - createdby
+         - discountamt
+         - discountbaseamt
+         - isactive
+         - updated
+         - updatedby

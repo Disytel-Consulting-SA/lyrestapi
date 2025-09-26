@@ -1,0 +1,90 @@
+get:
+  summary: Recupera un esquema de descuento en particular
+  tags:
+    - "discountschema"
+  parameters:
+    - name: id
+      in: path
+      description: ID del esquema de descuento
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un esquema de descuento en particular
+  operationId: retrieveDiscountSchema
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/discountschema.yaml#/components/schemas/DiscountSchema'
+delete:
+  summary: Elimina un esquema de descuento
+  tags:
+    - "discountschema"
+  parameters:
+    - name: id
+      in: path
+      description: ID del esquema de descuento
+      required: true
+      schema:
+        type: integer
+  description: Elimina un esquema de descuento existente
+  operationId: deleteDiscountSchema
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza un esquema de descuento existente
+  tags:
+    - "discountschema"
+  operationId: updateDiscountSchema
+  parameters:
+    - name: id
+      in: path
+      description: ID del esquema de descuento a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/discountschema.yaml#/components/schemas/DiscountSchema'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

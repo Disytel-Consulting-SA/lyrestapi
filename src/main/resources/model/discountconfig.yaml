@@ -1,0 +1,133 @@
+components:
+  schemas:
+    DiscountConfig:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        applypaymentterm:
+          type: boolean
+          description: "Aplica el importe de Esquema de Vencimiento a la factura, la cual permite generar el documento débito o crédito correspondiente."
+        bpartner_discountproduct_id:
+          type: integer
+          description: "Artículo para Descuento de Entidad Comercial"
+        bpartner_surchargeproduct_id:
+          type: integer
+          description: "Artículo para Recargo de Entidad Comercial"
+        charge_discountproduct_id:
+          type: integer
+          description: "Artículo para Descuento de Cargos de Organización"
+        charge_surchargeproduct_id:
+          type: integer
+          description: "Artículo para Recargo de Cargos de Organización"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        credit_doctype_id:
+          type: integer
+          description: "Tipo de Documento para créditos"
+        creditdocumenttype:
+          type: string
+          description: "Tipo de Documento para Créditos correspondientes a Descuentos en Recibos de Cliente"
+        debit_doctype_id:
+          type: integer
+          description: "Tipo de Documento para débitos"
+        debitdocumenttype:
+          type: string
+          description: "Tipo de Documento para Débitos correspondientes a recargos en Recibos de Cliente"
+        documentdiscount1:
+          type: string
+          description: "Descuento a nivel de documento que contiene mayor prioridad de aplicación (Prioridad 1)"
+        documentdiscount2:
+          type: string
+          description: "Descuento a nivel de documento que contiene prioridad 2 de aplicación"
+        documentdiscountcharge_id:
+          type: integer
+          description: "Cargo que se asocia al documento (Pedido, Factura) que sufre Descuentos a Nivel de Documento"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isapplyalldocumentdiscount:
+          type: boolean
+          description: "Aplica todos los descuentos a nivel de documento (Esquemas Generales y de Entidad Comercial)"
+        linediscount1:
+          type: string
+          description: "Descuento a nivel de línea que contiene mayor prioridad de aplicación (Prioridad 1)"
+        linediscount2:
+          type: string
+          description: "Descuento a nivel de línea que contiene prioridad 2 de aplicación"
+        linediscount3:
+          type: string
+          description: "Descuento a nivel de línea que contiene prioridad 3 de aplicación"
+        linediscount4:
+          type: string
+          description: "Descuento a nivel de línea que contiene prioridad 4 de aplicación"
+        maxpromotionalcoupons:
+          type: integer
+          description: "Cantidad máxima de códigos o cupones promocionales a aplicar en transacciones de ventas"
+        m_discountconfig_id:
+          type: integer
+          description: "Configuración de Descuentos para una o todas las organizaciones"
+        paymentmedium_discountproduct_id:
+          type: integer
+          description: " "
+        paymentmedium_surchargeproduct_id:
+          type: integer
+          description: " "
+        paymentterm_discountproduct_id:
+          type: integer
+          description: " "
+        paymentterm_surchargeproduct_id:
+          type: integer
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - applypaymentterm
+         - bpartner_discountproduct_id
+         - bpartner_surchargeproduct_id
+         - charge_discountproduct_id
+         - charge_surchargeproduct_id
+         - created
+         - createdby
+         - credit_doctype_id
+         - creditdocumenttype
+         - debit_doctype_id
+         - debitdocumenttype
+         - isactive
+         - isapplyalldocumentdiscount
+         - maxpromotionalcoupons
+         - m_discountconfig_id
+         - paymentmedium_discountproduct_id
+         - paymentmedium_surchargeproduct_id
+         - paymentterm_discountproduct_id
+         - paymentterm_surchargeproduct_id
+         - updated
+         - updatedby

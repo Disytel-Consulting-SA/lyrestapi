@@ -1,0 +1,104 @@
+components:
+  schemas:
+    DiscountSchema:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        cumulativelevel:
+          type: string
+          description: "Nivel para cálculos acumulados"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        discountapplication:
+          type: string
+          description: "Forma de Aplicación del Descuento"
+        discountcontexttype:
+          type: string
+          description: "Tipo de Contexto de uso de este esquema de descuento"
+        discounttype:
+          type: string
+          description: "Tipo de cálculo del descuento comercial"
+        flatdiscount:
+          type: number
+          description: "Porcentaje de descuento simple"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isbpartnerflatdiscount:
+          type: boolean
+          description: "Descuento Neto de Entidad Comercial"
+        isbpartnerscope:
+          type: boolean
+          description: "El esquema está destinado a la configuración de Entidad Comercial"
+        isgeneralscope:
+          type: boolean
+          description: "El esquema contiene descuentos de aplicación general en el sistema"
+        isquantitybased:
+          type: boolean
+          description: "Nivel de corte del descuento comercial en cantidad (No en valor)"
+        m_discountschema_id:
+          type: integer
+          description: "Esquema para calcular el porcentaje de descuento comercial"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        processing:
+          type: string
+          description: " "
+        script:
+          type: string
+          description: "Script de lenguaje Java para calcular resultados"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        validfrom:
+          type: string
+          description: "Válido desde; incluyendo esta fecha (primer día)"
+        validto:
+          type: string
+          description: "Válido hasta; incluyendo esta fecha (ultimo día)"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - cumulativelevel
+         - discountapplication
+         - discountcontexttype
+         - discounttype
+         - isactive
+         - isbpartnerflatdiscount
+         - isbpartnerscope
+         - isgeneralscope
+         - isquantitybased
+         - m_discountschema_id
+         - name
+         - updated
+         - updatedby
+         - validfrom

@@ -1,0 +1,127 @@
+components:
+  schemas:
+    DiscountSchemaBreak:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        applicationpolicy:
+          type: string
+          description: "Forma de evaluación de las condiciones para determinar la aplicación del descuento"
+        breakdiscount:
+          type: number
+          description: "Descuento Comercial en porcentaje para el nivel de corte"
+        breakvalue:
+          type: number
+          description: "Valor mínimo para el valor de corte del descuento"
+        c_bpartner_id:
+          type: integer
+          description: "Identifica una Entidad Comercial"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isappliedeveryday:
+          type: boolean
+          description: "Se aplica todos los días de la semana"
+        isappliedonfriday:
+          type: boolean
+          description: "Se aplica los días viernes de cada semana"
+        isappliedonmonday:
+          type: boolean
+          description: "Se aplica los días lunes de cada semana"
+        isappliedonsaturday:
+          type: boolean
+          description: "Se aplica los días sábado de cada semana"
+        isappliedonsunday:
+          type: boolean
+          description: "Se aplica los días domingo de cada semana"
+        isappliedonthursday:
+          type: boolean
+          description: "Se aplica los días jueves de cada semana"
+        isappliedontuesday:
+          type: boolean
+          description: "Se aplica los días martes de cada semana"
+        isappliedonwednesday:
+          type: boolean
+          description: "Se aplica los días miércoles de cada semana"
+        isbpartnerflatdiscount:
+          type: boolean
+          description: "Descuento Neto de Entidad Comercial"
+        isbreak:
+          type: boolean
+          description: "Si se aplica este descuento los subsiguientes no serán tenidos en cuenta"
+        m_discountschemabreak_id:
+          type: integer
+          description: "Corte del Descuento comercial"
+        m_discountschema_id:
+          type: integer
+          description: "Esquema para calcular el porcentaje de descuento comercial"
+        m_product_category_id:
+          type: integer
+          description: "Categoría de la que este producto es parte"
+        m_product_gamas_id:
+          type: integer
+          description: " "
+        m_product_id:
+          type: integer
+          description: "Producto; servicio o Artículo"
+        m_product_lines_id:
+          type: integer
+          description: " "
+        price_gross:
+          type: number
+          description: " "
+        seqno:
+          type: integer
+          description: "Método de ordenar registros; el número más bajo viene primero"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - applicationpolicy
+         - breakdiscount
+         - breakvalue
+         - created
+         - createdby
+         - isactive
+         - isappliedeveryday
+         - isappliedonfriday
+         - isappliedonmonday
+         - isappliedonsaturday
+         - isappliedonsunday
+         - isappliedonthursday
+         - isappliedontuesday
+         - isappliedonwednesday
+         - isbpartnerflatdiscount
+         - isbreak
+         - m_discountschemabreak_id
+         - m_discountschema_id
+         - seqno
+         - updated
+         - updatedby

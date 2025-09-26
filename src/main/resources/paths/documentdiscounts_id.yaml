@@ -1,0 +1,90 @@
+get:
+  summary: Recupera un descuento aplicado a documento en particular
+  tags:
+    - "documentdiscount"
+  parameters:
+    - name: id
+      in: path
+      description: ID del descuento aplicado a documento
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un descuento aplicado a documento
+  operationId: retrieveDocumentDiscount
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/documentdiscount.yaml#/components/schemas/DocumentDiscount'
+delete:
+  summary: Elimina descuento aplicado a documento
+  tags:
+    - "documentdiscount"
+  parameters:
+    - name: id
+      in: path
+      description: ID del descuento aplicado a documento
+      required: true
+      schema:
+        type: integer
+  description: Elimina un descuento aplicado a documento
+  operationId: deleteDocumentDiscount
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza un descuento aplicado a documento
+  tags:
+    - "documentdiscount"
+  operationId: updateDocumentDiscount
+  parameters:
+    - name: id
+      in: path
+      description: ID del descuento aplicado a documento
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/documentdiscount.yaml#/components/schemas/DocumentDiscount'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
