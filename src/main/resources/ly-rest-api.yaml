@@ -226,3 +226,11 @@ paths:
     $ref: ./paths/discountconfigs.yaml
   /v1.0/discountconfigs/{id}:
     $ref: ./paths/discountconfigs_id.yaml
+  /v1.0/entidadesfinancieras:
+    $ref: ./paths/entidadesfinancieras.yaml
+  /v1.0/entidadesfinancieras/{id}:
+    $ref: ./paths/entidadesfinancieras_id.yaml
+  /v1.0/entidadfinancieraplanes:
+    $ref: ./paths/entidadfinancieraplanes.yaml
+  /v1.0/entidadfinancieraplanes/{id}:
+    $ref: ./paths/entidadfinancieraplanes_id.yaml

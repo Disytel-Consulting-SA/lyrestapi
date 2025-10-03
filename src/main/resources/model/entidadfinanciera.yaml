@@ -1,0 +1,95 @@
+components:
+  schemas:
+    EntidadFinanciera:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        cardmask:
+          type: string
+          description: "Caracteres iniciales de la tarjeta que identifica la tarjeta o entidad financiera específica al pasarla por el lector en el TPV"
+        c_bankaccount_id:
+          type: integer
+          description: "Cuenta Bancaria"
+        c_bankaccount_settlement_id:
+          type: integer
+          description: "Cuenta Bancaria utilizada para el pago resultante en Liquidaciones"
+        c_bpartner_id:
+          type: integer
+          description: "Identifica una Entidad Comercial"
+        c_city_id:
+          type: integer
+          description: "Ciudad"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        creditcardcashretirementlimit:
+          type: number
+          description: "Límite de retiro de efectivo de tarjeta"
+        creditcardtype:
+          type: string
+          description: "Tarjeta de Crédito "
+        c_region_id:
+          type: integer
+          description: "Identifica una región geográfica"
+        establishmentnumber:
+          type: string
+          description: "Nro de Comercio / Establecimiento"
+        financingservice:
+          type: string
+          description: " "
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isallowcreditcardcashretirement:
+          type: boolean
+          description: "El retiro de efectivo de tarjeta de crédito está permitido"
+        m_entidadfinanciera_id:
+          type: integer
+          description: " "
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        value:
+          type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_bankaccount_id
+         - c_bpartner_id
+         - created
+         - createdby
+         - creditcardcashretirementlimit
+         - creditcardtype
+         - isactive
+         - isallowcreditcardcashretirement
+         - m_entidadfinanciera_id
+         - name
+         - updated
+         - updatedby
+         - value

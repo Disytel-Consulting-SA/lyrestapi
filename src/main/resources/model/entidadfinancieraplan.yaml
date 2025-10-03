@@ -1,0 +1,84 @@
+components:
+  schemas:
+    EntidadFinancieraPlan:
+      type: object
+      properties:
+        accreditationdays:
+          type: integer
+          description: "Cantidad de días luego de la venta en que la Entidad Financiera realiza el pago del cupón a la Compañía"
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        cuotascobro:
+          type: integer
+          description: "Cantidad de Cuotas en las que la Entidad Financiera Liquida el cupón a la Compañía."
+        cuotaspago:
+          type: integer
+          description: "Cantidad de Cuotas en las que el cliente quiere pagar su Compra."
+        datefrom:
+          type: string
+          description: "Fecha de inicio para un rango"
+        dateto:
+          type: string
+          description: "Fecha final de un rango (inclusive)"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        m_discountschema_id:
+          type: integer
+          description: "Esquema para calcular el porcentaje de descuento comercial"
+        m_entidadfinanciera_id:
+          type: integer
+          description: " "
+        m_entidadfinancieraplan_id:
+          type: integer
+          description: "Plan de Entidad Financiera"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        value:
+          type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - accreditationdays
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - cuotascobro
+         - cuotaspago
+         - datefrom
+         - dateto
+         - isactive
+         - m_entidadfinanciera_id
+         - m_entidadfinancieraplan_id
+         - name
+         - updated
+         - updatedby
+         - value
