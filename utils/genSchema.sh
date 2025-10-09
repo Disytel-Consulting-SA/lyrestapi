@@ -82,3 +82,5 @@ generateSchema DiscountConfig           M_DiscountConfig          discountconfig
 generateSchema EntidadFinanciera        M_EntidadFinanciera       entidadfinanciera.yaml
 generateSchema EntidadFinancieraPlan    M_EntidadFinancieraPlan   entidadfinancieraplan.yaml
 generateSchema POSJournal               C_POSJournal              posjournal.yaml
+generateSchema ControladorFiscal        C_Controlador_Fiscal      controladorfiscal.yaml
+generateSchema CheckCuitControl         C_CheckCuitControl        checkcuitcontrol.yaml

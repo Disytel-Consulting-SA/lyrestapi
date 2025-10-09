@@ -240,3 +240,11 @@ paths:
     $ref: ./paths/posjournals_id.yaml
   /v1.0/posjournals/{id}/process:
     $ref: ./paths/posjournals_id_process.yaml
+  /v1.0/controladoresfiscales:
+    $ref: ./paths/controladoresfiscales.yaml
+  /v1.0/controladoresfiscales/{id}:
+    $ref: ./paths/controladoresfiscales_id.yaml
+  /v1.0/checkcuitcontrols:
+    $ref: ./paths/checkcuitcontrols.yaml
+  /v1.0/checkcuitcontrols/{id}:
+    $ref: ./paths/checkcuitcontrols_id.yaml

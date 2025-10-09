@@ -1,0 +1,113 @@
+components:
+  schemas:
+    ControladorFiscal:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        askwhenerror:
+          type: boolean
+          description: "Requerir confirmación por parte del usuario en caso de error de impresión del documento"
+        c_controlador_fiscal_id:
+          type: integer
+          description: " "
+        c_controlador_fiscal_type_id:
+          type: integer
+          description: " "
+        cmdcancelbeforeprintdocument:
+          type: boolean
+          description: "Enviar el comando de cancelación antes de imprimir un documento"
+        connectiontype:
+          type: string
+          description: " "
+        controladorfiscaltype:
+          type: string
+          description: " "
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        host:
+          type: string
+          description: " "
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isremote:
+          type: boolean
+          description: "Impresión fiscal remota"
+        logtyperecorded:
+          type: string
+          description: "Tipo de log de comandos a registrar"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        onlylinedescription:
+          type: boolean
+          description: " "
+        onprintproductformat:
+          type: string
+          description: " "
+        onprintuseproductreference:
+          type: boolean
+          description: " "
+        operation_date:
+          type: string
+          description: " "
+        port:
+          type: integer
+          description: " "
+        printername:
+          type: string
+          description: "Nombre de Impresora"
+        status:
+          type: string
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        usedby_id:
+          type: integer
+          description: " "
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - askwhenerror
+         - c_controlador_fiscal_id
+         - c_controlador_fiscal_type_id
+         - cmdcancelbeforeprintdocument
+         - connectiontype
+         - controladorfiscaltype
+         - created
+         - createdby
+         - isactive
+         - isremote
+         - name
+         - onlylinedescription
+         - onprintproductformat
+         - onprintuseproductreference
+         - updated
+         - updatedby
