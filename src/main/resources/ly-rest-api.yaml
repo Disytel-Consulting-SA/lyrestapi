@@ -234,3 +234,9 @@ paths:
     $ref: ./paths/entidadfinancieraplanes.yaml
   /v1.0/entidadfinancieraplanes/{id}:
     $ref: ./paths/entidadfinancieraplanes_id.yaml
+  /v1.0/posjournals:
+    $ref: ./paths/posjournals.yaml
+  /v1.0/posjournals/{id}:
+    $ref: ./paths/posjournals_id.yaml
+  /v1.0/posjournals/{id}/process:
+    $ref: ./paths/posjournals_id_process.yaml

@@ -1,0 +1,89 @@
+components:
+  schemas:
+    POSJournal:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_user_id:
+          type: integer
+          description: "ID de Usuario dentro del sistema"
+        cashbalance:
+          type: number
+          description: "Saldo de Caja"
+        cashstatementamt:
+          type: number
+          description: "Importe de la suma de declaración de valores en caja"
+        cashtransfer:
+          type: string
+          description: "Transferencia de efectivo entre cajas"
+        c_cash_id:
+          type: integer
+          description: "Libro de Caja"
+        c_cashtarget_id:
+          type: integer
+          description: "Libro de Caja Destino"
+        c_pos_id:
+          type: integer
+          description: "Terminal TPV"
+        c_posjournal_id:
+          type: integer
+          description: "Caja Diaria"
+        c_project_id:
+          type: integer
+          description: "Identifica un proyecto único"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        datetrx:
+          type: string
+          description: "Fecha de la transacción"
+        docaction:
+          type: string
+          description: "El estado destino del documento"
+        docstatus:
+          type: string
+          description: "El estado actual del documento"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        processed:
+          type: boolean
+          description: "El documento ha sido procesado"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_user_id
+         - cashstatementamt
+         - c_pos_id
+         - c_posjournal_id
+         - created
+         - createdby
+         - datetrx
+         - docaction
+         - docstatus
+         - isactive
+         - processed
+         - updated
+         - updatedby
