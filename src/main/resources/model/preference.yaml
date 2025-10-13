@@ -1,0 +1,66 @@
+components:
+  schemas:
+    Preference:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_preference_id:
+          type: integer
+          description: "Preferencia personal"
+        ad_user_id:
+          type: integer
+          description: "ID de Usuario dentro del sistema"
+        ad_window_id:
+          type: integer
+          description: "Ventana de Entrada de datos o despliegue"
+        attribute:
+          type: string
+          description: "Atributo"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        value:
+          type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_preference_id
+         - attribute
+         - created
+         - createdby
+         - isactive
+         - updated
+         - updatedby
+         - value

@@ -84,3 +84,5 @@ generateSchema EntidadFinancieraPlan    M_EntidadFinancieraPlan   entidadfinanci
 generateSchema POSJournal               C_POSJournal              posjournal.yaml
 generateSchema ControladorFiscal        C_Controlador_Fiscal      controladorfiscal.yaml
 generateSchema CheckCuitControl         C_CheckCuitControl        checkcuitcontrol.yaml
+generateSchema Role                     AD_Role                   role.yaml
+generateSchema Preference               AD_Preference             preference.yaml

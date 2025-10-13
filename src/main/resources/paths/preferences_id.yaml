@@ -1,0 +1,90 @@
+get:
+  summary: Recupera una preferencia en particular
+  tags:
+    - "preference"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la preferencia
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una preferencia en particular
+  operationId: retrievePreference
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/preference.yaml#/components/schemas/Preference'
+delete:
+  summary: Elimina una preferencia
+  tags:
+    - "preference"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la preferencia
+      required: true
+      schema:
+        type: integer
+  description: Elimina una preferencia existente
+  operationId: deletePreference
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza una preferencia existente
+  tags:
+    - "preference"
+  operationId: updatePreference
+  parameters:
+    - name: id
+      in: path
+      description: ID de la preferencia a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/preference.yaml#/components/schemas/Preference'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

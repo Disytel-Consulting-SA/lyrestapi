@@ -248,3 +248,11 @@ paths:
     $ref: ./paths/checkcuitcontrols.yaml
   /v1.0/checkcuitcontrols/{id}:
     $ref: ./paths/checkcuitcontrols_id.yaml
+  /v1.0/roles:
+    $ref: ./paths/roles.yaml
+  /v1.0/roles/{id}:
+    $ref: ./paths/roles_id.yaml
+  /v1.0/preferences:
+    $ref: ./paths/preferences.yaml
+  /v1.0/preferences/{id}:
+    $ref: ./paths/preferences_id.yaml

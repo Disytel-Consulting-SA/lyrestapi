@@ -1,0 +1,284 @@
+components:
+  schemas:
+    Role:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        addsecurityvalidation_createfrominvoice:
+          type: boolean
+          description: "Botón Crear Desde en ventana de Facturas"
+        addsecurityvalidation_createfromshipment:
+          type: boolean
+          description: "Botón Crear Desde en ventana de Remitos"
+        addsecurityvalidation_oprc_nc:
+          type: boolean
+          description: "Campo Nota de Crédito de Orden de Pago / Recibos de Cliente"
+        addsecurityvalidation_pos_nc:
+          type: boolean
+          description: "Campo Nota de Crédito en TPV"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_role_id:
+          type: integer
+          description: "Perfil"
+        ad_tree_menu_id:
+          type: integer
+          description: "Árbol de Menú Primario"
+        ad_tree_org_id:
+          type: integer
+          description: "Árbol de Organización Primario"
+        allow_info_account:
+          type: boolean
+          description: " "
+        allow_info_asset:
+          type: boolean
+          description: " "
+        allow_info_bpartner:
+          type: boolean
+          description: " "
+        allow_info_cashjournal:
+          type: boolean
+          description: " "
+        allow_info_crp:
+          type: boolean
+          description: " "
+        allow_info_inout:
+          type: boolean
+          description: " "
+        allow_info_invoice:
+          type: boolean
+          description: " "
+        allow_info_mrp:
+          type: boolean
+          description: " "
+        allow_info_order:
+          type: boolean
+          description: " "
+        allow_info_payment:
+          type: boolean
+          description: " "
+        allow_info_product:
+          type: boolean
+          description: " "
+        allow_info_product_ordered_tab:
+          type: boolean
+          description: "Visualizar pestaña Pendiente Recibir en ventana Historial"
+        allow_info_product_reserved_tab:
+          type: boolean
+          description: "Visualizar pestaña Pendiente Entrega en ventana Historial"
+        allow_info_resource:
+          type: boolean
+          description: " "
+        allow_info_schedule:
+          type: boolean
+          description: " "
+        amtapproval:
+          type: number
+          description: "Importe límite aprobado para este perfil"
+        applyreadonly:
+          type: string
+          description: "Setea Sólo Lectura a todos los componentes relacionados al perfil"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        confirmqueryrecords:
+          type: integer
+          description: " "
+        controlcuitlimit:
+          type: number
+          description: "Monto Límite permitido a configurar para el Control de CUIT de cheques por Organización"
+        controlcuitlimitclient:
+          type: number
+          description: "Monto Límite permitido a configurar para el Control de CUIT de cheques por Compañía o registro Organización *"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isaccessallorgs:
+          type: boolean
+          description: "Acceder a Todas las organizaciones"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isallowopa:
+          type: boolean
+          description: " "
+        iscanapproveowndoc:
+          type: boolean
+          description: "Usuarios con este rol pueden aprobar sus propios documentos"
+        iscanexport:
+          type: boolean
+          description: "Usuarios con este rol pueden exportar datos"
+        iscanreport:
+          type: boolean
+          description: "Usuarios con este rol pueden crear Informes"
+        ischangelog:
+          type: boolean
+          description: "Mantener Archivo (log) de Cambios"
+        isinfoassetaccess:
+          type: boolean
+          description: " "
+        isinfoassignmentaccess:
+          type: boolean
+          description: " "
+        isinfobpartneraccess:
+          type: boolean
+          description: " "
+        isinfocashlineaccess:
+          type: boolean
+          description: " "
+        isinfoinoutaccess:
+          type: boolean
+          description: " "
+        isinfoinvoiceaccess:
+          type: boolean
+          description: " "
+        isinfoorderaccess:
+          type: boolean
+          description: " "
+        isinfopaymentaccess:
+          type: boolean
+          description: " "
+        isinfoproductaccess:
+          type: boolean
+          description: "Indica si los usuarios con este perfil pueden ver y utilizar el Buscador de Artículos"
+        isinfoscheduleaccess:
+          type: boolean
+          description: " "
+        ismanual:
+          type: boolean
+          description: "Éste es un proceso manual"
+        ispersonalaccess:
+          type: boolean
+          description: "Permitir acceso a los registros marcados como personales por otros perfiles"
+        ispersonallock:
+          type: boolean
+          description: "Se marcan los ficheros como personales y otros perfiles no pueden acceder a ellos"
+        isshowacct:
+          type: boolean
+          description: "Mostrar Contabilidad para usuarios con este Rol"
+        isuseuserorgaccess:
+          type: boolean
+          description: "Usar Acceso de la Org del Uusario"
+        lookup_allow_bpartner_create_menu:
+          type: boolean
+          description: "Permitir Menú Creación de Entidades Comerciales"
+        maxqueryrecords:
+          type: integer
+          description: " "
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        overwritepricelimit:
+          type: boolean
+          description: "Sobreescribir Precio Limite"
+        paymentmedium:
+          type: string
+          description: " "
+        paymentmediumlimit:
+          type: number
+          description: " "
+        posjournalsupervisor:
+          type: boolean
+          description: "Este perfil es Supervisor de Cajas Diarias"
+        preferencetype:
+          type: string
+          description: "Nivel de Preferencia"
+        supervisor_id:
+          type: integer
+          description: "Supervisor para este usuario - usado para escalación"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        userlevel:
+          type: string
+          description: "Sistema Compañía Organización"
+        viewpurchaseprice:
+          type: boolean
+          description: " "
+        viewsalesprice:
+          type: boolean
+          description: " "
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - addsecurityvalidation_createfrominvoice
+         - addsecurityvalidation_createfromshipment
+         - addsecurityvalidation_oprc_nc
+         - addsecurityvalidation_pos_nc
+         - ad_org_id
+         - ad_role_id
+         - allow_info_account
+         - allow_info_asset
+         - allow_info_bpartner
+         - allow_info_cashjournal
+         - allow_info_crp
+         - allow_info_inout
+         - allow_info_invoice
+         - allow_info_mrp
+         - allow_info_order
+         - allow_info_payment
+         - allow_info_product
+         - allow_info_product_ordered_tab
+         - allow_info_product_reserved_tab
+         - allow_info_resource
+         - allow_info_schedule
+         - confirmqueryrecords
+         - controlcuitlimit
+         - controlcuitlimitclient
+         - created
+         - createdby
+         - isaccessallorgs
+         - isactive
+         - isallowopa
+         - iscanapproveowndoc
+         - iscanexport
+         - iscanreport
+         - ischangelog
+         - isinfoassetaccess
+         - isinfoassignmentaccess
+         - isinfobpartneraccess
+         - isinfocashlineaccess
+         - isinfoinoutaccess
+         - isinfoinvoiceaccess
+         - isinfoorderaccess
+         - isinfopaymentaccess
+         - isinfoproductaccess
+         - isinfoscheduleaccess
+         - ismanual
+         - ispersonalaccess
+         - ispersonallock
+         - isshowacct
+         - isuseuserorgaccess
+         - lookup_allow_bpartner_create_menu
+         - maxqueryrecords
+         - name
+         - overwritepricelimit
+         - posjournalsupervisor
+         - preferencetype
+         - updated
+         - updatedby
