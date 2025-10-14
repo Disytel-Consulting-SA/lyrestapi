@@ -30,7 +30,7 @@ class PaymentIntegrationTests extends CommonIntegrationTests {
         Payment payment = new Payment();
         payment.setIssotrx(true);
         payment.setAdOrgId(1010053);
-        payment.setCBpartnerId(1012145);
+        payment.setCBpartnerId(defaultBPartnerId);
         payment.setCCurrencyId(118);
         payment.setCDoctypeId(1010512);
         payment.setDateacct(getFormattedDate());

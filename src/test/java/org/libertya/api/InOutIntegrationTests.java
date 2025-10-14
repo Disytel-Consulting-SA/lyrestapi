@@ -28,8 +28,8 @@ class InOutIntegrationTests extends CommonIntegrationTests {
         InOut inout = new InOut();
         inout.setIssotrx(false);
         inout.setAdOrgId(1010053);
-        inout.setCBpartnerId(1012145);
-        inout.setCBpartnerLocationId(1012158);
+        inout.setCBpartnerId(defaultBPartnerId);
+        inout.setCBpartnerLocationId(defaultBPartnerLocationId);
         inout.setCDoctypeId(1010522);
         inout.setMovementdate(getFormattedDate());
         inout.setDateacct(getFormattedDate());

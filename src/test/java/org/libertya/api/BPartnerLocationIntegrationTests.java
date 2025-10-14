@@ -17,7 +17,7 @@ public class BPartnerLocationIntegrationTests extends MaestroIntegrationTests{
         bpl.setIsshipto(true);
         bpl.setIspayfrom(true);
         bpl.setIsremitto(true);
-        bpl.setCBpartnerId(1012145);
+        bpl.setCBpartnerId(defaultBPartnerId);
         bpl.setCLocationId(1012296);
         bpl.setIstemporal(false);
 

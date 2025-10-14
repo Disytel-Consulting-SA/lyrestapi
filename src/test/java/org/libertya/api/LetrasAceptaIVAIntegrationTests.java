@@ -29,7 +29,7 @@ public class LetrasAceptaIVAIntegrationTests extends MaestroIntegrationTests{
         letraAceptaIva.setCategoriaVendor(1010307);
         letraAceptaIva.setCategoriaCustomer(1010291);
         letraAceptaIva.setMontomax(null);
-        letraAceptaIva.setCLetraComprobanteId(1010277);
+        letraAceptaIva.setCLetraComprobanteId(defaultLetraComprobante);
         letraAceptaIva.setAdClientId(1010016);
         letraAceptaIva.setAdOrgId(1010053);
         letraAceptaIva.setCTaxId(null);

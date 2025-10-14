@@ -25,8 +25,8 @@ class InvoiceIntegrationTests extends CommonIntegrationTests {
 		Invoice inv = new Invoice();
 		inv.setIssotrx(true);
 		inv.setAdOrgId(1010053);
-		inv.setCBpartnerId(1012145);
-		inv.setCBpartnerLocationId(1012158);
+		inv.setCBpartnerId(defaultBPartnerId);
+		inv.setCBpartnerLocationId(defaultBPartnerLocationId);
 		inv.setCCurrencyId(118);
 		inv.setCDoctypeId(1010507);
 		inv.setCDoctypetargetId(1010507);
