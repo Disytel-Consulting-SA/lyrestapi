@@ -1,0 +1,67 @@
+get:
+  tags:
+    - "posletter"
+  summary: Retorna la lista de personalizaciones de punto de venta
+  description: Retorna la lista completa de personalizaciones de punto de venta
+  operationId: getAllPOSLetters
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/posletter.yaml#/components/schemas/POSLetter'
+post:
+  summary: Nueva personalizacion de punto de venta
+  tags:
+    - "posletter"
+  description: Agrega una nueva personalizacion de punto de venta
+  operationId: addPOSLetter
+  responses:
+    "200":
+      description: OK. ID de la personalizacion de punto de venta creada es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/posletter.yaml#/components/schemas/POSLetter'

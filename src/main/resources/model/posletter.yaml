@@ -1,0 +1,58 @@
+components:
+  schemas:
+    POSLetter:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_pos_id:
+          type: integer
+          description: "Terminal TPV"
+        c_posletter_id:
+          type: integer
+          description: " "
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        letter:
+          type: string
+          description: "Letra del Comprobante"
+        posnumber:
+          type: integer
+          description: "Número del punto de venta para el cual se generan las facturas"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_pos_id
+         - c_posletter_id
+         - created
+         - createdby
+         - isactive
+         - letter
+         - posnumber
+         - updated
+         - updatedby

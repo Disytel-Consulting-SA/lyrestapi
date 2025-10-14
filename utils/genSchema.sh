@@ -86,3 +86,5 @@ generateSchema ControladorFiscal        C_Controlador_Fiscal      controladorfis
 generateSchema CheckCuitControl         C_CheckCuitControl        checkcuitcontrol.yaml
 generateSchema Role                     AD_Role                   role.yaml
 generateSchema Preference               AD_Preference             preference.yaml
+generateSchema Promotion                C_Promotion               promotion.yaml
+generateSchema POSLetter                C_POSLetter               posletter.yaml

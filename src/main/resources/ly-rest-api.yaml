@@ -256,3 +256,11 @@ paths:
     $ref: ./paths/preferences.yaml
   /v1.0/preferences/{id}:
     $ref: ./paths/preferences_id.yaml
+  /v1.0/promotions:
+    $ref: ./paths/promotions.yaml
+  /v1.0/promotions/{id}:
+    $ref: ./paths/promotions_id.yaml
+  /v1.0/posletters:
+    $ref: ./paths/posletters.yaml
+  /v1.0/posletters/{id}:
+    $ref: ./paths/posletters_id.yaml
