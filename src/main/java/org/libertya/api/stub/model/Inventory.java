@@ -71,6 +71,9 @@ public class Inventory   {
   @JsonProperty("inventorykind")
   private String inventorykind = null;
 
+  @JsonProperty("inventorytype")
+  private String inventorytype = null;
+
   @JsonProperty("isactive")
   private Boolean isactive = null;
 
@@ -457,6 +460,26 @@ public class Inventory   {
     this.inventorykind = inventorykind;
   }
 
+  public Inventory inventorytype(String inventorytype) {
+    this.inventorytype = inventorytype;
+    return this;
+  }
+
+  /**
+   * Tipo de Diferencia de Inventario
+   * @return inventorytype
+   **/
+  @Schema(required = true, description = "Tipo de Diferencia de Inventario")
+      @NotNull
+
+    public String getInventorytype() {
+    return inventorytype;
+  }
+
+  public void setInventorytype(String inventorytype) {
+    this.inventorytype = inventorytype;
+  }
+
   public Inventory isactive(Boolean isactive) {
     this.isactive = isactive;
     return this;
@@ -832,6 +855,7 @@ public class Inventory   {
         Objects.equals(this.documentno, inventory.documentno) &&
         Objects.equals(this.generatelist, inventory.generatelist) &&
         Objects.equals(this.inventorykind, inventory.inventorykind) &&
+        Objects.equals(this.inventorytype, inventory.inventorytype) &&
         Objects.equals(this.isactive, inventory.isactive) &&
         Objects.equals(this.isapproved, inventory.isapproved) &&
         Objects.equals(this.mInventoryId, inventory.mInventoryId) &&
@@ -853,7 +877,7 @@ public class Inventory   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adOrgtrxId, approvalamt, cActivityId, cCampaignId, cChargeId, cDoctypeId, cProjectId, created, createdby, description, docaction, docstatus, documentno, generatelist, inventorykind, isactive, isapproved, mInventoryId, movementdate, mPerpetualinvId, mWarehouseId, paperForm, posted, processed, processing, updated, updatedby, updateqty, user1Id, user2Id, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, adOrgtrxId, approvalamt, cActivityId, cCampaignId, cChargeId, cDoctypeId, cProjectId, created, createdby, description, docaction, docstatus, documentno, generatelist, inventorykind, inventorytype, isactive, isapproved, mInventoryId, movementdate, mPerpetualinvId, mWarehouseId, paperForm, posted, processed, processing, updated, updatedby, updateqty, user1Id, user2Id, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -878,6 +902,7 @@ public class Inventory   {
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
     sb.append("    generatelist: ").append(toIndentedString(generatelist)).append("\n");
     sb.append("    inventorykind: ").append(toIndentedString(inventorykind)).append("\n");
+    sb.append("    inventorytype: ").append(toIndentedString(inventorytype)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isapproved: ").append(toIndentedString(isapproved)).append("\n");
     sb.append("    mInventoryId: ").append(toIndentedString(mInventoryId)).append("\n");

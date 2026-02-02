@@ -30,6 +30,7 @@ public class InventoryIntegrationTest extends CommonIntegrationTests {
         inv.setDocstatus("DR");
         inv.setInventorykind("PI");
         inv.setMWarehouseId(1010048);
+        inv.setInventorytype("C");
 
         InventoryLine line = new InventoryLine();
         line.setAdOrgId(1010053);
