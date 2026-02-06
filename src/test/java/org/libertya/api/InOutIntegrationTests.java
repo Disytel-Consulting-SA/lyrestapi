@@ -28,7 +28,8 @@ class InOutIntegrationTests extends CommonIntegrationTests {
         InOut inout = new InOut();
         inout.setIssotrx(false);
         inout.setAdOrgId(1010053);
-        inout.setCBpartnerId(defaultBPartnerId);
+        //Se modifica Bpartner a SONY S.L. por necesitar relacion con producto en m_product_po
+        inout.setCBpartnerId(1002100);
         inout.setCBpartnerLocationId(defaultBPartnerLocationId);
         inout.setCDoctypeId(1010522);
         inout.setMovementdate(getFormattedDate());
@@ -39,7 +40,7 @@ class InOutIntegrationTests extends CommonIntegrationTests {
         InOutLine line1 = new InOutLine();
         line1.setLine(10);
         line1.setAdOrgId(1010053);
-        line1.setMProductId(1015400);
+        line1.setMProductId(1004168); //producto asociado al proveedor
         line1.setMovementqty(new BigDecimal(5));
         line1.setQtyentered(new BigDecimal(5));
         line1.setMLocatorId(1010278);
@@ -47,7 +48,7 @@ class InOutIntegrationTests extends CommonIntegrationTests {
         InOutLine line2 = new InOutLine();
         line2.setLine(20);
         line2.setAdOrgId(1010053);
-        line2.setMProductId(1015400);
+        line2.setMProductId(1004168); //producto asociado al proveedor
         line2.setMovementqty(new BigDecimal(3));
         line2.setQtyentered(new BigDecimal(3));
         line2.setMLocatorId(1010278);
