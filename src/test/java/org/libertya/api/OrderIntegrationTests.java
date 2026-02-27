@@ -5,12 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.libertya.api.stub.model.*;
 import org.libertya.api.stub.model.Order;
+import org.openXpertya.util.DB;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,6 +22,69 @@ import static org.assertj.core.api.Assertions.assertThat;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class OrderIntegrationTests extends CommonIntegrationTests {
+
+	private static final int TEST_CLIENT_ID = 1010016;
+	private static final int TEST_ORG_ID = 1010053;
+	private static final int ORDER_PRICE_LIST_ID = 1010595;
+	private static final int ORDER_PRODUCT_ID = 1015400;
+	private static final BigDecimal ORDER_PRODUCT_PRICE = new BigDecimal("120");
+
+	private Integer priceListVersionIdForTest;
+	private boolean productPriceCreatedByTest;
+
+	@BeforeAll
+	void ensureProductIsLinkedToSelectedPriceList() {
+		priceListVersionIdForTest = findLatestPriceListVersionId(ORDER_PRICE_LIST_ID);
+		if (!existsProductPrice(ORDER_PRODUCT_ID, priceListVersionIdForTest)) {
+			DB.executeUpdate("INSERT INTO M_ProductPrice " +
+					"(AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy, M_Product_ID, M_PriceList_Version_ID, PriceList, PriceStd, PriceLimit) " +
+					"VALUES (" + TEST_CLIENT_ID + ", " + TEST_ORG_ID + ", 'Y', now(), 100, now(), 100, " + ORDER_PRODUCT_ID + ", " + priceListVersionIdForTest + ", " + ORDER_PRODUCT_PRICE + ", " + ORDER_PRODUCT_PRICE + ", " + ORDER_PRODUCT_PRICE + ")");
+			productPriceCreatedByTest = true;
+		}
+	}
+
+	@AfterAll
+	void removeProductPriceLinkedByTest() {
+		if (!productPriceCreatedByTest || priceListVersionIdForTest == null) {
+			return;
+		}
+		DB.executeUpdate("DELETE FROM M_ProductPrice " +
+				"WHERE M_Product_ID = " + ORDER_PRODUCT_ID + " " +
+				"AND M_PriceList_Version_ID = " + priceListVersionIdForTest);
+	}
+
+	private int findLatestPriceListVersionId(int priceListId) {
+		final String sql = "SELECT m_pricelist_version_id " +
+				"FROM m_pricelist_version " +
+				"WHERE m_pricelist_id = ? " +
+				"AND isactive = 'Y' " +
+				"ORDER BY validfrom DESC, created DESC " +
+				"LIMIT 1";
+		try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+			ps.setInt(1, priceListId);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					return rs.getInt(1);
+				}
+			}
+		} catch (SQLException ex) {
+			throw new IllegalStateException("No se pudo obtener una version de tarifa para M_PriceList_ID=" + priceListId, ex);
+		}
+		throw new IllegalStateException("No hay version de tarifa activa para M_PriceList_ID=" + priceListId);
+	}
+
+	private boolean existsProductPrice(int productId, int priceListVersionId) {
+		final String sql = "SELECT 1 FROM m_productprice WHERE m_product_id = ? AND m_pricelist_version_id = ? LIMIT 1";
+		try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+			ps.setInt(1, productId);
+			ps.setInt(2, priceListVersionId);
+			try (ResultSet rs = ps.executeQuery()) {
+				return rs.next();
+			}
+		} catch (SQLException ex) {
+			throw new IllegalStateException("No se pudo verificar el precio de producto para las pruebas de order", ex);
+		}
+	}
 
 	/** Generacion de un pedido.  Basado en contenido inicial en BDD bajo compañía Libertya (1010016) */
 	protected String getOrderContent() throws JsonProcessingException {
@@ -49,7 +116,8 @@ class OrderIntegrationTests extends CommonIntegrationTests {
 		line1.setAdOrgId(1010053);
 		line1.setCUomId(100);
 		line1.setQtyordered(new BigDecimal(3));
-		line1.setPriceactual(new BigDecimal(120));
+		line1.setPriceactual(ORDER_PRODUCT_PRICE);
+		line1.setMProductId(ORDER_PRODUCT_ID); //standard
 
 		OrderDocument doc = new OrderDocument();
 		doc.setHeader(order);
