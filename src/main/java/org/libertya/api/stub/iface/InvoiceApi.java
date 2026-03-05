@@ -164,6 +164,33 @@ public interface InvoiceApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    @Operation(summary = "Imprime una factura en base64", description = "Genera el PDF de la factura y retorna su contenido codificado en base64", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoice" })
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+
+        @ApiResponse(responseCode = "409", description = "Imposible generar impresión", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+
+        @ApiResponse(responseCode = "404", description = "No encontrado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))) })
+    @RequestMapping(value = "/v1.0/invoices/{id}/print",
+        produces = { "text/plain" },
+        method = RequestMethod.GET)
+    default ResponseEntity<String> printInvoice(@Parameter(in = ParameterIn.PATH, description = "ID de la factura a imprimir", required=true, schema=@Schema()) @PathVariable("id") Integer id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default InvoiceApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
 
     @Operation(summary = "Recupera una factura en particular", description = "Recupera la informacion de una factura en particular", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "invoice" })
@@ -218,4 +245,3 @@ public interface InvoiceApi {
     }
 
 }
-

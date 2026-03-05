@@ -1,0 +1,32 @@
+get:
+  tags:
+    - "invoice"
+  summary: Imprime una factura en base64
+  operationId: printInvoice
+  parameters:
+    - in: path
+      name: id
+      description: ID de la factura a imprimir
+      required: true
+      schema:
+        type: integer
+  description: Genera el PDF de la factura y retorna su contenido codificado en base64
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible generar impresión
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

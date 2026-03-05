@@ -51,4 +51,9 @@ public class InvoiceController extends AbstractController implements InvoiceApi 
     public ResponseEntity<String> processInvoice(Integer id, String action) {
         return processAction(request, (info) -> repository.process(info, id, action));
     }
+
+    @Override
+    public ResponseEntity<String> printInvoice(Integer id) {
+        return processAction(request, (info) -> service.printBase64(info, id));
+    }
 }

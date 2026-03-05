@@ -34,6 +34,8 @@ paths:
     $ref: ./paths/invoices_id.yaml
   /v1.0/invoices/{id}/process:
     $ref: ./paths/invoices_id_process.yaml
+  /v1.0/invoices/{id}/print:
+    $ref: ./paths/invoices_id_print.yaml
   /v1.0/invoicelines:
     $ref: ./paths/invoicelines.yaml
   /v1.0/invoicelines/{id}:

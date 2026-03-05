@@ -22,6 +22,7 @@ dependencies {
 	def OXPLIBS = System.getenv("OXP_HOME")
 	implementation files("$OXPLIBS/lib/OXP.jar")
 	implementation files("$OXPLIBS/lib/OXPXLib.jar")
+	compileOnly files("libs/JasperReports-ngroovy.jar")
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -47,6 +48,16 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// Necesario para poder utilizar -Dloader.path.
+bootJar {
+	manifest {
+		attributes(
+				'Main-Class': 'org.springframework.boot.loader.PropertiesLauncher',
+				'Start-Class': 'org.libertya.api.LYRestAPI'
+		)
+	}
 }
 
 jar {
