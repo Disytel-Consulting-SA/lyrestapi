@@ -64,10 +64,10 @@ public class CommonIntegrationTests {
     @Value("${org.libertya.tests.use-dynamic-defaults:false}")
     private boolean useDynamicDefaults;
 
-    int defaultBPartnerId;
-    int defaultBPartnerLocationId;
-    int defaultLetraComprobante;
-    int defaultCurrencyId;
+    protected int defaultBPartnerId;
+    protected int defaultBPartnerLocationId;
+    protected int defaultLetraComprobante;
+    protected int defaultCurrencyId;
 
     /** URL base para los requests */
     protected String getBaseURL(String path) {
