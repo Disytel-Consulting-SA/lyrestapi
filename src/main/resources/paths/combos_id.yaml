@@ -1,0 +1,90 @@
+get:
+  summary: Recupera un combo en particular
+  tags:
+    - "combo"
+  parameters:
+    - name: id
+      in: path
+      description: ID del combo
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un combo en particular
+  operationId: retrieveCombo
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/combo.yaml#/components/schemas/Combo'
+delete:
+  summary: Elimina un combo
+  tags:
+    - "combo"
+  parameters:
+    - name: id
+      in: path
+      description: ID del combo
+      required: true
+      schema:
+        type: integer
+  description: Elimina un combo existente
+  operationId: deleteCombo
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza por completo un combo existente
+  tags:
+    - "combo"
+  operationId: updateCombo
+  parameters:
+    - name: id
+      in: path
+      description: ID del combo a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/combo.yaml#/components/schemas/Combo'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

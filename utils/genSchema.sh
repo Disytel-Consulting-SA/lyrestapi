@@ -79,6 +79,8 @@ generateSchema DocumentDiscount         C_DocumentDiscount        documentdiscou
 generateSchema DiscountSchema           M_DiscountSchema          discountschema.yaml
 generateSchema DiscountSchemaBreak      M_DiscountSchemaBreak     discountschemabreak.yaml
 generateSchema DiscountConfig           M_DiscountConfig          discountconfig.yaml
+generateSchema Combo                    C_Combo                   combo.yaml
+generateSchema ComboLine                C_ComboLine               comboline.yaml
 generateSchema EntidadFinanciera        M_EntidadFinanciera       entidadfinanciera.yaml
 generateSchema EntidadFinancieraPlan    M_EntidadFinancieraPlan   entidadfinancieraplan.yaml
 generateSchema POSJournal               C_POSJournal              posjournal.yaml

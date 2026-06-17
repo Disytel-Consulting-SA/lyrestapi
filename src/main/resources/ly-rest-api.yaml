@@ -228,6 +228,14 @@ paths:
     $ref: ./paths/discountconfigs.yaml
   /v1.0/discountconfigs/{id}:
     $ref: ./paths/discountconfigs_id.yaml
+  /v1.0/combos:
+    $ref: ./paths/combos.yaml
+  /v1.0/combos/{id}:
+    $ref: ./paths/combos_id.yaml
+  /v1.0/combolines:
+    $ref: ./paths/combolines.yaml
+  /v1.0/combolines/{id}:
+    $ref: ./paths/combolines_id.yaml
   /v1.0/entidadesfinancieras:
     $ref: ./paths/entidadesfinancieras.yaml
   /v1.0/entidadesfinancieras/{id}:

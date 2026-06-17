@@ -1,0 +1,62 @@
+components:
+  schemas:
+    ComboLine:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_combo_id:
+          type: integer
+          description: "Combo de Artículos con porcentaje de Descuento"
+        c_comboline_id:
+          type: integer
+          description: "Línea de Combo de Artículos"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        discount:
+          type: number
+          description: "Descuento en porcentaje"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        m_product_id:
+          type: integer
+          description: "Producto; servicio o Artículo"
+        qty:
+          type: number
+          description: "Cantidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_combo_id
+         - c_comboline_id
+         - created
+         - createdby
+         - discount
+         - isactive
+         - m_product_id
+         - qty
+         - updated
+         - updatedby
