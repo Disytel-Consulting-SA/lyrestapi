@@ -92,6 +92,10 @@ paths:
     $ref: ./paths/storages_id.yaml
   /v1.0/storages/{idProduct}/{idLocator}:
     $ref: ./paths/storages_id_id.yaml
+  /v1.0/warehouses:
+    $ref: ./paths/warehouses.yaml
+  /v1.0/warehouses/{id}:
+    $ref: ./paths/warehouses_id.yaml
   /v1.0/inventories:
     $ref: ./paths/inventories.yaml
   /v1.0/inventories/{id}:

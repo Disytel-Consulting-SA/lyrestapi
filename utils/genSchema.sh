@@ -50,6 +50,7 @@ generateSchema ProductPrice             M_ProductPrice            productprice.y
 generateSchema Inventory                M_Inventory               inventory.yaml
 generateSchema InventoryLine            M_InventoryLine           inventoryline.yaml
 generateSchema Storage                  M_Storage                 storage.yaml
+generateSchema Warehouse                M_Warehouse               warehouse.yaml
 generateSchema User                     AD_User                   user.yaml
 generateSchema ProductLines             M_Product_Lines           productlines.yaml
 generateSchema ProductGamas             M_Product_Gamas           productgamas.yaml

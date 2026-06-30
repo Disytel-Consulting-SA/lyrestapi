@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un almacen en particular
+  tags:
+    - "warehouse"
+  parameters:
+    - name: id
+      in: path
+      description: ID del almacen
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un almacen en particular
+  operationId: retrieveWarehouse
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/warehouse.yaml#/components/schemas/Warehouse'

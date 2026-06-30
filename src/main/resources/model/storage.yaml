@@ -30,6 +30,13 @@ components:
         m_product_id:
           type: integer
           description: "Producto; servicio o Artículo"
+        # === Campo DERIVADO agregado manualmente (NO es columna de M_Storage). ===
+        # === Se obtiene en StorageRepository via M_Storage.M_Locator_ID -> M_Locator.M_Warehouse_ID. ===
+        # === IMPORTANTE: genSchema.sh regenera este archivo desde los metadatos de la tabla y ===
+        # === lo eliminaria; reponer esta propiedad tras una regeneracion (ver StorageRepository). ===
+        m_warehouse_id:
+          type: integer
+          description: "Almacén al que pertenece el stock (derivado del locator)"
         qtyonhand:
           type: number
           description: "Cantidad en existencia"
