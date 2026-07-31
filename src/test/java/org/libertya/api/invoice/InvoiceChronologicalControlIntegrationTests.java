@@ -32,12 +32,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class InvoiceChronologicalControlIntegrationTests extends CommonIntegrationTests {
 
 	private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	private static final int TEST_DOC_TYPE_ID = 1010507;
+	private static final int NON_FISCAL_TEST_DOC_TYPE_ID = 1010507;
 	private static final int CHRONOLOGY_TEST_POINT_OF_SALE = 9000;
 
 	@Test
 	@Order(1)
-	void shouldAllowIncreasingInvoiceDatesAndRejectBackdatedNextNumber() throws Exception {
+	void shouldAllowBackdatedNextNumberForNonFiscalInvoices() throws Exception {
 		// Given
 		LocalDate today = LocalDate.now();
 		int pointOfSale = CHRONOLOGY_TEST_POINT_OF_SALE;
@@ -49,18 +49,17 @@ class InvoiceChronologicalControlIntegrationTests extends CommonIntegrationTests
 		String accountingDate = atNoon(today);
 		String firstInvoiceDate = atNoon(firstInvoiceDay);
 		String secondInvoiceDate = atNoon(secondInvoiceDay);
-		String invalidEarlierInvoiceDate = firstInvoiceDate;
+		String backdatedThirdInvoiceDate = firstInvoiceDate;
 
 		// When
 		ResponseEntity<String> firstResponse = createInvoiceForChronology(accountingDate, firstInvoiceDate, pointOfSale, firstVoucherNumber);
 		ResponseEntity<String> secondResponse = createInvoiceForChronology(accountingDate, secondInvoiceDate, pointOfSale, firstVoucherNumber + 1);
-		ResponseEntity<String> invalidResponse = createInvoiceForChronology(accountingDate, invalidEarlierInvoiceDate, pointOfSale, firstVoucherNumber + 2);
+		ResponseEntity<String> backdatedResponse = createInvoiceForChronology(accountingDate, backdatedThirdInvoiceDate, pointOfSale, firstVoucherNumber + 2);
 
 		// Then
 		assertThat(firstResponse.getStatusCode().toString()).contains("200");
 		assertThat(secondResponse.getStatusCode().toString()).contains("200");
-		assertThat(invalidResponse.getStatusCode().toString()).contains("409");
-		assertThat(invalidResponse.getBody()).containsIgnoringCase("comprobante actual no puede ser menor");
+		assertThat(backdatedResponse.getStatusCode().toString()).contains("200");
 	}
 
 	private ResponseEntity<String> createInvoiceForChronology(String accountingDate, String invoiceDate, int pointOfSale, int voucherNumber) throws JsonProcessingException {
@@ -79,8 +78,8 @@ class InvoiceChronologicalControlIntegrationTests extends CommonIntegrationTests
 		inv.setCBpartnerId(defaultBPartnerId);
 		inv.setCBpartnerLocationId(defaultBPartnerLocationId);
 		inv.setCCurrencyId(118);
-		inv.setCDoctypeId(TEST_DOC_TYPE_ID);
-		inv.setCDoctypetargetId(TEST_DOC_TYPE_ID);
+		inv.setCDoctypeId(NON_FISCAL_TEST_DOC_TYPE_ID);
+		inv.setCDoctypetargetId(NON_FISCAL_TEST_DOC_TYPE_ID);
 		inv.setCPaymenttermId(1010083);
 		inv.setDateacct(dateAcct);
 		inv.setDateinvoiced(dateInvoiced);
@@ -125,7 +124,7 @@ class InvoiceChronologicalControlIntegrationTests extends CommonIntegrationTests
 				"AND issotrx = 'Y' " +
 				"AND puntodeventa = ?";
 		try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
-			ps.setInt(1, TEST_DOC_TYPE_ID);
+			ps.setInt(1, NON_FISCAL_TEST_DOC_TYPE_ID);
 			ps.setInt(2, pointOfSale);
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
@@ -147,7 +146,7 @@ class InvoiceChronologicalControlIntegrationTests extends CommonIntegrationTests
 				"AND numerocomprobante > 0 " +
 				"ORDER BY numerocomprobante DESC, created DESC LIMIT 1";
 		try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
-			ps.setInt(1, TEST_DOC_TYPE_ID);
+			ps.setInt(1, NON_FISCAL_TEST_DOC_TYPE_ID);
 			ps.setInt(2, pointOfSale);
 			try (ResultSet rs = ps.executeQuery()) {
 				if (rs.next()) {
