@@ -1,5 +1,6 @@
 package org.libertya.api.repository;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.libertya.api.common.QueryParams;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
@@ -50,6 +51,18 @@ public abstract class AbstractRepository {
 
     /** Nombre de la propiedad para valores adicionales */
     public static final String ADDITIONAL_VALUES_PROPERTY = "additionalvalues";
+
+    /** Nombre externo preferido para matchear una propiedad del modelo contra una columna. */
+    protected String getFieldColumnName(Field field) {
+        JsonProperty jsonProperty = field.getAnnotation(JsonProperty.class);
+        if (jsonProperty != null && jsonProperty.value() != null && jsonProperty.value().length() > 0)
+            return jsonProperty.value();
+        return field.getName();
+    }
+
+    protected String getColumnIdentity(M_Column column) {
+        return column.getColumnName().toLowerCase();
+    }
 
     public String getTableName() {
         return tableName;
@@ -424,13 +437,15 @@ public abstract class AbstractRepository {
         Object object = target.perform();
         Field[] fields = object.getClass().getDeclaredFields();
 
-        Map<String, M_Column> columnNameMap = schemaUtils.getColumnNameMap(aPO.get_TableName(), getCtx(info));
-        Set<String> assignedFields = new HashSet<>();
+        SchemaUtils.ColumnResolver columnResolver = schemaUtils.getColumnResolver(aPO.get_TableName(), getCtx(info));
+        Set<String> assignedColumns = new HashSet<>();
         // Iterar por los campos del objeto, asignando los valores en cada matcheo
         for (Field field : fields) {
-            String fieldName = schemaUtils.normalize(field.getName());
-            loadValueToEntity(info, aPO, columnNameMap, fieldName, field, object, includeFields);
-            assignedFields.add(fieldName);
+            String columnName = getFieldColumnName(field);
+            String fieldName = schemaUtils.normalize(columnName);
+            M_Column assignedColumn = loadValueToEntity(info, aPO, columnResolver, columnName, fieldName, field, object, includeFields);
+            if (assignedColumn != null)
+                assignedColumns.add(getColumnIdentity(assignedColumn));
         }
         // Queda informacion por asignar por fuera de la estructura pre-establecida del objeto?
         try {
@@ -444,8 +459,8 @@ public abstract class AbstractRepository {
                         continue;
                     String colName = column.getColumnName();
                     // Ya fue asignado previamente en las propiedades predefinidas? Omitir
-                    if (!assignedFields.contains(schemaUtils.normalize(colName)) && aPO.get_Value(colName) != null)
-                        addPropToProps(props, field, object, colName.toLowerCase(), aPO.get_Value(colName).toString());
+                    if (!assignedColumns.contains(getColumnIdentity(column)) && aPO.get_Value(colName) != null)
+                        addPropToProps(props, field, object, columnResolver.getApiName(column), aPO.get_Value(colName).toString());
                 }
             }
         } catch (Exception e) {
@@ -459,13 +474,14 @@ public abstract class AbstractRepository {
         return (column.getAD_Reference_ID() == DisplayType.Binary || column.getAD_Reference_ID() == DisplayType.Image);
     }
 
-    /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en la map de columnas columnNameMap */
-    protected void loadValueToEntity(UserInfo info, PO aPO, Map<String, M_Column> columnNameMap, String fieldName, Field field, Object object, Set<String> includeFields) throws ModelException {
-        M_Column aColumn = columnNameMap.get(fieldName);
+    /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en el resolver de columnas */
+    protected M_Column loadValueToEntity(UserInfo info, PO aPO, SchemaUtils.ColumnResolver columnResolver, String columnName, String fieldName, Field field, Object object, Set<String> includeFields) throws ModelException {
+        M_Column aColumn = columnResolver.resolve(columnName);
         if (aColumn != null && (includeFields == null || includeFields.contains(fieldName))) {
             field.setAccessible(true);
             setValueToObject(info, object, field, aColumn, aPO.get_Value(aColumn.getColumnName()));
         }
+        return aColumn;
     }
 
     /**
@@ -557,7 +573,7 @@ public abstract class AbstractRepository {
         // Instanciar objeto del modelo segun corresponda
         Field[] fields = source.getClass().getDeclaredFields();
 
-        Map<String, M_Column> columnNameMap = schemaUtils.getColumnNameMap(aPO.get_TableName(), getCtx(info));
+        SchemaUtils.ColumnResolver columnResolver = schemaUtils.getColumnResolver(aPO.get_TableName(), getCtx(info));
         // Iterar por los campos matcheando segun el nombre de la propiedad.
         // NOTA: Swagger openapi respeta camelCase mientras que las columnas en BDD no siempre y ademas utiliza underscores
         for (Field field : fields) {
@@ -570,24 +586,24 @@ public abstract class AbstractRepository {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String fieldName = schemaUtils.normalize(field.getName());
+            String columnName = getFieldColumnName(field);
 
             // Informacion adicional contenida en la propiedad additionalvalues (informacion dinamica)
             if (ADDITIONAL_VALUES_PROPERTY.equalsIgnoreCase(field.getName()) && value!=null) {
                 for (Propertiesmap map : (List<Propertiesmap>)value) {
-                    loadValueToPO(info, aPO, columnNameMap, schemaUtils.normalize(map.getKey()), map.getValue(), inserting);
+                    loadValueToPO(info, aPO, columnResolver, map.getKey(), map.getValue(), inserting);
                 }
                 continue;
             }
 
             // Volcar value de la property al PO (informacion pre-establecida)
-            loadValueToPO(info, aPO, columnNameMap, fieldName, value, inserting);
+            loadValueToPO(info, aPO, columnResolver, columnName, value, inserting);
         }
     }
 
-    /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en la map de columnas columnNameMap */
-    protected void loadValueToPO(UserInfo info, PO aPO, Map<String, M_Column> columnNameMap, String fieldName, Object value, boolean inserting ) throws ModelException {
-        M_Column aColumn = columnNameMap.get(fieldName);
+    /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en el resolver de columnas */
+    protected void loadValueToPO(UserInfo info, PO aPO, SchemaUtils.ColumnResolver columnResolver, String fieldName, Object value, boolean inserting ) throws ModelException {
+        M_Column aColumn = columnResolver.resolve(fieldName);
         if (aColumn != null) {
             if (inserting && useDefaults(info)) {
                 setDefaultValue(aColumn, aPO);
