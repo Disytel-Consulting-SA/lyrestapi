@@ -216,28 +216,34 @@ Se puede parchear pasando esos jars sueltos por `-Dloader.path`, pero es tapar e
 
 ### Ojo: no sirve cualquier `OXPXLib.jar`
 
-Los `OXPXLib.jar` de ~32 MB que hay en las instalaciones locales traen `org/slf4j/impl/JDK14LoggerFactory`,
-que **choca con el Logback de Spring Boot** y la aplicación no arranca:
+Algunos `OXPXLib.jar` traen `org/slf4j/impl/JDK14LoggerFactory`, que **choca con el Logback de Spring Boot** y
+la aplicación no arranca:
 
 ```
 LoggerFactory is not a Logback LoggerContext but Logback is on the classpath
 ```
 
-El que funciona es uno de **45,5 MB con el paquete `org/slf4j/impl/` removido** (mismo tratamiento que
-`libs/JasperReports-ngroovy.jar`). No existe suelto en el disco, pero está embebido en los jars ya
-desplegados y se recupera con:
+El bueno **no tiene el paquete `org/slf4j/impl/`** (mismo tratamiento que `libs/JasperReports-ngroovy.jar`).
+Chequeo antes de empaquetar — tiene que dar 0 clases:
 
 ```bash
-unzip -p ~/scp/cintolo/migracion/lyrestapi/lyrestapi.jar BOOT-INF/lib/OXPXLib.jar > OXPXLib.jar
+unzip -l $OXP_HOME/lib/OXPXLib.jar 'org/slf4j/impl/*'
 ```
 
-Con esa lib en `$OXP_HOME/lib`, el jar sale autocontenido y arranca solo con
+### Estado (2026-08-10): resuelto
+
+Julian generó un `OXPXLib.jar` correcto en `/ServidorOXP/lib` (32,5 MB, sin `org/slf4j/impl`), y en la misma
+vuelta quedó actualizado el `OXP.jar` (13,6 MB, alineado con el de los jars desplegados). Con eso
+`./gradlew clean bootJar` produce un jar **autocontenido de 77,8 MB** que arranca solo con
 `-Dloader.path=libs/JasperReports-ngroovy.jar`, igual que el `Dockerfile`.
 
-### Arreglo propuesto
+**Regla de trabajo que salió de acá: si falta una lib, no improvisar.** Ni buscar copias por el disco, ni
+extraerla de un jar desplegado, ni apuntar `OXP_HOME` a otro directorio, ni parchear con `-Dloader.path`.
+Hay que pedir que la generen y esperar: los sustitutos producen artefactos que parecen correctos y no lo son.
 
-1. Dejar ese `OXPXLib.jar` (sin `org/slf4j/impl`) en el `$OXP_HOME/lib` que se use para compilar.
-2. Hacer que el build **falle** si falta una lib declarada, en vez de armar un jar incompleto:
+### Lo que queda pendiente
+
+Hacer que el build **falle** si falta una lib declarada, en vez de armar un jar incompleto en silencio:
 
 ```gradle
 def oxpLib = { name ->
@@ -247,6 +253,4 @@ def oxpLib = { name ->
 }
 ```
 
-3. Definir qué `OXP.jar` corresponde publicar: el de `/ServidorOXP` pesa 30,6 MB (2026-07-20) mientras que los
-   jars desplegados en producción se armaron con uno de 14,2 MB (2026-05-26). De ahí que el jar actual dé
-   107,8 MB y los desplegados 90,6.
+Con las libs ya en su lugar, agregarlo no rompe nada; es una red de seguridad para la próxima vez.
