@@ -179,3 +179,74 @@ campo declarado obligatorio que no existe como propiedad.
 
 Se detectó con `GL_JournalLine.C_ValidCombination_ID`, que es la **única** columna con reference 25 entre todas
 las tablas que genera este proyecto. El arreglo fue agregar `25` al grupo de enteros.
+
+---
+
+## P4 — El fat-jar se arma incompleto si falta una lib de `$OXP_HOME/lib`
+
+**Detectado:** 2026-08-10, al exportar el jar de la versión con asientos manuales.
+**Alcance:** el empaquetado (`build.gradle` + el contenido de `$OXP_HOME/lib`).
+**Impacto:** alto y silencioso — produce un artefacto que parece correcto y no lo es.
+
+### Qué pasa
+
+`build.gradle` declara las libs de Libertya así:
+
+```gradle
+def OXPLIBS = System.getenv("OXP_HOME")
+implementation files("$OXPLIBS/lib/OXP.jar")
+implementation files("$OXPLIBS/lib/OXPXLib.jar")
+```
+
+**`files()` de Gradle ignora en silencio los archivos que no existen**: no hay warning, no falla el build,
+simplemente el jar sale sin esa librería.
+
+Con `OXP_HOME=/ServidorOXP`, que **no tiene `OXPXLib.jar`**, el fat-jar sale de **63 MB** en vez de ~91-108.
+`OXPXLib.jar` no son clases de Libertya sino el bundle de dependencias externas: drivers JDBC, JavaMail, JNA,
+POI, PDF, CORBA. Sin él la aplicación **arranca igual** y recién falla al usarlas:
+
+| Clase que falta | Se rompe en |
+|---|---|
+| `org.postgresql.ds.PGSimpleDataSource` | conexión a la BD, al arrancar |
+| `oracle.jdbc.OracleConnection` | `DB.getConnectionRW`, aunque no se use Oracle |
+| `javax.mail.internet.AddressException` | `POST /token` |
+| `javax.activation.DataSource` | ídem |
+
+Se puede parchear pasando esos jars sueltos por `-Dloader.path`, pero es tapar el agujero, no cerrarlo.
+
+### Ojo: no sirve cualquier `OXPXLib.jar`
+
+Los `OXPXLib.jar` de ~32 MB que hay en las instalaciones locales traen `org/slf4j/impl/JDK14LoggerFactory`,
+que **choca con el Logback de Spring Boot** y la aplicación no arranca:
+
+```
+LoggerFactory is not a Logback LoggerContext but Logback is on the classpath
+```
+
+El que funciona es uno de **45,5 MB con el paquete `org/slf4j/impl/` removido** (mismo tratamiento que
+`libs/JasperReports-ngroovy.jar`). No existe suelto en el disco, pero está embebido en los jars ya
+desplegados y se recupera con:
+
+```bash
+unzip -p ~/scp/cintolo/migracion/lyrestapi/lyrestapi.jar BOOT-INF/lib/OXPXLib.jar > OXPXLib.jar
+```
+
+Con esa lib en `$OXP_HOME/lib`, el jar sale autocontenido y arranca solo con
+`-Dloader.path=libs/JasperReports-ngroovy.jar`, igual que el `Dockerfile`.
+
+### Arreglo propuesto
+
+1. Dejar ese `OXPXLib.jar` (sin `org/slf4j/impl`) en el `$OXP_HOME/lib` que se use para compilar.
+2. Hacer que el build **falle** si falta una lib declarada, en vez de armar un jar incompleto:
+
+```gradle
+def oxpLib = { name ->
+    def f = file("${System.getenv('OXP_HOME')}/lib/${name}")
+    if (!f.exists()) throw new GradleException("Falta ${f} — el jar quedaria incompleto")
+    files(f)
+}
+```
+
+3. Definir qué `OXP.jar` corresponde publicar: el de `/ServidorOXP` pesa 30,6 MB (2026-07-20) mientras que los
+   jars desplegados en producción se armaron con uno de 14,2 MB (2026-05-26). De ahí que el jar actual dé
+   107,8 MB y los desplegados 90,6.
