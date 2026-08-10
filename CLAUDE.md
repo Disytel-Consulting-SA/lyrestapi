@@ -86,6 +86,38 @@ service layer entirely; only multi-part *documents* (invoices, orders, payments,
 - **Logging**: `EventLogAspect` (AspectJ `@Around` on all `controller.*` methods) logs every request
   and response line to the file in `logging.file.name`. Request/response truncation is configurable.
 
+### Adding a configuration property — read this, it has bitten us
+
+**Deployments start the jar with `--spring.config.location=file:/lyrestapi/application.properties`.** That
+flag *replaces* the bundled `src/main/resources/application.properties` — it does not complement it. The copy
+inside the jar is never read in production.
+
+So a new `@Value("${some.new.property}")` **without an inline default crashes every existing deployment**,
+because the external config file predates the property:
+
+```
+Could not resolve placeholder 'org.libertya.api.service.journal.validate-balance'
+... Error creating bean with name 'journalService'
+```
+
+**Rule: any new property that has a sensible default must declare it inline** —
+`@Value("${org.libertya.api.service.journal.validate-balance:N}")` — so an older config file still boots.
+Adding it to `application.properties` is *not* enough. Reserve no-default (fail-fast) for settings that must
+never be guessed, like the DB credentials in `StartupLYService`.
+
+**And verify it the way production runs**, not the way `bootRun` does:
+
+```bash
+java -Dloader.path=libs/JasperReports-ngroovy.jar -jar build/libs/lyrestapi-1.0.0.jar \
+     --spring.config.location=file:/ruta/a/un/application.properties/SIN/la/propiedad/nueva
+```
+
+A local run without that flag picks up the bundled file and hides the problem entirely.
+
+> Nota: los otros 20 `@Value` del proyecto tampoco tienen default. Son propiedades viejas que ya están en
+> todos los `application.properties` desplegados, así que hoy no rompen — pero es la misma bomba si alguna vez
+> se despliega con un config recortado.
+
 ## JasperReports (invoice PDF printing)
 
 `GET /v1.0/invoices/{id}/print` returns the invoice PDF as base64. Implemented in

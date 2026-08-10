@@ -34,8 +34,16 @@ public class JournalService extends AbstractService {
      */
     private static final int MAX_LINES = 100000;
 
-    /** Validar Debe = Haber antes de insertar? Valor global, redefinible por request. */
-    @Value("${org.libertya.api.service.journal.validate-balance}")
+    /**
+     * Validar Debe = Haber antes de insertar? Valor global, redefinible por request.
+     *
+     * OJO CON EL DEFAULT EN LINEA (":N"): NO es redundante con application.properties.  Los despliegues
+     * arrancan con --spring.config.location=file:/ruta/application.properties, que REEMPLAZA al archivo
+     * empaquetado en el jar en lugar de complementarlo.  O sea que el application.properties del jar no se
+     * lee, y una propiedad sin default hace que la aplicacion no levante contra cualquier config anterior a
+     * su incorporacion.  Toda propiedad nueva que tenga un valor por defecto razonable debe declararlo aca.
+     */
+    @Value("${org.libertya.api.service.journal.validate-balance:N}")
     private String validateBalance;
 
     private final JournalRepository journalRepository;
