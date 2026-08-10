@@ -6,7 +6,7 @@ select columnname from
     )
     union
     (
-        select 1000 + row_number() over () as row,
+        select 1000 + row_number() over (order by c.columnname) as row,
             e'        ' || lower(c.columnname) || e':\n          ' ||
                 case
                     when ad_reference_id in (10, 14, 17, 34, 36, 28) then e'type: string' -- varchars
@@ -43,7 +43,7 @@ select columnname from
     )
     union
     (
-        select 5000 + row_number() over () as row,
+        select 5000 + row_number() over (order by c.columnname) as row,
             e'         - ' || lower(c.columnname)
         from ad_column c
         inner join ad_table t on c.ad_table_id = t.ad_table_id
