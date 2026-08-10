@@ -68,6 +68,9 @@ public class Invoice   {
   @JsonProperty("caja")
   private String caja = null;
 
+  @JsonProperty("cat_iva_id")
+  private Integer catIvaId = null;
+
   @JsonProperty("c_bpartner_id")
   private Integer cBpartnerId = null;
 
@@ -98,6 +101,21 @@ public class Invoice   {
   @JsonProperty("chargeamt")
   private BigDecimal chargeamt = null;
 
+  @JsonProperty("cintolo_adjustment_clause")
+  private Boolean cintoloAdjustmentClause = null;
+
+  @JsonProperty("cintolo_adjustment_clause_currency")
+  private Integer cintoloAdjustmentClauseCurrency = null;
+
+  @JsonProperty("cintolo_apply_exchange_dif")
+  private Boolean cintoloApplyExchangeDif = null;
+
+  @JsonProperty("cintolo_exchange_dif_receipt")
+  private Integer cintoloExchangeDifReceipt = null;
+
+  @JsonProperty("cintolo_exchange_rate")
+  private BigDecimal cintoloExchangeRate = null;
+
   @JsonProperty("c_invoice_id")
   private Integer cInvoiceId = null;
 
@@ -118,6 +136,9 @@ public class Invoice   {
 
   @JsonProperty("c_order_orig_id")
   private Integer cOrderOrigId = null;
+
+  @JsonProperty("cp")
+  private String cp = null;
 
   @JsonProperty("c_payment_id")
   private Integer cPaymentId = null;
@@ -182,6 +203,9 @@ public class Invoice   {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("direccion")
+  private String direccion = null;
+
   @JsonProperty("docaction")
   private String docaction = null;
 
@@ -227,6 +251,9 @@ public class Invoice   {
   @JsonProperty("isapproved")
   private Boolean isapproved = null;
 
+  @JsonProperty("iscancelamismamoneda")
+  private Boolean iscancelamismamoneda = null;
+
   @JsonProperty("iscopy")
   private Boolean iscopy = null;
 
@@ -263,14 +290,26 @@ public class Invoice   {
   @JsonProperty("isvoidable")
   private Boolean isvoidable = null;
 
+  @JsonProperty("localidad")
+  private String localidad = null;
+
   @JsonProperty("lyeicaeainformed")
   private String lyeicaeainformed = null;
 
   @JsonProperty("lyeicaeainformeddetail")
   private String lyeicaeainformeddetail = null;
 
+  @JsonProperty("lyeimanageelectronicinvoice")
+  private String lyeimanageelectronicinvoice = null;
+
   @JsonProperty("lyeimanageelectronicinvoiceprocess")
   private String lyeimanageelectronicinvoiceprocess = null;
+
+  @JsonProperty("lyeiperiodfrom")
+  private String lyeiperiodfrom = null;
+
+  @JsonProperty("lyeiperiodto")
+  private String lyeiperiodto = null;
 
   @JsonProperty("managedragorderdiscounts")
   private Boolean managedragorderdiscounts = null;
@@ -280,6 +319,9 @@ public class Invoice   {
 
   @JsonProperty("manageelectronicinvoice")
   private String manageelectronicinvoice = null;
+
+  @JsonProperty("managefiscalinvoice")
+  private String managefiscalinvoice = null;
 
   @JsonProperty("manualdocumentno")
   private Boolean manualdocumentno = null;
@@ -341,6 +383,9 @@ public class Invoice   {
   @JsonProperty("posted")
   private String posted = null;
 
+  @JsonProperty("preloadinvoice")
+  private Boolean preloadinvoice = null;
+
   @JsonProperty("pricelistcurrency")
   private Integer pricelistcurrency = null;
 
@@ -352,6 +397,9 @@ public class Invoice   {
 
   @JsonProperty("processing")
   private String processing = null;
+
+  @JsonProperty("provincia")
+  private String provincia = null;
 
   @JsonProperty("puntodeventa")
   private Integer puntodeventa = null;
@@ -707,6 +755,25 @@ public class Invoice   {
     this.caja = caja;
   }
 
+  public Invoice catIvaId(Integer catIvaId) {
+    this.catIvaId = catIvaId;
+    return this;
+  }
+
+  /**
+   *  
+   * @return catIvaId
+   **/
+  @Schema(description = " ")
+  
+    public Integer getCatIvaId() {
+    return catIvaId;
+  }
+
+  public void setCatIvaId(Integer catIvaId) {
+    this.catIvaId = catIvaId;
+  }
+
   public Invoice cBpartnerId(Integer cBpartnerId) {
     this.cBpartnerId = cBpartnerId;
     return this;
@@ -903,6 +970,104 @@ public class Invoice   {
     this.chargeamt = chargeamt;
   }
 
+  public Invoice cintoloAdjustmentClause(Boolean cintoloAdjustmentClause) {
+    this.cintoloAdjustmentClause = cintoloAdjustmentClause;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cintoloAdjustmentClause
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    public Boolean isCintoloAdjustmentClause() {
+    return cintoloAdjustmentClause;
+  }
+
+  public void setCintoloAdjustmentClause(Boolean cintoloAdjustmentClause) {
+    this.cintoloAdjustmentClause = cintoloAdjustmentClause;
+  }
+
+  public Invoice cintoloAdjustmentClauseCurrency(Integer cintoloAdjustmentClauseCurrency) {
+    this.cintoloAdjustmentClauseCurrency = cintoloAdjustmentClauseCurrency;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cintoloAdjustmentClauseCurrency
+   **/
+  @Schema(description = " ")
+  
+    public Integer getCintoloAdjustmentClauseCurrency() {
+    return cintoloAdjustmentClauseCurrency;
+  }
+
+  public void setCintoloAdjustmentClauseCurrency(Integer cintoloAdjustmentClauseCurrency) {
+    this.cintoloAdjustmentClauseCurrency = cintoloAdjustmentClauseCurrency;
+  }
+
+  public Invoice cintoloApplyExchangeDif(Boolean cintoloApplyExchangeDif) {
+    this.cintoloApplyExchangeDif = cintoloApplyExchangeDif;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cintoloApplyExchangeDif
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    public Boolean isCintoloApplyExchangeDif() {
+    return cintoloApplyExchangeDif;
+  }
+
+  public void setCintoloApplyExchangeDif(Boolean cintoloApplyExchangeDif) {
+    this.cintoloApplyExchangeDif = cintoloApplyExchangeDif;
+  }
+
+  public Invoice cintoloExchangeDifReceipt(Integer cintoloExchangeDifReceipt) {
+    this.cintoloExchangeDifReceipt = cintoloExchangeDifReceipt;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cintoloExchangeDifReceipt
+   **/
+  @Schema(description = " ")
+  
+    public Integer getCintoloExchangeDifReceipt() {
+    return cintoloExchangeDifReceipt;
+  }
+
+  public void setCintoloExchangeDifReceipt(Integer cintoloExchangeDifReceipt) {
+    this.cintoloExchangeDifReceipt = cintoloExchangeDifReceipt;
+  }
+
+  public Invoice cintoloExchangeRate(BigDecimal cintoloExchangeRate) {
+    this.cintoloExchangeRate = cintoloExchangeRate;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cintoloExchangeRate
+   **/
+  @Schema(description = " ")
+  
+    @Valid
+    public BigDecimal getCintoloExchangeRate() {
+    return cintoloExchangeRate;
+  }
+
+  public void setCintoloExchangeRate(BigDecimal cintoloExchangeRate) {
+    this.cintoloExchangeRate = cintoloExchangeRate;
+  }
+
   public Invoice cInvoiceId(Integer cInvoiceId) {
     this.cInvoiceId = cInvoiceId;
     return this;
@@ -1035,6 +1200,25 @@ public class Invoice   {
 
   public void setCOrderOrigId(Integer cOrderOrigId) {
     this.cOrderOrigId = cOrderOrigId;
+  }
+
+  public Invoice cp(String cp) {
+    this.cp = cp;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cp
+   **/
+  @Schema(description = " ")
+  
+    public String getCp() {
+    return cp;
+  }
+
+  public void setCp(String cp) {
+    this.cp = cp;
   }
 
   public Invoice cPaymentId(Integer cPaymentId) {
@@ -1442,6 +1626,25 @@ public class Invoice   {
     this.description = description;
   }
 
+  public Invoice direccion(String direccion) {
+    this.direccion = direccion;
+    return this;
+  }
+
+  /**
+   *  
+   * @return direccion
+   **/
+  @Schema(description = " ")
+  
+    public String getDireccion() {
+    return direccion;
+  }
+
+  public void setDireccion(String direccion) {
+    this.direccion = direccion;
+  }
+
   public Invoice docaction(String docaction) {
     this.docaction = docaction;
     return this;
@@ -1737,6 +1940,25 @@ public class Invoice   {
     this.isapproved = isapproved;
   }
 
+  public Invoice iscancelamismamoneda(Boolean iscancelamismamoneda) {
+    this.iscancelamismamoneda = iscancelamismamoneda;
+    return this;
+  }
+
+  /**
+   *  
+   * @return iscancelamismamoneda
+   **/
+  @Schema(description = " ")
+  
+    public Boolean isIscancelamismamoneda() {
+    return iscancelamismamoneda;
+  }
+
+  public void setIscancelamismamoneda(Boolean iscancelamismamoneda) {
+    this.iscancelamismamoneda = iscancelamismamoneda;
+  }
+
   public Invoice iscopy(Boolean iscopy) {
     this.iscopy = iscopy;
     return this;
@@ -1977,6 +2199,25 @@ public class Invoice   {
     this.isvoidable = isvoidable;
   }
 
+  public Invoice localidad(String localidad) {
+    this.localidad = localidad;
+    return this;
+  }
+
+  /**
+   *  
+   * @return localidad
+   **/
+  @Schema(description = " ")
+  
+    public String getLocalidad() {
+    return localidad;
+  }
+
+  public void setLocalidad(String localidad) {
+    this.localidad = localidad;
+  }
+
   public Invoice lyeicaeainformed(String lyeicaeainformed) {
     this.lyeicaeainformed = lyeicaeainformed;
     return this;
@@ -2015,6 +2256,25 @@ public class Invoice   {
     this.lyeicaeainformeddetail = lyeicaeainformeddetail;
   }
 
+  public Invoice lyeimanageelectronicinvoice(String lyeimanageelectronicinvoice) {
+    this.lyeimanageelectronicinvoice = lyeimanageelectronicinvoice;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeimanageelectronicinvoice
+   **/
+  @Schema(description = " ")
+  
+    public String getLyeimanageelectronicinvoice() {
+    return lyeimanageelectronicinvoice;
+  }
+
+  public void setLyeimanageelectronicinvoice(String lyeimanageelectronicinvoice) {
+    this.lyeimanageelectronicinvoice = lyeimanageelectronicinvoice;
+  }
+
   public Invoice lyeimanageelectronicinvoiceprocess(String lyeimanageelectronicinvoiceprocess) {
     this.lyeimanageelectronicinvoiceprocess = lyeimanageelectronicinvoiceprocess;
     return this;
@@ -2032,6 +2292,44 @@ public class Invoice   {
 
   public void setLyeimanageelectronicinvoiceprocess(String lyeimanageelectronicinvoiceprocess) {
     this.lyeimanageelectronicinvoiceprocess = lyeimanageelectronicinvoiceprocess;
+  }
+
+  public Invoice lyeiperiodfrom(String lyeiperiodfrom) {
+    this.lyeiperiodfrom = lyeiperiodfrom;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeiperiodfrom
+   **/
+  @Schema(description = " ")
+  
+    public String getLyeiperiodfrom() {
+    return lyeiperiodfrom;
+  }
+
+  public void setLyeiperiodfrom(String lyeiperiodfrom) {
+    this.lyeiperiodfrom = lyeiperiodfrom;
+  }
+
+  public Invoice lyeiperiodto(String lyeiperiodto) {
+    this.lyeiperiodto = lyeiperiodto;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeiperiodto
+   **/
+  @Schema(description = " ")
+  
+    public String getLyeiperiodto() {
+    return lyeiperiodto;
+  }
+
+  public void setLyeiperiodto(String lyeiperiodto) {
+    this.lyeiperiodto = lyeiperiodto;
   }
 
   public Invoice managedragorderdiscounts(Boolean managedragorderdiscounts) {
@@ -2091,6 +2389,25 @@ public class Invoice   {
 
   public void setManageelectronicinvoice(String manageelectronicinvoice) {
     this.manageelectronicinvoice = manageelectronicinvoice;
+  }
+
+  public Invoice managefiscalinvoice(String managefiscalinvoice) {
+    this.managefiscalinvoice = managefiscalinvoice;
+    return this;
+  }
+
+  /**
+   *  
+   * @return managefiscalinvoice
+   **/
+  @Schema(description = " ")
+  
+    public String getManagefiscalinvoice() {
+    return managefiscalinvoice;
+  }
+
+  public void setManagefiscalinvoice(String managefiscalinvoice) {
+    this.managefiscalinvoice = managefiscalinvoice;
   }
 
   public Invoice manualdocumentno(Boolean manualdocumentno) {
@@ -2483,6 +2800,26 @@ public class Invoice   {
     this.posted = posted;
   }
 
+  public Invoice preloadinvoice(Boolean preloadinvoice) {
+    this.preloadinvoice = preloadinvoice;
+    return this;
+  }
+
+  /**
+   *  
+   * @return preloadinvoice
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    public Boolean isPreloadinvoice() {
+    return preloadinvoice;
+  }
+
+  public void setPreloadinvoice(Boolean preloadinvoice) {
+    this.preloadinvoice = preloadinvoice;
+  }
+
   public Invoice pricelistcurrency(Integer pricelistcurrency) {
     this.pricelistcurrency = pricelistcurrency;
     return this;
@@ -2558,6 +2895,25 @@ public class Invoice   {
 
   public void setProcessing(String processing) {
     this.processing = processing;
+  }
+
+  public Invoice provincia(String provincia) {
+    this.provincia = provincia;
+    return this;
+  }
+
+  /**
+   *  
+   * @return provincia
+   **/
+  @Schema(description = " ")
+  
+    public String getProvincia() {
+    return provincia;
+  }
+
+  public void setProvincia(String provincia) {
+    this.provincia = provincia;
   }
 
   public Invoice puntodeventa(Integer puntodeventa) {
@@ -2893,6 +3249,7 @@ public class Invoice   {
         Objects.equals(this.caeerror, invoice.caeerror) &&
         Objects.equals(this.cai, invoice.cai) &&
         Objects.equals(this.caja, invoice.caja) &&
+        Objects.equals(this.catIvaId, invoice.catIvaId) &&
         Objects.equals(this.cBpartnerId, invoice.cBpartnerId) &&
         Objects.equals(this.cBpartnerLocationId, invoice.cBpartnerLocationId) &&
         Objects.equals(this.cCampaignId, invoice.cCampaignId) &&
@@ -2903,6 +3260,11 @@ public class Invoice   {
         Objects.equals(this.cDoctypeId, invoice.cDoctypeId) &&
         Objects.equals(this.cDoctypetargetId, invoice.cDoctypetargetId) &&
         Objects.equals(this.chargeamt, invoice.chargeamt) &&
+        Objects.equals(this.cintoloAdjustmentClause, invoice.cintoloAdjustmentClause) &&
+        Objects.equals(this.cintoloAdjustmentClauseCurrency, invoice.cintoloAdjustmentClauseCurrency) &&
+        Objects.equals(this.cintoloApplyExchangeDif, invoice.cintoloApplyExchangeDif) &&
+        Objects.equals(this.cintoloExchangeDifReceipt, invoice.cintoloExchangeDifReceipt) &&
+        Objects.equals(this.cintoloExchangeRate, invoice.cintoloExchangeRate) &&
         Objects.equals(this.cInvoiceId, invoice.cInvoiceId) &&
         Objects.equals(this.cInvoiceOrigId, invoice.cInvoiceOrigId) &&
         Objects.equals(this.cLetraComprobanteId, invoice.cLetraComprobanteId) &&
@@ -2910,6 +3272,7 @@ public class Invoice   {
         Objects.equals(this.copyfrom, invoice.copyfrom) &&
         Objects.equals(this.cOrderId, invoice.cOrderId) &&
         Objects.equals(this.cOrderOrigId, invoice.cOrderOrigId) &&
+        Objects.equals(this.cp, invoice.cp) &&
         Objects.equals(this.cPaymentId, invoice.cPaymentId) &&
         Objects.equals(this.cPaymenttermId, invoice.cPaymenttermId) &&
         Objects.equals(this.cPosjournalId, invoice.cPosjournalId) &&
@@ -2931,6 +3294,7 @@ public class Invoice   {
         Objects.equals(this.daterecepted, invoice.daterecepted) &&
         Objects.equals(this.deliveryviarule, invoice.deliveryviarule) &&
         Objects.equals(this.description, invoice.description) &&
+        Objects.equals(this.direccion, invoice.direccion) &&
         Objects.equals(this.docaction, invoice.docaction) &&
         Objects.equals(this.docstatus, invoice.docstatus) &&
         Objects.equals(this.docsubtypeinv, invoice.docsubtypeinv) &&
@@ -2946,6 +3310,7 @@ public class Invoice   {
         Objects.equals(this.invoiceAdress, invoice.invoiceAdress) &&
         Objects.equals(this.isactive, invoice.isactive) &&
         Objects.equals(this.isapproved, invoice.isapproved) &&
+        Objects.equals(this.iscancelamismamoneda, invoice.iscancelamismamoneda) &&
         Objects.equals(this.iscopy, invoice.iscopy) &&
         Objects.equals(this.isdiscountprinted, invoice.isdiscountprinted) &&
         Objects.equals(this.isexchange, invoice.isexchange) &&
@@ -2958,12 +3323,17 @@ public class Invoice   {
         Objects.equals(this.istaxincluded, invoice.istaxincluded) &&
         Objects.equals(this.istransferred, invoice.istransferred) &&
         Objects.equals(this.isvoidable, invoice.isvoidable) &&
+        Objects.equals(this.localidad, invoice.localidad) &&
         Objects.equals(this.lyeicaeainformed, invoice.lyeicaeainformed) &&
         Objects.equals(this.lyeicaeainformeddetail, invoice.lyeicaeainformeddetail) &&
+        Objects.equals(this.lyeimanageelectronicinvoice, invoice.lyeimanageelectronicinvoice) &&
         Objects.equals(this.lyeimanageelectronicinvoiceprocess, invoice.lyeimanageelectronicinvoiceprocess) &&
+        Objects.equals(this.lyeiperiodfrom, invoice.lyeiperiodfrom) &&
+        Objects.equals(this.lyeiperiodto, invoice.lyeiperiodto) &&
         Objects.equals(this.managedragorderdiscounts, invoice.managedragorderdiscounts) &&
         Objects.equals(this.managedragordersurcharges, invoice.managedragordersurcharges) &&
         Objects.equals(this.manageelectronicinvoice, invoice.manageelectronicinvoice) &&
+        Objects.equals(this.managefiscalinvoice, invoice.managefiscalinvoice) &&
         Objects.equals(this.manualdocumentno, invoice.manualdocumentno) &&
         Objects.equals(this.manualgeneraldiscount, invoice.manualgeneraldiscount) &&
         Objects.equals(this.mAuthorizationchainId, invoice.mAuthorizationchainId) &&
@@ -2984,10 +3354,12 @@ public class Invoice   {
         Objects.equals(this.paymentrule, invoice.paymentrule) &&
         Objects.equals(this.poreference, invoice.poreference) &&
         Objects.equals(this.posted, invoice.posted) &&
+        Objects.equals(this.preloadinvoice, invoice.preloadinvoice) &&
         Objects.equals(this.pricelistcurrency, invoice.pricelistcurrency) &&
         Objects.equals(this.printtype, invoice.printtype) &&
         Objects.equals(this.processed, invoice.processed) &&
         Objects.equals(this.processing, invoice.processing) &&
+        Objects.equals(this.provincia, invoice.provincia) &&
         Objects.equals(this.puntodeventa, invoice.puntodeventa) &&
         Objects.equals(this.refInvoiceId, invoice.refInvoiceId) &&
         Objects.equals(this.salesrepId, invoice.salesrepId) &&
@@ -3007,7 +3379,7 @@ public class Invoice   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(actualizarpreciosconfacturadecompra, adClientId, adOrgId, adOrgtrxId, adUserId, applypercepcion, authcode, authmatch, authorizationchainstatus, authorize, cActivityId, cae, caecbte, caeerror, cai, caja, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceId, cInvoiceOrigId, cLetraComprobanteId, codigocategoriaiva, copyfrom, cOrderId, cOrderOrigId, cPaymentId, cPaymenttermId, cPosjournalId, cPospaymentmediumCreditId, cPospaymentmediumId, cProjectId, createcashline, created, createdby, createfrom, cRegionDeliveryId, cRegionId, cuit, dateacct, datecai, dateinvoiced, dateordered, dateprinted, daterecepted, deliveryviarule, description, docaction, docstatus, docsubtypeinv, documentno, fechadetcparaactualizarprecios, fiscalalreadyprinted, fiscaldescription, generateto, grandtotal, idcae, importclearance, initialcurrentaccountamt, invoiceAdress, isactive, isapproved, iscopy, isdiscountprinted, isexchange, isindispute, ispaid, ispayschedulevalid, isprinted, isselfservice, issotrx, istaxincluded, istransferred, isvoidable, lyeicaeainformed, lyeicaeainformeddetail, lyeimanageelectronicinvoiceprocess, managedragorderdiscounts, managedragordersurcharges, manageelectronicinvoice, manualdocumentno, manualgeneraldiscount, mAuthorizationchainId, mInouttransportId, mPricelistId, mRmaId, netamount, nombrecli, notexchangeablecredit, nroidentificcliente, numerocomprobante, numerodedocumento, oldgrandtotal, originvfecha, originvnro, originvptovta, originvtipo, paymentrule, poreference, posted, pricelistcurrency, printtype, processed, processing, puntodeventa, refInvoiceId, salesrepId, sendemail, skipipnocaevalidation, tipocomprobante, totallines, updated, updatedby, updateorderqty, user1Id, user2Id, vtocae, additionalvalues, referencedvalues);
+    return Objects.hash(actualizarpreciosconfacturadecompra, adClientId, adOrgId, adOrgtrxId, adUserId, applypercepcion, authcode, authmatch, authorizationchainstatus, authorize, cActivityId, cae, caecbte, caeerror, cai, caja, catIvaId, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cintoloAdjustmentClause, cintoloAdjustmentClauseCurrency, cintoloApplyExchangeDif, cintoloExchangeDifReceipt, cintoloExchangeRate, cInvoiceId, cInvoiceOrigId, cLetraComprobanteId, codigocategoriaiva, copyfrom, cOrderId, cOrderOrigId, cp, cPaymentId, cPaymenttermId, cPosjournalId, cPospaymentmediumCreditId, cPospaymentmediumId, cProjectId, createcashline, created, createdby, createfrom, cRegionDeliveryId, cRegionId, cuit, dateacct, datecai, dateinvoiced, dateordered, dateprinted, daterecepted, deliveryviarule, description, direccion, docaction, docstatus, docsubtypeinv, documentno, fechadetcparaactualizarprecios, fiscalalreadyprinted, fiscaldescription, generateto, grandtotal, idcae, importclearance, initialcurrentaccountamt, invoiceAdress, isactive, isapproved, iscancelamismamoneda, iscopy, isdiscountprinted, isexchange, isindispute, ispaid, ispayschedulevalid, isprinted, isselfservice, issotrx, istaxincluded, istransferred, isvoidable, localidad, lyeicaeainformed, lyeicaeainformeddetail, lyeimanageelectronicinvoice, lyeimanageelectronicinvoiceprocess, lyeiperiodfrom, lyeiperiodto, managedragorderdiscounts, managedragordersurcharges, manageelectronicinvoice, managefiscalinvoice, manualdocumentno, manualgeneraldiscount, mAuthorizationchainId, mInouttransportId, mPricelistId, mRmaId, netamount, nombrecli, notexchangeablecredit, nroidentificcliente, numerocomprobante, numerodedocumento, oldgrandtotal, originvfecha, originvnro, originvptovta, originvtipo, paymentrule, poreference, posted, preloadinvoice, pricelistcurrency, printtype, processed, processing, provincia, puntodeventa, refInvoiceId, salesrepId, sendemail, skipipnocaevalidation, tipocomprobante, totallines, updated, updatedby, updateorderqty, user1Id, user2Id, vtocae, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -3031,6 +3403,7 @@ public class Invoice   {
     sb.append("    caeerror: ").append(toIndentedString(caeerror)).append("\n");
     sb.append("    cai: ").append(toIndentedString(cai)).append("\n");
     sb.append("    caja: ").append(toIndentedString(caja)).append("\n");
+    sb.append("    catIvaId: ").append(toIndentedString(catIvaId)).append("\n");
     sb.append("    cBpartnerId: ").append(toIndentedString(cBpartnerId)).append("\n");
     sb.append("    cBpartnerLocationId: ").append(toIndentedString(cBpartnerLocationId)).append("\n");
     sb.append("    cCampaignId: ").append(toIndentedString(cCampaignId)).append("\n");
@@ -3041,6 +3414,11 @@ public class Invoice   {
     sb.append("    cDoctypeId: ").append(toIndentedString(cDoctypeId)).append("\n");
     sb.append("    cDoctypetargetId: ").append(toIndentedString(cDoctypetargetId)).append("\n");
     sb.append("    chargeamt: ").append(toIndentedString(chargeamt)).append("\n");
+    sb.append("    cintoloAdjustmentClause: ").append(toIndentedString(cintoloAdjustmentClause)).append("\n");
+    sb.append("    cintoloAdjustmentClauseCurrency: ").append(toIndentedString(cintoloAdjustmentClauseCurrency)).append("\n");
+    sb.append("    cintoloApplyExchangeDif: ").append(toIndentedString(cintoloApplyExchangeDif)).append("\n");
+    sb.append("    cintoloExchangeDifReceipt: ").append(toIndentedString(cintoloExchangeDifReceipt)).append("\n");
+    sb.append("    cintoloExchangeRate: ").append(toIndentedString(cintoloExchangeRate)).append("\n");
     sb.append("    cInvoiceId: ").append(toIndentedString(cInvoiceId)).append("\n");
     sb.append("    cInvoiceOrigId: ").append(toIndentedString(cInvoiceOrigId)).append("\n");
     sb.append("    cLetraComprobanteId: ").append(toIndentedString(cLetraComprobanteId)).append("\n");
@@ -3048,6 +3426,7 @@ public class Invoice   {
     sb.append("    copyfrom: ").append(toIndentedString(copyfrom)).append("\n");
     sb.append("    cOrderId: ").append(toIndentedString(cOrderId)).append("\n");
     sb.append("    cOrderOrigId: ").append(toIndentedString(cOrderOrigId)).append("\n");
+    sb.append("    cp: ").append(toIndentedString(cp)).append("\n");
     sb.append("    cPaymentId: ").append(toIndentedString(cPaymentId)).append("\n");
     sb.append("    cPaymenttermId: ").append(toIndentedString(cPaymenttermId)).append("\n");
     sb.append("    cPosjournalId: ").append(toIndentedString(cPosjournalId)).append("\n");
@@ -3069,6 +3448,7 @@ public class Invoice   {
     sb.append("    daterecepted: ").append(toIndentedString(daterecepted)).append("\n");
     sb.append("    deliveryviarule: ").append(toIndentedString(deliveryviarule)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    direccion: ").append(toIndentedString(direccion)).append("\n");
     sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    docsubtypeinv: ").append(toIndentedString(docsubtypeinv)).append("\n");
@@ -3084,6 +3464,7 @@ public class Invoice   {
     sb.append("    invoiceAdress: ").append(toIndentedString(invoiceAdress)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isapproved: ").append(toIndentedString(isapproved)).append("\n");
+    sb.append("    iscancelamismamoneda: ").append(toIndentedString(iscancelamismamoneda)).append("\n");
     sb.append("    iscopy: ").append(toIndentedString(iscopy)).append("\n");
     sb.append("    isdiscountprinted: ").append(toIndentedString(isdiscountprinted)).append("\n");
     sb.append("    isexchange: ").append(toIndentedString(isexchange)).append("\n");
@@ -3096,12 +3477,17 @@ public class Invoice   {
     sb.append("    istaxincluded: ").append(toIndentedString(istaxincluded)).append("\n");
     sb.append("    istransferred: ").append(toIndentedString(istransferred)).append("\n");
     sb.append("    isvoidable: ").append(toIndentedString(isvoidable)).append("\n");
+    sb.append("    localidad: ").append(toIndentedString(localidad)).append("\n");
     sb.append("    lyeicaeainformed: ").append(toIndentedString(lyeicaeainformed)).append("\n");
     sb.append("    lyeicaeainformeddetail: ").append(toIndentedString(lyeicaeainformeddetail)).append("\n");
+    sb.append("    lyeimanageelectronicinvoice: ").append(toIndentedString(lyeimanageelectronicinvoice)).append("\n");
     sb.append("    lyeimanageelectronicinvoiceprocess: ").append(toIndentedString(lyeimanageelectronicinvoiceprocess)).append("\n");
+    sb.append("    lyeiperiodfrom: ").append(toIndentedString(lyeiperiodfrom)).append("\n");
+    sb.append("    lyeiperiodto: ").append(toIndentedString(lyeiperiodto)).append("\n");
     sb.append("    managedragorderdiscounts: ").append(toIndentedString(managedragorderdiscounts)).append("\n");
     sb.append("    managedragordersurcharges: ").append(toIndentedString(managedragordersurcharges)).append("\n");
     sb.append("    manageelectronicinvoice: ").append(toIndentedString(manageelectronicinvoice)).append("\n");
+    sb.append("    managefiscalinvoice: ").append(toIndentedString(managefiscalinvoice)).append("\n");
     sb.append("    manualdocumentno: ").append(toIndentedString(manualdocumentno)).append("\n");
     sb.append("    manualgeneraldiscount: ").append(toIndentedString(manualgeneraldiscount)).append("\n");
     sb.append("    mAuthorizationchainId: ").append(toIndentedString(mAuthorizationchainId)).append("\n");
@@ -3122,10 +3508,12 @@ public class Invoice   {
     sb.append("    paymentrule: ").append(toIndentedString(paymentrule)).append("\n");
     sb.append("    poreference: ").append(toIndentedString(poreference)).append("\n");
     sb.append("    posted: ").append(toIndentedString(posted)).append("\n");
+    sb.append("    preloadinvoice: ").append(toIndentedString(preloadinvoice)).append("\n");
     sb.append("    pricelistcurrency: ").append(toIndentedString(pricelistcurrency)).append("\n");
     sb.append("    printtype: ").append(toIndentedString(printtype)).append("\n");
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
     sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
+    sb.append("    provincia: ").append(toIndentedString(provincia)).append("\n");
     sb.append("    puntodeventa: ").append(toIndentedString(puntodeventa)).append("\n");
     sb.append("    refInvoiceId: ").append(toIndentedString(refInvoiceId)).append("\n");
     sb.append("    salesrepId: ").append(toIndentedString(salesrepId)).append("\n");

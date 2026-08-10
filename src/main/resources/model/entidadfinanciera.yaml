@@ -60,6 +60,9 @@ components:
         name:
           type: string
           description: "Identificador alfanumérico de la Entidad"
+        numerocomercioclover:
+          type: string
+          description: " "
         updated:
           type: string
           description: "Determina si el campo esta actualizado"

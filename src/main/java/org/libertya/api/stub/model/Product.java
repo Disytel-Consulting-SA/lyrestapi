@@ -134,6 +134,9 @@ public class Product   {
   @JsonProperty("iswebstorefeatured")
   private Boolean iswebstorefeatured = null;
 
+  @JsonProperty("jacofer_codigoarba")
+  private String jacoferCodigoarba = null;
+
   @JsonProperty("lowlevel")
   private Integer lowlevel = null;
 
@@ -993,6 +996,25 @@ public class Product   {
     this.iswebstorefeatured = iswebstorefeatured;
   }
 
+  public Product jacoferCodigoarba(String jacoferCodigoarba) {
+    this.jacoferCodigoarba = jacoferCodigoarba;
+    return this;
+  }
+
+  /**
+   *  
+   * @return jacoferCodigoarba
+   **/
+  @Schema(description = " ")
+  
+    public String getJacoferCodigoarba() {
+    return jacoferCodigoarba;
+  }
+
+  public void setJacoferCodigoarba(String jacoferCodigoarba) {
+    this.jacoferCodigoarba = jacoferCodigoarba;
+  }
+
   public Product lowlevel(Integer lowlevel) {
     this.lowlevel = lowlevel;
     return this;
@@ -1774,6 +1796,7 @@ public class Product   {
         Objects.equals(this.istoformule, product.istoformule) &&
         Objects.equals(this.isverified, product.isverified) &&
         Objects.equals(this.iswebstorefeatured, product.iswebstorefeatured) &&
+        Objects.equals(this.jacoferCodigoarba, product.jacoferCodigoarba) &&
         Objects.equals(this.lowlevel, product.lowlevel) &&
         Objects.equals(this.lyeicodigomtx, product.lyeicodigomtx) &&
         Objects.equals(this.lyeiunidadesmtx, product.lyeiunidadesmtx) &&
@@ -1815,7 +1838,7 @@ public class Product   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, lowlevel, lyeicodigomtx, lyeiunidadesmtx, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, processing, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, amortizationperc, checkoutplace, classification, commonRef, created, createdby, cRevenuerecognitionId, cSubscriptiontypeId, cTaxcategoryId, cUomId, deliverytimePromised, description, descriptionurl, discontinued, discontinuedby, documentnote, guaranteedays, guaranteedaysmin, help, imageurl, isactive, isbom, isdropship, ishelp, isinventoried, isinvoiceprintdetails, ispicklistprintdetails, ispurchased, isselfservice, issold, isstocked, issummary, istoformule, isverified, iswebstorefeatured, jacoferCodigoarba, lowlevel, lyeicodigomtx, lyeiunidadesmtx, marketingblocked, marketingblockeddescr, mAttributesetId, mAttributesetinstanceId, mFreightcategoryId, mIntrastatcodeId, mLocatorId, mProductCategoryId, mProductFamilyId, mProductId, name, processing, producttype, rMailtextId, salesOrderMin, salesOrderPack, salesrepId, sExpensetypeId, shelfdepth, shelfheight, shelfwidth, sku, sResourceId, unitsperpallet, upc, updated, updatedby, value, versionno, volume, weight, yearlife, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1861,6 +1884,7 @@ public class Product   {
     sb.append("    istoformule: ").append(toIndentedString(istoformule)).append("\n");
     sb.append("    isverified: ").append(toIndentedString(isverified)).append("\n");
     sb.append("    iswebstorefeatured: ").append(toIndentedString(iswebstorefeatured)).append("\n");
+    sb.append("    jacoferCodigoarba: ").append(toIndentedString(jacoferCodigoarba)).append("\n");
     sb.append("    lowlevel: ").append(toIndentedString(lowlevel)).append("\n");
     sb.append("    lyeicodigomtx: ").append(toIndentedString(lyeicodigomtx)).append("\n");
     sb.append("    lyeiunidadesmtx: ").append(toIndentedString(lyeiunidadesmtx)).append("\n");

@@ -62,6 +62,9 @@ public class Order   {
   @JsonProperty("c_activity_id")
   private Integer cActivityId = null;
 
+  @JsonProperty("cat_iva_id")
+  private Integer catIvaId = null;
+
   @JsonProperty("c_bpartner_id")
   private Integer cBpartnerId = null;
 
@@ -103,6 +106,9 @@ public class Order   {
 
   @JsonProperty("c_order_id")
   private Integer cOrderId = null;
+
+  @JsonProperty("cp")
+  private String cp = null;
 
   @JsonProperty("c_payment_id")
   private Integer cPaymentId = null;
@@ -157,6 +163,9 @@ public class Order   {
 
   @JsonProperty("description")
   private String description = null;
+
+  @JsonProperty("direccion")
+  private String direccion = null;
 
   @JsonProperty("docaction")
   private String docaction = null;
@@ -230,6 +239,9 @@ public class Order   {
   @JsonProperty("istransferred")
   private Boolean istransferred = null;
 
+  @JsonProperty("localidad")
+  private String localidad = null;
+
   @JsonProperty("manualgeneraldiscount")
   private BigDecimal manualgeneraldiscount = null;
 
@@ -283,6 +295,9 @@ public class Order   {
 
   @JsonProperty("program_invoice")
   private Integer programInvoice = null;
+
+  @JsonProperty("provincia")
+  private String provincia = null;
 
   @JsonProperty("ref_order_id")
   private Integer refOrderId = null;
@@ -595,6 +610,25 @@ public class Order   {
     this.cActivityId = cActivityId;
   }
 
+  public Order catIvaId(Integer catIvaId) {
+    this.catIvaId = catIvaId;
+    return this;
+  }
+
+  /**
+   *  
+   * @return catIvaId
+   **/
+  @Schema(description = " ")
+  
+    public Integer getCatIvaId() {
+    return catIvaId;
+  }
+
+  public void setCatIvaId(Integer catIvaId) {
+    this.catIvaId = catIvaId;
+  }
+
   public Order cBpartnerId(Integer cBpartnerId) {
     this.cBpartnerId = cBpartnerId;
     return this;
@@ -866,6 +900,25 @@ public class Order   {
 
   public void setCOrderId(Integer cOrderId) {
     this.cOrderId = cOrderId;
+  }
+
+  public Order cp(String cp) {
+    this.cp = cp;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cp
+   **/
+  @Schema(description = " ")
+  
+    public String getCp() {
+    return cp;
+  }
+
+  public void setCp(String cp) {
+    this.cp = cp;
   }
 
   public Order cPaymentId(Integer cPaymentId) {
@@ -1216,6 +1269,25 @@ public class Order   {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public Order direccion(String direccion) {
+    this.direccion = direccion;
+    return this;
+  }
+
+  /**
+   *  
+   * @return direccion
+   **/
+  @Schema(description = " ")
+  
+    public String getDireccion() {
+    return direccion;
+  }
+
+  public void setDireccion(String direccion) {
+    this.direccion = direccion;
   }
 
   public Order docaction(String docaction) {
@@ -1698,6 +1770,25 @@ public class Order   {
     this.istransferred = istransferred;
   }
 
+  public Order localidad(String localidad) {
+    this.localidad = localidad;
+    return this;
+  }
+
+  /**
+   *  
+   * @return localidad
+   **/
+  @Schema(description = " ")
+  
+    public String getLocalidad() {
+    return localidad;
+  }
+
+  public void setLocalidad(String localidad) {
+    this.localidad = localidad;
+  }
+
   public Order manualgeneraldiscount(BigDecimal manualgeneraldiscount) {
     this.manualgeneraldiscount = manualgeneraldiscount;
     return this;
@@ -2049,6 +2140,25 @@ public class Order   {
     this.programInvoice = programInvoice;
   }
 
+  public Order provincia(String provincia) {
+    this.provincia = provincia;
+    return this;
+  }
+
+  /**
+   *  
+   * @return provincia
+   **/
+  @Schema(description = " ")
+  
+    public String getProvincia() {
+    return provincia;
+  }
+
+  public void setProvincia(String provincia) {
+    this.provincia = provincia;
+  }
+
   public Order refOrderId(Integer refOrderId) {
     this.refOrderId = refOrderId;
     return this;
@@ -2342,6 +2452,7 @@ public class Order   {
         Objects.equals(this.billLocationId, order.billLocationId) &&
         Objects.equals(this.billUserId, order.billUserId) &&
         Objects.equals(this.cActivityId, order.cActivityId) &&
+        Objects.equals(this.catIvaId, order.catIvaId) &&
         Objects.equals(this.cBpartnerId, order.cBpartnerId) &&
         Objects.equals(this.cBpartnerLocationId, order.cBpartnerLocationId) &&
         Objects.equals(this.cCampaignId, order.cCampaignId) &&
@@ -2356,6 +2467,7 @@ public class Order   {
         Objects.equals(this.codigocategoriaiva, order.codigocategoriaiva) &&
         Objects.equals(this.copyfrom, order.copyfrom) &&
         Objects.equals(this.cOrderId, order.cOrderId) &&
+        Objects.equals(this.cp, order.cp) &&
         Objects.equals(this.cPaymentId, order.cPaymentId) &&
         Objects.equals(this.cPaymenttermId, order.cPaymenttermId) &&
         Objects.equals(this.cProjectId, order.cProjectId) &&
@@ -2374,6 +2486,7 @@ public class Order   {
         Objects.equals(this.deliveryrule, order.deliveryrule) &&
         Objects.equals(this.deliveryviarule, order.deliveryviarule) &&
         Objects.equals(this.description, order.description) &&
+        Objects.equals(this.direccion, order.direccion) &&
         Objects.equals(this.docaction, order.docaction) &&
         Objects.equals(this.docstatus, order.docstatus) &&
         Objects.equals(this.documentno, order.documentno) &&
@@ -2398,6 +2511,7 @@ public class Order   {
         Objects.equals(this.istaxincluded, order.istaxincluded) &&
         Objects.equals(this.istpvused, order.istpvused) &&
         Objects.equals(this.istransferred, order.istransferred) &&
+        Objects.equals(this.localidad, order.localidad) &&
         Objects.equals(this.manualgeneraldiscount, order.manualgeneraldiscount) &&
         Objects.equals(this.mAuthorizationchainId, order.mAuthorizationchainId) &&
         Objects.equals(this.mPricelistId, order.mPricelistId) &&
@@ -2416,6 +2530,7 @@ public class Order   {
         Objects.equals(this.processed, order.processed) &&
         Objects.equals(this.processing, order.processing) &&
         Objects.equals(this.programInvoice, order.programInvoice) &&
+        Objects.equals(this.provincia, order.provincia) &&
         Objects.equals(this.refOrderId, order.refOrderId) &&
         Objects.equals(this.repairPriority, order.repairPriority) &&
         Objects.equals(this.repairState, order.repairState) &&
@@ -2433,7 +2548,7 @@ public class Order   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(acceptance, adClientId, addlinesquicker, adOrgId, adOrgTransferId, adOrgtrxId, adUserId, allowchangepricelist, authorizationchainstatus, authorize, billBpartnerId, billLocationId, billUserId, cActivityId, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceOrigId, codigocategoriaiva, copyfrom, cOrderId, cPaymentId, cPaymenttermId, cProjectId, created, createdby, createvendorproductlines, creditrequesttype, cRepairOrderId, cuit, dateacct, dateordered, dateprinted, dateprod, datepromised, daterealprod, deliveryrule, deliveryviarule, description, docaction, docstatus, documentno, freightamt, freightcostrule, grandtotal, invoiceAdress, invoicerule, isactive, isapproved, iscreditapproved, isdelivered, isdiscountprinted, isdropship, isexchange, isinvoiced, isprinted, isreactivated, isselected, isselfservice, issotrx, istaxincluded, istpvused, istransferred, manualgeneraldiscount, mAuthorizationchainId, mPricelistId, mShipperId, mWarehouseId, mWarehouseTransferId, nombrecli, nroidentificcliente, oldgrandtotal, payBpartnerId, payLocationId, paymentrule, poreference, posted, priorityrule, processed, processing, programInvoice, refOrderId, repairPriority, repairState, salesrepId, sendemail, totallines, updated, updatedby, user1Id, user2Id, validto, additionalvalues, referencedvalues);
+    return Objects.hash(acceptance, adClientId, addlinesquicker, adOrgId, adOrgTransferId, adOrgtrxId, adUserId, allowchangepricelist, authorizationchainstatus, authorize, billBpartnerId, billLocationId, billUserId, cActivityId, catIvaId, cBpartnerId, cBpartnerLocationId, cCampaignId, cCashlineId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, cDoctypetargetId, chargeamt, cInvoiceOrigId, codigocategoriaiva, copyfrom, cOrderId, cp, cPaymentId, cPaymenttermId, cProjectId, created, createdby, createvendorproductlines, creditrequesttype, cRepairOrderId, cuit, dateacct, dateordered, dateprinted, dateprod, datepromised, daterealprod, deliveryrule, deliveryviarule, description, direccion, docaction, docstatus, documentno, freightamt, freightcostrule, grandtotal, invoiceAdress, invoicerule, isactive, isapproved, iscreditapproved, isdelivered, isdiscountprinted, isdropship, isexchange, isinvoiced, isprinted, isreactivated, isselected, isselfservice, issotrx, istaxincluded, istpvused, istransferred, localidad, manualgeneraldiscount, mAuthorizationchainId, mPricelistId, mShipperId, mWarehouseId, mWarehouseTransferId, nombrecli, nroidentificcliente, oldgrandtotal, payBpartnerId, payLocationId, paymentrule, poreference, posted, priorityrule, processed, processing, programInvoice, provincia, refOrderId, repairPriority, repairState, salesrepId, sendemail, totallines, updated, updatedby, user1Id, user2Id, validto, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2455,6 +2570,7 @@ public class Order   {
     sb.append("    billLocationId: ").append(toIndentedString(billLocationId)).append("\n");
     sb.append("    billUserId: ").append(toIndentedString(billUserId)).append("\n");
     sb.append("    cActivityId: ").append(toIndentedString(cActivityId)).append("\n");
+    sb.append("    catIvaId: ").append(toIndentedString(catIvaId)).append("\n");
     sb.append("    cBpartnerId: ").append(toIndentedString(cBpartnerId)).append("\n");
     sb.append("    cBpartnerLocationId: ").append(toIndentedString(cBpartnerLocationId)).append("\n");
     sb.append("    cCampaignId: ").append(toIndentedString(cCampaignId)).append("\n");
@@ -2469,6 +2585,7 @@ public class Order   {
     sb.append("    codigocategoriaiva: ").append(toIndentedString(codigocategoriaiva)).append("\n");
     sb.append("    copyfrom: ").append(toIndentedString(copyfrom)).append("\n");
     sb.append("    cOrderId: ").append(toIndentedString(cOrderId)).append("\n");
+    sb.append("    cp: ").append(toIndentedString(cp)).append("\n");
     sb.append("    cPaymentId: ").append(toIndentedString(cPaymentId)).append("\n");
     sb.append("    cPaymenttermId: ").append(toIndentedString(cPaymenttermId)).append("\n");
     sb.append("    cProjectId: ").append(toIndentedString(cProjectId)).append("\n");
@@ -2487,6 +2604,7 @@ public class Order   {
     sb.append("    deliveryrule: ").append(toIndentedString(deliveryrule)).append("\n");
     sb.append("    deliveryviarule: ").append(toIndentedString(deliveryviarule)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    direccion: ").append(toIndentedString(direccion)).append("\n");
     sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
@@ -2511,6 +2629,7 @@ public class Order   {
     sb.append("    istaxincluded: ").append(toIndentedString(istaxincluded)).append("\n");
     sb.append("    istpvused: ").append(toIndentedString(istpvused)).append("\n");
     sb.append("    istransferred: ").append(toIndentedString(istransferred)).append("\n");
+    sb.append("    localidad: ").append(toIndentedString(localidad)).append("\n");
     sb.append("    manualgeneraldiscount: ").append(toIndentedString(manualgeneraldiscount)).append("\n");
     sb.append("    mAuthorizationchainId: ").append(toIndentedString(mAuthorizationchainId)).append("\n");
     sb.append("    mPricelistId: ").append(toIndentedString(mPricelistId)).append("\n");
@@ -2529,6 +2648,7 @@ public class Order   {
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
     sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
     sb.append("    programInvoice: ").append(toIndentedString(programInvoice)).append("\n");
+    sb.append("    provincia: ").append(toIndentedString(provincia)).append("\n");
     sb.append("    refOrderId: ").append(toIndentedString(refOrderId)).append("\n");
     sb.append("    repairPriority: ").append(toIndentedString(repairPriority)).append("\n");
     sb.append("    repairState: ").append(toIndentedString(repairState)).append("\n");

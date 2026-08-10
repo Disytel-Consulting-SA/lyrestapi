@@ -68,6 +68,9 @@ public class Tax   {
   @JsonProperty("isdocumentlevel")
   private Boolean isdocumentlevel = null;
 
+  @JsonProperty("isnogravado")
+  private Boolean isnogravado = null;
+
   @JsonProperty("ispercepcion")
   private Boolean ispercepcion = null;
 
@@ -450,6 +453,26 @@ public class Tax   {
 
   public void setIsdocumentlevel(Boolean isdocumentlevel) {
     this.isdocumentlevel = isdocumentlevel;
+  }
+
+  public Tax isnogravado(Boolean isnogravado) {
+    this.isnogravado = isnogravado;
+    return this;
+  }
+
+  /**
+   *  
+   * @return isnogravado
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    public Boolean isIsnogravado() {
+    return isnogravado;
+  }
+
+  public void setIsnogravado(Boolean isnogravado) {
+    this.isnogravado = isnogravado;
   }
 
   public Tax ispercepcion(Boolean ispercepcion) {
@@ -943,6 +966,7 @@ public class Tax   {
         Objects.equals(this.isactive, tax.isactive) &&
         Objects.equals(this.isdefault, tax.isdefault) &&
         Objects.equals(this.isdocumentlevel, tax.isdocumentlevel) &&
+        Objects.equals(this.isnogravado, tax.isnogravado) &&
         Objects.equals(this.ispercepcion, tax.ispercepcion) &&
         Objects.equals(this.issummary, tax.issummary) &&
         Objects.equals(this.istaxexempt, tax.istaxexempt) &&
@@ -970,7 +994,7 @@ public class Tax   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, arcibanormcode, cBpGroupId, cCountryId, codigooperacion, created, createdby, cRegionId, cTaxcategoryId, cTaxId, description, isactive, isdefault, isdocumentlevel, ispercepcion, issummary, istaxexempt, mProductCategoryId, mProductId, name, parentTaxId, perceptiontype, rate, requirestaxcertificate, sopotype, taxaccusation, taxareatype, taxindicator, taxtype, toCountryId, toRegionId, updated, updatedby, validfrom, wsfecode, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, arcibanormcode, cBpGroupId, cCountryId, codigooperacion, created, createdby, cRegionId, cTaxcategoryId, cTaxId, description, isactive, isdefault, isdocumentlevel, isnogravado, ispercepcion, issummary, istaxexempt, mProductCategoryId, mProductId, name, parentTaxId, perceptiontype, rate, requirestaxcertificate, sopotype, taxaccusation, taxareatype, taxindicator, taxtype, toCountryId, toRegionId, updated, updatedby, validfrom, wsfecode, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -994,6 +1018,7 @@ public class Tax   {
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isdefault: ").append(toIndentedString(isdefault)).append("\n");
     sb.append("    isdocumentlevel: ").append(toIndentedString(isdocumentlevel)).append("\n");
+    sb.append("    isnogravado: ").append(toIndentedString(isnogravado)).append("\n");
     sb.append("    ispercepcion: ").append(toIndentedString(ispercepcion)).append("\n");
     sb.append("    issummary: ").append(toIndentedString(issummary)).append("\n");
     sb.append("    istaxexempt: ").append(toIndentedString(istaxexempt)).append("\n");

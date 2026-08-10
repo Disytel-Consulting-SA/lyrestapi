@@ -117,6 +117,9 @@ components:
         iswebstorefeatured:
           type: boolean
           description: "Si se selecciona, el producto se muestra en la búsqueda inicial o cualquier búsqueda vacia"
+        jacofer_codigoarba:
+          type: string
+          description: " "
         lowlevel:
           type: integer
           description: "Número de Paquetes"

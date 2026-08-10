@@ -15,6 +15,9 @@ components:
         c_bank_id:
           type: integer
           description: "Banco"
+        c_bpartner_id:
+          type: integer
+          description: "Identifica una Entidad Comercial"
         c_location_id:
           type: integer
           description: "Ubicación o Dirección"

@@ -39,6 +39,9 @@ components:
         isdefault:
           type: boolean
           description: "Valor Predeterminado"
+        jacofer_codigoarba:
+          type: string
+          description: " "
         name:
           type: string
           description: "Identificador alfanumérico de la Entidad"

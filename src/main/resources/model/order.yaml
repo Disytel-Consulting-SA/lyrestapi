@@ -45,6 +45,9 @@ components:
         c_activity_id:
           type: integer
           description: "Actividad de Negocio"
+        cat_iva_id:
+          type: integer
+          description: " "
         c_bpartner_id:
           type: integer
           description: "Identifica una Entidad Comercial"
@@ -87,6 +90,9 @@ components:
         c_order_id:
           type: integer
           description: "Pedido"
+        cp:
+          type: string
+          description: " "
         c_payment_id:
           type: integer
           description: "Identificador del pago"
@@ -141,6 +147,9 @@ components:
         description:
           type: string
           description: "Descripción corta opcional del registro"
+        direccion:
+          type: string
+          description: " "
         docaction:
           type: string
           description: "El estado destino del documento"
@@ -213,6 +222,9 @@ components:
         istransferred:
           type: boolean
           description: "Transferido a la Contabilidad General (Contabilizado)"
+        localidad:
+          type: string
+          description: " "
         manualgeneraldiscount:
           type: number
           description: "Descuento manual general"
@@ -266,6 +278,9 @@ components:
           description: " "
         program_invoice:
           type: integer
+          description: " "
+        provincia:
+          type: string
           description: " "
         ref_order_id:
           type: integer

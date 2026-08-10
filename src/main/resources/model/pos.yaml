@@ -18,6 +18,9 @@ components:
         authorizegeneralmanualdiscount:
           type: boolean
           description: "Autorizar Descuento/Recargo General Manual"
+        authtoken_clover:
+          type: string
+          description: " "
         c_bankaccount_id:
           type: integer
           description: "Cuenta Bancaria"
@@ -72,12 +75,21 @@ components:
         initialposauthorization:
           type: boolean
           description: "Supervisión al iniciar la ventana TPV"
+        ip_clover:
+          type: string
+          description: " "
         isactive:
           type: boolean
           description: "El registro está activo en el sistema"
         isallowcreditcardcashretirement:
           type: boolean
           description: "El retiro de efectivo de tarjeta de crédito está permitido"
+        isalter_clover:
+          type: boolean
+          description: " "
+        iscontingencia:
+          type: boolean
+          description: " "
         iscopyentity:
           type: boolean
           description: " "
@@ -87,9 +99,15 @@ components:
         isdeliverorderinwarehouse:
           type: boolean
           description: "Los artículos de los pedidos agregados (pre-creados) no se incluyen en el remito que crea el TPV"
+        isintegra_clover:
+          type: boolean
+          description: " "
         ismodifyprice:
           type: boolean
           description: "Modificar precio"
+        isonline_clover:
+          type: boolean
+          description: " "
         isprintcurrentaccountdocument:
           type: boolean
           description: "Imprimir Documento de Cuenta Corriente"
@@ -138,6 +156,9 @@ components:
         operationmode:
           type: string
           description: "Modo de Operación de este TPV"
+        port_clover:
+          type: integer
+          description: " "
         posnet:
           type: string
           description: " "
@@ -147,6 +168,9 @@ components:
         printername:
           type: string
           description: "Nombre de Impresora"
+        ptovtacontingencia:
+          type: integer
+          description: " "
         returnedcashincncontrol:
           type: boolean
           description: "Control de Devolución de efectivo de Notas de Crédito"

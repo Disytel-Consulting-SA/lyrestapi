@@ -54,6 +54,9 @@ components:
         inventorykind:
           type: string
           description: "Clase u origen del inventario físico"
+        inventorytype:
+          type: string
+          description: "Tipo de Diferencia de Inventario"
         isactive:
           type: boolean
           description: "El registro está activo en el sistema"
@@ -117,6 +120,7 @@ components:
          - docstatus
          - documentno
          - inventorykind
+         - inventorytype
          - isactive
          - isapproved
          - m_inventory_id

@@ -67,6 +67,12 @@ public class ControladorFiscal   {
   @JsonProperty("logtyperecorded")
   private String logtyperecorded = null;
 
+  @JsonProperty("lyeicom")
+  private Integer lyeicom = null;
+
+  @JsonProperty("lyeipos")
+  private Integer lyeipos = null;
+
   @JsonProperty("name")
   private String name = null;
 
@@ -424,6 +430,44 @@ public class ControladorFiscal   {
     this.logtyperecorded = logtyperecorded;
   }
 
+  public ControladorFiscal lyeicom(Integer lyeicom) {
+    this.lyeicom = lyeicom;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeicom
+   **/
+  @Schema(description = " ")
+  
+    public Integer getLyeicom() {
+    return lyeicom;
+  }
+
+  public void setLyeicom(Integer lyeicom) {
+    this.lyeicom = lyeicom;
+  }
+
+  public ControladorFiscal lyeipos(Integer lyeipos) {
+    this.lyeipos = lyeipos;
+    return this;
+  }
+
+  /**
+   *  
+   * @return lyeipos
+   **/
+  @Schema(description = " ")
+  
+    public Integer getLyeipos() {
+    return lyeipos;
+  }
+
+  public void setLyeipos(Integer lyeipos) {
+    this.lyeipos = lyeipos;
+  }
+
   public ControladorFiscal name(String name) {
     this.name = name;
     return this;
@@ -719,6 +763,8 @@ public class ControladorFiscal   {
         Objects.equals(this.isactive, controladorFiscal.isactive) &&
         Objects.equals(this.isremote, controladorFiscal.isremote) &&
         Objects.equals(this.logtyperecorded, controladorFiscal.logtyperecorded) &&
+        Objects.equals(this.lyeicom, controladorFiscal.lyeicom) &&
+        Objects.equals(this.lyeipos, controladorFiscal.lyeipos) &&
         Objects.equals(this.name, controladorFiscal.name) &&
         Objects.equals(this.onlylinedescription, controladorFiscal.onlylinedescription) &&
         Objects.equals(this.onprintproductformat, controladorFiscal.onprintproductformat) &&
@@ -736,7 +782,7 @@ public class ControladorFiscal   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, askwhenerror, cControladorFiscalId, cControladorFiscalTypeId, cmdcancelbeforeprintdocument, connectiontype, controladorfiscaltype, created, createdby, description, host, isactive, isremote, logtyperecorded, name, onlylinedescription, onprintproductformat, onprintuseproductreference, operationDate, port, printername, status, updated, updatedby, usedbyId, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, askwhenerror, cControladorFiscalId, cControladorFiscalTypeId, cmdcancelbeforeprintdocument, connectiontype, controladorfiscaltype, created, createdby, description, host, isactive, isremote, logtyperecorded, lyeicom, lyeipos, name, onlylinedescription, onprintproductformat, onprintuseproductreference, operationDate, port, printername, status, updated, updatedby, usedbyId, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -760,6 +806,8 @@ public class ControladorFiscal   {
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isremote: ").append(toIndentedString(isremote)).append("\n");
     sb.append("    logtyperecorded: ").append(toIndentedString(logtyperecorded)).append("\n");
+    sb.append("    lyeicom: ").append(toIndentedString(lyeicom)).append("\n");
+    sb.append("    lyeipos: ").append(toIndentedString(lyeipos)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    onlylinedescription: ").append(toIndentedString(onlylinedescription)).append("\n");
     sb.append("    onprintproductformat: ").append(toIndentedString(onprintproductformat)).append("\n");

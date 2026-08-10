@@ -59,16 +59,16 @@ public interface WarehouseApi {
 
     @Operation(summary = "Retorna la lista de almacenes", description = "Retorna la lista completa de almacenes", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "warehouse" })
-    @ApiResponses(value = {
+    @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Warehouse.class)))) })
     @RequestMapping(value = "/v1.0/warehouses",
-        produces = { "application/json" },
+        produces = { "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<List<Warehouse>> getAllWarehouses(@Parameter(in = ParameterIn.QUERY, description = "Criterio de filtrado" ,schema=@Schema()) @Valid @RequestParam(value = "filter", required = false) String filter, @Parameter(in = ParameterIn.QUERY, description = "Campos a recuperar" ,schema=@Schema()) @Valid @RequestParam(value = "fields", required = false) String fields, @Parameter(in = ParameterIn.QUERY, description = "Criterio de ordenado" ,schema=@Schema()) @Valid @RequestParam(value = "sort", required = false) String sort, @Parameter(in = ParameterIn.QUERY, description = "Limite de elementos a retornar por pagina" ,schema=@Schema()) @Valid @RequestParam(value = "limit", required = false) Integer limit, @Parameter(in = ParameterIn.QUERY, description = "Numero de pagina" ,schema=@Schema()) @Valid @RequestParam(value = "page", required = false) Integer page) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"updatedby\" : 5,\n  \"ad_org_id\" : 6,\n  \"created\" : \"created\",\n  \"isactive\" : true,\n  \"m_warehouse_id\" : 7,\n  \"description\" : \"description\",\n  \"createdby\" : 1,\n  \"name\" : \"name\",\n  \"ad_client_id\" : 0,\n  \"updated\" : \"updated\",\n  \"value\" : \"value\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("[ {\n  \"splitting_charge_id\" : 9,\n  \"updatedby\" : 3,\n  \"ad_org_id\" : 6,\n  \"created\" : \"created\",\n  \"isactive\" : true,\n  \"referencedvalues\" : [ null, null ],\n  \"description\" : \"description\",\n  \"c_location_id\" : 1,\n  \"productchangecharge_id\" : 2,\n  \"separator\" : \"separator\",\n  \"stockavailableforsale\" : true,\n  \"ad_componentobjectuid\" : \"ad_componentobjectuid\",\n  \"createdby\" : 5,\n  \"additionalvalues\" : [ {\n    \"value\" : \"value\",\n    \"key\" : \"key\"\n  }, {\n    \"value\" : \"value\",\n    \"key\" : \"key\"\n  } ],\n  \"name\" : \"name\",\n  \"shrink_charge_id\" : 7,\n  \"ad_client_id\" : 0,\n  \"updated\" : \"updated\",\n  \"value\" : \"value\",\n  \"m_warehouse_id\" : 5\n}, {\n  \"splitting_charge_id\" : 9,\n  \"updatedby\" : 3,\n  \"ad_org_id\" : 6,\n  \"created\" : \"created\",\n  \"isactive\" : true,\n  \"referencedvalues\" : [ null, null ],\n  \"description\" : \"description\",\n  \"c_location_id\" : 1,\n  \"productchangecharge_id\" : 2,\n  \"separator\" : \"separator\",\n  \"stockavailableforsale\" : true,\n  \"ad_componentobjectuid\" : \"ad_componentobjectuid\",\n  \"createdby\" : 5,\n  \"additionalvalues\" : [ {\n    \"value\" : \"value\",\n    \"key\" : \"key\"\n  }, {\n    \"value\" : \"value\",\n    \"key\" : \"key\"\n  } ],\n  \"name\" : \"name\",\n  \"shrink_charge_id\" : 7,\n  \"ad_client_id\" : 0,\n  \"updated\" : \"updated\",\n  \"value\" : \"value\",\n  \"m_warehouse_id\" : 5\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -83,16 +83,16 @@ public interface WarehouseApi {
 
     @Operation(summary = "Recupera un almacen en particular", description = "Recupera la informacion de un almacen en particular", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "warehouse" })
-    @ApiResponses(value = {
+    @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Warehouse.class))) })
     @RequestMapping(value = "/v1.0/warehouses/{id}",
-        produces = { "application/json" },
+        produces = { "application/json" }, 
         method = RequestMethod.GET)
     default ResponseEntity<Warehouse> retrieveWarehouse(@Parameter(in = ParameterIn.PATH, description = "ID del almacen", required=true, schema=@Schema()) @PathVariable("id") Integer id) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
-                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"updatedby\" : 5,\n  \"ad_org_id\" : 6,\n  \"created\" : \"created\",\n  \"isactive\" : true,\n  \"m_warehouse_id\" : 7,\n  \"description\" : \"description\",\n  \"createdby\" : 1,\n  \"name\" : \"name\",\n  \"ad_client_id\" : 0,\n  \"updated\" : \"updated\",\n  \"value\" : \"value\"\n}", Warehouse.class), HttpStatus.NOT_IMPLEMENTED);
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"splitting_charge_id\" : 9,\n  \"updatedby\" : 3,\n  \"ad_org_id\" : 6,\n  \"created\" : \"created\",\n  \"isactive\" : true,\n  \"referencedvalues\" : [ null, null ],\n  \"description\" : \"description\",\n  \"c_location_id\" : 1,\n  \"productchangecharge_id\" : 2,\n  \"separator\" : \"separator\",\n  \"stockavailableforsale\" : true,\n  \"ad_componentobjectuid\" : \"ad_componentobjectuid\",\n  \"createdby\" : 5,\n  \"additionalvalues\" : [ {\n    \"value\" : \"value\",\n    \"key\" : \"key\"\n  }, {\n    \"value\" : \"value\",\n    \"key\" : \"key\"\n  } ],\n  \"name\" : \"name\",\n  \"shrink_charge_id\" : 7,\n  \"ad_client_id\" : 0,\n  \"updated\" : \"updated\",\n  \"value\" : \"value\",\n  \"m_warehouse_id\" : 5\n}", Warehouse.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -105,3 +105,4 @@ public interface WarehouseApi {
     }
 
 }
+

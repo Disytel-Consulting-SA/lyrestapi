@@ -55,6 +55,9 @@ public class UOM   {
   @JsonProperty("isdefault")
   private Boolean isdefault = null;
 
+  @JsonProperty("jacofer_codigoarba")
+  private String jacoferCodigoarba = null;
+
   @JsonProperty("name")
   private String name = null;
 
@@ -324,6 +327,25 @@ public class UOM   {
     this.isdefault = isdefault;
   }
 
+  public UOM jacoferCodigoarba(String jacoferCodigoarba) {
+    this.jacoferCodigoarba = jacoferCodigoarba;
+    return this;
+  }
+
+  /**
+   *  
+   * @return jacoferCodigoarba
+   **/
+  @Schema(description = " ")
+  
+    public String getJacoferCodigoarba() {
+    return jacoferCodigoarba;
+  }
+
+  public void setJacoferCodigoarba(String jacoferCodigoarba) {
+    this.jacoferCodigoarba = jacoferCodigoarba;
+  }
+
   public UOM name(String name) {
     this.name = name;
     return this;
@@ -558,6 +580,7 @@ public class UOM   {
         Objects.equals(this.description, UOM.description) &&
         Objects.equals(this.isactive, UOM.isactive) &&
         Objects.equals(this.isdefault, UOM.isdefault) &&
+        Objects.equals(this.jacoferCodigoarba, UOM.jacoferCodigoarba) &&
         Objects.equals(this.name, UOM.name) &&
         Objects.equals(this.productselectable, UOM.productselectable) &&
         Objects.equals(this.stdprecision, UOM.stdprecision) &&
@@ -572,7 +595,7 @@ public class UOM   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, allowdecimals, costingprecision, created, createdby, cUomGroupId, cUomId, description, isactive, isdefault, name, productselectable, stdprecision, uomcodefe, uomsymbol, updated, updatedby, x12de355, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, allowdecimals, costingprecision, created, createdby, cUomGroupId, cUomId, description, isactive, isdefault, jacoferCodigoarba, name, productselectable, stdprecision, uomcodefe, uomsymbol, updated, updatedby, x12de355, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -592,6 +615,7 @@ public class UOM   {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isdefault: ").append(toIndentedString(isdefault)).append("\n");
+    sb.append("    jacoferCodigoarba: ").append(toIndentedString(jacoferCodigoarba)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    productselectable: ").append(toIndentedString(productselectable)).append("\n");
     sb.append("    stdprecision: ").append(toIndentedString(stdprecision)).append("\n");

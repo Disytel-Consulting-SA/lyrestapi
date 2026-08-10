@@ -51,6 +51,9 @@ components:
         caja:
           type: string
           description: " "
+        cat_iva_id:
+          type: integer
+          description: " "
         c_bpartner_id:
           type: integer
           description: "Identifica una Entidad Comercial"
@@ -81,6 +84,21 @@ components:
         chargeamt:
           type: number
           description: "Importe de Cargo"
+        cintolo_adjustment_clause:
+          type: boolean
+          description: " "
+        cintolo_adjustment_clause_currency:
+          type: integer
+          description: " "
+        cintolo_apply_exchange_dif:
+          type: boolean
+          description: " "
+        cintolo_exchange_dif_receipt:
+          type: integer
+          description: " "
+        cintolo_exchange_rate:
+          type: number
+          description: " "
         c_invoice_id:
           type: integer
           description: "Identificador de la factura"
@@ -101,6 +119,9 @@ components:
           description: "Pedido"
         c_order_orig_id:
           type: integer
+          description: " "
+        cp:
+          type: string
           description: " "
         c_payment_id:
           type: integer
@@ -165,6 +186,9 @@ components:
         description:
           type: string
           description: "Descripción corta opcional del registro"
+        direccion:
+          type: string
+          description: " "
         docaction:
           type: string
           description: "El estado destino del documento"
@@ -210,6 +234,9 @@ components:
         isapproved:
           type: boolean
           description: "Indica si este documento requiere aprobación"
+        iscancelamismamoneda:
+          type: boolean
+          description: " "
         iscopy:
           type: boolean
           description: "Este registro es copia de otro registro"
@@ -246,13 +273,25 @@ components:
         isvoidable:
           type: boolean
           description: "Es Anulable en Anulación global de factura"
+        localidad:
+          type: string
+          description: " "
         lyeicaeainformed:
           type: string
           description: " "
         lyeicaeainformeddetail:
           type: string
           description: " "
+        lyeimanageelectronicinvoice:
+          type: string
+          description: " "
         lyeimanageelectronicinvoiceprocess:
+          type: string
+          description: " "
+        lyeiperiodfrom:
+          type: string
+          description: " "
+        lyeiperiodto:
           type: string
           description: " "
         managedragorderdiscounts:
@@ -262,6 +301,9 @@ components:
           type: boolean
           description: "Marca al documento para indicar que debe gestionar los recargos a nivel de línea o documento arrastrados del pedido"
         manageelectronicinvoice:
+          type: string
+          description: " "
+        managefiscalinvoice:
           type: string
           description: " "
         manualdocumentno:
@@ -324,6 +366,9 @@ components:
         posted:
           type: string
           description: "Las transacciones de Contabilidad General han sido procesadas"
+        preloadinvoice:
+          type: boolean
+          description: " "
         pricelistcurrency:
           type: integer
           description: " "
@@ -334,6 +379,9 @@ components:
           type: boolean
           description: "El documento ha sido procesado"
         processing:
+          type: string
+          description: " "
+        provincia:
           type: string
           description: " "
         puntodeventa:
@@ -392,6 +440,8 @@ components:
          - c_currency_id
          - c_doctype_id
          - c_doctypetarget_id
+         - cintolo_adjustment_clause
+         - cintolo_apply_exchange_dif
          - c_invoice_id
          - c_paymentterm_id
          - createcashline
@@ -428,6 +478,7 @@ components:
          - notexchangeablecredit
          - paymentrule
          - posted
+         - preloadinvoice
          - processed
          - sendemail
          - totallines

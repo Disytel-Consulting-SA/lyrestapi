@@ -47,9 +47,6 @@ public class Storage   {
   @JsonProperty("m_product_id")
   private Integer mProductId = null;
 
-  @JsonProperty("m_warehouse_id")
-  private Integer mWarehouseId = null;
-
   @JsonProperty("qtyonhand")
   private BigDecimal qtyonhand = null;
 
@@ -252,25 +249,6 @@ public class Storage   {
     this.mProductId = mProductId;
   }
 
-  public Storage mWarehouseId(Integer mWarehouseId) {
-    this.mWarehouseId = mWarehouseId;
-    return this;
-  }
-
-  /**
-   * Almacén al que pertenece el stock (derivado del locator)
-   * @return mWarehouseId
-   **/
-  @Schema(description = "Almacén al que pertenece el stock (derivado del locator)")
-
-    public Integer getMWarehouseId() {
-    return mWarehouseId;
-  }
-
-  public void setMWarehouseId(Integer mWarehouseId) {
-    this.mWarehouseId = mWarehouseId;
-  }
-
   public Storage qtyonhand(BigDecimal qtyonhand) {
     this.qtyonhand = qtyonhand;
     return this;
@@ -447,7 +425,6 @@ public class Storage   {
         Objects.equals(this.mAttributesetinstanceId, storage.mAttributesetinstanceId) &&
         Objects.equals(this.mLocatorId, storage.mLocatorId) &&
         Objects.equals(this.mProductId, storage.mProductId) &&
-        Objects.equals(this.mWarehouseId, storage.mWarehouseId) &&
         Objects.equals(this.qtyonhand, storage.qtyonhand) &&
         Objects.equals(this.qtyordered, storage.qtyordered) &&
         Objects.equals(this.qtyreserved, storage.qtyreserved) &&
@@ -459,7 +436,7 @@ public class Storage   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, created, createdby, datelastinventory, isactive, mAttributesetinstanceId, mLocatorId, mProductId, mWarehouseId, qtyonhand, qtyordered, qtyreserved, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, created, createdby, datelastinventory, isactive, mAttributesetinstanceId, mLocatorId, mProductId, qtyonhand, qtyordered, qtyreserved, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -476,7 +453,6 @@ public class Storage   {
     sb.append("    mAttributesetinstanceId: ").append(toIndentedString(mAttributesetinstanceId)).append("\n");
     sb.append("    mLocatorId: ").append(toIndentedString(mLocatorId)).append("\n");
     sb.append("    mProductId: ").append(toIndentedString(mProductId)).append("\n");
-    sb.append("    mWarehouseId: ").append(toIndentedString(mWarehouseId)).append("\n");
     sb.append("    qtyonhand: ").append(toIndentedString(qtyonhand)).append("\n");
     sb.append("    qtyordered: ").append(toIndentedString(qtyordered)).append("\n");
     sb.append("    qtyreserved: ").append(toIndentedString(qtyreserved)).append("\n");

@@ -71,6 +71,9 @@ public class POSJournal   {
   @JsonProperty("isactive")
   private Boolean isactive = null;
 
+  @JsonProperty("iscontingencia")
+  private String iscontingencia = null;
+
   @JsonProperty("processed")
   private Boolean processed = null;
 
@@ -425,6 +428,25 @@ public class POSJournal   {
     this.isactive = isactive;
   }
 
+  public POSJournal iscontingencia(String iscontingencia) {
+    this.iscontingencia = iscontingencia;
+    return this;
+  }
+
+  /**
+   *  
+   * @return iscontingencia
+   **/
+  @Schema(description = " ")
+  
+    public String getIscontingencia() {
+    return iscontingencia;
+  }
+
+  public void setIscontingencia(String iscontingencia) {
+    this.iscontingencia = iscontingencia;
+  }
+
   public POSJournal processed(Boolean processed) {
     this.processed = processed;
     return this;
@@ -566,6 +588,7 @@ public class POSJournal   {
         Objects.equals(this.docaction, poSJournal.docaction) &&
         Objects.equals(this.docstatus, poSJournal.docstatus) &&
         Objects.equals(this.isactive, poSJournal.isactive) &&
+        Objects.equals(this.iscontingencia, poSJournal.iscontingencia) &&
         Objects.equals(this.processed, poSJournal.processed) &&
         Objects.equals(this.updated, poSJournal.updated) &&
         Objects.equals(this.updatedby, poSJournal.updatedby) &&
@@ -575,7 +598,7 @@ public class POSJournal   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adUserId, cashbalance, cashstatementamt, cashtransfer, cCashId, cCashtargetId, cPosId, cPosjournalId, cProjectId, created, createdby, datetrx, docaction, docstatus, isactive, processed, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, adUserId, cashbalance, cashstatementamt, cashtransfer, cCashId, cCashtargetId, cPosId, cPosjournalId, cProjectId, created, createdby, datetrx, docaction, docstatus, isactive, iscontingencia, processed, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -600,6 +623,7 @@ public class POSJournal   {
     sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
+    sb.append("    iscontingencia: ").append(toIndentedString(iscontingencia)).append("\n");
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");

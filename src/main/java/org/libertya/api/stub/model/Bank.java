@@ -31,6 +31,9 @@ public class Bank   {
   @JsonProperty("c_bank_id")
   private Integer cBankId = null;
 
+  @JsonProperty("c_bpartner_id")
+  private Integer cBpartnerId = null;
+
   @JsonProperty("c_location_id")
   private Integer cLocationId = null;
 
@@ -149,6 +152,25 @@ public class Bank   {
 
   public void setCBankId(Integer cBankId) {
     this.cBankId = cBankId;
+  }
+
+  public Bank cBpartnerId(Integer cBpartnerId) {
+    this.cBpartnerId = cBpartnerId;
+    return this;
+  }
+
+  /**
+   * Identifica una Entidad Comercial
+   * @return cBpartnerId
+   **/
+  @Schema(description = "Identifica una Entidad Comercial")
+  
+    public Integer getCBpartnerId() {
+    return cBpartnerId;
+  }
+
+  public void setCBpartnerId(Integer cBpartnerId) {
+    this.cBpartnerId = cBpartnerId;
   }
 
   public Bank cLocationId(Integer cLocationId) {
@@ -436,6 +458,7 @@ public class Bank   {
         Objects.equals(this.adComponentobjectuid, bank.adComponentobjectuid) &&
         Objects.equals(this.adOrgId, bank.adOrgId) &&
         Objects.equals(this.cBankId, bank.cBankId) &&
+        Objects.equals(this.cBpartnerId, bank.cBpartnerId) &&
         Objects.equals(this.cLocationId, bank.cLocationId) &&
         Objects.equals(this.created, bank.created) &&
         Objects.equals(this.createdby, bank.createdby) &&
@@ -453,7 +476,7 @@ public class Bank   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cBankId, cLocationId, created, createdby, description, isactive, isownbank, name, routingno, swiftcode, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cBankId, cBpartnerId, cLocationId, created, createdby, description, isactive, isownbank, name, routingno, swiftcode, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -465,6 +488,7 @@ public class Bank   {
     sb.append("    adComponentobjectuid: ").append(toIndentedString(adComponentobjectuid)).append("\n");
     sb.append("    adOrgId: ").append(toIndentedString(adOrgId)).append("\n");
     sb.append("    cBankId: ").append(toIndentedString(cBankId)).append("\n");
+    sb.append("    cBpartnerId: ").append(toIndentedString(cBpartnerId)).append("\n");
     sb.append("    cLocationId: ").append(toIndentedString(cLocationId)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    createdby: ").append(toIndentedString(createdby)).append("\n");

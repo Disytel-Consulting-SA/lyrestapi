@@ -35,6 +35,9 @@ public class POS   {
   @JsonProperty("authorizegeneralmanualdiscount")
   private Boolean authorizegeneralmanualdiscount = null;
 
+  @JsonProperty("authtoken_clover")
+  private String authtokenClover = null;
+
   @JsonProperty("c_bankaccount_id")
   private Integer cBankaccountId = null;
 
@@ -89,11 +92,20 @@ public class POS   {
   @JsonProperty("initialposauthorization")
   private Boolean initialposauthorization = null;
 
+  @JsonProperty("ip_clover")
+  private String ipClover = null;
+
   @JsonProperty("isactive")
   private Boolean isactive = null;
 
   @JsonProperty("isallowcreditcardcashretirement")
   private Boolean isallowcreditcardcashretirement = null;
+
+  @JsonProperty("isalter_clover")
+  private Boolean isalterClover = null;
+
+  @JsonProperty("iscontingencia")
+  private Boolean iscontingencia = null;
 
   @JsonProperty("iscopyentity")
   private Boolean iscopyentity = null;
@@ -104,8 +116,14 @@ public class POS   {
   @JsonProperty("isdeliverorderinwarehouse")
   private Boolean isdeliverorderinwarehouse = null;
 
+  @JsonProperty("isintegra_clover")
+  private Boolean isintegraClover = null;
+
   @JsonProperty("ismodifyprice")
   private Boolean ismodifyprice = null;
+
+  @JsonProperty("isonline_clover")
+  private Boolean isonlineClover = null;
 
   @JsonProperty("isprintcurrentaccountdocument")
   private Boolean isprintcurrentaccountdocument = null;
@@ -155,6 +173,9 @@ public class POS   {
   @JsonProperty("operationmode")
   private String operationmode = null;
 
+  @JsonProperty("port_clover")
+  private Integer portClover = null;
+
   @JsonProperty("posnet")
   private String posnet = null;
 
@@ -163,6 +184,9 @@ public class POS   {
 
   @JsonProperty("printername")
   private String printername = null;
+
+  @JsonProperty("ptovtacontingencia")
+  private Integer ptovtacontingencia = null;
 
   @JsonProperty("returnedcashincncontrol")
   private Boolean returnedcashincncontrol = null;
@@ -288,6 +312,25 @@ public class POS   {
 
   public void setAuthorizegeneralmanualdiscount(Boolean authorizegeneralmanualdiscount) {
     this.authorizegeneralmanualdiscount = authorizegeneralmanualdiscount;
+  }
+
+  public POS authtokenClover(String authtokenClover) {
+    this.authtokenClover = authtokenClover;
+    return this;
+  }
+
+  /**
+   *  
+   * @return authtokenClover
+   **/
+  @Schema(description = " ")
+  
+    public String getAuthtokenClover() {
+    return authtokenClover;
+  }
+
+  public void setAuthtokenClover(String authtokenClover) {
+    this.authtokenClover = authtokenClover;
   }
 
   public POS cBankaccountId(Integer cBankaccountId) {
@@ -642,6 +685,25 @@ public class POS   {
     this.initialposauthorization = initialposauthorization;
   }
 
+  public POS ipClover(String ipClover) {
+    this.ipClover = ipClover;
+    return this;
+  }
+
+  /**
+   *  
+   * @return ipClover
+   **/
+  @Schema(description = " ")
+  
+    public String getIpClover() {
+    return ipClover;
+  }
+
+  public void setIpClover(String ipClover) {
+    this.ipClover = ipClover;
+  }
+
   public POS isactive(Boolean isactive) {
     this.isactive = isactive;
     return this;
@@ -680,6 +742,44 @@ public class POS   {
 
   public void setIsallowcreditcardcashretirement(Boolean isallowcreditcardcashretirement) {
     this.isallowcreditcardcashretirement = isallowcreditcardcashretirement;
+  }
+
+  public POS isalterClover(Boolean isalterClover) {
+    this.isalterClover = isalterClover;
+    return this;
+  }
+
+  /**
+   *  
+   * @return isalterClover
+   **/
+  @Schema(description = " ")
+  
+    public Boolean isIsalterClover() {
+    return isalterClover;
+  }
+
+  public void setIsalterClover(Boolean isalterClover) {
+    this.isalterClover = isalterClover;
+  }
+
+  public POS iscontingencia(Boolean iscontingencia) {
+    this.iscontingencia = iscontingencia;
+    return this;
+  }
+
+  /**
+   *  
+   * @return iscontingencia
+   **/
+  @Schema(description = " ")
+  
+    public Boolean isIscontingencia() {
+    return iscontingencia;
+  }
+
+  public void setIscontingencia(Boolean iscontingencia) {
+    this.iscontingencia = iscontingencia;
   }
 
   public POS iscopyentity(Boolean iscopyentity) {
@@ -741,6 +841,25 @@ public class POS   {
     this.isdeliverorderinwarehouse = isdeliverorderinwarehouse;
   }
 
+  public POS isintegraClover(Boolean isintegraClover) {
+    this.isintegraClover = isintegraClover;
+    return this;
+  }
+
+  /**
+   *  
+   * @return isintegraClover
+   **/
+  @Schema(description = " ")
+  
+    public Boolean isIsintegraClover() {
+    return isintegraClover;
+  }
+
+  public void setIsintegraClover(Boolean isintegraClover) {
+    this.isintegraClover = isintegraClover;
+  }
+
   public POS ismodifyprice(Boolean ismodifyprice) {
     this.ismodifyprice = ismodifyprice;
     return this;
@@ -759,6 +878,25 @@ public class POS   {
 
   public void setIsmodifyprice(Boolean ismodifyprice) {
     this.ismodifyprice = ismodifyprice;
+  }
+
+  public POS isonlineClover(Boolean isonlineClover) {
+    this.isonlineClover = isonlineClover;
+    return this;
+  }
+
+  /**
+   *  
+   * @return isonlineClover
+   **/
+  @Schema(description = " ")
+  
+    public Boolean isIsonlineClover() {
+    return isonlineClover;
+  }
+
+  public void setIsonlineClover(Boolean isonlineClover) {
+    this.isonlineClover = isonlineClover;
   }
 
   public POS isprintcurrentaccountdocument(Boolean isprintcurrentaccountdocument) {
@@ -1081,6 +1219,25 @@ public class POS   {
     this.operationmode = operationmode;
   }
 
+  public POS portClover(Integer portClover) {
+    this.portClover = portClover;
+    return this;
+  }
+
+  /**
+   *  
+   * @return portClover
+   **/
+  @Schema(description = " ")
+  
+    public Integer getPortClover() {
+    return portClover;
+  }
+
+  public void setPortClover(Integer portClover) {
+    this.portClover = portClover;
+  }
+
   public POS posnet(String posnet) {
     this.posnet = posnet;
     return this;
@@ -1137,6 +1294,25 @@ public class POS   {
 
   public void setPrintername(String printername) {
     this.printername = printername;
+  }
+
+  public POS ptovtacontingencia(Integer ptovtacontingencia) {
+    this.ptovtacontingencia = ptovtacontingencia;
+    return this;
+  }
+
+  /**
+   *  
+   * @return ptovtacontingencia
+   **/
+  @Schema(description = " ")
+  
+    public Integer getPtovtacontingencia() {
+    return ptovtacontingencia;
+  }
+
+  public void setPtovtacontingencia(Integer ptovtacontingencia) {
+    this.ptovtacontingencia = ptovtacontingencia;
   }
 
   public POS returnedcashincncontrol(Boolean returnedcashincncontrol) {
@@ -1328,6 +1504,7 @@ public class POS   {
         Objects.equals(this.adRoleId, POS.adRoleId) &&
         Objects.equals(this.allowcreditnotesearch, POS.allowcreditnotesearch) &&
         Objects.equals(this.authorizegeneralmanualdiscount, POS.authorizegeneralmanualdiscount) &&
+        Objects.equals(this.authtokenClover, POS.authtokenClover) &&
         Objects.equals(this.cBankaccountId, POS.cBankaccountId) &&
         Objects.equals(this.cBpartnercashtrxId, POS.cBpartnercashtrxId) &&
         Objects.equals(this.cCashbookId, POS.cCashbookId) &&
@@ -1346,12 +1523,17 @@ public class POS   {
         Objects.equals(this.draftedinout, POS.draftedinout) &&
         Objects.equals(this.help, POS.help) &&
         Objects.equals(this.initialposauthorization, POS.initialposauthorization) &&
+        Objects.equals(this.ipClover, POS.ipClover) &&
         Objects.equals(this.isactive, POS.isactive) &&
         Objects.equals(this.isallowcreditcardcashretirement, POS.isallowcreditcardcashretirement) &&
+        Objects.equals(this.isalterClover, POS.isalterClover) &&
+        Objects.equals(this.iscontingencia, POS.iscontingencia) &&
         Objects.equals(this.iscopyentity, POS.iscopyentity) &&
         Objects.equals(this.iscreateinvoice, POS.iscreateinvoice) &&
         Objects.equals(this.isdeliverorderinwarehouse, POS.isdeliverorderinwarehouse) &&
+        Objects.equals(this.isintegraClover, POS.isintegraClover) &&
         Objects.equals(this.ismodifyprice, POS.ismodifyprice) &&
+        Objects.equals(this.isonlineClover, POS.isonlineClover) &&
         Objects.equals(this.isprintcurrentaccountdocument, POS.isprintcurrentaccountdocument) &&
         Objects.equals(this.isprintwarehousedeliverdocument, POS.isprintwarehousedeliverdocument) &&
         Objects.equals(this.issalewithoutstock, POS.issalewithoutstock) &&
@@ -1368,9 +1550,11 @@ public class POS   {
         Objects.equals(this.mWarehouseId, POS.mWarehouseId) &&
         Objects.equals(this.name, POS.name) &&
         Objects.equals(this.operationmode, POS.operationmode) &&
+        Objects.equals(this.portClover, POS.portClover) &&
         Objects.equals(this.posnet, POS.posnet) &&
         Objects.equals(this.posnumber, POS.posnumber) &&
         Objects.equals(this.printername, POS.printername) &&
+        Objects.equals(this.ptovtacontingencia, POS.ptovtacontingencia) &&
         Objects.equals(this.returnedcashincncontrol, POS.returnedcashincncontrol) &&
         Objects.equals(this.salesrepId, POS.salesrepId) &&
         Objects.equals(this.updated, POS.updated) &&
@@ -1383,7 +1567,7 @@ public class POS   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adRoleId, allowcreditnotesearch, authorizegeneralmanualdiscount, cBankaccountId, cBpartnercashtrxId, cCashbookId, cDoctypeId, cInoutdoctypeId, cInvoicedoctypeId, cOrderdoctypeId, cPosId, cPoskeylayoutId, created, createdby, creditcardcashretirementChargeId, creditcardcashretirementDoctypeId, creditcardcashretirementProductId, description, draftedinout, help, initialposauthorization, isactive, isallowcreditcardcashretirement, iscopyentity, iscreateinvoice, isdeliverorderinwarehouse, ismodifyprice, isprintcurrentaccountdocument, isprintwarehousedeliverdocument, issalewithoutstock, issearchbyname, issearchbynamelike, issearchbyupc, issearchbyupclike, issearchbyvalue, issearchbyvaluelike, issearchtoday, lockedclosed, maxreturnedcashincn, mPricelistId, mWarehouseId, name, operationmode, posnet, posnumber, printername, returnedcashincncontrol, salesrepId, updated, updatedby, voiddocuments, voiddocumentsEf, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, adRoleId, allowcreditnotesearch, authorizegeneralmanualdiscount, authtokenClover, cBankaccountId, cBpartnercashtrxId, cCashbookId, cDoctypeId, cInoutdoctypeId, cInvoicedoctypeId, cOrderdoctypeId, cPosId, cPoskeylayoutId, created, createdby, creditcardcashretirementChargeId, creditcardcashretirementDoctypeId, creditcardcashretirementProductId, description, draftedinout, help, initialposauthorization, ipClover, isactive, isallowcreditcardcashretirement, isalterClover, iscontingencia, iscopyentity, iscreateinvoice, isdeliverorderinwarehouse, isintegraClover, ismodifyprice, isonlineClover, isprintcurrentaccountdocument, isprintwarehousedeliverdocument, issalewithoutstock, issearchbyname, issearchbynamelike, issearchbyupc, issearchbyupclike, issearchbyvalue, issearchbyvaluelike, issearchtoday, lockedclosed, maxreturnedcashincn, mPricelistId, mWarehouseId, name, operationmode, portClover, posnet, posnumber, printername, ptovtacontingencia, returnedcashincncontrol, salesrepId, updated, updatedby, voiddocuments, voiddocumentsEf, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1396,6 +1580,7 @@ public class POS   {
     sb.append("    adRoleId: ").append(toIndentedString(adRoleId)).append("\n");
     sb.append("    allowcreditnotesearch: ").append(toIndentedString(allowcreditnotesearch)).append("\n");
     sb.append("    authorizegeneralmanualdiscount: ").append(toIndentedString(authorizegeneralmanualdiscount)).append("\n");
+    sb.append("    authtokenClover: ").append(toIndentedString(authtokenClover)).append("\n");
     sb.append("    cBankaccountId: ").append(toIndentedString(cBankaccountId)).append("\n");
     sb.append("    cBpartnercashtrxId: ").append(toIndentedString(cBpartnercashtrxId)).append("\n");
     sb.append("    cCashbookId: ").append(toIndentedString(cCashbookId)).append("\n");
@@ -1414,12 +1599,17 @@ public class POS   {
     sb.append("    draftedinout: ").append(toIndentedString(draftedinout)).append("\n");
     sb.append("    help: ").append(toIndentedString(help)).append("\n");
     sb.append("    initialposauthorization: ").append(toIndentedString(initialposauthorization)).append("\n");
+    sb.append("    ipClover: ").append(toIndentedString(ipClover)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isallowcreditcardcashretirement: ").append(toIndentedString(isallowcreditcardcashretirement)).append("\n");
+    sb.append("    isalterClover: ").append(toIndentedString(isalterClover)).append("\n");
+    sb.append("    iscontingencia: ").append(toIndentedString(iscontingencia)).append("\n");
     sb.append("    iscopyentity: ").append(toIndentedString(iscopyentity)).append("\n");
     sb.append("    iscreateinvoice: ").append(toIndentedString(iscreateinvoice)).append("\n");
     sb.append("    isdeliverorderinwarehouse: ").append(toIndentedString(isdeliverorderinwarehouse)).append("\n");
+    sb.append("    isintegraClover: ").append(toIndentedString(isintegraClover)).append("\n");
     sb.append("    ismodifyprice: ").append(toIndentedString(ismodifyprice)).append("\n");
+    sb.append("    isonlineClover: ").append(toIndentedString(isonlineClover)).append("\n");
     sb.append("    isprintcurrentaccountdocument: ").append(toIndentedString(isprintcurrentaccountdocument)).append("\n");
     sb.append("    isprintwarehousedeliverdocument: ").append(toIndentedString(isprintwarehousedeliverdocument)).append("\n");
     sb.append("    issalewithoutstock: ").append(toIndentedString(issalewithoutstock)).append("\n");
@@ -1436,9 +1626,11 @@ public class POS   {
     sb.append("    mWarehouseId: ").append(toIndentedString(mWarehouseId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    operationmode: ").append(toIndentedString(operationmode)).append("\n");
+    sb.append("    portClover: ").append(toIndentedString(portClover)).append("\n");
     sb.append("    posnet: ").append(toIndentedString(posnet)).append("\n");
     sb.append("    posnumber: ").append(toIndentedString(posnumber)).append("\n");
     sb.append("    printername: ").append(toIndentedString(printername)).append("\n");
+    sb.append("    ptovtacontingencia: ").append(toIndentedString(ptovtacontingencia)).append("\n");
     sb.append("    returnedcashincncontrol: ").append(toIndentedString(returnedcashincncontrol)).append("\n");
     sb.append("    salesrepId: ").append(toIndentedString(salesrepId)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");

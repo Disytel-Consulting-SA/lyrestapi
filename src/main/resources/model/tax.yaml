@@ -51,6 +51,9 @@ components:
         isdocumentlevel:
           type: boolean
           description: "El Impuesto es calculado a nivel de Documento (No línea por línea)"
+        isnogravado:
+          type: boolean
+          description: " "
         ispercepcion:
           type: boolean
           description: "Este impuesto es de percepción"
@@ -132,6 +135,7 @@ components:
          - isactive
          - isdefault
          - isdocumentlevel
+         - isnogravado
          - ispercepcion
          - issummary
          - istaxexempt
