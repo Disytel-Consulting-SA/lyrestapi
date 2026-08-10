@@ -133,23 +133,38 @@ Para agregar entidades nuevas, el procedimiento seguro es:
 
 Así se hicieron los de asientos manuales.
 
-### Arreglo propuesto
+### Estado tras la regeneración para LY 26.05 (2026-08-10)
 
-1. **Decidir cuál es la base de referencia** y actualizar `DB_NAME` en `genSchema.sh` (hoy le falta el
-   sufijo `_25`). Si es `libertya_rel_22ar_for_api_25`, hay que resolver antes qué se hace con
-   `M_Inventory.InventoryType`: o se agrega la columna al diccionario de esa base, o se saca el
-   `setInventorytype` del test.
-2. Regenerar los `model/*.yaml` y los stubs completos desde esa base.
-3. Revisar el diff a mano para reponer los agregados manuales: al menos el `m_warehouse_id` derivado de
-   `model/storage.yaml` (documentado en `StorageRepository`) y lo que sea que tenga `warehouse.yaml`, que no
-   coincide con ninguna de las dos bases.
+La regeneración de schemas contra Libertya 26.05 confirmó el diagnóstico: **borró el `m_warehouse_id` de
+`model/storage.yaml` junto con el bloque de comentarios que advertía que no se perdiera**, y con él el campo
+de `stub/model/Storage.java`. Como `StorageRepository` lo seguía usando, `main` quedó sin compilar.
+
+**Resuelto quitando el campo derivado**, no reponiéndolo: no es columna de `M_Storage` y no forma parte del
+modelo de Core. Se eliminaron de `StorageRepository` la constante `WAREHOUSE_FIELD` y el override de
+`loadEntityFromPO`. **El filtrado por almacén sigue disponible** (`?filter=M_Warehouse_ID=<n>`), porque
+`rewriteWarehouseFilter` resuelve contra el locator y no dependía del campo.
+
+Queda como precedente: **los agregados manuales a los `model/*.yaml` no sobreviven una regeneración**, y un
+comentario dentro del yaml no alcanza para protegerlos. Si en el futuro hace falta un campo derivado, conviene
+resolverlo fuera del schema generado.
+
+### Arreglo propuesto para lo que queda
+
+1. **Decidir cuál es la base de referencia** y actualizar `DB_NAME` en `genSchema.sh` (hoy apunta a
+   `libertya_rel_22ar_for_api`, que no existe; hay una `libertya_rel_22ar_for_api_25`, pero está en 2022 y
+   quedó atrasada — la regeneración de 26.05 se hizo contra otra base).
+2. Regenerar los stubs completos desde esa base, para cerrar el desfasaje que queda entre `model/*.yaml` y
+   `stub/`.
+3. Revisar el diff a mano: `warehouse.yaml` no coincidía con ninguna de las bases locales, así que puede
+   tener también agregados manuales.
 
 Es una tarea de una sentada, pero el paso 1 es una decisión, no un tecleo.
 
 ### Nota sobre los endpoints de asientos manuales
 
-Se generaron desde `libertya_qa`, y se verificó que los 7 schemas nuevos salen **byte-idénticos** generándolos
-desde `libertya_rel_22ar_for_api_25`. O sea que este pendiente no los afecta.
+Sus 7 schemas se generaron desde `libertya_qa` (que reporta versión 08-05-2026, o sea la misma 26.05), y se
+verificó que salen **byte-idénticos** regenerándolos con el `genSchema.sql` ya fusionado, que incluye el fix
+de ordenamiento para PostgreSQL 16. Este pendiente no los afecta.
 
 ---
 
