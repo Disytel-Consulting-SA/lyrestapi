@@ -61,6 +61,9 @@ public class Warehouse   {
   @JsonProperty("splitting_charge_id")
   private Integer splittingChargeId = null;
 
+  @JsonProperty("stockavailableforsale")
+  private Boolean stockavailableforsale = null;
+
   @JsonProperty("updated")
   private String updated = null;
 
@@ -104,11 +107,11 @@ public class Warehouse   {
   }
 
   /**
-   * Identificador unico universal del objeto
+   *  
    * @return adComponentobjectuid
    **/
-  @Schema(description = "Identificador unico universal del objeto")
-
+  @Schema(description = " ")
+  
     public String getAdComponentobjectuid() {
     return adComponentobjectuid;
   }
@@ -143,10 +146,10 @@ public class Warehouse   {
   }
 
   /**
-   * Ubicación o dirección física
+   * Ubicación o Dirección
    * @return cLocationId
    **/
-  @Schema(required = true, description = "Ubicación o dirección física")
+  @Schema(required = true, description = "Ubicación o Dirección")
       @NotNull
 
     public Integer getCLocationId() {
@@ -207,7 +210,7 @@ public class Warehouse   {
    * @return description
    **/
   @Schema(description = "Descripción corta opcional del registro")
-
+  
     public String getDescription() {
     return description;
   }
@@ -282,11 +285,11 @@ public class Warehouse   {
   }
 
   /**
-   * Cargo asociado al cambio de producto
+   * Cargo asociado a las líneas del inventario generado por un cambio de artículo
    * @return productchangechargeId
    **/
-  @Schema(description = "Cargo asociado al cambio de producto")
-
+  @Schema(description = "Cargo asociado a las líneas del inventario generado por un cambio de artículo")
+  
     public Integer getProductchangechargeId() {
     return productchangechargeId;
   }
@@ -301,10 +304,11 @@ public class Warehouse   {
   }
 
   /**
-   * Separador del elemento
+   * Separador de los Elementos de la cuenta
    * @return separator
    **/
-  @Schema(description = "Separador del elemento")
+  @Schema(required = true, description = "Separador de los Elementos de la cuenta")
+      @NotNull
 
     public String getSeparator() {
     return separator;
@@ -320,11 +324,11 @@ public class Warehouse   {
   }
 
   /**
-   * Cargo asociado a la merma
+   * Cargo utilizado para contabilizar mermas de artículos
    * @return shrinkChargeId
    **/
-  @Schema(description = "Cargo asociado a la merma")
-
+  @Schema(description = "Cargo utilizado para contabilizar mermas de artículos")
+  
     public Integer getShrinkChargeId() {
     return shrinkChargeId;
   }
@@ -339,17 +343,37 @@ public class Warehouse   {
   }
 
   /**
-   * Cargo asociado al fraccionamiento
+   * Cargo utilizado para contabilizar altas/bajas de artículos por fraccionamientos
    * @return splittingChargeId
    **/
-  @Schema(description = "Cargo asociado al fraccionamiento")
-
+  @Schema(description = "Cargo utilizado para contabilizar altas/bajas de artículos por fraccionamientos")
+  
     public Integer getSplittingChargeId() {
     return splittingChargeId;
   }
 
   public void setSplittingChargeId(Integer splittingChargeId) {
     this.splittingChargeId = splittingChargeId;
+  }
+
+  public Warehouse stockavailableforsale(Boolean stockavailableforsale) {
+    this.stockavailableforsale = stockavailableforsale;
+    return this;
+  }
+
+  /**
+   *  
+   * @return stockavailableforsale
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    public Boolean isStockavailableforsale() {
+    return stockavailableforsale;
+  }
+
+  public void setStockavailableforsale(Boolean stockavailableforsale) {
+    this.stockavailableforsale = stockavailableforsale;
   }
 
   public Warehouse updated(String updated) {
@@ -490,6 +514,7 @@ public class Warehouse   {
         Objects.equals(this.separator, warehouse.separator) &&
         Objects.equals(this.shrinkChargeId, warehouse.shrinkChargeId) &&
         Objects.equals(this.splittingChargeId, warehouse.splittingChargeId) &&
+        Objects.equals(this.stockavailableforsale, warehouse.stockavailableforsale) &&
         Objects.equals(this.updated, warehouse.updated) &&
         Objects.equals(this.updatedby, warehouse.updatedby) &&
         Objects.equals(this.value, warehouse.value) &&
@@ -499,14 +524,14 @@ public class Warehouse   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cLocationId, created, createdby, description, isactive, mWarehouseId, name, productchangechargeId, separator, shrinkChargeId, splittingChargeId, updated, updatedby, value, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cLocationId, created, createdby, description, isactive, mWarehouseId, name, productchangechargeId, separator, shrinkChargeId, splittingChargeId, stockavailableforsale, updated, updatedby, value, additionalvalues, referencedvalues);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Warehouse {\n");
-
+    
     sb.append("    adClientId: ").append(toIndentedString(adClientId)).append("\n");
     sb.append("    adComponentobjectuid: ").append(toIndentedString(adComponentobjectuid)).append("\n");
     sb.append("    adOrgId: ").append(toIndentedString(adOrgId)).append("\n");
@@ -521,6 +546,7 @@ public class Warehouse   {
     sb.append("    separator: ").append(toIndentedString(separator)).append("\n");
     sb.append("    shrinkChargeId: ").append(toIndentedString(shrinkChargeId)).append("\n");
     sb.append("    splittingChargeId: ").append(toIndentedString(splittingChargeId)).append("\n");
+    sb.append("    stockavailableforsale: ").append(toIndentedString(stockavailableforsale)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");

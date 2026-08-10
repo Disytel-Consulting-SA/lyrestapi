@@ -77,6 +77,9 @@ public class EntidadFinanciera   {
   @JsonProperty("name")
   private String name = null;
 
+  @JsonProperty("numerocomercioclover")
+  private String numerocomercioclover = null;
+
   @JsonProperty("updated")
   private String updated = null;
 
@@ -468,6 +471,25 @@ public class EntidadFinanciera   {
     this.name = name;
   }
 
+  public EntidadFinanciera numerocomercioclover(String numerocomercioclover) {
+    this.numerocomercioclover = numerocomercioclover;
+    return this;
+  }
+
+  /**
+   *  
+   * @return numerocomercioclover
+   **/
+  @Schema(description = " ")
+  
+    public String getNumerocomercioclover() {
+    return numerocomercioclover;
+  }
+
+  public void setNumerocomercioclover(String numerocomercioclover) {
+    this.numerocomercioclover = numerocomercioclover;
+  }
+
   public EntidadFinanciera updated(String updated) {
     this.updated = updated;
     return this;
@@ -611,6 +633,7 @@ public class EntidadFinanciera   {
         Objects.equals(this.isallowcreditcardcashretirement, entidadFinanciera.isallowcreditcardcashretirement) &&
         Objects.equals(this.mEntidadfinancieraId, entidadFinanciera.mEntidadfinancieraId) &&
         Objects.equals(this.name, entidadFinanciera.name) &&
+        Objects.equals(this.numerocomercioclover, entidadFinanciera.numerocomercioclover) &&
         Objects.equals(this.updated, entidadFinanciera.updated) &&
         Objects.equals(this.updatedby, entidadFinanciera.updatedby) &&
         Objects.equals(this.value, entidadFinanciera.value) &&
@@ -620,7 +643,7 @@ public class EntidadFinanciera   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cardmask, cBankaccountId, cBankaccountSettlementId, cBpartnerId, cCityId, created, createdby, creditcardcashretirementlimit, creditcardtype, cRegionId, establishmentnumber, financingservice, isactive, isallowcreditcardcashretirement, mEntidadfinancieraId, name, updated, updatedby, value, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cardmask, cBankaccountId, cBankaccountSettlementId, cBpartnerId, cCityId, created, createdby, creditcardcashretirementlimit, creditcardtype, cRegionId, establishmentnumber, financingservice, isactive, isallowcreditcardcashretirement, mEntidadfinancieraId, name, numerocomercioclover, updated, updatedby, value, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -647,6 +670,7 @@ public class EntidadFinanciera   {
     sb.append("    isallowcreditcardcashretirement: ").append(toIndentedString(isallowcreditcardcashretirement)).append("\n");
     sb.append("    mEntidadfinancieraId: ").append(toIndentedString(mEntidadfinancieraId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    numerocomercioclover: ").append(toIndentedString(numerocomercioclover)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");
     sb.append("    updatedby: ").append(toIndentedString(updatedby)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");

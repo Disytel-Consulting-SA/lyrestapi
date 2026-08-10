@@ -30,6 +30,9 @@ components:
         allowpartialpayment:
           type: boolean
           description: " "
+        allowpreloadvendorinvoices:
+          type: boolean
+          description: "Permitir Precarga de Facturas de Proveedor desde AFIP"
         a_name_check:
           type: string
           description: " "
@@ -63,6 +66,24 @@ components:
         c_greeting_id:
           type: integer
           description: "Saludo para imprimir en la correspondencia"
+        cintolo_acumulate_exchange_dif:
+          type: boolean
+          description: " "
+        cintolo_amount_limit:
+          type: number
+          description: " "
+        cintolo_checks_limit:
+          type: number
+          description: " "
+        cintolo_currency_limit:
+          type: integer
+          description: " "
+        cintolo_percentage_limit:
+          type: number
+          description: " "
+        cintolo_point_of_sale:
+          type: integer
+          description: " "
         c_invoiceschedule_id:
           type: integer
           description: "Programa para generar facturas"
@@ -180,9 +201,15 @@ components:
         ismandatorycai:
           type: boolean
           description: "Validar CAI Obligatorio"
+        ismipyme:
+          type: boolean
+          description: " "
         ismulticuit:
           type: boolean
           description: "El CUIT/CUIL ingresado puede repetirse dentro del sistema"
+        isocultardesctolineafc:
+          type: boolean
+          description: " "
         isonetime:
           type: boolean
           description: " "
@@ -209,6 +236,12 @@ components:
           description: "No se permite realizar una orden de compra por debajo de este monto."
         min_order_qty:
           type: number
+          description: " "
+        mipymeamount:
+          type: number
+          description: " "
+        mipymeupdated:
+          type: string
           description: " "
         m_pricelist_id:
           type: integer
@@ -333,9 +366,15 @@ components:
         updatedby:
           type: integer
           description: "Determina quien actualizó el campo"
+        update_unpaid_invoices:
+          type: string
+          description: " "
         url:
           type: string
           description: "URL"
+        validmipyme:
+          type: string
+          description: " "
         value:
           type: string
           description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
@@ -352,10 +391,12 @@ components:
          - ad_org_id
          - allowadvancedpaymentreceipts
          - allowpartialpayment
+         - allowpreloadvendorinvoices
          - automaticcreditnotes
          - c_bpartner_id
          - c_bp_group_id
          - c_categoria_iva_id
+         - cintolo_acumulate_exchange_dif
          - created
          - createdby
          - creditminimumamt

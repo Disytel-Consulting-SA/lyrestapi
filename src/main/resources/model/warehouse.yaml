@@ -8,13 +8,13 @@ components:
           description: "Compañía o empresa que utiliza ésta instalación"
         ad_componentobjectuid:
           type: string
-          description: "Identificador unico universal del objeto"
+          description: " "
         ad_org_id:
           type: integer
           description: "Entidad organizacional dentro de la compañía"
         c_location_id:
           type: integer
-          description: "Ubicación o dirección física"
+          description: "Ubicación o Dirección"
         created:
           type: string
           description: "Fecha de creación de este registro"
@@ -35,16 +35,19 @@ components:
           description: "Identificador alfanumérico de la Entidad"
         productchangecharge_id:
           type: integer
-          description: "Cargo asociado al cambio de producto"
+          description: "Cargo asociado a las líneas del inventario generado por un cambio de artículo"
         separator:
           type: string
-          description: "Separador del elemento"
+          description: "Separador de los Elementos de la cuenta"
         shrink_charge_id:
           type: integer
-          description: "Cargo asociado a la merma"
+          description: "Cargo utilizado para contabilizar mermas de artículos"
         splitting_charge_id:
           type: integer
-          description: "Cargo asociado al fraccionamiento"
+          description: "Cargo utilizado para contabilizar altas/bajas de artículos por fraccionamientos"
+        stockavailableforsale:
+          type: boolean
+          description: " "
         updated:
           type: string
           description: "Determina si el campo esta actualizado"
@@ -71,6 +74,8 @@ components:
          - isactive
          - m_warehouse_id
          - name
+         - separator
+         - stockavailableforsale
          - updated
          - updatedby
          - value

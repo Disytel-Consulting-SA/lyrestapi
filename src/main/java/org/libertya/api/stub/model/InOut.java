@@ -38,6 +38,9 @@ public class InOut   {
   @JsonProperty("cai")
   private String cai = null;
 
+  @JsonProperty("cat_iva_id")
+  private Integer catIvaId = null;
+
   @JsonProperty("c_bpartner_id")
   private Integer cBpartnerId = null;
 
@@ -64,6 +67,9 @@ public class InOut   {
 
   @JsonProperty("c_order_id")
   private Integer cOrderId = null;
+
+  @JsonProperty("cp")
+  private String cp = null;
 
   @JsonProperty("c_project_id")
   private Integer cProjectId = null;
@@ -107,6 +113,9 @@ public class InOut   {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("direccion")
+  private String direccion = null;
+
   @JsonProperty("docaction")
   private String docaction = null;
 
@@ -149,6 +158,18 @@ public class InOut   {
   @JsonProperty("issotrx")
   private Boolean issotrx = null;
 
+  @JsonProperty("jacofer_capacity")
+  private BigDecimal jacoferCapacity = null;
+
+  @JsonProperty("jacofer_packagesqty")
+  private BigDecimal jacoferPackagesqty = null;
+
+  @JsonProperty("jacofer_weight")
+  private BigDecimal jacoferWeight = null;
+
+  @JsonProperty("localidad")
+  private String localidad = null;
+
   @JsonProperty("m_inout_id")
   private Integer mInoutId = null;
 
@@ -164,8 +185,14 @@ public class InOut   {
   @JsonProperty("m_warehouse_id")
   private Integer mWarehouseId = null;
 
+  @JsonProperty("nombrecli")
+  private String nombrecli = null;
+
   @JsonProperty("nopackages")
   private Integer nopackages = null;
+
+  @JsonProperty("nroidentificcliente")
+  private String nroidentificcliente = null;
 
   @JsonProperty("pickdate")
   private String pickdate = null;
@@ -190,6 +217,9 @@ public class InOut   {
 
   @JsonProperty("processing")
   private String processing = null;
+
+  @JsonProperty("provincia")
+  private String provincia = null;
 
   @JsonProperty("receptiondate")
   private String receptiondate = null;
@@ -343,6 +373,25 @@ public class InOut   {
 
   public void setCai(String cai) {
     this.cai = cai;
+  }
+
+  public InOut catIvaId(Integer catIvaId) {
+    this.catIvaId = catIvaId;
+    return this;
+  }
+
+  /**
+   *  
+   * @return catIvaId
+   **/
+  @Schema(description = " ")
+  
+    public Integer getCatIvaId() {
+    return catIvaId;
+  }
+
+  public void setCatIvaId(Integer catIvaId) {
+    this.catIvaId = catIvaId;
   }
 
   public InOut cBpartnerId(Integer cBpartnerId) {
@@ -518,6 +567,25 @@ public class InOut   {
 
   public void setCOrderId(Integer cOrderId) {
     this.cOrderId = cOrderId;
+  }
+
+  public InOut cp(String cp) {
+    this.cp = cp;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cp
+   **/
+  @Schema(description = " ")
+  
+    public String getCp() {
+    return cp;
+  }
+
+  public void setCp(String cp) {
+    this.cp = cp;
   }
 
   public InOut cProjectId(Integer cProjectId) {
@@ -789,6 +857,25 @@ public class InOut   {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public InOut direccion(String direccion) {
+    this.direccion = direccion;
+    return this;
+  }
+
+  /**
+   *  
+   * @return direccion
+   **/
+  @Schema(description = " ")
+  
+    public String getDireccion() {
+    return direccion;
+  }
+
+  public void setDireccion(String direccion) {
+    this.direccion = direccion;
   }
 
   public InOut docaction(String docaction) {
@@ -1068,6 +1155,88 @@ public class InOut   {
     this.issotrx = issotrx;
   }
 
+  public InOut jacoferCapacity(BigDecimal jacoferCapacity) {
+    this.jacoferCapacity = jacoferCapacity;
+    return this;
+  }
+
+  /**
+   *  
+   * @return jacoferCapacity
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    @Valid
+    public BigDecimal getJacoferCapacity() {
+    return jacoferCapacity;
+  }
+
+  public void setJacoferCapacity(BigDecimal jacoferCapacity) {
+    this.jacoferCapacity = jacoferCapacity;
+  }
+
+  public InOut jacoferPackagesqty(BigDecimal jacoferPackagesqty) {
+    this.jacoferPackagesqty = jacoferPackagesqty;
+    return this;
+  }
+
+  /**
+   *  
+   * @return jacoferPackagesqty
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    @Valid
+    public BigDecimal getJacoferPackagesqty() {
+    return jacoferPackagesqty;
+  }
+
+  public void setJacoferPackagesqty(BigDecimal jacoferPackagesqty) {
+    this.jacoferPackagesqty = jacoferPackagesqty;
+  }
+
+  public InOut jacoferWeight(BigDecimal jacoferWeight) {
+    this.jacoferWeight = jacoferWeight;
+    return this;
+  }
+
+  /**
+   *  
+   * @return jacoferWeight
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    @Valid
+    public BigDecimal getJacoferWeight() {
+    return jacoferWeight;
+  }
+
+  public void setJacoferWeight(BigDecimal jacoferWeight) {
+    this.jacoferWeight = jacoferWeight;
+  }
+
+  public InOut localidad(String localidad) {
+    this.localidad = localidad;
+    return this;
+  }
+
+  /**
+   *  
+   * @return localidad
+   **/
+  @Schema(description = " ")
+  
+    public String getLocalidad() {
+    return localidad;
+  }
+
+  public void setLocalidad(String localidad) {
+    this.localidad = localidad;
+  }
+
   public InOut mInoutId(Integer mInoutId) {
     this.mInoutId = mInoutId;
     return this;
@@ -1167,6 +1336,25 @@ public class InOut   {
     this.mWarehouseId = mWarehouseId;
   }
 
+  public InOut nombrecli(String nombrecli) {
+    this.nombrecli = nombrecli;
+    return this;
+  }
+
+  /**
+   *  
+   * @return nombrecli
+   **/
+  @Schema(description = " ")
+  
+    public String getNombrecli() {
+    return nombrecli;
+  }
+
+  public void setNombrecli(String nombrecli) {
+    this.nombrecli = nombrecli;
+  }
+
   public InOut nopackages(Integer nopackages) {
     this.nopackages = nopackages;
     return this;
@@ -1184,6 +1372,25 @@ public class InOut   {
 
   public void setNopackages(Integer nopackages) {
     this.nopackages = nopackages;
+  }
+
+  public InOut nroidentificcliente(String nroidentificcliente) {
+    this.nroidentificcliente = nroidentificcliente;
+    return this;
+  }
+
+  /**
+   * Número de DNI, Cédula, Libreta de Enrolamiento, Pasaporte o Libreta Cívica del cliente.
+   * @return nroidentificcliente
+   **/
+  @Schema(description = "Número de DNI, Cédula, Libreta de Enrolamiento, Pasaporte o Libreta Cívica del cliente.")
+  
+    public String getNroidentificcliente() {
+    return nroidentificcliente;
+  }
+
+  public void setNroidentificcliente(String nroidentificcliente) {
+    this.nroidentificcliente = nroidentificcliente;
   }
 
   public InOut pickdate(String pickdate) {
@@ -1339,6 +1546,25 @@ public class InOut   {
 
   public void setProcessing(String processing) {
     this.processing = processing;
+  }
+
+  public InOut provincia(String provincia) {
+    this.provincia = provincia;
+    return this;
+  }
+
+  /**
+   *  
+   * @return provincia
+   **/
+  @Schema(description = " ")
+  
+    public String getProvincia() {
+    return provincia;
+  }
+
+  public void setProvincia(String provincia) {
+    this.provincia = provincia;
   }
 
   public InOut receptiondate(String receptiondate) {
@@ -1604,6 +1830,7 @@ public class InOut   {
         Objects.equals(this.adUserId, inOut.adUserId) &&
         Objects.equals(this.cActivityId, inOut.cActivityId) &&
         Objects.equals(this.cai, inOut.cai) &&
+        Objects.equals(this.catIvaId, inOut.catIvaId) &&
         Objects.equals(this.cBpartnerId, inOut.cBpartnerId) &&
         Objects.equals(this.cBpartnerLocationId, inOut.cBpartnerLocationId) &&
         Objects.equals(this.cCampaignId, inOut.cCampaignId) &&
@@ -1613,6 +1840,7 @@ public class InOut   {
         Objects.equals(this.cInvoiceId, inOut.cInvoiceId) &&
         Objects.equals(this.clearancenumber, inOut.clearancenumber) &&
         Objects.equals(this.cOrderId, inOut.cOrderId) &&
+        Objects.equals(this.cp, inOut.cp) &&
         Objects.equals(this.cProjectId, inOut.cProjectId) &&
         Objects.equals(this.createconfirm, inOut.createconfirm) &&
         Objects.equals(this.created, inOut.created) &&
@@ -1627,6 +1855,7 @@ public class InOut   {
         Objects.equals(this.deliveryrule, inOut.deliveryrule) &&
         Objects.equals(this.deliveryviarule, inOut.deliveryviarule) &&
         Objects.equals(this.description, inOut.description) &&
+        Objects.equals(this.direccion, inOut.direccion) &&
         Objects.equals(this.docaction, inOut.docaction) &&
         Objects.equals(this.docstatus, inOut.docstatus) &&
         Objects.equals(this.documentno, inOut.documentno) &&
@@ -1641,12 +1870,18 @@ public class InOut   {
         Objects.equals(this.isintransit, inOut.isintransit) &&
         Objects.equals(this.isprinted, inOut.isprinted) &&
         Objects.equals(this.issotrx, inOut.issotrx) &&
+        Objects.equals(this.jacoferCapacity, inOut.jacoferCapacity) &&
+        Objects.equals(this.jacoferPackagesqty, inOut.jacoferPackagesqty) &&
+        Objects.equals(this.jacoferWeight, inOut.jacoferWeight) &&
+        Objects.equals(this.localidad, inOut.localidad) &&
         Objects.equals(this.mInoutId, inOut.mInoutId) &&
         Objects.equals(this.movementdate, inOut.movementdate) &&
         Objects.equals(this.movementtype, inOut.movementtype) &&
         Objects.equals(this.mShipperId, inOut.mShipperId) &&
         Objects.equals(this.mWarehouseId, inOut.mWarehouseId) &&
+        Objects.equals(this.nombrecli, inOut.nombrecli) &&
         Objects.equals(this.nopackages, inOut.nopackages) &&
+        Objects.equals(this.nroidentificcliente, inOut.nroidentificcliente) &&
         Objects.equals(this.pickdate, inOut.pickdate) &&
         Objects.equals(this.poreference, inOut.poreference) &&
         Objects.equals(this.posted, inOut.posted) &&
@@ -1655,6 +1890,7 @@ public class InOut   {
         Objects.equals(this.priorityrule, inOut.priorityrule) &&
         Objects.equals(this.processed, inOut.processed) &&
         Objects.equals(this.processing, inOut.processing) &&
+        Objects.equals(this.provincia, inOut.provincia) &&
         Objects.equals(this.receptiondate, inOut.receptiondate) &&
         Objects.equals(this.refInoutId, inOut.refInoutId) &&
         Objects.equals(this.salesrepId, inOut.salesrepId) &&
@@ -1671,7 +1907,7 @@ public class InOut   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adOrgtrxId, adUserId, cActivityId, cai, cBpartnerId, cBpartnerLocationId, cCampaignId, cChargeId, cDoctypeId, chargeamt, cInvoiceId, clearancenumber, cOrderId, cProjectId, createconfirm, created, createdby, createfrom, createpackage, dateacct, datecai, dateordered, dateprinted, datereceived, deliveryrule, deliveryviarule, description, docaction, docstatus, documentno, freightamt, freightcostrule, generateto, inoutdate, inoutreceptiondate, isactive, isapproved, isindispute, isintransit, isprinted, issotrx, mInoutId, movementdate, movementtype, mShipperId, mWarehouseId, nopackages, pickdate, poreference, posted, preprintedDocno, printtype, priorityrule, processed, processing, receptiondate, refInoutId, salesrepId, sendemail, shipdate, trackingno, updated, updatedby, user1Id, user2Id, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, adOrgtrxId, adUserId, cActivityId, cai, catIvaId, cBpartnerId, cBpartnerLocationId, cCampaignId, cChargeId, cDoctypeId, chargeamt, cInvoiceId, clearancenumber, cOrderId, cp, cProjectId, createconfirm, created, createdby, createfrom, createpackage, dateacct, datecai, dateordered, dateprinted, datereceived, deliveryrule, deliveryviarule, description, direccion, docaction, docstatus, documentno, freightamt, freightcostrule, generateto, inoutdate, inoutreceptiondate, isactive, isapproved, isindispute, isintransit, isprinted, issotrx, jacoferCapacity, jacoferPackagesqty, jacoferWeight, localidad, mInoutId, movementdate, movementtype, mShipperId, mWarehouseId, nombrecli, nopackages, nroidentificcliente, pickdate, poreference, posted, preprintedDocno, printtype, priorityrule, processed, processing, provincia, receptiondate, refInoutId, salesrepId, sendemail, shipdate, trackingno, updated, updatedby, user1Id, user2Id, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1685,6 +1921,7 @@ public class InOut   {
     sb.append("    adUserId: ").append(toIndentedString(adUserId)).append("\n");
     sb.append("    cActivityId: ").append(toIndentedString(cActivityId)).append("\n");
     sb.append("    cai: ").append(toIndentedString(cai)).append("\n");
+    sb.append("    catIvaId: ").append(toIndentedString(catIvaId)).append("\n");
     sb.append("    cBpartnerId: ").append(toIndentedString(cBpartnerId)).append("\n");
     sb.append("    cBpartnerLocationId: ").append(toIndentedString(cBpartnerLocationId)).append("\n");
     sb.append("    cCampaignId: ").append(toIndentedString(cCampaignId)).append("\n");
@@ -1694,6 +1931,7 @@ public class InOut   {
     sb.append("    cInvoiceId: ").append(toIndentedString(cInvoiceId)).append("\n");
     sb.append("    clearancenumber: ").append(toIndentedString(clearancenumber)).append("\n");
     sb.append("    cOrderId: ").append(toIndentedString(cOrderId)).append("\n");
+    sb.append("    cp: ").append(toIndentedString(cp)).append("\n");
     sb.append("    cProjectId: ").append(toIndentedString(cProjectId)).append("\n");
     sb.append("    createconfirm: ").append(toIndentedString(createconfirm)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
@@ -1708,6 +1946,7 @@ public class InOut   {
     sb.append("    deliveryrule: ").append(toIndentedString(deliveryrule)).append("\n");
     sb.append("    deliveryviarule: ").append(toIndentedString(deliveryviarule)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    direccion: ").append(toIndentedString(direccion)).append("\n");
     sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
     sb.append("    documentno: ").append(toIndentedString(documentno)).append("\n");
@@ -1722,12 +1961,18 @@ public class InOut   {
     sb.append("    isintransit: ").append(toIndentedString(isintransit)).append("\n");
     sb.append("    isprinted: ").append(toIndentedString(isprinted)).append("\n");
     sb.append("    issotrx: ").append(toIndentedString(issotrx)).append("\n");
+    sb.append("    jacoferCapacity: ").append(toIndentedString(jacoferCapacity)).append("\n");
+    sb.append("    jacoferPackagesqty: ").append(toIndentedString(jacoferPackagesqty)).append("\n");
+    sb.append("    jacoferWeight: ").append(toIndentedString(jacoferWeight)).append("\n");
+    sb.append("    localidad: ").append(toIndentedString(localidad)).append("\n");
     sb.append("    mInoutId: ").append(toIndentedString(mInoutId)).append("\n");
     sb.append("    movementdate: ").append(toIndentedString(movementdate)).append("\n");
     sb.append("    movementtype: ").append(toIndentedString(movementtype)).append("\n");
     sb.append("    mShipperId: ").append(toIndentedString(mShipperId)).append("\n");
     sb.append("    mWarehouseId: ").append(toIndentedString(mWarehouseId)).append("\n");
+    sb.append("    nombrecli: ").append(toIndentedString(nombrecli)).append("\n");
     sb.append("    nopackages: ").append(toIndentedString(nopackages)).append("\n");
+    sb.append("    nroidentificcliente: ").append(toIndentedString(nroidentificcliente)).append("\n");
     sb.append("    pickdate: ").append(toIndentedString(pickdate)).append("\n");
     sb.append("    poreference: ").append(toIndentedString(poreference)).append("\n");
     sb.append("    posted: ").append(toIndentedString(posted)).append("\n");
@@ -1736,6 +1981,7 @@ public class InOut   {
     sb.append("    priorityrule: ").append(toIndentedString(priorityrule)).append("\n");
     sb.append("    processed: ").append(toIndentedString(processed)).append("\n");
     sb.append("    processing: ").append(toIndentedString(processing)).append("\n");
+    sb.append("    provincia: ").append(toIndentedString(provincia)).append("\n");
     sb.append("    receptiondate: ").append(toIndentedString(receptiondate)).append("\n");
     sb.append("    refInoutId: ").append(toIndentedString(refInoutId)).append("\n");
     sb.append("    salesrepId: ").append(toIndentedString(salesrepId)).append("\n");

@@ -134,6 +134,9 @@ public class Payment   {
   @JsonProperty("checkstatus")
   private String checkstatus = null;
 
+  @JsonProperty("cintolo_ref_invoiceline_id")
+  private Integer cintoloRefInvoicelineId = null;
+
   @JsonProperty("c_invoice_check_rejected_id")
   private Integer cInvoiceCheckRejectedId = null;
 
@@ -1094,6 +1097,25 @@ public class Payment   {
 
   public void setCheckstatus(String checkstatus) {
     this.checkstatus = checkstatus;
+  }
+
+  public Payment cintoloRefInvoicelineId(Integer cintoloRefInvoicelineId) {
+    this.cintoloRefInvoicelineId = cintoloRefInvoicelineId;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cintoloRefInvoicelineId
+   **/
+  @Schema(description = " ")
+  
+    public Integer getCintoloRefInvoicelineId() {
+    return cintoloRefInvoicelineId;
+  }
+
+  public void setCintoloRefInvoicelineId(Integer cintoloRefInvoicelineId) {
+    this.cintoloRefInvoicelineId = cintoloRefInvoicelineId;
   }
 
   public Payment cInvoiceCheckRejectedId(Integer cInvoiceCheckRejectedId) {
@@ -2655,6 +2677,7 @@ public class Payment   {
         Objects.equals(this.checked, payment.checked) &&
         Objects.equals(this.checkno, payment.checkno) &&
         Objects.equals(this.checkstatus, payment.checkstatus) &&
+        Objects.equals(this.cintoloRefInvoicelineId, payment.cintoloRefInvoicelineId) &&
         Objects.equals(this.cInvoiceCheckRejectedId, payment.cInvoiceCheckRejectedId) &&
         Objects.equals(this.cInvoiceId, payment.cInvoiceId) &&
         Objects.equals(this.cOrderId, payment.cOrderId) &&
@@ -2736,7 +2759,7 @@ public class Payment   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(aBank, accountingCChargeId, accountno, aCity, aCountry, aCuit, adClientId, adOrgId, adOrgtrxId, aEmail, aIdentDl, aIdentSsn, aName, aState, aStreet, auditstatus, authcode, authmatch, aZip, banklistRegisterno, bankPaymentDate, bankPaymentDocumentno, bankPaymentMsgDescription, cActivityId, cBankaccountId, cBankId, cBankpaymentstatusId, cBpartnerId, cBpBankaccountId, cCampaignId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, chargeamt, checked, checkno, checkstatus, cInvoiceCheckRejectedId, cInvoiceId, cOrderId, couponbatchnumber, couponnumber, cPaymentbatchId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, creditcardexpmm, creditcardexpyy, creditcardnumber, creditcardtype, creditcardvv, dateacct, dateemissioncheck, datetrx, description, discountamt, docaction, docstatus, documentno, duedate, isactive, isallocated, isapproved, isdelayedcapture, ismanual, isonline, isoverunderpayment, isprepayment, isreceipt, isreconciled, isselfservice, issotrx, mBoletadepositoId, mEntidadfinancieraplanId, micr, oprocessing, originalRefPaymentId, origTrxid, overunderamt, payamt, ponum, posnet, posted, processed, processing, rAuthcode, rAuthcodeDc, rAvsaddr, rAvszip, rCvv2match, refPaymentId, rejectedcomments, rejecteddate, rInfo, routingno, rPnref, rPnrefDc, rRespmsg, rResult, swipe, taxamt, tendertype, trxtype, updated, updatedby, user1Id, user2Id, voiceauthcode, writeoffamt, additionalvalues, referencedvalues);
+    return Objects.hash(aBank, accountingCChargeId, accountno, aCity, aCountry, aCuit, adClientId, adOrgId, adOrgtrxId, aEmail, aIdentDl, aIdentSsn, aName, aState, aStreet, auditstatus, authcode, authmatch, aZip, banklistRegisterno, bankPaymentDate, bankPaymentDocumentno, bankPaymentMsgDescription, cActivityId, cBankaccountId, cBankId, cBankpaymentstatusId, cBpartnerId, cBpBankaccountId, cCampaignId, cChargeId, cConversiontypeId, cCurrencyId, cDoctypeId, chargeamt, checked, checkno, checkstatus, cintoloRefInvoicelineId, cInvoiceCheckRejectedId, cInvoiceId, cOrderId, couponbatchnumber, couponnumber, cPaymentbatchId, cPaymentId, cPosjournalId, cPospaymentmediumId, cProjectId, created, createdby, creditcardexpmm, creditcardexpyy, creditcardnumber, creditcardtype, creditcardvv, dateacct, dateemissioncheck, datetrx, description, discountamt, docaction, docstatus, documentno, duedate, isactive, isallocated, isapproved, isdelayedcapture, ismanual, isonline, isoverunderpayment, isprepayment, isreceipt, isreconciled, isselfservice, issotrx, mBoletadepositoId, mEntidadfinancieraplanId, micr, oprocessing, originalRefPaymentId, origTrxid, overunderamt, payamt, ponum, posnet, posted, processed, processing, rAuthcode, rAuthcodeDc, rAvsaddr, rAvszip, rCvv2match, refPaymentId, rejectedcomments, rejecteddate, rInfo, routingno, rPnref, rPnrefDc, rRespmsg, rResult, swipe, taxamt, tendertype, trxtype, updated, updatedby, user1Id, user2Id, voiceauthcode, writeoffamt, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -2782,6 +2805,7 @@ public class Payment   {
     sb.append("    checked: ").append(toIndentedString(checked)).append("\n");
     sb.append("    checkno: ").append(toIndentedString(checkno)).append("\n");
     sb.append("    checkstatus: ").append(toIndentedString(checkstatus)).append("\n");
+    sb.append("    cintoloRefInvoicelineId: ").append(toIndentedString(cintoloRefInvoicelineId)).append("\n");
     sb.append("    cInvoiceCheckRejectedId: ").append(toIndentedString(cInvoiceCheckRejectedId)).append("\n");
     sb.append("    cInvoiceId: ").append(toIndentedString(cInvoiceId)).append("\n");
     sb.append("    cOrderId: ").append(toIndentedString(cOrderId)).append("\n");

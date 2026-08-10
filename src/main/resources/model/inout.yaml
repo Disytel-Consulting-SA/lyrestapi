@@ -21,6 +21,9 @@ components:
         cai:
           type: string
           description: " "
+        cat_iva_id:
+          type: integer
+          description: " "
         c_bpartner_id:
           type: integer
           description: "Identifica una Entidad Comercial"
@@ -48,6 +51,9 @@ components:
         c_order_id:
           type: integer
           description: "Pedido"
+        cp:
+          type: string
+          description: " "
         c_project_id:
           type: integer
           description: "Identifica un proyecto único"
@@ -90,6 +96,9 @@ components:
         description:
           type: string
           description: "Descripción corta opcional del registro"
+        direccion:
+          type: string
+          description: " "
         docaction:
           type: string
           description: "El estado destino del documento"
@@ -132,6 +141,18 @@ components:
         issotrx:
           type: boolean
           description: "Esta es una transacción de ventas"
+        jacofer_capacity:
+          type: number
+          description: " "
+        jacofer_packagesqty:
+          type: number
+          description: " "
+        jacofer_weight:
+          type: number
+          description: " "
+        localidad:
+          type: string
+          description: " "
         m_inout_id:
           type: integer
           description: "Documento de entrega o recibo"
@@ -147,9 +168,15 @@ components:
         m_warehouse_id:
           type: integer
           description: "Almacén"
+        nombrecli:
+          type: string
+          description: " "
         nopackages:
           type: integer
           description: "Número de Paquetes en el envío"
+        nroidentificcliente:
+          type: string
+          description: "Número de DNI, Cédula, Libreta de Enrolamiento, Pasaporte o Libreta Cívica del cliente."
         pickdate:
           type: string
           description: "Fecha de Recogida del Envio"
@@ -172,6 +199,9 @@ components:
           type: boolean
           description: "El documento ha sido procesado"
         processing:
+          type: string
+          description: " "
+        provincia:
           type: string
           description: " "
         receptiondate:
@@ -233,6 +263,9 @@ components:
          - isintransit
          - isprinted
          - issotrx
+         - jacofer_capacity
+         - jacofer_packagesqty
+         - jacofer_weight
          - m_inout_id
          - movementdate
          - movementtype

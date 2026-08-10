@@ -54,6 +54,9 @@ components:
         isactive:
           type: boolean
           description: "El registro está activo en el sistema"
+        iscontingencia:
+          type: string
+          description: " "
         processed:
           type: boolean
           description: "El documento ha sido procesado"

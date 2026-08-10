@@ -51,6 +51,12 @@ components:
         logtyperecorded:
           type: string
           description: "Tipo de log de comandos a registrar"
+        lyeicom:
+          type: integer
+          description: " "
+        lyeipos:
+          type: integer
+          description: " "
         name:
           type: string
           description: "Identificador alfanumérico de la Entidad"

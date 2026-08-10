@@ -56,6 +56,9 @@ public class InvoiceLine   {
   @JsonProperty("createdby")
   private Integer createdby = null;
 
+  @JsonProperty("c_retencionschema_id")
+  private Integer cRetencionschemaId = null;
+
   @JsonProperty("c_tax_id")
   private Integer cTaxId = null;
 
@@ -388,6 +391,25 @@ public class InvoiceLine   {
 
   public void setCreatedby(Integer createdby) {
     this.createdby = createdby;
+  }
+
+  public InvoiceLine cRetencionschemaId(Integer cRetencionschemaId) {
+    this.cRetencionschemaId = cRetencionschemaId;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cRetencionschemaId
+   **/
+  @Schema(description = " ")
+  
+    public Integer getCRetencionschemaId() {
+    return cRetencionschemaId;
+  }
+
+  public void setCRetencionschemaId(Integer cRetencionschemaId) {
+    this.cRetencionschemaId = cRetencionschemaId;
   }
 
   public InvoiceLine cTaxId(Integer cTaxId) {
@@ -1070,6 +1092,7 @@ public class InvoiceLine   {
         Objects.equals(this.cProjectId, invoiceLine.cProjectId) &&
         Objects.equals(this.created, invoiceLine.created) &&
         Objects.equals(this.createdby, invoiceLine.createdby) &&
+        Objects.equals(this.cRetencionschemaId, invoiceLine.cRetencionschemaId) &&
         Objects.equals(this.cTaxId, invoiceLine.cTaxId) &&
         Objects.equals(this.cUomId, invoiceLine.cUomId) &&
         Objects.equals(this.description, invoiceLine.description) &&
@@ -1106,7 +1129,7 @@ public class InvoiceLine   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(aAssetId, adClientId, adOrgId, cBpartnerVendorId, cChargeId, cInvoiceId, cInvoicelineId, cOrderlineId, costprice, cProjectId, created, createdby, cTaxId, cUomId, description, documentdiscountamt, isactive, isdescription, isprinted, line, linebonusamt, linediscountamt, linenetamount, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mImportClearanceId, mInoutlineId, mProductId, priceactual, priceentered, pricelimit, pricelist, processed, qtyentered, qtyinvoiced, refInvoicelineId, salesrepOrigId, taxamt, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(aAssetId, adClientId, adOrgId, cBpartnerVendorId, cChargeId, cInvoiceId, cInvoicelineId, cOrderlineId, costprice, cProjectId, created, createdby, cRetencionschemaId, cTaxId, cUomId, description, documentdiscountamt, isactive, isdescription, isprinted, line, linebonusamt, linediscountamt, linenetamount, linenetamt, linetotalamt, manualgeneraldiscountamt, mAttributesetinstanceId, mImportClearanceId, mInoutlineId, mProductId, priceactual, priceentered, pricelimit, pricelist, processed, qtyentered, qtyinvoiced, refInvoicelineId, salesrepOrigId, taxamt, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1126,6 +1149,7 @@ public class InvoiceLine   {
     sb.append("    cProjectId: ").append(toIndentedString(cProjectId)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    createdby: ").append(toIndentedString(createdby)).append("\n");
+    sb.append("    cRetencionschemaId: ").append(toIndentedString(cRetencionschemaId)).append("\n");
     sb.append("    cTaxId: ").append(toIndentedString(cTaxId)).append("\n");
     sb.append("    cUomId: ").append(toIndentedString(cUomId)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");

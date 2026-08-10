@@ -39,6 +39,9 @@ components:
         createdby:
           type: integer
           description: "Usuario que creó este registro"
+        c_retencionschema_id:
+          type: integer
+          description: " "
         c_tax_id:
           type: integer
           description: "Identificador del Impuesto"

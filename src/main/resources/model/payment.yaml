@@ -117,6 +117,9 @@ components:
         checkstatus:
           type: string
           description: " "
+        cintolo_ref_invoiceline_id:
+          type: integer
+          description: " "
         c_invoice_check_rejected_id:
           type: integer
           description: "Comprobante generado por el proceso de cheque rechazado"

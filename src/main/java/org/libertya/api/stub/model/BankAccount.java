@@ -50,6 +50,9 @@ public class BankAccount   {
   @JsonProperty("cc")
   private String cc = null;
 
+  @JsonProperty("c_charge_interest_id")
+  private Integer cChargeInterestId = null;
+
   @JsonProperty("c_currency_id")
   private Integer cCurrencyId = null;
 
@@ -73,6 +76,9 @@ public class BankAccount   {
 
   @JsonProperty("electronicpaymentsaccount")
   private Boolean electronicpaymentsaccount = null;
+
+  @JsonProperty("fixedtermaccount")
+  private Boolean fixedtermaccount = null;
 
   @JsonProperty("iban")
   private String iban = null;
@@ -303,6 +309,25 @@ public class BankAccount   {
     this.cc = cc;
   }
 
+  public BankAccount cChargeInterestId(Integer cChargeInterestId) {
+    this.cChargeInterestId = cChargeInterestId;
+    return this;
+  }
+
+  /**
+   *  
+   * @return cChargeInterestId
+   **/
+  @Schema(description = " ")
+  
+    public Integer getCChargeInterestId() {
+    return cChargeInterestId;
+  }
+
+  public void setCChargeInterestId(Integer cChargeInterestId) {
+    this.cChargeInterestId = cChargeInterestId;
+  }
+
   public BankAccount cCurrencyId(Integer cCurrencyId) {
     this.cCurrencyId = cCurrencyId;
     return this;
@@ -461,6 +486,26 @@ public class BankAccount   {
 
   public void setElectronicpaymentsaccount(Boolean electronicpaymentsaccount) {
     this.electronicpaymentsaccount = electronicpaymentsaccount;
+  }
+
+  public BankAccount fixedtermaccount(Boolean fixedtermaccount) {
+    this.fixedtermaccount = fixedtermaccount;
+    return this;
+  }
+
+  /**
+   *  
+   * @return fixedtermaccount
+   **/
+  @Schema(required = true, description = " ")
+      @NotNull
+
+    public Boolean isFixedtermaccount() {
+    return fixedtermaccount;
+  }
+
+  public void setFixedtermaccount(Boolean fixedtermaccount) {
+    this.fixedtermaccount = fixedtermaccount;
   }
 
   public BankAccount iban(String iban) {
@@ -696,6 +741,7 @@ public class BankAccount   {
         Objects.equals(this.cBankaccountLocationId, bankAccount.cBankaccountLocationId) &&
         Objects.equals(this.cBankId, bankAccount.cBankId) &&
         Objects.equals(this.cc, bankAccount.cc) &&
+        Objects.equals(this.cChargeInterestId, bankAccount.cChargeInterestId) &&
         Objects.equals(this.cCurrencyId, bankAccount.cCurrencyId) &&
         Objects.equals(this.created, bankAccount.created) &&
         Objects.equals(this.createdby, bankAccount.createdby) &&
@@ -704,6 +750,7 @@ public class BankAccount   {
         Objects.equals(this.dc, bankAccount.dc) &&
         Objects.equals(this.description, bankAccount.description) &&
         Objects.equals(this.electronicpaymentsaccount, bankAccount.electronicpaymentsaccount) &&
+        Objects.equals(this.fixedtermaccount, bankAccount.fixedtermaccount) &&
         Objects.equals(this.iban, bankAccount.iban) &&
         Objects.equals(this.isactive, bankAccount.isactive) &&
         Objects.equals(this.ischequesencartera, bankAccount.ischequesencartera) &&
@@ -718,7 +765,7 @@ public class BankAccount   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(accountno, adClientId, adComponentobjectuid, adOrgId, bankaccounttype, bban, cBankaccountId, cBankaccountLocationId, cBankId, cc, cCurrencyId, created, createdby, creditlimit, currentbalance, dc, description, electronicpaymentsaccount, iban, isactive, ischequesencartera, isdefault, oficina, sucursal, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(accountno, adClientId, adComponentobjectuid, adOrgId, bankaccounttype, bban, cBankaccountId, cBankaccountLocationId, cBankId, cc, cChargeInterestId, cCurrencyId, created, createdby, creditlimit, currentbalance, dc, description, electronicpaymentsaccount, fixedtermaccount, iban, isactive, ischequesencartera, isdefault, oficina, sucursal, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -736,6 +783,7 @@ public class BankAccount   {
     sb.append("    cBankaccountLocationId: ").append(toIndentedString(cBankaccountLocationId)).append("\n");
     sb.append("    cBankId: ").append(toIndentedString(cBankId)).append("\n");
     sb.append("    cc: ").append(toIndentedString(cc)).append("\n");
+    sb.append("    cChargeInterestId: ").append(toIndentedString(cChargeInterestId)).append("\n");
     sb.append("    cCurrencyId: ").append(toIndentedString(cCurrencyId)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    createdby: ").append(toIndentedString(createdby)).append("\n");
@@ -744,6 +792,7 @@ public class BankAccount   {
     sb.append("    dc: ").append(toIndentedString(dc)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    electronicpaymentsaccount: ").append(toIndentedString(electronicpaymentsaccount)).append("\n");
+    sb.append("    fixedtermaccount: ").append(toIndentedString(fixedtermaccount)).append("\n");
     sb.append("    iban: ").append(toIndentedString(iban)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    ischequesencartera: ").append(toIndentedString(ischequesencartera)).append("\n");
