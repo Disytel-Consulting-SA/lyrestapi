@@ -278,3 +278,33 @@ paths:
     $ref: ./paths/posletters.yaml
   /v1.0/posletters/{id}:
     $ref: ./paths/posletters_id.yaml
+  /v1.0/journals:
+    $ref: ./paths/journals.yaml
+  /v1.0/journals/{id}:
+    $ref: ./paths/journals_id.yaml
+  /v1.0/journals/{id}/process:
+    $ref: ./paths/journals_id_process.yaml
+  /v1.0/journallines:
+    $ref: ./paths/journallines.yaml
+  /v1.0/journallines/{id}:
+    $ref: ./paths/journallines_id.yaml
+  /v1.0/elementvalues:
+    $ref: ./paths/elementvalues.yaml
+  /v1.0/elementvalues/{id}:
+    $ref: ./paths/elementvalues_id.yaml
+  /v1.0/acctschemas:
+    $ref: ./paths/acctschemas.yaml
+  /v1.0/acctschemas/{id}:
+    $ref: ./paths/acctschemas_id.yaml
+  /v1.0/glcategories:
+    $ref: ./paths/glcategories.yaml
+  /v1.0/glcategories/{id}:
+    $ref: ./paths/glcategories_id.yaml
+  /v1.0/periods:
+    $ref: ./paths/periods.yaml
+  /v1.0/periods/{id}:
+    $ref: ./paths/periods_id.yaml
+  /v1.0/validcombinations:
+    $ref: ./paths/validcombinations.yaml
+  /v1.0/validcombinations/{id}:
+    $ref: ./paths/validcombinations_id.yaml

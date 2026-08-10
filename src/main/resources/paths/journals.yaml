@@ -1,0 +1,119 @@
+get:
+  tags:
+    - "journal"
+  summary: Retorna la lista de asientos contables
+  description: >
+    Retorna una lista de asientos contables manuales (GL_Journal), solo cabeceras.
+    Para obtener un asiento con sus lineas usar GET /v1.0/journals/{id}.
+    NOTA: este recurso NO tiene relacion con /v1.0/posjournals, que es la caja diaria de punto de venta.
+  operationId: getAllJournals
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/journal.yaml#/components/schemas/Journal'
+post:
+  tags:
+    - "journal"
+  summary: Nuevo asiento contable
+  description: >
+    Crea un asiento contable manual completo (cabecera + lineas) en una unica transaccion:
+    si falla cualquier linea no queda nada en la base.
+
+
+    IMPUTACION DE LA LINEA: alcanza con enviar c_elementvalue_id (la cuenta del plan de cuentas, consultable
+    en GET /v1.0/elementvalues). El modelo de Libertya resuelve o crea por si mismo la combinacion contable
+    (C_ValidCombination) con la organizacion y las dimensiones en cero. Opcionalmente puede enviarse un
+    c_validcombination_id ya armado (ver GET /v1.0/validcombinations), que tiene precedencia y permite imputar
+    con dimensiones analiticas. Debe venir al menos uno de los dos.
+    AVISO: c_validcombination_id figura en el bloque "required" del schema porque asi esta marcado en el
+    diccionario de Libertya, pero NO es obligatorio en el payload y no hay validacion que lo exija.
+
+
+    CAMPOS OBLIGATORIOS QUE NO TIENEN VALOR POR DEFECTO y que el cliente debe enviar si o si:
+    en la cabecera c_conversiontype_id y description; en cada linea c_conversiontype_id y c_currency_id.
+    Sin ellos el INSERT es rechazado por la base de datos.
+
+
+    CAMPOS QUE NO SE ENVIAN porque los calcula el modelo: c_period_id (se deriva de dateacct), totaldr/totalcr
+    (se recalculan desde las lineas), line (autonumerado de a 10), amtacctdr/amtacctcr y currencyrate
+    (calculados segun la moneda del esquema contable), docstatus, documentno, posted y processed.
+    En las lineas, ad_org_id y dateacct son opcionales: si no vienen se heredan de la cabecera.
+
+
+    IMPORTANTE: completar el asiento NO lo contabiliza en el momento. El posteo a Fact_Acct lo hace el
+    Accounting Processor del ERP de forma diferida, con lo cual un 200 aqui significa que el asiento quedo
+    creado y completado, no que ya este contabilizado.
+  operationId: addJournal
+  parameters:
+    - in: query
+      name: complete
+      required: false
+      schema:
+        type: boolean
+      description: >
+        Completar el asiento luego de crearlo. Si se omite se usa el valor global de la propiedad
+        org.libertya.api.service.doc.complete. Enviar false para dejarlo en borrador (DR) y revisarlo antes
+        de completarlo con PUT /v1.0/journals/{id}/process?action=CO.
+    - in: query
+      name: validatebalance
+      required: false
+      schema:
+        type: boolean
+      description: >
+        Validar que la suma de amtsourcedr sea igual a la suma de amtsourcecr antes de insertar nada,
+        respondiendo 409 si no coinciden. Si se omite se usa el valor global de la propiedad
+        org.libertya.api.service.journal.validate-balance (por defecto N).
+        Se recomienda enviar true en integraciones automaticas: el ERP tiene habilitado el suspense balancing,
+        con lo cual un asiento descuadrado NO es rechazado sino que se completa imputando la diferencia contra
+        la cuenta puente de comprobacion del esquema contable.
+  responses:
+    "200":
+      description: OK. ID de asiento creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/journal_doc.yaml#/components/schemas/JournalDocument'

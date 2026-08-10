@@ -1,0 +1,88 @@
+components:
+  schemas:
+    ValidCombination:
+      type: object
+      properties:
+        account_id:
+          type: integer
+          description: "Cuenta usada"
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_orgtrx_id:
+          type: integer
+          description: "Organización que inicia o ejecuta la transacción"
+        alias:
+          type: string
+          description: "Define un método alterno de identificar una combinación de cuenta"
+        c_acctschema_id:
+          type: integer
+          description: "Reglas para contabilizar"
+        c_activity_id:
+          type: integer
+          description: "Actividad de Negocio"
+        c_bpartner_id:
+          type: integer
+          description: "Identifica una Entidad Comercial"
+        c_campaign_id:
+          type: integer
+          description: "Campaña de Marketing"
+        combination:
+          type: string
+          description: "Cuenta Contable"
+        c_project_id:
+          type: integer
+          description: "Identifica un proyecto único"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        c_salesregion_id:
+          type: integer
+          description: "Región de cobertura de ventas"
+        c_validcombination_id:
+          type: integer
+          description: "Cuenta Contable"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isfullyqualified:
+          type: boolean
+          description: "Esta cuenta es completamente calificada"
+        m_product_id:
+          type: integer
+          description: "Producto; servicio o Artículo"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - account_id
+         - ad_client_id
+         - ad_org_id
+         - c_acctschema_id
+         - created
+         - createdby
+         - c_validcombination_id
+         - isactive
+         - isfullyqualified
+         - updated
+         - updatedby

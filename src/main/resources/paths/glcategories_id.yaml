@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un registro de categorias de asiento contable en particular
+  tags:
+    - "glcategory"
+  parameters:
+    - name: id
+      in: path
+      description: ID del registro
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un registro de categorias de asiento contable en particular
+  operationId: retrieveGLCategories
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/glcategory.yaml#/components/schemas/GLCategory'

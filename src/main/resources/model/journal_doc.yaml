@@ -1,0 +1,11 @@
+components:
+  schemas:
+    JournalDocument:
+      type: object
+      properties:
+        header:
+          $ref: '../model/journal.yaml#/components/schemas/Journal'
+        lines:
+          type: array
+          items:
+            $ref: '../model/journalline.yaml#/components/schemas/JournalLine'

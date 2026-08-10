@@ -91,3 +91,16 @@ generateSchema Role                     AD_Role                   role.yaml
 generateSchema Preference               AD_Preference             preference.yaml
 generateSchema Promotion                C_Promotion               promotion.yaml
 generateSchema POSLetter                C_POSLetter               posletter.yaml
+
+# Contabilidad - asientos manuales (GL_Journal). Ver docs/plan-asientos-manuales.md
+# OJO: c_elementvalue_id es ismandatory='N' en el diccionario, con lo cual DEBE ir en el filtro explicito;
+#      sin eso el campo no existiria en el schema y no se podria imputar por cuenta contable.
+generateSchema Journal                  GL_Journal                journal.yaml            "('description', 'controlamt', 'c_conversiontype_id', 'gl_journalbatch_id', 'gl_category_id', 'c_acctschema_id')"
+generateSchema JournalLine              GL_JournalLine            journalline.yaml        "('description', 'c_elementvalue_id', 'c_validcombination_id', 'line', 'qty', 'c_uom_id', 'c_conversiontype_id')"
+
+# Contabilidad - maestros de solo lectura
+generateSchema ElementValue             C_ElementValue            elementvalue.yaml       "('description', 'accounttype', 'accountsign', 'issummary', 'isdoccontrolled', 'c_element_id', 'validfrom', 'validto')"
+generateSchema AcctSchema               C_AcctSchema              acctschema.yaml         "('description', 'c_currency_id', 'costingmethod', 'costinglevel', 'isaccrual', 'separator', 'hasalias', 'hascombination')"
+generateSchema GLCategory               GL_Category               glcategory.yaml         "('description', 'categorytype', 'isdefault')"
+generateSchema Period                   C_Period                  period.yaml             "('description', 'periodtype', 'periodno', 'startdate', 'enddate', 'c_year_id')"
+generateSchema ValidCombination         C_ValidCombination        validcombination.yaml   "('description', 'alias', 'combination', 'account_id', 'm_product_id', 'c_bpartner_id', 'c_project_id', 'c_campaign_id', 'c_activity_id', 'c_salesregion_id', 'ad_orgtrx_id', 'c_acctschema_id')"

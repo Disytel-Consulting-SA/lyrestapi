@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un registro de cuentas del plan de cuentas en particular
+  tags:
+    - "elementvalue"
+  parameters:
+    - name: id
+      in: path
+      description: ID del registro
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un registro de cuentas del plan de cuentas en particular
+  operationId: retrieveElementValues
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/elementvalue.yaml#/components/schemas/ElementValue'

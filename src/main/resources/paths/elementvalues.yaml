@@ -1,0 +1,43 @@
+get:
+  summary: Retorna la lista de cuentas del plan de cuentas
+  tags:
+    - "elementvalue"
+  description: >
+    Retorna la lista de cuentas del plan de cuentas. Recurso de solo lectura: el mantenimiento se hace desde Libertya.
+    Es el maestro que hay que consultar para armar las lineas de un asiento: el campo value es el codigo de cuenta legible (por ejemplo 4.1.1) y c_elementvalue_id es lo que se envia en la linea. Filtrar por issummary=N para excluir las cuentas de agrupacion, que no admiten imputacion.
+  operationId: getAllElementValues
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/elementvalue.yaml#/components/schemas/ElementValue'

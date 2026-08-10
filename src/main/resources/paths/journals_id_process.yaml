@@ -1,0 +1,51 @@
+put:
+  tags:
+    - "journal"
+  summary: Procesa un asiento contable
+  description: >
+    Aplica una accion de documento sobre un asiento contable.
+
+
+    ACCIONES SOPORTADAS: unicamente CO (completar), VO (anular) y CL (cerrar). Las acciones de reversion y
+    reactivacion del core (RC, RA, RE) NO estan disponibles por una limitacion del procesado generico de
+    documentos de esta API, documentada en docs/PENDIENTES.md P1.
+
+
+    ATENCION, VO NO ES UNA REVERSION CONTABLE. Anular un asiento borra sus registros contables y pone todas
+    las lineas en cero: el asiento queda como una cascara vacia, sin rastro de lo que decia. La practica
+    contable para corregir un asiento ya contabilizado es el contra-asiento, es decir crear un asiento nuevo
+    con los importes invertidos, que deja ambos visibles y auditables. En una instancia con auditoria o con
+    periodos ya reportados, VO puede directamente no ser aceptable.
+  operationId: processJournal
+  parameters:
+    - in: path
+      name: id
+      description: ID del asiento contable a procesar
+      required: true
+      schema:
+        type: integer
+    - in: query
+      name: action
+      required: true
+      description: "Accion a aplicar. Valores validos: CO (completar), VO (anular), CL (cerrar)"
+      schema:
+        type: string
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible procesar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

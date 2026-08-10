@@ -1,0 +1,101 @@
+components:
+  schemas:
+    AcctSchema:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        autoperiodcontrol:
+          type: boolean
+          description: "Si es seleccionado; los períodos son abiertos y cerrados automáticamente"
+        c_acctschema_id:
+          type: integer
+          description: "Reglas para contabilizar"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        costingmethod:
+          type: string
+          description: "Indica cómo serán calculados los Costos"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        factacctbalanceactive:
+          type: boolean
+          description: "Determina si la Contabilidad Agrupada se encuentra activa"
+        gaap:
+          type: string
+          description: "Principios contables aceptados generalmente"
+        hasalias:
+          type: boolean
+          description: "Capacidad para seleccionar (parcial) combinaciones de cuenta por medio de un alias"
+        hascombination:
+          type: boolean
+          description: "Verificación de la combinación de los elementos de la cuenta"
+        isaccrual:
+          type: boolean
+          description: "Indica se usará contabilidad basada en efectivo o absorción"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isdiscountcorrectstax:
+          type: boolean
+          description: "Corregir Impuesto para Descuento y Cargos"
+        istradediscountposted:
+          type: boolean
+          description: "Genera registro para descuentos comerciales"
+        m_costtype_id:
+          type: integer
+          description: "Tipo de Coste"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        separator:
+          type: string
+          description: "Separador de los Elementos de la cuenta"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - autoperiodcontrol
+         - c_acctschema_id
+         - c_currency_id
+         - costingmethod
+         - created
+         - createdby
+         - factacctbalanceactive
+         - gaap
+         - hasalias
+         - hascombination
+         - isaccrual
+         - isactive
+         - isdiscountcorrectstax
+         - istradediscountposted
+         - m_costtype_id
+         - name
+         - separator
+         - updated
+         - updatedby

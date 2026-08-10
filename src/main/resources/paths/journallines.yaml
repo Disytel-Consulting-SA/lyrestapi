@@ -1,0 +1,72 @@
+get:
+  tags:
+    - "journalline"
+  summary: Retorna la lista de lineas de asiento contable
+  description: >
+    Retorna una lista de lineas de asiento contable. Para traer las lineas de un asiento puntual conviene
+    usar GET /v1.0/journals/{id}, que devuelve el documento completo sin limite de lineas.
+  operationId: getAllJournalLines
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/journalline.yaml#/components/schemas/JournalLine'
+post:
+  tags:
+    - "journalline"
+  summary: Nueva linea de asiento contable
+  description: >
+    Agrega una linea suelta a un asiento contable existente en borrador. Debe indicarse el gl_journal_id al
+    que pertenece. Exactamente uno de amtsourcedr / amtsourcecr debe ser distinto de cero.
+    Para crear un asiento completo de una sola vez usar POST /v1.0/journals.
+  operationId: addJournalLine
+  responses:
+    "200":
+      description: OK. ID de linea de asiento creada es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/journalline.yaml#/components/schemas/JournalLine'

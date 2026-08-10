@@ -1,0 +1,102 @@
+components:
+  schemas:
+    ElementValue:
+      type: object
+      properties:
+        accountsign:
+          type: string
+          description: "Indica el signo natural de la cuenta ya sea Débito o Crédito"
+        accounttype:
+          type: string
+          description: "Indica el tipo de cuenta"
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_element_id:
+          type: integer
+          description: "Elemento de Cuenta"
+        c_elementvalue_id:
+          type: integer
+          description: "Valor del Elemento"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isadjustable:
+          type: boolean
+          description: "Ajustable por el índice de inflación"
+        isdoccontrolled:
+          type: boolean
+          description: "Control de cuenta - Si una cuenta es controlada por un documento"
+        issummary:
+          type: boolean
+          description: "Carpeta"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        postactual:
+          type: boolean
+          description: "Valores reales pueden ser aplicados"
+        postbudget:
+          type: boolean
+          description: "Valores del presupuesto pueden ser aplicados"
+        postencumbrance:
+          type: boolean
+          description: "Registro de gravámenes a esta cuenta"
+        poststatistical:
+          type: boolean
+          description: "Registro de cantidades estadísticas a esta cuenta"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        validfrom:
+          type: string
+          description: "Válido desde; incluyendo esta fecha (primer día)"
+        validto:
+          type: string
+          description: "Válido hasta; incluyendo esta fecha (ultimo día)"
+        value:
+          type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - accountsign
+         - accounttype
+         - ad_client_id
+         - ad_org_id
+         - c_element_id
+         - c_elementvalue_id
+         - created
+         - createdby
+         - isactive
+         - isadjustable
+         - issummary
+         - name
+         - postactual
+         - postbudget
+         - postencumbrance
+         - poststatistical
+         - updated
+         - updatedby
+         - value

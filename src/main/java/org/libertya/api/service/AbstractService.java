@@ -22,7 +22,21 @@ public abstract class AbstractService {
     // === Metodos publicos a invocar desde los controllers ===
 
     public String create(UserInfo info, Object document) throws ModelException, AuthException {
-        return create(info, document, getRepository());
+        return create(info, document, getRepository(), shouldComplete());
+    }
+
+    /**
+     * Variante que permite decidir por request si el documento debe completarse, en lugar de depender
+     * unicamente de la propiedad global org.libertya.api.service.doc.complete.
+     *
+     * OJO: el flag va como argumento y NO como estado del service. Los services son singletons de Spring,
+     * con lo cual un campo mutable seria un data race entre requests concurrentes: un POST podria terminar
+     * completando (o no) el documento de otro.
+     *
+     * @param complete true/false para forzar el comportamiento, o null para usar el valor global
+     */
+    public String create(UserInfo info, Object document, Boolean complete) throws ModelException, AuthException {
+        return create(info, document, getRepository(), complete!=null ? complete : shouldComplete());
     }
 
     public <T> Optional<T>  retrieve(UserInfo info, int id) throws ModelException, AuthException {
@@ -65,13 +79,21 @@ public abstract class AbstractService {
      * @throws ModelException en caso de presentarse inconvenientes al momento de crear el documento
      */
     protected String create(UserInfo info, Object document, AbstractRepository docRepository) throws ModelException {
+        return create(info, document, docRepository, shouldComplete());
+    }
+
+    /**
+     * Idem create(info, document, docRepository) pero con el flag de completado explicito.
+     * @param complete si debe completarse el documento luego de crearlo
+     */
+    protected String create(UserInfo info, Object document, AbstractRepository docRepository, boolean complete) throws ModelException {
         String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
         try {
             // Generacion de documento
             String id = performCreate(info, document, trxName);
 
             // Procesado del documento
-            if (shouldComplete()) {
+            if (complete) {
                 docRepository.process(info, Integer.parseInt(id), DocAction.ACTION_Complete, trxName);
             }
 

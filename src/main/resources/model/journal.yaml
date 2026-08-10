@@ -1,0 +1,132 @@
+components:
+  schemas:
+    Journal:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_acctschema_id:
+          type: integer
+          description: "Reglas para contabilizar"
+        c_conversiontype_id:
+          type: integer
+          description: "Tipo de Divisa"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        c_doctype_id:
+          type: integer
+          description: "Tipo de documento o reglas"
+        controlamt:
+          type: number
+          description: "Si no es cero; la cantidad del débito del documento debe ser igual a esta cantidad"
+        c_period_id:
+          type: integer
+          description: "Período de Calendario"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        currencyrate:
+          type: number
+          description: "Tasa de Conversión de moneda}"
+        dateacct:
+          type: string
+          description: "Fecha contable"
+        datedoc:
+          type: string
+          description: "Fecha del Documento"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        docaction:
+          type: string
+          description: "El estado destino del documento"
+        docstatus:
+          type: string
+          description: "El estado actual del documento"
+        documentno:
+          type: string
+          description: "Número de secuencia del documento para cada documento"
+        gl_category_id:
+          type: integer
+          description: "Categoría de Contabilidad General"
+        gl_journalbatch_id:
+          type: integer
+          description: "Lote de Asientos"
+        gl_journal_id:
+          type: integer
+          description: "Asiento"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isapproved:
+          type: boolean
+          description: "Indica si este documento requiere aprobación"
+        isprinted:
+          type: boolean
+          description: "Indica si este documento es impreso"
+        isreactivated:
+          type: boolean
+          description: "Indica si el registro fue recientemente reactivado"
+        posted:
+          type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
+        postingtype:
+          type: string
+          description: "El tipo de monto que esta póliza actualizó"
+        totalcr:
+          type: number
+          description: "Total de Créditos en la moneda del negocio"
+        totaldr:
+          type: number
+          description: "Total de Débitos en la moneda del negocio"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_acctschema_id
+         - c_conversiontype_id
+         - c_currency_id
+         - c_doctype_id
+         - c_period_id
+         - created
+         - createdby
+         - currencyrate
+         - dateacct
+         - datedoc
+         - description
+         - docaction
+         - docstatus
+         - documentno
+         - gl_category_id
+         - gl_journal_id
+         - isactive
+         - isapproved
+         - isprinted
+         - isreactivated
+         - posted
+         - postingtype
+         - totalcr
+         - totaldr
+         - updated
+         - updatedby

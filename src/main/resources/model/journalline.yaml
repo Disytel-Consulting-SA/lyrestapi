@@ -1,0 +1,110 @@
+components:
+  schemas:
+    JournalLine:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        amtacctcr:
+          type: number
+          description: "Haber"
+        amtacctdr:
+          type: number
+          description: "Importe del Débito contabilizado"
+        amtsourcecr:
+          type: number
+          description: "Importe del Crédito en moneda fuente"
+        amtsourcedr:
+          type: number
+          description: "Importe del Débito en moneda fuente"
+        c_conversiontype_id:
+          type: integer
+          description: "Tipo de Divisa"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        c_elementvalue_id:
+          type: integer
+          description: "Valor del Elemento"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        c_uom_id:
+          type: integer
+          description: "Unidad de Medida"
+        currencyrate:
+          type: number
+          description: "Tasa de Conversión de moneda}"
+        c_validcombination_id:
+          type: integer
+          description: "Cuenta Contable"
+        dateacct:
+          type: string
+          description: "Fecha contable"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        gl_journal_id:
+          type: integer
+          description: "Asiento"
+        gl_journalline_id:
+          type: integer
+          description: "Línea de Asiento"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isgenerated:
+          type: boolean
+          description: "Esta línea es generada"
+        line:
+          type: integer
+          description: "No. Línea único para este documento"
+        processed:
+          type: boolean
+          description: "El documento ha sido procesado"
+        qty:
+          type: number
+          description: "Cantidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - amtacctcr
+         - amtacctdr
+         - amtsourcecr
+         - amtsourcedr
+         - c_conversiontype_id
+         - c_currency_id
+         - created
+         - createdby
+         - currencyrate
+         - c_validcombination_id
+         - dateacct
+         - gl_journal_id
+         - gl_journalline_id
+         - isactive
+         - isgenerated
+         - line
+         - processed
+         - updated
+         - updatedby

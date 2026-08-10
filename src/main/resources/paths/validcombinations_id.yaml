@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un registro de combinaciones contables en particular
+  tags:
+    - "validcombination"
+  parameters:
+    - name: id
+      in: path
+      description: ID del registro
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un registro de combinaciones contables en particular
+  operationId: retrieveValidCombinations
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/validcombination.yaml#/components/schemas/ValidCombination'

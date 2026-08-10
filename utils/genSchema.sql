@@ -10,7 +10,7 @@ select columnname from
             e'        ' || lower(c.columnname) || e':\n          ' ||
                 case
                     when ad_reference_id in (10, 14, 17, 34, 36, 28) then e'type: string' -- varchars
-                    when ad_reference_id in (11, 13, 18, 19, 30, 21, 31, 35) then e'type: integer' -- integers
+                    when ad_reference_id in (11, 13, 18, 19, 30, 21, 31, 35, 25) then e'type: integer' -- integers (25 = Account, FK a C_ValidCombination)
                     when ad_reference_id in (12, 22, 37, 11, 29) then e'type: number' -- numberics
                     when ad_reference_id in (15, 16, 24) then e'type: string' -- date-time considered string for swagger
                     when ad_reference_id in (20) then e'type: boolean' -- Y/N

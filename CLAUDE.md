@@ -118,3 +118,32 @@ without a reachable configured DB.
    `AbstractController` action helpers.
 4. Only if it's a multi-part document needing transactional create/complete, add
    `XxxService extends AbstractService`.
+
+## Manual accounting entries (`GL_Journal`)
+
+Implemented (August 2026). `journals` + `journallines` (full document create/retrieve/update/delete/process)
+plus five read-only accounting masters: `elementvalues`, `acctschemas`, `glcategories`, `periods`,
+`validcombinations`. Not related to `posjournal`, which is POS cash.
+
+- **`docs/asientos-manuales-api.md`** — how to *consume* the endpoints. Point integrators (and their agents)
+  here.
+- **`docs/plan-asientos-manuales.md`** — design, decisions and the evidence behind them. §12.5 records the
+  verification against the client's production DB that closed the `c_elementvalue_id`-vs-`c_validcombination_id`
+  question (decision: the line carries the account; the core resolves the combination), and §12.6 the smoke test.
+
+Gotchas that are not obvious from the model classes: `C_ConversionType_ID` is NOT NULL with no default
+anywhere (header *and* line); `GL_Journal.Description` likewise; suspense balancing is enabled, so the core
+does *not* reject unbalanced journals — hence the opt-in `?validatebalance`; and
+`AbstractRepository.processEntity` cannot express the `RC`/`RA`/`RE` doc actions, so only `CO`/`VO`/`CL` are
+exposed (`docs/PENDIENTES.md` P1).
+
+Running the fat jar locally needs more than JasperReports on the loader path — see the deployment note at the
+end of §12.6.
+
+## Still planned
+
+- **`factaccts`** (read-only `Fact_Acct`) so a consumer can reconcile what actually got posted. Posting is
+  deferred: a completed journal sits at `posted='N'` until the ERP's Accounting Processor picks it up, so a
+  `200` from the API is not proof of posting. See `docs/plan-asientos-manuales.md` §12.3 and phase 4.
+- **Analytic dimensions on journal lines** (phase 3) — when a consumer needs to impute by product / business
+  partner / project / campaign. The code to port from `lyws` is identified in §7 of the plan.

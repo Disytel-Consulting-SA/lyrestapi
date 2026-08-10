@@ -1,0 +1,98 @@
+get:
+  tags:
+    - "journal"
+  summary: Recupera un asiento contable en particular
+  parameters:
+    - name: id
+      in: path
+      description: ID del asiento contable
+      required: true
+      schema:
+        type: integer
+  description: >
+    Recupera un asiento contable completo, con su cabecera y todas sus lineas ordenadas por line.
+    A diferencia del listado, aqui no se trunca la cantidad de lineas.
+  operationId: retrieveJournal
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/journal_doc.yaml#/components/schemas/JournalDocument'
+delete:
+  tags:
+    - "journal"
+  summary: Elimina un asiento contable
+  parameters:
+    - name: id
+      in: path
+      description: ID del asiento contable
+      required: true
+      schema:
+        type: integer
+  description: >
+    Elimina un asiento contable existente. Solo es posible mientras el asiento este en borrador (docstatus DR):
+    un asiento completado no se puede borrar, hay que anularlo con
+    PUT /v1.0/journals/{id}/process?action=VO.
+  operationId: deleteJournal
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  tags:
+    - "journal"
+  summary: Actualiza un asiento contable existente
+  description: >
+    Actualiza la cabecera de un asiento contable en borrador. No modifica las lineas: para eso usar los
+    endpoints de /v1.0/journallines.
+  operationId: updateJournal
+  parameters:
+    - name: id
+      in: path
+      description: ID del asiento contable a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/journal.yaml#/components/schemas/Journal'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
