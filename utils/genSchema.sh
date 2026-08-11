@@ -108,3 +108,4 @@ generateSchema ValidCombination         C_ValidCombination        validcombinati
 
 # metadata
 generateSchema Table                    AD_Table                  table.yaml
+generateSchema Column                   AD_Column                 column.yaml

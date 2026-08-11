@@ -1,0 +1,20 @@
+get:
+  summary: Recupera una columna en particular
+  tags:
+    - "column"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la columna
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una columna en particular
+  operationId: retrieveColumn
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/column.yaml#/components/schemas/Column'

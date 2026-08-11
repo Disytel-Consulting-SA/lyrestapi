@@ -314,3 +314,7 @@ paths:
     $ref: ./paths/tables.yaml
   /v1.0/tables/{id}:
     $ref: ./paths/tables_id.yaml
+  /v1.0/columns:
+    $ref: ./paths/columns.yaml
+  /v1.0/columns/{id}:
+    $ref: ./paths/columns_id.yaml

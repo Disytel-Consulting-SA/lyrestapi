@@ -1,0 +1,170 @@
+components:
+  schemas:
+    Column:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_column_id:
+          type: integer
+          description: "Columna en la tabla"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_element_id:
+          type: integer
+          description: "El elemento del sistema permite el mantenimiento central de la descripción y ayuda de la columna"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_process_id:
+          type: integer
+          description: "Proceso o Reporte"
+        ad_reference_id:
+          type: integer
+          description: "Referencia del Sistema (Lista de Selección)"
+        ad_reference_value_id:
+          type: integer
+          description: "Requerido para especificar; si el Tipo de Dato es tabla o Lista"
+        ad_table_id:
+          type: integer
+          description: "Tabla para los campos"
+        ad_val_rule_id:
+          type: integer
+          description: "Regla de validación"
+        callout:
+          type: string
+          description: "Llamadas de función separadas por punto y coma; SE_/SL_/UE_/UL_ - 1st: System / User; 2nd: Enter / Leave; 3rd: _ Unserscore; - then Function Name"
+        calloutalsoonload:
+          type: boolean
+          description: " "
+        columnname:
+          type: string
+          description: "Nombre de la columna en la base de datos"
+        columnsql:
+          type: string
+          description: "Columna SQL"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        defaultvalue:
+          type: string
+          description: "Jerarquía de valores predeterminados; separados por ;"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        entitytype:
+          type: string
+          description: "Tipo de Entidad Diccionario; determina propiedad y sincronización"
+        fieldlength:
+          type: integer
+          description: "Longitud de la columna en la base de datos"
+        help:
+          type: string
+          description: "Ayuda; Comentario o Sugerencia"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isalwaysupdateable:
+          type: boolean
+          description: "La columna siempre se puede actualizar"
+        isencrypted:
+          type: boolean
+          description: "Despliegue encriptado"
+        isidentifier:
+          type: boolean
+          description: "Esta columna es parte del identificador del registro"
+        iskey:
+          type: boolean
+          description: "Esta columna es la clave en esta tabla"
+        islink:
+          type: boolean
+          description: " "
+        ismandatory:
+          type: boolean
+          description: "Entrada de datos es requerida en esta columna"
+        isparent:
+          type: boolean
+          description: "Esta columna es un enlace a la tabla principal (Ej. Cabecera desde líneas) - incl. Asociación con columnas clave"
+        isselectioncolumn:
+          type: boolean
+          description: "Esta columna se usa para encontrar lineas en ventanas"
+        issyncdatabase:
+          type: string
+          description: "Cambia definición de tabla de base de datos cuando cambia la definición del diccionario"
+        istranslated:
+          type: boolean
+          description: "Esta columna está traducida"
+        isupdateable:
+          type: boolean
+          description: "Determina si el campo puede ser actualizado"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        prefijolink:
+          type: string
+          description: " "
+        readonlylogic:
+          type: string
+          description: "Lógica para determinar si el campo es de sólo lectura (aplica solamente cuando el campo es lectura-escritura"
+        seqno:
+          type: integer
+          description: "Método de ordenar registros; el número más bajo viene primero"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        valuemax:
+          type: string
+          description: "Valor Máximo de un campo"
+        valuemin:
+          type: string
+          description: "Valor Mínimo de un campo"
+        version:
+          type: number
+          description: "Versión de la definición de tabla"
+        vformat:
+          type: string
+          description: "Formato del valor; puede contener elementos de formato fijo; Variables: \"_lLoOaAcCa09\""
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_column_id
+         - ad_element_id
+         - ad_org_id
+         - ad_reference_id
+         - ad_table_id
+         - columnname
+         - created
+         - createdby
+         - entitytype
+         - isactive
+         - isalwaysupdateable
+         - isencrypted
+         - isidentifier
+         - iskey
+         - ismandatory
+         - isparent
+         - isselectioncolumn
+         - istranslated
+         - isupdateable
+         - name
+         - updated
+         - updatedby
+         - version
