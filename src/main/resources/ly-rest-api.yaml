@@ -20,6 +20,7 @@ components:
 
 
 paths:
+# operative end-points
   /v1.0/products:
     $ref: ./paths/products.yaml
   /v1.0/products/{id}:
@@ -308,3 +309,8 @@ paths:
     $ref: ./paths/validcombinations.yaml
   /v1.0/validcombinations/{id}:
     $ref: ./paths/validcombinations_id.yaml
+# metadata end-points
+  /v1.0/tables:
+    $ref: ./paths/tables.yaml
+  /v1.0/tables/{id}:
+    $ref: ./paths/tables_id.yaml

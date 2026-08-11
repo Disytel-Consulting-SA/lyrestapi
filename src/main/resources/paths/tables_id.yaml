@@ -1,0 +1,20 @@
+get:
+  summary: Recupera una tabla en particular
+  tags:
+    - "table"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la tabla
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una tabla en particular
+  operationId: retrieveTable
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/table.yaml#/components/schemas/Table'

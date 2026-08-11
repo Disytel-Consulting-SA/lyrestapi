@@ -6,7 +6,7 @@ TARGET_DIR=../src/main/resources
 HOST_NAME=localhost
 HOST_PORT=5432
 USER_NAME=libertya
-DB_NAME=libertya_rel_22ar_for_api
+DB_NAME=ly_core_rel_2605ar
 
 # Funciones
 generateSchema() {
@@ -30,6 +30,7 @@ generateSchema() {
 # Ejemplo para incluir solo las columnas obligatorias y las especificadas en el ultimo parametro:
 #   generateSchema Currency   C_Currency   currency.yaml	"('description', 'iseuro', 'wsfecode')"
 
+# operativos
 generateSchema Product                  M_Product                 product.yaml
 generateSchema BPartner                 C_BPartner                bpartner.yaml
 generateSchema Location                 C_Location                location.yaml
@@ -104,3 +105,6 @@ generateSchema AcctSchema               C_AcctSchema              acctschema.yam
 generateSchema GLCategory               GL_Category               glcategory.yaml         "('description', 'categorytype', 'isdefault')"
 generateSchema Period                   C_Period                  period.yaml             "('description', 'periodtype', 'periodno', 'startdate', 'enddate', 'c_year_id')"
 generateSchema ValidCombination         C_ValidCombination        validcombination.yaml   "('description', 'alias', 'combination', 'account_id', 'm_product_id', 'c_bpartner_id', 'c_project_id', 'c_campaign_id', 'c_activity_id', 'c_salesregion_id', 'ad_orgtrx_id', 'c_acctschema_id')"
+
+# metadata
+generateSchema Table                    AD_Table                  table.yaml

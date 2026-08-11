@@ -1,0 +1,116 @@
+components:
+  schemas:
+    Table:
+      type: object
+      properties:
+        accesslevel:
+          type: string
+          description: "Nivel de Acceso requerido"
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_table_id:
+          type: integer
+          description: "Tabla para los campos"
+        ad_val_rule_id:
+          type: integer
+          description: "Regla de validación"
+        ad_window_id:
+          type: integer
+          description: "Ventana de Entrada de datos o despliegue"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        entitytype:
+          type: string
+          description: "Tipo de Entidad Diccionario; determina propiedad y sincronización"
+        generatedirectmethods:
+          type: boolean
+          description: "Utilizado por el GenerateModel para saber que clases X deberan generarse con el metodo insertDirect()"
+        help:
+          type: string
+          description: "Ayuda; Comentario o Sugerencia"
+        importtable:
+          type: string
+          description: "Importa columnas de tabla desde Base de Datos"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        ischangelog:
+          type: boolean
+          description: "Mantener Archivo (log) de Cambios"
+        isdeleteable:
+          type: boolean
+          description: "Indica si los registros pueden ser eliminados de la base de datos"
+        ishighvolume:
+          type: boolean
+          description: "Use búsqueda en lugar de lista de recolección"
+        issecurityenabled:
+          type: boolean
+          description: "Si la seguridad esta habilitada; el acceso del usuario a los datos puede ser restringido vía Perfiles"
+        isview:
+          type: boolean
+          description: "Ésta es una vista"
+        loadseq:
+          type: integer
+          description: " "
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        po_window_id:
+          type: integer
+          description: "Ventana de Transaccion de Compras"
+        replicationtype:
+          type: string
+          description: "Tipo de Replicación"
+        tablename:
+          type: string
+          description: "Nombre de la tabla en la base de datos"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - accesslevel
+         - ad_client_id
+         - ad_org_id
+         - ad_table_id
+         - created
+         - createdby
+         - entitytype
+         - isactive
+         - ischangelog
+         - isdeleteable
+         - ishighvolume
+         - issecurityenabled
+         - isview
+         - name
+         - replicationtype
+         - tablename
+         - updated
+         - updatedby
