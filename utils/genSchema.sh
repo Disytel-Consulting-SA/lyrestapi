@@ -109,3 +109,6 @@ generateSchema ValidCombination         C_ValidCombination        validcombinati
 # metadata
 generateSchema Table                    AD_Table                  table.yaml
 generateSchema Column                   AD_Column                 column.yaml
+generateSchema Window                   AD_Window                 window.yaml
+generateSchema Tab                      AD_Tab                    tab.yaml
+generateSchema Field                    AD_Field                  field.yaml

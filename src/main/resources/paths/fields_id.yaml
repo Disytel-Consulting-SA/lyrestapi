@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un campo en particular
+  tags:
+    - "field"
+  parameters:
+    - name: id
+      in: path
+      description: ID del campo
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un campo en particular
+  operationId: retrieveField
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/field.yaml#/components/schemas/Field'

@@ -1,0 +1,134 @@
+components:
+  schemas:
+    Field:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_column_id:
+          type: integer
+          description: "Columna en la tabla"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_fieldgroup_id:
+          type: integer
+          description: "Agrupación Lógica del campo"
+        ad_field_id:
+          type: integer
+          description: "Campo en una base de datos"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_tab_id:
+          type: integer
+          description: "Pestaña dentro de una Ventana"
+        ad_val_rule_id:
+          type: integer
+          description: "Regla de validación"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        defaultvalue:
+          type: string
+          description: "Jerarquía de valores predeterminados; separados por ;"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        displaylength:
+          type: integer
+          description: "Longitud del despliegue en caracteres"
+        displaylogic:
+          type: string
+          description: "Si el campo es desplegado; el resultado determina si el campo es efectivamente desplegado"
+        entitytype:
+          type: string
+          description: "Tipo de Entidad Diccionario; determina propiedad y sincronización"
+        exportrealvalue:
+          type: boolean
+          description: "Al exportar el valor del campo a un archivo, se exporta el valor real del campo"
+        help:
+          type: string
+          description: "Ayuda; Comentario o Sugerencia"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        iscentrallymaintained:
+          type: boolean
+          description: "Información mantenida en la tabla Elementos del Sistema"
+        isdisplayed:
+          type: boolean
+          description: "Determina; si este campo es desplegado"
+        isdisplayedingrid:
+          type: boolean
+          description: " "
+        isencrypted:
+          type: boolean
+          description: "Despliegue encriptado"
+        isfieldonly:
+          type: boolean
+          description: "La etiqueta no se muestra"
+        isheading:
+          type: boolean
+          description: "Campo sin columna - Solamente la etiqueta se muestra"
+        isreadonly:
+          type: boolean
+          description: "El campo es de sólo lectura"
+        issameline:
+          type: boolean
+          description: "Desplegado en la misma línea que el campo previo"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        obscuretype:
+          type: string
+          description: "Restringir (limitar datos mostrados)"
+        seqno:
+          type: integer
+          description: "Método de ordenar registros; el número más bajo viene primero"
+        sortno:
+          type: number
+          description: "Determina en que orden son desplegados los productos"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_column_id
+         - ad_field_id
+         - ad_org_id
+         - ad_tab_id
+         - created
+         - createdby
+         - entitytype
+         - exportrealvalue
+         - isactive
+         - iscentrallymaintained
+         - isdisplayed
+         - isdisplayedingrid
+         - isencrypted
+         - isfieldonly
+         - isheading
+         - isreadonly
+         - issameline
+         - name
+         - updated
+         - updatedby

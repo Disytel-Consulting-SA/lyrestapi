@@ -1,0 +1,20 @@
+get:
+  summary: Recupera una ventana en particular
+  tags:
+    - "window"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la ventana
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una ventanas en particular
+  operationId: retrieveWindow
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/window.yaml#/components/schemas/Window'

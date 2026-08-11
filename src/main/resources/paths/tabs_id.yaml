@@ -1,0 +1,20 @@
+get:
+  summary: Recupera una pestaña en particular
+  tags:
+    - "tab"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la pestaña
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una pestaña en particular
+  operationId: retrieveTab
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/tab.yaml#/components/schemas/Tab'

@@ -1,0 +1,97 @@
+components:
+  schemas:
+    Window:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_color_id:
+          type: integer
+          description: "Color para el fondo o indicadores"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_image_id:
+          type: integer
+          description: "Imagen del sistema"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_window_id:
+          type: integer
+          description: "Ventana de Entrada de datos o despliegue"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        entitytype:
+          type: string
+          description: "Tipo de Entidad Diccionario; determina propiedad y sincronización"
+        help:
+          type: string
+          description: "Ayuda; Comentario o Sugerencia"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isbetafunctionality:
+          type: boolean
+          description: "Esta función esta en Version Beta"
+        isdefault:
+          type: boolean
+          description: "Valor Predeterminado"
+        issotrx:
+          type: boolean
+          description: "Esta es una transacción de ventas"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        processing:
+          type: string
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        windowtype:
+          type: string
+          description: "Tipo de clasificación de una ventana"
+        winheight:
+          type: integer
+          description: "Altura de la ventana"
+        winwidth:
+          type: integer
+          description: "Ancho de la ventana"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_window_id
+         - created
+         - createdby
+         - entitytype
+         - isactive
+         - isbetafunctionality
+         - isdefault
+         - issotrx
+         - name
+         - updated
+         - updatedby
+         - windowtype

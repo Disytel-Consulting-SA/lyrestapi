@@ -1,0 +1,164 @@
+components:
+  schemas:
+    Tab:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_column_id:
+          type: integer
+          description: "Columna en la tabla"
+        ad_columnsortorder_id:
+          type: integer
+          description: "Columna que determina el orden"
+        ad_columnsortyesno_id:
+          type: integer
+          description: "Columna que determina si una columna de Tabla esta incluida en el ordenamiento"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_image_id:
+          type: integer
+          description: "Imagen del sistema"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_process_id:
+          type: integer
+          description: "Proceso o Reporte"
+        ad_tab_id:
+          type: integer
+          description: "Pestaña dentro de una Ventana"
+        ad_table_id:
+          type: integer
+          description: "Tabla para los campos"
+        ad_window_id:
+          type: integer
+          description: "Ventana de Entrada de datos o despliegue"
+        allowcopyrecord:
+          type: boolean
+          description: "Permitir copia de registros"
+        commitwarning:
+          type: string
+          description: "Advertencia para Guardar"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        displaylogic:
+          type: string
+          description: "Si el campo es desplegado; el resultado determina si el campo es efectivamente desplegado"
+        entitytype:
+          type: string
+          description: "Tipo de Entidad Diccionario; determina propiedad y sincronización"
+        hastree:
+          type: boolean
+          description: "La ventana tiene gráfica de árbol"
+        help:
+          type: string
+          description: "Ayuda; Comentario o Sugerencia"
+        importfields:
+          type: string
+          description: "Crea campos desde columnas de tabla"
+        included_tab_id:
+          type: integer
+          description: "Pestaña Incluida en esta pestaña"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isadvancedtab:
+          type: boolean
+          description: "Pestaña con Funcionalidad Avanzada"
+        isalwaysupdateable:
+          type: boolean
+          description: "La columna siempre se puede actualizar"
+        isinfotab:
+          type: boolean
+          description: "Esta pestaña contiene información contable"
+        isinsertrecord:
+          type: boolean
+          description: "Insertar Registro"
+        isprocessmsgshowdialog:
+          type: boolean
+          description: "Muestra los mensajes de procesos ejecutados en ventanas."
+        isreadonly:
+          type: boolean
+          description: "El campo es de sólo lectura"
+        issinglerow:
+          type: boolean
+          description: "Desplegado por Defecto"
+        issorttab:
+          type: boolean
+          description: "La pestaña determina el orden"
+        istranslationtab:
+          type: boolean
+          description: "Esta pestaña contiene información de traducción"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        orderbyclause:
+          type: string
+          description: "Cláusula completamente calificada ORDER BY"
+        processing:
+          type: string
+          description: " "
+        readonlylogic:
+          type: string
+          description: "Lógica para determinar si el campo es de sólo lectura (aplica solamente cuando el campo es lectura-escritura"
+        seqno:
+          type: integer
+          description: "Método de ordenar registros; el número más bajo viene primero"
+        tablevel:
+          type: integer
+          description: "Nivel de pestaña jerárquico"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        whereclause:
+          type: string
+          description: "Cláusula WHERE completamente calificada"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_tab_id
+         - ad_table_id
+         - ad_window_id
+         - allowcopyrecord
+         - created
+         - createdby
+         - entitytype
+         - hastree
+         - isactive
+         - isadvancedtab
+         - isalwaysupdateable
+         - isinsertrecord
+         - isprocessmsgshowdialog
+         - isreadonly
+         - issinglerow
+         - issorttab
+         - istranslationtab
+         - name
+         - seqno
+         - tablevel
+         - updated
+         - updatedby

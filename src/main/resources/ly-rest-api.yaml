@@ -318,3 +318,15 @@ paths:
     $ref: ./paths/columns.yaml
   /v1.0/columns/{id}:
     $ref: ./paths/columns_id.yaml
+  /v1.0/windows:
+    $ref: ./paths/windows.yaml
+  /v1.0/windows/{id}:
+    $ref: ./paths/windows_id.yaml
+  /v1.0/tabs:
+    $ref: ./paths/tabs.yaml
+  /v1.0/tabs/{id}:
+    $ref: ./paths/tabs_id.yaml
+  /v1.0/fields:
+    $ref: ./paths/fields.yaml
+  /v1.0/fields/{id}:
+    $ref: ./paths/fields_id.yaml
