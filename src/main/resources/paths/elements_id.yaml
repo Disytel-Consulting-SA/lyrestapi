@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un elemento en particular
+  tags:
+    - "element"
+  parameters:
+    - name: id
+      in: path
+      description: ID del elemento
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un elemento en particular
+  operationId: retrieveElement
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/element.yaml#/components/schemas/Element'

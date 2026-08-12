@@ -330,3 +330,11 @@ paths:
     $ref: ./paths/fields.yaml
   /v1.0/fields/{id}:
     $ref: ./paths/fields_id.yaml
+  /v1.0/elements:
+    $ref: ./paths/elements.yaml
+  /v1.0/elements/{id}:
+    $ref: ./paths/elements_id.yaml
+  /v1.0/messages:
+    $ref: ./paths/messages.yaml
+  /v1.0/messages/{id}:
+    $ref: ./paths/messages_id.yaml

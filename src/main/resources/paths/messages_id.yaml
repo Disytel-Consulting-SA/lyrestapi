@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un mensaje en particular
+  tags:
+    - "message"
+  parameters:
+    - name: id
+      in: path
+      description: ID del mensaje
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un mensaje en particular
+  operationId: retrieveMessage
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/message.yaml#/components/schemas/Message'

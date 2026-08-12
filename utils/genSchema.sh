@@ -112,3 +112,6 @@ generateSchema Column                   AD_Column                 column.yaml
 generateSchema Window                   AD_Window                 window.yaml
 generateSchema Tab                      AD_Tab                    tab.yaml
 generateSchema Field                    AD_Field                  field.yaml
+generateSchema Element                  AD_Element                element.yaml
+generateSchema Message                  AD_Message                message.yaml
+
