@@ -7,5 +7,5 @@ import org.libertya.api.exception.ModelException;
 public interface RetrieveEntityInterface {
 
     /** Recuperacion de una entidad. La misma podría identificarse por más de una columna (ejemplo C_InvoiceTax), con lo cual se recibe un array de enteros */
-    Object perform(int[] id) throws ModelException, AuthException;
+    Object perform(Object[] id) throws ModelException, AuthException;
 }

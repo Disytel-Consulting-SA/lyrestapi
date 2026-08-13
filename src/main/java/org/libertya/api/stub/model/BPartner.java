@@ -33,7 +33,7 @@ public class BPartner   {
   private String adComponentobjectuid = null;
 
   @JsonProperty("ad_language")
-  private Integer adLanguage = null;
+  private String adLanguage = null;
 
   @JsonProperty("ad_orgbp_id")
   private String adOrgbpId = null;
@@ -482,7 +482,7 @@ public class BPartner   {
     this.adComponentobjectuid = adComponentobjectuid;
   }
 
-  public BPartner adLanguage(Integer adLanguage) {
+  public BPartner adLanguage(String adLanguage) {
     this.adLanguage = adLanguage;
     return this;
   }
@@ -493,11 +493,11 @@ public class BPartner   {
    **/
   @Schema(description = "Lenguaje para esta aplicación")
   
-    public Integer getAdLanguage() {
+    public String getAdLanguage() {
     return adLanguage;
   }
 
-  public void setAdLanguage(Integer adLanguage) {
+  public void setAdLanguage(String adLanguage) {
     this.adLanguage = adLanguage;
   }
 

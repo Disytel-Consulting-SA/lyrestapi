@@ -16,7 +16,7 @@ components:
           type: string
           description: " "
         ad_language:
-          type: integer
+          type: string
           description: "Lenguaje para esta aplicación"
         ad_orgbp_id:
           type: string

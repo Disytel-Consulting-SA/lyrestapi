@@ -9,6 +9,7 @@ select columnname from
         select 1000 + row_number() over (order by c.columnname) as row,
             e'        ' || lower(c.columnname) || e':\n          ' ||
                 case
+                    when ad_reference_id = 18 and c.columnname ilike 'ad_language' then e'type: string' -- las columnas de lenguage estan como tabla pero almacenan letras (ejemplo es_AR)
                     when ad_reference_id in (10, 14, 17, 34, 36, 28) then e'type: string' -- varchars
                     when ad_reference_id in (11, 13, 18, 19, 30, 21, 31, 35, 25) then e'type: integer' -- integers (25 = Account, FK a C_ValidCombination)
                     when ad_reference_id in (12, 22, 37, 11, 29) then e'type: number' -- numberics

@@ -338,3 +338,7 @@ paths:
     $ref: ./paths/messages.yaml
   /v1.0/messages/{id}:
     $ref: ./paths/messages_id.yaml
+  /v1.0/tabletrls:
+    $ref: ./paths/table_trls.yaml
+  /v1.0/tabletrls/{idTable}/{idLanguage}:
+    $ref: ./paths/table_trls_id_id.yaml

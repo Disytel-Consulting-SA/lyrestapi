@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de tabla en particular
+  tags:
+    - "tabletrl"
+  parameters:
+    - name: idTable
+      in: path
+      description: ID de la tabla
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de tabla en particular
+  operationId: retrieveTableTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/tabletrl.yaml#/components/schemas/TableTrl'

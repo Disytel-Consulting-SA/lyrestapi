@@ -115,3 +115,4 @@ generateSchema Field                    AD_Field                  field.yaml
 generateSchema Element                  AD_Element                element.yaml
 generateSchema Message                  AD_Message                message.yaml
 
+generateSchema TableTrl                 AD_Table_Trl              tabletrl.yaml

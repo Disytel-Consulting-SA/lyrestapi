@@ -94,6 +94,13 @@ public abstract class AbstractRepository {
         return ClientOrgAuth.validate(info, aPO);
     }
 
+    /** Recupera un PO cuya PK compuesta puede contener valores de distintos tipos. */
+    public PO getPO(UserInfo info, String tableName, Object[] id, String trxName) throws AuthException {
+        M_Table table = M_Table.get(getCtx(info), tableName);
+        PO aPO = table.getPO(getPOWhereClause(id), trxName);
+        return ClientOrgAuth.validate(info, aPO);
+    }
+
     /** Arma el string conteniendo el whereClause para casos de PK con multi-columnas
      * @param id valores de las columnas identificadoras
      */
@@ -111,6 +118,37 @@ public abstract class AbstractRepository {
         retValue.append("1=1");
         return retValue.toString();
     }
+
+
+    /** Arma el whereClause para una PK compuesta por valores de distintos tipos. */
+    protected String getPOWhereClause(Object[] id) {
+        if (pkColumns == null)
+            throw new IllegalStateException("La recuperacion mediante Object[] requiere una PK compuesta");
+        if (id == null || id.length != pkColumns.length)
+            throw new IllegalArgumentException("La cantidad de valores debe coincidir con la cantidad de columnas de la PK");
+
+        StringBuilder retValue = new StringBuilder();
+        for (int i = 0; i < pkColumns.length; i++) {
+            if (i > 0)
+                retValue.append(" AND ");
+            retValue.append(pkColumns[i]);
+            if (id[i] == null)
+                retValue.append(" IS NULL");
+            else
+                retValue.append("=").append(toSqlLiteral(id[i]));
+        }
+        return retValue.toString();
+    }
+
+    /** Convierte un valor de PK en un literal SQL, escapando los valores de texto. */
+    protected String toSqlLiteral(Object value) {
+        if (value instanceof Number)
+            return value.toString();
+        if (value instanceof Boolean)
+            return ((Boolean) value) ? "'Y'" : "'N'";
+        return "'" + value.toString().replace("'", "''") + "'";
+    }
+
 
     /**
      * Cierra la transaccion actual sin forzar commit de la actividad realizada bajo la Trx.
@@ -154,10 +192,14 @@ public abstract class AbstractRepository {
     protected void setValueToObject(UserInfo info, Object target, Field property, M_Column aColumn, Object value) throws ModelException {
         try {
             // Workaround para DisplayType.  Table (18) lo considera de uso con enteros (withoutQuotes = true), pero esto afecta a AD_Language por ejemplo (el cual es un string).
-            Class valueClass = (value != null ? value.getClass() : null);
             if (value == null)
                 property.set(target, null);
-            else if (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && (String.class != valueClass)) {
+            // El tipo Java real del modelo tiene prioridad sobre el metadato. Algunas
+            // columnas (p. ej. AD_Language) usan referencia Table, que DisplayType
+            // informa como Integer aunque su valor y la propiedad sean String.
+            else if (String.class == property.getType())
+                property.set(target, String.valueOf(value));
+            else if (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false)) {
                 property.set(target, value);
                 if (useReferencedValues(info))
                     setReferencedValue(target, value, aColumn);
@@ -325,28 +367,17 @@ public abstract class AbstractRepository {
         String theSort = params.getSort() != null && params.getSort().length() > 0 ? " ORDER BY " + params.getSort() : " ";
         Integer theLimit = (params.getLimit() != null && params.getLimit() > 0 ? params.getLimit() : DEFAULT_LIMIT);
         Integer thePage = params.getPage() != null ? theLimit * (params.getPage() - 1) : 0;
-        String[] entitiesIDs = getAllIDs(tableName,
+        List<Object[]> entitiesIDs = getAllKeys(tableName,
                 String.format( " %s %s LIMIT %d OFFSET %d ",
                         theFilter,
                         theSort,
                         theLimit,
                         thePage),
-        null);
-        if (entitiesIDs == null || entitiesIDs.length==0)
+                null);
+        if (entitiesIDs.isEmpty())
             return retVal;
-        for (String entityIDs : entitiesIDs) {
-            if (pkColumns==null)
-                // Unica columna PK
-                retVal.add(iface.perform(new int[]{Integer.parseInt(entityIDs)}));
-            else {
-                // PK conformada por varias columnas
-                String[] keyVals = entityIDs.split(",");
-                int[] keys = new int[keyVals.length];
-                for (int i=0; i< keys.length; i++)
-                    keys[i] = Integer.parseInt(keyVals[i]);
-                retVal.add(iface.perform(keys));
-            }
-        }
+        for (Object[] entityIDs : entitiesIDs)
+            retVal.add(iface.perform(entityIDs));
         return retVal;
     }
 
@@ -355,6 +386,31 @@ public abstract class AbstractRepository {
         if (info.getClientID()==0)
             return " 1=1 ";
         return " AD_Client_ID = " + info.getClientID();
+    }
+
+    /**
+     * Recupera los valores de las PK sin convertirlos a texto, preservando el tipo informado por JDBC para cada columna.
+     */
+    protected List<Object[]> getAllKeys(String tableName, String whereClause, String trxName) throws ModelException {
+        List<Object[]> keys = new ArrayList<>();
+        String[] keyColumns = pkColumns == null ? new String[]{tableName + "_ID"} : pkColumns;
+        StringBuilder sql = new StringBuilder("SELECT ").append(String.join(",", keyColumns))
+                .append(" FROM ").append(tableName);
+        if (whereClause != null && whereClause.length() > 0)
+            sql.append(" WHERE ").append(whereClause);
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql.toString(), trxName);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Object[] rowKeys = new Object[keyColumns.length];
+                for (int i = 0; i < keyColumns.length; i++)
+                    rowKeys[i] = rs.getObject(i + 1);
+                keys.add(rowKeys);
+            }
+        } catch (SQLException e) {
+            throw new ModelException("Error al recuperar las claves de " + tableName + ". " + e.getMessage());
+        }
+        return keys;
     }
 
     /** Recupera todos los IDs que respetan el criterio especificado */
@@ -426,10 +482,17 @@ public abstract class AbstractRepository {
      * @param <T> tipo del modelo
      * @return un optional con el objeto eventualmente cargado
      */
-    protected <T> Optional<T> loadEntityFromPO(UserInfo info, int[] id, String tableName, String trxName, String filterFields, SpawnModelInstanceInterface target) throws ModelException, AuthException {
+    protected <T> Optional<T> loadEntityFromPO(UserInfo info, Object[] id, String tableName, String trxName, String filterFields, SpawnModelInstanceInterface target) throws ModelException, AuthException {
         Set<String> includeFields = getFilterFields(filterFields);
         // Recuperar el PO asociado en BDD
-        PO aPO = getPO(info, tableName, id, trxName);
+        PO aPO;
+        if (pkColumns == null) {
+            if (id == null || id.length != 1 || !(id[0] instanceof Number))
+                throw new IllegalArgumentException("La PK simple requiere un unico valor numerico");
+            aPO = getPO(info, tableName, new int[]{((Number) id[0]).intValue()}, trxName);
+        } else {
+            aPO = getPO(info, tableName, id, trxName);
+        }
         if (aPO==null || (pkColumns==null && aPO.getID()==0)) {
             return Optional.empty();
         }
@@ -467,6 +530,14 @@ public abstract class AbstractRepository {
             e.printStackTrace();
         }
         return (Optional<T>)Optional.of(object);
+    }
+
+    /** Mantiene compatibilidad con las PK compuestas exclusivamente por enteros. */
+    protected <T> Optional<T> loadEntityFromPO(UserInfo info, int[] id, String tableName, String trxName, String filterFields, SpawnModelInstanceInterface target) throws ModelException, AuthException {
+        Integer[] objectId = new Integer[id.length];
+        for (int i = 0; i < id.length; i++)
+            objectId[i] = id[i];
+        return loadEntityFromPO(info, objectId, tableName, trxName, filterFields, target);
     }
 
     /** Nomina de columnas que no deben incluirse en el entity a ser cargado a partir de un PO */
@@ -597,12 +668,17 @@ public abstract class AbstractRepository {
             }
 
             // Volcar value de la property al PO (informacion pre-establecida)
-            loadValueToPO(info, aPO, columnResolver, columnName, value, inserting);
+            loadValueToPO(info, aPO, columnResolver, columnName, value, field.getType(), inserting);
         }
     }
 
     /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en el resolver de columnas */
     protected void loadValueToPO(UserInfo info, PO aPO, SchemaUtils.ColumnResolver columnResolver, String fieldName, Object value, boolean inserting ) throws ModelException {
+        loadValueToPO(info, aPO, columnResolver, fieldName, value, null, inserting);
+    }
+
+    /** Variante que utiliza el tipo declarado por el modelo para resolver metadatos ambiguos. */
+    protected void loadValueToPO(UserInfo info, PO aPO, SchemaUtils.ColumnResolver columnResolver, String fieldName, Object value, Class<?> fieldType, boolean inserting ) throws ModelException {
         M_Column aColumn = columnResolver.resolve(fieldName);
         if (aColumn != null) {
             if (inserting && useDefaults(info)) {
@@ -610,7 +686,7 @@ public abstract class AbstractRepository {
             }
             // El valor podría haber sido definido previamente al especificar los defaults
             if (aPO.get_Value(aColumn.getColumnName()) == null || value != null) {
-                setValue(aPO, aColumn, value, inserting);
+                setValue(aPO, aColumn, value, fieldType, inserting);
             }
         }
     }
@@ -623,33 +699,44 @@ public abstract class AbstractRepository {
      * @param value   valor a asignar
      */
     protected boolean setValue(PO po, M_Column aColumn, Object value, boolean inserting) throws ModelException {
+        return setValue(po, aColumn, value, null, inserting);
+    }
+
+    /** Setea el valor considerando también el tipo declarado por el modelo de entrada. */
+    protected boolean setValue(PO po, M_Column aColumn, Object value, Class<?> fieldType, boolean inserting) throws ModelException {
         try {
+            boolean nullValue = null == value || schemaUtils.getNullValue().equals(value);
+            Object convertedValue = nullValue ? null : convertValue(aColumn, value, fieldType);
             // Se esta insertando o se solicitó omitir el modelo?
             if (inserting || schemaUtils.shouldForceValues()) {
                 return po.get_ColumnIndex(aColumn.getColumnName()) >= 0 &&
-                        (
-                                ((null == value || schemaUtils.getNullValue().equals(value)) && po.set_ValueNoCheck(aColumn.getColumnName(), null)) ||
-                                        (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), value)) ||
-                                        (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Integer.parseInt(value.toString()))) ||
-                                        (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), new BigDecimal(value.toString()))) ||
-                                        (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_ValueNoCheck(aColumn.getColumnName(), Timestamp.valueOf(value.toString())))
-                        );
+                        po.set_ValueNoCheck(aColumn.getColumnName(), convertedValue);
             }
             // Validar contra el modelo la actualizacion en cuestion
             checkAlwaysUpdatable(po, aColumn);
             boolean ok = po.get_ColumnIndex(aColumn.getColumnName()) >= 0 &&
-                    (
-                            ((null == value || schemaUtils.getNullValue().equals(value)) && po.set_Value(aColumn.getColumnName(), null)) ||
-                                    (String.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), value)) ||
-                                    (Integer.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), Integer.parseInt(value.toString()))) ||
-                                    (BigDecimal.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), new BigDecimal(value.toString()))) ||
-                                    (Timestamp.class == DisplayType.getClass(aColumn.getAD_Reference_ID(), false) && po.set_Value(aColumn.getColumnName(), Timestamp.valueOf(value.toString())))
-                    );
+                    po.set_ValueNoCheck(aColumn.getColumnName(), convertedValue);
             if (!ok) throw new Exception("Imposible actualizar.");
             return true;
         } catch (Exception e) {
             throw new ModelException("Error al setear valor " + (value == null ? "null" : value) + " en columna " + aColumn.getColumnName() + " de entidad " + po.get_TableName() + ". " + e);
         }
+    }
+
+    /** Convierte el valor al tipo persistente, priorizando el contrato del modelo. */
+    protected Object convertValue(M_Column aColumn, Object value, Class<?> fieldType) {
+        if (String.class == fieldType)
+            return String.valueOf(value);
+        Class<?> displayClass = DisplayType.getClass(aColumn.getAD_Reference_ID(), false);
+        if (String.class == displayClass)
+            return value;
+        if (Integer.class == displayClass)
+            return Integer.parseInt(value.toString());
+        if (BigDecimal.class == displayClass)
+            return new BigDecimal(value.toString());
+        if (Timestamp.class == displayClass)
+            return Timestamp.valueOf(value.toString());
+        return value;
     }
 
     /**
@@ -849,33 +936,48 @@ public abstract class AbstractRepository {
         updateEntity(info, new int[]{id}, tableName, payload, true);
     }
 
-    /** Recuperacion de una entidad con PK identificada por multiples columnas, con filtro de campos */
-    public <T> Optional<T> retrieve(UserInfo info, int[] id, String trxName, String fields) throws ModelException, AuthException {
-        return loadEntityFromPO(info, id, tableName, trxName, fields, iface);
-    }
-
     /** Recuperacion de una entidad con PK identificada por una unica columna, con filtro de campos */
     public <T> Optional<T> retrieve(UserInfo info, int id, String trxName, String fields) throws ModelException, AuthException {
         return loadEntityFromPO(info, new int[]{id}, tableName, trxName, fields, iface);
     }
 
-    /** Recuperacion de una entidad con PK identificada por multiples columnas */
+    /** Recuperacion de una entidad con PK identificada por multiples columnas, con filtro de campos */
+    public <T> Optional<T> retrieve(UserInfo info, int[] id, String trxName, String fields) throws ModelException, AuthException {
+        return loadEntityFromPO(info, id, tableName, trxName, fields, iface);
+    }
+
+    /** Recuperacion de una entidad con PK compuesta por valores de distintos tipos, con filtro de campos */
+    public <T> Optional<T> retrieve(UserInfo info, Object[] id, String trxName, String fields) throws ModelException, AuthException {
+        return loadEntityFromPO(info, id, tableName, trxName, fields, iface);
+    }
+
+    /** Recuperacion de una entidad con PK identificada por una unica columna columna */
     public <T> Optional<T> retrieve(UserInfo info, int id, String trxName) throws ModelException, AuthException {
         return retrieve(info, id, trxName, null);
     }
 
-    /** Recuperacion de una entidad con PK identificada por una unica columna */
+    /** Recuperacion de una entidad con PK identificada por multiples columnas */
     public <T> Optional<T> retrieve(UserInfo info, int[] id, String trxName) throws ModelException, AuthException {
         return retrieve(info, id, trxName, null);
     }
 
-    /** Recuperacion de una entidad con PK identificada por multiples columnas */
+    /** Recuperacion de una entidad con PK compuesta por valores de distintos tipos */
+    public <T> Optional<T> retrieve(UserInfo info, Object[] id, String trxName) throws ModelException, AuthException {
+        return retrieve(info, id, trxName, null);
+    }
+
+    /** Recuperacion de una entidad con PK identificada por una unica columna */
     public <T> Optional<T> retrieve(UserInfo info, int id) throws ModelException, AuthException {
         return retrieve(info, id, null, null);
     }
 
-    /** Recuperacion de una entidad con PK identificada por una unica columna */
+    /** Recuperacion de una entidad con PK identificada por multiples columnas */
     public <T> Optional<T> retrieve(UserInfo info, int[] id) throws ModelException, AuthException {
+        return retrieve(info, id, null, null);
+    }
+
+    /** Recuperacion de una entidad con PK compuesta por valores de distintos tipos */
+    public <T> Optional<T> retrieve(UserInfo info, Object[] id) throws ModelException, AuthException {
         return retrieve(info, id, null, null);
     }
 
