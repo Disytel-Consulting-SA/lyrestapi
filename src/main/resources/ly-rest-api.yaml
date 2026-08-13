@@ -342,3 +342,7 @@ paths:
     $ref: ./paths/table_trls.yaml
   /v1.0/tabletrls/{idTable}/{idLanguage}:
     $ref: ./paths/table_trls_id_id.yaml
+  /v1.0/columntrls:
+    $ref: ./paths/column_trls.yaml
+  /v1.0/columntrls/{idColumn}/{idLanguage}:
+    $ref: ./paths/column_trls_id_id.yaml
