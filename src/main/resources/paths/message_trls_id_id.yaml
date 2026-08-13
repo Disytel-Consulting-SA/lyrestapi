@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de mensaje en particular
+  tags:
+    - "messagetrl"
+  parameters:
+    - name: idMessage
+      in: path
+      description: ID del mensaje
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de mensaje en particular
+  operationId: retrieveMessageTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/messagetrl.yaml#/components/schemas/MessageTrl'

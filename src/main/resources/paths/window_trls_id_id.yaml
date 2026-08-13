@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de ventana en particular
+  tags:
+    - "windowtrl"
+  parameters:
+    - name: idWindow
+      in: path
+      description: ID de la ventana
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de ventana en particular
+  operationId: retrieveWindowTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/windowtrl.yaml#/components/schemas/WindowTrl'

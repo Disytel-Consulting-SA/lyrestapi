@@ -114,6 +114,12 @@ generateSchema Tab                      AD_Tab                    tab.yaml
 generateSchema Field                    AD_Field                  field.yaml
 generateSchema Element                  AD_Element                element.yaml
 generateSchema Message                  AD_Message                message.yaml
-
 generateSchema TableTrl                 AD_Table_Trl              tabletrl.yaml
 generateSchema ColumnTrl                AD_Column_Trl             columntrl.yaml
+generateSchema WindowTrl                AD_Window_Trl             windowtrl.yaml
+generateSchema TabTrl                   AD_Tab_Trl                tabtrl.yaml
+generateSchema FieldTrl                 AD_Field_Trl              fieldtrl.yaml
+generateSchema ElementTrl               AD_Element_Trl            elementtrl.yaml
+generateSchema MessageTrl               AD_Message_Trl            messagetrl.yaml
+
+

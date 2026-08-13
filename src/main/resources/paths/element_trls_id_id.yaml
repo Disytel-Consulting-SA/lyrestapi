@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de element en particular
+  tags:
+    - "elementtrl"
+  parameters:
+    - name: idElement
+      in: path
+      description: ID del elemento
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de un elemento en particular
+  operationId: retrieveElementTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/elementtrl.yaml#/components/schemas/ElementTrl'

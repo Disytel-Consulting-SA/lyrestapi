@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de pestaña en particular
+  tags:
+    - "tabtrl"
+  parameters:
+    - name: idTab
+      in: path
+      description: ID de la pestaña
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de pestaña en particular
+  operationId: retrieveTabTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/tabtrl.yaml#/components/schemas/TabTrl'

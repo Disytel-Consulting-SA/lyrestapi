@@ -1,0 +1,70 @@
+components:
+  schemas:
+    FieldTrl:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_field_id:
+          type: integer
+          description: "Campo en una base de datos"
+        ad_language:
+          type: string
+          description: "Lenguaje para esta aplicación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        help:
+          type: string
+          description: "Ayuda; Comentario o Sugerencia"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        istranslated:
+          type: boolean
+          description: "Esta columna está traducida"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_field_id
+         - ad_language
+         - ad_org_id
+         - created
+         - createdby
+         - isactive
+         - istranslated
+         - name
+         - updated
+         - updatedby

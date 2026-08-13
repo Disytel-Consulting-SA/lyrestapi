@@ -346,3 +346,23 @@ paths:
     $ref: ./paths/column_trls.yaml
   /v1.0/columntrls/{idColumn}/{idLanguage}:
     $ref: ./paths/column_trls_id_id.yaml
+  /v1.0/windowtrls:
+    $ref: ./paths/window_trls.yaml
+  /v1.0/windowtrls/{idWindow}/{idLanguage}:
+    $ref: ./paths/window_trls_id_id.yaml
+  /v1.0/tabtrls:
+    $ref: ./paths/tab_trls.yaml
+  /v1.0/tabtrls/{idTab}/{idLanguage}:
+    $ref: ./paths/tab_trls_id_id.yaml
+  /v1.0/fieldtrls:
+    $ref: ./paths/field_trls.yaml
+  /v1.0/fieldtrls/{idField}/{idLanguage}:
+    $ref: ./paths/field_trls_id_id.yaml
+  /v1.0/elementtrls:
+    $ref: ./paths/element_trls.yaml
+  /v1.0/elementtrls/{idElement}/{idLanguage}:
+    $ref: ./paths/element_trls_id_id.yaml
+  /v1.0/messagetrls:
+    $ref: ./paths/message_trls.yaml
+  /v1.0/messagetrls/{idMessage}/{idLanguage}:
+    $ref: ./paths/message_trls_id_id.yaml

@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de campo en particular
+  tags:
+    - "fieldtrl"
+  parameters:
+    - name: idField
+      in: path
+      description: ID del campo
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de un campo en particular
+  operationId: retrieveFieldTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/fieldtrl.yaml#/components/schemas/FieldTrl'
