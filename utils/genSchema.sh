@@ -112,6 +112,7 @@ generateSchema Column                   AD_Column                 column.yaml
 generateSchema Window                   AD_Window                 window.yaml
 generateSchema Tab                      AD_Tab                    tab.yaml
 generateSchema Field                    AD_Field                  field.yaml
+generateSchema FieldGroup               AD_FieldGroup             fieldgroup.yaml
 generateSchema Element                  AD_Element                element.yaml
 generateSchema Message                  AD_Message                message.yaml
 generateSchema TableTrl                 AD_Table_Trl              tabletrl.yaml
@@ -121,5 +122,5 @@ generateSchema TabTrl                   AD_Tab_Trl                tabtrl.yaml
 generateSchema FieldTrl                 AD_Field_Trl              fieldtrl.yaml
 generateSchema ElementTrl               AD_Element_Trl            elementtrl.yaml
 generateSchema MessageTrl               AD_Message_Trl            messagetrl.yaml
-
+generateSchema FieldGroupTrl            AD_FieldGroup_Trl         fieldgrouptrl.yaml
 

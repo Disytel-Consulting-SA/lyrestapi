@@ -330,6 +330,10 @@ paths:
     $ref: ./paths/fields.yaml
   /v1.0/fields/{id}:
     $ref: ./paths/fields_id.yaml
+  /v1.0/fieldgroups:
+    $ref: ./paths/fieldgroups.yaml
+  /v1.0/fieldgroups/{id}:
+    $ref: ./paths/fieldgroups_id.yaml
   /v1.0/elements:
     $ref: ./paths/elements.yaml
   /v1.0/elements/{id}:
@@ -366,3 +370,7 @@ paths:
     $ref: ./paths/message_trls.yaml
   /v1.0/messagetrls/{idMessage}/{idLanguage}:
     $ref: ./paths/message_trls_id_id.yaml
+  /v1.0/fieldgrouptrls:
+    $ref: ./paths/fieldgroup_trls.yaml
+  /v1.0/fieldgrouptrls/{idFieldGroup}/{idLanguage}:
+    $ref: ./paths/fieldgroup_trls_id_id.yaml

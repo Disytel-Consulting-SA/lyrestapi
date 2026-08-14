@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de grupo de campo en particular
+  tags:
+    - "fieldgrouptrl"
+  parameters:
+    - name: idFieldGroup
+      in: path
+      description: ID del grupo de campo
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de un grupo de campo en particular
+  operationId: retrieveFieldGroupTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/fieldgrouptrl.yaml#/components/schemas/FieldGroupTrl'

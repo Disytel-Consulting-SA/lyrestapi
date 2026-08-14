@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un grupo de campo en particular
+  tags:
+    - "fieldgroup"
+  parameters:
+    - name: id
+      in: path
+      description: ID del grupo de campo
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un grupo de campo en particular
+  operationId: retrieveFieldGroup
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/fieldgroup.yaml#/components/schemas/FieldGroup'
