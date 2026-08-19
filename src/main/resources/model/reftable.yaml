@@ -1,0 +1,82 @@
+components:
+  schemas:
+    RefTable:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_display:
+          type: integer
+          description: "Columna que desplegará"
+        ad_key:
+          type: integer
+          description: "Identificador único de un registro"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_reference_id:
+          type: integer
+          description: "Referencia del Sistema (Lista de Selección)"
+        ad_table_id:
+          type: integer
+          description: "Tabla para los campos"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        entitytype:
+          type: string
+          description: "Tipo de Entidad Diccionario; determina propiedad y sincronización"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isdisplayidentifiers:
+          type: boolean
+          description: "El valor mostrado corresponde a la concatenación de las columnas marcadas como identificadores"
+        isvaluedisplayed:
+          type: boolean
+          description: "Despliega la columna valor con la columna despliegue"
+        orderbyclause:
+          type: string
+          description: "Cláusula completamente calificada ORDER BY"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        whereclause:
+          type: string
+          description: "Cláusula WHERE completamente calificada"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_display
+         - ad_key
+         - ad_org_id
+         - ad_reference_id
+         - ad_table_id
+         - created
+         - createdby
+         - entitytype
+         - isactive
+         - isdisplayidentifiers
+         - isvaluedisplayed
+         - updated
+         - updatedby

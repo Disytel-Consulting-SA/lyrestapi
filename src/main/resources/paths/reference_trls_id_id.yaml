@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de referencia en particular
+  tags:
+    - "referencetrl"
+  parameters:
+    - name: idReference
+      in: path
+      description: ID de la referencia
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de referencia en particular
+  operationId: retrieveReferenceTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/referencetrl.yaml#/components/schemas/ReferenceTrl'

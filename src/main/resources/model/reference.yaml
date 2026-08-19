@@ -1,0 +1,73 @@
+components:
+  schemas:
+    Reference:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_reference_id:
+          type: integer
+          description: "Referencia del Sistema (Lista de Selección)"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        entitytype:
+          type: string
+          description: "Tipo de Entidad Diccionario; determina propiedad y sincronización"
+        help:
+          type: string
+          description: "Ayuda; Comentario o Sugerencia"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        validationtype:
+          type: string
+          description: "Método diferente de validación de datos"
+        vformat:
+          type: string
+          description: "Formato del valor; puede contener elementos de formato fijo; Variables: \"_lLoOaAcCa09\""
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - ad_reference_id
+         - created
+         - createdby
+         - entitytype
+         - isactive
+         - name
+         - updated
+         - updatedby
+         - validationtype

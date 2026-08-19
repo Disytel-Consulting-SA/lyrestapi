@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de referencia de tipo lista en particular
+  tags:
+    - "reflisttrl"
+  parameters:
+    - name: idRefList
+      in: path
+      description: ID de la referencia de tipo lista
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de referencia de tipo lista en particular
+  operationId: retrieveRefListTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/reflisttrl.yaml#/components/schemas/RefListTrl'

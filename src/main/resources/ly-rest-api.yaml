@@ -342,6 +342,22 @@ paths:
     $ref: ./paths/messages.yaml
   /v1.0/messages/{id}:
     $ref: ./paths/messages_id.yaml
+  /v1.0/references:
+    $ref: ./paths/references.yaml
+  /v1.0/references/{id}:
+    $ref: ./paths/references_id.yaml
+  /v1.0/reflists:
+    $ref: ./paths/reflists.yaml
+  /v1.0/reflists/{id}:
+    $ref: ./paths/reflists_id.yaml
+  /v1.0/reftables:
+    $ref: ./paths/reftables.yaml
+  /v1.0/reftables/{id}:
+    $ref: ./paths/reftables_id.yaml
+  /v1.0/valrules:
+    $ref: ./paths/valrules.yaml
+  /v1.0/valrules/{id}:
+    $ref: ./paths/valrules_id.yaml
   /v1.0/tabletrls:
     $ref: ./paths/table_trls.yaml
   /v1.0/tabletrls/{idTable}/{idLanguage}:
@@ -374,3 +390,11 @@ paths:
     $ref: ./paths/fieldgroup_trls.yaml
   /v1.0/fieldgrouptrls/{idFieldGroup}/{idLanguage}:
     $ref: ./paths/fieldgroup_trls_id_id.yaml
+  /v1.0/referencetrls:
+    $ref: ./paths/reference_trls.yaml
+  /v1.0/referencetrls/{idReference}/{idLanguage}:
+    $ref: ./paths/reference_trls_id_id.yaml
+  /v1.0/reflisttrls:
+    $ref: ./paths/reflist_trls.yaml
+  /v1.0/reflisttrls/{idRefList}/{idLanguage}:
+    $ref: ./paths/reflist_trls_id_id.yaml
