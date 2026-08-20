@@ -1,0 +1,104 @@
+get:
+  tags:
+    - "couponssettlement"
+  summary: Retorna la lista de cupones de liquidaciones
+  description: >
+    Retorna cupones de liquidacion (C_CouponsSettlements). Cada cupon vincula un cobro (C_Payment) con una
+    liquidacion de tarjetas.
+
+
+    Usos tipicos:
+    filter=c_creditcardsettlement_id=NNN   -> los cupones de una liquidacion;
+    filter=c_payment_id=NNN                -> saber si un cobro ya esta liquidado.
+    Para consultar MUCHOS cobros de una vez NO usar este endpoint en un bucle: usar
+    POST /v1.0/couponssettlements/exists, que lo resuelve en una sola consulta.
+
+
+    OJO CON EL LIMITE: si no se envia limit, se devuelven como maximo 100 cupones y el resto se trunca sin
+    aviso. Una liquidacion puede tener cientos de cupones (el maximo historico ronda los 3.500), asi que hay
+    que paginar explicitamente con limit y page.
+
+
+    SINTAXIS DEL FILTRO: es un fragmento de clausula WHERE de SQL. Ver la nota en
+    GET /v1.0/creditcardsettlements.
+  operationId: getAllCouponsSettlements
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/couponssettlements.yaml#/components/schemas/CouponsSettlements'
+post:
+  tags:
+    - "couponssettlement"
+  summary: Nuevo cupon de liquidacion
+  description: >
+    Cuelga un cobro (C_Payment) de una liquidacion. Para varios cupones a la vez usar
+    POST /v1.0/couponssettlements/bulk, que ademas devuelve un resultado por cupon en vez de fallar entero.
+
+
+    CAMPOS OBLIGATORIOS QUE NO TIENEN VALOR POR DEFECTO y que el cliente debe enviar si o si:
+    c_creditcardsettlement_id, c_creditcardcouponfilter_id, c_currency_id, m_entidadfinanciera_id y
+    m_entidadfinancieraplan_id. Sin ellos el INSERT es rechazado por la base. Ademas hay que enviar
+    c_payment_id, amount y trxdate para que el cupon signifique algo.
+
+
+    INCLUDE VIENE EN 'N' POR DEFECTO, y el total de la liquidacion (couponstotalamount) solo suma los
+    cupones con include='Y'. Si se quiere que el cupon participe del total hay que enviarlo explicitamente.
+
+
+    REGLAS DEL MODELO:
+    R6 - include='Y' o isreconciled='Y' exigen c_payment_id;
+    R7 - un mismo c_payment_id NO puede estar en dos liquidaciones. Si ya esta, la respuesta es 409.
+    Estas dos reglas son especificas del core de Tehuelche: sobre una instalacion con el core publico NO se
+    aplican, y un cobro podria quedar cargado en dos liquidaciones sin que nada avise.
+  operationId: addCouponsSettlement
+  responses:
+    "200":
+      description: OK. ID del cupon creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/couponssettlements.yaml#/components/schemas/CouponsSettlements'

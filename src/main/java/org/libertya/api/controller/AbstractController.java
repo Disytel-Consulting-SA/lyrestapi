@@ -90,6 +90,25 @@ public abstract class AbstractController {
         }
     }
 
+    /**
+     * Variante de insertAction para endpoints cuya respuesta exitosa es un objeto JSON y no el identificador
+     * en texto plano: la creacion compuesta de un documento que devuelve varios ids, o un lote que devuelve
+     * un resultado por item.
+     *
+     * El cuerpo de error se devuelve como String en un ResponseEntity tipado, igual que en retrieveAction y
+     * retrieveAllAction. Los genericos se borran en tiempo de ejecucion, asi que lo que se serializa es el
+     * mensaje; el tipo declarado solo describe la respuesta exitosa.
+     */
+    protected <T> ResponseEntity<T> insertObjectAction(HttpServletRequest request, ActivityInsertObjectInterface<T> iface) {
+        try {
+            return new ResponseEntity<>(iface.perform(jwt.infoOf(request)), HttpStatus.OK);
+        } catch (ModelException e) {
+            return new ResponseEntity<T>((T) e.getMessage(), HttpStatus.CONFLICT);
+        } catch (AuthException e3) {
+            return new ResponseEntity<T>((T) e3.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     protected ResponseEntity<String> processAction(HttpServletRequest request, ActivityProcessInterface iface) {
         try {
             return new ResponseEntity<>(iface.perform(jwt.infoOf(request)), HttpStatus.OK);

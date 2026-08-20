@@ -1,0 +1,105 @@
+components:
+  schemas:
+    CouponsSettlementsBulk:
+      type: object
+      properties:
+        c_creditcardsettlement_id:
+          type: integer
+          description: "Liquidacion a la que se cuelgan todos los cupones del lote"
+        c_creditcardcouponfilter_id:
+          type: integer
+          description: >
+            Filtro del cual cuelgan los cupones. Es NOT NULL en la base: un cupon sin filtro no se puede
+            insertar. Si se omite aqui, cada cupon debe traerlo en su propio cuerpo.
+        coupons:
+          type: array
+          description: "Cupones a crear. Cada uno se inserta en su propia transaccion."
+          items:
+            $ref: '../model/couponssettlements.yaml#/components/schemas/CouponsSettlements'
+    CouponsSettlementsBulkResult:
+      type: object
+      properties:
+        c_creditcardsettlement_id:
+          type: integer
+          description: "Liquidacion sobre la que se opero"
+        creados:
+          type: integer
+          description: "Cantidad de cupones efectivamente creados"
+        ya_existian:
+          type: integer
+          description: "Cantidad de cupones que ya estaban colgados de esta misma liquidacion"
+        conflictos:
+          type: integer
+          description: "Cantidad de cupones rechazados por el modelo (R6/R7) o por error"
+        resultados:
+          type: array
+          description: "Un resultado por cada cupon enviado, en el mismo orden"
+          items:
+            $ref: '../model/couponssettlements_bulk.yaml#/components/schemas/CouponsSettlementsItemResult'
+    CouponsSettlementsItemResult:
+      type: object
+      properties:
+        c_payment_id:
+          type: integer
+          description: "Cobro al que corresponde el cupon"
+        estado:
+          type: string
+          description: >
+            creado     = el cupon se inserto en esta llamada.
+            ya_existia = el c_payment_id ya estaba colgado de ESTA liquidacion; no se hizo nada.
+            conflicto  = el c_payment_id ya esta colgado de OTRA liquidacion (R7) o el modelo lo rechazo.
+            error      = fallo no atribuible a una regla conocida; ver motivo.
+        c_couponssettlements_id:
+          type: integer
+          description: "ID del cupon creado, o del que ya existia / esta en conflicto"
+        c_creditcardsettlement_id_en_conflicto:
+          type: integer
+          description: "Solo si estado=conflicto por R7: la liquidacion que ya tiene ese cobro"
+        motivo:
+          type: string
+          description: "Regla o mensaje del modelo que explica el estado (R6, R7, o el texto crudo del core)"
+    CouponsSettlementsExists:
+      type: object
+      properties:
+        c_payment_ids:
+          type: array
+          description: "Cobros a consultar. Tope configurable, ver la descripcion del endpoint."
+          items:
+            type: integer
+    CouponsSettlementsExistsResult:
+      type: object
+      properties:
+        encontrados:
+          type: array
+          description: >
+            Solo los c_payment_id que YA estan colgados de alguna liquidacion. Los que no aparecen estan
+            libres. Un cobro puede figurar una sola vez: el modelo impide que este en dos liquidaciones.
+          items:
+            $ref: '../model/couponssettlements_bulk.yaml#/components/schemas/CouponsSettlementsExistsItem'
+    CouponsSettlementsExistsItem:
+      type: object
+      properties:
+        c_payment_id:
+          type: integer
+          description: "Cobro consultado"
+        c_couponssettlements_id:
+          type: integer
+          description: "Cupon que lo tiene"
+        c_creditcardsettlement_id:
+          type: integer
+          description: "Liquidacion de la que cuelga ese cupon"
+        c_creditcardcouponfilter_id:
+          type: integer
+          description: "Filtro del que cuelga ese cupon"
+        isactive:
+          type: boolean
+          description: >
+            Si el cupon esta activo. Se devuelve porque la regla R7 del modelo NO mira este campo: un cupon
+            desactivado sigue bloqueando su cobro. Un item con isactive=false explica un rechazo que de otro
+            modo pareceria inexplicable.
+        isreconciled:
+          type: boolean
+          description: "Si el cupon esta marcado como conciliado"
+        include:
+          type: boolean
+          description: "Si el cupon participa del total de la liquidacion (couponstotalamount)"

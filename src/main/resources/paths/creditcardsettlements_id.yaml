@@ -1,0 +1,117 @@
+get:
+  tags:
+    - "creditcardsettlement"
+  summary: Recupera una liquidacion de tarjetas en particular
+  description: >
+    Recupera la cabecera de una liquidacion de tarjetas. Para los cupones colgados usar
+    GET /v1.0/couponssettlements?filter=c_creditcardsettlement_id=NNN, y para los filtros
+    GET /v1.0/creditcardcouponfilters?filter=c_creditcardsettlement_id=NNN.
+  operationId: retrieveCreditCardSettlement
+  parameters:
+    - name: id
+      in: path
+      description: ID de la liquidacion
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/creditcardsettlement.yaml#/components/schemas/CreditCardSettlement'
+    "404":
+      description: No encontrado
+      content:
+        application/json:
+          schema:
+            type: string
+put:
+  tags:
+    - "creditcardsettlement"
+  summary: Actualiza una liquidacion de tarjetas existente
+  description: >
+    Actualiza la cabecera de una liquidacion en borrador. No modifica ni los filtros ni los cupones.
+
+
+    Las reglas del modelo se siguen aplicando: settlementno debe seguir siendo numerico (R1) y la
+    combinacion c_bpartner_id + settlementno + paymentdate::date debe seguir siendo unica (R2). Marcar
+    isreconciled='Y' exige ademas que no queden cupones sin conciliar (R3).
+  operationId: updateCreditCardSettlement
+  parameters:
+    - name: id
+      in: path
+      description: ID de la liquidacion a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/creditcardsettlement.yaml#/components/schemas/CreditCardSettlement'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+delete:
+  tags:
+    - "creditcardsettlement"
+  summary: Elimina una liquidacion de tarjetas
+  description: >
+    Elimina una liquidacion de tarjetas. Solo tiene sentido mientras este en borrador (docstatus DR).
+
+
+    SI LA LIQUIDACION TIENE CUPONES, LA BAJA FALLA con 409: la foreign key de los cupones contra la
+    liquidacion no es cascade, asi que la base la rechaza. Hay que borrar antes los cupones uno por uno con
+    DELETE /v1.0/couponssettlements/{id}. Verificado contra la base.
+
+
+    Una vez sin cupones, la baja SI arrastra en cascada los filtros y las filas hijas de conceptos
+    (comisiones, gastos, IVA, percepciones y retenciones), que es lo esperable porque son parte de la misma
+    liquidacion.
+  operationId: deleteCreditCardSettlement
+  parameters:
+    - name: id
+      in: path
+      description: ID de la liquidacion a eliminar
+      required: true
+      schema:
+        type: integer
+  responses:
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

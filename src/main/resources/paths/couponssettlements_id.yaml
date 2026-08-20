@@ -1,0 +1,106 @@
+get:
+  tags:
+    - "couponssettlement"
+  summary: Recupera un cupon de liquidacion en particular
+  operationId: retrieveCouponsSettlement
+  parameters:
+    - name: id
+      in: path
+      description: ID del cupon
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/couponssettlements.yaml#/components/schemas/CouponsSettlements'
+    "404":
+      description: No encontrado
+      content:
+        application/json:
+          schema:
+            type: string
+delete:
+  tags:
+    - "couponssettlement"
+  summary: Elimina un cupon de liquidacion
+  description: >
+    Descuelga un cobro de su liquidacion.
+
+
+    UN CUPON CONCILIADO NO SE PUEDE BORRAR (regla R8 del modelo): si isreconciled='Y' la respuesta es 409.
+    Hay que desconciliarlo primero con PUT /v1.0/couponssettlements/{id} enviando isreconciled=false.
+
+
+    Al borrar, el modelo recalcula el total de la liquidacion.
+  operationId: deleteCouponsSettlement
+  parameters:
+    - name: id
+      in: path
+      description: ID del cupon a eliminar
+      required: true
+      schema:
+        type: integer
+  responses:
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  tags:
+    - "couponssettlement"
+  summary: Actualiza un cupon de liquidacion existente
+  description: >
+    Actualiza un cupon. El uso principal es marcar o desmarcar isreconciled e include.
+    Recordar que R6 exige c_payment_id para poner cualquiera de los dos en 'Y'.
+  operationId: updateCouponsSettlement
+  parameters:
+    - name: id
+      in: path
+      description: ID del cupon a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/couponssettlements.yaml#/components/schemas/CouponsSettlements'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

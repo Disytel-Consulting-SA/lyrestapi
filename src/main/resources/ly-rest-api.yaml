@@ -309,6 +309,24 @@ paths:
     $ref: ./paths/validcombinations.yaml
   /v1.0/validcombinations/{id}:
     $ref: ./paths/validcombinations_id.yaml
+  /v1.0/creditcardsettlements:
+    $ref: ./paths/creditcardsettlements.yaml
+  /v1.0/creditcardsettlements/full:
+    $ref: ./paths/creditcardsettlements_full.yaml
+  /v1.0/creditcardsettlements/{id}:
+    $ref: ./paths/creditcardsettlements_id.yaml
+  /v1.0/creditcardcouponfilters:
+    $ref: ./paths/creditcardcouponfilters.yaml
+  /v1.0/creditcardcouponfilters/{id}:
+    $ref: ./paths/creditcardcouponfilters_id.yaml
+  /v1.0/couponssettlements:
+    $ref: ./paths/couponssettlements.yaml
+  /v1.0/couponssettlements/bulk:
+    $ref: ./paths/couponssettlements_bulk.yaml
+  /v1.0/couponssettlements/exists:
+    $ref: ./paths/couponssettlements_exists.yaml
+  /v1.0/couponssettlements/{id}:
+    $ref: ./paths/couponssettlements_id.yaml
 # metadata end-points
   /v1.0/tables:
     $ref: ./paths/tables.yaml

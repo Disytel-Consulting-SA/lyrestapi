@@ -1,0 +1,118 @@
+get:
+  tags:
+    - "creditcardsettlement"
+  summary: Retorna la lista de liquidaciones de tarjetas
+  description: >
+    Retorna una lista de liquidaciones de tarjetas de credito (C_CreditCardSettlement), solo cabeceras.
+
+
+    ESTE ES EL ENDPOINT PRINCIPAL DEL CONCILIADOR: la mayoria de las liquidaciones YA existen en el ERP
+    creadas por los procesos de importacion, con lo cual antes de crear una hay que buscarla. La clave
+    natural con la que el modelo valida unicidad es c_bpartner_id + settlementno + paymentdate::date.
+
+
+    SINTAXIS DEL FILTRO: el parametro filter es un fragmento de clausula WHERE de SQL que se concatena tal
+    cual, NO una lista de pares campo=valor separados por punto y coma. Los caracteres " -- y ; se eliminan
+    antes de usarlo, asi que un punto y coma NO separa condiciones: hay que usar AND. Los literales de texto
+    y fecha van entre comillas simples.
+
+
+    PARA FILTRAR POR DIA HAY QUE USAR UN RANGO, NO UN CAST. Esto funciona:
+    filter=settlementno='1145280' AND paymentdate >= '2026-07-07' AND paymentdate < '2026-07-08'
+    Y esto NO, aunque parezca equivalente y no de ningun error:
+    filter=settlementno='1145280' AND paymentdate::date='2026-07-07'
+    Libertya reescribe el SQL antes de ejecutarlo (org.openXpertya.dbPort.Convert) y esa conversion rompe la
+    comparacion de una expresion de tipo date contra un literal: la consulta devuelve cero filas EN SILENCIO,
+    aunque el mismo SQL corrido directo contra la base si traiga el registro. Verificado el 2026-08-20.
+    La forma de rango ademas es la unica que puede aprovechar un indice sobre paymentdate.
+  operationId: getAllCreditCardSettlements
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/creditcardsettlement.yaml#/components/schemas/CreditCardSettlement'
+post:
+  tags:
+    - "creditcardsettlement"
+  summary: Nueva liquidacion de tarjetas (solo cabecera)
+  description: >
+    Crea la cabecera de una liquidacion de tarjetas. En la mayoria de los casos conviene usar
+    POST /v1.0/creditcardsettlements/full, que ademas crea el filtro por defecto sin el cual NO se pueden
+    colgar cupones.
+
+
+    CAMPOS OBLIGATORIOS QUE NO TIENEN VALOR POR DEFECTO y que el cliente debe enviar si o si:
+    c_bpartner_id (el adquirente), docstatus y docaction. Sin ellos el INSERT es rechazado por la base.
+    En la practica ademas hay que enviar settlementno, paymentdate y c_currency_id.
+
+
+    SETTLEMENTNO SOLO PUEDE SER NUMERICO (regla R1 del modelo: matches("\^?\d*\^?")). La clave compuesta
+    interna de un datamart, del estilo "P|113497|30059091|2026-07-07", es rechazada. Hay que enviar el numero
+    de liquidacion del adquirente.
+
+
+    UNICIDAD (regla R2): no puede haber dos liquidaciones con el mismo c_bpartner_id + settlementno +
+    paymentdate::date. Si ya existe, la respuesta es 409 e incluye el ID de la existente.
+
+
+    LA LIQUIDACION QUEDA EN BORRADOR (docstatus DR) y esta API no expone la accion de completar. Completar
+    genera un C_Payment por el neto y exige que la liquidacion cuadre dentro de la tolerancia configurada,
+    cosa que hoy no se puede garantizar desde una integracion. El completado queda en manos de una persona
+    desde la ventana del ERP. Como contrapartida, una liquidacion en DR se puede borrar: el error es
+    reversible.
+
+
+    CAMPOS QUE NO SE ENVIAN porque los calcula el modelo: couponstotalamount, commissionamount, ivaamount,
+    netamount, withholding, perception y expenses (se recalculan desde las filas hijas y desde los cupones),
+    processed y posted.
+  operationId: addCreditCardSettlement
+  responses:
+    "200":
+      description: OK. ID de liquidacion creada es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/creditcardsettlement.yaml#/components/schemas/CreditCardSettlement'

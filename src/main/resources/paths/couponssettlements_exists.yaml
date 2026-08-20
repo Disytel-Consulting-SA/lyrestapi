@@ -1,0 +1,47 @@
+post:
+  tags:
+    - "couponssettlement"
+  summary: Consulta en lote que cobros ya estan colgados de alguna liquidacion
+  description: >
+    Recibe una lista de c_payment_id y devuelve SOLO los que ya estan colgados de alguna liquidacion, con
+    el cupon y la liquidacion que los tiene. Los que no aparecen en la respuesta estan libres.
+
+
+    ES UNA CONSULTA, NO UNA ESCRITURA. Se usa POST y no GET porque la lista de cobros puede tener cientos
+    de elementos y no entra comodamente en una query string.
+
+
+    PARA QUE SIRVE: es la guarda de escritura del conciliador, que se ejecuta una vez por cobro por corrida.
+    Resolverlo de a un cobro con GET /v1.0/couponssettlements?filter=c_payment_id=NNN funciona pero es una
+    llamada por cobro; aca se resuelve todo el lote con una sola consulta SQL.
+
+
+    TOPE DE COBROS POR CONSULTA: configurable con
+    org.libertya.api.service.couponssettlements.exists-max-size (por defecto 1000). Por encima se responde
+    409; NO se trunca en silencio.
+
+
+    OJO: que un cobro NO figure aca no garantiza que siga libre cuando se lo intente colgar. Entre la
+    consulta y el POST puede haber corrido un proceso de importacion del ERP. La respuesta de
+    /bulk es la unica verdad definitiva.
+  operationId: existsCouponsSettlements
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/couponssettlements_bulk.yaml#/components/schemas/CouponsSettlementsExistsResult'
+    "409":
+      description: Consulta mal formada (sin cobros, o por encima del tope)
+      content:
+        application/json:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/couponssettlements_bulk.yaml#/components/schemas/CouponsSettlementsExists'

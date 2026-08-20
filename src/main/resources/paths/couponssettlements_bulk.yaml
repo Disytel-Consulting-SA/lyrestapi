@@ -1,0 +1,58 @@
+post:
+  tags:
+    - "couponssettlement"
+  summary: Cuelga varios cupones de una liquidacion, con resultado por cupon
+  description: >
+    Crea N cupones de UNA misma liquidacion. Es el endpoint que mas se ejecuta del dominio.
+
+
+    NO HAY ROLLBACK DEL LOTE. Cada cupon se inserta en su propia transaccion y se devuelve un resultado por
+    cada uno: creado, ya_existia, conflicto o error. Esto es deliberado: las colisiones de la regla R7 (un
+    cobro ya cargado en otra liquidacion) son esperables, no excepcionales, porque los procesos de
+    importacion del ERP siguen activos. Si el lote fuera atomico, un solo cupon en conflicto tiraria abajo
+    los otros 699 que estaban bien.
+
+
+    POR ESO LA RESPUESTA ES 200 AUNQUE HAYA CONFLICTOS. ya_existia y conflicto son resultados normales que
+    el consumidor registra y sigue; no son errores HTTP. El 4xx se reserva para el lote entero mal formado
+    (sin liquidacion, sin cupones, o mas cupones que el tope).
+
+
+    TOPE DE CUPONES POR LOTE: configurable con org.libertya.api.service.couponssettlements.bulk-max-size
+    (por defecto 200). Un lote mas grande se rechaza con 409 y un mensaje explicito; NO se trunca en
+    silencio. Doscientos cubre el percentil 99 de las liquidaciones reales en una sola llamada.
+
+
+    IDEMPOTENCIA: reenviar el mismo lote no duplica nada. Los cupones que ya esten colgados de ESTA
+    liquidacion vuelven como ya_existia con su ID; los que esten en otra vuelven como conflicto con el ID
+    de la liquidacion que los tiene. Eso es exactamente lo que necesita un conciliador para reintentar sin
+    adivinar.
+
+
+    CAMPOS: c_creditcardsettlement_id y c_creditcardcouponfilter_id pueden enviarse una sola vez en la
+    cabecera del lote y se aplican a todos los cupones que no los traigan. El resto de los obligatorios va
+    en cada cupon: c_currency_id, m_entidadfinanciera_id, m_entidadfinancieraplan_id, c_payment_id, amount
+    y trxdate. Recordar que include viene en 'N' y que el total de la liquidacion solo suma los 'Y'.
+  operationId: addCouponsSettlementsBulk
+  responses:
+    "200":
+      description: >
+        Lote procesado. Devuelve un resultado por cupon. Un 200 NO significa que todos se hayan creado:
+        hay que leer el campo estado de cada resultado.
+      content:
+        application/json:
+          schema:
+            $ref: '../model/couponssettlements_bulk.yaml#/components/schemas/CouponsSettlementsBulkResult'
+    "409":
+      description: Lote mal formado (sin liquidacion, sin cupones, o por encima del tope)
+      content:
+        application/json:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/couponssettlements_bulk.yaml#/components/schemas/CouponsSettlementsBulk'

@@ -1,0 +1,52 @@
+post:
+  tags:
+    - "creditcardsettlement"
+  summary: Nueva liquidacion de tarjetas con su filtro por defecto
+  description: >
+    Crea la cabecera de la liquidacion Y un filtro de cupones por defecto, TODO O NADA en una unica
+    transaccion. Es el endpoint recomendado para crear liquidaciones.
+
+
+    POR QUE EL FILTRO NO ES OPCIONAL: C_CouponsSettlements.c_creditcardcouponfilter_id es NOT NULL en la
+    base, con lo cual un cupon sin filtro directamente no se puede insertar. Ademas el modelo recorre los
+    cupones a traves del filtro al anular la liquidacion, asi que un cupon huerfano tampoco recuperaria el
+    estado de auditoria de su cobro. Una cabecera sin filtro es un estado invalido.
+
+
+    QUE DEVUELVE: los IDs de la liquidacion y del filtro, mas la lista de filas hijas que el modelo de
+    Libertya genero por si solo (una fila en cero por cada impuesto, esquema de retencion aplicable y
+    concepto de liquidacion configurado en el ERP). Se devuelven para ahorrar un GET por liquidacion.
+
+
+    CAMPOS DE LA CABECERA sin valor por defecto: c_bpartner_id, docstatus y docaction; en la practica
+    tambien settlementno (numerico, regla R1), paymentdate y c_currency_id.
+    CAMPOS DEL FILTRO sin valor por defecto: c_currency_id. El c_creditcardsettlement_id lo completa este
+    endpoint, y m_numerocomercio_id no hace falta enviarlo porque el modelo lo copia de la cabecera.
+    Si no se envia el bloque filter, se crea un filtro heredando c_currency_id, c_bpartner_id,
+    m_entidadfinanciera_id y m_numerocomercio_id de la cabecera.
+
+
+    LA LIQUIDACION QUEDA EN BORRADOR (DR). Esta API no expone la accion de completar.
+  operationId: addCreditCardSettlementFull
+  responses:
+    "200":
+      description: OK. Se retornan los IDs creados
+      content:
+        application/json:
+          schema:
+            $ref: '../model/creditcardsettlement_doc.yaml#/components/schemas/CreditCardSettlementCreated'
+    "409":
+      description: >
+        Imposible insertar. Si el rechazo es por unicidad (R2) el cuerpo incluye el ID de la liquidacion
+        que ya existe.
+      content:
+        application/json:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/creditcardsettlement_doc.yaml#/components/schemas/CreditCardSettlementDocument'
