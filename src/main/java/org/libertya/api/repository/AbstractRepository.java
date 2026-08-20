@@ -725,9 +725,17 @@ public abstract class AbstractRepository {
 
     /** Convierte el valor al tipo persistente, priorizando el contrato del modelo. */
     protected Object convertValue(M_Column aColumn, Object value, Class<?> fieldType) {
-        if (String.class == fieldType)
-            return String.valueOf(value);
         Class<?> displayClass = DisplayType.getClass(aColumn.getAD_Reference_ID(), false);
+        // El tipo declarado por el modelo tiene prioridad sobre la metadata de la columna, que a veces miente:
+        // una columna como AD_Language esta declarada como referencia a tabla (y por lo tanto entera en los
+        // metadatos) pero almacena texto, y convertirla a entero falla.
+        //
+        // LAS FECHAS SON LA EXCEPCION y hay que dejarlas afuera: el schema representa SIEMPRE una fecha como
+        // string, con lo cual fieldType es String para toda columna de fecha del proyecto. Sin esta salvedad,
+        // ningun documento con fecha se puede insertar y el error aparece recien al guardar, como
+        // "java.lang.String cannot be cast to java.sql.Timestamp".
+        if (String.class == fieldType && Timestamp.class != displayClass)
+            return String.valueOf(value);
         if (String.class == displayClass)
             return value;
         if (Integer.class == displayClass)
