@@ -41,6 +41,10 @@ paths:
     $ref: ./paths/invoicelines.yaml
   /v1.0/invoicelines/{id}:
     $ref: ./paths/invoicelines_id.yaml
+  /v1.0/invoicetaxes:
+    $ref: ./paths/invoicetaxes.yaml
+  /v1.0/invoicetaxes/{idInvoice}/{idTax}:
+    $ref: ./paths/invoicetaxes_id_id.yaml
   /v1.0/orders:
     $ref: ./paths/orders.yaml
   /v1.0/orders/{id}:
@@ -51,6 +55,10 @@ paths:
     $ref: ./paths/orderlines.yaml
   /v1.0/orderlines/{id}:
     $ref: ./paths/orderlines_id.yaml
+  /v1.0/ordertaxes:
+    $ref: ./paths/ordertaxes.yaml
+  /v1.0/ordertaxes/{idOrder}/{idTax}:
+    $ref: ./paths/ordertaxes_id_id.yaml
   /v1.0/inouts:
     $ref: ./paths/inouts.yaml
   /v1.0/inouts/{id}:
@@ -398,3 +406,6 @@ paths:
     $ref: ./paths/reflist_trls.yaml
   /v1.0/reflisttrls/{idRefList}/{idLanguage}:
     $ref: ./paths/reflist_trls_id_id.yaml
+# augmented metadata end-points
+  /v1.0/windows/{id}/schema:
+    $ref: ./paths/windows_id_schema.yaml

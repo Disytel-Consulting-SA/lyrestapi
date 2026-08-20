@@ -1,0 +1,79 @@
+components:
+  schemas:
+
+    WindowSchema:
+      type: object
+      properties:
+        ad_window_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        tabs:
+          type: array
+          items:
+            $ref: '#/components/schemas/WindowSchemaTab'
+
+    WindowSchemaTab:
+      type: object
+      properties:
+        data_endpoint:
+          type: string
+          description: Endpoint REST utilizado para recuperar registros de la tabla
+        ad_tab_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        seqno:
+          type: integer
+        tablevel:
+          type: integer
+        isreadonly:
+          type: boolean
+        ad_table_id:
+          type: integer
+        tablename:
+          type: string
+        whereclause:
+          type: string
+        orderbyclause:
+          type: string
+        parent_ad_tab_id:
+          type: integer
+        link_columnname:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/WindowSchemaField'
+
+    WindowSchemaField:
+      type: object
+      properties:
+        ad_field_id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        seqno:
+          type: integer
+        isdisplayed:
+          type: boolean
+        ad_column_id:
+          type: integer
+        columnname:
+          type: string
+        ad_reference_id:
+          type: integer
+        ad_reference_value_id:
+          type: integer
+        ismandatory:
+          type: boolean
+        iskey:
+          type: boolean
+        isparent:
+          type: boolean

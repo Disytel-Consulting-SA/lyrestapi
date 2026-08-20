@@ -1,0 +1,20 @@
+get:
+  summary: Recupera el esquema completo de metadatos de una ventana
+  description: Recupera la estructura de metadatos necesaria para construir dinámicamente una ventana, incluyendo sus pestañas, tablas, campos y columnas asociadas.
+  tags:
+    - "windowschema"
+  parameters:
+    - name: id
+      in: path
+      description: ID de la ventana
+      required: true
+      schema:
+        type: integer
+  operationId: retrieveWindowSchema
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/windowschema.yaml#/components/schemas/WindowSchema'

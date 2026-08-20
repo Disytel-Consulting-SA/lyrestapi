@@ -1,0 +1,108 @@
+get:
+  summary: Recupera un impuesto de factura en particular
+  tags:
+    - "invoicetax"
+  parameters:
+    - name: idInvoice
+      in: path
+      description: ID de factura
+      required: true
+      schema:
+        type: integer
+    - name: idTax
+      in: path
+      description: ID del impuesto
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion del impusto de factura en particular
+  operationId: retrieveInvoiceTax
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/invoicetax.yaml#/components/schemas/InvoiceTax'
+delete:
+  summary: Elimina un impuesto de factura
+  tags:
+    - "invoicetax"
+  parameters:
+    - name: idInvoice
+      in: path
+      description: ID de factura
+      required: true
+      schema:
+        type: integer
+    - name: idTax
+      in: path
+      description: ID de impuesto
+      required: true
+      schema:
+        type: integer
+  description: Elimina un impuesto de factura
+  operationId: deleteInvoiceTax
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza un impuesto de factura existente
+  tags:
+    - "invoicetax"
+  operationId: updateInvoiceTax
+  parameters:
+    - name: idInvoice
+      in: path
+      description: ID de factura
+      required: true
+      schema:
+        type: integer
+    - name: idTax
+      in: path
+      description: ID de impuesto
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/invoicetax.yaml#/components/schemas/InvoiceTax'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
