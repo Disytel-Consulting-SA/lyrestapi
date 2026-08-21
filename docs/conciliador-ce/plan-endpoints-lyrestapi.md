@@ -683,6 +683,7 @@ Un `docs/liquidaciones-tarjetas-api.md` en lyrestapi, al estilo de
 | Decisión | Quién / cuándo | Consecuencia |
 |---|---|---|
 | **El `POST` deja la liquidación en `DR`. No se expone `docaction=CO` en esta etapa.** | Julián, 2026-08-20 | El plan **deja de depender de T1 y F1**: no hay que reconstruir la deducción ni resolver el residuo para avanzar. Ninguna llamada de la API crea un `C_Payment` ni contabiliza nada |
+| **`numeroscomercio` (E11) se adelanta a la fase 1 y va sólo de lectura.** | Julián, 2026-08-21 | Sin él no se puede resolver el `c_bpartner_id` de la cabecera, que no se deduce del adquirente. Se deja fuera la escritura porque el maestro se administra desde el ERP. Ver §12 |
 
 Consecuencias operativas de dejar todo en `DR`, para tener presentes:
 
@@ -703,9 +704,9 @@ Consecuencias operativas de dejar todo en `DR`, para tener presentes:
 | # | Pregunta | Dueño |
 |---|---|---|
 | 1 | ¿`C_CreditCardCouponFilter.C_CreditCardSettlement_ID` es NOT NULL en la base? Decide si el filtro es obligatorio o una recomendación | verificable en QA |
-| 2 | ¿Qué `C_BPartner_ID` corresponde a cada adquirente? Entra en la unicidad de R2 | Christian |
+| 2 | ~~¿Qué `C_BPartner_ID` corresponde a cada adquirente?~~ **Cerrada el 2026-08-21: la pregunta tenía la premisa equivocada.** No es por adquirente sino **por número de comercio**: sobre los datos del cliente, Fiserv opera contra 6 entidades comerciales distintas y Prisma contra otras 6. Se resuelve con el endpoint de la #4 | cerrada |
 | 3 | Los 365/818 de Payway en `IN`: ¿se tocan, se ignoran, o el conciliador no opera sobre ellas? | Finanzas |
-| 4 | ¿Hace falta `M_NumeroComercio` como endpoint de sólo lectura (E11) para resolver el comercio, o se resuelve por otra vía? Hoy **no está replicado en el datamart** (pendiente T4) | Julián |
+| 4 | ~~¿Hace falta `M_NumeroComercio` como endpoint de sólo lectura (E11)?~~ **Cerrada el 2026-08-21: sí, y está implementado.** `GET /v1.0/numeroscomercio`. Ver §12 | cerrada |
 | 5 | La rama de lyrestapi, ¿mergea a `main` o queda como fork de Tehuelche? **Recomendación: mergea** — el source no necesita API de TEH (§3.5), lo específico es el `OXP_HOME` del build | Julián + Nacho |
 | 6 | ¿Se implementa la supresión del rollup (`setReconciledFlag`) en el `bulk`, o se acepta el O(N²)? **Recomendación: medir primero** — hasta el p99 no duele | técnica |
 
@@ -732,3 +733,98 @@ Consecuencias operativas de dejar todo en `DR`, para tener presentes:
   y `bulk` de cupones con resultado por ítem (sin rollback del lote). La mediana son 4-7
   cupones pero el máximo histórico es 3.504.
 - ✅ **Decidido: todo queda en `DR`.** No se expone `docaction=CO`, así que el plan **no depende de T1 ni de F1** y se puede empezar.
+
+---
+
+## 12. `numeroscomercio` (E11) — implementado el 2026-08-21
+
+Adelantado de la fase 3 a pedido de quien está integrando: al querer crear una liquidación aparece que el
+`c_bpartner_id` de la cabecera no se puede resolver con lo que había expuesto.
+
+### 12.1 Por qué era bloqueante y no una comodidad
+
+La pregunta abierta #2 preguntaba qué entidad comercial corresponde a cada adquirente. **La premisa estaba
+mal.** Contando sobre `m_numerocomercio` en `ly_core_teh` (294 filas activas, 246 comercios distintos):
+
+| adquirente | `c_bpartner_id` distintos |
+|---|---:|
+| `F` (Fiserv) | 6 |
+| `P` (Prisma) | 6 |
+| `T` (Otros) | 2 |
+| el resto | 1 |
+
+No hay función adquirente → entidad comercial. La única que existe es comercio → entidad comercial, y ese
+mapeo vive exclusivamente en `M_NumeroComercio`. Sin el endpoint, un integrador sólo puede hardcodear la
+tabla, que es justo lo que la guía le pide no hacer.
+
+### 12.2 Por qué no alcanzaba con `entidadesfinancieras`, que ya estaba
+
+`M_EntidadFinanciera` tiene el comercio desnormalizado —`m_numerocomercio_id`, `adquirente`,
+`financingservice`, `establishmentnumber`, `c_bpartner_id`, `c_bankaccount_id`,
+`c_bankaccount_settlement_id`— y el endpoint ya existía. Además `AbstractRepository.loadEntityFromPO` devuelve
+en `additionalvalues` cualquier columna que no esté en el DTO, y `filter` es SQL crudo, así que ya se podía
+consultar por `adquirente` sin tocar nada.
+
+No alcanzaba por tres motivos, en orden de gravedad:
+
+1. **La copia se puede quedar vieja.** `MNumeroComercio.afterSave` sincroniza sólo con `!newRecord`, y el
+   `UPDATE` apunta a las entidades financieras que *ya* referencian al comercio. Un comercio nuevo no propaga
+   nunca.
+2. **No está completa:** 53 de las 944 entidades financieras activas no tienen `m_numerocomercio_id`.
+3. **Es una vista por sucursal, no el maestro:** 2.328 filas contra 296, con lo cual hay que deduplicar.
+
+Se documentó igual como atajo en §7 de la guía de uso, porque cuando ya tenés el `m_entidadfinanciera_id` del
+cupón ahorra una llamada.
+
+### 12.3 Alcance: sólo lectura
+
+`GET /v1.0/numeroscomercio` y `GET /v1.0/numeroscomercio/{id}`. Sin `POST`/`PUT`/`DELETE`, decidido el
+2026-08-21 (Julián): es un maestro que se administra desde la ventana del ERP, y exponer escritura permitiría
+cambiar desde una integración la cuenta bancaria de liquidación de un comercio —además de disparar el `UPDATE`
+masivo de `MNumeroComercio.afterSave` sobre `m_entidadfinanciera`—.
+
+### 12.4 Lo que no es obvio del modelo
+
+- **La tabla es de plugin.** `AD_Component` la declara con `corelevel=2` y
+  `packagename=com.hipertehuelche.sucursales`, y su única clase Java es
+  `com.hipertehuelche.sucursales.model.MNumeroComercio` (presente en `OXP.jar`; hereda de
+  `LP_M_NumeroComercio extends PO`, con lo cual pasa el chequeo *strict PO* de `M_Table.getPOclass`). Por eso
+  `NumeroComercioRepository` usa el nombre de tabla como literal y no la constante `Table_Name` de una clase
+  `X_*`: no hay ninguna, y **el source no importa `com.hipertehuelche` a propósito** (§3.5).
+- **Si falta el registro del owner, el síntoma es un 404 mudo.** `M_Table.getPO()` devuelve `null` cuando no
+  encuentra la clase, no lanza excepción. De ahí el test `retrieveDebeResolverLaClaseDelPlugin`.
+- **`financingservice`, `value` y `c_bankaccount_settlement_id` son `ismandatory='N'`** en el diccionario, así
+  que van en el filtro explícito de columnas de `genSchema.sh`. `financingservice` es parte de la clave
+  natural: sin él el endpoint no sirve.
+- **La clave natural no es única.** `getM_NumeroComercio_ID()` resuelve por
+  `numerocomercio` + `adquirente` + `financingservice` con `DB.getSQLValueEx`, pero hay 13 ternas duplicadas
+  (hasta 4 filas, algunas dentro de la misma sucursal). Para resolver el `c_bpartner_id` da igual —las 13
+  apuntan al mismo—, pero es la manifestación en el modelo del problema de comercios cruzados que
+  `../conciliador-ce/docs/PENDIENTES.md` T4 describe desde el BI.
+- **`ClientOrgAuth` sólo filtra por compañía, no por organización**, así que un token de una sucursal puede
+  leer comercios de las otras. Es lo que el conciliador necesita, y conviene saberlo porque no es lo que
+  sugiere el nombre de la clase.
+
+### 12.5 Lo que la base de pruebas no puede verificar
+
+En `ly_core_teh` **ninguno de los 11 `c_bpartner_id` de `m_numerocomercio` existe en `c_bpartner`** (la base
+tiene 80 entidades comerciales y ninguna es un adquirente). La columna no tiene foreign key, así que no
+explota, pero **no se puede comprobar ahí que el `c_bpartner_id` resuelto sea usable en el `POST` de la
+cabecera** —que sí tiene `fkbpartner`—. Eso hay que verificarlo contra la base real de Tehuelche.
+
+### 12.6 Cambio colateral: dos campos en `EntidadFinanciera`
+
+Se agregaron `adquirente` y `m_numerocomercio_id` al schema de `EntidadFinanciera`, **a mano y no
+regenerando**: una regeneración completa contra `ly_core_teh` arrastra 21 columnas de TPV
+(`iscodigo_seguridad`, `longmax_numerotarjeta`, `mascara_vtotarjeta`, ...) que nadie pidió. Funcionalmente no
+cambia nada —ya volvían en `additionalvalues`—, pero quedan visibles en Swagger, que es donde un integrador
+las busca.
+
+### 12.7 Tests
+
+`NumeroComercioIntegrationTests`, 4 tests, verdes contra `ly_core_teh` con fixtures reales (294 comercios de la
+compañía 1010016). Se saltean solos contra una base sin el diccionario de Tehuelche.
+
+Para correrlos hay que pasar `DB_NAME=ly_core_teh` **y** la password de esa base: `CommonIntegrationTests`
+tiene `password=AdminLibertya` hardcodeada y en `ly_core_teh` es otra, con lo cual el `POST /token` falla con
+un 403 que no dice nada del problema real.

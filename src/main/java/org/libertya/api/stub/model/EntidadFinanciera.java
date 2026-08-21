@@ -29,6 +29,9 @@ public class EntidadFinanciera   {
   @JsonProperty("ad_org_id")
   private Integer adOrgId = null;
 
+  @JsonProperty("adquirente")
+  private String adquirente = null;
+
   @JsonProperty("cardmask")
   private String cardmask = null;
 
@@ -73,6 +76,9 @@ public class EntidadFinanciera   {
 
   @JsonProperty("m_entidadfinanciera_id")
   private Integer mEntidadfinancieraId = null;
+
+  @JsonProperty("m_numerocomercio_id")
+  private Integer mNumerocomercioId = null;
 
   @JsonProperty("name")
   private String name = null;
@@ -154,6 +160,25 @@ public class EntidadFinanciera   {
 
   public void setAdOrgId(Integer adOrgId) {
     this.adOrgId = adOrgId;
+  }
+
+  public EntidadFinanciera adquirente(String adquirente) {
+    this.adquirente = adquirente;
+    return this;
+  }
+
+  /**
+   *  
+   * @return adquirente
+   **/
+  @Schema(description = " ")
+  
+    public String getAdquirente() {
+    return adquirente;
+  }
+
+  public void setAdquirente(String adquirente) {
+    this.adquirente = adquirente;
   }
 
   public EntidadFinanciera cardmask(String cardmask) {
@@ -451,6 +476,25 @@ public class EntidadFinanciera   {
     this.mEntidadfinancieraId = mEntidadfinancieraId;
   }
 
+  public EntidadFinanciera mNumerocomercioId(Integer mNumerocomercioId) {
+    this.mNumerocomercioId = mNumerocomercioId;
+    return this;
+  }
+
+  /**
+   *  
+   * @return mNumerocomercioId
+   **/
+  @Schema(description = " ")
+  
+    public Integer getMNumerocomercioId() {
+    return mNumerocomercioId;
+  }
+
+  public void setMNumerocomercioId(Integer mNumerocomercioId) {
+    this.mNumerocomercioId = mNumerocomercioId;
+  }
+
   public EntidadFinanciera name(String name) {
     this.name = name;
     return this;
@@ -617,6 +661,7 @@ public class EntidadFinanciera   {
     return Objects.equals(this.adClientId, entidadFinanciera.adClientId) &&
         Objects.equals(this.adComponentobjectuid, entidadFinanciera.adComponentobjectuid) &&
         Objects.equals(this.adOrgId, entidadFinanciera.adOrgId) &&
+        Objects.equals(this.adquirente, entidadFinanciera.adquirente) &&
         Objects.equals(this.cardmask, entidadFinanciera.cardmask) &&
         Objects.equals(this.cBankaccountId, entidadFinanciera.cBankaccountId) &&
         Objects.equals(this.cBankaccountSettlementId, entidadFinanciera.cBankaccountSettlementId) &&
@@ -632,6 +677,7 @@ public class EntidadFinanciera   {
         Objects.equals(this.isactive, entidadFinanciera.isactive) &&
         Objects.equals(this.isallowcreditcardcashretirement, entidadFinanciera.isallowcreditcardcashretirement) &&
         Objects.equals(this.mEntidadfinancieraId, entidadFinanciera.mEntidadfinancieraId) &&
+        Objects.equals(this.mNumerocomercioId, entidadFinanciera.mNumerocomercioId) &&
         Objects.equals(this.name, entidadFinanciera.name) &&
         Objects.equals(this.numerocomercioclover, entidadFinanciera.numerocomercioclover) &&
         Objects.equals(this.updated, entidadFinanciera.updated) &&
@@ -643,7 +689,7 @@ public class EntidadFinanciera   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, cardmask, cBankaccountId, cBankaccountSettlementId, cBpartnerId, cCityId, created, createdby, creditcardcashretirementlimit, creditcardtype, cRegionId, establishmentnumber, financingservice, isactive, isallowcreditcardcashretirement, mEntidadfinancieraId, name, numerocomercioclover, updated, updatedby, value, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, adquirente, cardmask, cBankaccountId, cBankaccountSettlementId, cBpartnerId, cCityId, created, createdby, creditcardcashretirementlimit, creditcardtype, cRegionId, establishmentnumber, financingservice, isactive, isallowcreditcardcashretirement, mEntidadfinancieraId, mNumerocomercioId, name, numerocomercioclover, updated, updatedby, value, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -654,6 +700,7 @@ public class EntidadFinanciera   {
     sb.append("    adClientId: ").append(toIndentedString(adClientId)).append("\n");
     sb.append("    adComponentobjectuid: ").append(toIndentedString(adComponentobjectuid)).append("\n");
     sb.append("    adOrgId: ").append(toIndentedString(adOrgId)).append("\n");
+    sb.append("    adquirente: ").append(toIndentedString(adquirente)).append("\n");
     sb.append("    cardmask: ").append(toIndentedString(cardmask)).append("\n");
     sb.append("    cBankaccountId: ").append(toIndentedString(cBankaccountId)).append("\n");
     sb.append("    cBankaccountSettlementId: ").append(toIndentedString(cBankaccountSettlementId)).append("\n");
@@ -669,6 +716,7 @@ public class EntidadFinanciera   {
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isallowcreditcardcashretirement: ").append(toIndentedString(isallowcreditcardcashretirement)).append("\n");
     sb.append("    mEntidadfinancieraId: ").append(toIndentedString(mEntidadfinancieraId)).append("\n");
+    sb.append("    mNumerocomercioId: ").append(toIndentedString(mNumerocomercioId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    numerocomercioclover: ").append(toIndentedString(numerocomercioclover)).append("\n");
     sb.append("    updated: ").append(toIndentedString(updated)).append("\n");

@@ -327,6 +327,10 @@ paths:
     $ref: ./paths/couponssettlements_exists.yaml
   /v1.0/couponssettlements/{id}:
     $ref: ./paths/couponssettlements_id.yaml
+  /v1.0/numeroscomercio:
+    $ref: ./paths/numeroscomercio.yaml
+  /v1.0/numeroscomercio/{id}:
+    $ref: ./paths/numeroscomercio_id.yaml
 # metadata end-points
   /v1.0/tables:
     $ref: ./paths/tables.yaml

@@ -12,7 +12,7 @@ cobro (`C_Payment`).
 > ⚠️ **Estos endpoints asumen el core de Tehuelche.** Las reglas R6 y R7 —las que impiden que un mismo cobro
 > quede cargado en dos liquidaciones— viven en `MCouponsSettlements`, una clase que **sólo existe en el core
 > de Tehuelche**. Sobre una instalación con el core público el ERP **no rechazaría** el doble impacto y
-> pasaría en silencio. Ver la sección 8.
+> pasaría en silencio. Ver la sección 9.
 
 ---
 
@@ -30,24 +30,33 @@ TOKEN=$(curl -s -X POST "$BASE/token" \
 curl -G "$BASE/v1.0/creditcardsettlements" -H "Authorization: $TOKEN" \
   --data-urlencode "filter=settlementno='1145280' AND paymentdate >= '2026-07-07' AND paymentdate < '2026-07-08'"
 
-# 3) Si no existe: crearla con su filtro, en una sola transacción
+# 3) Si no existe: ¿contra qué entidad comercial se emite? Lo dice el número de comercio
+curl -G "$BASE/v1.0/numeroscomercio" -H "Authorization: $TOKEN" \
+  --data-urlencode "filter=numerocomercio='29283231' AND adquirente='P' AND financingservice='MA' AND isactive='Y'"
+# -> el c_bpartner_id del resultado es el que va en la cabecera. NO se deduce del adquirente. Ver sección 7.
+
+# 4) Crearla con su filtro, en una sola transacción
 curl -X POST "$BASE/v1.0/creditcardsettlements/full" \
   -H "Authorization: $TOKEN" -H "Content-Type: application/json" \
   -d '{
     "header": {
       "ad_org_id": 1010053,
-      "c_bpartner_id": 1012145,
+      "c_bpartner_id": 1043088,
       "c_currency_id": 118,
       "settlementno": "1145280",
       "paymentdate": "2026-07-07 00:00:00",
       "docstatus": "DR",
-      "docaction": "CO"
+      "docaction": "CO",
+      "m_numerocomercio_id": 1000005,
+      "adquirente": "P",
+      "financingservice": "MA",
+      "establishmentnumber": "29283231"
     },
     "filter": { "m_entidadfinanciera_id": 1010228 }
   }'
 # -> 200 con {"c_creditcardsettlement_id":..., "c_creditcardcouponfilter_id":..., "children":[...]}
 
-# 4) Colgar los cupones, de a lotes de 200
+# 5) Colgar los cupones, de a lotes de 200
 curl -X POST "$BASE/v1.0/couponssettlements/bulk" \
   -H "Authorization: $TOKEN" -H "Content-Type: application/json" \
   -d '{
@@ -64,11 +73,11 @@ curl -X POST "$BASE/v1.0/couponssettlements/bulk" \
 ```
 
 **Los IDs del ejemplo son de una instancia concreta y NO sirven en otra base.** Resolvelos con los endpoints
-de la sección 7 — nunca los hardcodees.
+de la sección 8 — nunca los hardcodees.
 
 ---
 
-## 2. Las cinco cosas que más se olvidan
+## 2. Las seis cosas que más se olvidan
 
 1. **El filtro no es opcional.** `C_CouponsSettlements.c_creditcardcouponfilter_id` es `NOT NULL` en la base:
    un cupón sin filtro directamente no entra. Por eso existe `/full`, que crea cabecera y filtro juntos.
@@ -79,6 +88,8 @@ de la sección 7 — nunca los hardcodees.
 4. **`include` viene en `'N'` por defecto** y el total de la liquidación (`couponstotalamount`) sólo suma los
    cupones con `include='Y'`. Si querés que el cupón participe del total, mandalo explícito.
 5. **La liquidación queda en borrador (`DR`) y esta API no la completa.** Ver la sección 6.
+6. **El `c_bpartner_id` de la cabecera no se deduce del adquirente.** Un mismo adquirente puede operar contra
+   varias entidades comerciales; lo único que lo determina es el número de comercio. Ver la sección 7.
 
 ---
 
@@ -180,13 +191,21 @@ Son los que la base rechaza si no vienen, y no están todos marcados como obliga
 
 | Campo | ¿Obligatorio? | Nota |
 |---|---|---|
-| `c_bpartner_id` | **sí** | el adquirente. Entra en la unicidad de R2 |
+| `c_bpartner_id` | **sí** | la entidad comercial del adquirente. **Sale del número de comercio, no del adquirente** (sección 7). Entra en la unicidad de R2 |
 | `docstatus` | **sí** | mandar `"DR"` |
 | `docaction` | **sí** | mandar `"CO"` |
 | `settlementno` | en la práctica sí | **sólo numérico** (R1) |
 | `paymentdate` | en la práctica sí | `"YYYY-MM-DD HH:MM:SS"` |
 | `c_currency_id` | en la práctica sí | |
 | `ad_org_id` | sí | |
+| `adquirente`, `financingservice`, `establishmentnumber` | no, pero mandalos | son los tres campos del comercio. Ver abajo |
+| `m_numerocomercio_id` | no | ídem |
+
+Los cuatro campos del comercio **no son obligatorios, pero conviene mandarlos igual**. Cuando alguien complete
+la liquidación desde el ERP, `completeIt()` los usa para resolver el comercio y armar la descripción del
+`C_Payment` que genera —número de liquidación, comercio, tarjeta y adquirente—. Si van en blanco el cobro
+queda sin esa información y no hay forma de reponerla después. No cuestan nada: ya salieron de la consulta que
+resolvió el `c_bpartner_id`.
 
 **No mandes** `couponstotalamount`, `commissionamount`, `ivaamount`, `netamount`, `withholding`, `perception`
 ni `expenses`: los recalcula el modelo desde las filas hijas y los cupones. Tampoco `processed` ni `posted`.
@@ -250,7 +269,83 @@ Consecuencias, para tenerlas presentes:
 
 ---
 
-## 7. Cómo resolver los IDs sin hardcodearlos
+## 7. El número de comercio: de dónde sale el `c_bpartner_id`
+
+```
+GET /v1.0/numeroscomercio            (lista, con filter / fields / sort / limit / page)
+GET /v1.0/numeroscomercio/{id}
+```
+
+Sólo lectura. El maestro se administra desde la ventana del ERP.
+
+### Por qué existe
+
+Para armar la cabecera hace falta un `c_bpartner_id`, y **no se deduce del adquirente**. Sobre los datos
+reales del cliente, un mismo adquirente opera contra varias entidades comerciales:
+
+| adquirente | entidades comerciales distintas |
+|---|---:|
+| `F` (Fiserv) | 6 |
+| `P` (Prisma) | 6 |
+| `T` (Otros) | 2 |
+| el resto | 1 |
+
+Lo único que determina la entidad comercial es el **número de comercio**. De ahí salen también las cuentas
+bancarias (`c_bankaccount_id`, `c_bankaccount_settlement_id`) que el ERP usa al completar.
+
+### Los campos
+
+| Campo | Qué es |
+|---|---|
+| `m_numerocomercio_id` | el id, para mandarlo en la cabecera |
+| `numerocomercio` | el número que asigna el adquirente al comercio |
+| `adquirente` | código de 1 letra: `P` Prisma, `F` Fiserv, `N` Naranja, `C` Cabal, `A` Amex, `M` Mercado Pago, `G` Galicia, `H` Patagonia 365, `O` Confiable, `T` Otros |
+| `financingservice` | código de 2 letras de la tarjeta: `VI`, `MA`, `AM`, `CA`, `NA`, `DI`, `UP`, `MP`, `QR`, ... |
+| `c_bpartner_id` | **la entidad comercial que va en la cabecera de la liquidación** |
+| `c_bankaccount_id` | cuenta bancaria del comercio |
+| `c_bankaccount_settlement_id` | cuenta para el pago que genera el ERP al completar. Suele venir vacía |
+| `value` | etiqueta legible, del estilo `29283231-PRISMA-Master` |
+| `ad_org_id` | la sucursal a la que pertenece el comercio |
+
+Los códigos de `adquirente` y `financingservice` salen de dos listas del diccionario —`Adquirentes tarjetas`
+y `CreditCardTypes`, en `AD_Ref_List`—. **Ojo: `/v1.0/reflists` no te las va a devolver**, porque esas filas
+son de `ad_client_id = 0` y el filtro por compañía que aplica la API las deja afuera. Usá la tabla de arriba,
+o miralas desde la ventana de referencias del ERP.
+
+La respuesta sí trae `referencedvalues` con el nombre de la sucursal (`ad_org_id__detail`) y de la cuenta
+bancaria, sin necesidad de otra llamada.
+
+### ⚠️ La clave natural NO es única
+
+El core resuelve el comercio por la terna `numerocomercio` + `adquirente` + `financingservice`
+(`MCreditCardSettlement.getM_NumeroComercio_ID()`), pero **esa terna puede devolver varias filas**: hay
+comercios repetidos entre sucursales y algunos repetidos dentro de la misma. Sobre los datos del cliente, 13
+ternas están duplicadas, con hasta 4 filas cada una.
+
+**Para lo que importa acá no cambia nada:** en las 13, todas las filas apuntan al **mismo** `c_bpartner_id`.
+Pero el consumidor tiene que estar preparado para más de un resultado y no asumir que el primero es "el
+correcto" — lo que varía entre ellas es la sucursal.
+
+Si además querés acotar por sucursal, agregá `ad_org_id` al filtro.
+
+### Atajo: desde la entidad financiera
+
+Si ya tenés el `m_entidadfinanciera_id` del cupón, la entidad financiera trae el comercio desnormalizado
+(`m_numerocomercio_id`, `adquirente`, `financingservice`, `establishmentnumber`, `c_bpartner_id`), así que
+podés saltar en un solo paso:
+
+```bash
+curl "$BASE/v1.0/entidadesfinancieras/1010228" -H "Authorization: $TOKEN"
+```
+
+**Pero es una copia, no la fuente.** El ERP la sincroniza sólo cuando se *modifica* un comercio existente
+(`MNumeroComercio.afterSave`), con lo cual un comercio nuevo nunca se propaga, y sobre los datos del cliente
+53 entidades financieras activas no tienen comercio asignado. Úsala como atajo, y ante cualquier duda leé el
+maestro.
+
+---
+
+## 8. Cómo resolver los IDs sin hardcodearlos
 
 | Necesitás | Endpoint |
 |---|---|
@@ -259,12 +354,13 @@ Consecuencias, para tenerlas presentes:
 | Entidad financiera | `GET /v1.0/entidadesfinancieras` |
 | Plan de entidad financiera | `GET /v1.0/entidadfinancieraplanes` |
 | Cobro (`C_Payment`) | `GET /v1.0/payments?filter=...` |
+| **Número de comercio** (y con él el `c_bpartner_id`) | `GET /v1.0/numeroscomercio?filter=...` — ver sección 7 |
 | Liquidación existente | `GET /v1.0/creditcardsettlements?filter=...` |
 | Filtro de una liquidación | `GET /v1.0/creditcardcouponfilters?filter=c_creditcardsettlement_id=NNN` |
 
 ---
 
-## 8. La advertencia sobre el core: R6 y R7 sólo existen en Tehuelche
+## 9. La advertencia sobre el core: R6 y R7 sólo existen en Tehuelche
 
 Vale la pena repetirlo porque es la única de estas advertencias que **no se manifiesta como un error**.
 
@@ -283,9 +379,16 @@ Además, el jar de Tehuelche **exige el diccionario de Tehuelche**: `generateAll
 `M_NumeroComercio`, que no existe en una base que no sea la de Tehuelche. Contra cualquier otra base el alta
 de la cabecera falla con `relation "m_numerocomercio" does not exist`.
 
+Por lo mismo, **`/v1.0/numeroscomercio` (sección 7) sólo funciona contra Tehuelche.** No es únicamente que la
+tabla no exista en otra base: es una tabla de plugin, y su clase Java vive en
+`com.hipertehuelche.sucursales.model`. Libertya la resuelve leyendo del diccionario qué componente es dueño de
+la tabla (`AD_Component` / `AD_ComponentVersion`), así que si ese registro falta —aunque la tabla y sus filas
+estén— la recuperación por id devuelve **404 sin ningún error**, porque `M_Table.getPO()` retorna `null` en vez
+de fallar. Es exactamente lo que verifica el test `retrieveDebeResolverLaClaseDelPlugin`.
+
 ---
 
-## 9. Propiedades de configuración
+## 10. Propiedades de configuración
 
 Las dos tienen default en línea, así que un `application.properties` viejo sigue arrancando.
 

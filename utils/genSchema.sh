@@ -6,7 +6,7 @@ TARGET_DIR=../src/main/resources
 HOST_NAME=localhost
 HOST_PORT=5432
 USER_NAME=libertya
-DB_NAME=ly_core_rel_2605ar
+DB_NAME=${DB_NAME:-ly_core_rel_2605ar}
 
 # Funciones
 generateSchema() {
@@ -105,6 +105,19 @@ generateSchema AcctSchema               C_AcctSchema              acctschema.yam
 generateSchema GLCategory               GL_Category               glcategory.yaml         "('description', 'categorytype', 'isdefault')"
 generateSchema Period                   C_Period                  period.yaml             "('description', 'periodtype', 'periodno', 'startdate', 'enddate', 'c_year_id')"
 generateSchema ValidCombination         C_ValidCombination        validcombination.yaml   "('description', 'alias', 'combination', 'account_id', 'm_product_id', 'c_bpartner_id', 'c_project_id', 'c_campaign_id', 'c_activity_id', 'c_salesregion_id', 'ad_orgtrx_id', 'c_acctschema_id')"
+
+# Liquidaciones de tarjetas - maestro exclusivo del diccionario de Tehuelche.
+# NO se genera por defecto: M_NumeroComercio no existe fuera de esa base y correr esto contra otro
+# diccionario deja el yaml vacio.  Para regenerarlo:
+#     DB_NAME=ly_core_teh ./genSchema.sh
+# financingservice, value y c_bankaccount_settlement_id son ismandatory='N' en el diccionario, asi que
+# DEBEN ir en el filtro explicito.  financingservice ademas es parte de la clave natural del comercio
+# (numerocomercio + adquirente + financingservice), con lo cual sin el el endpoint no sirve.
+# Nota: los otros yaml del dominio (creditcardsettlement, creditcardcouponfilter, couponssettlements) se
+# generaron a mano contra ly_core_teh y no estan listados aca.  Ver docs/liquidaciones-tarjetas-api.md
+if [ "$DB_NAME" = "ly_core_teh" ]; then
+generateSchema NumeroComercio           M_NumeroComercio          numerocomercio.yaml     "('value', 'financingservice', 'c_bankaccount_settlement_id')"
+fi
 
 # metadata
 generateSchema Table                    AD_Table                  table.yaml
