@@ -1,0 +1,17 @@
+components:
+  schemas:
+
+    ColumnLookupValue:
+      type: object
+      properties:
+        value:
+          type: string
+          description: Valor real almacenado en la columna
+
+        name:
+          type: string
+          description: Descripción visible asociada al valor
+
+        isactive:
+          type: boolean
+          description: Indica si el registro referenciado está activo

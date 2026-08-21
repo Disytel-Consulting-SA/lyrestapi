@@ -409,3 +409,5 @@ paths:
 # augmented metadata end-points
   /v1.0/windows/{id}/schema:
     $ref: ./paths/windows_id_schema.yaml
+  /v1.0/columns/{id}/lookup:
+    $ref: ./paths/columns_id_lookup.yaml

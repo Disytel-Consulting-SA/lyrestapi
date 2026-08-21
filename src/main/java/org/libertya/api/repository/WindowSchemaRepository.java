@@ -2,6 +2,8 @@ package org.libertya.api.repository;
 
 import org.libertya.api.stub.model.WindowSchema;
 import org.libertya.api.stub.model.WindowSchemaField;
+import org.libertya.api.stub.model.WindowSchemaReference;
+import org.libertya.api.stub.model.WindowSchemaReferenceValue;
 import org.libertya.api.stub.model.WindowSchemaTab;
 import org.openXpertya.util.DB;
 import org.springframework.stereotype.Repository;
@@ -11,18 +13,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.StringJoiner;
 
 @Repository
 public class WindowSchemaRepository {
+
+    private static final int REFERENCE_LIST = 17;
+
+    private static final int REFERENCE_YESNO = 20;
+
+    private static final int REFERENCE_TABLE = 18;
+    private static final int REFERENCE_TABLE_DIRECT = 19;
+
+    private static final int REFERENCE_BUTTON = 28;
 
     /*
      * Mapping tabla Libertya -> endpoint REST.
      *
      * Se genera automáticamente mediante utils/genSchema.sh
-     * y se encuentra en src/main/resources/table-endpoints.properties.
+     * y se encuentra en:
+     *
+     * src/main/resources/table-endpoints.properties
      */
     private static final Properties TABLE_ENDPOINTS =
             loadTableEndpoints();
@@ -101,6 +117,7 @@ public class WindowSchemaRepository {
         ResultSet rs = null;
 
         try {
+
             ps = DB.prepareStatement(sql, null);
             ps.setInt(1, windowId);
 
@@ -163,10 +180,6 @@ public class WindowSchemaRepository {
                     String tableName =
                             rs.getString("tablename");
 
-                    /*
-                     * Resolver automáticamente el endpoint
-                     * correspondiente a la tabla.
-                     */
                     String dataEndpoint =
                             TABLE_ENDPOINTS.getProperty(
                                     tableName
@@ -235,6 +248,7 @@ public class WindowSchemaRepository {
                                 );
 
                         if (parentTabId != null) {
+
                             currentTab.parentAdTabId(
                                     parentTabId
                             );
@@ -348,19 +362,30 @@ public class WindowSchemaRepository {
             }
 
 
-            /*
-             * En este punto todas las tabs ya tienen todos
-             * sus fields.
-             *
-             * Recién ahora podemos resolver correctamente
-             * link_columnname mediante IsParent / IsKey.
-             */
             if (schema != null) {
 
+                /*
+                 * Resolver relaciones master/detail.
+                 */
                 resolveLinkColumns(
                         schema,
                         explicitLinkColumns
                 );
+
+                /*
+                 * Resolver listas AD_Ref_List.
+                 *
+                 * Se realiza en una única consulta adicional
+                 * para todas las referencias utilizadas por
+                 * la ventana.
+                 */
+                resolveListReferences(schema);
+
+                resolveBooleanReferences(schema);
+
+                resolveLookupReferences(schema);
+
+                resolveButtonReferences(schema);
             }
 
 
@@ -425,9 +450,6 @@ public class WindowSchemaRepository {
 
     /**
      * Determina el padre estructural de una pestaña.
-     *
-     * Para una pestaña de nivel N, Libertya considera padre
-     * a la primera pestaña anterior cuyo nivel sea N-1.
      */
     private Integer findParentTabId(
             List<WindowSchemaTab> tabs,
@@ -459,17 +481,6 @@ public class WindowSchemaRepository {
 
     /**
      * Resuelve la columna master/detail de cada pestaña.
-     *
-     * Prioridad:
-     *
-     * 1. AD_Tab.AD_Column_ID explícito.
-     *
-     * 2. Si existe una única columna IsParent='Y',
-     *    utilizarla.
-     *
-     * 3. Si existen varias columnas IsParent='Y',
-     *    compararlas contra las columnas IsKey='Y'
-     *    de las pestañas anteriores.
      */
     private void resolveLinkColumns(
             WindowSchema schema,
@@ -492,10 +503,6 @@ public class WindowSchemaRepository {
                     tabs.get(tabIndex);
 
 
-            /*
-             * Las pestañas raíz no necesitan relación
-             * master/detail.
-             */
             if (tab.getTablevel() == null
                     || tab.getTablevel() == 0) {
 
@@ -523,14 +530,14 @@ public class WindowSchemaRepository {
 
 
             /*
-             * Obtener columnas marcadas IsParent.
+             * Obtener columnas IsParent.
              */
             List<WindowSchemaField> parentFields =
                     getParentFields(tab);
 
 
             /*
-             * 2. Un único candidato IsParent.
+             * 2. Un único candidato.
              */
             if (parentFields.size() == 1) {
 
@@ -545,7 +552,7 @@ public class WindowSchemaRepository {
 
 
             /*
-             * 3. Múltiples candidatos IsParent.
+             * 3. Múltiples candidatos.
              */
             if (parentFields.size() > 1) {
 
@@ -567,16 +574,43 @@ public class WindowSchemaRepository {
     }
 
 
+    private void resolveButtonReferences(
+            WindowSchema schema) {
+
+        if (schema.getTabs() == null) {
+            return;
+        }
+
+        for (WindowSchemaTab tab : schema.getTabs()) {
+
+            if (tab.getFields() == null) {
+                continue;
+            }
+
+            for (WindowSchemaField field : tab.getFields()) {
+
+                if (field.getAdReferenceId() != null
+                        && field.getAdReferenceId()
+                        == REFERENCE_BUTTON) {
+
+                    field.reference(
+                            new WindowSchemaReference()
+                                    .type("button")
+                    );
+                }
+            }
+        }
+    }
+
+
     /**
-     * Recupera los campos de una pestaña marcados
-     * como AD_Column.IsParent='Y'.
+     * Recupera los campos marcados IsParent='Y'.
      */
     private List<WindowSchemaField> getParentFields(
             WindowSchemaTab tab) {
 
         List<WindowSchemaField> result =
                 new ArrayList<>();
-
 
         if (tab.getFields() == null) {
             return result;
@@ -599,9 +633,8 @@ public class WindowSchemaRepository {
 
 
     /**
-     * Cuando existen múltiples columnas IsParent,
-     * busca en las pestañas anteriores una columna key
-     * cuyo nombre coincida con alguna de ellas.
+     * Resuelve una columna master/detail cuando existen
+     * múltiples candidatos IsParent.
      */
     private String resolveLinkFromPreviousTabs(
             List<WindowSchemaTab> tabs,
@@ -662,5 +695,310 @@ public class WindowSchemaRepository {
 
 
         return null;
+    }
+
+
+    /**
+     * Resuelve todas las referencias de tipo List
+     * utilizadas por la ventana.
+     *
+     * Importante:
+     *
+     * NO realiza una query por campo.
+     *
+     * Primero determina todos los AD_Reference_ID
+     * necesarios y luego obtiene todos los AD_Ref_List
+     * mediante una única consulta.
+     */
+    private void resolveListReferences(
+            WindowSchema schema) {
+
+        Set<Integer> referenceIds =
+                new LinkedHashSet<>();
+
+
+        /*
+         * Primera pasada:
+         *
+         * determinar qué listas necesita esta ventana.
+         */
+        for (WindowSchemaTab tab
+                : schema.getTabs()) {
+
+            if (tab.getFields() == null) {
+                continue;
+            }
+
+            for (WindowSchemaField field
+                    : tab.getFields()) {
+
+                if (field.getAdReferenceId() != null
+                        && field.getAdReferenceId()
+                        == REFERENCE_LIST
+                        && field.getAdReferenceValueId() != null
+                        && field.getAdReferenceValueId() > 0) {
+
+                    referenceIds.add(
+                            field.getAdReferenceValueId()
+                    );
+                }
+            }
+        }
+
+
+        if (referenceIds.isEmpty()) {
+            return;
+        }
+
+
+        /*
+         * Recuperar todos los valores de todas las listas
+         * en una sola query.
+         */
+        Map<Integer, List<WindowSchemaReferenceValue>>
+                valuesByReference =
+                loadListReferenceValues(referenceIds);
+
+
+        /*
+         * Segunda pasada:
+         *
+         * asociar a cada field su definición semántica.
+         */
+        for (WindowSchemaTab tab
+                : schema.getTabs()) {
+
+            if (tab.getFields() == null) {
+                continue;
+            }
+
+
+            for (WindowSchemaField field
+                    : tab.getFields()) {
+
+                if (field.getAdReferenceId() == null
+                        || field.getAdReferenceId()
+                        != REFERENCE_LIST) {
+
+                    continue;
+                }
+
+
+                WindowSchemaReference reference =
+                        new WindowSchemaReference()
+                                .type("list");
+
+
+                List<WindowSchemaReferenceValue> values =
+                        valuesByReference.get(
+                                field.getAdReferenceValueId()
+                        );
+
+
+                if (values != null) {
+
+                    for (WindowSchemaReferenceValue value
+                            : values) {
+
+                        reference.addValuesItem(value);
+                    }
+                }
+
+
+                field.reference(reference);
+            }
+        }
+    }
+
+
+    private void resolveBooleanReferences(
+            WindowSchema schema) {
+
+        if (schema.getTabs() == null) {
+            return;
+        }
+
+        for (WindowSchemaTab tab : schema.getTabs()) {
+
+            if (tab.getFields() == null) {
+                continue;
+            }
+
+            for (WindowSchemaField field : tab.getFields()) {
+
+                if (field.getAdReferenceId() != null
+                        && field.getAdReferenceId() == REFERENCE_YESNO) {
+
+                    field.reference(
+                            new WindowSchemaReference()
+                                    .type("boolean")
+                    );
+                }
+            }
+        }
+    }
+
+
+    private void resolveLookupReferences(
+            WindowSchema schema) {
+
+        if (schema.getTabs() == null) {
+            return;
+        }
+
+
+        for (WindowSchemaTab tab
+                : schema.getTabs()) {
+
+            if (tab.getFields() == null) {
+                continue;
+            }
+
+
+            for (WindowSchemaField field
+                    : tab.getFields()) {
+
+                Integer referenceId =
+                        field.getAdReferenceId();
+
+
+                if (referenceId == null) {
+                    continue;
+                }
+
+
+                if (referenceId == REFERENCE_TABLE
+                        || referenceId
+                        == REFERENCE_TABLE_DIRECT) {
+
+
+                    String endpoint =
+                            "/v1.0/columns/"
+                                    + field.getAdColumnId()
+                                    + "/lookup";
+
+
+                    field.reference(
+                            new WindowSchemaReference()
+                                    .type("lookup")
+                                    .endpoint(endpoint)
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Recupera en una única consulta los valores
+     * correspondientes a múltiples AD_Reference_ID.
+     */
+    private Map<Integer, List<WindowSchemaReferenceValue>>
+    loadListReferenceValues(
+            Set<Integer> referenceIds) {
+
+        Map<Integer, List<WindowSchemaReferenceValue>>
+                result =
+                new HashMap<>();
+
+
+        StringJoiner placeholders =
+                new StringJoiner(",");
+
+        for (int i = 0;
+             i < referenceIds.size();
+             i++) {
+
+            placeholders.add("?");
+        }
+
+
+        String sql =
+                " SELECT " +
+                        "   rl.ad_reference_id, " +
+                        "   rl.value, " +
+                        "   rl.name " +
+
+                        " FROM ad_ref_list rl " +
+
+                        " WHERE rl.isactive = 'Y' " +
+                        "   AND rl.ad_reference_id IN (" +
+                        placeholders +
+                        ") " +
+
+                        " ORDER BY " +
+                        "   rl.ad_reference_id, " +
+                        "   rl.name ";
+
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+
+        try {
+
+            ps = DB.prepareStatement(sql, null);
+
+
+            int parameterIndex = 1;
+
+            for (Integer referenceId
+                    : referenceIds) {
+
+                ps.setInt(
+                        parameterIndex++,
+                        referenceId
+                );
+            }
+
+
+            rs = ps.executeQuery();
+
+
+            while (rs.next()) {
+
+                Integer referenceId =
+                        rs.getInt(
+                                "ad_reference_id"
+                        );
+
+
+                WindowSchemaReferenceValue value =
+                        new WindowSchemaReferenceValue()
+                                .value(
+                                        rs.getString(
+                                                "value"
+                                        )
+                                )
+                                .name(
+                                        rs.getString(
+                                                "name"
+                                        )
+                                );
+
+
+                result
+                        .computeIfAbsent(
+                                referenceId,
+                                key ->
+                                        new ArrayList<>()
+                        )
+                        .add(value);
+            }
+
+
+            return result;
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(
+                    "Error recuperando valores "
+                            + "de AD_Ref_List",
+                    e
+            );
+
+        } finally {
+
+            DB.close(rs, ps);
+        }
     }
 }

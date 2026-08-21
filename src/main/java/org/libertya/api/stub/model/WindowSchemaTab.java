@@ -19,9 +19,6 @@ import javax.validation.constraints.*;
 
 
 public class WindowSchemaTab   {
-  @JsonProperty("data_endpoint")
-  private String dataEndpoint = null;
-
   @JsonProperty("ad_tab_id")
   private Integer adTabId = null;
 
@@ -37,8 +34,11 @@ public class WindowSchemaTab   {
   @JsonProperty("tablevel")
   private Integer tablevel = null;
 
-  @JsonProperty("isreadonly")
-  private Boolean isreadonly = null;
+  @JsonProperty("parent_ad_tab_id")
+  private Integer parentAdTabId = null;
+
+  @JsonProperty("link_columnname")
+  private String linkColumnname = null;
 
   @JsonProperty("ad_table_id")
   private Integer adTableId = null;
@@ -46,40 +46,21 @@ public class WindowSchemaTab   {
   @JsonProperty("tablename")
   private String tablename = null;
 
+  @JsonProperty("data_endpoint")
+  private String dataEndpoint = null;
+
   @JsonProperty("whereclause")
   private String whereclause = null;
 
   @JsonProperty("orderbyclause")
   private String orderbyclause = null;
 
-  @JsonProperty("parent_ad_tab_id")
-  private Integer parentAdTabId = null;
-
-  @JsonProperty("link_columnname")
-  private String linkColumnname = null;
+  @JsonProperty("isreadonly")
+  private Boolean isreadonly = null;
 
   @JsonProperty("fields")
   @Valid
   private List<WindowSchemaField> fields = null;
-
-  public WindowSchemaTab dataEndpoint(String dataEndpoint) {
-    this.dataEndpoint = dataEndpoint;
-    return this;
-  }
-
-  /**
-   * Endpoint REST utilizado para recuperar registros de la tabla
-   * @return dataEndpoint
-   **/
-  @Schema(description = "Endpoint REST utilizado para recuperar registros de la tabla")
-  
-    public String getDataEndpoint() {
-    return dataEndpoint;
-  }
-
-  public void setDataEndpoint(String dataEndpoint) {
-    this.dataEndpoint = dataEndpoint;
-  }
 
   public WindowSchemaTab adTabId(Integer adTabId) {
     this.adTabId = adTabId;
@@ -176,23 +157,42 @@ public class WindowSchemaTab   {
     this.tablevel = tablevel;
   }
 
-  public WindowSchemaTab isreadonly(Boolean isreadonly) {
-    this.isreadonly = isreadonly;
+  public WindowSchemaTab parentAdTabId(Integer parentAdTabId) {
+    this.parentAdTabId = parentAdTabId;
     return this;
   }
 
   /**
-   * Get isreadonly
-   * @return isreadonly
+   * Get parentAdTabId
+   * @return parentAdTabId
    **/
   @Schema(description = "")
   
-    public Boolean isIsreadonly() {
-    return isreadonly;
+    public Integer getParentAdTabId() {
+    return parentAdTabId;
   }
 
-  public void setIsreadonly(Boolean isreadonly) {
-    this.isreadonly = isreadonly;
+  public void setParentAdTabId(Integer parentAdTabId) {
+    this.parentAdTabId = parentAdTabId;
+  }
+
+  public WindowSchemaTab linkColumnname(String linkColumnname) {
+    this.linkColumnname = linkColumnname;
+    return this;
+  }
+
+  /**
+   * Get linkColumnname
+   * @return linkColumnname
+   **/
+  @Schema(description = "")
+  
+    public String getLinkColumnname() {
+    return linkColumnname;
+  }
+
+  public void setLinkColumnname(String linkColumnname) {
+    this.linkColumnname = linkColumnname;
   }
 
   public WindowSchemaTab adTableId(Integer adTableId) {
@@ -233,6 +233,25 @@ public class WindowSchemaTab   {
     this.tablename = tablename;
   }
 
+  public WindowSchemaTab dataEndpoint(String dataEndpoint) {
+    this.dataEndpoint = dataEndpoint;
+    return this;
+  }
+
+  /**
+   * Get dataEndpoint
+   * @return dataEndpoint
+   **/
+  @Schema(description = "")
+  
+    public String getDataEndpoint() {
+    return dataEndpoint;
+  }
+
+  public void setDataEndpoint(String dataEndpoint) {
+    this.dataEndpoint = dataEndpoint;
+  }
+
   public WindowSchemaTab whereclause(String whereclause) {
     this.whereclause = whereclause;
     return this;
@@ -271,42 +290,23 @@ public class WindowSchemaTab   {
     this.orderbyclause = orderbyclause;
   }
 
-  public WindowSchemaTab parentAdTabId(Integer parentAdTabId) {
-    this.parentAdTabId = parentAdTabId;
+  public WindowSchemaTab isreadonly(Boolean isreadonly) {
+    this.isreadonly = isreadonly;
     return this;
   }
 
   /**
-   * Get parentAdTabId
-   * @return parentAdTabId
+   * Get isreadonly
+   * @return isreadonly
    **/
   @Schema(description = "")
   
-    public Integer getParentAdTabId() {
-    return parentAdTabId;
+    public Boolean isIsreadonly() {
+    return isreadonly;
   }
 
-  public void setParentAdTabId(Integer parentAdTabId) {
-    this.parentAdTabId = parentAdTabId;
-  }
-
-  public WindowSchemaTab linkColumnname(String linkColumnname) {
-    this.linkColumnname = linkColumnname;
-    return this;
-  }
-
-  /**
-   * Get linkColumnname
-   * @return linkColumnname
-   **/
-  @Schema(description = "")
-  
-    public String getLinkColumnname() {
-    return linkColumnname;
-  }
-
-  public void setLinkColumnname(String linkColumnname) {
-    this.linkColumnname = linkColumnname;
+  public void setIsreadonly(Boolean isreadonly) {
+    this.isreadonly = isreadonly;
   }
 
   public WindowSchemaTab fields(List<WindowSchemaField> fields) {
@@ -346,25 +346,25 @@ public class WindowSchemaTab   {
       return false;
     }
     WindowSchemaTab windowSchemaTab = (WindowSchemaTab) o;
-    return Objects.equals(this.dataEndpoint, windowSchemaTab.dataEndpoint) &&
-        Objects.equals(this.adTabId, windowSchemaTab.adTabId) &&
+    return Objects.equals(this.adTabId, windowSchemaTab.adTabId) &&
         Objects.equals(this.name, windowSchemaTab.name) &&
         Objects.equals(this.description, windowSchemaTab.description) &&
         Objects.equals(this.seqno, windowSchemaTab.seqno) &&
         Objects.equals(this.tablevel, windowSchemaTab.tablevel) &&
-        Objects.equals(this.isreadonly, windowSchemaTab.isreadonly) &&
-        Objects.equals(this.adTableId, windowSchemaTab.adTableId) &&
-        Objects.equals(this.tablename, windowSchemaTab.tablename) &&
-        Objects.equals(this.whereclause, windowSchemaTab.whereclause) &&
-        Objects.equals(this.orderbyclause, windowSchemaTab.orderbyclause) &&
         Objects.equals(this.parentAdTabId, windowSchemaTab.parentAdTabId) &&
         Objects.equals(this.linkColumnname, windowSchemaTab.linkColumnname) &&
+        Objects.equals(this.adTableId, windowSchemaTab.adTableId) &&
+        Objects.equals(this.tablename, windowSchemaTab.tablename) &&
+        Objects.equals(this.dataEndpoint, windowSchemaTab.dataEndpoint) &&
+        Objects.equals(this.whereclause, windowSchemaTab.whereclause) &&
+        Objects.equals(this.orderbyclause, windowSchemaTab.orderbyclause) &&
+        Objects.equals(this.isreadonly, windowSchemaTab.isreadonly) &&
         Objects.equals(this.fields, windowSchemaTab.fields);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(dataEndpoint, adTabId, name, description, seqno, tablevel, isreadonly, adTableId, tablename, whereclause, orderbyclause, parentAdTabId, linkColumnname, fields);
+    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, whereclause, orderbyclause, isreadonly, fields);
   }
 
   @Override
@@ -372,19 +372,19 @@ public class WindowSchemaTab   {
     StringBuilder sb = new StringBuilder();
     sb.append("class WindowSchemaTab {\n");
     
-    sb.append("    dataEndpoint: ").append(toIndentedString(dataEndpoint)).append("\n");
     sb.append("    adTabId: ").append(toIndentedString(adTabId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    seqno: ").append(toIndentedString(seqno)).append("\n");
     sb.append("    tablevel: ").append(toIndentedString(tablevel)).append("\n");
-    sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
-    sb.append("    adTableId: ").append(toIndentedString(adTableId)).append("\n");
-    sb.append("    tablename: ").append(toIndentedString(tablename)).append("\n");
-    sb.append("    whereclause: ").append(toIndentedString(whereclause)).append("\n");
-    sb.append("    orderbyclause: ").append(toIndentedString(orderbyclause)).append("\n");
     sb.append("    parentAdTabId: ").append(toIndentedString(parentAdTabId)).append("\n");
     sb.append("    linkColumnname: ").append(toIndentedString(linkColumnname)).append("\n");
+    sb.append("    adTableId: ").append(toIndentedString(adTableId)).append("\n");
+    sb.append("    tablename: ").append(toIndentedString(tablename)).append("\n");
+    sb.append("    dataEndpoint: ").append(toIndentedString(dataEndpoint)).append("\n");
+    sb.append("    whereclause: ").append(toIndentedString(whereclause)).append("\n");
+    sb.append("    orderbyclause: ").append(toIndentedString(orderbyclause)).append("\n");
+    sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.libertya.api.stub.model.WindowSchemaReference;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -51,6 +52,9 @@ public class WindowSchemaField   {
 
   @JsonProperty("isparent")
   private Boolean isparent = null;
+
+  @JsonProperty("reference")
+  private WindowSchemaReference reference = null;
 
   public WindowSchemaField adFieldId(Integer adFieldId) {
     this.adFieldId = adFieldId;
@@ -280,6 +284,26 @@ public class WindowSchemaField   {
     this.isparent = isparent;
   }
 
+  public WindowSchemaField reference(WindowSchemaReference reference) {
+    this.reference = reference;
+    return this;
+  }
+
+  /**
+   * Get reference
+   * @return reference
+   **/
+  @Schema(description = "")
+  
+    @Valid
+    public WindowSchemaReference getReference() {
+    return reference;
+  }
+
+  public void setReference(WindowSchemaReference reference) {
+    this.reference = reference;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -301,12 +325,13 @@ public class WindowSchemaField   {
         Objects.equals(this.adReferenceValueId, windowSchemaField.adReferenceValueId) &&
         Objects.equals(this.ismandatory, windowSchemaField.ismandatory) &&
         Objects.equals(this.iskey, windowSchemaField.iskey) &&
-        Objects.equals(this.isparent, windowSchemaField.isparent);
+        Objects.equals(this.isparent, windowSchemaField.isparent) &&
+        Objects.equals(this.reference, windowSchemaField.reference);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent);
+    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, reference);
   }
 
   @Override
@@ -326,6 +351,7 @@ public class WindowSchemaField   {
     sb.append("    ismandatory: ").append(toIndentedString(ismandatory)).append("\n");
     sb.append("    iskey: ").append(toIndentedString(iskey)).append("\n");
     sb.append("    isparent: ").append(toIndentedString(isparent)).append("\n");
+    sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
     sb.append("}");
     return sb.toString();
   }

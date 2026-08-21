@@ -1,0 +1,61 @@
+get:
+  summary: Recupera los valores de lookup asociados a una columna
+  description: >
+    Recupera los pares valor/descripción utilizados para representar
+    una columna de tipo lookup, incluyendo referencias Table,
+    Table Direct y Search.
+  tags:
+    - "columnlookup"
+
+  parameters:
+    - name: id
+      in: path
+      description: ID de la columna
+      required: true
+      schema:
+        type: integer
+
+    - name: limit
+      in: query
+      description: Cantidad máxima de resultados a recuperar
+      required: false
+      schema:
+        type: integer
+        default: 50
+
+    - name: page
+      in: query
+      description: Página de resultados a recuperar
+      required: false
+      schema:
+        type: integer
+        default: 1
+
+    - name: search
+      in: query
+      description: Texto opcional para filtrar por la descripción visible
+      required: false
+      schema:
+        type: string
+
+    - name: value
+      in: query
+      description: Valor exacto de la clave a recuperar
+      required: false
+      schema:
+        type: string
+
+  operationId: retrieveColumnLookup
+
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/columnlookup.yaml#/components/schemas/ColumnLookupValue'
+
+    "404":
+      description: Columna no encontrada
