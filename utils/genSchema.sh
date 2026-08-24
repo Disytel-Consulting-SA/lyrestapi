@@ -93,6 +93,19 @@ generateSchema Preference               AD_Preference             preference.yam
 generateSchema Promotion                C_Promotion               promotion.yaml
 generateSchema POSLetter                C_POSLetter               posletter.yaml
 
+# Liquidaciones de tarjetas - conceptos de la liquidacion y sus dos maestros.
+# Todas estas tablas SI existen en el core publico (a diferencia de M_NumeroComercio, mas abajo).
+# OJO: 'amount' es ismandatory='N' en las cinco tablas hijas, con lo cual DEBE ir en el filtro explicito;
+#      sin eso el campo no existiria en el schema y el PUT no tendria como cargar el importe.
+#      Idem c_region_id en C_WithholdingSettlement y en C_RetencionSchema.
+generateSchema RetencionSchema          C_RetencionSchema         retencionschema.yaml          "('c_region_id', 'description')"
+generateSchema CardSettlementConcepts   C_CardSettlementConcepts  cardsettlementconcepts.yaml
+generateSchema IVASettlements           C_IVASettlements          ivasettlements.yaml           "('amount')"
+generateSchema PerceptionsSettlement    C_PerceptionsSettlement   perceptionssettlement.yaml    "('amount')"
+generateSchema WithholdingSettlement    C_WithholdingSettlement   withholdingsettlement.yaml    "('amount', 'c_region_id')"
+generateSchema CommissionConcepts       C_CommissionConcepts      commissionconcepts.yaml       "('amount')"
+generateSchema ExpenseConcepts          C_ExpenseConcepts         expenseconcepts.yaml          "('amount')"
+
 # Contabilidad - asientos manuales (GL_Journal). Ver docs/plan-asientos-manuales.md
 # OJO: c_elementvalue_id es ismandatory='N' en el diccionario, con lo cual DEBE ir en el filtro explicito;
 #      sin eso el campo no existiria en el schema y no se podria imputar por cuenta contable.

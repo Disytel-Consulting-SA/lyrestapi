@@ -1,0 +1,57 @@
+get:
+  summary: Retorna las filas de otros costos de la liquidacion
+  tags:
+    - "expenseconcept"
+  description: >
+    Retorna las filas de otros costos de la liquidacion de una liquidacion de tarjetas.
+
+
+    NO HACE FALTA CREARLAS. Al crear la cabecera, el modelo ejecuta generateAllChildrens() y deja una fila en
+    cero por cada concepto activo del maestro correspondiente. Una fila por cada concepto de tipo otros. El concepto se identifica por c_cardsettlementconcepts_id,
+    que se resuelve con GET /v1.0/cardsettlementconcepts?filter=type='OT'.
+
+
+    El uso normal es listar las filas de una liquidacion para saber que concepto es cada una, y despues cargar
+    el importe con PUT /v1.0/expenseconcepts/{id}:
+
+
+        GET /v1.0/expenseconcepts?filter=c_creditcardsettlement_id=1234
+
+
+    Cuelgan directo de C_CreditCardSettlement, no del filtro de cupones.
+  operationId: getAllExpenseConcepts
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/expenseconcepts.yaml#/components/schemas/ExpenseConcepts'

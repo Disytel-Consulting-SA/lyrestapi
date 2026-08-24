@@ -1,0 +1,80 @@
+components:
+  schemas:
+    RetencionSchema:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_bpartner_recaudador_id:
+          type: integer
+          description: " "
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        c_region_id:
+          type: integer
+          description: "Identifica una región geográfica"
+        c_retencionprocessor_id:
+          type: integer
+          description: " "
+        c_retencionschema_id:
+          type: integer
+          description: " "
+        c_retenciontype_id:
+          type: integer
+          description: " "
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        ismanual:
+          type: boolean
+          description: "Éste es un proceso manual"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        retencionapplication:
+          type: string
+          description: ""
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        value:
+          type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_bpartner_recaudador_id
+         - created
+         - createdby
+         - c_retencionprocessor_id
+         - c_retencionschema_id
+         - c_retenciontype_id
+         - isactive
+         - ismanual
+         - name
+         - retencionapplication
+         - updated
+         - updatedby
+         - value

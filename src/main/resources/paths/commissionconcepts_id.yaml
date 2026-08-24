@@ -1,0 +1,79 @@
+get:
+  summary: Recupera una fila de comisiones de la liquidacion en particular
+  tags:
+    - "commissionconcept"
+  parameters:
+    - name: id
+      in: path
+      description: ID del registro
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de una fila de comisiones de la liquidacion en particular
+  operationId: retrieveCommissionConcepts
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/commissionconcepts.yaml#/components/schemas/CommissionConcepts'
+    "404":
+      description: No encontrado
+      content:
+        application/json:
+          schema:
+            type: string
+put:
+  summary: Actualiza una fila de comisiones de la liquidacion
+  tags:
+    - "commissionconcept"
+  description: >
+    Actualiza una fila ya existente. El uso principal es cargarle el importe, que la fila trae en cero desde
+    que el modelo la genero:
+
+
+        PUT /v1.0/commissionconcepts/{id}    con body {"amount": 1234.56}
+
+
+    Al guardar, el modelo recalcula solo el total CommissionAmount de la cabecera de la liquidacion. Ese recalculo lo
+    hace la clase del core, no esta API: si el total de la cabecera no cambia despues de un PUT exitoso, el
+    problema esta en el core cargado, no aca.
+
+
+    No se expone POST: las filas ya vienen creadas. El unico caso que quedaria sin cubrir es un concepto dado
+    de alta en el maestro despues de creada la liquidacion.
+  operationId: updateCommissionConcepts
+  parameters:
+    - name: id
+      in: path
+      description: ID del registro a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/commissionconcepts.yaml#/components/schemas/CommissionConcepts'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

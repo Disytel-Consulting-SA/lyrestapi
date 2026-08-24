@@ -5,14 +5,15 @@ endpoints desde afuera. No explica cómo están implementados; para eso está
 `docs/conciliador-ce/plan-endpoints-lyrestapi.md`.
 
 **Qué resuelven:** materializar en Libertya la conciliación de cobros electrónicos que ya resolvió un sistema
-externo. Dos operaciones, en este orden: **resolver o crear** la liquidación de tarjetas
-(`C_CreditCardSettlement`) junto a su filtro, y **colgar cada cupón** (`C_CouponsSettlements`) apuntando a su
-cobro (`C_Payment`).
+externo. Tres operaciones, en este orden: **resolver o crear** la liquidación de tarjetas
+(`C_CreditCardSettlement`) junto a su filtro, **colgar cada cupón** (`C_CouponsSettlements`) apuntando a su
+cobro (`C_Payment`), y **cargar los importes de los conceptos** —IVA, percepciones, retenciones, comisiones y
+otros costos— sobre las filas que el propio modelo ya generó (sección 8).
 
 > ⚠️ **Estos endpoints asumen el core de Tehuelche.** Las reglas R6 y R7 —las que impiden que un mismo cobro
 > quede cargado en dos liquidaciones— viven en `MCouponsSettlements`, una clase que **sólo existe en el core
 > de Tehuelche**. Sobre una instalación con el core público el ERP **no rechazaría** el doble impacto y
-> pasaría en silencio. Ver la sección 9.
+> pasaría en silencio. Ver la sección 10.
 
 ---
 
@@ -73,7 +74,7 @@ curl -X POST "$BASE/v1.0/couponssettlements/bulk" \
 ```
 
 **Los IDs del ejemplo son de una instancia concreta y NO sirven en otra base.** Resolvelos con los endpoints
-de la sección 8 — nunca los hardcodees.
+de la sección 9 — nunca los hardcodees.
 
 ---
 
@@ -345,7 +346,104 @@ maestro.
 
 ---
 
-## 8. Cómo resolver los IDs sin hardcodearlos
+## 8. Los conceptos: IVA, percepciones, retenciones, comisiones y otros costos
+
+```
+GET /v1.0/retencionschemas              GET /v1.0/retencionschemas/{id}
+GET /v1.0/cardsettlementconcepts        GET /v1.0/cardsettlementconcepts/{id}
+
+GET /v1.0/ivasettlements                GET|PUT /v1.0/ivasettlements/{id}
+GET /v1.0/perceptionssettlements        GET|PUT /v1.0/perceptionssettlements/{id}
+GET /v1.0/withholdingsettlements        GET|PUT /v1.0/withholdingsettlements/{id}
+GET /v1.0/commissionconcepts            GET|PUT /v1.0/commissionconcepts/{id}
+GET /v1.0/expenseconcepts               GET|PUT /v1.0/expenseconcepts/{id}
+```
+
+### No hace falta crearlos: ya existen
+
+Al crear la cabecera, el modelo ejecuta `generateAllChildrens()` y deja **una fila en cero por cada concepto
+activo** del maestro correspondiente. Por eso `POST /creditcardsettlements/full` devuelve un array `children`
+con decenas de `{"tablename": ..., "record_id": ...}`: son esas filas, ya creadas.
+
+**Por eso estas cinco tablas no exponen `POST` ni `DELETE`.** El trabajo de una integración es otro:
+
+1. Listar las filas de la liquidación para saber **qué concepto es cada una** (la respuesta de `/full` trae el
+   `record_id` pero no la FK al concepto).
+2. `PUT` sobre la fila que corresponde, con el importe.
+
+El único caso que queda sin cubrir es un concepto dado de alta en el maestro **después** de creada la
+liquidación. Si aparece en la práctica, se agrega el `POST`; hoy no está.
+
+### Qué columna identifica el concepto en cada tabla
+
+| Endpoint | Tabla | El concepto es | Se resuelve con | Total que recalcula en la cabecera |
+|---|---|---|---|---|
+| `ivasettlements` | `C_IVASettlements` | `c_tax_id` | `GET /v1.0/taxes` | `ivaamount` |
+| `perceptionssettlements` | `C_PerceptionsSettlement` | `c_tax_id` | `GET /v1.0/taxes` | `perception` |
+| `withholdingsettlements` | `C_WithholdingSettlement` | `c_retencionschema_id` | `GET /v1.0/retencionschemas` | `withholding` |
+| `commissionconcepts` | `C_CommissionConcepts` | `c_cardsettlementconcepts_id` | `GET /v1.0/cardsettlementconcepts` | `commissionamount` |
+| `expenseconcepts` | `C_ExpenseConcepts` | `c_cardsettlementconcepts_id` | `GET /v1.0/cardsettlementconcepts` | `expenses` |
+
+`C_PerceptionsSettlement` además tiene `internalno`, obligatorio en el diccionario; como la fila viene creada
+por el modelo, no hace falta mandarlo en el `PUT`.
+
+### Los dos catálogos: cómo filtrarlos
+
+**Ninguno de los dos filtra del lado del servidor.** El maestro sirve para más de un uso y limitarlo lo
+volvería inservible para el resto, así que el filtro va en el parámetro `filter` genérico:
+
+```bash
+# Retenciones SUFRIDAS: 'S'.  Las 'E' son las emitidas, no aplican a una liquidación.
+GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y'
+
+# Conceptos de tarjeta: 'CO' comisiones, 'OT' otros costos.
+GET /v1.0/cardsettlementconcepts?filter=type='CO' AND isactive='Y'
+```
+
+`c_region_id` viaja en la propia fila del esquema de retención — no hay que resolverlo aparte. Viene `null`
+salvo en los esquemas que son por provincia (Ingresos Brutos).
+
+### El flujo completo
+
+```bash
+# 1) Traducir el concepto del sistema externo a un id de Libertya
+GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y'
+# -> {"c_retencionschema_id": 1010152, "name": "Retencion Impuesto IVA Sufrida", "value": "IVA Sufrida", ...}
+
+# 2) Buscar la fila de ESA liquidación para ESE concepto
+GET /v1.0/withholdingsettlements?filter=c_creditcardsettlement_id=1000330
+# -> 34 filas en cero, una por esquema; buscar la de c_retencionschema_id=1010152
+
+# 3) Cargarle el importe
+PUT /v1.0/withholdingsettlements/1000594
+{"amount": 500.25}
+# -> 200, y la cabecera pasa a withholding=500.25 sin ninguna llamada extra
+```
+
+### El recalculo de la cabecera lo hace el core, no esta API
+
+Al guardar, `MIVASettlements` / `MPerceptionsSettlement` / `MWithholdingSettlement` / `MCommissionConcepts` /
+`MExpenseConcepts` corren su `doAfterSave()`, que suma las filas de la liquidación y actualiza el total en la
+cabecera. **No hay que llamar a nada más.**
+
+Esa clase la resuelve `M_Table.getPO()` por convención de nombres: prueba `org.openXpertya.model.M<Tabla>`
+antes de caer a la `X_` generada, y las cinco `M` existen en `OXP.jar`. Es decir que no hay nada que
+configurar mal del lado de la API — pero **si el total de la cabecera no cambia después de un `PUT` que
+devolvió 200, el problema está en el core cargado**, no acá. Es la primera cosa a verificar en un ambiente
+nuevo.
+
+> Verificado contra `ly_core_teh` (agosto 2026): `PUT` de un importe en `ivasettlements`,
+> `withholdingsettlements` y `perceptionssettlements` de la liquidación 1000330 actualizó `ivaamount`,
+> `withholding` y `perception` respectivamente. `commissionconcepts` y `expenseconcepts` no se pudieron
+> ejercitar porque esa base no tiene conceptos de tarjeta cargados, pero sus clases `M` son estructuralmente
+> idénticas a las otras tres.
+
+Recordar que **esto no completa la liquidación** (sección 6): los importes quedan cargados y el documento
+sigue en `DR`.
+
+---
+
+## 9. Cómo resolver los IDs sin hardcodearlos
 
 | Necesitás | Endpoint |
 |---|---|
@@ -357,10 +455,13 @@ maestro.
 | **Número de comercio** (y con él el `c_bpartner_id`) | `GET /v1.0/numeroscomercio?filter=...` — ver sección 7 |
 | Liquidación existente | `GET /v1.0/creditcardsettlements?filter=...` |
 | Filtro de una liquidación | `GET /v1.0/creditcardcouponfilters?filter=c_creditcardsettlement_id=NNN` |
+| **Esquema de retención sufrida** | `GET /v1.0/retencionschemas?filter=retencionapplication='S'` — ver sección 8 |
+| **Concepto de tarjeta** (comisión / otros) | `GET /v1.0/cardsettlementconcepts?filter=type='CO'` — ver sección 8 |
+| Impuesto (IVA / percepción) | `GET /v1.0/taxes` |
 
 ---
 
-## 9. La advertencia sobre el core: R6 y R7 sólo existen en Tehuelche
+## 10. La advertencia sobre el core: R6 y R7 sólo existen en Tehuelche
 
 Vale la pena repetirlo porque es la única de estas advertencias que **no se manifiesta como un error**.
 
@@ -388,7 +489,7 @@ de fallar. Es exactamente lo que verifica el test `retrieveDebeResolverLaClaseDe
 
 ---
 
-## 10. Propiedades de configuración
+## 11. Propiedades de configuración
 
 Las dos tienen default en línea, así que un `application.properties` viejo sigue arrancando.
 

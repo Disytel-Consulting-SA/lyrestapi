@@ -1,0 +1,60 @@
+components:
+  schemas:
+    WithholdingSettlement:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        amount:
+          type: number
+          description: "Importe en una moneda definida"
+        c_creditcardsettlement_id:
+          type: integer
+          description: "Liquidaciones de Tarjetas de Crédito"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        c_region_id:
+          type: integer
+          description: "Identifica una región geográfica"
+        c_retencionschema_id:
+          type: integer
+          description: " "
+        c_withholdingsettlement_id:
+          type: integer
+          description: " "
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_creditcardsettlement_id
+         - created
+         - createdby
+         - c_retencionschema_id
+         - c_withholdingsettlement_id
+         - isactive
+         - updated
+         - updatedby

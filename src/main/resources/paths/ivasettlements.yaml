@@ -1,0 +1,56 @@
+get:
+  summary: Retorna las filas de IVA de la liquidacion
+  tags:
+    - "ivasettlement"
+  description: >
+    Retorna las filas de IVA de la liquidacion de una liquidacion de tarjetas.
+
+
+    NO HACE FALTA CREARLAS. Al crear la cabecera, el modelo ejecuta generateAllChildrens() y deja una fila en
+    cero por cada concepto activo del maestro correspondiente. Una fila por cada impuesto activo. El concepto se identifica por c_tax_id.
+
+
+    El uso normal es listar las filas de una liquidacion para saber que concepto es cada una, y despues cargar
+    el importe con PUT /v1.0/ivasettlements/{id}:
+
+
+        GET /v1.0/ivasettlements?filter=c_creditcardsettlement_id=1234
+
+
+    Cuelgan directo de C_CreditCardSettlement, no del filtro de cupones.
+  operationId: getAllIVASettlements
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/ivasettlements.yaml#/components/schemas/IVASettlements'

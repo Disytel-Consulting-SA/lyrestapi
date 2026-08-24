@@ -1,0 +1,51 @@
+get:
+  summary: Retorna la lista de conceptos de liquidacion de tarjetas
+  tags:
+    - "cardsettlementconcept"
+  description: >
+    Retorna la lista de conceptos de liquidacion de tarjetas. Recurso de solo lectura: el mantenimiento se
+    hace desde Libertya. Es el maestro que resuelve contra que concepto se imputa cada fila de
+    C_CommissionConcepts y de C_ExpenseConcepts.
+
+
+    El campo type separa las dos familias: 'CO' son comisiones (van a C_CommissionConcepts) y 'OT' son otros
+    costos (van a C_ExpenseConcepts). El filtro NO se aplica del lado del servidor:
+
+
+        GET /v1.0/cardsettlementconcepts?filter=type='CO' AND isactive='Y'
+  operationId: getAllCardSettlementConcepts
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/cardsettlementconcepts.yaml#/components/schemas/CardSettlementConcepts'

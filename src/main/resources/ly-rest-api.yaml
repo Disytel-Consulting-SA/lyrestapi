@@ -331,6 +331,34 @@ paths:
     $ref: ./paths/numeroscomercio.yaml
   /v1.0/numeroscomercio/{id}:
     $ref: ./paths/numeroscomercio_id.yaml
+  /v1.0/retencionschemas:
+    $ref: ./paths/retencionschemas.yaml
+  /v1.0/retencionschemas/{id}:
+    $ref: ./paths/retencionschemas_id.yaml
+  /v1.0/cardsettlementconcepts:
+    $ref: ./paths/cardsettlementconcepts.yaml
+  /v1.0/cardsettlementconcepts/{id}:
+    $ref: ./paths/cardsettlementconcepts_id.yaml
+  /v1.0/ivasettlements:
+    $ref: ./paths/ivasettlements.yaml
+  /v1.0/ivasettlements/{id}:
+    $ref: ./paths/ivasettlements_id.yaml
+  /v1.0/perceptionssettlements:
+    $ref: ./paths/perceptionssettlements.yaml
+  /v1.0/perceptionssettlements/{id}:
+    $ref: ./paths/perceptionssettlements_id.yaml
+  /v1.0/withholdingsettlements:
+    $ref: ./paths/withholdingsettlements.yaml
+  /v1.0/withholdingsettlements/{id}:
+    $ref: ./paths/withholdingsettlements_id.yaml
+  /v1.0/commissionconcepts:
+    $ref: ./paths/commissionconcepts.yaml
+  /v1.0/commissionconcepts/{id}:
+    $ref: ./paths/commissionconcepts_id.yaml
+  /v1.0/expenseconcepts:
+    $ref: ./paths/expenseconcepts.yaml
+  /v1.0/expenseconcepts/{id}:
+    $ref: ./paths/expenseconcepts_id.yaml
 # metadata end-points
   /v1.0/tables:
     $ref: ./paths/tables.yaml
