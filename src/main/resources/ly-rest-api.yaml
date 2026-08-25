@@ -105,6 +105,10 @@ paths:
     $ref: ./paths/warehouses.yaml
   /v1.0/warehouses/{id}:
     $ref: ./paths/warehouses_id.yaml
+  /v1.0/locators:
+    $ref: ./paths/locators.yaml
+  /v1.0/locators/{id}:
+    $ref: ./paths/locators_id.yaml
   /v1.0/inventories:
     $ref: ./paths/inventories.yaml
   /v1.0/inventories/{id}:

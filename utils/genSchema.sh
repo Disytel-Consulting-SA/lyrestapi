@@ -77,6 +77,7 @@ generateSchema Inventory                M_Inventory               inventory.yaml
 generateSchema InventoryLine            M_InventoryLine           inventoryline.yaml            inventorylines
 generateSchema Storage                  M_Storage                 storage.yaml                  storages
 generateSchema Warehouse                M_Warehouse               warehouse.yaml                warehouses
+generateSchema Locator                  M_Locator                 locator.yaml                  locators
 generateSchema User                     AD_User                   user.yaml                     users
 generateSchema ProductLines             M_Product_Lines           productlines.yaml             productlines
 generateSchema ProductGamas             M_Product_Gamas           productgamas.yaml             productgamas

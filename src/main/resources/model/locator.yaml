@@ -1,0 +1,86 @@
+components:
+  schemas:
+    Locator:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        depth:
+          type: number
+          description: " "
+        height:
+          type: number
+          description: " "
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isdefault:
+          type: boolean
+          description: "Valor Predeterminado"
+        m_locator_id:
+          type: integer
+          description: "Ubicación de Almacén"
+        m_warehouse_id:
+          type: integer
+          description: "Almacén"
+        priorityno:
+          type: integer
+          description: "De donde se seleccionará primero el inventario"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        value:
+          type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
+        width:
+          type: number
+          description: " "
+        x:
+          type: string
+          description: "Dimensión X; Ej. Pasillo"
+        y:
+          type: string
+          description: "Dimensión Y"
+        z:
+          type: string
+          description: "Dimensión Z; Ej. Nivel"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - isactive
+         - isdefault
+         - m_locator_id
+         - m_warehouse_id
+         - priorityno
+         - updated
+         - updatedby
+         - value
+         - x
+         - y
+         - z
