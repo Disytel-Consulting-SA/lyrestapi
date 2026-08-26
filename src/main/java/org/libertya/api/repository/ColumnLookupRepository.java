@@ -1,5 +1,6 @@
 package org.libertya.api.repository;
 
+import org.libertya.api.common.UserInfo;
 import org.libertya.api.stub.model.ColumnLookupValue;
 import org.openXpertya.util.DB;
 import org.springframework.stereotype.Repository;
@@ -9,18 +10,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Repository
 public class ColumnLookupRepository {
 
     private static final int REFERENCE_TABLE = 18;
     private static final int REFERENCE_TABLE_DIRECT = 19;
+    private static final int REFERENCE_SEARCH = 30;
 
     private static final int DEFAULT_LIMIT = 50;
     private static final int DEFAULT_PAGE = 1;
 
-    private static final int REFERENCE_SEARCH = 30;
 
     public List<ColumnLookupValue> retrieve(
+            UserInfo info,
             Integer columnId,
             Integer limit,
             Integer page,
@@ -29,6 +32,7 @@ public class ColumnLookupRepository {
 
         ColumnInfo column =
                 loadColumnInfo(columnId);
+
 
         if (column == null) {
             return null;
@@ -40,15 +44,20 @@ public class ColumnLookupRepository {
                         ? limit
                         : DEFAULT_LIMIT;
 
+
         int effectivePage =
                 page != null && page > 0
                         ? page
                         : DEFAULT_PAGE;
 
 
+        /*
+         * TABLE
+         */
         if (column.referenceId == REFERENCE_TABLE) {
 
             return retrieveTable(
+                    info,
                     column,
                     effectiveLimit,
                     effectivePage,
@@ -58,9 +67,13 @@ public class ColumnLookupRepository {
         }
 
 
+        /*
+         * TABLE DIRECT
+         */
         if (column.referenceId == REFERENCE_TABLE_DIRECT) {
 
             return retrieveTableDirect(
+                    info,
                     column,
                     effectiveLimit,
                     effectivePage,
@@ -70,21 +83,24 @@ public class ColumnLookupRepository {
         }
 
 
+        /*
+         * SEARCH
+         *
+         * Libertya trata Search de dos maneras:
+         *
+         * - Con AD_Reference_Value_ID:
+         *   utiliza la lógica de Table.
+         *
+         * - Sin AD_Reference_Value_ID:
+         *   utiliza la lógica de Table Direct.
+         */
         if (column.referenceId == REFERENCE_SEARCH) {
 
-            /*
-             * Libertya trata Search de dos maneras:
-             *
-             * - Con AD_Reference_Value_ID:
-             *   utiliza la lógica de Table.
-             *
-             * - Sin AD_Reference_Value_ID:
-             *   utiliza la lógica de Table Direct.
-             */
             if (column.referenceValueId != null
                     && column.referenceValueId > 0) {
 
                 return retrieveTable(
+                        info,
                         column,
                         effectiveLimit,
                         effectivePage,
@@ -93,7 +109,9 @@ public class ColumnLookupRepository {
                 );
             }
 
+
             return retrieveTableDirect(
+                    info,
                     column,
                     effectiveLimit,
                     effectivePage,
@@ -101,6 +119,7 @@ public class ColumnLookupRepository {
                     value
             );
         }
+
 
         return new ArrayList<>();
     }
@@ -134,10 +153,12 @@ public class ColumnLookupRepository {
                     null
             );
 
+
             ps.setInt(
                     1,
                     columnId
             );
+
 
             rs = ps.executeQuery();
 
@@ -150,20 +171,24 @@ public class ColumnLookupRepository {
             ColumnInfo result =
                     new ColumnInfo();
 
+
             result.columnId =
                     rs.getInt(
                             "ad_column_id"
                     );
+
 
             result.columnName =
                     rs.getString(
                             "columnname"
                     );
 
+
             result.referenceId =
                     rs.getInt(
                             "ad_reference_id"
                     );
+
 
             result.referenceValueId =
                     rs.getInt(
@@ -172,6 +197,7 @@ public class ColumnLookupRepository {
 
 
             return result;
+
 
         } catch (Exception e) {
 
@@ -182,9 +208,13 @@ public class ColumnLookupRepository {
                     e
             );
 
+
         } finally {
 
-            DB.close(rs, ps);
+            DB.close(
+                    rs,
+                    ps
+            );
         }
     }
 
@@ -195,6 +225,7 @@ public class ColumnLookupRepository {
      * =========================================================
      */
     private List<ColumnLookupValue> retrieveTable(
+            UserInfo info,
             ColumnInfo column,
             int limit,
             int page,
@@ -229,6 +260,30 @@ public class ColumnLookupRepository {
                 );
 
 
+        boolean hasSearch =
+                search != null
+                        && !search.trim().isEmpty();
+
+
+        boolean hasValue =
+                value != null
+                        && !value.trim().isEmpty();
+
+
+        /*
+         * Sólo filtramos por client si:
+         *
+         * - existe contexto de usuario
+         * - no estamos en System (clientID != 0)
+         * - la tabla efectivamente posee AD_Client_ID
+         */
+        boolean hasClientFilter =
+                shouldFilterByClient(
+                        info,
+                        referenceInfo.tableName
+                );
+
+
         StringBuilder sql =
                 new StringBuilder();
 
@@ -251,18 +306,12 @@ public class ColumnLookupRepository {
         sql.append(" ");
 
 
-        boolean hasSearch =
-                search != null
-                        && !search.trim().isEmpty();
-
-        boolean hasValue =
-                value != null
-                        && !value.trim().isEmpty();
-
-
         boolean hasWhere = false;
 
 
+        /*
+         * Resolución puntual por ID.
+         */
         if (hasValue) {
 
             sql.append(" WHERE ");
@@ -277,6 +326,9 @@ public class ColumnLookupRepository {
         }
 
 
+        /*
+         * Búsqueda textual.
+         */
         if (hasSearch) {
 
             sql.append(
@@ -288,12 +340,38 @@ public class ColumnLookupRepository {
             sql.append(" lower(");
             sql.append(displayExpression);
             sql.append(") LIKE ? ");
+
+            hasWhere = true;
+        }
+
+
+        /*
+         * Filtro por compañía.
+         *
+         * Se permiten:
+         *
+         * AD_Client_ID = 0
+         * AD_Client_ID = compañía activa
+         */
+        if (hasClientFilter) {
+
+            sql.append(
+                    hasWhere
+                            ? " AND "
+                            : " WHERE "
+            );
+
+            sql.append(referenceInfo.tableName);
+            sql.append(".ad_client_id IN (0, ?) ");
+
+            hasWhere = true;
         }
 
 
         sql.append(
                 " ORDER BY lookup_name "
         );
+
 
         sql.append(
                 " LIMIT ? OFFSET ? "
@@ -308,6 +386,10 @@ public class ColumnLookupRepository {
                 hasSearch,
                 value,
                 hasValue,
+                hasClientFilter
+                        ? info.getClientID()
+                        : null,
+                hasClientFilter,
                 "Table para columna "
                         + column.columnId
         );
@@ -315,7 +397,8 @@ public class ColumnLookupRepository {
 
 
     /**
-     * Recupera la configuración explícita de AD_Ref_Table.
+     * Recupera la configuración explícita
+     * de AD_Ref_Table.
      */
     private TableReferenceInfo loadTableReferenceInfo(
             Integer referenceId) {
@@ -354,10 +437,12 @@ public class ColumnLookupRepository {
                     null
             );
 
+
             ps.setInt(
                     1,
                     referenceId
             );
+
 
             rs = ps.executeQuery();
 
@@ -370,20 +455,24 @@ public class ColumnLookupRepository {
             TableReferenceInfo result =
                     new TableReferenceInfo();
 
+
             result.tableName =
                     rs.getString(
                             "tablename"
                     );
+
 
             result.keyColumn =
                     rs.getString(
                             "key_column"
                     );
 
+
             result.displayColumn =
                     rs.getString(
                             "display_column"
                     );
+
 
             result.valueDisplayed =
                     "Y".equals(
@@ -392,10 +481,12 @@ public class ColumnLookupRepository {
                             )
                     );
 
+
             result.whereClause =
                     rs.getString(
                             "whereclause"
                     );
+
 
             result.orderByClause =
                     rs.getString(
@@ -404,6 +495,7 @@ public class ColumnLookupRepository {
 
 
             return result;
+
 
         } catch (Exception e) {
 
@@ -414,9 +506,13 @@ public class ColumnLookupRepository {
                     e
             );
 
+
         } finally {
 
-            DB.close(rs, ps);
+            DB.close(
+                    rs,
+                    ps
+            );
         }
     }
 
@@ -442,6 +538,7 @@ public class ColumnLookupRepository {
      * =========================================================
      */
     private List<ColumnLookupValue> retrieveTableDirect(
+            UserInfo info,
             ColumnInfo column,
             int limit,
             int page,
@@ -480,6 +577,23 @@ public class ColumnLookupRepository {
                 );
 
 
+        boolean hasSearch =
+                search != null
+                        && !search.trim().isEmpty();
+
+
+        boolean hasValue =
+                value != null
+                        && !value.trim().isEmpty();
+
+
+        boolean hasClientFilter =
+                shouldFilterByClient(
+                        info,
+                        tableName
+                );
+
+
         StringBuilder sql =
                 new StringBuilder();
 
@@ -502,18 +616,12 @@ public class ColumnLookupRepository {
         sql.append(" ");
 
 
-        boolean hasSearch =
-                search != null
-                        && !search.trim().isEmpty();
-
-        boolean hasValue =
-                value != null
-                        && !value.trim().isEmpty();
-
-
         boolean hasWhere = false;
 
 
+        /*
+         * Resolución puntual por ID.
+         */
         if (hasValue) {
 
             sql.append(" WHERE ");
@@ -528,6 +636,9 @@ public class ColumnLookupRepository {
         }
 
 
+        /*
+         * Búsqueda textual.
+         */
         if (hasSearch) {
 
             sql.append(
@@ -539,12 +650,33 @@ public class ColumnLookupRepository {
             sql.append(" lower(");
             sql.append(displayExpression);
             sql.append(") LIKE ? ");
+
+            hasWhere = true;
+        }
+
+
+        /*
+         * Filtro por compañía.
+         */
+        if (hasClientFilter) {
+
+            sql.append(
+                    hasWhere
+                            ? " AND "
+                            : " WHERE "
+            );
+
+            sql.append(tableName);
+            sql.append(".ad_client_id IN (0, ?) ");
+
+            hasWhere = true;
         }
 
 
         sql.append(
                 " ORDER BY lookup_name "
         );
+
 
         sql.append(
                 " LIMIT ? OFFSET ? "
@@ -559,6 +691,10 @@ public class ColumnLookupRepository {
                 hasSearch,
                 value,
                 hasValue,
+                hasClientFilter
+                        ? info.getClientID()
+                        : null,
+                hasClientFilter,
                 "Table Direct para columna "
                         + column.columnId
         );
@@ -602,7 +738,8 @@ public class ColumnLookupRepository {
 
 
     /**
-     * Recupera key e identificadores de la tabla referenciada.
+     * Recupera key e identificadores
+     * de la tabla referenciada.
      */
     private TableLookupInfo loadTableLookupInfo(
             String tableName) {
@@ -641,10 +778,12 @@ public class ColumnLookupRepository {
                     null
             );
 
+
             ps.setString(
                     1,
                     tableName
             );
+
 
             rs = ps.executeQuery();
 
@@ -692,6 +831,7 @@ public class ColumnLookupRepository {
 
             return result;
 
+
         } catch (Exception e) {
 
             throw new RuntimeException(
@@ -701,15 +841,113 @@ public class ColumnLookupRepository {
                     e
             );
 
+
         } finally {
 
-            DB.close(rs, ps);
+            DB.close(
+                    rs,
+                    ps
+            );
         }
     }
 
 
     /**
-     * Construye el texto visible para Table Direct.
+     * Determina si debe aplicarse filtro
+     * por compañía.
+     *
+     * System (clientID = 0) mantiene acceso global.
+     */
+    private boolean shouldFilterByClient(
+            UserInfo info,
+            String tableName) {
+
+        if (info == null) {
+            return false;
+        }
+
+
+        if (info.getClientID() == 0) {
+            return false;
+        }
+
+
+        return tableHasClientId(
+                tableName
+        );
+    }
+
+
+    /**
+     * Determina mediante metadata si la tabla
+     * posee una columna AD_Client_ID activa.
+     */
+    private boolean tableHasClientId(
+            String tableName) {
+
+        String sql =
+                " SELECT 1 " +
+
+                        " FROM ad_table t " +
+
+                        " JOIN ad_column c " +
+                        "   ON c.ad_table_id = t.ad_table_id " +
+
+                        " WHERE lower(t.tablename) = lower(?) " +
+                        "   AND t.isactive = 'Y' " +
+                        "   AND c.isactive = 'Y' " +
+                        "   AND lower(c.columnname) = 'ad_client_id' " +
+
+                        " LIMIT 1 ";
+
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+
+        try {
+
+            ps = DB.prepareStatement(
+                    sql,
+                    null
+            );
+
+
+            ps.setString(
+                    1,
+                    tableName
+            );
+
+
+            rs = ps.executeQuery();
+
+
+            return rs.next();
+
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(
+                    "Error determinando si la tabla "
+                            + tableName
+                            + " posee AD_Client_ID",
+                    e
+            );
+
+
+        } finally {
+
+            DB.close(
+                    rs,
+                    ps
+            );
+        }
+    }
+
+
+    /**
+     * Construye el texto visible
+     * para Table Direct.
      */
     private String buildTableDirectDisplayExpression(
             String tableName,
@@ -735,15 +973,19 @@ public class ColumnLookupRepository {
                     "COALESCE(CAST("
             );
 
+
             result.append(
                     tableName
             );
 
+
             result.append(".");
+
 
             result.append(
                     identifierColumns.get(i)
             );
+
 
             result.append(
                     " AS VARCHAR), '')"
@@ -756,7 +998,8 @@ public class ColumnLookupRepository {
 
 
     /**
-     * Ejecución común para Table y Table Direct.
+     * Ejecución común para Table,
+     * Table Direct y Search.
      */
     private List<ColumnLookupValue> executeLookupQuery(
             String sql,
@@ -766,6 +1009,8 @@ public class ColumnLookupRepository {
             boolean hasSearch,
             String value,
             boolean hasValue,
+            Integer clientId,
+            boolean hasClientFilter,
             String description) {
 
         PreparedStatement ps = null;
@@ -783,14 +1028,37 @@ public class ColumnLookupRepository {
             int parameterIndex = 1;
 
 
+            /*
+             * El orden de parámetros debe coincidir
+             * con el armado del WHERE:
+             *
+             * 1. value
+             * 2. search
+             * 3. clientId
+             * 4. limit
+             * 5. offset
+             */
+
             if (hasValue) {
 
+                /*
+                 * La mayoría de las keys son Integer.
+                 *
+                 * Si no puede convertirse se utiliza
+                 * String.
+                 */
                 try {
+
                     ps.setInt(
                             parameterIndex++,
-                            Integer.parseInt(value)
+                            Integer.parseInt(
+                                    value
+                            )
                     );
+
+
                 } catch (NumberFormatException e) {
+
                     ps.setString(
                             parameterIndex++,
                             value
@@ -808,6 +1076,15 @@ public class ColumnLookupRepository {
                                 .trim()
                                 .toLowerCase()
                                 + "%"
+                );
+            }
+
+
+            if (hasClientFilter) {
+
+                ps.setInt(
+                        parameterIndex++,
+                        clientId
                 );
             }
 
@@ -872,6 +1149,7 @@ public class ColumnLookupRepository {
 
             return result;
 
+
         } catch (Exception e) {
 
             throw new RuntimeException(
@@ -880,9 +1158,13 @@ public class ColumnLookupRepository {
                     e
             );
 
+
         } finally {
 
-            DB.close(rs, ps);
+            DB.close(
+                    rs,
+                    ps
+            );
         }
     }
 
