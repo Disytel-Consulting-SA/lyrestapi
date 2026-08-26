@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +50,13 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
     /** Liquidacion creada por el primer test y reutilizada por los siguientes */
     private static Integer settlementID;
     private static Integer filterID;
+
+    /** Liquidacion aparte, creada para probar el procesado del documento */
+    private static Integer settlementCompletadaID;
+
+    /** Fecha dentro de un periodo abierto para CCS. Ver fechaEnPeriodoCCSAbierto() */
+    private static String fechaPeriodoAbierto;
+    private static boolean periodoResuelto;
 
     /** Datos que dependen de la base y se resuelven una sola vez */
     private static Integer entidadFinancieraID;
@@ -317,6 +325,108 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
                 .isEqualTo(1);
     }
 
+    // =============================================================================
+    // Procesado del documento: PUT /creditcardsettlements/{id}/process?action=...
+    // =============================================================================
+
+    /**
+     * El caso que le va a pasar al consumidor la mayor parte del tiempo: la liquidacion no cuadra, el core
+     * la rechaza y la API tiene que devolver 409 DEJANDOLA COMO ESTABA.
+     *
+     * Es el test que importa de los cuatro. Completar desde la ventana del ERP guarda el estado invalido
+     * (IN); por la API no puede pasar, porque processEntity revierte la transaccion cuando el estado
+     * resultante no coincide con la accion pedida. Si este test empezara a ver la liquidacion en IN, el
+     * rollback dejo de funcionar y el consumidor estaria fabricando liquidaciones invalidas.
+     */
+    @Test
+    @Order(140)
+    void completarLiquidacionQueNoCuadraDebeRechazarseYDejarlaEnDR() throws Exception {
+        String fecha = fechaEnPeriodoCCSAbierto();
+        if (fecha == null) return;
+
+        Integer id = crearLiquidacionParaProcesar(settlementNo + "1", fecha, "1000.00", "0");
+        if (id == null) return;
+
+        ResponseEntity<String> response = exchange(HttpMethod.PUT, SETTLEMENTS + "/" + id + "/process?action=CO", null);
+        assertThat(response.getStatusCode().toString())
+                .as("una liquidacion descuadrada tiene que dar 409, no 200 ni 500: " + response.getBody())
+                .contains("409");
+
+        assertThat(docStatusDe(id))
+                .as("la liquidacion tiene que seguir en borrador: el rollback de processEntity es lo que " +
+                    "impide que la API deje liquidaciones en estado invalido (IN)")
+                .isEqualTo("DR");
+    }
+
+    /**
+     * Completar de verdad, con la liquidacion cuadrada.
+     *
+     * Se usa netamount = 0 A PROPOSITO. Con un importe acreditado distinto de cero, completeIt() genera un
+     * C_Payment y lo completa, con lo cual el test dejaria un cobro real en la base y dependeria ademas de
+     * la cuenta bancaria de liquidacion de la entidad financiera y del tipo de documento CR de la compania.
+     * Lo que se quiere verificar aca es la transicion de documento y el cableado del endpoint, no la
+     * generacion del cobro.
+     */
+    @Test
+    @Order(150)
+    void completarLiquidacionQueCuadraDebeCompletarla() throws Exception {
+        String fecha = fechaEnPeriodoCCSAbierto();
+        if (fecha == null) return;
+
+        settlementCompletadaID = crearLiquidacionParaProcesar(settlementNo + "2", fecha, "0", "0");
+        if (settlementCompletadaID == null) return;
+
+        ResponseEntity<String> response = exchange(HttpMethod.PUT,
+                SETTLEMENTS + "/" + settlementCompletadaID + "/process?action=CO", null);
+        assertThat(response.getStatusCode().toString())
+                .as("fallo el completado: " + response.getBody())
+                .contains("200");
+
+        assertThat(docStatusDe(settlementCompletadaID)).isEqualTo("CO");
+    }
+
+    /**
+     * Repetir una accion ya aplicada da 409. Esta documentado en el yaml del endpoint como el unico 409 que
+     * un consumidor automatico deberia leer como exito, asi que conviene que el mensaje no cambie sin que
+     * alguien se entere.
+     */
+    @Test
+    @Order(160)
+    void repetirElCompletadoDebeAvisarQueYaEstaEnEseEstado() {
+        if (settlementCompletadaID == null) return;
+
+        ResponseEntity<String> response = exchange(HttpMethod.PUT,
+                SETTLEMENTS + "/" + settlementCompletadaID + "/process?action=CO", null);
+        assertThat(response.getStatusCode().toString()).contains("409");
+        assertThat(response.getBody()).contains("ya coincide con el estado actual");
+    }
+
+    /**
+     * Anular renombra el documento: el core le agrega un ^ al settlementno.
+     *
+     * Se prueba sobre la liquidacion del test anterior, que no tiene cupones colgados. NO se prueba el
+     * borrado de cupones que hace voidIt() con un DELETE directo sobre C_CouponsSettlements, saltandose la
+     * regla R8: esta documentado en el yaml del endpoint y verificarlo aca significaria destruir los cupones
+     * que los tests de mas arriba usan para probar R6, R7 y los lotes.
+     */
+    @Test
+    @Order(170)
+    void anularLiquidacionDebeRenombrarElNumeroDeLiquidacion() throws Exception {
+        if (settlementCompletadaID == null) return;
+
+        ResponseEntity<String> response = exchange(HttpMethod.PUT,
+                SETTLEMENTS + "/" + settlementCompletadaID + "/process?action=VO", null);
+        assertThat(response.getStatusCode().toString())
+                .as("fallo la anulacion: " + response.getBody())
+                .contains("200");
+
+        JsonNode json = mapper.readTree(get(SETTLEMENTS + "/" + settlementCompletadaID).getBody());
+        assertThat(json.get("docstatus").asText()).isEqualTo("VO");
+        assertThat(json.get("settlementno").asText())
+                .as("voidIt le agrega un ^ al numero: el documento deja de ser el que era")
+                .isEqualTo(settlementNo + "2^");
+    }
+
     // =========
     // Auxiliares
     // =========
@@ -336,6 +446,73 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
         return "{\"c_creditcardsettlement_id\":" + settlementID +
                 ",\"c_creditcardcouponfilter_id\":" + filterID +
                 ",\"coupons\":[" + coupons + "]}";
+    }
+
+    /**
+     * Crea una liquidacion con importes elegidos, para poder probar el procesado.
+     *
+     * amount y netamount SI se envian, a diferencia de lo que pasa con los totales de conceptos: no son
+     * rollups. El modelo solo los recalcula al anular o revertir (setAmountsByFactor), nunca al guardar.
+     * De hecho completar compara uno contra otro, asi que sin ellos no hay nada que cuadrar.
+     */
+    private Integer crearLiquidacionParaProcesar(String numero, String fecha, String amount, String netAmount) throws Exception {
+        resolveFixtures();
+        // A diferencia del resto de la clase, los tests de procesado NO necesitan cobros: procesan una
+        // liquidacion sin cupones. Pedirles el juego completo de fixtures los saltearia cada vez que la base
+        // se queda sin C_Payment libres, y eso pasa solo: cada corrida consume los que cuelga, para siempre.
+        if (!diccionarioTehuelche() || entidadFinancieraID == null) return null;
+
+        String body = "{\"header\":{" +
+                "\"ad_org_id\":" + getOrgID() + "," +
+                "\"c_bpartner_id\":" + defaultBPartnerId + "," +
+                "\"c_currency_id\":" + defaultCurrencyId + "," +
+                "\"settlementno\":\"" + numero + "\"," +
+                "\"paymentdate\":\"" + fecha + "\"," +
+                "\"amount\":" + amount + "," +
+                "\"netamount\":" + netAmount + "," +
+                "\"docstatus\":\"DR\",\"docaction\":\"CO\"}," +
+                "\"filter\":{\"m_entidadfinanciera_id\":" + entidadFinancieraID + "}}";
+
+        ResponseEntity<String> response = post(SETTLEMENTS + "/full", body);
+        assertThat(response.getStatusCode().toString())
+                .as("fallo la creacion de la liquidacion a procesar: " + response.getBody())
+                .contains("200");
+        return mapper.readTree(response.getBody()).get("c_creditcardsettlement_id").asInt();
+    }
+
+    private String docStatusDe(int id) throws Exception {
+        return mapper.readTree(get(SETTLEMENTS + "/" + id).getBody()).get("docstatus").asText();
+    }
+
+    /**
+     * Fecha dentro de un periodo contable abierto para el tipo de documento de las liquidaciones (CCS).
+     *
+     * completeIt() y voidIt() empiezan por MPeriod.isOpen(), asi que sin un periodo abierto ningun test de
+     * procesado prueba nada: fallarian todos con @PeriodClosed@ antes de llegar a la regla que se quiere
+     * verificar. Y no sirve TEST_DATE, que es la fecha con la que trabajan el resto de los tests de esta
+     * clase: en la base de prueba ese periodo esta cerrado para CCS. Por eso se resuelve contra la base en
+     * vez de fijarla, y si no hay ninguno abierto los tests se saltean, igual que con el resto de los
+     * fixtures.
+     */
+    private String fechaEnPeriodoCCSAbierto() {
+        if (periodoResuelto) return fechaPeriodoAbierto;
+        periodoResuelto = true;
+
+        String sql = " SELECT p.startdate FROM c_period p " +
+                     " JOIN c_periodcontrol pc ON pc.c_period_id = p.c_period_id " +
+                     " WHERE pc.docbasetype = 'CCS' AND pc.periodstatus = 'O' " +
+                     "   AND p.isactive = 'Y' AND p.ad_client_id = ? " +
+                     " ORDER BY p.startdate DESC LIMIT 1 ";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, Integer.parseInt(credentials[2].split("=")[1]));
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next())
+                    fechaPeriodoAbierto = new SimpleDateFormat("yyyy-MM-dd").format(rs.getTimestamp(1)) + " 12:00:00";
+            }
+        } catch (Exception ignored) {
+            // se saltea, como el resto de los fixtures
+        }
+        return fechaPeriodoAbierto;
     }
 
     private ResponseEntity<String> post(String path, String body) {

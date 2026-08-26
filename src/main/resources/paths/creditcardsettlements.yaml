@@ -85,11 +85,10 @@ post:
     paymentdate::date. Si ya existe, la respuesta es 409 e incluye el ID de la existente.
 
 
-    LA LIQUIDACION QUEDA EN BORRADOR (docstatus DR) y esta API no expone la accion de completar. Completar
-    genera un C_Payment por el neto y exige que la liquidacion cuadre dentro de la tolerancia configurada,
-    cosa que hoy no se puede garantizar desde una integracion. El completado queda en manos de una persona
-    desde la ventana del ERP. Como contrapartida, una liquidacion en DR se puede borrar: el error es
-    reversible.
+    LA LIQUIDACION QUEDA EN BORRADOR (docstatus DR). Este endpoint no completa nada. Completar es una
+    llamada aparte y deliberada, PUT /v1.0/creditcardsettlements/{id}/process?action=CO, que genera un
+    C_Payment por el neto, exige que la liquidacion cuadre dentro de la tolerancia configurada y no se puede
+    deshacer sin anular. Mientras la liquidacion siga en DR se puede borrar: el error es reversible.
 
 
     CAMPOS QUE NO SE ENVIAN porque los calcula el modelo: couponstotalamount, commissionamount, ivaamount,

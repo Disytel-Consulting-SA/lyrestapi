@@ -88,7 +88,8 @@ de la sección 9 — nunca los hardcodees.
 3. **Para filtrar por día hay que usar un rango, no un cast.** Ver la sección 3, que es una trampa silenciosa.
 4. **`include` viene en `'N'` por defecto** y el total de la liquidación (`couponstotalamount`) sólo suma los
    cupones con `include='Y'`. Si querés que el cupón participe del total, mandalo explícito.
-5. **La liquidación queda en borrador (`DR`) y esta API no la completa.** Ver la sección 6.
+5. **La liquidación queda en borrador (`DR`).** Ni el `POST` ni `/full` completan: completar es una llamada
+   aparte y deliberada, y no se puede deshacer sin anular. Ver la sección 6.
 6. **El `c_bpartner_id` de la cabecera no se deduce del adquirente.** Un mismo adquirente puede operar contra
    varias entidades comerciales; lo único que lo determina es el número de comercio. Ver la sección 7.
 
@@ -208,8 +209,12 @@ la liquidación desde el ERP, `completeIt()` los usa para resolver el comercio y
 queda sin esa información y no hay forma de reponerla después. No cuestan nada: ya salieron de la consulta que
 resolvió el `c_bpartner_id`.
 
-**No mandes** `couponstotalamount`, `commissionamount`, `ivaamount`, `netamount`, `withholding`, `perception`
-ni `expenses`: los recalcula el modelo desde las filas hijas y los cupones. Tampoco `processed` ni `posted`.
+**No mandes** `couponstotalamount`, `commissionamount`, `ivaamount`, `withholding`, `perception` ni
+`expenses`: los recalcula el modelo desde los cupones y desde las filas hijas de conceptos. Tampoco `processed`
+ni `posted`.
+
+`amount` y `netamount` **sí se mandan**: no son rollups, el modelo sólo los recalcula al anular o revertir. Y
+son justamente los dos que se comparan al completar, así que sin ellos no hay nada que pueda cuadrar.
 
 ### Filtro (`C_CreditCardCouponFilter`)
 
@@ -237,22 +242,80 @@ ERP que esta API no dispara, y no tiene nada que ver con colgar cupones.
 
 ---
 
-## 6. Lo que esta API NO hace: completar
+## 6. Completar, anular y cerrar
 
-**No se expone la acción de completar la liquidación.** No hay `POST /creditcardsettlements/{id}/process`.
+```
+PUT /v1.0/creditcardsettlements/{id}/process?action=CO   # completar
+PUT /v1.0/creditcardsettlements/{id}/process?action=VO   # anular
+PUT /v1.0/creditcardsettlements/{id}/process?action=CL   # cerrar
+```
 
-Completar dispara `completeIt()`, que exige que la liquidación **cuadre** dentro de la tolerancia configurada
-y **crea un `C_Payment` por el neto**. Ninguna de las dos cosas puede decidirlas una integración, así que ese
-paso queda en manos de una persona desde la ventana del ERP.
+Es `PUT` y el parámetro es `action`, igual que en el resto de los endpoints de procesado de la API. `RC`, `RA`
+y `RE` no están disponibles (`docs/PENDIENTES.md` P1, y además `reActivateIt()` del modelo devuelve `false`).
 
-Consecuencias, para tenerlas presentes:
+**Ninguno de los otros endpoints completa nada.** Ni el `POST` de la cabecera ni `/full`: la liquidación queda
+en `DR` y completarla es siempre una llamada aparte y deliberada.
 
-- La liquidación **existe y tiene sus cupones colgados**, que es lo que cierra la brecha entre el sistema
-  externo y Libertya. Eso ya sirve al negocio.
-- **No genera asiento contable** hasta que alguien la complete. Conviene que Finanzas sepa que ese paso queda
-  pendiente.
-- Una liquidación en `DR` **se puede borrar**, a diferencia de una completada: el error es reversible mientras
-  no se complete.
+### `CO` — completar
+
+Exige tres cosas, y las tres devuelven **409** con el mensaje del core si fallan:
+
+| Requisito | Mensaje |
+|---|---|
+| Período contable abierto para la fecha de pago | `@PeriodClosed@` |
+| Que la liquidación **cuadre**: `amount` contra la suma de `netamount` + `ivaamount` + `perception` + `withholding` + `commissionamount` + `expenses`, dentro de la tolerancia del ERP (`ToleranciaCompletadoLiquidacionesTarjetas`, $0,50 por defecto) | `CreditCardSettlementAmountsMismatch` |
+| Cuenta bancaria de liquidación configurada en la entidad financiera | `SettlementBankAccountNotConfigured` |
+
+Si el neto no es cero, completar **genera un `C_Payment` por ese importe y lo completa**: tiene efecto
+contable real. El `c_payment_id` **no viene en la respuesta** —que es vacía, como la de todos los endpoints de
+procesado—; se lee con un `GET` de la cabecera después de completar.
+
+**Es irreversible en la práctica.** El core no permite reactivar una liquidación completada: el único camino
+de vuelta es `VO`, con todo lo que `VO` implica. Conviene tratar esta llamada como definitiva.
+
+**Un `CO` fallido deja la liquidación en `DR`**, no en estado inválido (`IN`) como pasa al completar desde la
+ventana del ERP: la API revierte su transacción. Pero **si el fallo ocurre después de la validación de
+cuadratura**, el modelo ya borró las filas hijas de conceptos que tenían importe cero, y ese borrado lo hace
+fuera de la transacción, así que sobrevive al rollback. Si guardaste los ids de las filas hijas que devolvió
+`/full`, volvé a leerlas después de un `CO` fallido.
+
+### ⚠️ `VO` — anular: es destructivo, no es un cambio de estado
+
+Anular una liquidación:
+
+- **borra todos sus cupones** con un `DELETE` directo sobre `C_CouponsSettlements`, sin pasar por la
+  validación que impide eliminar un cupón conciliado (R8) y sin importar cuántos sean;
+- anula el `C_Payment` generado al completar y borra los registros contables de la liquidación;
+- pone en cero los importes de todas las filas hijas de conceptos;
+- devuelve los cobros al estado de auditoría "a verificar";
+- **le agrega un `^` al `settlementno`**: el número del documento deja de ser el que era.
+
+Si lo que querés es deshacer una liquidación que **todavía está en `DR`**, lo correcto no es `VO` sino
+`DELETE /v1.0/creditcardsettlements/{id}`, que es reversible y no toca los cobros.
+
+### `CL` — cerrar
+
+Sólo es válido sobre una liquidación ya completada, y se limita a marcarla como procesada.
+
+### Idempotencia y reintentos
+
+Repetir una acción ya aplicada devuelve **409** con *"la acción CO a aplicar ya coincide con el estado actual
+CO"*. **Es el único 409 que un consumidor automático debería leer como éxito.** Lo que no hay que hacer es
+reintentar a ciegas ante un timeout: dos `CO` en vuelo sobre la misma liquidación pueden dejar un `C_Payment`
+completado y huérfano.
+
+Y una acción que no aplica al estado actual también termina en 409: el core resuelve la acción contra el
+estado del documento y, si la pedida no es válida, cae a la que el registro tiene guardada en `docaction`. La
+API detecta la discrepancia y revierte, pero no conviene apoyarse en eso — pedí siempre la acción que
+corresponde al `docstatus` actual.
+
+### Lo que no cambia por tener el endpoint
+
+- La liquidación en `DR` **ya existe y tiene sus cupones colgados**, que es lo que cierra la brecha entre el
+  sistema externo y Libertya. Eso ya sirve al negocio, sin completar nada.
+- **No hay asiento contable hasta que alguien complete.** Que ese paso lo dé una integración o una persona es
+  una decisión de negocio, no técnica.
+- Una liquidación en `DR` se puede borrar; una completada, no.
 
 ### Bajas: qué se puede borrar y qué no
 

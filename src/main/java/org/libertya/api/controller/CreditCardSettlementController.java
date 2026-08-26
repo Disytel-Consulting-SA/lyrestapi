@@ -16,9 +16,10 @@ import java.util.List;
 /**
  * Liquidaciones de tarjetas de credito (C_CreditCardSettlement).
  *
- * NO se expone el procesado del documento. Completar una liquidacion genera un C_Payment por el neto y exige
- * que la liquidacion cuadre dentro de la tolerancia configurada, y ninguna de las dos cosas puede decidirlas
- * una integracion: queda en manos de una persona desde la ventana del ERP.
+ * El procesado del documento se expone para CO, VO y CL, y no es una operacion menor: completar genera un
+ * C_Payment por el neto y no se puede reactivar, y anular borra todos los cupones de la liquidacion. El
+ * detalle de lo que hace cada accion esta en paths/creditcardsettlements_id_process.yaml, que es lo que ve
+ * quien consume la API.
  */
 @Controller
 @RequiredArgsConstructor
@@ -48,6 +49,11 @@ public class CreditCardSettlementController extends AbstractController implement
     @Override
     public ResponseEntity<List<CreditCardSettlement>> getAllCreditCardSettlements(String filter, String fields, String sort, Integer limit, Integer page) {
         return retrieveAllAction(request, repository, query(filter, fields, sort, limit, page));
+    }
+
+    @Override
+    public ResponseEntity<String> processCreditCardSettlement(Integer id, String action) {
+        return processAction(request, (info) -> repository.process(info, id, action));
     }
 
     @Override

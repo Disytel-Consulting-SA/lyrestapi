@@ -605,6 +605,29 @@ Con los datos de hoy sólo cuadran el 5,3 % de las de Payway y el 67,5 % de las 
 > pueden construir ya. Ver §9. Esto cierra el punto que
 > `../conciliador-ce/docs/PENDIENTES.md` marcaba como abierto al final.
 
+> ✅ **Implementado el 2026-08-26, revirtiendo la decisión de arriba a pedido del consumidor.**
+> La firma real es `PUT /v1.0/creditcardsettlements/{id}/process?action=CO|VO|CL`: `PUT` y `action`,
+> que es la convención de los otros diez endpoints de procesado de la API y lo que documenta el
+> manual para desarrolladores, no el `POST ...?docaction=` que proponía este borrador.
+>
+> **El argumento de "fabricar liquidaciones en `IN`" no aplicaba a esta API.** `processEntity`
+> revierte la transacción cuando el estado resultante no coincide con la acción pedida, así que un
+> `CO` que no cuadra devuelve 409 y deja la liquidación en `DR`. Las `IN` de producción del §6.3 las
+> deja la **ventana del ERP**, que sí persiste el estado inválido. Lo que sigue en pie es T1/F1:
+> exponer el endpoint no cambia el volumen conciliable —hoy cuadran el 5,3 % de Payway y el 67,5 %
+> de Fidelius—, sólo habilita completar lo que ya cuadra.
+>
+> Tres cosas que aparecieron al revisar el core para escribirlo, todas documentadas en el yaml del
+> endpoint porque ninguna se deduce del modelo:
+>
+> 1. `completeIt()` llama a `removeUnusedChildrens()`, que borra las filas hijas en cero con
+>    `DB.executeUpdate(sql)` **sin `trxName`**: ese borrado se autocommitea y **sobrevive al
+>    rollback**. Un `CO` fallido después de la cuadratura no es un no-op.
+> 2. `reActivateIt()` devuelve `false`. Completar es **irreversible** salvo por `VO`.
+> 3. `voidIt()` borra los cupones con un `DELETE` directo sobre `C_CouponsSettlements`, salteando la
+>    regla R8, y le agrega un `^` al `SettlementNo`. Para deshacer algo que sigue en `DR` hay que usar
+>    el `DELETE` de la liquidación, no `VO`.
+
 ---
 
 ## 8. Plan de implementación
@@ -683,6 +706,7 @@ Un `docs/liquidaciones-tarjetas-api.md` en lyrestapi, al estilo de
 | Decisión | Quién / cuándo | Consecuencia |
 |---|---|---|
 | **El `POST` deja la liquidación en `DR`. No se expone `docaction=CO` en esta etapa.** | Julián, 2026-08-20 | El plan **deja de depender de T1 y F1**: no hay que reconstruir la deducción ni resolver el residuo para avanzar. Ninguna llamada de la API crea un `C_Payment` ni contabiliza nada |
+| **Se expone el procesado del documento (`CO`, `VO`, `CL`), revirtiendo la primera fila.** | Julián, 2026-08-26 | A pedido del consumidor. No destraba volumen —T1/F1 siguen decidiendo qué cuadra— pero deja de hacer falta la ventana del ERP para completar lo que ya cuadra. La API no puede dejar liquidaciones en `IN`: revierte. Ver la fase 3 del §7 |
 | **`numeroscomercio` (E11) se adelanta a la fase 1 y va sólo de lectura.** | Julián, 2026-08-21 | Sin él no se puede resolver el `c_bpartner_id` de la cabecera, que no se deduce del adquirente. Se deja fuera la escritura porque el maestro se administra desde el ERP. Ver §12 |
 
 Consecuencias operativas de dejar todo en `DR`, para tener presentes:
@@ -732,7 +756,9 @@ Consecuencias operativas de dejar todo en `DR`, para tener presentes:
 - **Tres llamadas por liquidación, no una ni N**: `/full` atómico para cabecera + filtro,
   y `bulk` de cupones con resultado por ítem (sin rollback del lote). La mediana son 4-7
   cupones pero el máximo histórico es 3.504.
-- ✅ **Decidido: todo queda en `DR`.** No se expone `docaction=CO`, así que el plan **no depende de T1 ni de F1** y se puede empezar.
+- ✅ **Decidido: el alta deja todo en `DR`**, así que el plan **no depende de T1 ni de F1** y se pudo empezar.
+  Completar es una llamada aparte, `PUT /{id}/process?action=CO`, expuesta el 2026-08-26 (§7, fase 3). Sigue
+  siendo T1/F1 lo que decide qué liquidación puede completarse, no la API.
 
 ---
 

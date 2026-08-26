@@ -26,7 +26,8 @@ post:
     m_entidadfinanciera_id y m_numerocomercio_id de la cabecera.
 
 
-    LA LIQUIDACION QUEDA EN BORRADOR (DR). Esta API no expone la accion de completar.
+    LA LIQUIDACION QUEDA EN BORRADOR (DR). Completar es una llamada aparte y deliberada,
+    PUT /v1.0/creditcardsettlements/{id}/process?action=CO.
   operationId: addCreditCardSettlementFull
   responses:
     "200":
