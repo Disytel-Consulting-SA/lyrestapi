@@ -14,7 +14,7 @@ public class WindowSchemaController implements WindowschemaApi {
     private final WindowSchemaRepository repository;
 
     @Override
-    public ResponseEntity<WindowSchema> retrieveWindowSchema(Integer id) {
-        return ResponseEntity.ok(repository.retrieve(id));
+    public ResponseEntity<WindowSchema> retrieveWindowSchema(Integer id, String language) {
+        return ResponseEntity.ok(repository.retrieve(id, language));
     }
 }

@@ -1,0 +1,11 @@
+components:
+  schemas:
+
+    WindowOption:
+      type: object
+      properties:
+        ad_window_id:
+          type: integer
+
+        name:
+          type: string

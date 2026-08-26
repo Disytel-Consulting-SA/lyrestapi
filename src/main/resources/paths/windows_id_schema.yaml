@@ -10,6 +10,13 @@ get:
       required: true
       schema:
         type: integer
+    - name: language
+      in: query
+      description: Idioma de traducción solicitado
+      required: false
+      schema:
+        type: string
+        default: es_AR
   operationId: retrieveWindowSchema
   responses:
     "200":

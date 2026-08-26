@@ -64,6 +64,8 @@ components:
           type: integer
         isdisplayed:
           type: boolean
+        isreadonly:
+          type: boolean
 
         ad_column_id:
           type: integer

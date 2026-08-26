@@ -32,6 +32,9 @@ public class WindowSchemaField   {
   @JsonProperty("isdisplayed")
   private Boolean isdisplayed = null;
 
+  @JsonProperty("isreadonly")
+  private Boolean isreadonly = null;
+
   @JsonProperty("ad_column_id")
   private Integer adColumnId = null;
 
@@ -149,6 +152,25 @@ public class WindowSchemaField   {
 
   public void setIsdisplayed(Boolean isdisplayed) {
     this.isdisplayed = isdisplayed;
+  }
+
+  public WindowSchemaField isreadonly(Boolean isreadonly) {
+    this.isreadonly = isreadonly;
+    return this;
+  }
+
+  /**
+   * Get isreadonly
+   * @return isreadonly
+   **/
+  @Schema(description = "")
+  
+    public Boolean isIsreadonly() {
+    return isreadonly;
+  }
+
+  public void setIsreadonly(Boolean isreadonly) {
+    this.isreadonly = isreadonly;
   }
 
   public WindowSchemaField adColumnId(Integer adColumnId) {
@@ -319,6 +341,7 @@ public class WindowSchemaField   {
         Objects.equals(this.description, windowSchemaField.description) &&
         Objects.equals(this.seqno, windowSchemaField.seqno) &&
         Objects.equals(this.isdisplayed, windowSchemaField.isdisplayed) &&
+        Objects.equals(this.isreadonly, windowSchemaField.isreadonly) &&
         Objects.equals(this.adColumnId, windowSchemaField.adColumnId) &&
         Objects.equals(this.columnname, windowSchemaField.columnname) &&
         Objects.equals(this.adReferenceId, windowSchemaField.adReferenceId) &&
@@ -331,7 +354,7 @@ public class WindowSchemaField   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, reference);
+    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isreadonly, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, reference);
   }
 
   @Override
@@ -344,6 +367,7 @@ public class WindowSchemaField   {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    seqno: ").append(toIndentedString(seqno)).append("\n");
     sb.append("    isdisplayed: ").append(toIndentedString(isdisplayed)).append("\n");
+    sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
     sb.append("    adColumnId: ").append(toIndentedString(adColumnId)).append("\n");
     sb.append("    columnname: ").append(toIndentedString(columnname)).append("\n");
     sb.append("    adReferenceId: ").append(toIndentedString(adReferenceId)).append("\n");

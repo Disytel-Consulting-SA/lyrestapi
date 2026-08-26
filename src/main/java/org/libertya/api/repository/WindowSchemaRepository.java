@@ -25,12 +25,34 @@ public class WindowSchemaRepository {
 
     private static final int REFERENCE_LIST = 17;
 
-    private static final int REFERENCE_YESNO = 20;
-
     private static final int REFERENCE_TABLE = 18;
+
     private static final int REFERENCE_TABLE_DIRECT = 19;
 
+    private static final int REFERENCE_YESNO = 20;
+
     private static final int REFERENCE_BUTTON = 28;
+
+    private static final int REFERENCE_SEARCH = 30;
+
+    private static final int REFERENCE_INTEGER = 11;
+    private static final int REFERENCE_AMOUNT = 12;
+
+    private static final int REFERENCE_DATE = 15;
+    private static final int REFERENCE_DATETIME = 16;
+
+    private static final int REFERENCE_NUMBER = 22;
+    private static final int REFERENCE_TIME = 24;
+
+    private static final int REFERENCE_QUANTITY = 29;
+
+    private static final int REFERENCE_MEMO = 34;
+    private static final int REFERENCE_TEXT_LONG = 36;
+
+    private static final int REFERENCE_COST_PRICE = 37;
+
+
+    private static final String DEFAULT_LANGUAGE = "es_AR";
 
     /*
      * Mapping tabla Libertya -> endpoint REST.
@@ -44,100 +66,349 @@ public class WindowSchemaRepository {
             loadTableEndpoints();
 
 
+    /**
+     * Mantiene compatibilidad con llamadas sin idioma.
+     */
     public WindowSchema retrieve(Integer windowId) {
+        return retrieve(windowId, null);
+    }
 
-        String sql =
-                " SELECT " +
-                        "   w.ad_window_id, " +
-                        "   w.name AS window_name, " +
-                        "   w.description AS window_description, " +
 
-                        "   t.ad_tab_id, " +
-                        "   t.name AS tab_name, " +
-                        "   t.description AS tab_description, " +
-                        "   t.seqno AS tab_seqno, " +
-                        "   t.tablevel AS tab_tablevel, " +
-                        "   t.whereclause AS tab_whereclause, " +
-                        "   t.orderbyclause AS tab_orderbyclause, " +
-                        "   t.isreadonly AS tab_isreadonly, " +
+    /**
+     * Recupera el schema completo de una ventana.
+     *
+     * Si language viene informado:
+     *
+     * - AD_Window_Trl
+     * - AD_Tab_Trl
+     * - AD_Field_Trl
+     * - AD_Ref_List_Trl
+     *
+     * son utilizados cuando existe traducción.
+     *
+     * Si no existe traducción para un elemento, se utiliza
+     * automáticamente el valor de la tabla base.
+     */
+    public WindowSchema retrieve(
+            Integer windowId,
+            String language) {
 
-                        /*
-                         * AD_Tab.AD_Column_ID es el override explícito
-                         * para la columna master/detail.
-                         */
-                        "   tc.columnname AS tab_link_columnname, " +
+        boolean translated = true;
 
-                        "   tb.ad_table_id, " +
-                        "   tb.tablename, " +
+        String effectiveLanguage =
+                language != null && !language.trim().isEmpty()
+                        ? language.trim()
+                        : DEFAULT_LANGUAGE;
 
-                        "   f.ad_field_id, " +
-                        "   f.name AS field_name, " +
-                        "   f.description AS field_description, " +
-                        "   f.seqno AS field_seqno, " +
-                        "   f.isdisplayed, " +
 
-                        "   c.ad_column_id, " +
-                        "   c.columnname, " +
-                        "   c.ad_reference_id, " +
-                        "   c.ad_reference_value_id, " +
-                        "   c.ismandatory, " +
-                        "   c.iskey, " +
-                        "   c.isparent " +
+        /*
+         * Las expresiones se construyen de esta manera
+         * para evitar joins a las tablas _Trl cuando no
+         * se solicita idioma.
+         */
+        String windowName =
+                translated
+                        ? "COALESCE(wt.name, w.name)"
+                        : "w.name";
 
-                        " FROM ad_window w " +
+        String windowDescription =
+                translated
+                        ? "COALESCE(wt.description, w.description)"
+                        : "w.description";
 
-                        " JOIN ad_tab t " +
-                        "   ON t.ad_window_id = w.ad_window_id " +
+        String tabName =
+                translated
+                        ? "COALESCE(tt.name, t.name)"
+                        : "t.name";
 
-                        " JOIN ad_table tb " +
-                        "   ON tb.ad_table_id = t.ad_table_id " +
+        String tabDescription =
+                translated
+                        ? "COALESCE(tt.description, t.description)"
+                        : "t.description";
 
-                        " JOIN ad_field f " +
-                        "   ON f.ad_tab_id = t.ad_tab_id " +
+        String fieldName =
+                translated
+                        ? "COALESCE(ft.name, f.name)"
+                        : "f.name";
 
-                        " JOIN ad_column c " +
-                        "   ON c.ad_column_id = f.ad_column_id " +
+        String fieldDescription =
+                translated
+                        ? "COALESCE(ft.description, f.description)"
+                        : "f.description";
 
-                        /*
-                         * LEFT JOIN porque AD_Tab.AD_Column_ID
-                         * puede no estar configurado.
-                         */
-                        " LEFT JOIN ad_column tc " +
-                        "   ON tc.ad_column_id = t.ad_column_id " +
 
-                        " WHERE w.ad_window_id = ? " +
-                        "   AND w.isactive = 'Y' " +
-                        "   AND t.isactive = 'Y' " +
-                        "   AND f.isactive = 'Y' " +
-                        "   AND c.isactive = 'Y' " +
+        StringBuilder sql =
+                new StringBuilder();
 
-                        " ORDER BY t.seqno, f.seqno ";
+
+        sql.append(" SELECT ");
+
+        sql.append("   w.ad_window_id, ");
+
+        sql.append("   ");
+        sql.append(windowName);
+        sql.append(" AS window_name, ");
+
+        sql.append("   ");
+        sql.append(windowDescription);
+        sql.append(" AS window_description, ");
+
+
+        sql.append("   t.ad_tab_id, ");
+
+        sql.append("   ");
+        sql.append(tabName);
+        sql.append(" AS tab_name, ");
+
+        sql.append("   ");
+        sql.append(tabDescription);
+        sql.append(" AS tab_description, ");
+
+        sql.append("   t.seqno AS tab_seqno, ");
+        sql.append("   t.tablevel AS tab_tablevel, ");
+        sql.append("   t.whereclause AS tab_whereclause, ");
+        sql.append("   t.orderbyclause AS tab_orderbyclause, ");
+        sql.append("   t.isreadonly AS tab_isreadonly, ");
+
+
+        /*
+         * AD_Tab.AD_Column_ID es el override explícito
+         * para la columna master/detail.
+         */
+        sql.append(
+                "   tc.columnname AS tab_link_columnname, "
+        );
+
+
+        sql.append("   tb.ad_table_id, ");
+        sql.append("   tb.tablename, ");
+
+
+        sql.append("   f.ad_field_id, ");
+
+        sql.append("   ");
+        sql.append(fieldName);
+        sql.append(" AS field_name, ");
+
+        sql.append("   ");
+        sql.append(fieldDescription);
+        sql.append(" AS field_description, ");
+
+        sql.append("   f.seqno AS field_seqno, ");
+        sql.append("   f.isdisplayed, ");
+        sql.append("   f.isreadonly AS field_isreadonly, ");
+
+
+        sql.append("   c.ad_column_id, ");
+        sql.append("   c.columnname, ");
+        sql.append("   c.ad_reference_id, ");
+        sql.append("   c.ad_reference_value_id, ");
+        sql.append("   c.ismandatory, ");
+        sql.append("   c.iskey, ");
+        sql.append("   c.isparent ");
+
+
+        sql.append(" FROM ad_window w ");
+
+
+        /*
+         * Traducción de ventana.
+         */
+        if (translated) {
+
+            sql.append(
+                    " LEFT JOIN ad_window_trl wt "
+            );
+
+            sql.append(
+                    "   ON wt.ad_window_id = w.ad_window_id "
+            );
+
+            sql.append(
+                    "  AND wt.ad_language = ? "
+            );
+        }
+
+
+        sql.append(
+                " JOIN ad_tab t "
+        );
+
+        sql.append(
+                "   ON t.ad_window_id = w.ad_window_id "
+        );
+
+
+        /*
+         * Traducción de pestaña.
+         */
+        if (translated) {
+
+            sql.append(
+                    " LEFT JOIN ad_tab_trl tt "
+            );
+
+            sql.append(
+                    "   ON tt.ad_tab_id = t.ad_tab_id "
+            );
+
+            sql.append(
+                    "  AND tt.ad_language = ? "
+            );
+        }
+
+
+        sql.append(
+                " JOIN ad_table tb "
+        );
+
+        sql.append(
+                "   ON tb.ad_table_id = t.ad_table_id "
+        );
+
+
+        sql.append(
+                " JOIN ad_field f "
+        );
+
+        sql.append(
+                "   ON f.ad_tab_id = t.ad_tab_id "
+        );
+
+
+        /*
+         * Traducción de campo.
+         */
+        if (translated) {
+
+            sql.append(
+                    " LEFT JOIN ad_field_trl ft "
+            );
+
+            sql.append(
+                    "   ON ft.ad_field_id = f.ad_field_id "
+            );
+
+            sql.append(
+                    "  AND ft.ad_language = ? "
+            );
+        }
+
+
+        sql.append(
+                " JOIN ad_column c "
+        );
+
+        sql.append(
+                "   ON c.ad_column_id = f.ad_column_id "
+        );
+
+
+        /*
+         * LEFT JOIN porque AD_Tab.AD_Column_ID
+         * puede no estar configurado.
+         */
+        sql.append(
+                " LEFT JOIN ad_column tc "
+        );
+
+        sql.append(
+                "   ON tc.ad_column_id = t.ad_column_id "
+        );
+
+
+        sql.append(
+                " WHERE w.ad_window_id = ? "
+        );
+
+        sql.append(
+                "   AND w.isactive = 'Y' "
+        );
+
+        sql.append(
+                "   AND t.isactive = 'Y' "
+        );
+
+        sql.append(
+                "   AND f.isactive = 'Y' "
+        );
+
+        sql.append(
+                "   AND c.isactive = 'Y' "
+        );
+
+
+        sql.append(
+                " ORDER BY t.seqno, f.seqno "
+        );
+
 
         PreparedStatement ps = null;
         ResultSet rs = null;
 
+
         try {
 
-            ps = DB.prepareStatement(sql, null);
-            ps.setInt(1, windowId);
+            ps = DB.prepareStatement(
+                    sql.toString(),
+                    null
+            );
+
+
+            int parameterIndex = 1;
+
+
+            /*
+             * Los parámetros de idioma aparecen antes que
+             * windowId en el SQL porque pertenecen a los JOIN.
+             */
+            if (translated) {
+
+                ps.setString(
+                        parameterIndex++,
+                        effectiveLanguage
+                );
+
+                ps.setString(
+                        parameterIndex++,
+                        effectiveLanguage
+                );
+
+                ps.setString(
+                        parameterIndex++,
+                        effectiveLanguage
+                );
+            }
+
+
+            ps.setInt(
+                    parameterIndex,
+                    windowId
+            );
+
 
             rs = ps.executeQuery();
+
 
             WindowSchema schema = null;
 
             Integer currentTabId = null;
+
             WindowSchemaTab currentTab = null;
+
 
             /*
              * Tabs creadas en orden SeqNo.
+             *
              * Se utilizan para determinar el padre estructural.
              */
             List<WindowSchemaTab> createdTabs =
                     new ArrayList<>();
 
+
             /*
-             * Guarda el override explícito definido en
-             * AD_Tab.AD_Column_ID.
+             * Guarda el override explícito definido
+             * en AD_Tab.AD_Column_ID.
              */
             Map<Integer, String> explicitLinkColumns =
                     new HashMap<>();
@@ -150,23 +421,30 @@ public class WindowSchemaRepository {
                  */
                 if (schema == null) {
 
-                    schema = new WindowSchema()
-                            .adWindowId(
-                                    rs.getInt("ad_window_id")
-                            )
-                            .name(
-                                    rs.getString("window_name")
-                            )
-                            .description(
-                                    rs.getString(
-                                            "window_description"
+                    schema =
+                            new WindowSchema()
+                                    .adWindowId(
+                                            rs.getInt(
+                                                    "ad_window_id"
+                                            )
                                     )
-                            );
+                                    .name(
+                                            rs.getString(
+                                                    "window_name"
+                                            )
+                                    )
+                                    .description(
+                                            rs.getString(
+                                                    "window_description"
+                                            )
+                                    );
                 }
 
 
                 Integer tabId =
-                        rs.getInt("ad_tab_id");
+                        rs.getInt(
+                                "ad_tab_id"
+                        );
 
 
                 /*
@@ -175,10 +453,16 @@ public class WindowSchemaRepository {
                 if (!tabId.equals(currentTabId)) {
 
                     int tablevel =
-                            rs.getInt("tab_tablevel");
+                            rs.getInt(
+                                    "tab_tablevel"
+                            );
+
 
                     String tableName =
-                            rs.getString("tablename");
+                            rs.getString(
+                                    "tablename"
+                            );
+
 
                     String dataEndpoint =
                             TABLE_ENDPOINTS.getProperty(
@@ -204,7 +488,9 @@ public class WindowSchemaRepository {
                                                     "tab_seqno"
                                             )
                                     )
-                                    .tablevel(tablevel)
+                                    .tablevel(
+                                            tablevel
+                                    )
                                     .whereclause(
                                             rs.getString(
                                                     "tab_whereclause"
@@ -227,7 +513,9 @@ public class WindowSchemaRepository {
                                                     "ad_table_id"
                                             )
                                     )
-                                    .tablename(tableName)
+                                    .tablename(
+                                            tableName
+                                    )
                                     .dataEndpoint(
                                             dataEndpoint
                                     );
@@ -247,6 +535,7 @@ public class WindowSchemaRepository {
                                         tablevel
                                 );
 
+
                         if (parentTabId != null) {
 
                             currentTab.parentAdTabId(
@@ -265,6 +554,7 @@ public class WindowSchemaRepository {
                                     "tab_link_columnname"
                             );
 
+
                     if (explicitLinkColumn != null
                             && !explicitLinkColumn.isEmpty()) {
 
@@ -275,10 +565,17 @@ public class WindowSchemaRepository {
                     }
 
 
-                    schema.addTabsItem(currentTab);
-                    createdTabs.add(currentTab);
+                    schema.addTabsItem(
+                            currentTab
+                    );
 
-                    currentTabId = tabId;
+                    createdTabs.add(
+                            currentTab
+                    );
+
+
+                    currentTabId =
+                            tabId;
                 }
 
 
@@ -313,6 +610,13 @@ public class WindowSchemaRepository {
                                         "Y".equals(
                                                 rs.getString(
                                                         "isdisplayed"
+                                                )
+                                        )
+                                )
+                                .isreadonly(
+                                        "Y".equals(
+                                                rs.getString(
+                                                        "field_isreadonly"
                                                 )
                                         )
                                 )
@@ -358,7 +662,10 @@ public class WindowSchemaRepository {
                                         )
                                 );
 
-                currentTab.addFieldsItem(field);
+
+                currentTab.addFieldsItem(
+                        field
+                );
             }
 
 
@@ -372,36 +679,63 @@ public class WindowSchemaRepository {
                         explicitLinkColumns
                 );
 
+
                 /*
                  * Resolver listas AD_Ref_List.
                  *
-                 * Se realiza en una única consulta adicional
-                 * para todas las referencias utilizadas por
-                 * la ventana.
+                 * Sigue siendo una única consulta adicional
+                 * para todas las listas utilizadas por la ventana.
                  */
-                resolveListReferences(schema);
+                resolveListReferences(
+                        schema,
+                        effectiveLanguage
+                );
 
-                resolveBooleanReferences(schema);
 
-                resolveLookupReferences(schema);
+                /*
+                 * Tipos semánticos para frontend.
+                 */
+                resolveBooleanReferences(
+                        schema
+                );
 
-                resolveButtonReferences(schema);
+                resolveLookupReferences(
+                        schema
+                );
+
+                resolveButtonReferences(
+                        schema
+                );
+
+                resolveVisualReferences(
+                            schema
+                );
             }
 
 
             return schema;
 
+
         } catch (Exception e) {
 
             throw new RuntimeException(
                     "Error recuperando schema de ventana "
-                            + windowId,
+                            + windowId
+                            + (
+                            translated
+                                    ? " para idioma "
+                                    + effectiveLanguage
+                                    : ""
+                    ),
                     e
             );
 
         } finally {
 
-            DB.close(rs, ps);
+            DB.close(
+                    rs,
+                    ps
+            );
         }
     }
 
@@ -414,6 +748,7 @@ public class WindowSchemaRepository {
 
         Properties properties =
                 new Properties();
+
 
         try (
                 InputStream input =
@@ -433,9 +768,14 @@ public class WindowSchemaRepository {
                 );
             }
 
-            properties.load(input);
+
+            properties.load(
+                    input
+            );
+
 
             return properties;
+
 
         } catch (Exception e) {
 
@@ -458,12 +798,14 @@ public class WindowSchemaRepository {
         int parentLevel =
                 currentLevel - 1;
 
+
         for (int i = tabs.size() - 1;
              i >= 0;
              i--) {
 
             WindowSchemaTab candidate =
                     tabs.get(i);
+
 
             if (candidate.getTablevel() != null
                     && candidate
@@ -474,6 +816,7 @@ public class WindowSchemaRepository {
                 return candidate.getAdTabId();
             }
         }
+
 
         return null;
     }
@@ -518,6 +861,7 @@ public class WindowSchemaRepository {
                             tab.getAdTabId()
                     );
 
+
             if (explicitColumn != null
                     && !explicitColumn.isEmpty()) {
 
@@ -533,7 +877,9 @@ public class WindowSchemaRepository {
              * Obtener columnas IsParent.
              */
             List<WindowSchemaField> parentFields =
-                    getParentFields(tab);
+                    getParentFields(
+                            tab
+                    );
 
 
             /*
@@ -563,6 +909,7 @@ public class WindowSchemaRepository {
                                 parentFields
                         );
 
+
                 if (linkColumn != null) {
 
                     tab.linkColumnname(
@@ -574,6 +921,9 @@ public class WindowSchemaRepository {
     }
 
 
+    /**
+     * Resuelve campos Button.
+     */
     private void resolveButtonReferences(
             WindowSchema schema) {
 
@@ -581,13 +931,17 @@ public class WindowSchemaRepository {
             return;
         }
 
-        for (WindowSchemaTab tab : schema.getTabs()) {
+
+        for (WindowSchemaTab tab
+                : schema.getTabs()) {
 
             if (tab.getFields() == null) {
                 continue;
             }
 
-            for (WindowSchemaField field : tab.getFields()) {
+
+            for (WindowSchemaField field
+                    : tab.getFields()) {
 
                 if (field.getAdReferenceId() != null
                         && field.getAdReferenceId()
@@ -612,6 +966,7 @@ public class WindowSchemaRepository {
         List<WindowSchemaField> result =
                 new ArrayList<>();
 
+
         if (tab.getFields() == null) {
             return result;
         }
@@ -623,7 +978,9 @@ public class WindowSchemaRepository {
             if (Boolean.TRUE.equals(
                     field.isIsparent())) {
 
-                result.add(field);
+                result.add(
+                        field
+                );
             }
         }
 
@@ -702,16 +1059,12 @@ public class WindowSchemaRepository {
      * Resuelve todas las referencias de tipo List
      * utilizadas por la ventana.
      *
-     * Importante:
-     *
-     * NO realiza una query por campo.
-     *
-     * Primero determina todos los AD_Reference_ID
-     * necesarios y luego obtiene todos los AD_Ref_List
-     * mediante una única consulta.
+     * Se recuperan todos los AD_Reference_ID utilizados
+     * y luego todos los valores mediante una única consulta.
      */
     private void resolveListReferences(
-            WindowSchema schema) {
+            WindowSchema schema,
+            String language) {
 
         Set<Integer> referenceIds =
                 new LinkedHashSet<>();
@@ -728,6 +1081,7 @@ public class WindowSchemaRepository {
             if (tab.getFields() == null) {
                 continue;
             }
+
 
             for (WindowSchemaField field
                     : tab.getFields()) {
@@ -757,7 +1111,10 @@ public class WindowSchemaRepository {
          */
         Map<Integer, List<WindowSchemaReferenceValue>>
                 valuesByReference =
-                loadListReferenceValues(referenceIds);
+                loadListReferenceValues(
+                        referenceIds,
+                        language
+                );
 
 
         /*
@@ -800,17 +1157,24 @@ public class WindowSchemaRepository {
                     for (WindowSchemaReferenceValue value
                             : values) {
 
-                        reference.addValuesItem(value);
+                        reference.addValuesItem(
+                                value
+                        );
                     }
                 }
 
 
-                field.reference(reference);
+                field.reference(
+                        reference
+                );
             }
         }
     }
 
 
+    /**
+     * Resuelve campos Yes/No.
+     */
     private void resolveBooleanReferences(
             WindowSchema schema) {
 
@@ -818,16 +1182,21 @@ public class WindowSchemaRepository {
             return;
         }
 
-        for (WindowSchemaTab tab : schema.getTabs()) {
+
+        for (WindowSchemaTab tab
+                : schema.getTabs()) {
 
             if (tab.getFields() == null) {
                 continue;
             }
 
-            for (WindowSchemaField field : tab.getFields()) {
+
+            for (WindowSchemaField field
+                    : tab.getFields()) {
 
                 if (field.getAdReferenceId() != null
-                        && field.getAdReferenceId() == REFERENCE_YESNO) {
+                        && field.getAdReferenceId()
+                        == REFERENCE_YESNO) {
 
                     field.reference(
                             new WindowSchemaReference()
@@ -839,6 +1208,14 @@ public class WindowSchemaRepository {
     }
 
 
+    /**
+     * Resuelve referencias Table, Table Direct y Search.
+     *
+     * Table/Table Direct se renderizan como lookup.
+     *
+     * Search utiliza el mismo endpoint de resolución,
+     * pero el frontend lo presenta mediante ventana modal.
+     */
     private void resolveLookupReferences(
             WindowSchema schema) {
 
@@ -867,20 +1244,37 @@ public class WindowSchemaRepository {
                 }
 
 
+                String endpoint =
+                        "/v1.0/columns/"
+                                + field.getAdColumnId()
+                                + "/lookup";
+
+
+                /*
+                 * Table / Table Direct
+                 */
                 if (referenceId == REFERENCE_TABLE
                         || referenceId
                         == REFERENCE_TABLE_DIRECT) {
 
-
-                    String endpoint =
-                            "/v1.0/columns/"
-                                    + field.getAdColumnId()
-                                    + "/lookup";
-
-
                     field.reference(
                             new WindowSchemaReference()
                                     .type("lookup")
+                                    .endpoint(endpoint)
+                    );
+
+                    continue;
+                }
+
+
+                /*
+                 * Search
+                 */
+                if (referenceId == REFERENCE_SEARCH) {
+
+                    field.reference(
+                            new WindowSchemaReference()
+                                    .type("search")
                                     .endpoint(endpoint)
                     );
                 }
@@ -888,46 +1282,129 @@ public class WindowSchemaRepository {
         }
     }
 
+
     /**
      * Recupera en una única consulta los valores
      * correspondientes a múltiples AD_Reference_ID.
+     *
+     * Si language viene informado, intenta obtener Name
+     * desde AD_Ref_List_Trl.
+     *
+     * Si no existe traducción, se utiliza rl.Name.
      */
     private Map<Integer, List<WindowSchemaReferenceValue>>
     loadListReferenceValues(
-            Set<Integer> referenceIds) {
+            Set<Integer> referenceIds,
+            String language) {
 
         Map<Integer, List<WindowSchemaReferenceValue>>
                 result =
                 new HashMap<>();
 
 
+        boolean translated =
+                language != null
+                        && !language.trim().isEmpty();
+
+
         StringJoiner placeholders =
                 new StringJoiner(",");
+
 
         for (int i = 0;
              i < referenceIds.size();
              i++) {
 
-            placeholders.add("?");
+            placeholders.add(
+                    "?"
+            );
         }
 
 
-        String sql =
-                " SELECT " +
-                        "   rl.ad_reference_id, " +
-                        "   rl.value, " +
-                        "   rl.name " +
+        String listName =
+                translated
+                        ? "COALESCE(rlt.name, rl.name)"
+                        : "rl.name";
 
-                        " FROM ad_ref_list rl " +
 
-                        " WHERE rl.isactive = 'Y' " +
-                        "   AND rl.ad_reference_id IN (" +
-                        placeholders +
-                        ") " +
+        StringBuilder sql =
+                new StringBuilder();
 
-                        " ORDER BY " +
-                        "   rl.ad_reference_id, " +
-                        "   rl.name ";
+
+        sql.append(
+                " SELECT "
+        );
+
+        sql.append(
+                "   rl.ad_reference_id, "
+        );
+
+        sql.append(
+                "   rl.value, "
+        );
+
+        sql.append(
+                "   "
+        );
+
+        sql.append(
+                listName
+        );
+
+        sql.append(
+                " AS name "
+        );
+
+
+        sql.append(
+                " FROM ad_ref_list rl "
+        );
+
+
+        if (translated) {
+
+            sql.append(
+                    " LEFT JOIN ad_ref_list_trl rlt "
+            );
+
+            sql.append(
+                    "   ON rlt.ad_ref_list_id = rl.ad_ref_list_id "
+            );
+
+            sql.append(
+                    "  AND rlt.ad_language = ? "
+            );
+        }
+
+
+        sql.append(
+                " WHERE rl.isactive = 'Y' "
+        );
+
+        sql.append(
+                "   AND rl.ad_reference_id IN ("
+        );
+
+        sql.append(
+                placeholders
+        );
+
+        sql.append(
+                ") "
+        );
+
+
+        sql.append(
+                " ORDER BY "
+        );
+
+        sql.append(
+                "   rl.ad_reference_id, "
+        );
+
+        sql.append(
+                "   name "
+        );
 
 
         PreparedStatement ps = null;
@@ -936,10 +1413,27 @@ public class WindowSchemaRepository {
 
         try {
 
-            ps = DB.prepareStatement(sql, null);
+            ps = DB.prepareStatement(
+                    sql.toString(),
+                    null
+            );
 
 
             int parameterIndex = 1;
+
+
+            /*
+             * El parámetro del JOIN aparece antes
+             * que los IDs del IN.
+             */
+            if (translated) {
+
+                ps.setString(
+                        parameterIndex++,
+                        language.trim()
+                );
+            }
+
 
             for (Integer referenceId
                     : referenceIds) {
@@ -982,23 +1476,159 @@ public class WindowSchemaRepository {
                                 key ->
                                         new ArrayList<>()
                         )
-                        .add(value);
+                        .add(
+                                value
+                        );
             }
 
 
             return result;
 
+
         } catch (Exception e) {
 
             throw new RuntimeException(
                     "Error recuperando valores "
-                            + "de AD_Ref_List",
+                            + "de AD_Ref_List"
+                            + (
+                            translated
+                                    ? " para idioma "
+                                    + language
+                                    : ""
+                    ),
                     e
             );
 
         } finally {
 
-            DB.close(rs, ps);
+            DB.close(
+                    rs,
+                    ps
+            );
         }
     }
+
+
+    private void resolveVisualReferences(
+            WindowSchema schema) {
+
+        if (schema.getTabs() == null) {
+            return;
+        }
+
+        for (WindowSchemaTab tab : schema.getTabs()) {
+
+            if (tab.getFields() == null) {
+                continue;
+            }
+
+            for (WindowSchemaField field : tab.getFields()) {
+
+                Integer referenceId =
+                        field.getAdReferenceId();
+
+                if (referenceId == null) {
+                    continue;
+                }
+
+                switch (referenceId) {
+
+                    case REFERENCE_INTEGER:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("integer")
+                        );
+
+                        break;
+
+
+                    case REFERENCE_AMOUNT:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("amount")
+                        );
+
+                        break;
+
+
+                    case REFERENCE_NUMBER:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("number")
+                        );
+
+                        break;
+
+
+                    case REFERENCE_QUANTITY:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("quantity")
+                        );
+
+                        break;
+
+
+                    case REFERENCE_COST_PRICE:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("costprice")
+                        );
+
+                        break;
+
+
+                    case REFERENCE_DATE:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("date")
+                        );
+
+                        break;
+
+
+                    case REFERENCE_DATETIME:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("datetime")
+                        );
+
+                        break;
+
+
+                    case REFERENCE_TIME:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("time")
+                        );
+
+                        break;
+
+
+                    case REFERENCE_MEMO:
+                    case REFERENCE_TEXT_LONG:
+
+                        field.reference(
+                                new WindowSchemaReference()
+                                        .type("textarea")
+                        );
+
+                        break;
+
+
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
 }

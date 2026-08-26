@@ -18,6 +18,7 @@ public class ColumnLookupRepository {
     private static final int DEFAULT_LIMIT = 50;
     private static final int DEFAULT_PAGE = 1;
 
+    private static final int REFERENCE_SEARCH = 30;
 
     public List<ColumnLookupValue> retrieve(
             Integer columnId,
@@ -68,6 +69,38 @@ public class ColumnLookupRepository {
             );
         }
 
+
+        if (column.referenceId == REFERENCE_SEARCH) {
+
+            /*
+             * Libertya trata Search de dos maneras:
+             *
+             * - Con AD_Reference_Value_ID:
+             *   utiliza la lógica de Table.
+             *
+             * - Sin AD_Reference_Value_ID:
+             *   utiliza la lógica de Table Direct.
+             */
+            if (column.referenceValueId != null
+                    && column.referenceValueId > 0) {
+
+                return retrieveTable(
+                        column,
+                        effectiveLimit,
+                        effectivePage,
+                        search,
+                        value
+                );
+            }
+
+            return retrieveTableDirect(
+                    column,
+                    effectiveLimit,
+                    effectivePage,
+                    search,
+                    value
+            );
+        }
 
         return new ArrayList<>();
     }
