@@ -55,7 +55,7 @@ public class JWTUtils {
                 .claim("clientID", clientID)
                 .claim("orgID", orgID)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + expDays * 24L * 3600000L))
+                .setExpiration(new Date(System.currentTimeMillis() + getExpirationMillis(credentials)))
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
         return "Bearer " + token;
@@ -80,6 +80,30 @@ public class JWTUtils {
             return UserInfo.of(userName, Integer.parseInt(clientID), Integer.parseInt(orgID));
         } catch (Exception e) {
             throw new AuthException("Error Autenticacion JWT.: " + e.getMessage());
+        }
+    }
+
+
+    private long getExpirationMillis(HashMap<String, String> credentials) {
+
+        // Duración máxima/default configurada actualmente en application.properties.
+        long defaultMillis = expDays * 24L * 60L * 60L * 1000L;
+        String expirationMinutes = credentials.get("expirationminutes");
+        //  Si el request no pide una duración específica, conservar comportamiento histórico.
+        if (expirationMinutes == null || expirationMinutes.trim().isEmpty()) {
+            return defaultMillis;
+        }
+        try {
+            long minutes = Long.parseLong(expirationMinutes);
+            if (minutes <= 0) {
+                return defaultMillis;
+            }
+            long requestedMillis = minutes * 60L * 1000L;
+            // Nunca permitir que el request extienda la duración máxima definida por servidor.
+            return Math.min(requestedMillis, defaultMillis);
+        } catch (NumberFormatException e) {
+            // Valor inválido: comportamiento histórico.
+            return defaultMillis;
         }
     }
 }
