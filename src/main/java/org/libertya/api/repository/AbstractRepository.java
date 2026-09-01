@@ -725,17 +725,37 @@ public abstract class AbstractRepository {
 
     /** Convierte el valor al tipo persistente, priorizando el contrato del modelo. */
     protected Object convertValue(M_Column aColumn, Object value, Class<?> fieldType) {
+        Class<?> displayClass = DisplayType.getClass(aColumn.getAD_Reference_ID(), false);
+
+        // Date / DateTime / Time se persisten en CORE como Timestamp,
+        // aunque el modelo OpenAPI los represente como String.
+        if (Timestamp.class == displayClass) {
+            String timestampValue = value.toString().trim().replace('T', ' ');
+
+            // Date: yyyy-MM-dd
+            if (timestampValue.matches("\\d{4}-\\d{2}-\\d{2}"))
+                timestampValue += " 00:00:00";
+
+                // DateTime: yyyy-MM-dd HH:mm
+            else if (timestampValue.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}"))
+                timestampValue += ":00";
+
+                // Time: HH:mm
+            else if (timestampValue.matches("\\d{2}:\\d{2}"))
+                timestampValue = "1970-01-01 " + timestampValue + ":00";
+
+            return Timestamp.valueOf(timestampValue);
+        }
+
         if (String.class == fieldType)
             return String.valueOf(value);
-        Class<?> displayClass = DisplayType.getClass(aColumn.getAD_Reference_ID(), false);
         if (String.class == displayClass)
             return value;
         if (Integer.class == displayClass)
             return Integer.parseInt(value.toString());
         if (BigDecimal.class == displayClass)
             return new BigDecimal(value.toString());
-        if (Timestamp.class == displayClass)
-            return Timestamp.valueOf(value.toString());
+
         return value;
     }
 
