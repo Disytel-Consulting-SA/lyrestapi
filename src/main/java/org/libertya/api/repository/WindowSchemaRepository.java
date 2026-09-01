@@ -20,6 +20,9 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringJoiner;
 
+import org.libertya.api.common.UserInfo;
+import org.libertya.api.util.WindowFieldDefaultResolver;
+
 @Repository
 public class WindowSchemaRepository {
 
@@ -67,29 +70,40 @@ public class WindowSchemaRepository {
 
 
     /**
-     * Mantiene compatibilidad con llamadas sin idioma.
+     * Mantiene compatibilidad con llamadas sin contexto ni idioma.
      */
-    public WindowSchema retrieve(Integer windowId) {
-        return retrieve(windowId, null);
+    public WindowSchema retrieve(
+            Integer windowId) {
+
+        return retrieve(
+                null,
+                windowId,
+                null
+        );
     }
 
 
     /**
-     * Recupera el schema completo de una ventana.
-     *
-     * Si language viene informado:
-     *
-     * - AD_Window_Trl
-     * - AD_Tab_Trl
-     * - AD_Field_Trl
-     * - AD_Ref_List_Trl
-     *
-     * son utilizados cuando existe traducción.
-     *
-     * Si no existe traducción para un elemento, se utiliza
-     * automáticamente el valor de la tabla base.
+     * Mantiene compatibilidad con llamadas sin contexto.
      */
     public WindowSchema retrieve(
+            Integer windowId,
+            String language) {
+
+        return retrieve(
+                null,
+                windowId,
+                language
+        );
+    }
+
+
+    /**
+     * Recupera el schema completo de una ventana
+     * utilizando el contexto del request.
+     */
+    public WindowSchema retrieve(
+            UserInfo info,
             Integer windowId,
             String language) {
 
@@ -205,7 +219,8 @@ public class WindowSchemaRepository {
         sql.append("   c.ad_reference_value_id, ");
         sql.append("   c.ismandatory, ");
         sql.append("   c.iskey, ");
-        sql.append("   c.isparent ");
+        sql.append("   c.isparent, ");
+        sql.append("   c.defaultvalue ");
 
 
         sql.append(" FROM ad_window w ");
@@ -658,6 +673,29 @@ public class WindowSchemaRepository {
                                         "Y".equals(
                                                 rs.getString(
                                                         "isparent"
+                                                )
+                                        )
+                                ).defaultvalue(
+                                        WindowFieldDefaultResolver.resolve(
+                                                info,
+                                                rs.getInt(
+                                                        "ad_reference_id"
+                                                ),
+                                                rs.getString(
+                                                        "columnname"
+                                                ),
+                                                "Y".equals(
+                                                        rs.getString(
+                                                                "iskey"
+                                                        )
+                                                ),
+                                                "Y".equals(
+                                                        rs.getString(
+                                                                "isparent"
+                                                        )
+                                                ),
+                                                rs.getString(
+                                                        "defaultvalue"
                                                 )
                                         )
                                 );

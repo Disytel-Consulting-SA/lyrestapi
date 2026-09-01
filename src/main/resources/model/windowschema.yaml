@@ -82,6 +82,10 @@ components:
         isparent:
           type: boolean
 
+        defaultvalue:
+          type: string
+          description: Valor por defecto resuelto por el backend para la creación de un nuevo registro
+
         reference:
           $ref: '#/components/schemas/WindowSchemaReference'
 
