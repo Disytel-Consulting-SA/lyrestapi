@@ -11,20 +11,12 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class WindowOptionsController
-        implements WindowoptionsApi {
+public class WindowOptionsController implements WindowoptionsApi {
 
     private final WindowOptionsRepository repository;
 
-
     @Override
-    public ResponseEntity<List<WindowOption>> retrieveWindowOptions(
-            String language) {
-
-        return ResponseEntity.ok(
-                repository.retrieve(
-                        language
-                )
-        );
+    public ResponseEntity<List<WindowOption>> retrieveWindowOptions(String language) {
+        return ResponseEntity.ok(repository.retrieve(language));
     }
 }

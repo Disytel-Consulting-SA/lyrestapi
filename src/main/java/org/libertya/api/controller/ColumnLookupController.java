@@ -14,68 +14,33 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-
 @Controller
 @RequiredArgsConstructor
-public class ColumnLookupController
-        implements ColumnlookupApi {
+public class ColumnLookupController implements ColumnlookupApi {
 
     private final ColumnLookupRepository repository;
-
     private final JWTUtils jwt;
-
     private final HttpServletRequest request;
 
-
     @Override
-    public ResponseEntity<List<ColumnLookupValue>>
-    retrieveColumnLookup(
-            Integer id,
-            Integer limit,
-            Integer page,
-            String search,
-            String value) {
-
+    public ResponseEntity<List<ColumnLookupValue>> retrieveColumnLookup(Integer id, Integer limit, Integer page, String search, String value) {
         try {
-
             /*
              * Recuperar contexto del request.
-             *
              * clientID y orgID provienen del JWT.
              */
-            UserInfo info =
-                    jwt.infoOf(request);
+            UserInfo info = jwt.infoOf(request);
 
-
-            List<ColumnLookupValue> values =
-                    repository.retrieve(
-                            info,
-                            id,
-                            limit,
-                            page,
-                            search,
-                            value
-                    );
-
+            List<ColumnLookupValue> values = repository.retrieve(info, id, limit, page, search, value);
 
             if (values == null) {
-
-                return ResponseEntity
-                        .notFound()
-                        .build();
+                return ResponseEntity.notFound().build();
             }
 
-
-            return ResponseEntity.ok(
-                    values
-            );
-
+            return ResponseEntity.ok(values);
 
         } catch (AuthException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }

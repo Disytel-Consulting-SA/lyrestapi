@@ -13,45 +13,21 @@ import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 @Controller
 @RequiredArgsConstructor
-public class WindowSchemaController
-        implements WindowschemaApi {
+public class WindowSchemaController implements WindowschemaApi {
 
     private final WindowSchemaRepository repository;
-
     private final JWTUtils jwt;
-
     private final HttpServletRequest request;
 
-
     @Override
-    public ResponseEntity<WindowSchema>
-    retrieveWindowSchema(
-            Integer id,
-            String language) {
-
+    public ResponseEntity<WindowSchema> retrieveWindowSchema(Integer id, String language) {
         try {
-
-            UserInfo info =
-                    jwt.infoOf(request);
-
-
-            return ResponseEntity.ok(
-                    repository.retrieve(
-                            info,
-                            id,
-                            language
-                    )
-            );
-
-
+            UserInfo info = jwt.infoOf(request);
+            return ResponseEntity.ok(repository.retrieve(info, id, language));
         } catch (AuthException e) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 }
