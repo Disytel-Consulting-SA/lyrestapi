@@ -11,14 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.util.WindowFieldDefaultResolver;
@@ -67,6 +60,36 @@ public class WindowSchemaRepository {
      */
     private static final Properties TABLE_ENDPOINTS =
             loadTableEndpoints();
+
+
+    private final Map<String, AbstractRepository> repositoriesByTable;
+
+    public WindowSchemaRepository(List<AbstractRepository> repositories) {
+        repositoriesByTable = new HashMap<>();
+
+        for (AbstractRepository repository : repositories) {
+            if (repository.getTableName() != null)
+                repositoriesByTable.put(repository.getTableName().toLowerCase(), repository);
+        }
+    }
+
+
+    private List<String> getPkColumns(String tableName, String dataEndpoint) {
+        if (dataEndpoint == null)
+            return null;
+
+        AbstractRepository repository = repositoriesByTable.get(tableName.toLowerCase());
+
+        if (repository == null)
+            return null;
+
+        String[] pkColumns = repository.getPkColumns();
+
+        if (pkColumns != null)
+            return Arrays.asList(pkColumns);
+
+        return Arrays.asList(tableName + "_ID");
+    }
 
 
     /**
@@ -533,7 +556,8 @@ public class WindowSchemaRepository {
                                     )
                                     .dataEndpoint(
                                             dataEndpoint
-                                    );
+                                    )
+                                    .pkColumns(getPkColumns(tableName, dataEndpoint));
 
 
                     /*

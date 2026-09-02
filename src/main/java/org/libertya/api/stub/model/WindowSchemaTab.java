@@ -49,6 +49,10 @@ public class WindowSchemaTab   {
   @JsonProperty("data_endpoint")
   private String dataEndpoint = null;
 
+  @JsonProperty("pk_columns")
+  @Valid
+  private List<String> pkColumns = null;
+
   @JsonProperty("whereclause")
   private String whereclause = null;
 
@@ -252,6 +256,33 @@ public class WindowSchemaTab   {
     this.dataEndpoint = dataEndpoint;
   }
 
+  public WindowSchemaTab pkColumns(List<String> pkColumns) {
+    this.pkColumns = pkColumns;
+    return this;
+  }
+
+  public WindowSchemaTab addPkColumnsItem(String pkColumnsItem) {
+    if (this.pkColumns == null) {
+      this.pkColumns = new ArrayList<>();
+    }
+    this.pkColumns.add(pkColumnsItem);
+    return this;
+  }
+
+  /**
+   * Columnas que conforman la clave primaria de la entidad, en el orden requerido por el endpoint REST
+   * @return pkColumns
+   **/
+  @Schema(description = "Columnas que conforman la clave primaria de la entidad, en el orden requerido por el endpoint REST")
+  
+    public List<String> getPkColumns() {
+    return pkColumns;
+  }
+
+  public void setPkColumns(List<String> pkColumns) {
+    this.pkColumns = pkColumns;
+  }
+
   public WindowSchemaTab whereclause(String whereclause) {
     this.whereclause = whereclause;
     return this;
@@ -356,6 +387,7 @@ public class WindowSchemaTab   {
         Objects.equals(this.adTableId, windowSchemaTab.adTableId) &&
         Objects.equals(this.tablename, windowSchemaTab.tablename) &&
         Objects.equals(this.dataEndpoint, windowSchemaTab.dataEndpoint) &&
+        Objects.equals(this.pkColumns, windowSchemaTab.pkColumns) &&
         Objects.equals(this.whereclause, windowSchemaTab.whereclause) &&
         Objects.equals(this.orderbyclause, windowSchemaTab.orderbyclause) &&
         Objects.equals(this.isreadonly, windowSchemaTab.isreadonly) &&
@@ -364,7 +396,7 @@ public class WindowSchemaTab   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, whereclause, orderbyclause, isreadonly, fields);
+    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, pkColumns, whereclause, orderbyclause, isreadonly, fields);
   }
 
   @Override
@@ -382,6 +414,7 @@ public class WindowSchemaTab   {
     sb.append("    adTableId: ").append(toIndentedString(adTableId)).append("\n");
     sb.append("    tablename: ").append(toIndentedString(tablename)).append("\n");
     sb.append("    dataEndpoint: ").append(toIndentedString(dataEndpoint)).append("\n");
+    sb.append("    pkColumns: ").append(toIndentedString(pkColumns)).append("\n");
     sb.append("    whereclause: ").append(toIndentedString(whereclause)).append("\n");
     sb.append("    orderbyclause: ").append(toIndentedString(orderbyclause)).append("\n");
     sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");

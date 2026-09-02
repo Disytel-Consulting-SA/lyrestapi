@@ -39,6 +39,11 @@ components:
           type: string
         data_endpoint:
           type: string
+        pk_columns:
+          type: array
+          description: Columnas que conforman la clave primaria de la entidad, en el orden requerido por el endpoint REST
+          items:
+            type: string
         whereclause:
           type: string
         orderbyclause:
