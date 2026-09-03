@@ -36,6 +36,11 @@ public class StorageRepository extends AbstractRepository {
         return super.retrieveAll(info, trxName, rewriteWarehouseFilter(params));
     }
 
+    @Override
+    public int countAll(UserInfo info, QueryParams params) throws ModelException, AuthException {
+        return super.countAll(info, rewriteWarehouseFilter(params));
+    }
+
     /**
      * Permite filtrar por almacen (?filter=M_Warehouse_ID=&lt;n&gt;) pese a que dicha columna no existe en M_Storage.
      * Reescribe la condicion de igualdad sobre M_Warehouse_ID a un subquery sobre el locator, dado que el motor de

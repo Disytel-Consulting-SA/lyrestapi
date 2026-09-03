@@ -1,6 +1,7 @@
 package org.libertya.api.controller;
 
 import org.libertya.api.common.QueryParams;
+import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
@@ -42,7 +43,16 @@ public abstract class AbstractController {
         try {
             HttpHeaders headers = new HttpHeaders();
             appendHeaderLinks(headers, request);
-            return new ResponseEntity<>(repository.retrieveAll(jwt.infoOf(request), params), headers, HttpStatus.OK);
+
+            UserInfo info = jwt.infoOf(request);
+            List<T> entities = repository.retrieveAll(info, params);
+
+            if ("true".equalsIgnoreCase(request.getParameter("includeTotal"))) {
+                int total = repository.countAll(info, params);
+                headers.add("X-Total-Count", String.valueOf(total));
+            }
+
+            return new ResponseEntity<>(entities, headers, HttpStatus.OK);
         } catch (ModelException e) {
             List error = new ArrayList<T>();
             error.add(e.getMessage());

@@ -381,6 +381,24 @@ public abstract class AbstractRepository {
         return retVal;
     }
 
+    /** Recupera la cantidad total de entidades que respetan el filtro indicado. */
+    public int countAll(UserInfo info, QueryParams params) throws ModelException, AuthException {
+        if (params == null)
+            params = new QueryParams();
+
+        String theFilter = (params.getFilter() != null && params.getFilter().length() > 0
+                ? formatClause(params.getFilter()) + " AND "
+                : "") + filterByClient(info);
+
+        String sql = "SELECT COUNT(1) FROM " + tableName + " WHERE " + theFilter;
+
+        try {
+            return DB.getSQLValue(null, sql);
+        } catch (Exception e) {
+            throw new ModelException("Error al contar registros de " + tableName + ". " + e.getMessage());
+        }
+    }
+
     /** Genera un filtro si es que la busqueda no contiene uno especifico */
     protected String filterByClient(UserInfo info) {
         if (info.getClientID()==0)
