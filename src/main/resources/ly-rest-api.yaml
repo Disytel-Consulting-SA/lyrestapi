@@ -279,6 +279,10 @@ paths:
     $ref: ./paths/roles.yaml
   /v1.0/roles/{id}:
     $ref: ./paths/roles_id.yaml
+  /v1.0/userroles:
+    $ref: ./paths/userroles.yaml
+  /v1.0/userroles/{idUser}/{idRole}:
+    $ref: ./paths/userroles_id_id.yaml
   /v1.0/preferences:
     $ref: ./paths/preferences.yaml
   /v1.0/preferences/{id}:

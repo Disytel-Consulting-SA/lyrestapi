@@ -115,6 +115,7 @@ generateSchema POSJournal               C_POSJournal              posjournal.yam
 generateSchema ControladorFiscal        C_Controlador_Fiscal      controladorfiscal.yaml        controladorfiscal
 generateSchema CheckCuitControl         C_CheckCuitControl        checkcuitcontrol.yaml         checkcuitcontrol
 generateSchema Role                     AD_Role                   role.yaml                     roles
+generateSchema UserRole                 AD_User_Roles             userrole.yaml                 userroles
 generateSchema Preference               AD_Preference             preference.yaml               preferences
 generateSchema Promotion                C_Promotion               promotion.yaml                promotions
 generateSchema POSLetter                C_POSLetter               posletter.yaml                posletters
