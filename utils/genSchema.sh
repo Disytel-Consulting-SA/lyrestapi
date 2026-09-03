@@ -86,7 +86,7 @@ generateSchema ProductFamilies          M_Product_Family          productfamilie
 generateSchema TaxCategory              C_TaxCategory             taxcategory.yaml              taxcategories
 generateSchema Tax                      C_Tax                     tax.yaml                      taxes
 generateSchema DocType                  C_DocType                 doctype.yaml                  doctype
-generateSchema Org                      AD_Org                    org.yaml                      org
+generateSchema Org                      AD_Org                    org.yaml                      orgs
 generateSchema OrgPercepcion            AD_OrgPercepcion          orgercepcion.yaml             orgercepcions
 generateSchema POS                      C_POS                     pos.yaml                      pos
 generateSchema POSPaymentMedium         C_POSPaymentMedium        pospaymentmedium.yaml         pospaymentmediums

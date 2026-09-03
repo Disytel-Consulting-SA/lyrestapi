@@ -1,6 +1,7 @@
 package org.libertya.api.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
@@ -36,14 +37,21 @@ public class JWTUtils {
 
     /** Generacion de un nuevo token para el username indicado */
     public String buildToken(HashMap<String, String> credentials) {
+        return buildToken(credentials, null);
+    }
 
-        String userName     = credentials.get("username");
-        Integer clientID    = Integer.parseInt(credentials.get("clientid"));
-        Integer orgID       = Integer.parseInt(credentials.get("orgid"));
+    /** Generacion de un nuevo token para el username indicado, forzando expiration */
+    public String buildToken(HashMap<String, String> credentials, Date expiration) {
 
-        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("ROLE_USER");
-        String token = Jwts
+        String userName = credentials.get("username");
+        Integer clientID = Integer.parseInt(credentials.get("clientid"));
+        Integer orgID = Integer.parseInt(credentials.get("orgid"));
+        String roleID = credentials.get("roleid");
+
+        List<GrantedAuthority> grantedAuthorities =
+                AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_USER");
+
+        JwtBuilder builder = Jwts
                 .builder()
                 .setId("JWTBuilder")
                 .setSubject(userName)
@@ -53,11 +61,22 @@ public class JWTUtils {
                                 .collect(Collectors.toList()))
                 .claim("userName", userName)
                 .claim("clientID", clientID)
-                .claim("orgID", orgID)
+                .claim("orgID", orgID);
+
+        if (roleID != null && !roleID.trim().isEmpty()) {
+            builder.claim("roleID", Integer.parseInt(roleID));
+        }
+
+        Date effectiveExpiration = expiration != null
+                ? expiration
+                : new Date(System.currentTimeMillis() + getExpirationMillis(credentials));
+
+        String token = builder
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + getExpirationMillis(credentials)))
-                .signWith(SignatureAlgorithm.HS512,
-                        secretKey.getBytes()).compact();
+                .setExpiration(effectiveExpiration)
+                .signWith(SignatureAlgorithm.HS512, secretKey.getBytes())
+                .compact();
+
         return "Bearer " + token;
     }
 
@@ -74,10 +93,12 @@ public class JWTUtils {
             String userName = claims.get("userName").toString();
             String clientID = claims.get("clientID").toString();
             String orgID = claims.get("orgID").toString();
+            Object roleClaim = claims.get("roleID");
+            Integer roleID = roleClaim != null ? Integer.parseInt(roleClaim.toString()) : null;
             if ("Y".equalsIgnoreCase(validateUser) && !repository.findActiveUser(userName, clientID, orgID).isPresent()) {
                 throw new AuthException(String.format("Usuario:%s-Inexistente/Inactivo",userName));
             }
-            return UserInfo.of(userName, Integer.parseInt(clientID), Integer.parseInt(orgID));
+            return UserInfo.of(userName, Integer.parseInt(clientID), Integer.parseInt(orgID), roleID);
         } catch (Exception e) {
             throw new AuthException("Error Autenticacion JWT.: " + e.getMessage());
         }

@@ -421,3 +421,5 @@ paths:
     $ref: ./paths/windows_options.yaml
   /v1.0/columns/{id}/lookup:
     $ref: ./paths/columns_id_lookup.yaml
+  /v1.0/roleoptions:
+    $ref: ./paths/roles_options.yaml

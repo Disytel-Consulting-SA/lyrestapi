@@ -12,21 +12,31 @@ public class UserInfo {
 
     private int orgID;
 
+    private Integer roleID;
+
     private Properties ctx;
 
     public static UserInfo of(String userName, int clientID, int orgID) {
-        return new UserInfo(userName, clientID, orgID);
+        return new UserInfo(userName, clientID, orgID, null);
     }
 
-    protected UserInfo(String userName, int clientID, int orgID) {
+    public static UserInfo of(String userName, int clientID, int orgID, Integer roleID) {
+        return new UserInfo(userName, clientID, orgID, roleID);
+    }
+
+    protected UserInfo(String userName, int clientID, int orgID, Integer roleID) {
         this.userName = userName;
         this.clientID = clientID;
         this.orgID = orgID;
+        this.roleID = roleID;
         // Se propagan las propiedades del environment pero se redefinen segun el actual request
         ctx = new Properties();
         ctx.putAll(Env.getCtx());
         Env.setContext(ctx, "#AD_Client_ID", this.clientID);
         Env.setContext(ctx, "#AD_Org_ID", this.orgID);
+        if (this.roleID != null) {
+            Env.setContext(ctx, "#AD_Role_ID", this.roleID);
+        }
     }
 
     public String getUserName() {
@@ -52,6 +62,12 @@ public class UserInfo {
     public void setOrgID(int orgID) {
         this.orgID = orgID;
     }
+
+    public Integer getRoleID() { return roleID; }
+
+    public void setRoleID(Integer roleID) { this.roleID = roleID; }
+
+    public boolean hasRole() { return roleID != null; }
 
     public Properties getCtx() { return ctx;    }
 

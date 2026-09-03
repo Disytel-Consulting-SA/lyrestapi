@@ -1,0 +1,18 @@
+get:
+  summary: Recupera los perfiles disponibles para el usuario autenticado
+  description: >
+    Recupera los perfiles activos asociados al usuario autenticado.
+  tags:
+    - "roleoptions"
+
+  operationId: retrieveRoleOptions
+
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/roleoption.yaml#/components/schemas/RoleOption'

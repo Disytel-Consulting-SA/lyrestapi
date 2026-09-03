@@ -14,91 +14,49 @@ public class WindowOptionsRepository {
 
     private static final String DEFAULT_LANGUAGE = "es_AR";
 
+    public List<WindowOption> retrieve(String language, int roleID) {
 
-    public List<WindowOption> retrieve(
-            String language) {
-
-        String effectiveLanguage =
-                language != null
-                        && !language.trim().isEmpty()
-                        ? language.trim()
-                        : DEFAULT_LANGUAGE;
-
+        String effectiveLanguage = language != null && !language.trim().isEmpty()
+                ? language.trim()
+                : DEFAULT_LANGUAGE;
 
         String sql =
-                " SELECT " +
-                        "   w.ad_window_id, " +
-                        "   COALESCE(wt.name, w.name) AS name " +
-
+                " SELECT w.ad_window_id, COALESCE(wt.name, w.name) AS name " +
                         " FROM ad_window w " +
-
-                        " LEFT JOIN ad_window_trl wt " +
-                        "   ON wt.ad_window_id = w.ad_window_id " +
-                        "  AND wt.ad_language = ? " +
-
+                        " JOIN ad_window_access wa ON wa.ad_window_id = w.ad_window_id " +
+                        " LEFT JOIN ad_window_trl wt ON wt.ad_window_id = w.ad_window_id AND wt.ad_language = ? " +
                         " WHERE w.isactive = 'Y' " +
-
+                        "   AND wa.isactive = 'Y' " +
+                        "   AND wa.ad_role_id = ? " +
                         " ORDER BY COALESCE(wt.name, w.name) ";
-
 
         PreparedStatement ps = null;
         ResultSet rs = null;
 
-
         try {
-
-            ps = DB.prepareStatement(
-                    sql,
-                    null
-            );
-
-            ps.setString(
-                    1,
-                    effectiveLanguage
-            );
+            ps = DB.prepareStatement(sql, null);
+            ps.setString(1, effectiveLanguage);
+            ps.setInt(2, roleID);
 
             rs = ps.executeQuery();
 
-
-            List<WindowOption> result =
-                    new ArrayList<>();
-
+            List<WindowOption> result = new ArrayList<>();
 
             while (rs.next()) {
-
-                result.add(
-                        new WindowOption()
-                                .adWindowId(
-                                        rs.getInt(
-                                                "ad_window_id"
-                                        )
-                                )
-                                .name(
-                                        rs.getString(
-                                                "name"
-                                        )
-                                )
-                );
+                result.add(new WindowOption()
+                        .adWindowId(rs.getInt("ad_window_id"))
+                        .name(rs.getString("name")));
             }
-
 
             return result;
 
         } catch (Exception e) {
-
             throw new RuntimeException(
-                    "Error recuperando opciones de ventanas "
-                            + "para idioma "
-                            + effectiveLanguage,
-                    e
-            );
+                    "Error recuperando opciones de ventanas para perfil " + roleID +
+                            " e idioma " + effectiveLanguage, e);
 
         } finally {
-
-            DB.close(
-                    rs,
-                    ps
-            );
+            DB.close(rs, ps);
         }
     }
 }

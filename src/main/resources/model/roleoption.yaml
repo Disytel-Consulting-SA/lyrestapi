@@ -1,0 +1,11 @@
+components:
+  schemas:
+
+    RoleOption:
+      type: object
+      properties:
+        ad_role_id:
+          type: integer
+
+        name:
+          type: string
