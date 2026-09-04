@@ -44,6 +44,7 @@ public class JWTUtils {
     public String buildToken(HashMap<String, String> credentials, Date expiration) {
 
         String userName = credentials.get("username");
+        Integer userID = Integer.parseInt(credentials.get("userid"));
         Integer clientID = Integer.parseInt(credentials.get("clientid"));
         Integer orgID = Integer.parseInt(credentials.get("orgid"));
         String roleID = credentials.get("roleid");
@@ -60,6 +61,7 @@ public class JWTUtils {
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
                 .claim("userName", userName)
+                .claim("userID", userID)
                 .claim("clientID", clientID)
                 .claim("orgID", orgID);
 
@@ -91,6 +93,7 @@ public class JWTUtils {
             String token = request.getHeader("Authorization").replace("Bearer ", "");
             Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
             String userName = claims.get("userName").toString();
+            String userID = claims.get("userID").toString();
             String clientID = claims.get("clientID").toString();
             String orgID = claims.get("orgID").toString();
             Object roleClaim = claims.get("roleID");
@@ -98,7 +101,7 @@ public class JWTUtils {
             if ("Y".equalsIgnoreCase(validateUser) && !repository.findActiveUser(userName, clientID, orgID).isPresent()) {
                 throw new AuthException(String.format("Usuario:%s-Inexistente/Inactivo",userName));
             }
-            return UserInfo.of(userName, Integer.parseInt(clientID), Integer.parseInt(orgID), roleID);
+            return UserInfo.of(userName, Integer.parseInt(userID), Integer.parseInt(clientID), Integer.parseInt(orgID), roleID);
         } catch (Exception e) {
             throw new AuthException("Error Autenticacion JWT.: " + e.getMessage());
         }

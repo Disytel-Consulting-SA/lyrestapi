@@ -6,6 +6,7 @@ import org.libertya.api.exception.AuthException;
 import org.libertya.api.repository.RoleOptionsRepository;
 import org.libertya.api.repository.UserRepository;
 import org.libertya.api.security.JWTUtils;
+import org.openXpertya.model.PO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,12 +30,15 @@ public class SecurityController {
 
     @PostMapping("/token")
     public ResponseEntity<String> keygen(Model model, @RequestHeader HashMap<String, String> credentials) {
-        if (userRepository.findUser(
+        Optional<PO> user = userRepository.findUser(
                 credentials.get("username"),
                 credentials.get("password"),
                 credentials.get("clientid"),
                 credentials.get("orgid")
-        ).isPresent()) {
+        );
+
+        if (user.isPresent()) {
+            credentials.put("userid", String.valueOf(user.get().getID()));
             return new ResponseEntity<>(jwtUtils.buildToken(credentials), HttpStatus.OK);
         }
 
@@ -54,6 +59,7 @@ public class SecurityController {
 
             HashMap<String, String> credentials = new HashMap<>();
             credentials.put("username", info.getUserName());
+            credentials.put("userid", String.valueOf(info.getUserID()));
             credentials.put("clientid", String.valueOf(info.getClientID()));
             credentials.put("orgid", String.valueOf(info.getOrgID()));
             credentials.put("roleid", String.valueOf(roleID));
