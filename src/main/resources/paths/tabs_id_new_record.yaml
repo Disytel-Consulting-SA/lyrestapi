@@ -1,0 +1,36 @@
+post:
+  summary: Construye el estado inicial de un nuevo registro
+  description: >
+    Resuelve en una única operación los valores iniciales y el estado efectivo
+    de todos los campos de una pestaña dinámica. El contrato contempla
+    DefaultValue, DisplayLogic y ReadOnlyLogic.
+  tags:
+    - "windowstate"
+
+  operationId: createTabNewRecordState
+
+  parameters:
+    - name: id
+      in: path
+      description: ID de la pestaña
+      required: true
+      schema:
+        type: integer
+
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          $ref: '../model/windowrecordstate.yaml#/components/schemas/WindowRecordStateRequest'
+
+  responses:
+    "200":
+      description: Estado inicial efectivo del nuevo registro
+      content:
+        application/json:
+          schema:
+            $ref: '../model/windowrecordstate.yaml#/components/schemas/WindowRecordState'
+
+    "404":
+      description: Pestaña inexistente

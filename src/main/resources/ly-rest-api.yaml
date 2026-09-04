@@ -417,6 +417,8 @@ paths:
 # augmented metadata end-points
   /v1.0/windows/{id}/schema:
     $ref: ./paths/windows_id_schema.yaml
+  /v1.0/tabs/{id}/new-record:
+    $ref: ./paths/tabs_id_new_record.yaml
   /v1.0/windows/options:
     $ref: ./paths/windows_options.yaml
   /v1.0/columns/{id}/lookup:

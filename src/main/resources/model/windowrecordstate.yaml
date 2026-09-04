@@ -1,0 +1,86 @@
+components:
+  schemas:
+
+    WindowRecordStateRequest:
+      type: object
+      description: >
+        Contexto de valores utilizado para construir o reevaluar
+        el estado dinámico de un registro.
+      properties:
+
+        values:
+          type: object
+          description: >
+            Valores actuales del registro indexados por nombre de columna.
+            Los valores se representan uniformemente como strings.
+            Se utilizará principalmente al reevaluar DisplayLogic
+            y ReadOnlyLogic.
+          additionalProperties:
+            type: string
+
+        parent_values:
+          type: object
+          description: >
+            Valores provenientes del registro padre para pestañas
+            master/detail, indexados por nombre de columna.
+            Los valores se representan uniformemente como strings.
+          additionalProperties:
+            type: string
+
+        changed_columns:
+          type: array
+          description: >
+            Columnas modificadas desde la evaluación anterior.
+            Reservado para reevaluaciones incrementales.
+          items:
+            type: string
+
+
+    WindowRecordState:
+      type: object
+      description: >
+        Estado efectivo de un registro dinámico resuelto completamente
+        por el backend.
+      properties:
+
+        values:
+          type: object
+          description: >
+            Valores efectivos del registro indexados por nombre de columna.
+            Los valores se representan uniformemente como strings.
+          additionalProperties:
+            type: string
+
+        fields:
+          type: array
+          description: Estado efectivo de todos los campos de la pestaña.
+          items:
+            $ref: '#/components/schemas/WindowRecordFieldState'
+
+
+    WindowRecordFieldState:
+      type: object
+      description: >
+        Estado efectivo de un campo de la pestaña, resuelto por el backend.
+        El frontend debe utilizar este estado sin interpretar las expresiones
+        de metadata que lo originaron.
+      properties:
+
+        ad_field_id:
+          type: integer
+          description: ID del campo de Libertya.
+
+        columnname:
+          type: string
+          description: Nombre de la columna asociada al campo.
+
+        displayed:
+          type: boolean
+          description: >
+            Indica si el campo debe ser mostrado por el frontend.
+
+        readonly:
+          type: boolean
+          description: >
+            Indica si el campo debe ser tratado como solo lectura
+            por el frontend.
