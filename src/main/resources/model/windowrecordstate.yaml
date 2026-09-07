@@ -8,6 +8,14 @@ components:
         el estado dinámico de un registro.
       properties:
 
+        inserting:
+          type: boolean
+          description: >
+            Indica si el registro se encuentra en modo inserción.
+            Se utiliza para resolver correctamente la editabilidad efectiva
+            de los campos.
+          default: false
+
         values:
           type: object
           description: >

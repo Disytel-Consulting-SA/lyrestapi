@@ -45,4 +45,34 @@ public class WindowRecordStateController implements WindowstateApi {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    @Override
+    public ResponseEntity<WindowRecordState> evaluateTabRecordState(Integer id, WindowRecordStateRequest body) {
+        try {
+            UserInfo info = jwt.infoOf(request);
+
+            if (body == null) {
+                body = new WindowRecordStateRequest();
+            }
+
+            WindowFieldStateEngine engine = new WindowFieldStateEngine();
+            WindowRecordState state = engine.resolveRecordState(
+                    info,
+                    id,
+                    body.getValues(),
+                    body.getParentValues(),
+                    Boolean.TRUE.equals(body.isInserting())
+            );
+
+            log.info("Evaluated record state for AD_Tab_ID=" + id + ": " + state);
+
+            return ResponseEntity.ok(state);
+        } catch (IllegalArgumentException e) {
+            log.warning(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            log.severe("Error evaluando estado para AD_Tab_ID=" + id + ": " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

@@ -1,0 +1,36 @@
+post:
+  summary: Reevalúa el estado efectivo de un registro
+  description: >
+    Reevalúa DisplayLogic y ReadOnlyLogic utilizando los valores actuales
+    del registro y el contexto de la pestaña. El frontend debe utilizar
+    el estado devuelto sin interpretar expresiones de metadata.
+  tags:
+    - "windowstate"
+
+  operationId: evaluateTabRecordState
+
+  parameters:
+    - name: id
+      in: path
+      description: ID de la pestaña
+      required: true
+      schema:
+        type: integer
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/windowrecordstate.yaml#/components/schemas/WindowRecordStateRequest'
+
+  responses:
+    "200":
+      description: Estado efectivo reevaluado del registro
+      content:
+        application/json:
+          schema:
+            $ref: '../model/windowrecordstate.yaml#/components/schemas/WindowRecordState'
+
+    "404":
+      description: Pestaña inexistente

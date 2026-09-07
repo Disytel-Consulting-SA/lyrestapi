@@ -84,5 +84,32 @@ public interface WindowstateApi {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+
+    @Operation(summary = "Reevalúa el estado efectivo de un registro", description = "Reevalúa DisplayLogic y ReadOnlyLogic utilizando los valores actuales del registro y el contexto de la pestaña. El frontend debe utilizar el estado devuelto sin interpretar expresiones de metadata. ", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "windowstate" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "Estado efectivo reevaluado del registro", content = @Content(mediaType = "application/json", schema = @Schema(implementation = WindowRecordState.class))),
+        
+        @ApiResponse(responseCode = "404", description = "Pestaña inexistente") })
+    @RequestMapping(value = "/v1.0/tabs/{id}/evaluate",
+        produces = { "application/json" }, 
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    default ResponseEntity<WindowRecordState> evaluateTabRecordState(@Parameter(in = ParameterIn.PATH, description = "ID de la pestaña", required=true, schema=@Schema()) @PathVariable("id") Integer id, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody WindowRecordStateRequest body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"values\" : {\n    \"key\" : \"values\"\n  },\n  \"fields\" : [ {\n    \"displayed\" : true,\n    \"ad_field_id\" : 0,\n    \"readonly\" : true,\n    \"columnname\" : \"columnname\"\n  }, {\n    \"displayed\" : true,\n    \"ad_field_id\" : 0,\n    \"readonly\" : true,\n    \"columnname\" : \"columnname\"\n  } ]\n}", WindowRecordState.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default WindowstateApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
 }
 

@@ -21,6 +21,9 @@ import javax.validation.constraints.*;
 
 
 public class WindowRecordStateRequest   {
+  @JsonProperty("inserting")
+  private Boolean inserting = false;
+
   @JsonProperty("values")
   @Valid
   private Map<String, String> values = null;
@@ -32,6 +35,25 @@ public class WindowRecordStateRequest   {
   @JsonProperty("changed_columns")
   @Valid
   private List<String> changedColumns = null;
+
+  public WindowRecordStateRequest inserting(Boolean inserting) {
+    this.inserting = inserting;
+    return this;
+  }
+
+  /**
+   * Indica si el registro se encuentra en modo inserción. Se utiliza para resolver correctamente la editabilidad efectiva de los campos. 
+   * @return inserting
+   **/
+  @Schema(description = "Indica si el registro se encuentra en modo inserción. Se utiliza para resolver correctamente la editabilidad efectiva de los campos. ")
+  
+    public Boolean isInserting() {
+    return inserting;
+  }
+
+  public void setInserting(Boolean inserting) {
+    this.inserting = inserting;
+  }
 
   public WindowRecordStateRequest values(Map<String, String> values) {
     this.values = values;
@@ -124,14 +146,15 @@ public class WindowRecordStateRequest   {
       return false;
     }
     WindowRecordStateRequest windowRecordStateRequest = (WindowRecordStateRequest) o;
-    return Objects.equals(this.values, windowRecordStateRequest.values) &&
+    return Objects.equals(this.inserting, windowRecordStateRequest.inserting) &&
+        Objects.equals(this.values, windowRecordStateRequest.values) &&
         Objects.equals(this.parentValues, windowRecordStateRequest.parentValues) &&
         Objects.equals(this.changedColumns, windowRecordStateRequest.changedColumns);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(values, parentValues, changedColumns);
+    return Objects.hash(inserting, values, parentValues, changedColumns);
   }
 
   @Override
@@ -139,6 +162,7 @@ public class WindowRecordStateRequest   {
     StringBuilder sb = new StringBuilder();
     sb.append("class WindowRecordStateRequest {\n");
     
+    sb.append("    inserting: ").append(toIndentedString(inserting)).append("\n");
     sb.append("    values: ").append(toIndentedString(values)).append("\n");
     sb.append("    parentValues: ").append(toIndentedString(parentValues)).append("\n");
     sb.append("    changedColumns: ").append(toIndentedString(changedColumns)).append("\n");

@@ -21,7 +21,7 @@ public class WindowFieldStateEngine {
     private static final int WINDOW_NO = 1;
     private static final int TAB_NO = 0;
 
-    private List<MField> loadFields(Properties ctx, int adTabId, TabInfo tabInfo) {
+    private List<MField> loadFields(Properties ctx, int adTabId, TabInfo tabInfo, boolean inserting) {
 
         List<MField> fields = new ArrayList<>();
         PreparedStatement ps = null;
@@ -45,7 +45,7 @@ public class WindowFieldStateEngine {
 
                 if (vo != null) {
                     MField field = new MField(vo);
-                    field.setInserting(true);
+                    field.setInserting(inserting);
                     fields.add(field);
                 }
             }
@@ -102,7 +102,7 @@ public class WindowFieldStateEngine {
             Env.setContext(ctx, WINDOW_NO, TAB_NO, "LinkColumnName", linkColumnName);
         }
 
-        List<MField> fields = loadFields(ctx, adTabId, tabInfo);
+        List<MField> fields = loadFields(ctx, adTabId, tabInfo, true);
         Map<String, String> values = new LinkedHashMap<>();
 
         for (MField field : fields) {
@@ -138,6 +138,67 @@ public class WindowFieldStateEngine {
 
         return state;
     }
+
+
+    public WindowRecordState resolveRecordState(UserInfo info, int adTabId, Map<String, String> currentValues,
+                                                Map<String, String> parentValues, boolean inserting) {
+
+        Properties ctx = info.getCtx();
+        TabInfo tabInfo = loadTabInfo(adTabId);
+
+        Env.setContext(ctx, WINDOW_NO, TAB_NO, "AD_Table_ID", String.valueOf(tabInfo.adTableId));
+
+        if (parentValues != null) {
+            for (Map.Entry<String, String> entry : parentValues.entrySet()) {
+                Env.setContext(ctx, WINDOW_NO, entry.getKey(), entry.getValue());
+            }
+        }
+
+        String linkColumnName = resolveExplicitLinkColumnName(adTabId);
+
+        if (linkColumnName != null) {
+            Env.setContext(ctx, WINDOW_NO, TAB_NO, "LinkColumnName", linkColumnName);
+        }
+
+        List<MField> fields = loadFields(ctx, adTabId, tabInfo, inserting);
+        Map<String, String> values = new LinkedHashMap<>();
+
+        if (currentValues != null) {
+            values.putAll(currentValues);
+
+            for (Map.Entry<String, String> entry : currentValues.entrySet()) {
+                Env.setContext(ctx, WINDOW_NO, TAB_NO, entry.getKey(), entry.getValue());
+            }
+
+            for (MField field : fields) {
+                String value = currentValues.get(field.getColumnName());
+
+                if (value != null) {
+                    field.setValue(value, inserting);
+                }
+            }
+        }
+
+        List<WindowRecordFieldState> fieldStates = new ArrayList<>();
+
+        for (MField field : fields) {
+            WindowRecordFieldState state = new WindowRecordFieldState();
+
+            state.setAdFieldId(field.getAD_Field_ID());
+            state.setColumnname(field.getColumnName());
+            state.setDisplayed(field.isDisplayed(true));
+            state.setReadonly(!field.isEditable(true));
+
+            fieldStates.add(state);
+        }
+
+        WindowRecordState state = new WindowRecordState();
+        state.setValues(values);
+        state.setFields(fieldStates);
+
+        return state;
+    }
+
 
     private String toProtocolValue(Object value) {
         if (value == null) {
