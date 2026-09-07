@@ -56,6 +56,9 @@ public class WindowSchemaField   {
   @JsonProperty("isparent")
   private Boolean isparent = null;
 
+  @JsonProperty("isselectioncolumn")
+  private Boolean isselectioncolumn = null;
+
   @JsonProperty("defaultvalue")
   private String defaultvalue = null;
 
@@ -309,6 +312,25 @@ public class WindowSchemaField   {
     this.isparent = isparent;
   }
 
+  public WindowSchemaField isselectioncolumn(Boolean isselectioncolumn) {
+    this.isselectioncolumn = isselectioncolumn;
+    return this;
+  }
+
+  /**
+   * Indica si la columna debe utilizarse como criterio de búsqueda de registros
+   * @return isselectioncolumn
+   **/
+  @Schema(description = "Indica si la columna debe utilizarse como criterio de búsqueda de registros")
+  
+    public Boolean isIsselectioncolumn() {
+    return isselectioncolumn;
+  }
+
+  public void setIsselectioncolumn(Boolean isselectioncolumn) {
+    this.isselectioncolumn = isselectioncolumn;
+  }
+
   public WindowSchemaField defaultvalue(String defaultvalue) {
     this.defaultvalue = defaultvalue;
     return this;
@@ -371,13 +393,14 @@ public class WindowSchemaField   {
         Objects.equals(this.ismandatory, windowSchemaField.ismandatory) &&
         Objects.equals(this.iskey, windowSchemaField.iskey) &&
         Objects.equals(this.isparent, windowSchemaField.isparent) &&
+        Objects.equals(this.isselectioncolumn, windowSchemaField.isselectioncolumn) &&
         Objects.equals(this.defaultvalue, windowSchemaField.defaultvalue) &&
         Objects.equals(this.reference, windowSchemaField.reference);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isreadonly, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, defaultvalue, reference);
+    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isreadonly, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, isselectioncolumn, defaultvalue, reference);
   }
 
   @Override
@@ -398,6 +421,7 @@ public class WindowSchemaField   {
     sb.append("    ismandatory: ").append(toIndentedString(ismandatory)).append("\n");
     sb.append("    iskey: ").append(toIndentedString(iskey)).append("\n");
     sb.append("    isparent: ").append(toIndentedString(isparent)).append("\n");
+    sb.append("    isselectioncolumn: ").append(toIndentedString(isselectioncolumn)).append("\n");
     sb.append("    defaultvalue: ").append(toIndentedString(defaultvalue)).append("\n");
     sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
     sb.append("}");

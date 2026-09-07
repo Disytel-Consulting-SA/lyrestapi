@@ -86,7 +86,9 @@ components:
           type: boolean
         isparent:
           type: boolean
-
+        isselectioncolumn:
+          type: boolean
+          description: Indica si la columna debe utilizarse como criterio de búsqueda de registros
         defaultvalue:
           type: string
           description: Valor por defecto resuelto por el backend para la creación de un nuevo registro

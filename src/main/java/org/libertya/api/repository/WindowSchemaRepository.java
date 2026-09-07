@@ -145,6 +145,7 @@ public class WindowSchemaRepository {
         sql.append("   c.ismandatory, ");
         sql.append("   c.iskey, ");
         sql.append("   c.isparent, ");
+        sql.append("   c.isselectioncolumn, ");
         sql.append("   c.defaultvalue ");
 
         sql.append(" FROM ad_window w ");
@@ -306,6 +307,7 @@ public class WindowSchemaRepository {
                         .ismandatory("Y".equals(rs.getString("ismandatory")))
                         .iskey("Y".equals(rs.getString("iskey")))
                         .isparent("Y".equals(rs.getString("isparent")))
+                        .isselectioncolumn("Y".equals(rs.getString("isselectioncolumn")))
                         .defaultvalue(WindowFieldDefaultResolver.resolve(
                                 info,
                                 rs.getInt("ad_reference_id"),
