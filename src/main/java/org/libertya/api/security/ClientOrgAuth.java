@@ -22,7 +22,7 @@ public class ClientOrgAuth {
 
         // Si el token de acceso solo permite una compañia en particular, no permitir gestionar/retornar informacion de otra compañía
         // Si el token de acceso es de compañía 0, entonces no limitar
-        if (info.getClientID() > 0 && aPO.getAD_Client_ID() != info.getClientID()) {
+        if (info.getClientID() > 0 && aPO.getAD_Client_ID() != 0 && aPO.getAD_Client_ID() != info.getClientID()) {
             throw new AuthException("Token de acceso limitado a compañía " + info.getClientID());
         }
         return aPO;

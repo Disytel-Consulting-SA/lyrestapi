@@ -403,7 +403,7 @@ public abstract class AbstractRepository {
     protected String filterByClient(UserInfo info) {
         if (info.getClientID()==0)
             return " 1=1 ";
-        return " AD_Client_ID = " + info.getClientID();
+        return " AD_Client_ID IN (0, " + info.getClientID() + ")";
     }
 
     /**
