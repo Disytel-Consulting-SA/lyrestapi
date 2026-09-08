@@ -32,6 +32,9 @@ public class WindowSchemaField   {
   @JsonProperty("isdisplayed")
   private Boolean isdisplayed = null;
 
+  @JsonProperty("isdisplayedingrid")
+  private Boolean isdisplayedingrid = null;
+
   @JsonProperty("isreadonly")
   private Boolean isreadonly = null;
 
@@ -158,6 +161,25 @@ public class WindowSchemaField   {
 
   public void setIsdisplayed(Boolean isdisplayed) {
     this.isdisplayed = isdisplayed;
+  }
+
+  public WindowSchemaField isdisplayedingrid(Boolean isdisplayedingrid) {
+    this.isdisplayedingrid = isdisplayedingrid;
+    return this;
+  }
+
+  /**
+   * Indica si el campo debe mostrarse como columna en la vista grilla
+   * @return isdisplayedingrid
+   **/
+  @Schema(description = "Indica si el campo debe mostrarse como columna en la vista grilla")
+  
+    public Boolean isIsdisplayedingrid() {
+    return isdisplayedingrid;
+  }
+
+  public void setIsdisplayedingrid(Boolean isdisplayedingrid) {
+    this.isdisplayedingrid = isdisplayedingrid;
   }
 
   public WindowSchemaField isreadonly(Boolean isreadonly) {
@@ -385,6 +407,7 @@ public class WindowSchemaField   {
         Objects.equals(this.description, windowSchemaField.description) &&
         Objects.equals(this.seqno, windowSchemaField.seqno) &&
         Objects.equals(this.isdisplayed, windowSchemaField.isdisplayed) &&
+        Objects.equals(this.isdisplayedingrid, windowSchemaField.isdisplayedingrid) &&
         Objects.equals(this.isreadonly, windowSchemaField.isreadonly) &&
         Objects.equals(this.adColumnId, windowSchemaField.adColumnId) &&
         Objects.equals(this.columnname, windowSchemaField.columnname) &&
@@ -400,7 +423,7 @@ public class WindowSchemaField   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isreadonly, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, isselectioncolumn, defaultvalue, reference);
+    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isdisplayedingrid, isreadonly, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, isselectioncolumn, defaultvalue, reference);
   }
 
   @Override
@@ -413,6 +436,7 @@ public class WindowSchemaField   {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    seqno: ").append(toIndentedString(seqno)).append("\n");
     sb.append("    isdisplayed: ").append(toIndentedString(isdisplayed)).append("\n");
+    sb.append("    isdisplayedingrid: ").append(toIndentedString(isdisplayedingrid)).append("\n");
     sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
     sb.append("    adColumnId: ").append(toIndentedString(adColumnId)).append("\n");
     sb.append("    columnname: ").append(toIndentedString(columnname)).append("\n");

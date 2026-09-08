@@ -69,6 +69,9 @@ components:
           type: integer
         isdisplayed:
           type: boolean
+        isdisplayedingrid:
+          type: boolean
+          description: Indica si el campo debe mostrarse como columna en la vista grilla
         isreadonly:
           type: boolean
 

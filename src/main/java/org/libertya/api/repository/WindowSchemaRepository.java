@@ -136,6 +136,7 @@ public class WindowSchemaRepository {
         sql.append("   ").append(fieldDescription).append(" AS field_description, ");
         sql.append("   f.seqno AS field_seqno, ");
         sql.append("   f.isdisplayed, ");
+        sql.append("   f.isdisplayedingrid, ");
         sql.append("   f.isreadonly AS field_isreadonly, ");
 
         sql.append("   c.ad_column_id, ");
@@ -299,6 +300,7 @@ public class WindowSchemaRepository {
                         .description(rs.getString("field_description"))
                         .seqno(rs.getInt("field_seqno"))
                         .isdisplayed("Y".equals(rs.getString("isdisplayed")))
+                        .isdisplayedingrid("Y".equals(rs.getString("isdisplayedingrid")))
                         .isreadonly("Y".equals(rs.getString("field_isreadonly")))
                         .adColumnId(rs.getInt("ad_column_id"))
                         .columnname(rs.getString("columnname"))
