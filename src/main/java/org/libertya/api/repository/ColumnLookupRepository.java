@@ -430,10 +430,12 @@ public class ColumnLookupRepository {
                  * Si no puede convertirse se utiliza String.
                  */
                 try {
-                    ps.setInt(parameterIndex++, Integer.parseInt(value));
+                    int intValue = Integer.parseInt(value);
+                    ps.setInt(parameterIndex, intValue);
                 } catch (NumberFormatException e) {
-                    ps.setString(parameterIndex++, value);
+                    ps.setString(parameterIndex, value);
                 }
+                parameterIndex++;
             }
 
             if (hasSearch) {
