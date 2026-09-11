@@ -3,6 +3,7 @@ package org.libertya.api.repository;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.stub.model.ColumnLookupValue;
 import org.openXpertya.util.DB;
+import org.openXpertya.util.Env;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -63,8 +64,10 @@ public class ColumnLookupRepository {
      * Metadata básica de AD_Column.
      */
     private ColumnInfo loadColumnInfo(Integer columnId) {
-        String sql = " SELECT c.ad_column_id, c.columnname, c.ad_reference_id, c.ad_reference_value_id "
+        String sql = " SELECT c.ad_column_id, c.columnname, c.ad_reference_id, c.ad_reference_value_id, "
+                + "   c.ad_val_rule_id, vr.code AS validation_code "
                 + " FROM ad_column c "
+                + " LEFT JOIN ad_val_rule vr ON vr.ad_val_rule_id = c.ad_val_rule_id AND vr.isactive = 'Y' "
                 + " WHERE c.ad_column_id = ? AND c.isactive = 'Y' ";
 
         PreparedStatement ps = null;
@@ -84,6 +87,10 @@ public class ColumnLookupRepository {
             result.columnName = rs.getString("columnname");
             result.referenceId = rs.getInt("ad_reference_id");
             result.referenceValueId = rs.getInt("ad_reference_value_id");
+
+            int validationRuleId = rs.getInt("ad_val_rule_id");
+            result.validationRuleId = rs.wasNull() ? null : validationRuleId;
+            result.validationCode = rs.getString("validation_code");
 
             return result;
 
@@ -113,6 +120,7 @@ public class ColumnLookupRepository {
         String displayExpression = buildTableDisplayExpression(referenceInfo);
         boolean hasSearch = search != null && !search.trim().isEmpty();
         boolean hasValue = value != null && !value.trim().isEmpty();
+        String validationCode = resolveValidationCode(info, column);
 
         /*
          * Sólo filtramos por client si:
@@ -157,6 +165,15 @@ public class ColumnLookupRepository {
         if (hasClientFilter) {
             sql.append(hasWhere ? " AND " : " WHERE ");
             sql.append(referenceInfo.tableName).append(".ad_client_id IN (0, ?) ");
+            hasWhere = true;
+        }
+
+        /*
+         * Regla de validación definida en AD_Column.AD_Val_Rule_ID.
+         */
+        if (validationCode != null) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append("(").append(validationCode).append(") ");
             hasWhere = true;
         }
 
@@ -237,6 +254,7 @@ public class ColumnLookupRepository {
         boolean hasSearch = search != null && !search.trim().isEmpty();
         boolean hasValue = value != null && !value.trim().isEmpty();
         boolean hasClientFilter = shouldFilterByClient(info, tableName);
+        String validationCode = resolveValidationCode(info, column);
 
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ").append(tableName).append(".").append(lookupInfo.keyColumn).append(" AS lookup_value, ");
@@ -269,6 +287,15 @@ public class ColumnLookupRepository {
         if (hasClientFilter) {
             sql.append(hasWhere ? " AND " : " WHERE ");
             sql.append(tableName).append(".ad_client_id IN (0, ?) ");
+            hasWhere = true;
+        }
+
+        /*
+         * Regla de validación definida en AD_Column.AD_Val_Rule_ID.
+         */
+        if (validationCode != null) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append("(").append(validationCode).append(") ");
             hasWhere = true;
         }
 
@@ -346,6 +373,39 @@ public class ColumnLookupRepository {
         } finally {
             DB.close(rs, ps);
         }
+    }
+
+    /**
+     * Resuelve la regla de validación configurada en AD_Column.AD_Val_Rule_ID.
+     *
+     * En esta primera etapa se resuelve únicamente con el contexto global
+     * disponible en UserInfo (#AD_Client_ID, #AD_Org_ID, #AD_User_ID,
+     * #AD_Role_ID, etc.).
+     *
+     * Las reglas que todavía contengan variables de ventana/registro se
+     * ignoran hasta incorporar contexto dinámico al endpoint de lookup.
+     */
+    private String resolveValidationCode(UserInfo info, ColumnInfo column) {
+        if (info == null || column.validationCode == null || column.validationCode.trim().isEmpty()) {
+            return null;
+        }
+
+        String validation = Env.parseContext(info.getCtx(), 0, column.validationCode, true, true);
+
+        if (validation == null || validation.trim().isEmpty()) {
+            return null;
+        }
+
+        /*
+         * Si quedaron variables sin resolver significa que la regla depende
+         * del contexto dinámico de la ventana/registro. Todavía no debemos
+         * enviarla a PostgreSQL.
+         */
+        if (validation.indexOf('@') >= 0) {
+            return null;
+        }
+
+        return validation.trim();
     }
 
     /**
@@ -478,6 +538,8 @@ public class ColumnLookupRepository {
         private String columnName;
         private Integer referenceId;
         private Integer referenceValueId;
+        private Integer validationRuleId;
+        private String validationCode;
     }
 
     private static class TableLookupInfo {
