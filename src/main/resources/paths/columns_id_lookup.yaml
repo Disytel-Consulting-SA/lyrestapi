@@ -45,6 +45,13 @@ get:
       schema:
         type: string
 
+    - name: context
+      in: query
+      description: Valores actuales del registro, serializados como JSON, utilizados para resolver reglas de validación dinámicas
+      required: false
+      schema:
+        type: string
+
   operationId: retrieveColumnLookup
 
   responses:

@@ -10,7 +10,11 @@ import org.libertya.api.stub.model.ColumnLookupValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Collections;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -21,17 +25,31 @@ public class ColumnLookupController implements ColumnlookupApi {
     private final ColumnLookupRepository repository;
     private final JWTUtils jwt;
     private final HttpServletRequest request;
+    private final ObjectMapper objectMapper;
 
     @Override
-    public ResponseEntity<List<ColumnLookupValue>> retrieveColumnLookup(Integer id, Integer limit, Integer page, String search, String value) {
+    public ResponseEntity<List<ColumnLookupValue>> retrieveColumnLookup(
+            Integer id,
+            Integer limit,
+            Integer page,
+            String search,
+            String value,
+            String context) {
+
         try {
-            /*
-             * Recuperar contexto del request.
-             * clientID y orgID provienen del JWT.
-             */
             UserInfo info = jwt.infoOf(request);
 
-            List<ColumnLookupValue> values = repository.retrieve(info, id, limit, page, search, value);
+            Map<String, String> contextValues = Collections.emptyMap();
+
+            if (context != null && !context.trim().isEmpty()) {
+                contextValues = objectMapper.readValue(
+                        context,
+                        new TypeReference<Map<String, String>>() {}
+                );
+            }
+
+            List<ColumnLookupValue> values =
+                    repository.retrieve(info, id, limit, page, search, value, contextValues);
 
             if (values == null) {
                 return ResponseEntity.notFound().build();
@@ -41,6 +59,9 @@ public class ColumnLookupController implements ColumnlookupApi {
 
         } catch (AuthException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error procesando contexto del lookup", e);
         }
     }
 }

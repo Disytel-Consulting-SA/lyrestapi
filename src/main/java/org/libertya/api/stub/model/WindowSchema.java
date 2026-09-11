@@ -28,6 +28,9 @@ public class WindowSchema   {
   @JsonProperty("description")
   private String description = null;
 
+  @JsonProperty("issotrx")
+  private Boolean issotrx = null;
+
   @JsonProperty("tabs")
   @Valid
   private List<WindowSchemaTab> tabs = null;
@@ -89,6 +92,25 @@ public class WindowSchema   {
     this.description = description;
   }
 
+  public WindowSchema issotrx(Boolean issotrx) {
+    this.issotrx = issotrx;
+    return this;
+  }
+
+  /**
+   * Indica si la ventana corresponde a una transacción de ventas
+   * @return issotrx
+   **/
+  @Schema(description = "Indica si la ventana corresponde a una transacción de ventas")
+  
+    public Boolean isIssotrx() {
+    return issotrx;
+  }
+
+  public void setIssotrx(Boolean issotrx) {
+    this.issotrx = issotrx;
+  }
+
   public WindowSchema tabs(List<WindowSchemaTab> tabs) {
     this.tabs = tabs;
     return this;
@@ -129,12 +151,13 @@ public class WindowSchema   {
     return Objects.equals(this.adWindowId, windowSchema.adWindowId) &&
         Objects.equals(this.name, windowSchema.name) &&
         Objects.equals(this.description, windowSchema.description) &&
+        Objects.equals(this.issotrx, windowSchema.issotrx) &&
         Objects.equals(this.tabs, windowSchema.tabs);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adWindowId, name, description, tabs);
+    return Objects.hash(adWindowId, name, description, issotrx, tabs);
   }
 
   @Override
@@ -145,6 +168,7 @@ public class WindowSchema   {
     sb.append("    adWindowId: ").append(toIndentedString(adWindowId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    issotrx: ").append(toIndentedString(issotrx)).append("\n");
     sb.append("    tabs: ").append(toIndentedString(tabs)).append("\n");
     sb.append("}");
     return sb.toString();

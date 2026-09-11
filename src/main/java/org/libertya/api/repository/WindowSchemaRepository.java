@@ -112,6 +112,7 @@ public class WindowSchemaRepository {
         sql.append("   w.ad_window_id, ");
         sql.append("   ").append(windowName).append(" AS window_name, ");
         sql.append("   ").append(windowDescription).append(" AS window_description, ");
+        sql.append("   w.issotrx AS window_issotrx, ");
 
         sql.append("   t.ad_tab_id, ");
         sql.append("   ").append(tabName).append(" AS tab_name, ");
@@ -238,7 +239,8 @@ public class WindowSchemaRepository {
                     schema = new WindowSchema()
                             .adWindowId(rs.getInt("ad_window_id"))
                             .name(rs.getString("window_name"))
-                            .description(rs.getString("window_description"));
+                            .description(rs.getString("window_description"))
+                            .issotrx("Y".equals(rs.getString("window_issotrx")));
                 }
 
                 Integer tabId = rs.getInt("ad_tab_id");

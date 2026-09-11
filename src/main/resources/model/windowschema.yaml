@@ -10,6 +10,9 @@ components:
           type: string
         description:
           type: string
+        issotrx:
+          type: boolean
+          description: Indica si la ventana corresponde a una transacción de ventas
         tabs:
           type: array
           items:

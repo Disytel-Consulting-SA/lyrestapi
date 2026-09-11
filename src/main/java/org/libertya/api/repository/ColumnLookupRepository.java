@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 @Repository
 public class ColumnLookupRepository {
@@ -21,7 +23,7 @@ public class ColumnLookupRepository {
     private static final int DEFAULT_LIMIT = 50;
     private static final int DEFAULT_PAGE = 1;
 
-    public List<ColumnLookupValue> retrieve(UserInfo info, Integer columnId, Integer limit, Integer page, String search, String value) {
+    public List<ColumnLookupValue> retrieve(UserInfo info, Integer columnId, Integer limit, Integer page, String search, String value, Map<String, String> contextValues) {
         ColumnInfo column = loadColumnInfo(columnId);
         if (column == null) return null;
 
@@ -32,14 +34,14 @@ public class ColumnLookupRepository {
          * TABLE
          */
         if (column.referenceId == REFERENCE_TABLE) {
-            return retrieveTable(info, column, effectiveLimit, effectivePage, search, value);
+            return retrieveTable(info, column, effectiveLimit, effectivePage, search, value, contextValues);
         }
 
         /*
          * TABLE DIRECT
          */
         if (column.referenceId == REFERENCE_TABLE_DIRECT) {
-            return retrieveTableDirect(info, column, effectiveLimit, effectivePage, search, value);
+            return retrieveTableDirect(info, column, effectiveLimit, effectivePage, search, value, contextValues);
         }
 
         /*
@@ -51,10 +53,10 @@ public class ColumnLookupRepository {
          */
         if (column.referenceId == REFERENCE_SEARCH) {
             if (column.referenceValueId != null && column.referenceValueId > 0) {
-                return retrieveTable(info, column, effectiveLimit, effectivePage, search, value);
+                return retrieveTable(info, column, effectiveLimit, effectivePage, search, value, contextValues);
             }
 
-            return retrieveTableDirect(info, column, effectiveLimit, effectivePage, search, value);
+            return retrieveTableDirect(info, column, effectiveLimit, effectivePage, search, value, contextValues);
         }
 
         return new ArrayList<>();
@@ -106,7 +108,7 @@ public class ColumnLookupRepository {
      * TABLE
      * =========================================================
      */
-    private List<ColumnLookupValue> retrieveTable(UserInfo info, ColumnInfo column, int limit, int page, String search, String value) {
+    private List<ColumnLookupValue> retrieveTable(UserInfo info, ColumnInfo column, int limit, int page, String search, String value, Map<String, String> contextValues) {
         if (column.referenceValueId == null || column.referenceValueId <= 0) {
             return new ArrayList<>();
         }
@@ -120,7 +122,7 @@ public class ColumnLookupRepository {
         String displayExpression = buildTableDisplayExpression(referenceInfo);
         boolean hasSearch = search != null && !search.trim().isEmpty();
         boolean hasValue = value != null && !value.trim().isEmpty();
-        String validationCode = resolveValidationCode(info, column);
+        String validationCode = resolveValidationCode(info, column, contextValues);
 
         /*
          * Sólo filtramos por client si:
@@ -241,7 +243,7 @@ public class ColumnLookupRepository {
      * TABLE DIRECT
      * =========================================================
      */
-    private List<ColumnLookupValue> retrieveTableDirect(UserInfo info, ColumnInfo column, int limit, int page, String search, String value) {
+    private List<ColumnLookupValue> retrieveTableDirect(UserInfo info, ColumnInfo column, int limit, int page, String search, String value, Map<String, String> contextValues) {
         String tableName = inferTableName(column.columnName);
         if (tableName == null) return new ArrayList<>();
 
@@ -254,7 +256,7 @@ public class ColumnLookupRepository {
         boolean hasSearch = search != null && !search.trim().isEmpty();
         boolean hasValue = value != null && !value.trim().isEmpty();
         boolean hasClientFilter = shouldFilterByClient(info, tableName);
-        String validationCode = resolveValidationCode(info, column);
+        String validationCode = resolveValidationCode(info, column, contextValues);
 
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ").append(tableName).append(".").append(lookupInfo.keyColumn).append(" AS lookup_value, ");
@@ -385,23 +387,25 @@ public class ColumnLookupRepository {
      * Las reglas que todavía contengan variables de ventana/registro se
      * ignoran hasta incorporar contexto dinámico al endpoint de lookup.
      */
-    private String resolveValidationCode(UserInfo info, ColumnInfo column) {
+    private String resolveValidationCode(UserInfo info, ColumnInfo column, Map<String, String> contextValues) {
         if (info == null || column.validationCode == null || column.validationCode.trim().isEmpty()) {
             return null;
         }
 
-        String validation = Env.parseContext(info.getCtx(), 0, column.validationCode, true, true);
+        Properties ctx = new Properties();
+        ctx.putAll(info.getCtx());
 
-        if (validation == null || validation.trim().isEmpty()) {
-            return null;
+        if (contextValues != null) {
+            for (Map.Entry<String, String> entry : contextValues.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() != null) {
+                    Env.setContext(ctx, 0, entry.getKey(), entry.getValue());
+                }
+            }
         }
 
-        /*
-         * Si quedaron variables sin resolver significa que la regla depende
-         * del contexto dinámico de la ventana/registro. Todavía no debemos
-         * enviarla a PostgreSQL.
-         */
-        if (validation.indexOf('@') >= 0) {
+        String validation = Env.parseContext(ctx, 0, column.validationCode, true, true);
+
+        if (validation == null || validation.trim().isEmpty() || validation.indexOf('@') >= 0) {
             return null;
         }
 
