@@ -50,6 +50,9 @@ components:
           type: string
         isreadonly:
           type: boolean
+        isinsertrecord:
+          type: boolean
+          description: Indica si la pestaña permite insertar nuevos registros
         fields:
           type: array
           items:

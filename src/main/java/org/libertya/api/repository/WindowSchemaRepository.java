@@ -121,6 +121,7 @@ public class WindowSchemaRepository {
         sql.append("   t.whereclause AS tab_whereclause, ");
         sql.append("   t.orderbyclause AS tab_orderbyclause, ");
         sql.append("   t.isreadonly AS tab_isreadonly, ");
+        sql.append("   t.isinsertrecord AS tab_isinsertrecord, ");
 
         /*
          * AD_Tab.AD_Column_ID es el override explícito
@@ -259,6 +260,7 @@ public class WindowSchemaRepository {
                             .whereclause(rs.getString("tab_whereclause"))
                             .orderbyclause(rs.getString("tab_orderbyclause"))
                             .isreadonly("Y".equals(rs.getString("tab_isreadonly")))
+                            .isinsertrecord("Y".equals(rs.getString("tab_isinsertrecord")))
                             .adTableId(rs.getInt("ad_table_id"))
                             .tablename(tableName)
                             .dataEndpoint(dataEndpoint)

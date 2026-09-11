@@ -62,6 +62,9 @@ public class WindowSchemaTab   {
   @JsonProperty("isreadonly")
   private Boolean isreadonly = null;
 
+  @JsonProperty("isinsertrecord")
+  private Boolean isinsertrecord = null;
+
   @JsonProperty("fields")
   @Valid
   private List<WindowSchemaField> fields = null;
@@ -340,6 +343,25 @@ public class WindowSchemaTab   {
     this.isreadonly = isreadonly;
   }
 
+  public WindowSchemaTab isinsertrecord(Boolean isinsertrecord) {
+    this.isinsertrecord = isinsertrecord;
+    return this;
+  }
+
+  /**
+   * Indica si la pestaña permite insertar nuevos registros
+   * @return isinsertrecord
+   **/
+  @Schema(description = "Indica si la pestaña permite insertar nuevos registros")
+  
+    public Boolean isIsinsertrecord() {
+    return isinsertrecord;
+  }
+
+  public void setIsinsertrecord(Boolean isinsertrecord) {
+    this.isinsertrecord = isinsertrecord;
+  }
+
   public WindowSchemaTab fields(List<WindowSchemaField> fields) {
     this.fields = fields;
     return this;
@@ -391,12 +413,13 @@ public class WindowSchemaTab   {
         Objects.equals(this.whereclause, windowSchemaTab.whereclause) &&
         Objects.equals(this.orderbyclause, windowSchemaTab.orderbyclause) &&
         Objects.equals(this.isreadonly, windowSchemaTab.isreadonly) &&
+        Objects.equals(this.isinsertrecord, windowSchemaTab.isinsertrecord) &&
         Objects.equals(this.fields, windowSchemaTab.fields);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, pkColumns, whereclause, orderbyclause, isreadonly, fields);
+    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, pkColumns, whereclause, orderbyclause, isreadonly, isinsertrecord, fields);
   }
 
   @Override
@@ -418,6 +441,7 @@ public class WindowSchemaTab   {
     sb.append("    whereclause: ").append(toIndentedString(whereclause)).append("\n");
     sb.append("    orderbyclause: ").append(toIndentedString(orderbyclause)).append("\n");
     sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
+    sb.append("    isinsertrecord: ").append(toIndentedString(isinsertrecord)).append("\n");
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("}");
     return sb.toString();
