@@ -59,8 +59,11 @@ public class WindowFieldStateEngine {
     }
 
     private TabInfo loadTabInfo(int adTabId) {
-        String sql = "SELECT ad_window_id, ad_table_id, isreadonly, isalwaysupdateable " +
-                "FROM ad_tab WHERE ad_tab_id = ? AND isactive = 'Y'";
+        String sql =
+                "SELECT t.ad_window_id, t.ad_table_id, t.isreadonly, t.isalwaysupdateable, w.issotrx " +
+                        "FROM ad_tab t " +
+                        "JOIN ad_window w ON w.ad_window_id = t.ad_window_id " +
+                        "WHERE t.ad_tab_id = ? AND t.isactive = 'Y'";
 
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -74,8 +77,13 @@ public class WindowFieldStateEngine {
                 throw new IllegalArgumentException("No existe AD_Tab_ID=" + adTabId);
             }
 
-            return new TabInfo(rs.getInt("ad_window_id"), rs.getInt("ad_table_id"),
-                    "Y".equals(rs.getString("isreadonly")), "Y".equals(rs.getString("isalwaysupdateable")));
+            return new TabInfo(
+                    rs.getInt("ad_window_id"),
+                    rs.getInt("ad_table_id"),
+                    "Y".equals(rs.getString("isreadonly")),
+                    "Y".equals(rs.getString("isalwaysupdateable")),
+                    "Y".equals(rs.getString("issotrx"))
+            );
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {
@@ -88,6 +96,7 @@ public class WindowFieldStateEngine {
     public WindowRecordState resolveNewRecordState(UserInfo info, int adTabId, Map<String, String> parentValues) {
         Properties ctx = info.getCtx();
         TabInfo tabInfo = loadTabInfo(adTabId);
+        Env.setContext(ctx, WINDOW_NO, "IsSOTrx", tabInfo.isSOTrx ? "Y" : "N");
         Env.setContext(ctx, WINDOW_NO, TAB_NO, "AD_Table_ID", String.valueOf(tabInfo.adTableId));
 
         if (parentValues != null) {
@@ -145,7 +154,7 @@ public class WindowFieldStateEngine {
 
         Properties ctx = info.getCtx();
         TabInfo tabInfo = loadTabInfo(adTabId);
-
+        Env.setContext(ctx, WINDOW_NO, "IsSOTrx", tabInfo.isSOTrx ? "Y" : "N");
         Env.setContext(ctx, WINDOW_NO, TAB_NO, "AD_Table_ID", String.valueOf(tabInfo.adTableId));
 
         if (parentValues != null) {
@@ -241,12 +250,14 @@ public class WindowFieldStateEngine {
         private final int adTableId;
         private final boolean readOnly;
         private final boolean alwaysUpdateable;
+        private final boolean isSOTrx;
 
-        private TabInfo(int adWindowId, int adTableId, boolean readOnly, boolean alwaysUpdateable) {
+        private TabInfo(int adWindowId, int adTableId, boolean readOnly, boolean alwaysUpdateable, boolean isSOTrx) {
             this.adWindowId = adWindowId;
             this.adTableId = adTableId;
             this.readOnly = readOnly;
             this.alwaysUpdateable = alwaysUpdateable;
+            this.isSOTrx = isSOTrx;
         }
     }
 
