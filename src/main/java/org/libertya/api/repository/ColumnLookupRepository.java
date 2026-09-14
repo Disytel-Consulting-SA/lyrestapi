@@ -403,7 +403,7 @@ public class ColumnLookupRepository {
             }
         }
 
-        String validation = Env.parseContext(ctx, 0, column.validationCode, true, true);
+        String validation = Env.parseContext(ctx, 0, column.validationCode, true);
 
         if (validation == null || validation.trim().isEmpty() || validation.indexOf('@') >= 0) {
             return null;
