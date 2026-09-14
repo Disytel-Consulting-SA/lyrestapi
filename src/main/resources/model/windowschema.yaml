@@ -80,7 +80,13 @@ components:
           description: Indica si el campo debe mostrarse como columna en la vista grilla
         isreadonly:
           type: boolean
-
+        issameline:
+          type: boolean
+          description: Indica si el campo debe mostrarse en la misma línea que el campo anterior
+        fieldgroup:
+          type: string
+          nullable: true
+          description: Grupo visual al que pertenece el campo
         ad_column_id:
           type: integer
         columnname:

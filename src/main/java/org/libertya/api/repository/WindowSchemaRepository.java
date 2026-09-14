@@ -105,6 +105,7 @@ public class WindowSchemaRepository {
         String tabDescription = translated ? "COALESCE(tt.description, t.description)" : "t.description";
         String fieldName = translated ? "COALESCE(ft.name, f.name)" : "f.name";
         String fieldDescription = translated ? "COALESCE(ft.description, f.description)" : "f.description";
+        String fieldGroupName = translated ? "COALESCE(fgt.name, fg.name)" : "fg.name";
 
         StringBuilder sql = new StringBuilder();
 
@@ -140,6 +141,9 @@ public class WindowSchemaRepository {
         sql.append("   f.isdisplayed, ");
         sql.append("   f.isdisplayedingrid, ");
         sql.append("   f.isreadonly AS field_isreadonly, ");
+        sql.append("   f.issameline AS field_issameline, ");
+        sql.append("   f.ad_fieldgroup_id, ");
+        sql.append("   ").append(fieldGroupName).append(" AS fieldgroup, ");
 
         sql.append("   c.ad_column_id, ");
         sql.append("   c.columnname, ");
@@ -171,12 +175,14 @@ public class WindowSchemaRepository {
 
         sql.append(" JOIN ad_table tb ON tb.ad_table_id = t.ad_table_id ");
         sql.append(" JOIN ad_field f ON f.ad_tab_id = t.ad_tab_id ");
+        sql.append(" LEFT JOIN ad_fieldgroup fg ON fg.ad_fieldgroup_id = f.ad_fieldgroup_id ");
 
         /*
          * Traducción de campo.
          */
         if (translated) {
             sql.append(" LEFT JOIN ad_field_trl ft ON ft.ad_field_id = f.ad_field_id AND ft.ad_language = ? ");
+            sql.append(" LEFT JOIN ad_fieldgroup_trl fgt ON fgt.ad_fieldgroup_id = fg.ad_fieldgroup_id AND fgt.ad_language = ? ");
         }
 
         sql.append(" JOIN ad_column c ON c.ad_column_id = f.ad_column_id ");
@@ -210,6 +216,7 @@ public class WindowSchemaRepository {
                 ps.setString(parameterIndex++, effectiveLanguage);
                 ps.setString(parameterIndex++, effectiveLanguage);
                 ps.setString(parameterIndex++, effectiveLanguage);
+                ps.setString(parameterIndex++, effectiveLanguage); // FieldGroup
             }
 
             ps.setInt(parameterIndex, windowId);
@@ -306,6 +313,8 @@ public class WindowSchemaRepository {
                         .isdisplayed("Y".equals(rs.getString("isdisplayed")))
                         .isdisplayedingrid("Y".equals(rs.getString("isdisplayedingrid")))
                         .isreadonly("Y".equals(rs.getString("field_isreadonly")))
+                        .issameline("Y".equals(rs.getString("field_issameline")))
+                        .fieldgroup(rs.getString("fieldgroup"))
                         .adColumnId(rs.getInt("ad_column_id"))
                         .columnname(rs.getString("columnname"))
                         .adReferenceId(rs.getInt("ad_reference_id"))

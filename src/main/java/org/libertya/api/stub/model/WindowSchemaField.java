@@ -38,6 +38,12 @@ public class WindowSchemaField   {
   @JsonProperty("isreadonly")
   private Boolean isreadonly = null;
 
+  @JsonProperty("issameline")
+  private Boolean issameline = null;
+
+  @JsonProperty("fieldgroup")
+  private String fieldgroup = null;
+
   @JsonProperty("ad_column_id")
   private Integer adColumnId = null;
 
@@ -199,6 +205,44 @@ public class WindowSchemaField   {
 
   public void setIsreadonly(Boolean isreadonly) {
     this.isreadonly = isreadonly;
+  }
+
+  public WindowSchemaField issameline(Boolean issameline) {
+    this.issameline = issameline;
+    return this;
+  }
+
+  /**
+   * Indica si el campo debe mostrarse en la misma línea que el campo anterior
+   * @return issameline
+   **/
+  @Schema(description = "Indica si el campo debe mostrarse en la misma línea que el campo anterior")
+  
+    public Boolean isIssameline() {
+    return issameline;
+  }
+
+  public void setIssameline(Boolean issameline) {
+    this.issameline = issameline;
+  }
+
+  public WindowSchemaField fieldgroup(String fieldgroup) {
+    this.fieldgroup = fieldgroup;
+    return this;
+  }
+
+  /**
+   * Grupo visual al que pertenece el campo
+   * @return fieldgroup
+   **/
+  @Schema(description = "Grupo visual al que pertenece el campo")
+  
+    public String getFieldgroup() {
+    return fieldgroup;
+  }
+
+  public void setFieldgroup(String fieldgroup) {
+    this.fieldgroup = fieldgroup;
   }
 
   public WindowSchemaField adColumnId(Integer adColumnId) {
@@ -409,6 +453,8 @@ public class WindowSchemaField   {
         Objects.equals(this.isdisplayed, windowSchemaField.isdisplayed) &&
         Objects.equals(this.isdisplayedingrid, windowSchemaField.isdisplayedingrid) &&
         Objects.equals(this.isreadonly, windowSchemaField.isreadonly) &&
+        Objects.equals(this.issameline, windowSchemaField.issameline) &&
+        Objects.equals(this.fieldgroup, windowSchemaField.fieldgroup) &&
         Objects.equals(this.adColumnId, windowSchemaField.adColumnId) &&
         Objects.equals(this.columnname, windowSchemaField.columnname) &&
         Objects.equals(this.adReferenceId, windowSchemaField.adReferenceId) &&
@@ -423,7 +469,7 @@ public class WindowSchemaField   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isdisplayedingrid, isreadonly, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, isselectioncolumn, defaultvalue, reference);
+    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isdisplayedingrid, isreadonly, issameline, fieldgroup, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, isselectioncolumn, defaultvalue, reference);
   }
 
   @Override
@@ -438,6 +484,8 @@ public class WindowSchemaField   {
     sb.append("    isdisplayed: ").append(toIndentedString(isdisplayed)).append("\n");
     sb.append("    isdisplayedingrid: ").append(toIndentedString(isdisplayedingrid)).append("\n");
     sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
+    sb.append("    issameline: ").append(toIndentedString(issameline)).append("\n");
+    sb.append("    fieldgroup: ").append(toIndentedString(fieldgroup)).append("\n");
     sb.append("    adColumnId: ").append(toIndentedString(adColumnId)).append("\n");
     sb.append("    columnname: ").append(toIndentedString(columnname)).append("\n");
     sb.append("    adReferenceId: ").append(toIndentedString(adReferenceId)).append("\n");
