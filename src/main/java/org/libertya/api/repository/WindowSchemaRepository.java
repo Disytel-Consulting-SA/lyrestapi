@@ -23,6 +23,7 @@ public class WindowSchemaRepository {
     private static final int REFERENCE_TABLE = 18;
     private static final int REFERENCE_TABLE_DIRECT = 19;
     private static final int REFERENCE_YESNO = 20;
+    private static final int REFERENCE_LOCATION = 21;
     private static final int REFERENCE_BUTTON = 28;
     private static final int REFERENCE_SEARCH = 30;
     private static final int REFERENCE_INTEGER = 11;
@@ -353,6 +354,7 @@ public class WindowSchemaRepository {
                  */
                 resolveBooleanReferences(schema);
                 resolveLookupReferences(schema);
+                resolveLocationReferences(schema);
                 resolveButtonReferences(schema);
                 resolveVisualReferences(schema);
             }
@@ -506,6 +508,41 @@ public class WindowSchemaRepository {
         }
         return null;
     }
+
+
+    /**
+     * Resuelve campos con referencia Location (Address).
+     *
+     * A diferencia de Table / Table Direct, una Location
+     * posee un editor específico compuesto por varios
+     * atributos de C_Location.
+     */
+    private void resolveLocationReferences(WindowSchema schema) {
+
+        if (schema.getTabs() == null)
+            return;
+
+        for (WindowSchemaTab tab : schema.getTabs()) {
+
+            if (tab.getFields() == null)
+                continue;
+
+            for (WindowSchemaField field : tab.getFields()) {
+
+                if (
+                        field.getAdReferenceId() != null &&
+                                field.getAdReferenceId() == REFERENCE_LOCATION
+                ) {
+                    field.setReference(
+                            new WindowSchemaReference()
+                                    .type("location")
+                                    .endpoint("/v1.0/locations")
+                    );
+                }
+            }
+        }
+    }
+
 
     /**
      * Resuelve todas las referencias de tipo List utilizadas por la ventana.
