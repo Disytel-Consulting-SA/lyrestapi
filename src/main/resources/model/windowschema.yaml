@@ -30,6 +30,7 @@ components:
           type: string
         seqno:
           type: integer
+          nullable: true
         tablevel:
           type: integer
         parent_ad_tab_id:

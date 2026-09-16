@@ -311,7 +311,7 @@ public class WindowSchemaRepository {
                         .adFieldId(rs.getInt("ad_field_id"))
                         .name(rs.getString("field_name"))
                         .description(rs.getString("field_description"))
-                        .seqno(rs.getInt("field_seqno"))
+                        .seqno(rs.getObject("field_seqno") == null ? null : rs.getInt("field_seqno"))
                         .isdisplayed("Y".equals(rs.getString("isdisplayed")))
                         .isdisplayedingrid("Y".equals(rs.getString("isdisplayedingrid")))
                         .isreadonly("Y".equals(rs.getString("field_isreadonly")))
