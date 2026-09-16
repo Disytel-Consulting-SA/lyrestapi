@@ -193,14 +193,20 @@ public class ColumnLookupRepository {
          * pero agregamos explícitamente la seguridad del rol porque
          * el ID solicitado proviene de una petición HTTP.
          */
-        if (hasValue && info != null) {
-            String securedSql = MRole.getDefault(info.getCtx(), false)
-                    .addAccessSQL(
-                            sql.toString(),
-                            referenceInfo.tableName,
-                            MRole.SQL_FULLYQUALIFIED,
-                            MRole.SQL_RO
-                    );
+        if (hasValue && info != null && info.hasRole()) {
+            MRole role = MRole.get(
+                    info.getCtx(),
+                    info.getRoleID(),
+                    info.getUserID(),
+                    false
+            );
+
+            String securedSql = role.addAccessSQL(
+                    sql.toString(),
+                    referenceInfo.tableName,
+                    MRole.SQL_FULLYQUALIFIED,
+                    MRole.SQL_RO
+            );
 
             sql = new StringBuilder(securedSql);
         }
@@ -335,14 +341,20 @@ public class ColumnLookupRepository {
          * Resolución puntual: no aplicamos AD_Val_Rule, pero sí
          * la seguridad real del rol de Libertya.
          */
-        if (hasValue && info != null) {
-            String securedSql = MRole.getDefault(info.getCtx(), false)
-                    .addAccessSQL(
-                            sql.toString(),
-                            tableName,
-                            MRole.SQL_FULLYQUALIFIED,
-                            MRole.SQL_RO
-                    );
+        if (hasValue && info != null && info.hasRole()) {
+            MRole role = MRole.get(
+                    info.getCtx(),
+                    info.getRoleID(),
+                    info.getUserID(),
+                    false
+            );
+
+            String securedSql = role.addAccessSQL(
+                    sql.toString(),
+                    tableName,
+                    MRole.SQL_FULLYQUALIFIED,
+                    MRole.SQL_RO
+            );
 
             sql = new StringBuilder(securedSql);
         }
