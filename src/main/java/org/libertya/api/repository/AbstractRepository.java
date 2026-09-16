@@ -85,9 +85,16 @@ public abstract class AbstractRepository {
     public PO getPO(UserInfo info, String tableName, int[] id, String trxName) throws AuthException {
         PO aPO;
         M_Table table = M_Table.get(getCtx(info), tableName);
-        // Tabla con PK formada por mas de una columna? (y no estamos insertando)
-        if (pkColumns!=null && id[0]>0) {
+        /*
+         * Para una PK compuesta siempre recuperamos mediante cláusula SQL.
+         * Para una PK simple normalmente puede utilizarse getPO(id). Sin embargo,
+         * ID=0 puede representar un registro persistido válido en tablas de sistema
+         * (por ejemplo AD_Org_ID=0).
+         */
+        if (pkColumns != null) {
             aPO = table.getPO(getPOWhereClause(id), trxName);
+        } else if (id[0] == 0) {
+            aPO = table.getPO(tableName + "_ID=0", trxName);
         } else {
             aPO = table.getPO(id[0], trxName);
         }
@@ -511,7 +518,17 @@ public abstract class AbstractRepository {
         } else {
             aPO = getPO(info, tableName, id, trxName);
         }
-        if (aPO==null || (pkColumns==null && aPO.getID()==0)) {
+        if (aPO == null) {
+            return Optional.empty();
+        }
+
+        /*
+         * getID()==0 normalmente identifica un PO no persistido.
+         * Sin embargo, una PK simple con valor 0 puede ser un registro persistido válido (por ejemplo AD_Org_ID=0).
+         * Si precisamente solicitamos ID=0, no debemos descartarlo solamente porque PO.getID() también sea 0.
+         */
+        if (pkColumns == null && aPO.getID() == 0 &&
+                (id == null || id.length != 1 || !(id[0] instanceof Number) || ((Number) id[0]).intValue() != 0)) {
             return Optional.empty();
         }
         // Instanciar objeto del modelo segun corresponda
