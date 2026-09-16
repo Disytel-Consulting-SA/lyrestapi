@@ -97,6 +97,9 @@ components:
           type: integer
         ismandatory:
           type: boolean
+        isencrypted:
+          type: boolean
+          description: Indica si la columna contiene información sensible que no debe exponerse mediante la interfaz REST
         iskey:
           type: boolean
         isparent:

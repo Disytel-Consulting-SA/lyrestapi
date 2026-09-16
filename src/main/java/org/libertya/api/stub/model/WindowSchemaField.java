@@ -59,6 +59,9 @@ public class WindowSchemaField   {
   @JsonProperty("ismandatory")
   private Boolean ismandatory = null;
 
+  @JsonProperty("isencrypted")
+  private Boolean isencrypted = null;
+
   @JsonProperty("iskey")
   private Boolean iskey = null;
 
@@ -340,6 +343,25 @@ public class WindowSchemaField   {
     this.ismandatory = ismandatory;
   }
 
+  public WindowSchemaField isencrypted(Boolean isencrypted) {
+    this.isencrypted = isencrypted;
+    return this;
+  }
+
+  /**
+   * Indica si la columna contiene información sensible que no debe exponerse mediante la interfaz REST
+   * @return isencrypted
+   **/
+  @Schema(description = "Indica si la columna contiene información sensible que no debe exponerse mediante la interfaz REST")
+  
+    public Boolean isIsencrypted() {
+    return isencrypted;
+  }
+
+  public void setIsencrypted(Boolean isencrypted) {
+    this.isencrypted = isencrypted;
+  }
+
   public WindowSchemaField iskey(Boolean iskey) {
     this.iskey = iskey;
     return this;
@@ -460,6 +482,7 @@ public class WindowSchemaField   {
         Objects.equals(this.adReferenceId, windowSchemaField.adReferenceId) &&
         Objects.equals(this.adReferenceValueId, windowSchemaField.adReferenceValueId) &&
         Objects.equals(this.ismandatory, windowSchemaField.ismandatory) &&
+        Objects.equals(this.isencrypted, windowSchemaField.isencrypted) &&
         Objects.equals(this.iskey, windowSchemaField.iskey) &&
         Objects.equals(this.isparent, windowSchemaField.isparent) &&
         Objects.equals(this.isselectioncolumn, windowSchemaField.isselectioncolumn) &&
@@ -469,7 +492,7 @@ public class WindowSchemaField   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isdisplayedingrid, isreadonly, issameline, fieldgroup, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, iskey, isparent, isselectioncolumn, defaultvalue, reference);
+    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isdisplayedingrid, isreadonly, issameline, fieldgroup, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, isencrypted, iskey, isparent, isselectioncolumn, defaultvalue, reference);
   }
 
   @Override
@@ -491,6 +514,7 @@ public class WindowSchemaField   {
     sb.append("    adReferenceId: ").append(toIndentedString(adReferenceId)).append("\n");
     sb.append("    adReferenceValueId: ").append(toIndentedString(adReferenceValueId)).append("\n");
     sb.append("    ismandatory: ").append(toIndentedString(ismandatory)).append("\n");
+    sb.append("    isencrypted: ").append(toIndentedString(isencrypted)).append("\n");
     sb.append("    iskey: ").append(toIndentedString(iskey)).append("\n");
     sb.append("    isparent: ").append(toIndentedString(isparent)).append("\n");
     sb.append("    isselectioncolumn: ").append(toIndentedString(isselectioncolumn)).append("\n");

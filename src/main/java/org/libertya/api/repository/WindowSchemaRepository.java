@@ -151,6 +151,7 @@ public class WindowSchemaRepository {
         sql.append("   c.ad_reference_id, ");
         sql.append("   c.ad_reference_value_id, ");
         sql.append("   c.ismandatory, ");
+        sql.append("   c.isencrypted, ");
         sql.append("   c.iskey, ");
         sql.append("   c.isparent, ");
         sql.append("   c.isselectioncolumn, ");
@@ -321,6 +322,7 @@ public class WindowSchemaRepository {
                         .adReferenceId(rs.getInt("ad_reference_id"))
                         .adReferenceValueId(rs.getInt("ad_reference_value_id"))
                         .ismandatory("Y".equals(rs.getString("ismandatory")))
+                        .isencrypted("Y".equals(rs.getString("isencrypted")))
                         .iskey("Y".equals(rs.getString("iskey")))
                         .isparent("Y".equals(rs.getString("isparent")))
                         .isselectioncolumn("Y".equals(rs.getString("isselectioncolumn")))
