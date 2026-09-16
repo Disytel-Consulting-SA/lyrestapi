@@ -98,7 +98,7 @@ generateSchema PriceList                M_PriceList               pricelist.yaml
 generateSchema PriceListVersion         M_PriceList_Version       pricelistversion.yaml         pricelistversion
 generateSchema Bank                     C_Bank                    bank.yaml                     banks
 generateSchema BankAccount              C_BankAccount             bankaccount.yaml              bankaccounts
-generateSchema UOM                      C_UOM                     uom.yaml                      uom
+generateSchema UOM                      C_UOM                     uom.yaml                      uoms
 generateSchema Currency                 C_Currency                currency.yaml                 currencies
 generateSchema ConversionRate           C_Conversion_Rate         conversionrate.yaml           conversionrates
 generateSchema CashBook                 C_CashBook                cashbook.yaml                 cashbooks
