@@ -32,9 +32,6 @@ public class UserService {
     public <T> Optional<User> retrieve(UserInfo info, int id) throws ModelException, AuthException {
         if (!Util.isEmpty(enabledOps) && enabledOps.toUpperCase().contains("R")) {
             Optional<User> user = repository.retrieve(info, id);
-            if (user.isPresent()) {
-                user.get().setPassword(null);
-            }
             return user;
         }
         throw new AuthException("La recuperacion de usuarios no se encuentra habilitada");

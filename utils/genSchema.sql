@@ -23,6 +23,7 @@ select columnname from
         inner join ad_element_trl e_trl on e.ad_element_id = e_trl.ad_element_id and ad_language = 'es_AR'
         where lower(t.tablename) = lower(:tabla)
         and c.isactive = 'Y'
+        and c.isencrypted = 'N'
         and c.ad_reference_id not in (23, 32) -- LOB por el momento no
         and (c.ismandatory = 'Y' or lower(c.columnname) in :columnas)
         order by c.columnname
@@ -50,6 +51,7 @@ select columnname from
         inner join ad_table t on c.ad_table_id = t.ad_table_id
         where lower(t.tablename) = lower(:tabla)
         and c.isactive = 'Y'
+        and c.isencrypted = 'N'
         and c.ad_reference_id not in (23, 32) -- LOB por el momento no
         and (c.ismandatory = 'Y' or lower(c.columnname) in :columnas)
         and c.ismandatory = 'Y'

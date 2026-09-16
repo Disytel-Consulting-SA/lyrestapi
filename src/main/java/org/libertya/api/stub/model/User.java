@@ -67,9 +67,6 @@ public class User   {
   @JsonProperty("emailuser")
   private String emailuser = null;
 
-  @JsonProperty("emailuserpw")
-  private String emailuserpw = null;
-
   @JsonProperty("emailverify")
   private String emailverify = null;
 
@@ -111,9 +108,6 @@ public class User   {
 
   @JsonProperty("pa_goalprivate_id")
   private Integer paGoalprivateId = null;
-
-  @JsonProperty("password")
-  private String password = null;
 
   @JsonProperty("phone")
   private String phone = null;
@@ -456,25 +450,6 @@ public class User   {
     this.emailuser = emailuser;
   }
 
-  public User emailuserpw(String emailuserpw) {
-    this.emailuserpw = emailuserpw;
-    return this;
-  }
-
-  /**
-   * Contraseña de su usuario de email
-   * @return emailuserpw
-   **/
-  @Schema(description = "Contraseña de su usuario de email")
-  
-    public String getEmailuserpw() {
-    return emailuserpw;
-  }
-
-  public void setEmailuserpw(String emailuserpw) {
-    this.emailuserpw = emailuserpw;
-  }
-
   public User emailverify(String emailverify) {
     this.emailverify = emailverify;
     return this;
@@ -747,25 +722,6 @@ public class User   {
     this.paGoalprivateId = paGoalprivateId;
   }
 
-  public User password(String password) {
-    this.password = password;
-    return this;
-  }
-
-  /**
-   * Contraseña de cualquier longitud (Sensible a mayúsculas y minúsculas
-   * @return password
-   **/
-  @Schema(description = "Contraseña de cualquier longitud (Sensible a mayúsculas y minúsculas")
-  
-    public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
   public User phone(String phone) {
     this.phone = phone;
     return this;
@@ -1000,7 +956,6 @@ public class User   {
         Objects.equals(this.description, user.description) &&
         Objects.equals(this.email, user.email) &&
         Objects.equals(this.emailuser, user.emailuser) &&
-        Objects.equals(this.emailuserpw, user.emailuserpw) &&
         Objects.equals(this.emailverify, user.emailverify) &&
         Objects.equals(this.emailverifydate, user.emailverifydate) &&
         Objects.equals(this.fax, user.fax) &&
@@ -1015,7 +970,6 @@ public class User   {
         Objects.equals(this.notifyonconversationactivity, user.notifyonconversationactivity) &&
         Objects.equals(this.paGoalId, user.paGoalId) &&
         Objects.equals(this.paGoalprivateId, user.paGoalprivateId) &&
-        Objects.equals(this.password, user.password) &&
         Objects.equals(this.phone, user.phone) &&
         Objects.equals(this.phone2, user.phone2) &&
         Objects.equals(this.phone3, user.phone3) &&
@@ -1030,7 +984,7 @@ public class User   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, adOrgtrxId, adUserId, birthday, cBpartnerContactId, cBpartnerId, cBpartnerLocationId, cGreetingId, comments, created, createdby, description, email, emailuser, emailuserpw, emailverify, emailverifydate, fax, isactive, isldapauthorized, issystemaccess, lastcontact, lastpasswordchangedate, lastresult, name, notificationtype, notifyonconversationactivity, paGoalId, paGoalprivateId, password, phone, phone2, phone3, processing, supervisorId, title, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adComponentobjectuid, adOrgId, adOrgtrxId, adUserId, birthday, cBpartnerContactId, cBpartnerId, cBpartnerLocationId, cGreetingId, comments, created, createdby, description, email, emailuser, emailverify, emailverifydate, fax, isactive, isldapauthorized, issystemaccess, lastcontact, lastpasswordchangedate, lastresult, name, notificationtype, notifyonconversationactivity, paGoalId, paGoalprivateId, phone, phone2, phone3, processing, supervisorId, title, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1054,7 +1008,6 @@ public class User   {
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    email: ").append(toIndentedString(email)).append("\n");
     sb.append("    emailuser: ").append(toIndentedString(emailuser)).append("\n");
-    sb.append("    emailuserpw: ").append(toIndentedString(emailuserpw)).append("\n");
     sb.append("    emailverify: ").append(toIndentedString(emailverify)).append("\n");
     sb.append("    emailverifydate: ").append(toIndentedString(emailverifydate)).append("\n");
     sb.append("    fax: ").append(toIndentedString(fax)).append("\n");
@@ -1069,7 +1022,6 @@ public class User   {
     sb.append("    notifyonconversationactivity: ").append(toIndentedString(notifyonconversationactivity)).append("\n");
     sb.append("    paGoalId: ").append(toIndentedString(paGoalId)).append("\n");
     sb.append("    paGoalprivateId: ").append(toIndentedString(paGoalprivateId)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    phone2: ").append(toIndentedString(phone2)).append("\n");
     sb.append("    phone3: ").append(toIndentedString(phone3)).append("\n");

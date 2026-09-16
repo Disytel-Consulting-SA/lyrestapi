@@ -19,6 +19,8 @@ public class UserController extends AbstractController implements UserApi {
 
     private final UserService service;
 
+    private final UserRepository repository;
+
     @Override
     public ResponseEntity<String> addUser(User body) {
         return insertAction(request, (info) -> service.insert(info, body));
@@ -27,6 +29,11 @@ public class UserController extends AbstractController implements UserApi {
     @Override
     public ResponseEntity<String> deleteUser(Integer id) {
         return deleteAction(request, (info) -> service.delete(info, id));
+    }
+
+    @Override
+    public ResponseEntity<List<User>> getAllUsers(String filter, String fields, String sort, Integer limit, Integer page) {
+        return retrieveAllAction(request, repository, query(filter, fields, sort, limit, page));
     }
 
     @Override
