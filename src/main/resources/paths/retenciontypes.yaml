@@ -1,0 +1,56 @@
+get:
+  summary: Retorna la lista de tipos de retencion
+  tags:
+    - "retenciontype"
+  description: >
+    Retorna la lista de tipos de retencion (C_RetencionType). Recurso de solo lectura: el mantenimiento se
+    hace desde Libertya. Catalogo chico, cacheable.
+
+
+    Sirve para traducir el codigo de negocio retentiontype ('B' = IIBB, 'G' = Ganancias, 'I' = IVA,
+    'J' = SIJP) a los c_retenciontype_id reales, y con ellos filtrar retencionschemas. OJO: puede haber
+    VARIOS tipos activos con el mismo retentiontype (en una instancia real hay 8 con 'B': uno por
+    jurisdiccion, mas los sufridos), asi que del lado del consumidor el filtro sobre retencionschemas tiene
+    que ser c_retenciontype_id IN (...), nunca un igual:
+
+
+        GET /v1.0/retenciontypes?filter=retentiontype='B' AND isactive='Y'
+
+
+    Ver docs/liquidaciones-tarjetas-api.md (resolucion del esquema de IIBB por jurisdiccion).
+  operationId: getAllRetencionTypes
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/retenciontype.yaml#/components/schemas/RetencionType'

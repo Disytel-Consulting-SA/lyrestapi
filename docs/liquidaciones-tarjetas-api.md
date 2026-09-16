@@ -466,6 +466,10 @@ GET /v1.0/cardsettlementconcepts?filter=type='CO' AND isactive='Y'
 `c_region_id` viaja en la propia fila del esquema de retención — no hay que resolverlo aparte. Viene `null`
 salvo en los esquemas que son por provincia (Ingresos Brutos).
 
+> ⚠️ **La retención de IIBB sufrida no es un esquema fijo.** El core la resuelve en el momento de importar,
+> según la provincia del comercio que se está liquidando. Cómo replicar esa resolución con estos endpoints está
+> en la sección 12.
+
 ### El flujo completo
 
 ```bash
@@ -519,6 +523,9 @@ sigue en `DR`.
 | Liquidación existente | `GET /v1.0/creditcardsettlements?filter=...` |
 | Filtro de una liquidación | `GET /v1.0/creditcardcouponfilters?filter=c_creditcardsettlement_id=NNN` |
 | **Esquema de retención sufrida** | `GET /v1.0/retencionschemas?filter=retencionapplication='S'` — ver sección 8 |
+| **Esquema de retención de IIBB por jurisdicción** | cadena `entidadesfinancieras` → `orginfos` → `locations` → `bpartnerlocations` → `retencionschemas` — ver sección 12 |
+| Tipo de retención (`'B'` = IIBB) | `GET /v1.0/retenciontypes?filter=retentiontype='B'` — ver sección 12 |
+| Domicilio de la organización (`AD_OrgInfo`) | `GET /v1.0/orginfos/{ad_org_id}` — ver sección 12 |
 | **Concepto de tarjeta** (comisión / otros) | `GET /v1.0/cardsettlementconcepts?filter=type='CO'` — ver sección 8 |
 | Impuesto (IVA / percepción) | `GET /v1.0/taxes` |
 
@@ -560,3 +567,121 @@ Las dos tienen default en línea, así que un `application.properties` viejo sig
 |---|---:|---|
 | `org.libertya.api.service.couponssettlements.bulk-max-size` | 200 | tope de cupones por lote en `/bulk` |
 | `org.libertya.api.service.couponssettlements.exists-max-size` | 1000 | tope de cobros por consulta en `/exists` |
+
+---
+
+## 12. La retención de IIBB: el esquema depende de la jurisdicción del comercio
+
+```
+GET /v1.0/retenciontypes                GET /v1.0/retenciontypes/{id}
+GET /v1.0/orginfos                      GET /v1.0/orginfos/{ad_org_id}
+GET /v1.0/locations                     GET /v1.0/locations/{id}            (ya existían)
+GET /v1.0/bpartnerlocations             GET /v1.0/bpartnerlocations/{id}    (ya existían)
+```
+
+### El problema
+
+Para casi todos los conceptos de una liquidación, el esquema o impuesto de destino se elige **una vez** y se
+reusa. La retención de **IIBB sufrida** es la excepción: el importador nativo del core
+(`getRetencionSchemaByNroEst`, `fidelius/jobs/Import.java`, usado desde `ImportTarjeta.java`) no usa un
+esquema fijo — lo resuelve en cada importación según la provincia del comercio que se está liquidando, con
+esta prioridad:
+
+1. **Región de la entidad financiera** (`M_EntidadFinanciera.C_Region_ID`) — la más específica, cargada a mano.
+2. Si viene `null`: **región de la organización/sucursal** (`AD_Org` → `AD_OrgInfo.C_Location_ID` →
+   `C_Location.C_Region_ID`).
+3. Si tampoco: **región del domicilio del `C_BPartner` de esa entidad financiera** (`C_BPartner_Location` →
+   `C_Location.C_Region_ID`).
+
+Con la región resuelta, busca un `C_RetencionSchema` activo, sufrido (`retencionapplication='S'`), de un tipo
+de retención con `retentiontype='B'` (IIBB) y con ese `c_region_id`. Un consumidor que quiera impactar
+`ret_iibb` como lo haría el ERP tiene que replicar exactamente esa cadena. Esta API no la resuelve del lado del
+servidor a propósito: son lookups de una fila, cacheables, y así el consumidor puede decidir qué hacer en cada
+nivel que falle.
+
+### Los dos maestros nuevos
+
+**`retenciontypes`** (`C_RetencionType`): traduce el código de negocio `retentiontype` (`'B'` IIBB, `'G'`
+Ganancias, `'I'` IVA, `'J'` SIJP) a los `c_retenciontype_id` que `C_RetencionSchema` referencia.
+
+> ⚠️ **No es uno solo.** En la base de Tehuelche hay **siete** tipos activos con `retentiontype='B'` (`IIBB`,
+> `TDF`, `Retención IIBB Chubut`, `Misiones`, `Santa Cruz`, `CABA`, `IIBB SUFRIDA`), y el esquema de una
+> provincia puede colgar de cualquiera de ellos — el de Santa Cruz, por ejemplo, cuelga de `IIBB SUFRIDA`, no
+> de `IIBB`. Tomar el primero y filtrar `retencionschemas` con `c_retenciontype_id = X` **devuelve vacío para
+> la mayoría de las provincias**. Hay que usar `IN (...)` con todos, o la subconsulta de abajo.
+
+**`orginfos`** (`AD_OrgInfo`): la información adicional de la organización, donde vive el domicilio
+(`c_location_id`), el CUIT y el almacén por defecto.
+
+> `AD_OrgInfo` **no tiene un ID propio**: es una extensión 1 a 1 de `AD_Org` y su clave primaria es
+> `ad_org_id`. Por eso `GET /v1.0/orginfos/{id}` recibe directamente el **`ad_org_id`** — no hace falta pasar
+> por `filter` (aunque `?filter=ad_org_id=X` también funciona y devuelve una lista de uno).
+
+### La cadena completa
+
+Para una liquidación con `numerocomercio` y `ad_org_id` ya conocidos:
+
+```bash
+# 1) El comercio (ya se resuelve para la cabecera, sección 7)
+GET /v1.0/numeroscomercio?filter=numerocomercio='33288515'&fields=m_numerocomercio_id,ad_org_id,c_bpartner_id
+# -> {"m_numerocomercio_id": 1000556, "ad_org_id": 1010116, "c_bpartner_id": 1051956}
+
+# 2) Su entidad financiera. Puede haber más de una (una por adquirente/medio); el core toma la primera.
+GET /v1.0/entidadesfinancieras?filter=m_numerocomercio_id=1000556&fields=m_entidadfinanciera_id,c_region_id,c_bpartner_id
+# -> [{"m_entidadfinanciera_id": 1055439, "c_region_id": 1000101, "c_bpartner_id": 1051956}, ...]
+# c_region_id vino -> nivel 1 resuelto: 1000101 (Santa Cruz). Saltar al paso 5.
+
+# 3) Si c_region_id vino null: la región de la sucursal. El {id} es el ad_org_id.
+GET /v1.0/orginfos/1010116
+# -> {"ad_org_id": 1010116, "c_location_id": 1121397, ...}
+GET /v1.0/locations/1121397
+# -> {"c_location_id": 1121397, "c_region_id": 1000083, "regionname": ..., "city": ...}
+# c_region_id vino -> nivel 2 resuelto. Si no, sigue.
+
+# 4) Último recurso: el domicilio del bpartner de la entidad financiera (paso 2).
+GET /v1.0/bpartnerlocations?filter=c_bpartner_id=1051956&fields=c_bpartner_location_id,c_location_id
+# -> [{"c_bpartner_location_id": ..., "c_location_id": ...}]   (el core toma el primero, sin más condición)
+GET /v1.0/locations/<c_location_id>
+# -> c_region_id, o null: sin jurisdicción resuelta. NO inventar una.
+
+# 5) Con la región: el esquema. Una sola llamada, con los tipos IIBB resueltos por subconsulta.
+GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y' AND c_region_id=1000101
+        AND c_retenciontype_id IN (SELECT c_retenciontype_id FROM c_retenciontype WHERE retentiontype='B' AND isactive='Y')
+# -> [{"c_retencionschema_id": 1010257, "name": "Retención IIBB Santa Cruz", "c_region_id": 1000101, "c_retenciontype_id": 1010278}]
+```
+
+El paso 5 en dos llamadas, si se prefiere no meter una subconsulta en el `filter` (el resultado de la
+primera es un catálogo chico, cacheable por corrida):
+
+```bash
+GET /v1.0/retenciontypes?filter=retentiontype='B' AND isactive='Y'&fields=c_retenciontype_id
+# -> 1010012,1010247,1010248,1010249,1010250,1010178,1010278
+GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y' AND c_region_id=1000101
+        AND c_retenciontype_id IN (1010012,1010247,1010248,1010249,1010250,1010178,1010278)
+```
+
+Con la región en `null` en los tres niveles, o sin ningún esquema activo para esa combinación, el resultado
+correcto es **no impactar ese concepto y decirlo** — nunca caer a un esquema por defecto. El core, en ese
+caso, tampoco lo hace.
+
+### Tres trampas del contrato
+
+| Trampa | Qué pasa | Qué hacer |
+|---|---|---|
+| **No existe la columna `id`** en ningún recurso | `filter=id=1121397` sobre `locations` no da 404 ni vacío: da **409** con un error de SQL (`column "id" does not exist`), y la respuesta viene como array de un string | Filtrar por la columna real (`c_location_id=...`) o, mejor, pedir `GET /locations/{id}` |
+| La clave del tipo de retención es `c_retenciontype_id` | Leer `id` de la respuesta de `retenciontypes` da `null` | Leer `c_retenciontype_id` (la respuesta también lo trae como `cretenciontypeId`) |
+| Varios tipos con `retentiontype='B'` | `c_retenciontype_id = <el primero>` deja afuera a casi todas las provincias | `IN (...)` con todos, o la subconsulta del paso 5 |
+
+Un detalle más, que no es de la API sino del core: en `getRetencionSchemaByNroEst` los joins a `AD_OrgInfo`
+/ `C_Location` / `C_Region` de la organización son **`INNER`**. Es decir que si la sucursal no tiene domicilio
+con provincia, el core no encuentra esquema **aunque la entidad financiera sí tenga región**. Un consumidor
+que implemente la cadena como cascada (nivel 1, si no 2, si no 3) es más permisivo que el ERP en ese caso
+puntual; no es incorrecto, pero conviene saberlo si alguna vez los dos difieren.
+
+> Verificado contra `ly_core_teh` (2026-09-16): comercio `33288515` con región en la entidad financiera →
+> `Retención IIBB Santa Cruz` (1010257) por el nivel 1; comercio `33288622` sin región en la entidad
+> financiera → cae al nivel 2, `orginfos/1010134` devuelve `c_location_id=1121411`. Esa `C_Location` no
+> existe en la copia local (la base tiene sólo 4 de 23 domicilios de sucursal cargados), así que el nivel 2 y
+> el 3 se ejercitaron por separado con domicilios existentes: `locations/{id}` devuelve `c_region_id`, y
+> `bpartnerlocations?filter=c_bpartner_id=1012145` → `locations/1012296` → región 1000083.
+

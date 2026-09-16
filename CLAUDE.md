@@ -172,6 +172,19 @@ exposed (`docs/PENDIENTES.md` P1).
 Running the fat jar locally needs more than JasperReports on the loader path — see the deployment note at the
 end of §12.6.
 
+## Credit card settlements (`C_CreditCardSettlement`)
+
+Implemented (August–September 2026), Tehuelche-core specific. `creditcardsettlements` (+ `/full`, `/process`),
+`creditcardcouponfilters`, `couponssettlements` (+ `/bulk`, `/exists`), `numeroscomercio`, the five concept
+child tables and their masters, and — for resolving the IIBB withholding schema by jurisdiction — the read-only
+`retenciontypes` and `orginfos`. **`docs/liquidaciones-tarjetas-api.md`** is the consumer guide; §12 covers the
+jurisdiction chain and its contract traps (no `id` column in filters; several `C_RetencionType` rows share
+`retentiontype='B'`, so filter with `IN`).
+
+Non-obvious: `AD_OrgInfo` has no own ID — its PK is `AD_Org_ID`, so `OrgInfoRepository` sets `pkColumns` and
+`/orginfos/{id}` takes the `ad_org_id`. Packaging for Tehuelche needs the jars in `/OXP-teh` (see memory
+`binarios-teh-en-oxp-teh`), and `numeroscomercio` only works against the Tehuelche dictionary.
+
 ## Still planned
 
 - **`factaccts`** (read-only `Fact_Acct`) so a consumer can reconcile what actually got posted. Posting is

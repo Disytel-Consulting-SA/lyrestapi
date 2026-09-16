@@ -1,0 +1,26 @@
+get:
+  summary: Recupera la informacion adicional de una organizacion en particular
+  tags:
+    - "orginfo"
+  parameters:
+    - name: id
+      in: path
+      description: ad_org_id de la organizacion (AD_OrgInfo no tiene ID propio)
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion adicional (AD_OrgInfo) de una organizacion. El id es el ad_org_id.
+  operationId: retrieveOrgInfo
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/orginfo.yaml#/components/schemas/OrgInfo'
+    "404":
+      description: No encontrado
+      content:
+        application/json:
+          schema:
+            type: string

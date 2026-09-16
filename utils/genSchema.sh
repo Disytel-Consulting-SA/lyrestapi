@@ -106,6 +106,15 @@ generateSchema WithholdingSettlement    C_WithholdingSettlement   withholdingset
 generateSchema CommissionConcepts       C_CommissionConcepts      commissionconcepts.yaml       "('amount')"
 generateSchema ExpenseConcepts          C_ExpenseConcepts         expenseconcepts.yaml          "('amount')"
 
+# Liquidaciones de tarjetas - resolucion del esquema de retencion de IIBB por jurisdiccion.
+# Dos maestros de solo lectura que completan la cadena EntidadFinanciera -> Org -> BPartner -> C_Region
+# (locations y bpartnerlocations ya existian).  Ver docs/liquidaciones-tarjetas-api.md
+# OJO: retentiontype ('B' = IIBB) es ismandatory='N', y c_location_id en AD_OrgInfo tambien: los dos DEBEN ir
+#      en el filtro explicito, sin ellos los endpoints no sirven para lo que se crearon.
+#      AD_OrgInfo no tiene AD_OrgInfo_ID: su PK es AD_Org_ID (pkColumns en el repository).
+generateSchema RetencionType            C_RetencionType           retenciontype.yaml            "('retentiontype', 'description', 'is_by_region')"
+generateSchema OrgInfo                  AD_OrgInfo                orginfo.yaml                  "('c_location_id', 'cuit', 'nombrecomercio', 'm_warehouse_id', 'parent_org_id')"
+
 # Contabilidad - asientos manuales (GL_Journal). Ver docs/plan-asientos-manuales.md
 # OJO: c_elementvalue_id es ismandatory='N' en el diccionario, con lo cual DEBE ir en el filtro explicito;
 #      sin eso el campo no existiria en el schema y no se podria imputar por cuenta contable.

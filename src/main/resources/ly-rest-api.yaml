@@ -337,6 +337,14 @@ paths:
     $ref: ./paths/retencionschemas.yaml
   /v1.0/retencionschemas/{id}:
     $ref: ./paths/retencionschemas_id.yaml
+  /v1.0/retenciontypes:
+    $ref: ./paths/retenciontypes.yaml
+  /v1.0/retenciontypes/{id}:
+    $ref: ./paths/retenciontypes_id.yaml
+  /v1.0/orginfos:
+    $ref: ./paths/orginfos.yaml
+  /v1.0/orginfos/{id}:
+    $ref: ./paths/orginfos_id.yaml
   /v1.0/cardsettlementconcepts:
     $ref: ./paths/cardsettlementconcepts.yaml
   /v1.0/cardsettlementconcepts/{id}:
