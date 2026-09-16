@@ -2,6 +2,7 @@ package org.libertya.api.repository;
 
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.stub.model.ColumnLookupValue;
+import org.openXpertya.model.MRole;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.Env;
 import org.springframework.stereotype.Repository;
@@ -172,11 +173,36 @@ public class ColumnLookupRepository {
 
         /*
          * Regla de validación definida en AD_Column.AD_Val_Rule_ID.
+         *
+         * Igual que en MLookupFactory de CORE, la regla determina los
+         * valores seleccionables, pero no debe impedir resolver el
+         * display de un valor ya almacenado.
          */
-        if (validationCode != null) {
+        if (!hasValue && validationCode != null) {
             sql.append(hasWhere ? " AND " : " WHERE ");
             sql.append("(").append(validationCode).append(") ");
             hasWhere = true;
+        }
+
+        /*
+         * Para una resolución puntual no usamos la AD_Val_Rule,
+         * pero sí aplicamos la seguridad del rol.
+         *
+         * CORE/Swing construye QueryDirect antes de Validation/Security.
+         * En REST mantenemos la semántica de no aplicar Validation,
+         * pero agregamos explícitamente la seguridad del rol porque
+         * el ID solicitado proviene de una petición HTTP.
+         */
+        if (hasValue && info != null) {
+            String securedSql = MRole.getDefault(info.getCtx(), false)
+                    .addAccessSQL(
+                            sql.toString(),
+                            referenceInfo.tableName,
+                            MRole.SQL_FULLYQUALIFIED,
+                            MRole.SQL_RO
+                    );
+
+            sql = new StringBuilder(securedSql);
         }
 
         sql.append(" ORDER BY lookup_name ");
@@ -294,11 +320,31 @@ public class ColumnLookupRepository {
 
         /*
          * Regla de validación definida en AD_Column.AD_Val_Rule_ID.
+         *
+         * Igual que en MLookupFactory de CORE, la regla determina los
+         * valores seleccionables, pero no debe impedir resolver el
+         * display de un valor ya almacenado.
          */
-        if (validationCode != null) {
+        if (!hasValue && validationCode != null) {
             sql.append(hasWhere ? " AND " : " WHERE ");
             sql.append("(").append(validationCode).append(") ");
             hasWhere = true;
+        }
+
+        /*
+         * Resolución puntual: no aplicamos AD_Val_Rule, pero sí
+         * la seguridad real del rol de Libertya.
+         */
+        if (hasValue && info != null) {
+            String securedSql = MRole.getDefault(info.getCtx(), false)
+                    .addAccessSQL(
+                            sql.toString(),
+                            tableName,
+                            MRole.SQL_FULLYQUALIFIED,
+                            MRole.SQL_RO
+                    );
+
+            sql = new StringBuilder(securedSql);
         }
 
         sql.append(" ORDER BY lookup_name ");
