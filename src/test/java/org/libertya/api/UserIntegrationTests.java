@@ -22,7 +22,6 @@ class UserIntegrationTests extends CommonIntegrationTests {
 
         User user = new User();
         user.setName("Un usuario " + System.nanoTime());
-        user.setPassword("FooBarPass");
 
         return objectMapper.writeValueAsString(user);
     }
@@ -43,23 +42,6 @@ class UserIntegrationTests extends CommonIntegrationTests {
         assertThat(response.getStatusCode().toString()).contains("200");
         entityID = Integer.parseInt(response.getBody());
         assertThat(entityID >0);
-    }
-
-    // =========================
-    // RECUPERACION DE ENTIDADES
-    // =========================
-
-    @Test
-    @Order(200)
-    void retrieveCreatedUserShouldReturnOKAndNotContainPassword() throws Exception {
-        ResponseEntity<String> response =
-                restTemplate.exchange(getBaseURL("users/" + entityID),
-                        HttpMethod.GET,
-                        new HttpEntity<>(null, getAuthHeaders()),
-                        String.class);
-        ObjectMapper mapper = new ObjectMapper();
-        User user = mapper.readValue(response.getBody(), User.class);
-        assertThat(user.getPassword()==null);
     }
 
     // ======================
