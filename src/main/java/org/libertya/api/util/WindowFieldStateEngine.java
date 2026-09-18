@@ -117,12 +117,15 @@ public class WindowFieldStateEngine {
         for (MField field : fields) {
             Object defaultValue = field.getDefault();
 
-            if (defaultValue == null) {
-                continue;
+            if (defaultValue != null) {
+                field.setValue(defaultValue, true);
             }
+        }
 
-            field.setValue(defaultValue, true);
-            String value = toProtocolValue(defaultValue);
+        for (MField field : fields) {
+            field.lookupLoadComplete();
+            field.validateValue();
+            String value = toProtocolValue(field.getValue());
             if (value != null) {
                 values.put(field.getColumnName(), value);
             }
