@@ -1,0 +1,50 @@
+post:
+  summary: Ejecuta el callout asociado a un campo
+  description: >
+    Ejecuta mediante la logica de Libertya CORE el callout asociado
+    al campo modificado de una pestana dinamica, utilizando los valores
+    actuales del registro como contexto. Actualmente admite solo registros
+    nuevos en pestanas principales (inserting=true).
+  tags:
+    - "windowstate"
+
+  operationId: executeTabFieldCallout
+
+  parameters:
+    - name: id
+      in: path
+      description: ID de la pestana
+      required: true
+      schema:
+        type: integer
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/windowcallout.yaml#/components/schemas/WindowCalloutRequest'
+
+  responses:
+    "200":
+      description: Resultado de la ejecucion del callout
+      content:
+        application/json:
+          schema:
+            $ref: '../model/windowcallout.yaml#/components/schemas/WindowCalloutResponse'
+
+    "400":
+      description: Solicitud invalida o registro no admitido
+      content:
+        application/json:
+          schema:
+            $ref: '../model/windowcallout.yaml#/components/schemas/WindowCalloutResponse'
+
+    "401":
+      description: Token ausente, invalido o incompleto
+
+    "403":
+      description: El rol no tiene acceso a la ventana o pestana
+
+    "404":
+      description: Pestana o campo inexistente

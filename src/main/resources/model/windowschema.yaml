@@ -108,6 +108,9 @@ components:
         isselectioncolumn:
           type: boolean
           description: Indica si la columna debe utilizarse como criterio de búsqueda de registros
+        has_callout:
+          type: boolean
+          description: Indica si el campo ejecuta un callout al confirmar un cambio
         defaultvalue:
           type: string
           description: Valor por defecto resuelto por el backend para la creación de un nuevo registro

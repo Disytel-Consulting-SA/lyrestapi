@@ -1,0 +1,46 @@
+components:
+  schemas:
+
+    WindowCalloutRequest:
+      type: object
+      description: >
+        Estado actual del registro y cambio de campo que origina
+        la ejecucion del callout.
+      required:
+        - ad_field_id
+        - values
+      properties:
+
+        ad_field_id:
+          type: integer
+          description: ID del campo modificado.
+
+        value:
+          nullable: true
+          description: Nuevo valor asignado al campo.
+
+        values:
+          type: object
+          description: Valores actuales del registro indexados por nombre de columna.
+          additionalProperties: {}
+
+        inserting:
+          type: boolean
+          description: Debe ser true; la ejecucion sobre registros existentes aun no esta disponible.
+          default: false
+
+
+    WindowCalloutResponse:
+      type: object
+      description: Resultado de la ejecucion del callout.
+      properties:
+
+        changes:
+          type: object
+          description: Valores modificados por el callout, indexados por nombre de columna.
+          additionalProperties: {}
+
+        message:
+          type: string
+          nullable: true
+          description: Mensaje eventualmente generado por el callout.

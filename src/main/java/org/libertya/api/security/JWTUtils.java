@@ -92,19 +92,29 @@ public class JWTUtils {
         try {
             String token = request.getHeader("Authorization").replace("Bearer ", "");
             Claims claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody();
-            String userName = claims.get("userName").toString();
-            String userID = claims.get("userID").toString();
-            String clientID = claims.get("clientID").toString();
-            String orgID = claims.get("orgID").toString();
+            String userName = requiredClaim(claims, "userName");
+            String userID = requiredClaim(claims, "userID");
+            String clientID = requiredClaim(claims, "clientID");
+            String orgID = requiredClaim(claims, "orgID");
             Object roleClaim = claims.get("roleID");
             Integer roleID = roleClaim != null ? Integer.parseInt(roleClaim.toString()) : null;
             if ("Y".equalsIgnoreCase(validateUser) && !repository.findActiveUser(userName, clientID, orgID).isPresent()) {
                 throw new AuthException(String.format("Usuario:%s-Inexistente/Inactivo",userName));
             }
             return UserInfo.of(userName, Integer.parseInt(userID), Integer.parseInt(clientID), Integer.parseInt(orgID), roleID);
+        } catch (AuthException e) {
+            throw e;
         } catch (Exception e) {
             throw new AuthException("Error Autenticacion JWT.: " + e.getMessage());
         }
+    }
+
+    private String requiredClaim(Claims claims, String name) throws AuthException {
+        Object value = claims.get(name);
+        if (value == null) {
+            throw new AuthException("Falta claim JWT: " + name);
+        }
+        return value.toString();
     }
 
 

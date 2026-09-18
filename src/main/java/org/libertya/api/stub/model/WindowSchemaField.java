@@ -71,6 +71,9 @@ public class WindowSchemaField   {
   @JsonProperty("isselectioncolumn")
   private Boolean isselectioncolumn = null;
 
+  @JsonProperty("has_callout")
+  private Boolean hasCallout = null;
+
   @JsonProperty("defaultvalue")
   private String defaultvalue = null;
 
@@ -419,6 +422,25 @@ public class WindowSchemaField   {
     this.isselectioncolumn = isselectioncolumn;
   }
 
+  public WindowSchemaField hasCallout(Boolean hasCallout) {
+    this.hasCallout = hasCallout;
+    return this;
+  }
+
+  /**
+   * Indica si el campo ejecuta un callout al confirmar un cambio
+   * @return hasCallout
+   **/
+  @Schema(description = "Indica si el campo ejecuta un callout al confirmar un cambio")
+
+    public Boolean isHasCallout() {
+    return hasCallout;
+  }
+
+  public void setHasCallout(Boolean hasCallout) {
+    this.hasCallout = hasCallout;
+  }
+
   public WindowSchemaField defaultvalue(String defaultvalue) {
     this.defaultvalue = defaultvalue;
     return this;
@@ -486,13 +508,14 @@ public class WindowSchemaField   {
         Objects.equals(this.iskey, windowSchemaField.iskey) &&
         Objects.equals(this.isparent, windowSchemaField.isparent) &&
         Objects.equals(this.isselectioncolumn, windowSchemaField.isselectioncolumn) &&
+        Objects.equals(this.hasCallout, windowSchemaField.hasCallout) &&
         Objects.equals(this.defaultvalue, windowSchemaField.defaultvalue) &&
         Objects.equals(this.reference, windowSchemaField.reference);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isdisplayedingrid, isreadonly, issameline, fieldgroup, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, isencrypted, iskey, isparent, isselectioncolumn, defaultvalue, reference);
+    return Objects.hash(adFieldId, name, description, seqno, isdisplayed, isdisplayedingrid, isreadonly, issameline, fieldgroup, adColumnId, columnname, adReferenceId, adReferenceValueId, ismandatory, isencrypted, iskey, isparent, isselectioncolumn, hasCallout, defaultvalue, reference);
   }
 
   @Override
@@ -518,6 +541,7 @@ public class WindowSchemaField   {
     sb.append("    iskey: ").append(toIndentedString(iskey)).append("\n");
     sb.append("    isparent: ").append(toIndentedString(isparent)).append("\n");
     sb.append("    isselectioncolumn: ").append(toIndentedString(isselectioncolumn)).append("\n");
+    sb.append("    hasCallout: ").append(toIndentedString(hasCallout)).append("\n");
     sb.append("    defaultvalue: ").append(toIndentedString(defaultvalue)).append("\n");
     sb.append("    reference: ").append(toIndentedString(reference)).append("\n");
     sb.append("}");
