@@ -628,6 +628,12 @@ public abstract class AbstractRepository {
     protected void setDefaultValue(M_Column aColumn, PO po) throws ModelException {
         Class<?> clazz = DisplayType.getClass(aColumn.getAD_Reference_ID(), false);
         String columnName = aColumn.getColumnName();
+        String defaultValue = aColumn.getDefaultValue();
+        // Un ID negativo es un placeholder de lookup, no una clave foranea persistible.
+        if (DisplayType.isTableReference(aColumn.getAD_Reference_ID()) &&
+                defaultValue != null && defaultValue.trim().matches("-\\d+")) {
+            return;
+        }
         try {
             // Solo para tipo Entero
             if (Integer.class == clazz &&
@@ -715,7 +721,7 @@ public abstract class AbstractRepository {
     /** Variante que utiliza el tipo declarado por el modelo para resolver metadatos ambiguos. */
     protected void loadValueToPO(UserInfo info, PO aPO, SchemaUtils.ColumnResolver columnResolver, String fieldName, Object value, Class<?> fieldType, boolean inserting ) throws ModelException {
         M_Column aColumn = columnResolver.resolve(fieldName);
-        if (aColumn != null) {
+        if (aColumn != null && !aColumn.isVirtualColumn()) {
             if (inserting && useDefaults(info)) {
                 setDefaultValue(aColumn, aPO);
             }
@@ -851,7 +857,11 @@ public abstract class AbstractRepository {
      * @return un String conteniendo el ID del objeto persistido
      */
     protected String insertEntity(UserInfo info, String tableName, Object source, String trxName) throws ModelException, AuthException {
-        PO aPO = getPO(info, tableName, new int[]{0}, trxName);
+        M_Table table = M_Table.get(getCtx(info), tableName);
+        PO aPO = table == null ? null : table.getPO(0, trxName);
+        if (aPO == null) {
+            throw new ModelException("No se pudo crear un registro nuevo para " + tableName);
+        }
         loadPOInitialValues(info, aPO, true);
         loadPOFromEntity(info, aPO, source, false, true);
         // Se especificó una organizacion adecuada perteneciente a la compañía?
