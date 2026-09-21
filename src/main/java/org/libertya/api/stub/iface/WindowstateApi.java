@@ -116,19 +116,19 @@ public interface WindowstateApi {
 
     @Operation(summary = "Ejecuta el callout asociado a un campo", description = "Ejecuta mediante la logica de Libertya CORE el callout asociado al campo modificado de una pestana dinamica, utilizando los valores actuales del registro como contexto. Actualmente admite solo registros nuevos en pestanas principales (inserting=true). ", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "windowstate" })
-    @ApiResponses(value = {
+    @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "Resultado de la ejecucion del callout", content = @Content(mediaType = "application/json", schema = @Schema(implementation = WindowCalloutResponse.class))),
-
-        @ApiResponse(responseCode = "400", description = "Solicitud invalida o registro no admitido"),
-
+        
+        @ApiResponse(responseCode = "400", description = "Solicitud invalida o registro no admitido", content = @Content(mediaType = "application/json", schema = @Schema(implementation = WindowCalloutResponse.class))),
+        
         @ApiResponse(responseCode = "401", description = "Token ausente, invalido o incompleto"),
-
+        
         @ApiResponse(responseCode = "403", description = "El rol no tiene acceso a la ventana o pestana"),
-
+        
         @ApiResponse(responseCode = "404", description = "Pestana o campo inexistente") })
     @RequestMapping(value = "/v1.0/tabs/{id}/callout",
-        produces = { "application/json" },
-        consumes = { "application/json" },
+        produces = { "application/json" }, 
+        consumes = { "application/json" }, 
         method = RequestMethod.POST)
     default ResponseEntity<WindowCalloutResponse> executeTabFieldCallout(@Parameter(in = ParameterIn.PATH, description = "ID de la pestana", required=true, schema=@Schema()) @PathVariable("id") Integer id, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody WindowCalloutRequest body) {
         if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
@@ -147,3 +147,4 @@ public interface WindowstateApi {
     }
 
 }
+

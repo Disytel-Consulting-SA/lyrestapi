@@ -49,6 +49,9 @@ public class WindowSchemaRepository {
      */
     private static final Properties TABLE_ENDPOINTS = loadTableEndpoints();
 
+    /** Mapping tabla Libertya -> endpoint para POST de headers en Draft */
+    private static final Properties TABLE_CREATE_ENDPOINTS = loadTableCreateEndpoints();
+
     private final Map<String, AbstractRepository> repositoriesByTable;
 
     public WindowSchemaRepository(List<AbstractRepository> repositories) {
@@ -262,6 +265,7 @@ public class WindowSchemaRepository {
                     int tablevel = rs.getInt("tab_tablevel");
                     String tableName = rs.getString("tablename");
                     String dataEndpoint = TABLE_ENDPOINTS.getProperty(tableName);
+                    String createEndpoint = TABLE_CREATE_ENDPOINTS.getProperty(tableName);
 
                     currentTab = new WindowSchemaTab()
                             .adTabId(tabId)
@@ -276,6 +280,7 @@ public class WindowSchemaRepository {
                             .adTableId(rs.getInt("ad_table_id"))
                             .tablename(tableName)
                             .dataEndpoint(dataEndpoint)
+                            .createEndpoint(createEndpoint)
                             .pkColumns(getPkColumns(tableName, dataEndpoint));
 
                     /*
@@ -391,6 +396,26 @@ public class WindowSchemaRepository {
             throw new IllegalStateException("Error cargando table-endpoints.properties", e);
         }
     }
+
+
+    /**
+     * Carga el mapping tabla -> endpoint REST alternativo para creación
+     * generado por utils/genSchema.sh.
+     */
+    private static Properties loadTableCreateEndpoints() {
+        Properties properties = new Properties();
+
+        try (InputStream input = WindowSchemaRepository.class.getClassLoader().getResourceAsStream("table-create-endpoints.properties")) {
+            if (input == null) {
+                throw new IllegalStateException("No se encontró table-create-endpoints.properties en el classpath");
+            }
+            properties.load(input);
+            return properties;
+        } catch (Exception e) {
+            throw new IllegalStateException("Error cargando table-create-endpoints.properties", e);
+        }
+    }
+
 
     /**
      * Determina el padre estructural de una pestaña.

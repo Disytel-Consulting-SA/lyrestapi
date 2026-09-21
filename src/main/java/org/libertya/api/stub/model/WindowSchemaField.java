@@ -432,7 +432,7 @@ public class WindowSchemaField   {
    * @return hasCallout
    **/
   @Schema(description = "Indica si el campo ejecuta un callout al confirmar un cambio")
-
+  
     public Boolean isHasCallout() {
     return hasCallout;
   }

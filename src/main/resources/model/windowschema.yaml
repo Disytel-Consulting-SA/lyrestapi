@@ -57,6 +57,10 @@ components:
         isinsertrecord:
           type: boolean
           description: Indica si la pestaña permite insertar nuevos registros
+        create_endpoint:
+          type: string
+          nullable: true
+          description: Endpoint REST alternativo utilizado para crear nuevos registros
         fields:
           type: array
           items:

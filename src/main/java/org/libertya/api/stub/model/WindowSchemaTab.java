@@ -65,6 +65,9 @@ public class WindowSchemaTab   {
   @JsonProperty("isinsertrecord")
   private Boolean isinsertrecord = null;
 
+  @JsonProperty("create_endpoint")
+  private String createEndpoint = null;
+
   @JsonProperty("fields")
   @Valid
   private List<WindowSchemaField> fields = null;
@@ -362,6 +365,25 @@ public class WindowSchemaTab   {
     this.isinsertrecord = isinsertrecord;
   }
 
+  public WindowSchemaTab createEndpoint(String createEndpoint) {
+    this.createEndpoint = createEndpoint;
+    return this;
+  }
+
+  /**
+   * Endpoint REST alternativo utilizado para crear nuevos registros
+   * @return createEndpoint
+   **/
+  @Schema(description = "Endpoint REST alternativo utilizado para crear nuevos registros")
+  
+    public String getCreateEndpoint() {
+    return createEndpoint;
+  }
+
+  public void setCreateEndpoint(String createEndpoint) {
+    this.createEndpoint = createEndpoint;
+  }
+
   public WindowSchemaTab fields(List<WindowSchemaField> fields) {
     this.fields = fields;
     return this;
@@ -414,12 +436,13 @@ public class WindowSchemaTab   {
         Objects.equals(this.orderbyclause, windowSchemaTab.orderbyclause) &&
         Objects.equals(this.isreadonly, windowSchemaTab.isreadonly) &&
         Objects.equals(this.isinsertrecord, windowSchemaTab.isinsertrecord) &&
+        Objects.equals(this.createEndpoint, windowSchemaTab.createEndpoint) &&
         Objects.equals(this.fields, windowSchemaTab.fields);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, pkColumns, whereclause, orderbyclause, isreadonly, isinsertrecord, fields);
+    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, pkColumns, whereclause, orderbyclause, isreadonly, isinsertrecord, createEndpoint, fields);
   }
 
   @Override
@@ -442,6 +465,7 @@ public class WindowSchemaTab   {
     sb.append("    orderbyclause: ").append(toIndentedString(orderbyclause)).append("\n");
     sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
     sb.append("    isinsertrecord: ").append(toIndentedString(isinsertrecord)).append("\n");
+    sb.append("    createEndpoint: ").append(toIndentedString(createEndpoint)).append("\n");
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("}");
     return sb.toString();

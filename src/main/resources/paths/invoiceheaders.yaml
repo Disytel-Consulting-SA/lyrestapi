@@ -1,0 +1,25 @@
+post:
+  tags:
+    - "invoiceheader"
+  summary: Nueva cabecera de factura
+  description: Agrega una nueva cabecera de factura
+  operationId: addInvoiceHeader
+  responses:
+    "200":
+      description: OK. ID de factura creada es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/invoice.yaml#/components/schemas/Invoice'
