@@ -15,10 +15,12 @@ components:
           type: integer
           description: ID del campo modificado.
 
-        record_id:
-          type: integer
-          format: int32
+        record_ids:
+          type: array
           nullable: true
+          description: Valores de la clave primaria del registro, en el orden definido por la metadata de la tabla.
+          items:
+            type: string
 
         value:
           nullable: true

@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +24,9 @@ public class WindowCalloutRequest   {
   @JsonProperty("ad_field_id")
   private Integer adFieldId = null;
 
-  @JsonProperty("record_id")
-  private Integer recordId = null;
+  @JsonProperty("record_ids")
+  @Valid
+  private List<String> recordIds = null;
 
   @JsonProperty("value")
   private Object value = null;
@@ -56,23 +58,31 @@ public class WindowCalloutRequest   {
     this.adFieldId = adFieldId;
   }
 
-  public WindowCalloutRequest recordId(Integer recordId) {
-    this.recordId = recordId;
+  public WindowCalloutRequest recordIds(List<String> recordIds) {
+    this.recordIds = recordIds;
+    return this;
+  }
+
+  public WindowCalloutRequest addRecordIdsItem(String recordIdsItem) {
+    if (this.recordIds == null) {
+      this.recordIds = new ArrayList<>();
+    }
+    this.recordIds.add(recordIdsItem);
     return this;
   }
 
   /**
-   * Get recordId
-   * @return recordId
+   * Valores de la clave primaria del registro, en el orden definido por la metadata de la tabla.
+   * @return recordIds
    **/
-  @Schema(description = "")
+  @Schema(description = "Valores de la clave primaria del registro, en el orden definido por la metadata de la tabla.")
   
-    public Integer getRecordId() {
-    return recordId;
+    public List<String> getRecordIds() {
+    return recordIds;
   }
 
-  public void setRecordId(Integer recordId) {
-    this.recordId = recordId;
+  public void setRecordIds(List<String> recordIds) {
+    this.recordIds = recordIds;
   }
 
   public WindowCalloutRequest value(Object value) {
@@ -149,7 +159,7 @@ public class WindowCalloutRequest   {
     }
     WindowCalloutRequest windowCalloutRequest = (WindowCalloutRequest) o;
     return Objects.equals(this.adFieldId, windowCalloutRequest.adFieldId) &&
-        Objects.equals(this.recordId, windowCalloutRequest.recordId) &&
+        Objects.equals(this.recordIds, windowCalloutRequest.recordIds) &&
         Objects.equals(this.value, windowCalloutRequest.value) &&
         Objects.equals(this.values, windowCalloutRequest.values) &&
         Objects.equals(this.inserting, windowCalloutRequest.inserting);
@@ -157,7 +167,7 @@ public class WindowCalloutRequest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, recordId, value, values, inserting);
+    return Objects.hash(adFieldId, recordIds, value, values, inserting);
   }
 
   @Override
@@ -166,7 +176,7 @@ public class WindowCalloutRequest   {
     sb.append("class WindowCalloutRequest {\n");
     
     sb.append("    adFieldId: ").append(toIndentedString(adFieldId)).append("\n");
-    sb.append("    recordId: ").append(toIndentedString(recordId)).append("\n");
+    sb.append("    recordIds: ").append(toIndentedString(recordIds)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("    values: ").append(toIndentedString(values)).append("\n");
     sb.append("    inserting: ").append(toIndentedString(inserting)).append("\n");
