@@ -1,0 +1,25 @@
+post:
+  tags:
+    - "orderheader"
+  summary: Nueva cabecera de pedido
+  description: Agrega una nueva cabecera de pedido
+  operationId: addOrderHeader
+  responses:
+    "200":
+      description: OK. ID de pedido creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/order.yaml#/components/schemas/Order'

@@ -49,6 +49,8 @@ paths:
     $ref: ./paths/invoicetaxes_id_id.yaml
   /v1.0/orders:
     $ref: ./paths/orders.yaml
+  /v1.0/orderheaders:
+    $ref: ./paths/orderheaders.yaml
   /v1.0/orders/{id}:
     $ref: ./paths/orders_id.yaml
   /v1.0/orders/{id}/process:
@@ -63,6 +65,8 @@ paths:
     $ref: ./paths/ordertaxes_id_id.yaml
   /v1.0/inouts:
     $ref: ./paths/inouts.yaml
+  /v1.0/inoutheaders:
+    $ref: ./paths/inoutheaders.yaml
   /v1.0/inouts/{id}:
     $ref: ./paths/inouts_id.yaml
   /v1.0/inouts/{id}/process:
