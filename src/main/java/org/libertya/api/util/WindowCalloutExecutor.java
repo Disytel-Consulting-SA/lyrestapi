@@ -33,8 +33,10 @@ public class WindowCalloutExecutor {
         if (request == null || request.getAdFieldId() == null || request.getValues() == null) {
             throw new IllegalArgumentException("Se requieren ad_field_id y values");
         }
-        if (!Boolean.TRUE.equals(request.isInserting())) {
-            throw new IllegalArgumentException("Por ahora el callout solo admite registros nuevos (inserting=true)");
+        boolean inserting = Boolean.TRUE.equals(request.isInserting());
+
+        if (!inserting && request.getRecordId() == null) {
+            throw new IllegalArgumentException("Se requiere record_id para ejecutar un callout sobre un registro existente");
         }
 
         int adWindowId = findWindowId(adTabId);
@@ -58,8 +60,30 @@ public class WindowCalloutExecutor {
             String changedColumn = changedField.getColumnName();
 
             tab.query(false, 0);
-            if (!tab.isOpen() || !tab.dataNew(false)) {
-                throw new IllegalStateException("No se pudo crear una fila temporal para AD_Tab_ID=" + adTabId);
+
+            if (!tab.isOpen()) {
+                throw new IllegalStateException("No se pudo abrir AD_Tab_ID=" + adTabId);
+            }
+
+            if (inserting) {
+                if (!tab.dataNew(false)) {
+                    throw new IllegalStateException("No se pudo crear una fila temporal para AD_Tab_ID=" + adTabId);
+                }
+            } else {
+                int targetRow = -1;
+
+                for (int row = 0; row < tab.getRowCount(); row++) {
+                    if (tab.getKeyID(row) == request.getRecordId()) {
+                        targetRow = row;
+                        break;
+                    }
+                }
+
+                if (targetRow < 0) {
+                    throw new NoSuchElementException("No se encontro record_id=" + request.getRecordId() + " en AD_Tab_ID=" + adTabId);
+                }
+
+                tab.navigate(targetRow);
             }
 
             MTable table = tab.getTableModel();

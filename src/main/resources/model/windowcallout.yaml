@@ -15,6 +15,11 @@ components:
           type: integer
           description: ID del campo modificado.
 
+        record_id:
+          type: integer
+          format: int32
+          nullable: true
+
         value:
           nullable: true
           description: Nuevo valor asignado al campo.

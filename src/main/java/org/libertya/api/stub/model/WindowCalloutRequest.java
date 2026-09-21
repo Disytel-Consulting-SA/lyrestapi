@@ -23,6 +23,9 @@ public class WindowCalloutRequest   {
   @JsonProperty("ad_field_id")
   private Integer adFieldId = null;
 
+  @JsonProperty("record_id")
+  private Integer recordId = null;
+
   @JsonProperty("value")
   private Object value = null;
 
@@ -51,6 +54,25 @@ public class WindowCalloutRequest   {
 
   public void setAdFieldId(Integer adFieldId) {
     this.adFieldId = adFieldId;
+  }
+
+  public WindowCalloutRequest recordId(Integer recordId) {
+    this.recordId = recordId;
+    return this;
+  }
+
+  /**
+   * Get recordId
+   * @return recordId
+   **/
+  @Schema(description = "")
+  
+    public Integer getRecordId() {
+    return recordId;
+  }
+
+  public void setRecordId(Integer recordId) {
+    this.recordId = recordId;
   }
 
   public WindowCalloutRequest value(Object value) {
@@ -127,6 +149,7 @@ public class WindowCalloutRequest   {
     }
     WindowCalloutRequest windowCalloutRequest = (WindowCalloutRequest) o;
     return Objects.equals(this.adFieldId, windowCalloutRequest.adFieldId) &&
+        Objects.equals(this.recordId, windowCalloutRequest.recordId) &&
         Objects.equals(this.value, windowCalloutRequest.value) &&
         Objects.equals(this.values, windowCalloutRequest.values) &&
         Objects.equals(this.inserting, windowCalloutRequest.inserting);
@@ -134,7 +157,7 @@ public class WindowCalloutRequest   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adFieldId, value, values, inserting);
+    return Objects.hash(adFieldId, recordId, value, values, inserting);
   }
 
   @Override
@@ -143,6 +166,7 @@ public class WindowCalloutRequest   {
     sb.append("class WindowCalloutRequest {\n");
     
     sb.append("    adFieldId: ").append(toIndentedString(adFieldId)).append("\n");
+    sb.append("    recordId: ").append(toIndentedString(recordId)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("    values: ").append(toIndentedString(values)).append("\n");
     sb.append("    inserting: ").append(toIndentedString(inserting)).append("\n");
