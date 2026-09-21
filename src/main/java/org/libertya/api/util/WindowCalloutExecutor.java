@@ -10,6 +10,7 @@ import org.openXpertya.model.MWindow;
 import org.openXpertya.model.MWindowVO;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.DisplayType;
+import org.openXpertya.util.Env;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -17,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -24,9 +26,10 @@ import java.util.Objects;
 
 public class WindowCalloutExecutor {
 
-    private static final int WINDOW_NO = 100;
+    private static final AtomicInteger NEXT_WINDOW_NO = new AtomicInteger(1000);
 
     public WindowCalloutResponse execute(UserInfo info, int adTabId, WindowCalloutRequest request) {
+
         if (request == null || request.getAdFieldId() == null || request.getValues() == null) {
             throw new IllegalArgumentException("Se requieren ad_field_id y values");
         }
@@ -38,7 +41,9 @@ public class WindowCalloutExecutor {
         if (!info.hasRole()) {
             throw new SecurityException("El token no contiene roleID");
         }
-        MWindowVO vo = MWindowVO.create(info.getCtx(), WINDOW_NO, adWindowId);
+
+        int windowNo = NEXT_WINDOW_NO.getAndIncrement();
+        MWindowVO vo = MWindowVO.create(info.getCtx(), windowNo, adWindowId);
         if (vo == null) {
             throw new SecurityException("El rol " + info.getRoleID() + " no tiene acceso a AD_Window_ID=" + adWindowId);
         }
@@ -104,6 +109,10 @@ public class WindowCalloutExecutor {
             return response;
         } finally {
             window.dispose();
+            Env.clearWinContext(
+                    info.getCtx(),
+                    windowNo
+            );
         }
     }
 
