@@ -57,6 +57,61 @@ public interface WarehouseApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
+    @Operation(summary = "Nuevo almacen", description = "Agrega un nuevo almacen", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "warehouse" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK. ID del almacen es retornado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "409", description = "Imposible insertar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))) })
+    @RequestMapping(value = "/v1.0/warehouses",
+        produces = { "text/plain" }, 
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    default ResponseEntity<String> addWarehouse(@Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Warehouse body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default WarehouseApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @Operation(summary = "Elimina un almacen", description = "Elimina un almacen existente", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "warehouse" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "409", description = "Imposible eliminar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "404", description = "No encontrado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "204", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))) })
+    @RequestMapping(value = "/v1.0/warehouses/{id}",
+        produces = { "text/plain" }, 
+        method = RequestMethod.DELETE)
+    default ResponseEntity<String> deleteWarehouse(@Parameter(in = ParameterIn.PATH, description = "ID del almacen", required=true, schema=@Schema()) @PathVariable("id") Integer id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default WarehouseApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
     @Operation(summary = "Retorna la lista de almacenes", description = "Retorna la lista completa de almacenes", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "warehouse" })
     @ApiResponses(value = { 
@@ -93,6 +148,35 @@ public interface WarehouseApi {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
                     return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"splitting_charge_id\" : 9,\n  \"updatedby\" : 3,\n  \"ad_org_id\" : 6,\n  \"created\" : \"created\",\n  \"isactive\" : true,\n  \"referencedvalues\" : [ null, null ],\n  \"description\" : \"description\",\n  \"c_location_id\" : 1,\n  \"productchangecharge_id\" : 2,\n  \"separator\" : \"separator\",\n  \"stockavailableforsale\" : true,\n  \"ad_componentobjectuid\" : \"ad_componentobjectuid\",\n  \"createdby\" : 5,\n  \"additionalvalues\" : [ {\n    \"value\" : \"value\",\n    \"key\" : \"key\"\n  }, {\n    \"value\" : \"value\",\n    \"key\" : \"key\"\n  } ],\n  \"name\" : \"name\",\n  \"shrink_charge_id\" : 7,\n  \"ad_client_id\" : 0,\n  \"updated\" : \"updated\",\n  \"value\" : \"value\",\n  \"m_warehouse_id\" : 5\n}", Warehouse.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default WarehouseApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @Operation(summary = "Actualiza por completo un almacen existente", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "warehouse" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "409", description = "Imposible actualizar", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "404", description = "No encontrado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))) })
+    @RequestMapping(value = "/v1.0/warehouses/{id}",
+        produces = { "text/plain" }, 
+        consumes = { "application/json" }, 
+        method = RequestMethod.PUT)
+    default ResponseEntity<String> updateWarehouse(@Parameter(in = ParameterIn.PATH, description = "ID del almacen a actualizar", required=true, schema=@Schema()) @PathVariable("id") Integer id, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody Warehouse body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -39,3 +39,29 @@ get:
             type: array
             items:
               $ref: '../model/warehouse.yaml#/components/schemas/Warehouse'
+post:
+  summary: Nuevo almacen
+  tags:
+    - "warehouse"
+  description: Agrega un nuevo almacen
+  operationId: addWarehouse
+  responses:
+    "200":
+      description: OK. ID del almacen es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/warehouse.yaml#/components/schemas/Warehouse'

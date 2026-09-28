@@ -18,3 +18,73 @@ get:
         application/json:
           schema:
             $ref: '../model/warehouse.yaml#/components/schemas/Warehouse'
+delete:
+  summary: Elimina un almacen
+  tags:
+    - "warehouse"
+  parameters:
+    - name: id
+      in: path
+      description: ID del almacen
+      required: true
+      schema:
+        type: integer
+  description: Elimina un almacen existente
+  operationId: deleteWarehouse
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza por completo un almacen existente
+  tags:
+    - "warehouse"
+  operationId: updateWarehouse
+  parameters:
+    - name: id
+      in: path
+      description: ID del almacen a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/warehouse.yaml#/components/schemas/Warehouse'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
