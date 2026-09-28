@@ -2,6 +2,8 @@ package org.libertya.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.libertya.api.stub.model.Currency;
 import org.libertya.api.stub.model.UOM;
 
@@ -43,5 +45,11 @@ public class CurrenciesIntegrationTests extends MaestroIntegrationTests{
     @Override
     protected String getRecordIDWithComapnyMismatch() {
         return "277";
+    }
+
+    @Override
+    @Test
+    @Disabled("C_Currency es global: todas las monedas tienen AD_Client_ID = 0, no aplica company mismatch")
+    void deleteMaestroWithCompanyMismatchShouldReturnKO() {
     }
 }
