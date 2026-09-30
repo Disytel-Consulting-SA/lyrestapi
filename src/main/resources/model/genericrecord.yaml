@@ -1,0 +1,12 @@
+components:
+  schemas:
+
+    GenericRecord:
+      type: object
+      description: >
+        Registro de una tabla cualquiera de AD_Table, como un objeto JSON plano con una clave por columna.
+        En la salida las claves son el nombre de columna en minuscula (c_bpartner_id, dateacct). En la
+        entrada se acepta ademas la forma normalizada sin guiones bajos (cbpartnerid). Las columnas en null
+        no se incluyen en la salida. Si la API esta configurada con valores referenciados, la salida incluye
+        ademas la clave referencedvalues con pares key/value.
+      additionalProperties: true

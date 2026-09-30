@@ -129,7 +129,7 @@ generateSchema Preference               AD_Preference             preference.yam
 generateSchema Promotion                C_Promotion               promotion.yaml                promotions
 generateSchema POSLetter                C_POSLetter               posletter.yaml                posletters
 
-# Contabilidad - asientos manuales (GL_Journal). Ver docs/plan-asientos-manuales.md
+# Contabilidad - asientos manuales (GL_Journal). Ver docs/planes/plan-asientos-manuales.md
 # OJO: c_elementvalue_id es ismandatory='N' en el diccionario, con lo cual DEBE ir en el filtro explicito;
 #      sin eso el campo no existiria en el schema y no se podria imputar por cuenta contable.
 generateSchema Journal                  GL_Journal                journal.yaml                  journals                    "('description', 'controlamt', 'c_conversiontype_id', 'gl_journalbatch_id', 'gl_category_id', 'c_acctschema_id')"

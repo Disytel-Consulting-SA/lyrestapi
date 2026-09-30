@@ -14,6 +14,7 @@ import org.openXpertya.model.MOrg;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
+import org.openXpertya.model.POInfo;
 import org.openXpertya.process.DocAction;
 import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.*;
@@ -230,8 +231,29 @@ public abstract class AbstractRepository {
 
     /** Setea (si corresponde) el valor de las columna referencial aColumn a partir del valor val en la propiedad referencedvalues del objeto target */
     protected void setReferencedValue(Object target, Object val, M_Column aColumn) {
-        if (!isTableReference(aColumn) || val==null)
+        List<Propertiesmap> referencedValues = getReferencedValues(val, aColumn);
+        if (referencedValues.isEmpty())
             return;
+        try {
+            Field field = target.getClass().getDeclaredField(REFERENCED_VALUES_PROPERTY);
+            field.setAccessible(true);
+            for (Propertiesmap prop : referencedValues)
+                addPropToProps((ArrayList<Propertiesmap>)field.get(target), field, target, prop.getKey(), prop.getValue());
+        }
+        catch (Exception e) {
+            // Por el momento ignorar el error
+        }
+    }
+
+    /**
+     * Recupera los identificadores (sufijo __detail) y el value (sufijo __value) del registro al que apunta
+     * el valor val de la columna referencial aColumn.
+     * @return la lista de pares key/value, vacia si la columna no es referencial o no hay nada para informar
+     */
+    protected List<Propertiesmap> getReferencedValues(Object val, M_Column aColumn) {
+        List<Propertiesmap> retValue = new ArrayList<>();
+        if (!isTableReference(aColumn) || val==null)
+            return retValue;
         try
         {
             // Recuperar nombre de tabla y columna referenciada
@@ -252,7 +274,7 @@ public abstract class AbstractRepository {
                         " AND column_name = 'value'");
                 // Si no hay identificadores, no hay columna Value, y no hay columnas adicionales a recuperar... entonces no hay nada mas que hacer
                 if (identifierColumns.length()==0 && valueCol==0)
-                    return;
+                    return retValue;
                 // Si hay identificadores, borrar ultimo concatenador
                 if (identifierColumns.length()>0)
                     identifierColumns.delete(identifierColumns.length()-11, identifierColumns.length()-1);
@@ -263,33 +285,42 @@ public abstract class AbstractRepository {
                         (valueCol>0?", value ":"") +
                         " FROM " + tableName +
                         " WHERE " + columnName + " = ? ";
-                PreparedStatement ps = DB.prepareStatement(sql, null);
-                Object value;
-                Integer intValue;
-                String strValue = String.valueOf(val.toString());
-                try{
-                    intValue = Integer.parseInt(strValue);
-                    ps.setInt(1, intValue);
-                } catch(NumberFormatException cce){
-                    value = strValue;
-                    ps.setObject(1, value);
-                }
-                ResultSet rs = ps.executeQuery();
-                if(rs.next()) {
-                    Field field = target.getClass().getDeclaredField(REFERENCED_VALUES_PROPERTY);
-                    field.setAccessible(true);
-                    // Cargar la nomina de identificadores del registro referenciado
-                    if (identifierColumns.length() > 0 && rs.getString("detail") != null)
-                        addPropToProps((ArrayList<Propertiesmap>)field.get(target), field, target, aColumn.getColumnName().toLowerCase() + schemaUtils.getReferencedValuesDetailSuffix(), rs.getString("detail"));
-                    // Cargar el value del registro referenciado
-                    if (valueCol > 0 && rs.getString("value") != null)
-                        addPropToProps((ArrayList<Propertiesmap>)field.get(target), field, target, aColumn.getColumnName().toLowerCase() + schemaUtils.getReferencedValuesValueSuffix(), rs.getString("value"));
+                try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+                    Object value;
+                    Integer intValue;
+                    String strValue = String.valueOf(val.toString());
+                    try{
+                        intValue = Integer.parseInt(strValue);
+                        ps.setInt(1, intValue);
+                    } catch(NumberFormatException cce){
+                        value = strValue;
+                        ps.setObject(1, value);
+                    }
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if(rs.next()) {
+                            // Cargar la nomina de identificadores del registro referenciado
+                            if (identifierColumns.length() > 0 && rs.getString("detail") != null)
+                                retValue.add(newProp(aColumn.getColumnName().toLowerCase() + schemaUtils.getReferencedValuesDetailSuffix(), rs.getString("detail")));
+                            // Cargar el value del registro referenciado
+                            if (valueCol > 0 && rs.getString("value") != null)
+                                retValue.add(newProp(aColumn.getColumnName().toLowerCase() + schemaUtils.getReferencedValuesValueSuffix(), rs.getString("value")));
+                        }
+                    }
                 }
             }
         }
         catch (Exception e) {
             // Por el momento ignorar el error
         }
+        return retValue;
+    }
+
+    /** Nuevo par key/value */
+    protected Propertiesmap newProp(String name, String value) {
+        Propertiesmap prop = new Propertiesmap();
+        prop.setKey(name);
+        prop.setValue(value);
+        return prop;
     }
 
     /** Incorpora una nueva property a la lista de props */
@@ -361,6 +392,15 @@ public abstract class AbstractRepository {
      * @return una lista con todas las entidades
      */
     protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, RetrieveEntityInterface iface, QueryParams params) throws ModelException, AuthException {
+        return retrieveAllEntities(info, tableName, null, iface, params);
+    }
+
+    /**
+     * Variante con las columnas clave explicitas, para cuando no son las de pkColumns ni NOMBRETABLA_ID
+     * (endpoint generico, que no asigna pkColumns y opera tambien sobre vistas).
+     * @param keyColumns columnas clave a recuperar, o null para usar las de la entidad
+     */
+    protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, String[] keyColumns, RetrieveEntityInterface iface, QueryParams params) throws ModelException, AuthException {
         List retVal = new ArrayList();
         // Si params lo recibo como null (sin ningun tipo de query), entonces instanciar uno vacio
         if (params==null) {
@@ -374,7 +414,7 @@ public abstract class AbstractRepository {
         String theSort = params.getSort() != null && params.getSort().length() > 0 ? " ORDER BY " + params.getSort() : " ";
         Integer theLimit = (params.getLimit() != null && params.getLimit() > 0 ? params.getLimit() : DEFAULT_LIMIT);
         Integer thePage = params.getPage() != null ? theLimit * (params.getPage() - 1) : 0;
-        List<Object[]> entitiesIDs = getAllKeys(tableName,
+        List<Object[]> entitiesIDs = getAllKeys(tableName, keyColumns,
                 String.format( " %s %s LIMIT %d OFFSET %d ",
                         theFilter,
                         theSort,
@@ -390,6 +430,11 @@ public abstract class AbstractRepository {
 
     /** Recupera la cantidad total de entidades que respetan el filtro indicado. */
     public int countAll(UserInfo info, QueryParams params) throws ModelException, AuthException {
+        return countAll(info, tableName, params);
+    }
+
+    /** Recupera la cantidad total de entidades de la tabla indicada que respetan el filtro indicado. */
+    protected int countAll(UserInfo info, String tableName, QueryParams params) throws ModelException, AuthException {
         if (params == null)
             params = new QueryParams();
 
@@ -417,8 +462,17 @@ public abstract class AbstractRepository {
      * Recupera los valores de las PK sin convertirlos a texto, preservando el tipo informado por JDBC para cada columna.
      */
     protected List<Object[]> getAllKeys(String tableName, String whereClause, String trxName) throws ModelException {
+        return getAllKeys(tableName, null, whereClause, trxName);
+    }
+
+    /**
+     * Variante con las columnas clave explicitas.
+     * @param explicitKeyColumns columnas clave a recuperar, o null para usar pkColumns o NOMBRETABLA_ID
+     */
+    protected List<Object[]> getAllKeys(String tableName, String[] explicitKeyColumns, String whereClause, String trxName) throws ModelException {
         List<Object[]> keys = new ArrayList<>();
-        String[] keyColumns = pkColumns == null ? new String[]{tableName + "_ID"} : pkColumns;
+        String[] keyColumns = explicitKeyColumns != null ? explicitKeyColumns
+                : pkColumns == null ? new String[]{tableName + "_ID"} : pkColumns;
         StringBuilder sql = new StringBuilder("SELECT ").append(String.join(",", keyColumns))
                 .append(" FROM ").append(tableName);
         if (whereClause != null && whereClause.length() > 0)
@@ -575,6 +629,50 @@ public abstract class AbstractRepository {
         return loadEntityFromPO(info, objectId, tableName, trxName, filterFields, target);
     }
 
+    /**
+     * Recupera un registro como un map columna -> valor, sin un DTO del modelo autogenerado (endpoint generico).
+     * Mismas reglas que loadEntityFromPO: ClientOrgAuth, ID=0 valido si se lo pidio explicitamente, y se omiten
+     * las columnas Binary/Image. Las claves son el nombre de columna en minuscula; los valores null se omiten,
+     * igual que en los DTO; las fechas se informan como el toString() del Timestamp, igual que en los DTO.
+     * @param keyColumn columna clave simple de la tabla (no siempre es NOMBRETABLA_ID, p. ej. en las vistas)
+     * @param id valor de la clave
+     * @param filterFields campos a considerar unicamente, o null para todos
+     * @return un optional con el registro, vacio si no existe
+     */
+    protected Optional<Map<String, Object>> loadRecordFromPO(UserInfo info, String tableName, String keyColumn, int id, String trxName, String filterFields) throws ModelException, AuthException {
+        Set<String> includeFields = getFilterFields(filterFields);
+        M_Table table = M_Table.get(getCtx(info), tableName);
+        // getPO(int) interpreta ID=0 como registro nuevo, aunque puede ser un registro valido de sistema (ver getPO),
+        // y PO.load(int) asume que la clave es NOMBRETABLA_ID, lo cual no se cumple en las vistas (RV_BPartner usa
+        // C_BPartner_ID). En esos casos se recupera mediante clausula SQL, que determina la clave desde POInfo.
+        boolean byID = id != 0 && keyColumn.equalsIgnoreCase(tableName + "_ID");
+        PO aPO = ClientOrgAuth.validate(info, byID ? table.getPO(id, trxName) : table.getPO(keyColumn + "=" + id, trxName));
+        if (aPO == null || (aPO.getID() == 0 && id != 0))
+            return Optional.empty();
+
+        Map<String, Object> record = new LinkedHashMap<>();
+        List<Propertiesmap> referencedValues = new ArrayList<>();
+        boolean includeReferencedValues = useReferencedValues(info) &&
+                (includeFields == null || includeFields.contains(REFERENCED_VALUES_PROPERTY));
+        for (M_Column column : table.getColumns(false)) {
+            if (shouldSkipColumn(column))
+                continue;
+            String columnName = column.getColumnName();
+            if (includeFields != null && !includeFields.contains(schemaUtils.normalize(columnName)))
+                continue;
+            Object value = aPO.get_Value(columnName);
+            if (value == null || value instanceof byte[])
+                continue;
+            record.put(getColumnIdentity(column), value instanceof Timestamp ? value.toString() : value);
+            if (includeReferencedValues && value instanceof Integer &&
+                    Integer.class == DisplayType.getClass(column.getAD_Reference_ID(), false))
+                referencedValues.addAll(getReferencedValues(value, column));
+        }
+        if (!referencedValues.isEmpty())
+            record.put(REFERENCED_VALUES_PROPERTY, referencedValues);
+        return Optional.of(record);
+    }
+
     /** Nomina de columnas que no deben incluirse en el entity a ser cargado a partir de un PO */
     protected boolean shouldSkipColumn(M_Column column) {
         return (column.getAD_Reference_ID() == DisplayType.Binary || column.getAD_Reference_ID() == DisplayType.Image);
@@ -682,6 +780,11 @@ public abstract class AbstractRepository {
      * @param source el objeto con las propiedades a volcar
      */
     protected void loadPOFromEntity(UserInfo info, PO aPO, Object source, boolean ignoreNulls, boolean inserting) throws ModelException {
+        // Endpoint generico: el body es un map columna -> valor en lugar de un DTO del modelo autogenerado
+        if (source instanceof Map) {
+            loadPOFromMap(info, aPO, (Map<?, ?>) source, ignoreNulls, inserting);
+            return;
+        }
         // Instanciar objeto del modelo segun corresponda
         Field[] fields = source.getClass().getDeclaredFields();
 
@@ -711,6 +814,82 @@ public abstract class AbstractRepository {
             // Volcar value de la property al PO (informacion pre-establecida)
             loadValueToPO(info, aPO, columnResolver, columnName, value, field.getType(), inserting);
         }
+    }
+
+    /**
+     * Carga en un PO la informacion recibida como un map columna -> valor (endpoint generico).
+     * A diferencia de additionalvalues, que ignora lo que no resuelve, las claves son estrictas: sin un DTO no hay
+     * nada que detecte un error de tipeo, y omitir la clave dejaria el registro incompleto sin error alguno.
+     * La columna clave y referencedvalues se ignoran, para poder reenviar lo recibido en un GET.
+     * @param source el map con los valores a volcar, indexado por nombre de columna (exacto o normalizado)
+     */
+    protected void loadPOFromMap(UserInfo info, PO aPO, Map<?, ?> source, boolean ignoreNulls, boolean inserting) throws ModelException {
+        String tableName = aPO.get_TableName();
+        SchemaUtils.ColumnResolver columnResolver = schemaUtils.getColumnResolver(tableName, getCtx(info));
+        // Validar todas las claves antes de volcar valor alguno, para informar todos los errores juntos
+        Map<String, M_Column> columnsByKey = new LinkedHashMap<>();
+        Map<String, String> keysByColumn = new HashMap<>();
+        List<String> unknownKeys = new ArrayList<>();
+        List<String> invalidKeys = new ArrayList<>();
+        for (Map.Entry<?, ?> entry : source.entrySet()) {
+            String key = String.valueOf(entry.getKey());
+            if (REFERENCED_VALUES_PROPERTY.equalsIgnoreCase(key))
+                continue;
+            M_Column aColumn = columnResolver.resolve(key);
+            if (aColumn == null) {
+                unknownKeys.add(key);
+                continue;
+            }
+            if (aColumn.isKey())
+                continue;
+            if (aColumn.isVirtualColumn())
+                invalidKeys.add(key + " (columna virtual)");
+            else if (entry.getValue() instanceof Map || entry.getValue() instanceof Collection)
+                invalidKeys.add(key + " (se esperaba un valor simple)");
+            else if (keysByColumn.containsKey(aColumn.getColumnName()))
+                invalidKeys.add(key + " (repite la columna de " + keysByColumn.get(aColumn.getColumnName()) + ")");
+            keysByColumn.put(aColumn.getColumnName(), key);
+            columnsByKey.put(key, aColumn);
+        }
+        if (!unknownKeys.isEmpty())
+            throw new ModelException("Claves que no son columnas de " + tableName + ": " + String.join(", ", unknownKeys));
+        if (!invalidKeys.isEmpty())
+            throw new ModelException("Claves que no se pueden escribir en " + tableName + ": " + String.join(", ", invalidKeys));
+
+        POInfo poInfo = POInfo.getPOInfo(getCtx(info), aPO.get_Table_ID());
+        for (Map.Entry<String, M_Column> entry : columnsByKey.entrySet()) {
+            Object value = source.get(entry.getKey());
+            if (value == null && ignoreNulls)
+                continue;
+            M_Column aColumn = entry.getValue();
+            // El tipo Java real del modelo tiene prioridad sobre el metadato (ver setValueToObject)
+            int index = poInfo == null ? -1 : poInfo.getColumnIndex(aColumn.getColumnName());
+            Class<?> columnClass = index < 0 ? null : poInfo.getColumnClass(index);
+            if (Boolean.class == columnClass)
+                value = toBoolean(aColumn, value);
+            loadValueToPO(info, aPO, columnResolver, aColumn.getColumnName(), value, String.class == columnClass ? String.class : null, inserting);
+        }
+
+        // Paridad con los DTO, que recorren todas sus propiedades al insertar: aplicar los valores por defecto
+        // tambien a las columnas que no vinieron en el body
+        if (inserting && useDefaults(info)) {
+            for (M_Column aColumn : M_Table.get(getCtx(info), tableName).getColumns(false)) {
+                if (!aColumn.isKey() && !aColumn.isVirtualColumn() && !keysByColumn.containsKey(aColumn.getColumnName()))
+                    setDefaultValue(aColumn, aPO);
+            }
+        }
+    }
+
+    /** Convierte a Boolean el valor de una columna Si/No. Acepta true/false y tambien Y/N. */
+    protected Object toBoolean(M_Column aColumn, Object value) throws ModelException {
+        if (value == null || value instanceof Boolean || schemaUtils.getNullValue().equals(value))
+            return value;
+        String str = value.toString().trim();
+        if ("true".equalsIgnoreCase(str) || "Y".equalsIgnoreCase(str))
+            return Boolean.TRUE;
+        if ("false".equalsIgnoreCase(str) || "N".equalsIgnoreCase(str))
+            return Boolean.FALSE;
+        throw new ModelException("Valor " + value + " invalido para la columna " + aColumn.getColumnName() + ": se esperaba true o false");
     }
 
     /** Realiza el volcado de value para la propiedad fieldName en el PO aPO correspondiente, basandose en el resolver de columnas */
@@ -882,7 +1061,8 @@ public abstract class AbstractRepository {
      */
     protected void deleteEntity(UserInfo info, String tableName,  int[] id) throws ModelException, NotFoundException, AuthException {
         PO aPO = getPO(info, tableName, id, null);
-        if (aPO.getID()<=0)
+        // getPO retorna null si se solicita ID=0 y no existe
+        if (aPO == null || aPO.getID()<=0)
             throw new NotFoundException();
         if (!aPO.delete(false))
             throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
@@ -936,11 +1116,12 @@ public abstract class AbstractRepository {
             handleTrx = true;
         }
         PO aPO = getPO(info, tableName, id, trxName);
-        loadPOInitialValues(info, aPO, false);
         try {
-            if (aPO.getID() <= 0) {
+            // getPO retorna null si se solicita ID=0 y no existe
+            if (aPO == null || aPO.getID() <= 0) {
                 throw new NotFoundException();
             }
+            loadPOInitialValues(info, aPO, false);
             // Si el status ya coincide con el action, entonces no hay nada por hacer
             if (action.equalsIgnoreCase(((DocAction)aPO).getDocStatus())) {
                 throw new ModelException(String.format("Imposible procesar.  La accion %s a aplicar ya coincide con el estado actual %s", action.toUpperCase(), ((DocAction)aPO).getDocStatus()));

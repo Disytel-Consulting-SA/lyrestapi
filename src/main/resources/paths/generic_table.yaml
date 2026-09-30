@@ -1,0 +1,108 @@
+get:
+  tags:
+    - "generic"
+  summary: Retorna la lista de registros de una tabla
+  description: >
+    Retorna los registros de cualquier tabla definida en AD_Table, indicada por su nombre (sin distinguir
+    mayusculas). Cada registro es un objeto plano con una clave por columna. Admite includeTotal=true para
+    recibir el total en el header X-Total-Count.
+  operationId: getAllGenericRecords
+  parameters:
+    - in: path
+      name: table
+      description: Nombre de la tabla (TableName de AD_Table), por ejemplo C_Campaign
+      required: true
+      schema:
+        type: string
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/genericrecord.yaml#/components/schemas/GenericRecord'
+    "404":
+      description: La tabla no existe
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+    "409":
+      description: La tabla no se puede operar con el endpoint generico, o el filtro es invalido
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              type: string
+post:
+  tags:
+    - "generic"
+  summary: Nuevo registro en una tabla
+  description: >
+    Crea un registro en cualquier tabla definida en AD_Table, pasando por el modelo de Libertya (beforeSave,
+    afterSave y plugins). El body es un objeto plano con una clave por columna; una clave que no es columna
+    de la tabla responde 409. La columna clave se ignora: el id lo asigna el modelo. Si la tabla es un
+    documento, queda en borrador: para completarlo usar PUT /v1.0/generic/{table}/{id}/process?action=CO.
+  operationId: addGenericRecord
+  parameters:
+    - in: path
+      name: table
+      description: Nombre de la tabla (TableName de AD_Table), por ejemplo C_Campaign
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      description: OK. ID del registro creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: La tabla no existe
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/genericrecord.yaml#/components/schemas/GenericRecord'

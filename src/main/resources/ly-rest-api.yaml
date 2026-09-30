@@ -331,6 +331,13 @@ paths:
     $ref: ./paths/validcombinations.yaml
   /v1.0/validcombinations/{id}:
     $ref: ./paths/validcombinations_id.yaml
+# generic end-points (cualquier tabla de AD_Table, ver docs/referencia/endpoint-generico-api.md)
+  /v1.0/generic/{table}:
+    $ref: ./paths/generic_table.yaml
+  /v1.0/generic/{table}/{id}:
+    $ref: ./paths/generic_table_id.yaml
+  /v1.0/generic/{table}/{id}/process:
+    $ref: ./paths/generic_table_id_process.yaml
 # metadata end-points
   /v1.0/tables:
     $ref: ./paths/tables.yaml

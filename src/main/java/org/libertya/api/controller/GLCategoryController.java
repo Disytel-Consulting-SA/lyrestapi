@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/** Maestro contable de solo lectura.  Ver docs/asientos-manuales-api.md */
+/** Maestro contable de solo lectura.  Ver docs/referencia/asientos-manuales-api.md */
 @Controller
 @RequiredArgsConstructor
 public class GLCategoryController extends AbstractController implements GlcategoryApi {

@@ -1,7 +1,7 @@
 # Asientos contables manuales — guía de uso de los endpoints
 
 **Para quién es este documento:** para alguien —persona o agente de IA— que tiene que **consumir** estos
-endpoints desde afuera. No explica cómo están implementados; para eso está `docs/plan-asientos-manuales.md`.
+endpoints desde afuera. No explica cómo están implementados; para eso está `docs/planes/plan-asientos-manuales.md`.
 
 **Qué resuelven:** cargar en Libertya asientos contables manuales (`GL_Journal`), es decir movimientos
 contables que **no tienen un documento origen en el ERP**. Facturas, remitos, inventarios y movimientos se
@@ -368,7 +368,7 @@ Fijate qué apareció solo: `c_validcombination_id`, `line`, `c_period_id`, `tot
 
 | Qué | Dónde |
 |---|---|
-| Diseño, decisiones y evidencia | `docs/plan-asientos-manuales.md` |
+| Diseño, decisiones y evidencia | `docs/planes/plan-asientos-manuales.md` |
 | Bug del genérico que bloquea `RC`/`RA`/`RE` | `docs/PENDIENTES.md` → P1 |
 | Spec OpenAPI viva | `GET /api-docs` · Swagger UI en `/swagger-ui` |
 | Arquitectura del proyecto | `CLAUDE.md` |

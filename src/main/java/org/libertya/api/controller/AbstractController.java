@@ -40,19 +40,31 @@ public abstract class AbstractController {
     }
 
     protected <T> ResponseEntity<List<T>> retrieveAllAction(HttpServletRequest request, AbstractRepository repository, QueryParams params) {
+        return retrieveAllAction(request,
+                (info, p) -> repository.retrieveAll(info, p),
+                (info, p) -> repository.countAll(info, p),
+                params);
+    }
+
+    /** Variante que recibe la recuperacion y el conteo como lambdas, para cuando no hay un repository por entidad (endpoint generico) */
+    protected <T> ResponseEntity<List<T>> retrieveAllAction(HttpServletRequest request, ActivityRetrieveAllInterface<T> retrieveAll, ActivityCountInterface count, QueryParams params) {
         try {
             HttpHeaders headers = new HttpHeaders();
             appendHeaderLinks(headers, request);
 
             UserInfo info = jwt.infoOf(request);
-            List<T> entities = repository.retrieveAll(info, params);
+            List<T> entities = retrieveAll.perform(info, params);
 
             if ("true".equalsIgnoreCase(request.getParameter("includeTotal"))) {
-                int total = repository.countAll(info, params);
+                int total = count.perform(info, params);
                 headers.add("X-Total-Count", String.valueOf(total));
             }
 
             return new ResponseEntity<>(entities, headers, HttpStatus.OK);
+        } catch (NotFoundException e) {
+            List error = new ArrayList<T>();
+            error.add(e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
         } catch (ModelException e) {
             List error = new ArrayList<T>();
             error.add(e.getMessage());
@@ -69,7 +81,7 @@ public abstract class AbstractController {
             iface.perform(jwt.infoOf(request));
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } catch (NotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ModelException e2) {
             return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
         } catch (AuthException e3) {
@@ -82,7 +94,7 @@ public abstract class AbstractController {
             iface.perform(jwt.infoOf(request));
             return new ResponseEntity<>(null, HttpStatus.OK);
         } catch (NotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ModelException e2) {
             return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
         } catch (AuthException e3) {
@@ -93,6 +105,8 @@ public abstract class AbstractController {
     protected ResponseEntity<String> insertAction(HttpServletRequest request, ActivityInsertInterface iface) {
         try {
             return new ResponseEntity<>(iface.perform(jwt.infoOf(request)), HttpStatus.OK);
+        } catch (NotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ModelException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         } catch (AuthException e3) {
@@ -104,7 +118,7 @@ public abstract class AbstractController {
         try {
             return new ResponseEntity<>(iface.perform(jwt.infoOf(request)), HttpStatus.OK);
         } catch (NotFoundException e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (ModelException e2) {
             return new ResponseEntity<>(e2.getMessage(), HttpStatus.CONFLICT);
         } catch (AuthException e3) {

@@ -20,7 +20,7 @@ import java.util.Optional;
 /**
  * Asientos contables manuales (GL_Journal + GL_JournalLine).
  *
- * Ver docs/plan-asientos-manuales.md para el diseño completo y docs/asientos-manuales-api.md para el
+ * Ver docs/planes/plan-asientos-manuales.md para el diseño completo y docs/referencia/asientos-manuales-api.md para el
  * contrato de uso de los endpoints.
  */
 @Service

@@ -32,7 +32,7 @@ implementación paso a paso con los archivos concretos a tocar.
    cual** — está explicado por qué.
 
 **Estado del trabajo:** fases 1 y 2 implementadas (2026-08-10). La guía de uso de los endpoints, pensada para
-que la lea una IA que va a consumirlos, está en **`docs/asientos-manuales-api.md`**.
+que la lea una IA que va a consumirlos, está en **`docs/referencia/asientos-manuales-api.md`**.
 
 **Antes de codear, ojo con estas cinco** — son las que no se ven leyendo las clases del modelo y ya costaron
 una vuelta de revisión:

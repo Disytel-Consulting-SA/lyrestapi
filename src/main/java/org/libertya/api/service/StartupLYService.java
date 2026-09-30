@@ -3,12 +3,17 @@ package org.libertya.api.service;
 import java.time.Instant;
 import java.util.Properties;
 import org.openXpertya.db.CConnection;
+import org.openXpertya.model.M_Table;
 import org.openXpertya.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StartupLYService {
+
+    private static final Logger log = LoggerFactory.getLogger(StartupLYService.class);
 
     @Value("${restapi.libertya.db.DBHost}")
     private String dbHost;
@@ -43,8 +48,25 @@ public class StartupLYService {
     public void init() throws Exception
     {
         startTime = Instant.now();
+        logCoreLocation();
         setConnection();
         startupEnvironment();
+    }
+
+    /**
+     * Informa desde que jar se cargo el core y su version (Implementation-Version del manifest del OXP.jar).
+     * El OXP.jar de una instancia customizada puede sumarse por loader.path por delante del embebido, y con dos
+     * cores en el classpath es la forma de saber cual se usa. Ver docs/compatibilidad-core.md.
+     */
+    protected void logCoreLocation() {
+        try {
+            Package corePackage = M_Table.class.getPackage();
+            String version = corePackage != null ? corePackage.getImplementationVersion() : null;
+            log.info("Core de Libertya cargado desde: " + M_Table.class.getProtectionDomain().getCodeSource().getLocation() +
+                    " (version: " + (version != null ? version : "desconocida") + ")");
+        } catch (Exception e) {
+            log.warn("No fue posible determinar desde que jar se cargo el core de Libertya: " + e.getMessage());
+        }
     }
 
     protected void setConnection() {

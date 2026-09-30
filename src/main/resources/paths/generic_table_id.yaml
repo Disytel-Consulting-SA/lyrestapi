@@ -1,0 +1,122 @@
+get:
+  tags:
+    - "generic"
+  summary: Recupera un registro de una tabla
+  description: Recupera un registro de cualquier tabla definida en AD_Table a partir del valor de su clave
+  operationId: retrieveGenericRecord
+  parameters:
+    - in: path
+      name: table
+      description: Nombre de la tabla (TableName de AD_Table), por ejemplo C_Campaign
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: id
+      description: Valor de la clave primaria del registro
+      required: true
+      schema:
+        type: integer
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/genericrecord.yaml#/components/schemas/GenericRecord'
+    "404":
+      description: >
+        La tabla o el registro no existen, o la tabla no se puede operar con el endpoint generico. El body
+        trae el motivo como texto
+delete:
+  tags:
+    - "generic"
+  summary: Elimina un registro de una tabla
+  description: Elimina un registro de cualquier tabla definida en AD_Table, pasando por el modelo de Libertya
+  operationId: deleteGenericRecord
+  parameters:
+    - in: path
+      name: table
+      description: Nombre de la tabla (TableName de AD_Table), por ejemplo C_Campaign
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: id
+      description: Valor de la clave primaria del registro
+      required: true
+      schema:
+        type: integer
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: La tabla o el registro no existen
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  tags:
+    - "generic"
+  summary: Actualiza un registro de una tabla
+  description: >
+    Actualiza un registro de cualquier tabla definida en AD_Table, pasando por el modelo de Libertya. Solo se
+    modifican las columnas enviadas. Para dejar una columna en null enviar el valor configurado en
+    restapi.libertya.app.nullValue (por defecto "[NULL]"). Una clave que no es columna de la tabla
+    responde 409. La columna clave y referencedvalues se ignoran, de modo que se puede reenviar lo recibido
+    en un GET.
+  operationId: updateGenericRecord
+  parameters:
+    - in: path
+      name: table
+      description: Nombre de la tabla (TableName de AD_Table), por ejemplo C_Campaign
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: id
+      description: Valor de la clave primaria del registro a actualizar
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/genericrecord.yaml#/components/schemas/GenericRecord'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: La tabla o el registro no existen
+      content:
+        text/plain:
+          schema:
+            type: string

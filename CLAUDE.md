@@ -33,6 +33,19 @@ Connection and behavior are configured via env vars consumed in `application.pro
 `TOKEN_SECRET`, ...). Swagger UI is served at `/swagger-ui`, OpenAPI at `/api-docs`,
 actuator-style monitoring at `/monitor/**`.
 
+Docs live in `docs/` (index: `docs/README.md`): usage guides in `docs/referencia/`, design docs in
+`docs/planes/`, known issues in `docs/PENDIENTES.md`.
+
+### Core compatibility — keep `docs/compatibilidad-core.md` up to date
+
+The fat jar embeds the `OXP.jar`/`OXPXLib.jar` of `$OXP_HOME/lib`, so every build is tied to a core version, and
+lyrestapi code keeps starting to use core APIs that older cores lack (e.g. `MField.getAD_Field_ID()`, core
+`e1259b8a`, which no release contains yet). **When a change starts using anything from the core that an older
+core doesn't have, or a build/deploy runs into a core or schema mismatch, add an entry to
+`docs/compatibilidad-core.md`** (table §4, log §6, check §5) — use `git tag --contains <core-commit>` in the core
+repo to say which release has it. Run the §5 checks before packaging a jar for deployment. At startup the app
+logs which core jar was loaded and its version (`Core de Libertya cargado desde: ...`).
+
 ## Architecture
 
 ### Request flow: Controller → (Service) → Repository → Libertya model
@@ -128,7 +141,7 @@ Groovy classes trigger `GroovyBeanDefinitionReader`; the jar is signed). The wor
 stripped, unsigned copy at `libs/JasperReports-ngroovy.jar`, added as `compileOnly` and supplied at
 runtime via `-Dloader.path`. To regenerate it if the original changes, and for the full printing
 flow rationale (which AD_Process to pick, why not `MInvoice.createPDF()`), see the project memory at
-`~/.claude/projects/-home-julian-libertya-git-lyrestapi/memory/` and `docs/invoice-print.md`.
+`~/.claude/projects/-home-julian-libertya-git-lyrestapi/memory/` and `docs/referencia/invoice-print.md`.
 
 ## Integration tests
 
@@ -139,6 +152,11 @@ database** — they are not pure unit tests. `CommonIntegrationTests` documents 
 `TEST_DATE`, `doc.complete=Y`). Many use hard-coded default IDs unless
 `org.libertya.tests.use-dynamic-defaults=true`. `./gradlew build` runs them, so a build will fail
 without a reachable configured DB.
+
+Locally the suite only authenticates against `libertya_rel_22ar_for_api_25`, and as of 2026-09-30 **64 tests fail
+on a clean `HEAD`**: test-data drift (e.g. `DEFAULT_BPARTNER_ID` 1012145 no longer exists) plus a 2022 schema that
+is older than the core (`InventoryTypeRequired`, see `docs/compatibilidad-core.md` §6.2). Before blaming a change
+for a failure, compare test by test against `HEAD`. Build deployable jars with `./gradlew bootJar`, not `build`.
 
 ## Adding a new entity/endpoint
 
@@ -157,9 +175,9 @@ Implemented (August 2026). `journals` + `journallines` (full document create/ret
 plus five read-only accounting masters: `elementvalues`, `acctschemas`, `glcategories`, `periods`,
 `validcombinations`. Not related to `posjournal`, which is POS cash.
 
-- **`docs/asientos-manuales-api.md`** — how to *consume* the endpoints. Point integrators (and their agents)
+- **`docs/referencia/asientos-manuales-api.md`** — how to *consume* the endpoints. Point integrators (and their agents)
   here.
-- **`docs/plan-asientos-manuales.md`** — design, decisions and the evidence behind them. §12.5 records the
+- **`docs/planes/plan-asientos-manuales.md`** — design, decisions and the evidence behind them. §12.5 records the
   verification against the client's production DB that closed the `c_elementvalue_id`-vs-`c_validcombination_id`
   question (decision: the line carries the account; the core resolves the combination), and §12.6 the smoke test.
 
@@ -172,10 +190,26 @@ exposed (`docs/PENDIENTES.md` P1).
 Running the fat jar locally needs more than JasperReports on the loader path — see the deployment note at the
 end of §12.6.
 
+## Generic per-table endpoint (`/v1.0/generic/{table}`)
+
+Implemented (September 2026). CRUD + `process` over any `AD_Table` table named in the URL, delegating all logic
+to the model class the core resolves for it — including a customization's classes when the instance's `OXP.jar`
+is supplied through `loader.path`. No client-specific code lives in this repo.
+
+- **`docs/referencia/endpoint-generico-api.md`** — how to consume it.
+- **`docs/planes/plan-endpoint-generico.md`** — decisions (§2: per-table security, roles and a transactional batch are
+  out of scope *on purpose*; don't reopen them without asking), deployment with the instance's `OXP.jar` (§4),
+  and what the implementation changed vs. the plan (§12).
+
+Gotchas: `GenericRepository` is a Spring singleton, so it never assigns `tableName`/`pkColumns` — the table
+travels in a per-request `TableSpec`. Always go through `resolveTable` first and use the canonical name: it ends
+up concatenated into SQL and keys the `ColumnResolver` cache. `PO.load(int)` hard-codes `<Table>_ID` as the key,
+so tables whose key differs (views such as `RV_BPartner`) are read through a where clause and are read-only.
+
 ## Still planned
 
 - **`factaccts`** (read-only `Fact_Acct`) so a consumer can reconcile what actually got posted. Posting is
   deferred: a completed journal sits at `posted='N'` until the ERP's Accounting Processor picks it up, so a
-  `200` from the API is not proof of posting. See `docs/plan-asientos-manuales.md` §12.3 and phase 4.
+  `200` from the API is not proof of posting. See `docs/planes/plan-asientos-manuales.md` §12.3 and phase 4.
 - **Analytic dimensions on journal lines** (phase 3) — when a consumer needs to impute by product / business
   partner / project / campaign. The code to port from `lyws` is identified in §7 of the plan.
