@@ -1,7 +1,10 @@
 package org.libertya.api.service;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.time.Instant;
 import java.util.Properties;
+import java.util.jar.Manifest;
 import org.openXpertya.db.CConnection;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.util.*;
@@ -60,12 +63,28 @@ public class StartupLYService {
      */
     protected void logCoreLocation() {
         try {
-            Package corePackage = M_Table.class.getPackage();
-            String version = corePackage != null ? corePackage.getImplementationVersion() : null;
-            log.info("Core de Libertya cargado desde: " + M_Table.class.getProtectionDomain().getCodeSource().getLocation() +
-                    " (version: " + (version != null ? version : "desconocida") + ")");
+            URL location = M_Table.class.getProtectionDomain().getCodeSource().getLocation();
+            log.info("Core de Libertya cargado desde: " + location + " (version: " + getCoreVersion(location) + ")");
         } catch (Exception e) {
             log.warn("No fue posible determinar desde que jar se cargo el core de Libertya: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Version del manifest del jar desde el que se cargo el core. No se usa Package.getImplementationVersion():
+     * el launcher de Spring Boot define el paquete con el manifest del OXP.jar embebido aunque la clase venga de
+     * otro jar por loader.path, y la version informada seria la equivocada.
+     */
+    protected String getCoreVersion(URL location) {
+        String spec = location.toString();
+        // Embebido: jar:file:.../lyrestapi.jar!/BOOT-INF/lib/OXP.jar!/  -  Por loader.path: file:/ruta/OXP.jar
+        String manifest = spec.startsWith("jar:") ? spec + (spec.endsWith("/") ? "" : "/") + "META-INF/MANIFEST.MF"
+                                                  : "jar:" + spec + "!/META-INF/MANIFEST.MF";
+        try (InputStream in = new URL(manifest).openStream()) {
+            String version = new Manifest(in).getMainAttributes().getValue("Implementation-Version");
+            return version != null ? version : "desconocida";
+        } catch (Exception e) {
+            return "desconocida";
         }
     }
 
