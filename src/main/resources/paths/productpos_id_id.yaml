@@ -1,0 +1,108 @@
+get:
+  summary: Recupera una relacion articulo-proveedor en particular
+  tags:
+    - "productpo"
+  parameters:
+    - name: idProduct
+      in: path
+      description: ID del articulo
+      required: true
+      schema:
+        type: integer
+    - name: idBPartner
+      in: path
+      description: ID de la Entidad Comercial (proveedor)
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de la relacion entre un articulo y un proveedor
+  operationId: retrieveProductPO
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/productpo.yaml#/components/schemas/ProductPO'
+delete:
+  summary: Elimina una relacion articulo-proveedor
+  tags:
+    - "productpo"
+  parameters:
+    - name: idProduct
+      in: path
+      description: ID del articulo
+      required: true
+      schema:
+        type: integer
+    - name: idBPartner
+      in: path
+      description: ID de la Entidad Comercial (proveedor)
+      required: true
+      schema:
+        type: integer
+  description: Elimina una relacion articulo-proveedor existente
+  operationId: deleteProductPO
+  responses:
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+put:
+  summary: Actualiza una relacion articulo-proveedor existente
+  tags:
+    - "productpo"
+  operationId: updateProductPO
+  parameters:
+    - name: idProduct
+      in: path
+      description: ID del articulo
+      required: true
+      schema:
+        type: integer
+    - name: idBPartner
+      in: path
+      description: ID de la Entidad Comercial (proveedor)
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/productpo.yaml#/components/schemas/ProductPO'
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible actualizar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

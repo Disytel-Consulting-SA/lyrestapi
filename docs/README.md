@@ -12,6 +12,7 @@
 | [`Libertya REST API - Manual para desarrolladores.md`](referencia/Libertya%20REST%20API%20-%20Manual%20para%20desarrolladores.md) | Quien agrega endpoints: estructura del proyecto, codegen, build, releases por versión de core, Docker |
 | [`asientos-manuales-api.md`](referencia/asientos-manuales-api.md) | Integradores que cargan asientos contables (`/v1.0/journals`) |
 | [`endpoint-generico-api.md`](referencia/endpoint-generico-api.md) | Integradores que operan tablas sin endpoint propio (`/v1.0/generic/{table}`) |
+| [`productpos-api.md`](referencia/productpos-api.md) | Integradores que relacionan artículos con proveedores (`/v1.0/productpos`), requisito de los remitos de compra |
 | [`invoice-print.md`](referencia/invoice-print.md) | Impresión de facturas en PDF y cómo regenerar `libs/JasperReports-ngroovy.jar` |
 
 ## `planes/` — diseño, decisiones y evidencia

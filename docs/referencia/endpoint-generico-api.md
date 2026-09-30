@@ -250,7 +250,8 @@ que el modelo completa solo. Ante la duda, probá el alta y leé el `409`.
 - **Cualquier tabla de `AD_Table`**, incluidas las de metadatos (`AD_*`). El endpoint no restringe tablas ni
   columnas: aplican los mismos controles que al resto de la API (token y compañía).
 - **Con clave primaria simple y numérica.** Las tablas con clave compuesta (por ejemplo `C_InvoiceTax`) todavía
-  no se pueden operar.
+  no se pueden operar por acá. Varias tienen endpoint tipado: `M_Product_PO` en `/v1.0/productpos` (ver
+  `productpos-api.md`), `M_ProductPrice` en `/v1.0/productprices`, `AD_User_Roles` en `/v1.0/userroles`.
 - **Con clase de modelo disponible** en la API (ver §6).
 - **Las vistas son de solo lectura**, y también las pocas tablas cuya clave no se llama `<Tabla>_ID`.
 - **El listado necesita la columna `AD_Client_ID`**, porque siempre filtra por la compañía del token. Las

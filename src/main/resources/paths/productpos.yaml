@@ -1,0 +1,67 @@
+get:
+  summary: Retorna las relaciones articulo-proveedor
+  tags:
+    - "productpo"
+  description: Retorna la lista de relaciones entre articulos y proveedores (M_Product_PO)
+  operationId: getAllProductPOs
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/productpo.yaml#/components/schemas/ProductPO'
+post:
+  summary: Nueva relacion articulo-proveedor
+  tags:
+    - "productpo"
+  description: Relaciona un articulo con un proveedor
+  operationId: addProductPO
+  responses:
+    "200":
+      description: OK. Se retorna el ID de la relacion creada, formado por su ID de Articulo y su ID de Entidad Comercial
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/productpo.yaml#/components/schemas/ProductPO'

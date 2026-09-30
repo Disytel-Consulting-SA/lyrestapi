@@ -1,0 +1,82 @@
+components:
+  schemas:
+    ProductPO:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_bpartner_id:
+          type: integer
+          description: "Identifica una Entidad Comercial"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        c_uom_id:
+          type: integer
+          description: "Unidad de Medida"
+        deliverytime_promised:
+          type: integer
+          description: "Días prometidos entre la orden y la entrega"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        iscurrentvendor:
+          type: boolean
+          description: "Use este proveedor para el cálculo de precio y reabastecimiento de inventario"
+        m_product_id:
+          type: integer
+          description: "Producto; servicio o Artículo"
+        order_min:
+          type: number
+          description: "Cantidad Mínima de Pedido en la UM"
+        order_pack:
+          type: number
+          description: "Tamaño del paquete a ordenar en UM (Ej. Conjunto a ordenar de 5 unidades)"
+        pricelist:
+          type: number
+          description: "Precio de Tarifa"
+        pricepo:
+          type: number
+          description: "Precio Pedido a Proveedor"
+        upc:
+          type: string
+          description: "Código de Barras (Universal Product Code o su súper conjunto European Article NUMERIC)"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        vendorproductno:
+          type: string
+          description: "Proveedor"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_bpartner_id
+         - created
+         - createdby
+         - isactive
+         - iscurrentvendor
+         - m_product_id
+         - updated
+         - updatedby
+         - vendorproductno

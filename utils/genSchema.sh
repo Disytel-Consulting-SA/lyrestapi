@@ -82,6 +82,8 @@ generateSchema CashLine                 C_CashLine                cashline.yaml 
 generateSchema AllocationHdr            C_AllocationHdr           allocationhdr.yaml            allocations
 generateSchema AllocationLine           C_AllocationLine          allocationline.yaml           allocationlines
 generateSchema ProductPrice             M_ProductPrice            productprice.yaml             productprices
+# Relacion articulo-proveedor. c_uom_id no es obligatoria en el diccionario pero es la que se suele informar
+generateSchema ProductPO                M_Product_PO              productpo.yaml                productpos                  "('c_uom_id', 'c_currency_id', 'pricelist', 'pricepo', 'order_min', 'order_pack', 'upc', 'deliverytime_promised')"
 generateSchema Inventory                M_Inventory               inventory.yaml                inventories
 generateSchema InventoryLine            M_InventoryLine           inventoryline.yaml            inventorylines
 generateSchema Storage                  M_Storage                 storage.yaml                  storages
