@@ -1,0 +1,57 @@
+post:
+  summary: Retorna los registros visibles de una pestana
+  description: >
+    Retorna los registros pertenecientes al universo definido por
+    Libertya para la pestana indicada. Se aplican la clausula Where
+    de la pestana, el contexto de ventana, las restricciones de acceso
+    del rol y, para pestanas hijas, el contexto del registro padre.
+    Si no se especifica sort se utiliza el OrderByClause definido
+    por la pestana.
+
+  tags:
+    - "windowrecords"
+
+  operationId: getTabRecords
+
+  parameters:
+    - name: id
+      in: path
+      description: ID de la pestana
+      required: true
+      schema:
+        type: integer
+
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          $ref: '../model/windowrecordquery.yaml#/components/schemas/WindowRecordQuery'
+
+  responses:
+    "200":
+      description: Registros visibles de la pestana
+      headers:
+        X-Total-Count:
+          description: >
+            Cantidad total de registros cuando include_total es true.
+          schema:
+            type: integer
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/genericrecord.yaml#/components/schemas/GenericRecord'
+
+    "401":
+      description: Token ausente, invalido o incompleto
+
+    "403":
+      description: El rol no tiene acceso a la ventana o pestana
+
+    "404":
+      description: Pestana inexistente
+
+    "409":
+      description: No se pudo resolver o consultar la pestana

@@ -1,0 +1,51 @@
+components:
+  schemas:
+
+    WindowRecordQuery:
+      type: object
+      description: >
+        Parametros para consultar los registros pertenecientes a una
+        pestana dinamica de Libertya.
+
+      properties:
+
+        parent_values:
+          type: object
+          description: >
+            Valores provenientes del registro padre para pestanas
+            master/detail, indexados por nombre de columna.
+            Los valores se representan uniformemente como strings.
+          additionalProperties:
+            type: string
+
+        filter:
+          type: string
+          description: >
+            Criterio adicional de filtrado. Este filtro se aplica sobre
+            el universo de registros definido por la pestana y nunca
+            reemplaza las restricciones de metadata o de acceso.
+
+        fields:
+          type: string
+          description: Campos a recuperar.
+
+        sort:
+          type: string
+          description: >
+            Criterio de ordenado. Si no se especifica se utiliza
+            el OrderByClause definido por la pestana.
+
+        limit:
+          type: integer
+          description: Limite de elementos a retornar por pagina.
+
+        page:
+          type: integer
+          description: Numero de pagina.
+
+        include_total:
+          type: boolean
+          description: >
+            Indica si debe calcularse el total de registros que cumplen
+            las condiciones de la consulta.
+          default: false
