@@ -81,9 +81,7 @@ public class ColumnLookupRepository {
             ps.setInt(1, columnId);
             rs = ps.executeQuery();
 
-            if (!rs.next()) {
-                return null;
-            }
+            if (!rs.next()) return null;
 
             ColumnInfo result = new ColumnInfo();
             result.columnId = rs.getInt("ad_column_id");
@@ -96,7 +94,6 @@ public class ColumnLookupRepository {
             result.validationCode = rs.getString("validation_code");
 
             return result;
-
         } catch (Exception e) {
             throw new RuntimeException("Error recuperando metadata de AD_Column " + columnId, e);
         } finally {
@@ -110,12 +107,9 @@ public class ColumnLookupRepository {
      * =========================================================
      */
     private List<ColumnLookupValue> retrieveTable(UserInfo info, ColumnInfo column, int limit, int page, String search, String value, Map<String, String> contextValues) {
-        if (column.referenceValueId == null || column.referenceValueId <= 0) {
-            return new ArrayList<>();
-        }
+        if (column.referenceValueId == null || column.referenceValueId <= 0) return new ArrayList<>();
 
         TableReferenceInfo referenceInfo = loadTableReferenceInfo(column.referenceValueId);
-
         if (referenceInfo == null || referenceInfo.tableName == null || referenceInfo.keyColumn == null || referenceInfo.displayColumn == null) {
             return new ArrayList<>();
         }
@@ -124,6 +118,7 @@ public class ColumnLookupRepository {
         boolean hasSearch = search != null && !search.trim().isEmpty();
         boolean hasValue = value != null && !value.trim().isEmpty();
         String validationCode = resolveValidationCode(info, column, contextValues);
+        String referenceWhereClause = resolveReferenceClause(info, referenceInfo.whereClause, contextValues);
 
         /*
          * Sólo filtramos por client si:
@@ -172,6 +167,19 @@ public class ColumnLookupRepository {
         }
 
         /*
+         * Restricción propia de AD_Ref_Table.
+         *
+         * Igual que las reglas de validación, determina los valores
+         * seleccionables pero no impide resolver el display de un
+         * valor ya almacenado.
+         */
+        if (!hasValue && referenceWhereClause != null) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append("(").append(referenceWhereClause).append(") ");
+            hasWhere = true;
+        }
+
+        /*
          * Regla de validación definida en AD_Column.AD_Val_Rule_ID.
          *
          * Igual que en MLookupFactory de CORE, la regla determina los
@@ -185,33 +193,25 @@ public class ColumnLookupRepository {
         }
 
         /*
-         * Para una resolución puntual no usamos la AD_Val_Rule,
-         * pero sí aplicamos la seguridad del rol.
-         *
-         * CORE/Swing construye QueryDirect antes de Validation/Security.
-         * En REST mantenemos la semántica de no aplicar Validation,
-         * pero agregamos explícitamente la seguridad del rol porque
-         * el ID solicitado proviene de una petición HTTP.
+         * Para una resolución puntual no usamos AD_Ref_Table.WhereClause
+         * ni AD_Val_Rule, pero sí aplicamos la seguridad del rol.
          */
         if (hasValue && info != null && info.hasRole()) {
-            MRole role = MRole.get(
-                    info.getCtx(),
-                    info.getRoleID(),
-                    info.getUserID(),
-                    false
-            );
-
-            String securedSql = role.addAccessSQL(
-                    sql.toString(),
-                    referenceInfo.tableName,
-                    MRole.SQL_FULLYQUALIFIED,
-                    MRole.SQL_RO
-            );
-
+            MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+            String securedSql = role.addAccessSQL(sql.toString(), referenceInfo.tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
             sql = new StringBuilder(securedSql);
         }
 
-        sql.append(" ORDER BY lookup_name ");
+        /*
+         * AD_Ref_Table.OrderByClause define el orden natural de la
+         * referencia. Para resolución puntual el orden es irrelevante.
+         */
+        if (!hasValue && referenceInfo.orderByClause != null && !referenceInfo.orderByClause.trim().isEmpty()) {
+            sql.append(" ORDER BY ").append(referenceInfo.orderByClause.trim()).append(" ");
+        } else {
+            sql.append(" ORDER BY lookup_name ");
+        }
+
         sql.append(" LIMIT ? OFFSET ? ");
 
         return executeLookupQuery(
@@ -241,9 +241,7 @@ public class ColumnLookupRepository {
             ps.setInt(1, referenceId);
             rs = ps.executeQuery();
 
-            if (!rs.next()) {
-                return null;
-            }
+            if (!rs.next()) return null;
 
             TableReferenceInfo result = new TableReferenceInfo();
             result.tableName = rs.getString("tablename");
@@ -254,7 +252,6 @@ public class ColumnLookupRepository {
             result.orderByClause = rs.getString("orderbyclause");
 
             return result;
-
         } catch (Exception e) {
             throw new RuntimeException("Error recuperando AD_Ref_Table para AD_Reference_ID " + referenceId, e);
         } finally {
@@ -263,11 +260,24 @@ public class ColumnLookupRepository {
     }
 
     /**
-     * Primera implementación:
-     * usa directamente AD_Ref_Table.AD_Display.
+     * Construye el texto visible definido por AD_Ref_Table.
      */
     private String buildTableDisplayExpression(TableReferenceInfo referenceInfo) {
-        return "COALESCE(CAST(" + referenceInfo.tableName + "." + referenceInfo.displayColumn + " AS VARCHAR), '')";
+        String displayExpression;
+
+        if ("C_Location_ID".equalsIgnoreCase(referenceInfo.displayColumn)) {
+            displayExpression = "(SELECT COALESCE(location.Address1, '') || ', ' || COALESCE(location.City, '') || ', ' || COALESCE(location.Postal, '') "
+                    + "FROM C_Location location WHERE location.C_Location_ID = "
+                    + referenceInfo.tableName + ".C_Location_ID)";
+        } else {
+            displayExpression = "COALESCE(CAST(" + referenceInfo.tableName + "." + referenceInfo.displayColumn + " AS VARCHAR), '')";
+        }
+
+        if (referenceInfo.valueDisplayed) {
+            return "COALESCE(CAST(" + referenceInfo.tableName + ".Value AS VARCHAR), '') || '-' || " + displayExpression;
+        }
+
+        return displayExpression;
     }
 
     /**
@@ -342,20 +352,8 @@ public class ColumnLookupRepository {
          * la seguridad real del rol de Libertya.
          */
         if (hasValue && info != null && info.hasRole()) {
-            MRole role = MRole.get(
-                    info.getCtx(),
-                    info.getRoleID(),
-                    info.getUserID(),
-                    false
-            );
-
-            String securedSql = role.addAccessSQL(
-                    sql.toString(),
-                    tableName,
-                    MRole.SQL_FULLYQUALIFIED,
-                    MRole.SQL_RO
-            );
-
+            MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+            String securedSql = role.addAccessSQL(sql.toString(), tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
             sql = new StringBuilder(securedSql);
         }
 
@@ -378,13 +376,9 @@ public class ColumnLookupRepository {
         /*
          * Excepción histórica de Libertya.
          */
-        if ("AD_OrgBP_ID".equalsIgnoreCase(columnName)) {
-            return "AD_Org";
-        }
+        if ("AD_OrgBP_ID".equalsIgnoreCase(columnName)) return "AD_Org";
 
-        if (!columnName.toUpperCase().endsWith("_ID")) {
-            return null;
-        }
+        if (!columnName.toUpperCase().endsWith("_ID")) return null;
 
         return columnName.substring(0, columnName.length() - 3);
     }
@@ -413,21 +407,13 @@ public class ColumnLookupRepository {
             while (rs.next()) {
                 String columnName = rs.getString("columnname");
 
-                if ("Y".equals(rs.getString("iskey"))) {
-                    result.keyColumn = columnName;
-                }
-
-                if ("Y".equals(rs.getString("isidentifier"))) {
-                    result.identifierColumns.add(columnName);
-                }
+                if ("Y".equals(rs.getString("iskey"))) result.keyColumn = columnName;
+                if ("Y".equals(rs.getString("isidentifier"))) result.identifierColumns.add(columnName);
             }
 
-            if (result.keyColumn == null && result.identifierColumns.isEmpty()) {
-                return null;
-            }
+            if (result.keyColumn == null && result.identifierColumns.isEmpty()) return null;
 
             return result;
-
         } catch (Exception e) {
             throw new RuntimeException("Error recuperando metadata de lookup para tabla " + tableName, e);
         } finally {
@@ -436,19 +422,11 @@ public class ColumnLookupRepository {
     }
 
     /**
-     * Resuelve la regla de validación configurada en AD_Column.AD_Val_Rule_ID.
-     *
-     * En esta primera etapa se resuelve únicamente con el contexto global
-     * disponible en UserInfo (#AD_Client_ID, #AD_Org_ID, #AD_User_ID,
-     * #AD_Role_ID, etc.).
-     *
-     * Las reglas que todavía contengan variables de ventana/registro se
-     * ignoran hasta incorporar contexto dinámico al endpoint de lookup.
+     * Resuelve la regla de validación configurada en AD_Column.AD_Val_Rule_ID
+     * utilizando el contexto global y el contexto dinámico enviado por el frontend.
      */
     private String resolveValidationCode(UserInfo info, ColumnInfo column, Map<String, String> contextValues) {
-        if (info == null || column.validationCode == null || column.validationCode.trim().isEmpty()) {
-            return null;
-        }
+        if (info == null || column.validationCode == null || column.validationCode.trim().isEmpty()) return null;
 
         Properties ctx = new Properties();
         ctx.putAll(info.getCtx());
@@ -462,12 +440,33 @@ public class ColumnLookupRepository {
         }
 
         String validation = Env.parseContext(ctx, 0, column.validationCode, true);
-
-        if (validation == null || validation.trim().isEmpty() || validation.indexOf('@') >= 0) {
-            return null;
-        }
+        if (validation == null || validation.trim().isEmpty() || validation.indexOf('@') >= 0) return null;
 
         return validation.trim();
+    }
+
+    /**
+     * Resuelve una cláusula de AD_Ref_Table utilizando el mismo contexto
+     * global y dinámico disponible para las reglas de validación.
+     */
+    private String resolveReferenceClause(UserInfo info, String clause, Map<String, String> contextValues) {
+        if (clause == null || clause.trim().isEmpty()) return null;
+
+        Properties ctx = new Properties();
+        if (info != null) ctx.putAll(info.getCtx());
+
+        if (contextValues != null) {
+            for (Map.Entry<String, String> entry : contextValues.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() != null) {
+                    Env.setContext(ctx, 0, entry.getKey(), entry.getValue());
+                }
+            }
+        }
+
+        String resolved = Env.parseContext(ctx, 0, clause, true);
+        if (resolved == null || resolved.trim().isEmpty() || resolved.indexOf('@') >= 0) return null;
+
+        return resolved.trim();
     }
 
     /**
@@ -475,9 +474,7 @@ public class ColumnLookupRepository {
      * System (clientID = 0) mantiene acceso global.
      */
     private boolean shouldFilterByClient(UserInfo info, String tableName) {
-        if (info == null || info.getClientID() == 0) {
-            return false;
-        }
+        if (info == null || info.getClientID() == 0) return false;
         return tableHasClientId(tableName);
     }
 
@@ -500,7 +497,6 @@ public class ColumnLookupRepository {
             rs = ps.executeQuery();
 
             return rs.next();
-
         } catch (Exception e) {
             throw new RuntimeException("Error determinando si la tabla " + tableName + " posee AD_Client_ID", e);
         } finally {
@@ -515,9 +511,7 @@ public class ColumnLookupRepository {
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < identifierColumns.size(); i++) {
-            if (i > 0) {
-                result.append(" || '_' || ");
-            }
+            if (i > 0) result.append(" || '_' || ");
             result.append("COALESCE(CAST(").append(tableName).append(".").append(identifierColumns.get(i)).append(" AS VARCHAR), '')");
         }
 
@@ -547,10 +541,6 @@ public class ColumnLookupRepository {
              * 5. offset
              */
             if (hasValue) {
-                /*
-                 * La mayoría de las keys son Integer.
-                 * Si no puede convertirse se utiliza String.
-                 */
                 try {
                     int intValue = Integer.parseInt(value);
                     ps.setInt(parameterIndex, intValue);
@@ -569,7 +559,6 @@ public class ColumnLookupRepository {
             }
 
             ps.setInt(parameterIndex++, limit);
-
             int offset = (page - 1) * limit;
             ps.setInt(parameterIndex, offset);
 
@@ -587,7 +576,6 @@ public class ColumnLookupRepository {
             }
 
             return result;
-
         } catch (Exception e) {
             throw new RuntimeException("Error recuperando lookup " + description, e);
         } finally {
