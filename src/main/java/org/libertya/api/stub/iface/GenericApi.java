@@ -5,6 +5,7 @@
  */
 package org.libertya.api.stub.iface;
 
+import org.libertya.api.stub.model.DocumentActions;
 import org.libertya.api.stub.model.GenericRecord;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
@@ -142,7 +143,35 @@ public interface GenericApi {
     }
 
 
-    @Operation(summary = "Procesa un documento de una tabla", description = "Aplica una accion de documento sobre un registro de una tabla cuyo modelo implementa DocAction. Sobre una tabla que no es un documento responde 409.  ACCIONES SOPORTADAS: unicamente CO (completar), VO (anular) y CL (cerrar). Las acciones de reversion y reactivacion del core (RC, RA, RE) NO estan disponibles por una limitacion del procesado generico de documentos de esta API, documentada en docs/PENDIENTES.md P1. ", security = {
+    @Operation(summary = "Recupera las acciones disponibles para un documento", description = "Recupera las acciones que pueden aplicarse actualmente a un registro de una tabla cuyo modelo implementa DocAction. Las acciones se determinan utilizando las reglas de CORE, las customizaciones DocOptions, los plugins y las restricciones del rol autenticado cuando existe contexto de rol.  La respuesta contiene unicamente acciones que, ademas de ser validas para el documento, estan soportadas actualmente por el endpoint generico de procesamiento: CO (completar), VO (anular) y CL (cerrar).  La disponibilidad devuelta por este endpoint es informativa. El endpoint de procesamiento vuelve a validar la accion inmediatamente antes de ejecutarla. ", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "generic" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "Acciones disponibles", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DocumentActions.class))),
+        
+        @ApiResponse(responseCode = "409", description = "La tabla no corresponde a un documento procesable", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "404", description = "La tabla o el documento no existen", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))) })
+    @RequestMapping(value = "/v1.0/generic/{table}/{id}/process/actions",
+        produces = { "application/json", "text/plain" }, 
+        method = RequestMethod.GET)
+    default ResponseEntity<DocumentActions> getGenericRecordProcessActions(@Parameter(in = ParameterIn.PATH, description = "Nombre de la tabla (TableName de AD_Table), por ejemplo C_Invoice", required=true, schema=@Schema()) @PathVariable("table") String table, @Parameter(in = ParameterIn.PATH, description = "Valor de la clave primaria del documento", required=true, schema=@Schema()) @PathVariable("id") Integer id) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("{\n  \"docStatus\" : \"DR\",\n  \"defaultAction\" : \"CO\",\n  \"actions\" : [ {\n    \"name\" : \"Completar\",\n    \"description\" : \"Completar el documento\",\n    \"value\" : \"CO\"\n  }, {\n    \"name\" : \"Completar\",\n    \"description\" : \"Completar el documento\",\n    \"value\" : \"CO\"\n  } ]\n}", DocumentActions.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default GenericApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @Operation(summary = "Procesa un documento de una tabla", description = "Aplica una accion de documento sobre un registro de una tabla cuyo modelo implementa DocAction. Sobre una tabla que no es un documento responde 409.  ACCIONES SOPORTADAS: actualmente CO (completar), VO (anular) y CL (cerrar). Otras acciones que CORE pueda considerar validas no estan disponibles todavia debido a que el procesamiento generico actual presupone que el DocStatus resultante coincide con el DocAction solicitado. Ver docs/PENDIENTES.md P1. ", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "generic" })
     @ApiResponses(value = { 
         @ApiResponse(responseCode = "200", description = "OK", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),

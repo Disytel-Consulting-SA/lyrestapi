@@ -5,17 +5,30 @@ import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
+import org.libertya.api.stub.model.DocumentAction;
+import org.libertya.api.stub.model.DocumentActions;
 import org.libertya.api.stub.model.GenericRecord;
+import org.openXpertya.model.MAllocationHdr;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
+import org.openXpertya.model.PO;
+import org.openXpertya.plugin.MPluginPO;
+import org.openXpertya.plugin.common.PluginPOUtils;
 import org.openXpertya.process.DocAction;
+import org.openXpertya.process.DocOptions;
+import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.DisplayType;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.Vector;
 
 /**
  * Operaciones sobre cualquier tabla de AD_Table indicada por nombre (endpoint generico /v1.0/generic/{table}).
@@ -27,6 +40,26 @@ import java.util.Optional;
  */
 @Repository
 public class GenericRepository extends AbstractRepository {
+
+    /**
+     * Acciones de documento actualmente soportadas por la capa REST.
+     *
+     * DocumentEngine y las implementaciones de DocOptions pueden exponer otras acciones validas
+     * (Prepare, ReActivate, Reverse_Correct, Reverse_Accrual, etc.). Esas acciones se excluyen
+     * intencionalmente de /process/actions.
+     *
+     * AbstractRepository.processEntity() actualmente valida luego del procesamiento que el DocStatus
+     * resultante coincida con el DocAction solicitado. Esa suposicion es valida para Complete (CO),
+     * Void (VO) y Close (CL), pero no es valida en general para todas las acciones soportadas por Libertya.
+     *
+     * Por este motivo /process/actions expone unicamente la interseccion entre las acciones que CORE
+     * considera validas para el documento y las acciones que la capa REST puede procesar correctamente.
+     *
+     * IMPORTANTE: antes de incorporar nuevas acciones a este conjunto debe revisarse processEntity(),
+     * eliminando la suposicion general DocAction == DocStatus resultante.
+     */
+    private static final Set<String> SUPPORTED_PROCESS_ACTIONS =
+            new HashSet<>(Arrays.asList(DocAction.ACTION_Complete, DocAction.ACTION_Void, DocAction.ACTION_Close));
 
     /** Descriptor inmutable de la tabla sobre la que opera un request */
     public static final class TableSpec {
@@ -101,9 +134,9 @@ public class GenericRepository extends AbstractRepository {
         // Misma consulta que M_Table.getTableOwnerPackage (privado en el core)
         String packageName = DB.getSQLValueString(null,
                 " SELECT c.packagename FROM AD_Table t " +
-                " INNER JOIN AD_ComponentVersion cv ON cv.AD_ComponentVersion_ID = t.AD_ComponentVersion_ID " +
-                " INNER JOIN AD_Component c ON c.AD_Component_ID = cv.AD_Component_ID " +
-                " WHERE t.AD_Table_ID = ?", table.getAD_Table_ID());
+                        " INNER JOIN AD_ComponentVersion cv ON cv.AD_ComponentVersion_ID = t.AD_ComponentVersion_ID " +
+                        " INNER JOIN AD_Component c ON c.AD_Component_ID = cv.AD_Component_ID " +
+                        " WHERE t.AD_Table_ID = ?", table.getAD_Table_ID());
         return "No se encontro la clase de modelo para la tabla " + table.getTableName() +
                 (packageName != null ? " (componente " + packageName + ")" : "") +
                 ". Verificar que el OXP.jar de la instancia este en loader.path";
@@ -123,6 +156,138 @@ public class GenericRepository extends AbstractRepository {
         GenericRecord record = new GenericRecord();
         record.putAll(values);
         return record;
+    }
+
+    /**
+     * Resuelve las acciones actualmente validas para un documento reproduciendo
+     * el mismo circuito utilizado por VDocAction/WDocActionPanel:
+     *
+     * DocumentEngine -> DocOptions del PO -> DocOptions de plugins -> permisos del rol.
+     *
+     * Finalmente se filtran las acciones que la capa REST todavia no puede procesar.
+     */
+    private DocumentActions resolveDocumentActions(UserInfo info, PO po) throws ModelException {
+        if (!(po instanceof DocAction))
+            throw new ModelException("La entidad no implementa DocAction");
+
+        final int tableId = po.get_Table_ID();
+        final int recordId = po.getID();
+        final String docStatus = getStringValue(po, "DocStatus");
+        final String currentDocAction = getStringValue(po, "DocAction");
+        final Object processing = getValue(po, "Processing");
+        final String orderType = getStringValue(po, "OrderType");
+        final String isSOTrx = getStringValue(po, "IsSOTrx");
+
+        if (docStatus == null)
+            throw new ModelException("El documento no posee DocStatus");
+
+        /*
+         * VDocAction y WDocActionPanel cargan tanto la referencia general de DocAction
+         * como la referencia especial de Allocation. Ademas de proveer nombre y descripcion,
+         * el total de valores determina el tamanio del array utilizado por DocumentEngine
+         * y las implementaciones de DocOptions.
+         */
+        ArrayList<String> refValues = new ArrayList<>();
+        ArrayList<String> refNames = new ArrayList<>();
+        ArrayList<String> refDescriptions = new ArrayList<>();
+
+        DocumentEngine.readReferenceList(DocAction.AD_REFERENCE_ID, refValues, refNames, refDescriptions);
+        DocumentEngine.readReferenceList(MAllocationHdr.ALLOCATIONACTION_AD_Reference_ID, refValues, refNames, refDescriptions);
+
+        String[] options = new String[refValues.size()];
+        String[] docActionHolder = new String[]{currentDocAction};
+
+        // 1. Acciones estandar determinadas por CORE
+        int index = DocumentEngine.getValidActions(docStatus, processing, orderType, isSOTrx, tableId, docActionHolder, options, recordId);
+
+        // 2. Customizacion de la clase concreta del documento
+        if (po instanceof DocOptions)
+            index = ((DocOptions) po).customizeValidActions(docStatus, processing, orderType, isSOTrx, tableId, docActionHolder, options, index);
+
+        // 3. Customizaciones aportadas por plugins
+        Vector<MPluginPO> plugins = PluginPOUtils.getPluginList(po);
+        for (MPluginPO plugin : plugins) {
+            if (plugin instanceof DocOptions)
+                index = ((DocOptions) plugin).customizeValidActions(docStatus, processing, orderType, isSOTrx, tableId, docActionHolder, options, index);
+        }
+
+        /*
+         * 4. Restricciones configuradas por rol/tipo de documento.
+         *
+         * Los tokens REST historicos pueden no contener roleID. Cuando existe contexto
+         * de rol reproducimos la validacion realizada por VDocAction/WDocActionPanel.
+         * No se inventa un rol implicito cuando el token no lo posee.
+         */
+        Integer docTypeId = getIntegerValue(po, "C_DocType_ID");
+        if (docTypeId == null || docTypeId == 0)
+            docTypeId = getIntegerValue(po, "C_DocTypeTarget_ID");
+
+        if (docTypeId != null && docTypeId != 0 && info.hasRole())
+            index = DocumentEngine.checkActionAccess(info.getClientID(), info.getRoleID(), docTypeId, options, index);
+
+        /*
+         * 5. Publicar solamente las acciones que REST puede ejecutar correctamente.
+         * Los nombres y descripciones provienen de las referencias de CORE.
+         */
+        List<DocumentAction> actions = new ArrayList<>();
+
+        for (int i = 0; i < index; i++) {
+            String value = options[i];
+
+            if (value == null || !SUPPORTED_PROCESS_ACTIONS.contains(value))
+                continue;
+
+            int refIndex = refValues.indexOf(value);
+            String name = refIndex >= 0 ? refNames.get(refIndex) : value;
+            String description = refIndex >= 0 ? refDescriptions.get(refIndex) : "";
+
+            actions.add(new DocumentAction().value(value).name(name).description(description));
+        }
+
+        /*
+         * getValidActions()/DocOptions pueden modificar la accion sugerida mediante
+         * docActionHolder[0]. Solo la exponemos como default si sobrevivio a todas
+         * las validaciones y esta soportada por REST.
+         */
+        String defaultAction = docActionHolder[0];
+        boolean validDefault = defaultAction != null && containsAction(actions, defaultAction);
+
+        if (!validDefault)
+            defaultAction = actions.isEmpty() ? null : actions.get(0).getValue();
+
+        return new DocumentActions().docStatus(docStatus).defaultAction(defaultAction).actions(actions);
+    }
+
+    /** Valor de una columna del PO, o null si el modelo no posee dicha columna */
+    private Object getValue(PO po, String columnName) {
+        if (po.get_ColumnIndex(columnName) < 0)
+            return null;
+        return po.get_Value(columnName);
+    }
+
+    /** Valor String de una columna del PO, o null si no existe/no tiene valor */
+    private String getStringValue(PO po, String columnName) {
+        Object value = getValue(po, columnName);
+        return value != null ? value.toString() : null;
+    }
+
+    /** Valor Integer de una columna del PO, o null si no existe/no es numerica */
+    private Integer getIntegerValue(PO po, String columnName) {
+        Object value = getValue(po, columnName);
+        return value instanceof Number ? ((Number) value).intValue() : null;
+    }
+
+    /** Indica si la accion se encuentra en el resultado final */
+    private boolean containsAction(List<DocumentAction> actions, String action) {
+        if (action == null)
+            return false;
+
+        for (DocumentAction option : actions) {
+            if (action.equals(option.getValue()))
+                return true;
+        }
+
+        return false;
     }
 
     /* =========================== Metodos publicos  =========================== */
@@ -171,12 +336,47 @@ public class GenericRepository extends AbstractRepository {
         deleteEntity(info, spec.getTableName(), new int[]{id});
     }
 
+    /**
+     * Recupera las acciones de procesamiento actualmente disponibles para un documento.
+     *
+     * La disponibilidad se determina utilizando el estado persistido actual del PO,
+     * las customizaciones DocOptions, los plugins y, cuando corresponde, los permisos
+     * del rol autenticado.
+     */
+    public DocumentActions getDocumentActions(UserInfo info, String table, int id) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTable(info, table);
+
+        if (!spec.isDocument())
+            throw new ModelException("La tabla " + spec.getTableName() + " no es un documento: no admite process");
+
+        PO po = getPO(info, spec.getTableName(), new int[]{id}, null);
+        if (po == null || po.getID() <= 0)
+            throw new NotFoundException();
+
+        return resolveDocumentActions(info, po);
+    }
+
     /** Procesado de un documento. Solo para tablas cuya clase de modelo implementa DocAction */
     public String processRecord(UserInfo info, String table, int id, String action) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveTable(info, table);
         checkWritable(spec);
+
         if (!spec.isDocument())
             throw new ModelException("La tabla " + spec.getTableName() + " no es un documento: no admite process");
-        return processEntity(info, spec.getTableName(), new int[]{id}, action, null);
-    }
+
+        /*
+         * No confiar en que una accion obtenida previamente mediante /process/actions
+         * siga siendo valida. Se vuelve a resolver inmediatamente antes de procesar.
+         */
+        PO po = getPO(info, spec.getTableName(), new int[]{id}, null);
+        if (po == null || po.getID() <= 0)
+            throw new NotFoundException();
+
+        String normalizedAction = action != null ? action.toUpperCase() : null;
+        DocumentActions availableActions = resolveDocumentActions(info, po);
+
+        if (!containsAction(availableActions.getActions(), normalizedAction))
+            throw new ModelException("La accion " + action + " no esta disponible para el documento en su estado actual");
+
+        return processEntity(info, spec.getTableName(), new int[]{id}, normalizedAction, null);    }
 }

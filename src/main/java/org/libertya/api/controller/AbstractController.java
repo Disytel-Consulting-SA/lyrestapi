@@ -30,6 +30,9 @@ public abstract class AbstractController {
             return iface.perform(jwt.infoOf(request))
                     .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                     .orElseGet(() -> new ResponseEntity(null, HttpStatus.NOT_FOUND));
+        } catch (ModelException e2) {
+            String message = e2.getMessage() != null ? e2.getMessage() : "Error al recuperar la entidad";
+            return new ResponseEntity<T>((T) message, HttpStatus.CONFLICT);
         } catch (AuthException e3) {
             String message = e3!=null && e3.getMessage()!=null ? e3.getMessage() : "Error al recuperar la entidad";
             return new ResponseEntity<T>((T)message, HttpStatus.UNAUTHORIZED);

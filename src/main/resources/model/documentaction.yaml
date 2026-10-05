@@ -1,0 +1,18 @@
+DocumentAction:
+  type: object
+  properties:
+    value:
+      type: string
+      description: Codigo de la accion de documento
+      example: CO
+    name:
+      type: string
+      description: Nombre localizado de la accion
+      example: Completar
+    description:
+      type: string
+      description: Descripcion localizada de la accion
+      example: Completar el documento
+  required:
+    - value
+    - name

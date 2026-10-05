@@ -342,6 +342,8 @@ paths:
     $ref: ./paths/generic_table_id.yaml
   /v1.0/generic/{table}/{id}/process:
     $ref: ./paths/generic_table_id_process.yaml
+  /v1.0/generic/{table}/{id}/process/actions:
+    $ref: ./paths/generic_table_id_process_actions.yaml
 # metadata end-points
   /v1.0/tables:
     $ref: ./paths/tables.yaml

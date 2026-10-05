@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.libertya.api.repository.GenericRepository;
 import org.libertya.api.stub.iface.GenericApi;
 import org.libertya.api.stub.model.GenericRecord;
+import org.libertya.api.stub.model.DocumentActions;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /** Endpoint generico: CRUD y procesado sobre cualquier tabla de AD_Table. Ver docs/referencia/endpoint-generico-api.md */
 @Controller
@@ -36,6 +38,11 @@ public class GenericController extends AbstractController implements GenericApi 
                 (info, p) -> repository.retrieveAllRecords(info, table, p),
                 (info, p) -> repository.countAllRecords(info, table, p),
                 query(filter, fields, sort, limit, page));
+    }
+
+    @Override
+    public ResponseEntity<DocumentActions> getGenericRecordProcessActions(String table, Integer id) {
+        return retrieveAction(request, (info) -> Optional.of(repository.getDocumentActions(info, table, id)));
     }
 
     @Override

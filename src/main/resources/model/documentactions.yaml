@@ -1,0 +1,20 @@
+DocumentActions:
+  type: object
+  properties:
+    docStatus:
+      type: string
+      description: Estado actual del documento
+      example: DR
+    defaultAction:
+      type: string
+      nullable: true
+      description: Accion sugerida por CORE entre las acciones actualmente disponibles
+      example: CO
+    actions:
+      type: array
+      description: Acciones actualmente disponibles y soportadas por la API
+      items:
+        $ref: ./documentaction.yaml#/DocumentAction
+  required:
+    - docStatus
+    - actions

@@ -1,0 +1,49 @@
+get:
+  tags:
+    - "generic"
+  summary: Recupera las acciones disponibles para un documento
+  description: >
+    Recupera las acciones que pueden aplicarse actualmente a un registro de una tabla cuyo modelo implementa
+    DocAction. Las acciones se determinan utilizando las reglas de CORE, las customizaciones DocOptions, los
+    plugins y las restricciones del rol autenticado cuando existe contexto de rol.
+
+
+    La respuesta contiene unicamente acciones que, ademas de ser validas para el documento, estan soportadas
+    actualmente por el endpoint generico de procesamiento: CO (completar), VO (anular) y CL (cerrar).
+
+
+    La disponibilidad devuelta por este endpoint es informativa. El endpoint de procesamiento vuelve a validar
+    la accion inmediatamente antes de ejecutarla.
+  operationId: getGenericRecordProcessActions
+  parameters:
+    - in: path
+      name: table
+      description: Nombre de la tabla (TableName de AD_Table), por ejemplo C_Invoice
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: id
+      description: Valor de la clave primaria del documento
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: Acciones disponibles
+      content:
+        application/json:
+          schema:
+            $ref: ../model/documentactions.yaml#/DocumentActions
+    "409":
+      description: La tabla no corresponde a un documento procesable
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: La tabla o el documento no existen
+      content:
+        text/plain:
+          schema:
+            type: string
