@@ -485,15 +485,19 @@ public class WindowSchemaRepository {
      * Resuelve campos Button.
      */
     private void resolveButtonReferences(WindowSchema schema) {
-        if (schema.getTabs() == null) return;
-
+        if (schema.getTabs() == null)
+            return;
         for (WindowSchemaTab tab : schema.getTabs()) {
-            if (tab.getFields() == null) continue;
-
+            if (tab.getFields() == null)
+                continue;
             for (WindowSchemaField field : tab.getFields()) {
-                if (field.getAdReferenceId() != null && field.getAdReferenceId() == REFERENCE_BUTTON) {
-                    field.reference(new WindowSchemaReference().type("button"));
+                if (field.getAdReferenceId() == null || field.getAdReferenceId() != REFERENCE_BUTTON)
+                    continue;
+                WindowSchemaReference reference = new WindowSchemaReference().type("button");
+                if ("DocAction".equals(field.getColumnname())) {
+                    reference.buttonType("document-action");
                 }
+                field.reference(reference);
             }
         }
     }

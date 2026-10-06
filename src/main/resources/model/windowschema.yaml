@@ -129,6 +129,9 @@ components:
         type:
           type: string
           description: Tipo semántico de referencia para el frontend
+        button_type:
+          type: string
+          description: Tipo semántico del botón
         endpoint:
           type: string
           description: Endpoint REST para recuperar los valores del lookup

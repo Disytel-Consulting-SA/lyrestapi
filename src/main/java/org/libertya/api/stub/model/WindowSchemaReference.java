@@ -22,6 +22,9 @@ public class WindowSchemaReference   {
   @JsonProperty("type")
   private String type = null;
 
+  @JsonProperty("button_type")
+  private String buttonType = null;
+
   @JsonProperty("endpoint")
   private String endpoint = null;
 
@@ -46,6 +49,25 @@ public class WindowSchemaReference   {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public WindowSchemaReference buttonType(String buttonType) {
+    this.buttonType = buttonType;
+    return this;
+  }
+
+  /**
+   * Tipo semántico del botón
+   * @return buttonType
+   **/
+  @Schema(description = "Tipo semántico del botón")
+  
+    public String getButtonType() {
+    return buttonType;
+  }
+
+  public void setButtonType(String buttonType) {
+    this.buttonType = buttonType;
   }
 
   public WindowSchemaReference endpoint(String endpoint) {
@@ -105,13 +127,14 @@ public class WindowSchemaReference   {
     }
     WindowSchemaReference windowSchemaReference = (WindowSchemaReference) o;
     return Objects.equals(this.type, windowSchemaReference.type) &&
+        Objects.equals(this.buttonType, windowSchemaReference.buttonType) &&
         Objects.equals(this.endpoint, windowSchemaReference.endpoint) &&
         Objects.equals(this.values, windowSchemaReference.values);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, endpoint, values);
+    return Objects.hash(type, buttonType, endpoint, values);
   }
 
   @Override
@@ -120,6 +143,7 @@ public class WindowSchemaReference   {
     sb.append("class WindowSchemaReference {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    buttonType: ").append(toIndentedString(buttonType)).append("\n");
     sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("    values: ").append(toIndentedString(values)).append("\n");
     sb.append("}");
