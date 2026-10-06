@@ -9,6 +9,7 @@ import org.libertya.api.stub.model.DocumentAction;
 import org.libertya.api.stub.model.DocumentActions;
 import org.libertya.api.stub.model.GenericRecord;
 import org.openXpertya.model.MAllocationHdr;
+import org.openXpertya.model.MRole;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
@@ -19,8 +20,12 @@ import org.openXpertya.process.DocOptions;
 import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.DisplayType;
+import org.openXpertya.util.Env;
+import org.openXpertya.wf.MWFActivity;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -181,6 +186,10 @@ public class GenericRepository extends AbstractRepository {
         if (docStatus == null)
             throw new ModelException("El documento no posee DocStatus");
 
+        String wfStatus = MWFActivity.getActiveInfo(info.getCtx(), tableId, recordId);
+        if (wfStatus != null)
+            throw new ModelException("Existe un workflow activo para el documento: " + wfStatus);
+
         /*
          * VDocAction y WDocActionPanel cargan tanto la referencia general de DocAction
          * como la referencia especial de Allocation. Ademas de proveer nombre y descripcion,
@@ -191,8 +200,8 @@ public class GenericRepository extends AbstractRepository {
         ArrayList<String> refNames = new ArrayList<>();
         ArrayList<String> refDescriptions = new ArrayList<>();
 
-        DocumentEngine.readReferenceList(DocAction.AD_REFERENCE_ID, refValues, refNames, refDescriptions);
-        DocumentEngine.readReferenceList(MAllocationHdr.ALLOCATIONACTION_AD_Reference_ID, refValues, refNames, refDescriptions);
+        readReferenceList(info, DocAction.AD_REFERENCE_ID, refValues, refNames, refDescriptions);
+        readReferenceList(info, MAllocationHdr.ALLOCATIONACTION_AD_Reference_ID, refValues, refNames, refDescriptions);
 
         String[] options = new String[refValues.size()];
         String[] docActionHolder = new String[]{currentDocAction};
@@ -222,8 +231,10 @@ public class GenericRepository extends AbstractRepository {
         if (docTypeId == null || docTypeId == 0)
             docTypeId = getIntegerValue(po, "C_DocTypeTarget_ID");
 
-        if (docTypeId != null && docTypeId != 0 && info.hasRole())
-            index = DocumentEngine.checkActionAccess(info.getClientID(), info.getRoleID(), docTypeId, options, index);
+        if (docTypeId != null && docTypeId != 0 && info.hasRole()) {
+            MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+            index = role.checkActionAccess(info.getClientID(), docTypeId, options, index);
+        }
 
         /*
          * 5. Publicar solamente las acciones que REST puede ejecutar correctamente.
@@ -356,7 +367,16 @@ public class GenericRepository extends AbstractRepository {
         return resolveDocumentActions(info, po);
     }
 
-    /** Procesado de un documento. Solo para tablas cuya clase de modelo implementa DocAction */
+    /**
+     * Procesado de un documento. Solo para tablas cuya clase de modelo implementa DocAction.
+     *
+     * Este endpoint conserva el comportamiento historico de integracion: la accion recibida
+     * se delega a CORE sin limitarla a las acciones publicadas por /process/actions.
+     *
+     * /process/actions expone solamente las acciones actualmente soportadas para el frontend
+     * (CO, VO y CL), pero no restringe las acciones que otros consumidores pueden intentar
+     * ejecutar mediante este endpoint.
+     */
     public String processRecord(UserInfo info, String table, int id, String action) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveTable(info, table);
         checkWritable(spec);
@@ -364,19 +384,45 @@ public class GenericRepository extends AbstractRepository {
         if (!spec.isDocument())
             throw new ModelException("La tabla " + spec.getTableName() + " no es un documento: no admite process");
 
-        /*
-         * No confiar en que una accion obtenida previamente mediante /process/actions
-         * siga siendo valida. Se vuelve a resolver inmediatamente antes de procesar.
-         */
-        PO po = getPO(info, spec.getTableName(), new int[]{id}, null);
-        if (po == null || po.getID() <= 0)
-            throw new NotFoundException();
+        return processEntity(info, spec.getTableName(), new int[]{id}, action, null);
+    }
 
-        String normalizedAction = action != null ? action.toUpperCase() : null;
-        DocumentActions availableActions = resolveDocumentActions(info, po);
 
-        if (!containsAction(availableActions.getActions(), normalizedAction))
-            throw new ModelException("La accion " + action + " no esta disponible para el documento en su estado actual");
+    private void readReferenceList(UserInfo info, int referenceId, List<String> values, List<String> names, List<String> descriptions) throws ModelException {
+        String language = Env.getAD_Language(info.getCtx());
+        boolean translated = language != null && !language.trim().isEmpty() && !Env.isBaseLanguage(info.getCtx(), "AD_Ref_List");
 
-        return processEntity(info, spec.getTableName(), new int[]{id}, normalizedAction, null);    }
+        String name = translated ? "COALESCE(t.Name, l.Name)" : "l.Name";
+        String description = translated ? "COALESCE(t.Description, l.Description)" : "l.Description";
+
+        String sql = "SELECT l.Value, " + name + ", " + description + " FROM AD_Ref_List l ";
+        if (translated)
+            sql += "LEFT JOIN AD_Ref_List_Trl t ON t.AD_Ref_List_ID=l.AD_Ref_List_ID AND t.AD_Language=? ";
+        sql += "WHERE l.AD_Reference_ID=? ORDER BY " + name;
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            pstmt = DB.prepareStatement(sql, null);
+            int parameterIndex = 1;
+
+            if (translated)
+                pstmt.setString(parameterIndex++, language);
+
+            pstmt.setInt(parameterIndex, referenceId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                values.add(rs.getString(1));
+                names.add(rs.getString(2));
+                String descriptionValue = rs.getString(3);
+                descriptions.add(descriptionValue != null ? descriptionValue : "");
+            }
+        } catch (Exception e) {
+            throw new ModelException("Error recuperando acciones de documento para el idioma " + language);
+        } finally {
+            DB.close(rs, pstmt);
+        }
+    }
 }
