@@ -31,6 +31,23 @@ public final class ReferenceMetadataResolver {
     }
 
     /**
+     * Resuelve el tipo semántico común de una referencia de Libertya.
+     */
+    public static String resolveType(Integer referenceId) {
+        if (referenceId == null) return null;
+        switch (referenceId) {
+            case REFERENCE_LIST: return "list";
+            case REFERENCE_TABLE:
+            case REFERENCE_TABLE_DIRECT: return "lookup";
+            case REFERENCE_YESNO: return "boolean";
+            case REFERENCE_LOCATION: return "location";
+            case REFERENCE_BUTTON: return "button";
+            case REFERENCE_SEARCH: return "search";
+            default: return resolveVisualType(referenceId);
+        }
+    }
+
+    /**
      * Resuelve referencias cuya representación visual no necesita
      * metadata adicional ni un endpoint contextual.
      */

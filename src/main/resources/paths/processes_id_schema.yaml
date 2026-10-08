@@ -1,0 +1,16 @@
+get:
+  summary: Recupera el esquema de metadatos de un proceso
+  description: Recupera la definición declarativa del proceso y sus parámetros activos para construir dinámicamente su interfaz.
+  tags: [ "processschema" ]
+  parameters:
+    - { name: id, in: path, description: ID del proceso, required: true, schema: { type: integer } }
+    - { name: language, in: query, description: Idioma de traducción solicitado, required: false, schema: { type: string, default: es_AR } }
+  operationId: retrieveProcessSchema
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/processschema.yaml#/components/schemas/ProcessSchema'
+    "404": { description: Proceso inexistente }

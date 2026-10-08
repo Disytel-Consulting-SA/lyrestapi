@@ -1,0 +1,48 @@
+components:
+  schemas:
+    ProcessSchema:
+      type: object
+      properties:
+        process_id: { type: integer }
+        name: { type: string }
+        description: { type: string }
+        help: { type: string }
+        parameters:
+          type: array
+          items: { $ref: '#/components/schemas/ProcessSchemaParameter' }
+
+    ProcessSchemaParameter:
+      type: object
+      properties:
+        process_para_id: { type: integer }
+        name: { type: string }
+        description: { type: string }
+        help: { type: string }
+        seqno: { type: integer }
+        columnname: { type: string }
+        ad_reference_id: { type: integer }
+        ad_reference_value_id: { type: integer, nullable: true }
+        ad_val_rule_id: { type: integer, nullable: true }
+        ismandatory: { type: boolean }
+        isrange: { type: boolean }
+        issameline: { type: boolean }
+        isreadonly: { type: boolean }
+        has_callout: { type: boolean }
+        calloutalsoonload: { type: boolean }
+        defaultvalue: { type: string, nullable: true, description: Valor por defecto efectivo resuelto por el backend }
+        defaultvalue2: { type: string, nullable: true, description: Segundo valor por defecto efectivo para parámetros de rango }
+        displaylogic: { type: string, nullable: true }
+        readonlylogic: { type: string, nullable: true }
+        fieldlength: { type: integer }
+        vformat: { type: string, nullable: true }
+        valuemin: { type: string, nullable: true }
+        valuemax: { type: string, nullable: true }
+        reference:
+          $ref: '#/components/schemas/ProcessSchemaReference'
+
+    ProcessSchemaReference:
+      type: object
+      properties:
+        type:
+          type: string
+          description: Tipo semántico de referencia para el frontend

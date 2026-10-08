@@ -113,6 +113,12 @@ public final class WindowFieldDefaultResolver {
      * Resuelve el contenido explícito de
      * AD_Column.DefaultValue.
      */
+    public static String resolveExplicit(UserInfo info, Integer adReferenceId, String columnName, String defaultValue) {
+        if (isEmpty(defaultValue)) return null;
+        Properties ctx = info != null ? info.getCtx() : Env.getCtx();
+        return normalize(columnName, adReferenceId, resolveExplicitDefault(ctx, columnName, defaultValue));
+    }
+
     private static String resolveExplicitDefault(Properties ctx, String columnName, String defaultValue) {
 
         /*

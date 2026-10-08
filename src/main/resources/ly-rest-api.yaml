@@ -452,6 +452,8 @@ paths:
   # augmented metadata end-points
   /v1.0/windows/{id}/schema:
     $ref: ./paths/windows_id_schema.yaml
+  /v1.0/processes/{id}/schema:
+    $ref: ./paths/processes_id_schema.yaml
   /v1.0/tabs/{id}/records:
     $ref: ./paths/tabs_id_records.yaml
   /v1.0/tabs/{id}/new-record:
