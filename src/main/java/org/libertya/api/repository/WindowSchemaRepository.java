@@ -19,23 +19,14 @@ import org.libertya.api.util.WindowFieldDefaultResolver;
 @Repository
 public class WindowSchemaRepository {
 
-    private static final int REFERENCE_LIST = 17;
-    private static final int REFERENCE_TABLE = 18;
-    private static final int REFERENCE_TABLE_DIRECT = 19;
-    private static final int REFERENCE_YESNO = 20;
-    private static final int REFERENCE_LOCATION = 21;
-    private static final int REFERENCE_BUTTON = 28;
-    private static final int REFERENCE_SEARCH = 30;
-    private static final int REFERENCE_INTEGER = 11;
-    private static final int REFERENCE_AMOUNT = 12;
-    private static final int REFERENCE_DATE = 15;
-    private static final int REFERENCE_DATETIME = 16;
-    private static final int REFERENCE_NUMBER = 22;
-    private static final int REFERENCE_TIME = 24;
-    private static final int REFERENCE_QUANTITY = 29;
-    private static final int REFERENCE_MEMO = 34;
-    private static final int REFERENCE_TEXT_LONG = 36;
-    private static final int REFERENCE_COST_PRICE = 37;
+    private static final int REFERENCE_LIST = ReferenceMetadataResolver.REFERENCE_LIST;
+    private static final int REFERENCE_TABLE = ReferenceMetadataResolver.REFERENCE_TABLE;
+    private static final int REFERENCE_TABLE_DIRECT = ReferenceMetadataResolver.REFERENCE_TABLE_DIRECT;
+    private static final int REFERENCE_YESNO = ReferenceMetadataResolver.REFERENCE_YESNO;
+    private static final int REFERENCE_LOCATION = ReferenceMetadataResolver.REFERENCE_LOCATION;
+    private static final int REFERENCE_BUTTON = ReferenceMetadataResolver.REFERENCE_BUTTON;
+    private static final int REFERENCE_SEARCH = ReferenceMetadataResolver.REFERENCE_SEARCH;
+
 
     private static final String DEFAULT_LANGUAGE = "es_AR";
 
@@ -781,42 +772,12 @@ public class WindowSchemaRepository {
             if (tab.getFields() == null) continue;
 
             for (WindowSchemaField field : tab.getFields()) {
-                Integer referenceId = field.getAdReferenceId();
-                if (referenceId == null) continue;
-
-                switch (referenceId) {
-                    case REFERENCE_INTEGER:
-                        field.reference(new WindowSchemaReference().type("integer"));
-                        break;
-                    case REFERENCE_AMOUNT:
-                        field.reference(new WindowSchemaReference().type("amount"));
-                        break;
-                    case REFERENCE_NUMBER:
-                        field.reference(new WindowSchemaReference().type("number"));
-                        break;
-                    case REFERENCE_QUANTITY:
-                        field.reference(new WindowSchemaReference().type("quantity"));
-                        break;
-                    case REFERENCE_COST_PRICE:
-                        field.reference(new WindowSchemaReference().type("costprice"));
-                        break;
-                    case REFERENCE_DATE:
-                        field.reference(new WindowSchemaReference().type("date"));
-                        break;
-                    case REFERENCE_DATETIME:
-                        field.reference(new WindowSchemaReference().type("datetime"));
-                        break;
-                    case REFERENCE_TIME:
-                        field.reference(new WindowSchemaReference().type("time"));
-                        break;
-                    case REFERENCE_MEMO:
-                    case REFERENCE_TEXT_LONG:
-                        field.reference(new WindowSchemaReference().type("textarea"));
-                        break;
-                    default:
-                        break;
+                String type = ReferenceMetadataResolver.resolveVisualType(field.getAdReferenceId());
+                if (type != null) {
+                    field.reference(new WindowSchemaReference().type(type));
                 }
             }
         }
     }
+
 }
