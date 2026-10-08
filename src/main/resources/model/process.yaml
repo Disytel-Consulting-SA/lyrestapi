@@ -1,0 +1,140 @@
+components:
+  schemas:
+    Process:
+      type: object
+      properties:
+        accesslevel:
+          type: string
+          description: "Nivel de Acceso requerido"
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_componentobjectuid:
+          type: string
+          description: " "
+        ad_componentversion_id:
+          type: integer
+          description: "Versión de Componente propietaria de este registro"
+        ad_expformat_id:
+          type: integer
+          description: " "
+        ad_form_id:
+          type: integer
+          description: "Formulario"
+        ad_jasperreport_id:
+          type: integer
+          description: " "
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        ad_printformat_id:
+          type: integer
+          description: "Formato de Impresión de datos"
+        ad_process_id:
+          type: integer
+          description: "Proceso o Reporte"
+        ad_reportview_id:
+          type: integer
+          description: "Vista usada para generar este informe"
+        ad_workflow_id:
+          type: integer
+          description: "Flujo de trabajo o combinación de tareas"
+        classname:
+          type: string
+          description: "Nombre de la clase Java"
+        concurrentexecution:
+          type: string
+          description: " "
+        copyparameters:
+          type: string
+          description: "Copiar parámetros de un proceso"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        dynamicreport:
+          type: boolean
+          description: " "
+        entitytype:
+          type: string
+          description: "Tipo de Entidad Diccionario; determina propiedad y sincronización"
+        help:
+          type: string
+          description: "Ayuda; Comentario o Sugerencia"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isalwaysinclient:
+          type: boolean
+          description: " "
+        isbetafunctionality:
+          type: boolean
+          description: "Esta función esta en Version Beta"
+        isdirectprint:
+          type: boolean
+          description: "Imprimir sin Diálogo"
+        isjasperreport:
+          type: boolean
+          description: " "
+        isreport:
+          type: boolean
+          description: "Indica un registro del Informe"
+        jasperreport:
+          type: string
+          description: " "
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        procedurename:
+          type: string
+          description: "Nombre del Procedimiento de la Base de Datos"
+        showhelp:
+          type: boolean
+          description: " "
+        statistic_count:
+          type: integer
+          description: "Estadística interna de que tan frecuente la entidad es usada"
+        statistic_seconds:
+          type: integer
+          description: "Estadísticas internas de qué tantos segundos toma un proceso"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        value:
+          type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
+        workflowvalue:
+          type: string
+          description: "Clave de Flujo de Trabajo para empezar"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - accesslevel
+         - ad_client_id
+         - ad_org_id
+         - ad_process_id
+         - concurrentexecution
+         - created
+         - createdby
+         - entitytype
+         - isactive
+         - isbetafunctionality
+         - isreport
+         - name
+         - updated
+         - updatedby
+         - value

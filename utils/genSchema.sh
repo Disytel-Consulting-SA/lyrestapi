@@ -157,6 +157,8 @@ generateSchema Reference                AD_Reference              reference.yaml
 generateSchema RefList                  AD_Ref_List               reflist.yaml                  reflists
 generateSchema RefTable                 AD_Ref_Table              reftable.yaml                 reftables
 generateSchema ValRule                  AD_Val_Rule               valrule.yaml                  valrules
+generateSchema Process                  AD_Process                process.yaml                  processes
+generateSchema ProcessPara              AD_Process_Para           processpara.yaml              processparas
 generateSchema TableTrl                 AD_Table_Trl              tabletrl.yaml                 tabletrls
 generateSchema ColumnTrl                AD_Column_Trl             columntrl.yaml                columntrls
 generateSchema WindowTrl                AD_Window_Trl             windowtrl.yaml                windowtrls
@@ -167,6 +169,9 @@ generateSchema MessageTrl               AD_Message_Trl            messagetrl.yam
 generateSchema FieldGroupTrl            AD_FieldGroup_Trl         fieldgrouptrl.yaml            fieldgrouptrls
 generateSchema ReferenceTrl             AD_Reference_Trl          referencetrl.yaml             referencetrls
 generateSchema RefListTrl               AD_Ref_List_Trl           reflisttrl.yaml               reflisttrls
+generateSchema ProcessTrl               AD_Process_Trl            processtrl.yaml               processtrls
+generateSchema ProcessParaTrl           AD_Process_Para_Trl       processparatrl.yaml           processparatrls
+
 
 # Mapeo tabla -> endpoint de creacion de cabecera en borrador
 echo "# AUTO-GENERATED FILE - DO NOT EDIT" > "$CREATE_ENDPOINTS_FILE"

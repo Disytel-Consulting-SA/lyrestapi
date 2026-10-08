@@ -25,6 +25,9 @@ public class WindowSchemaReference   {
   @JsonProperty("button_type")
   private String buttonType = null;
 
+  @JsonProperty("process_id")
+  private Integer processId = null;
+
   @JsonProperty("endpoint")
   private String endpoint = null;
 
@@ -68,6 +71,25 @@ public class WindowSchemaReference   {
 
   public void setButtonType(String buttonType) {
     this.buttonType = buttonType;
+  }
+
+  public WindowSchemaReference processId(Integer processId) {
+    this.processId = processId;
+    return this;
+  }
+
+  /**
+   * Identificador del proceso asociado al botón
+   * @return processId
+   **/
+  @Schema(description = "Identificador del proceso asociado al botón")
+  
+    public Integer getProcessId() {
+    return processId;
+  }
+
+  public void setProcessId(Integer processId) {
+    this.processId = processId;
   }
 
   public WindowSchemaReference endpoint(String endpoint) {
@@ -128,13 +150,14 @@ public class WindowSchemaReference   {
     WindowSchemaReference windowSchemaReference = (WindowSchemaReference) o;
     return Objects.equals(this.type, windowSchemaReference.type) &&
         Objects.equals(this.buttonType, windowSchemaReference.buttonType) &&
+        Objects.equals(this.processId, windowSchemaReference.processId) &&
         Objects.equals(this.endpoint, windowSchemaReference.endpoint) &&
         Objects.equals(this.values, windowSchemaReference.values);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, buttonType, endpoint, values);
+    return Objects.hash(type, buttonType, processId, endpoint, values);
   }
 
   @Override
@@ -144,6 +167,7 @@ public class WindowSchemaReference   {
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    buttonType: ").append(toIndentedString(buttonType)).append("\n");
+    sb.append("    processId: ").append(toIndentedString(processId)).append("\n");
     sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("    values: ").append(toIndentedString(values)).append("\n");
     sb.append("}");

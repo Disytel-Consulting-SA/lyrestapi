@@ -393,6 +393,14 @@ paths:
     $ref: ./paths/valrules.yaml
   /v1.0/valrules/{id}:
     $ref: ./paths/valrules_id.yaml
+  /v1.0/processes:
+    $ref: ./paths/processes.yaml
+  /v1.0/processes/{id}:
+    $ref: ./paths/processes_id.yaml
+  /v1.0/processparas:
+    $ref: ./paths/processparas.yaml
+  /v1.0/processparas/{id}:
+    $ref: ./paths/processparas_id.yaml
   /v1.0/tabletrls:
     $ref: ./paths/table_trls.yaml
   /v1.0/tabletrls/{idTable}/{idLanguage}:
@@ -433,7 +441,15 @@ paths:
     $ref: ./paths/reflist_trls.yaml
   /v1.0/reflisttrls/{idRefList}/{idLanguage}:
     $ref: ./paths/reflist_trls_id_id.yaml
-# augmented metadata end-points
+  /v1.0/processtrls:
+    $ref: ./paths/process_trls.yaml
+  /v1.0/processtrls/{idProcess}/{idLanguage}:
+    $ref: ./paths/process_trls_id_id.yaml
+  /v1.0/processparatrls:
+    $ref: ./paths/processpara_trls.yaml
+  /v1.0/processparatrls/{idProcessPara}/{idLanguage}:
+    $ref: ./paths/processpara_trls_id_id.yaml
+  # augmented metadata end-points
   /v1.0/windows/{id}/schema:
     $ref: ./paths/windows_id_schema.yaml
   /v1.0/tabs/{id}/records:

@@ -1,0 +1,26 @@
+get:
+  summary: Recupera una traduccion de parametro de proceso en particular
+  tags:
+    - "processparatrl"
+  parameters:
+    - name: idProcessPara
+      in: path
+      description: ID del proceso
+      required: true
+      schema:
+        type: integer
+    - name: idLanguage
+      in: path
+      description: ID del lenguaje
+      required: true
+      schema:
+        type: string
+  description: Recupera la informacion de una traduccion de parametro de proceso en particular
+  operationId: retrieveProcessParaTrl
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/processparatrl.yaml#/components/schemas/ProcessParaTrl'

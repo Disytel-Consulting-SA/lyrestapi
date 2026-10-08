@@ -148,6 +148,7 @@ public class WindowSchemaRepository {
         sql.append("   f.issameline AS field_issameline, ");
         sql.append("   f.ad_fieldgroup_id, ");
         sql.append("   ").append(fieldGroupName).append(" AS fieldgroup, ");
+        sql.append("   c.ad_process_id, ");
 
         sql.append("   c.ad_column_id, ");
         sql.append("   c.columnname, ");
@@ -243,6 +244,7 @@ public class WindowSchemaRepository {
              * en AD_Tab.AD_Column_ID.
              */
             Map<Integer, String> explicitLinkColumns = new HashMap<>();
+            Map<Integer, Integer> fieldProcessIds = new HashMap<>();
 
             while (rs.next()) {
                 /*
@@ -342,6 +344,11 @@ public class WindowSchemaRepository {
                                 rs.getString("defaultvalue")
                         ));
 
+                Integer processId = (Integer) rs.getObject("ad_process_id");
+                if (processId != null && processId > 0) {
+                    fieldProcessIds.put(field.getAdFieldId(), processId);
+                }
+
                 currentTab.addFieldsItem(field);
             }
 
@@ -364,7 +371,7 @@ public class WindowSchemaRepository {
                 resolveBooleanReferences(schema);
                 resolveLookupReferences(schema);
                 resolveLocationReferences(schema);
-                resolveButtonReferences(schema);
+                resolveButtonReferences(schema, fieldProcessIds);
                 resolveVisualReferences(schema);
             }
 
@@ -484,19 +491,34 @@ public class WindowSchemaRepository {
     /**
      * Resuelve campos Button.
      */
-    private void resolveButtonReferences(WindowSchema schema) {
+    /**
+     * Resuelve campos Button.
+     */
+    private void resolveButtonReferences(WindowSchema schema, Map<Integer, Integer> fieldProcessIds) {
         if (schema.getTabs() == null)
             return;
+
         for (WindowSchemaTab tab : schema.getTabs()) {
             if (tab.getFields() == null)
                 continue;
+
             for (WindowSchemaField field : tab.getFields()) {
                 if (field.getAdReferenceId() == null || field.getAdReferenceId() != REFERENCE_BUTTON)
                     continue;
+
                 WindowSchemaReference reference = new WindowSchemaReference().type("button");
+
                 if ("DocAction".equals(field.getColumnname())) {
                     reference.buttonType("document-action");
+                } else {
+                    Integer processId = fieldProcessIds.get(field.getAdFieldId());
+
+                    if (processId != null && processId > 0) {
+                        reference.buttonType("process");
+                        reference.processId(processId);
+                    }
                 }
+
                 field.reference(reference);
             }
         }

@@ -132,6 +132,9 @@ components:
         button_type:
           type: string
           description: Tipo semántico del botón
+        process_id:
+          type: integer
+          description: Identificador del proceso asociado al botón
         endpoint:
           type: string
           description: Endpoint REST para recuperar los valores del lookup

@@ -1,0 +1,20 @@
+get:
+  summary: Recupera un parametro de proceso en particular
+  tags:
+    - "processpara"
+  parameters:
+    - name: id
+      in: path
+      description: ID del parametro de proceso
+      required: true
+      schema:
+        type: integer
+  description: Recupera el parametro de proceso en particular
+  operationId: retrieveProcessPara
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/processpara.yaml#/components/schemas/ProcessPara'
