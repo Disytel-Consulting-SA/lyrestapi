@@ -19,7 +19,7 @@ public class ProcessSchemaRepository {
         String effectiveLanguage = language != null && !language.trim().isEmpty() ? language.trim() : DEFAULT_LANGUAGE;
         String sql = "SELECT p.ad_process_id, COALESCE(pt.name,p.name) process_name, COALESCE(pt.description,p.description) process_description, COALESCE(pt.help,p.help) process_help, " +
                 "pp.ad_process_para_id, COALESCE(ppt.name,pp.name) para_name, COALESCE(ppt.description,pp.description) para_description, COALESCE(ppt.help,pp.help) para_help, " +
-                "pp.seqno, pp.columnname, pp.ad_reference_id, pp.ad_reference_value_id, pp.ad_val_rule_id, pp.ismandatory, pp.isrange, pp.issameline, pp.isreadonly, " +
+                "pp.seqno, pp.columnname, pp.ad_reference_id, pp.ad_reference_value_id, pp.ad_val_rule_id, pp.ismandatory, pp.isrange, pp.sameline, pp.isreadonly, " +
                 "pp.callout, pp.calloutalsoonload, pp.defaultvalue, pp.defaultvalue2, pp.displaylogic, pp.readonlylogic, pp.fieldlength, pp.vformat, pp.valuemin, pp.valuemax " +
                 "FROM ad_process p LEFT JOIN ad_process_trl pt ON pt.ad_process_id=p.ad_process_id AND pt.ad_language=? " +
                 "LEFT JOIN ad_process_para pp ON pp.ad_process_id=p.ad_process_id AND pp.isactive='Y' " +
@@ -53,7 +53,7 @@ public class ProcessSchemaRepository {
                             .description(rs.getString("para_description")).help(rs.getString("para_help")).seqno(getNullableInteger(rs, "seqno"))
                             .columnname(columnName).adReferenceId(referenceId).adReferenceValueId(getNullableInteger(rs, "ad_reference_value_id"))
                             .adValRuleId(getNullableInteger(rs, "ad_val_rule_id")).ismandatory(isYes(rs.getString("ismandatory")))
-                            .isrange(isYes(rs.getString("isrange"))).issameline(isYes(rs.getString("issameline"))).isreadonly(isYes(rs.getString("isreadonly")))
+                            .isrange(isYes(rs.getString("isrange"))).issameline(isYes(rs.getString("sameline"))).isreadonly(isYes(rs.getString("isreadonly")))
                             .hasCallout(!isEmpty(rs.getString("callout"))).calloutalsoonload(isYes(rs.getString("calloutalsoonload")))
                             .defaultvalue(defaultValue).defaultvalue2(defaultValue2).displaylogic(rs.getString("displaylogic"))
                             .readonlylogic(rs.getString("readonlylogic")).fieldlength(getNullableInteger(rs, "fieldlength")).vformat(rs.getString("vformat"))
