@@ -1,0 +1,25 @@
+post:
+  summary: Ejecuta un proceso de Libertya
+  description: >
+    Ejecuta el proceso mediante el mecanismo canónico de CORE, creando la
+    instancia y sus parámetros. Puede recibir el registro origen cuando la
+    invocación proviene de una ventana.
+  tags: [ "processexecute" ]
+  operationId: executeProcess
+  parameters:
+    - { name: id, in: path, description: ID del proceso, required: true, schema: { type: integer } }
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          $ref: '../model/processexecute.yaml#/components/schemas/ProcessExecuteRequest'
+  responses:
+    "200":
+      description: Resultado de la ejecución
+      content:
+        application/json:
+          schema:
+            $ref: '../model/processexecute.yaml#/components/schemas/ProcessExecuteResponse'
+    "400": { description: Parámetros inválidos o error de ejecución }
+    "404": { description: Proceso o registro origen inexistente }

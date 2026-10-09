@@ -1,0 +1,34 @@
+components:
+  schemas:
+
+    ProcessExecuteRequest:
+      type: object
+      description: Valores efectivos con los que debe ejecutarse un proceso.
+      properties:
+        table:
+          type: string
+          description: Tabla del registro origen, cuando el proceso fue invocado desde una ventana.
+        record_id:
+          type: integer
+          description: ID del registro origen, cuando corresponda.
+        values:
+          type: object
+          description: Valores de parámetros indexados por ColumnName.
+          additionalProperties:
+            type: string
+        values_to:
+          type: object
+          description: Segundos valores de parámetros de rango indexados por ColumnName.
+          additionalProperties:
+            type: string
+
+    ProcessExecuteResponse:
+      type: object
+      properties:
+        process_instance_id:
+          type: integer
+        success:
+          type: boolean
+        summary:
+          type: string
+          nullable: true
