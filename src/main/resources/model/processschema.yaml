@@ -46,3 +46,18 @@ components:
         type:
           type: string
           description: Tipo semántico de referencia para el frontend
+        endpoint:
+          type: string
+          description: Endpoint REST para recuperar los valores del lookup o búsqueda
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessSchemaReferenceValue'
+
+    ProcessSchemaReferenceValue:
+      type: object
+      properties:
+        value:
+          type: string
+        name:
+          type: string
