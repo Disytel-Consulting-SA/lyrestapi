@@ -305,6 +305,14 @@ paths:
     $ref: ./paths/posletters.yaml
   /v1.0/posletters/{id}:
     $ref: ./paths/posletters_id.yaml
+  /v1.0/years:
+    $ref: ./paths/years.yaml
+  /v1.0/years/{id}:
+    $ref: ./paths/years_id.yaml
+  /v1.0/calendars:
+    $ref: ./paths/calendars.yaml
+  /v1.0/calendars/{id}:
+    $ref: ./paths/calendars_id.yaml
   /v1.0/journals:
     $ref: ./paths/journals.yaml
   /v1.0/journals/{id}:

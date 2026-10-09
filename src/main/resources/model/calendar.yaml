@@ -1,0 +1,57 @@
+components:
+  schemas:
+    Calendar:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        cacheenabled:
+          type: boolean
+          description: "Habilitar la caché permite acceder a la información más rápidamente pero los cambios sobre los registros estarán disponibles luego de reiniciar la aplicación."
+        c_calendar_id:
+          type: integer
+          description: "Nombre del Calendario Contable"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - cacheenabled
+         - c_calendar_id
+         - created
+         - createdby
+         - isactive
+         - name
+         - updated
+         - updatedby

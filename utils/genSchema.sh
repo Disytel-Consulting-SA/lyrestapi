@@ -130,6 +130,8 @@ generateSchema UserRole                 AD_User_Roles             userrole.yaml 
 generateSchema Preference               AD_Preference             preference.yaml               preferences
 generateSchema Promotion                C_Promotion               promotion.yaml                promotions
 generateSchema POSLetter                C_POSLetter               posletter.yaml                posletters
+generateSchema Year                     C_Year                    year.yaml                     years
+generateSchema Calendar                 C_Calendar                calendar.yaml                 calendars
 
 # Contabilidad - asientos manuales (GL_Journal). Ver docs/planes/plan-asientos-manuales.md
 # OJO: c_elementvalue_id es ismandatory='N' en el diccionario, con lo cual DEBE ir en el filtro explicito;
