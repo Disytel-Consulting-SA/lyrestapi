@@ -4,12 +4,20 @@ import org.libertya.api.common.UserInfo;
 import org.libertya.api.stub.model.ProcessSchema;
 import org.libertya.api.stub.model.ProcessSchemaParameter;
 import org.libertya.api.stub.model.ProcessSchemaReference;
+import org.libertya.api.stub.model.ProcessSchemaReferenceValue;
 import org.libertya.api.util.WindowFieldDefaultResolver;
 import org.openXpertya.util.DB;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.StringJoiner;
 
 @Repository
 public class ProcessSchemaRepository {
@@ -63,10 +71,73 @@ public class ProcessSchemaRepository {
                     schema.addParametersItem(parameter);
                 }
 
+                if (schema != null && schema.getParameters() != null) resolveReferences(schema, processId, effectiveLanguage);
                 return schema;
             }
         } catch (Exception e) {
             throw new IllegalStateException("Error recuperando schema del proceso " + processId, e);
+        }
+    }
+
+    private void resolveReferences(ProcessSchema schema, Integer processId, String language) {
+        Set<Integer> listReferenceIds = new HashSet<>();
+        for (ProcessSchemaParameter parameter : schema.getParameters()) {
+            Integer referenceId = parameter.getAdReferenceId();
+            if (referenceId != null && referenceId == ReferenceMetadataResolver.REFERENCE_LIST && parameter.getAdReferenceValueId() != null) {
+                listReferenceIds.add(parameter.getAdReferenceValueId());
+            }
+        }
+
+        Map<Integer, List<ProcessSchemaReferenceValue>> listValues = loadListReferenceValues(listReferenceIds, language);
+
+        for (ProcessSchemaParameter parameter : schema.getParameters()) {
+            Integer referenceId = parameter.getAdReferenceId();
+            String type = ReferenceMetadataResolver.resolveType(referenceId);
+            if (type == null) continue;
+
+            ProcessSchemaReference reference = new ProcessSchemaReference().type(type);
+
+            if (referenceId == ReferenceMetadataResolver.REFERENCE_TABLE ||
+                    referenceId == ReferenceMetadataResolver.REFERENCE_TABLE_DIRECT ||
+                    referenceId == ReferenceMetadataResolver.REFERENCE_SEARCH) {
+                reference.endpoint("/v1.0/processes/" + processId + "/parameters/" + parameter.getProcessParaId() + "/lookup");
+            }
+
+            if (referenceId == ReferenceMetadataResolver.REFERENCE_LIST && parameter.getAdReferenceValueId() != null) {
+                List<ProcessSchemaReferenceValue> values = listValues.get(parameter.getAdReferenceValueId());
+                if (values != null) reference.values(values);
+            }
+
+            parameter.reference(reference);
+        }
+    }
+
+    private Map<Integer, List<ProcessSchemaReferenceValue>> loadListReferenceValues(Set<Integer> referenceIds, String language) {
+        Map<Integer, List<ProcessSchemaReferenceValue>> result = new HashMap<>();
+        if (referenceIds.isEmpty()) return result;
+
+        StringJoiner placeholders = new StringJoiner(",");
+        for (int i = 0; i < referenceIds.size(); i++) placeholders.add("?");
+
+        String sql = "SELECT rl.ad_reference_id, rl.value, COALESCE(rlt.name,rl.name) AS name " +
+                "FROM ad_ref_list rl LEFT JOIN ad_ref_list_trl rlt ON rlt.ad_ref_list_id=rl.ad_ref_list_id AND rlt.ad_language=? " +
+                "WHERE rl.isactive='Y' AND rl.ad_reference_id IN (" + placeholders + ") ORDER BY rl.ad_reference_id, name";
+
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            int index = 1;
+            ps.setString(index++, language);
+            for (Integer referenceId : referenceIds) ps.setInt(index++, referenceId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Integer referenceId = rs.getInt("ad_reference_id");
+                    ProcessSchemaReferenceValue value = new ProcessSchemaReferenceValue().value(rs.getString("value")).name(rs.getString("name"));
+                    result.computeIfAbsent(referenceId, key -> new ArrayList<>()).add(value);
+                }
+            }
+            return result;
+        } catch (Exception e) {
+            throw new IllegalStateException("Error recuperando valores de AD_Ref_List para schema de proceso", e);
         }
     }
 
