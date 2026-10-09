@@ -1,0 +1,63 @@
+components:
+  schemas:
+
+    ProcessStateRequest:
+      type: object
+      description: >
+        Contexto necesario para construir o reevaluar el estado dinámico
+        de los parámetros de un proceso.
+      properties:
+        table:
+          type: string
+          description: >
+            Tabla del registro desde el cual se invoca el proceso. Permite
+            al backend reconstruir el contexto de la ventana sin delegar
+            esa responsabilidad al frontend.
+        record_id:
+          type: integer
+          description: ID del registro desde el cual se invoca el proceso.
+        values:
+          type: object
+          description: >
+            Valores actuales de los parámetros del proceso indexados por
+            ColumnName. Se superponen al contexto del registro origen.
+          additionalProperties:
+            type: string
+        changed_parameters:
+          type: array
+          description: >
+            Parámetros modificados desde la evaluación anterior. Reservado
+            para la ejecución incremental de callouts y dependencias.
+          items:
+            type: string
+
+    ProcessState:
+      type: object
+      description: >
+        Estado efectivo de los parámetros de un proceso resuelto por el
+        backend. El frontend debe representarlo sin interpretar expresiones
+        de metadata de Libertya.
+      properties:
+        values:
+          type: object
+          description: >
+            Valores efectivos de los parámetros indexados por ColumnName.
+          additionalProperties:
+            type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessParameterState'
+
+    ProcessParameterState:
+      type: object
+      description: Estado efectivo de un parámetro del proceso.
+      properties:
+        process_para_id:
+          type: integer
+        columnname:
+          type: string
+        displayed:
+          type: boolean
+        readonly:
+          type: boolean

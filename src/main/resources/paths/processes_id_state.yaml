@@ -1,0 +1,26 @@
+post:
+  summary: Construye o reevalúa el estado efectivo de los parámetros de un proceso
+  description: >
+    Resuelve del lado servidor el contexto del registro origen, valores por
+    defecto, DisplayLogic y ReadOnlyLogic. Los valores de parámetros enviados
+    se superponen al contexto del registro. El contrato queda preparado para
+    incorporar callouts y dependencias incrementales sin trasladar semántica
+    de Libertya al frontend.
+  tags: [ "processstate" ]
+  operationId: evaluateProcessState
+  parameters:
+    - { name: id, in: path, description: ID del proceso, required: true, schema: { type: integer } }
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          $ref: '../model/processstate.yaml#/components/schemas/ProcessStateRequest'
+  responses:
+    "200":
+      description: Estado efectivo de los parámetros del proceso
+      content:
+        application/json:
+          schema:
+            $ref: '../model/processstate.yaml#/components/schemas/ProcessState'
+    "404": { description: Proceso o registro origen inexistente }
