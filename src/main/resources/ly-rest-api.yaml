@@ -454,6 +454,8 @@ paths:
     $ref: ./paths/windows_id_schema.yaml
   /v1.0/processes/{id}/schema:
     $ref: ./paths/processes_id_schema.yaml
+  /v1.0/processes/{id}/parameters/{parameterId}/lookup:
+    $ref: ./paths/processes_id_parameters_parameterid_lookup.yaml
   /v1.0/tabs/{id}/records:
     $ref: ./paths/tabs_id_records.yaml
   /v1.0/tabs/{id}/new-record:

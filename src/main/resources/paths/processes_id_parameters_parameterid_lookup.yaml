@@ -1,0 +1,22 @@
+get:
+  summary: Recupera los valores de lookup asociados a un parámetro de proceso
+  tags: ["processparameterlookup"]
+  parameters:
+    - {name: id, in: path, required: true, schema: {type: integer}}
+    - {name: parameterId, in: path, required: true, schema: {type: integer}}
+    - {name: limit, in: query, required: false, schema: {type: integer, default: 50}}
+    - {name: page, in: query, required: false, schema: {type: integer, default: 1}}
+    - {name: search, in: query, required: false, schema: {type: string}}
+    - {name: value, in: query, required: false, schema: {type: string}}
+    - {name: context, in: query, required: false, description: Valores actuales del registro y parámetros serializados como JSON, schema: {type: string}}
+  operationId: retrieveProcessParameterLookup
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/columnlookup.yaml#/components/schemas/ColumnLookupValue'
+    "404": {description: Proceso o parámetro no encontrado}
