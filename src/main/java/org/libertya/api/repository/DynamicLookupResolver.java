@@ -1,0 +1,540 @@
+package org.libertya.api.repository;
+
+import org.libertya.api.common.UserInfo;
+import org.libertya.api.stub.model.ColumnLookupValue;
+import org.openXpertya.model.MRole;
+import org.openXpertya.util.DB;
+import org.openXpertya.util.Env;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+public class DynamicLookupResolver {
+    private static final int REFERENCE_TABLE = 18;
+    private static final int REFERENCE_TABLE_DIRECT = 19;
+    private static final int REFERENCE_SEARCH = 30;
+
+    public List<ColumnLookupValue> retrieve(UserInfo info, DynamicLookupInfo column, int limit, int page, String search, String value, Map<String, String> contextValues) {
+        if (column.referenceId == REFERENCE_TABLE) return retrieveTable(info, column, limit, page, search, value, contextValues);
+        if (column.referenceId == REFERENCE_TABLE_DIRECT) return retrieveTableDirect(info, column, limit, page, search, value, contextValues);
+        if (column.referenceId == REFERENCE_SEARCH) return column.referenceValueId != null && column.referenceValueId > 0 ? retrieveTable(info, column, limit, page, search, value, contextValues) : retrieveTableDirect(info, column, limit, page, search, value, contextValues);
+        return new ArrayList<>();
+    }
+
+    /**
+     * =========================================================
+     * TABLE
+     * =========================================================
+     */
+    private List<ColumnLookupValue> retrieveTable(UserInfo info, DynamicLookupInfo column, int limit, int page, String search, String value, Map<String, String> contextValues) {
+        if (column.referenceValueId == null || column.referenceValueId <= 0) return new ArrayList<>();
+
+        TableReferenceInfo referenceInfo = loadTableReferenceInfo(column.referenceValueId);
+        if (referenceInfo == null || referenceInfo.tableName == null || referenceInfo.keyColumn == null || referenceInfo.displayColumn == null) {
+            return new ArrayList<>();
+        }
+
+        String displayExpression = buildTableDisplayExpression(referenceInfo);
+        boolean hasSearch = search != null && !search.trim().isEmpty();
+        boolean hasValue = value != null && !value.trim().isEmpty();
+        String validationCode = resolveValidationCode(info, column, contextValues);
+        String referenceWhereClause = resolveReferenceClause(info, referenceInfo.whereClause, contextValues);
+
+        /*
+         * Sólo filtramos por client si:
+         * - existe contexto de usuario
+         * - no estamos en System (clientID != 0)
+         * - la tabla efectivamente posee AD_Client_ID
+         */
+        boolean hasClientFilter = shouldFilterByClient(info, referenceInfo.tableName);
+
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ").append(referenceInfo.tableName).append(".").append(referenceInfo.keyColumn).append(" AS lookup_value, ");
+        sql.append(displayExpression).append(" AS lookup_name, ");
+        sql.append(referenceInfo.tableName).append(".isactive AS lookup_isactive ");
+        sql.append(" FROM ").append(referenceInfo.tableName).append(" ");
+
+        boolean hasWhere = false;
+
+        /*
+         * Resolución puntual por ID.
+         */
+        if (hasValue) {
+            sql.append(" WHERE ").append(referenceInfo.tableName).append(".").append(referenceInfo.keyColumn).append(" = ? ");
+            hasWhere = true;
+        }
+
+        /*
+         * Búsqueda textual.
+         */
+        if (hasSearch) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append(" lower(").append(displayExpression).append(") LIKE ? ");
+            hasWhere = true;
+        }
+
+        /*
+         * Filtro por compañía.
+         *
+         * Se permiten:
+         * AD_Client_ID = 0
+         * AD_Client_ID = compañía activa
+         */
+        if (hasClientFilter) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append(referenceInfo.tableName).append(".ad_client_id IN (0, ?) ");
+            hasWhere = true;
+        }
+
+        /*
+         * Restricción propia de AD_Ref_Table.
+         *
+         * Igual que las reglas de validación, determina los valores
+         * seleccionables pero no impide resolver el display de un
+         * valor ya almacenado.
+         */
+        if (!hasValue && referenceWhereClause != null) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append("(").append(referenceWhereClause).append(") ");
+            hasWhere = true;
+        }
+
+        /*
+         * Regla de validación definida en AD_Column.AD_Val_Rule_ID.
+         *
+         * Igual que en MLookupFactory de CORE, la regla determina los
+         * valores seleccionables, pero no debe impedir resolver el
+         * display de un valor ya almacenado.
+         */
+        if (!hasValue && validationCode != null) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append("(").append(validationCode).append(") ");
+            hasWhere = true;
+        }
+
+        /*
+         * Para una resolución puntual no usamos AD_Ref_Table.WhereClause
+         * ni AD_Val_Rule, pero sí aplicamos la seguridad del rol.
+         */
+        if (hasValue && info != null && info.hasRole()) {
+            MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+            String securedSql = role.addAccessSQL(sql.toString(), referenceInfo.tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+            sql = new StringBuilder(securedSql);
+        }
+
+        /*
+         * AD_Ref_Table.OrderByClause define el orden natural de la
+         * referencia. Para resolución puntual el orden es irrelevante.
+         */
+        if (!hasValue && referenceInfo.orderByClause != null && !referenceInfo.orderByClause.trim().isEmpty()) {
+            sql.append(" ORDER BY ").append(referenceInfo.orderByClause.trim()).append(" ");
+        } else {
+            sql.append(" ORDER BY lookup_name ");
+        }
+
+        sql.append(" LIMIT ? OFFSET ? ");
+
+        return executeLookupQuery(
+                sql.toString(), limit, page, search, hasSearch, value, hasValue,
+                hasClientFilter ? info.getClientID() : null, hasClientFilter,
+                "Table para columna " + column.sourceDescription
+        );
+    }
+
+    /**
+     * Recupera la configuración explícita de AD_Ref_Table.
+     */
+    private TableReferenceInfo loadTableReferenceInfo(Integer referenceId) {
+        String sql = " SELECT t.tablename, ck.columnname AS key_column, cd.columnname AS display_column, "
+                + "   rt.isvaluedisplayed, rt.whereclause, rt.orderbyclause "
+                + " FROM ad_ref_table rt "
+                + " JOIN ad_table t ON t.ad_table_id = rt.ad_table_id "
+                + " JOIN ad_column ck ON ck.ad_column_id = rt.ad_key "
+                + " JOIN ad_column cd ON cd.ad_column_id = rt.ad_display "
+                + " WHERE rt.ad_reference_id = ? ";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = DB.prepareStatement(sql, null);
+            ps.setInt(1, referenceId);
+            rs = ps.executeQuery();
+
+            if (!rs.next()) return null;
+
+            TableReferenceInfo result = new TableReferenceInfo();
+            result.tableName = rs.getString("tablename");
+            result.keyColumn = rs.getString("key_column");
+            result.displayColumn = rs.getString("display_column");
+            result.valueDisplayed = "Y".equals(rs.getString("isvaluedisplayed"));
+            result.whereClause = rs.getString("whereclause");
+            result.orderByClause = rs.getString("orderbyclause");
+
+            return result;
+        } catch (Exception e) {
+            throw new RuntimeException("Error recuperando AD_Ref_Table para AD_Reference_ID " + referenceId, e);
+        } finally {
+            DB.close(rs, ps);
+        }
+    }
+
+    /**
+     * Construye el texto visible definido por AD_Ref_Table.
+     */
+    private String buildTableDisplayExpression(TableReferenceInfo referenceInfo) {
+        String displayExpression;
+
+        if ("C_Location_ID".equalsIgnoreCase(referenceInfo.displayColumn)) {
+            displayExpression = "(SELECT COALESCE(location.Address1, '') || ', ' || COALESCE(location.City, '') || ', ' || COALESCE(location.Postal, '') "
+                    + "FROM C_Location location WHERE location.C_Location_ID = "
+                    + referenceInfo.tableName + ".C_Location_ID)";
+        } else {
+            displayExpression = "COALESCE(CAST(" + referenceInfo.tableName + "." + referenceInfo.displayColumn + " AS VARCHAR), '')";
+        }
+
+        if (referenceInfo.valueDisplayed) {
+            return "COALESCE(CAST(" + referenceInfo.tableName + ".Value AS VARCHAR), '') || '-' || " + displayExpression;
+        }
+
+        return displayExpression;
+    }
+
+    /**
+     * =========================================================
+     * TABLE DIRECT
+     * =========================================================
+     */
+    private List<ColumnLookupValue> retrieveTableDirect(UserInfo info, DynamicLookupInfo column, int limit, int page, String search, String value, Map<String, String> contextValues) {
+        String tableName = inferTableName(column.columnName);
+        if (tableName == null) return new ArrayList<>();
+
+        TableLookupInfo lookupInfo = loadTableLookupInfo(tableName);
+        if (lookupInfo == null || lookupInfo.keyColumn == null || lookupInfo.identifierColumns.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        String displayExpression = buildTableDirectDisplayExpression(tableName, lookupInfo.identifierColumns);
+        boolean hasSearch = search != null && !search.trim().isEmpty();
+        boolean hasValue = value != null && !value.trim().isEmpty();
+        boolean hasClientFilter = shouldFilterByClient(info, tableName);
+        String validationCode = resolveValidationCode(info, column, contextValues);
+
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ").append(tableName).append(".").append(lookupInfo.keyColumn).append(" AS lookup_value, ");
+        sql.append(displayExpression).append(" AS lookup_name, ");
+        sql.append(tableName).append(".isactive AS lookup_isactive ");
+        sql.append(" FROM ").append(tableName).append(" ");
+
+        boolean hasWhere = false;
+
+        /*
+         * Resolución puntual por ID.
+         */
+        if (hasValue) {
+            sql.append(" WHERE ").append(tableName).append(".").append(lookupInfo.keyColumn).append(" = ? ");
+            hasWhere = true;
+        }
+
+        /*
+         * Búsqueda textual.
+         */
+        if (hasSearch) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append(" lower(").append(displayExpression).append(") LIKE ? ");
+            hasWhere = true;
+        }
+
+        /*
+         * Filtro por compañía.
+         */
+        if (hasClientFilter) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append(tableName).append(".ad_client_id IN (0, ?) ");
+            hasWhere = true;
+        }
+
+        /*
+         * Regla de validación definida en AD_Column.AD_Val_Rule_ID.
+         *
+         * Igual que en MLookupFactory de CORE, la regla determina los
+         * valores seleccionables, pero no debe impedir resolver el
+         * display de un valor ya almacenado.
+         */
+        if (!hasValue && validationCode != null) {
+            sql.append(hasWhere ? " AND " : " WHERE ");
+            sql.append("(").append(validationCode).append(") ");
+            hasWhere = true;
+        }
+
+        /*
+         * Resolución puntual: no aplicamos AD_Val_Rule, pero sí
+         * la seguridad real del rol de Libertya.
+         */
+        if (hasValue && info != null && info.hasRole()) {
+            MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+            String securedSql = role.addAccessSQL(sql.toString(), tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+            sql = new StringBuilder(securedSql);
+        }
+
+        sql.append(" ORDER BY lookup_name ");
+        sql.append(" LIMIT ? OFFSET ? ");
+
+        return executeLookupQuery(
+                sql.toString(), limit, page, search, hasSearch, value, hasValue,
+                hasClientFilter ? info.getClientID() : null, hasClientFilter,
+                "Table Direct para columna " + column.sourceDescription
+        );
+    }
+
+    /**
+     * Inferencia Table Direct.
+     */
+    private String inferTableName(String columnName) {
+        if (columnName == null) return null;
+
+        /*
+         * Excepción histórica de Libertya.
+         */
+        if ("AD_OrgBP_ID".equalsIgnoreCase(columnName)) return "AD_Org";
+
+        if (!columnName.toUpperCase().endsWith("_ID")) return null;
+
+        return columnName.substring(0, columnName.length() - 3);
+    }
+
+    /**
+     * Recupera key e identificadores de la tabla referenciada.
+     */
+    private TableLookupInfo loadTableLookupInfo(String tableName) {
+        String sql = " SELECT c.columnname, c.iskey, c.isidentifier, c.seqno "
+                + " FROM ad_table t "
+                + " JOIN ad_column c ON c.ad_table_id = t.ad_table_id "
+                + " WHERE lower(t.tablename) = lower(?) AND t.isactive = 'Y' AND c.isactive = 'Y' "
+                + "   AND (c.iskey = 'Y' OR c.isidentifier = 'Y') "
+                + " ORDER BY c.seqno ";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = DB.prepareStatement(sql, null);
+            ps.setString(1, tableName);
+            rs = ps.executeQuery();
+
+            TableLookupInfo result = new TableLookupInfo();
+
+            while (rs.next()) {
+                String columnName = rs.getString("columnname");
+
+                if ("Y".equals(rs.getString("iskey"))) result.keyColumn = columnName;
+                if ("Y".equals(rs.getString("isidentifier"))) result.identifierColumns.add(columnName);
+            }
+
+            if (result.keyColumn == null && result.identifierColumns.isEmpty()) return null;
+
+            return result;
+        } catch (Exception e) {
+            throw new RuntimeException("Error recuperando metadata de lookup para tabla " + tableName, e);
+        } finally {
+            DB.close(rs, ps);
+        }
+    }
+
+    /**
+     * Resuelve la regla de validación configurada en AD_Column.AD_Val_Rule_ID
+     * utilizando el contexto global y el contexto dinámico enviado por el frontend.
+     */
+    private String resolveValidationCode(UserInfo info, DynamicLookupInfo column, Map<String, String> contextValues) {
+        if (info == null || column.validationCode == null || column.validationCode.trim().isEmpty()) return null;
+
+        Properties ctx = new Properties();
+        ctx.putAll(info.getCtx());
+
+        if (contextValues != null) {
+            for (Map.Entry<String, String> entry : contextValues.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() != null) {
+                    Env.setContext(ctx, 0, entry.getKey(), entry.getValue());
+                }
+            }
+        }
+
+        String validation = Env.parseContext(ctx, 0, column.validationCode, true);
+        if (validation == null || validation.trim().isEmpty() || validation.indexOf('@') >= 0) return null;
+
+        return validation.trim();
+    }
+
+    /**
+     * Resuelve una cláusula de AD_Ref_Table utilizando el mismo contexto
+     * global y dinámico disponible para las reglas de validación.
+     */
+    private String resolveReferenceClause(UserInfo info, String clause, Map<String, String> contextValues) {
+        if (clause == null || clause.trim().isEmpty()) return null;
+
+        Properties ctx = new Properties();
+        if (info != null) ctx.putAll(info.getCtx());
+
+        if (contextValues != null) {
+            for (Map.Entry<String, String> entry : contextValues.entrySet()) {
+                if (entry.getKey() != null && entry.getValue() != null) {
+                    Env.setContext(ctx, 0, entry.getKey(), entry.getValue());
+                }
+            }
+        }
+
+        String resolved = Env.parseContext(ctx, 0, clause, true);
+        if (resolved == null || resolved.trim().isEmpty() || resolved.indexOf('@') >= 0) return null;
+
+        return resolved.trim();
+    }
+
+    /**
+     * Determina si debe aplicarse filtro por compañía.
+     * System (clientID = 0) mantiene acceso global.
+     */
+    private boolean shouldFilterByClient(UserInfo info, String tableName) {
+        if (info == null || info.getClientID() == 0) return false;
+        return tableHasClientId(tableName);
+    }
+
+    /**
+     * Determina mediante metadata si la tabla posee una columna AD_Client_ID activa.
+     */
+    private boolean tableHasClientId(String tableName) {
+        String sql = " SELECT 1 FROM ad_table t "
+                + " JOIN ad_column c ON c.ad_table_id = t.ad_table_id "
+                + " WHERE lower(t.tablename) = lower(?) AND t.isactive = 'Y' AND c.isactive = 'Y' "
+                + "   AND lower(c.columnname) = 'ad_client_id' "
+                + " LIMIT 1 ";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = DB.prepareStatement(sql, null);
+            ps.setString(1, tableName);
+            rs = ps.executeQuery();
+
+            return rs.next();
+        } catch (Exception e) {
+            throw new RuntimeException("Error determinando si la tabla " + tableName + " posee AD_Client_ID", e);
+        } finally {
+            DB.close(rs, ps);
+        }
+    }
+
+    /**
+     * Construye el texto visible para Table Direct.
+     */
+    private String buildTableDirectDisplayExpression(String tableName, List<String> identifierColumns) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < identifierColumns.size(); i++) {
+            if (i > 0) result.append(" || '_' || ");
+            result.append("COALESCE(CAST(").append(tableName).append(".").append(identifierColumns.get(i)).append(" AS VARCHAR), '')");
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Ejecución común para Table, Table Direct y Search.
+     */
+    private List<ColumnLookupValue> executeLookupQuery(
+            String sql, int limit, int page, String search, boolean hasSearch,
+            String value, boolean hasValue, Integer clientId, boolean hasClientFilter, String description) {
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = DB.prepareStatement(sql, null);
+            int parameterIndex = 1;
+
+            /*
+             * El orden de parámetros debe coincidir con el armado del WHERE:
+             * 1. value
+             * 2. search
+             * 3. clientId
+             * 4. limit
+             * 5. offset
+             */
+            if (hasValue) {
+                try {
+                    int intValue = Integer.parseInt(value);
+                    ps.setInt(parameterIndex, intValue);
+                } catch (NumberFormatException e) {
+                    ps.setString(parameterIndex, value);
+                }
+                parameterIndex++;
+            }
+
+            if (hasSearch) {
+                ps.setString(parameterIndex++, "%" + search.trim().toLowerCase() + "%");
+            }
+
+            if (hasClientFilter) {
+                ps.setInt(parameterIndex++, clientId);
+            }
+
+            ps.setInt(parameterIndex++, limit);
+            int offset = (page - 1) * limit;
+            ps.setInt(parameterIndex, offset);
+
+            rs = ps.executeQuery();
+            List<ColumnLookupValue> result = new ArrayList<>();
+
+            while (rs.next()) {
+                Object key = rs.getObject("lookup_value");
+                ColumnLookupValue valueItem = new ColumnLookupValue()
+                        .value(key != null ? String.valueOf(key) : null)
+                        .name(rs.getString("lookup_name"))
+                        .isactive("Y".equals(rs.getString("lookup_isactive")));
+
+                result.add(valueItem);
+            }
+
+            return result;
+        } catch (Exception e) {
+            throw new RuntimeException("Error recuperando lookup " + description, e);
+        } finally {
+            DB.close(rs, ps);
+        }
+    }
+
+    private static class TableLookupInfo {
+        private String keyColumn;
+        private final List<String> identifierColumns = new ArrayList<>();
+    }
+
+    private static class TableReferenceInfo {
+        private String tableName;
+        private String keyColumn;
+        private String displayColumn;
+        private boolean valueDisplayed;
+        private String whereClause;
+        private String orderByClause;
+    }
+    public static class DynamicLookupInfo {
+        private final String sourceDescription;
+        private final String columnName;
+        private final Integer referenceId;
+        private final Integer referenceValueId;
+        private final Integer validationRuleId;
+        private final String validationCode;
+
+        public DynamicLookupInfo(String sourceDescription, String columnName, Integer referenceId, Integer referenceValueId, Integer validationRuleId, String validationCode) {
+            this.sourceDescription = sourceDescription;
+            this.columnName = columnName;
+            this.referenceId = referenceId;
+            this.referenceValueId = referenceValueId;
+            this.validationRuleId = validationRuleId;
+            this.validationCode = validationCode;
+        }
+    }
+
+}
