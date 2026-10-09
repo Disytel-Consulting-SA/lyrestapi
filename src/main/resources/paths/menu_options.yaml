@@ -1,0 +1,25 @@
+get:
+  summary: Recupera las entradas de menú disponibles para selección
+  description: >
+    Recupera entradas activas de AD_Menu accesibles para el perfil actual.
+    Inicialmente incluye ventanas y procesos no-report.
+  tags:
+    - "menuoptions"
+  parameters:
+    - name: language
+      in: query
+      description: Idioma solicitado
+      required: false
+      schema:
+        type: string
+        default: es_AR
+  operationId: retrieveMenuOptions
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/menuoption.yaml#/components/schemas/MenuOption'

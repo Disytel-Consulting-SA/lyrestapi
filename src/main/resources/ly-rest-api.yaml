@@ -478,6 +478,8 @@ paths:
     $ref: ./paths/tabs_id_callout.yaml
   /v1.0/windows/options:
     $ref: ./paths/windows_options.yaml
+  /v1.0/menu/options:
+    $ref: ./paths/menu_options.yaml
   /v1.0/columns/{id}/lookup:
     $ref: ./paths/columns_id_lookup.yaml
   /v1.0/roleoptions:

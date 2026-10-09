@@ -1,0 +1,19 @@
+components:
+  schemas:
+
+    MenuOption:
+      type: object
+      properties:
+        ad_menu_id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+          description: Tipo semántico de entrada disponible para el frontend.
+          enum:
+            - window
+            - process
+        target_id:
+          type: integer
+          description: AD_Window_ID o AD_Process_ID según type.
