@@ -59,8 +59,8 @@ public class ProcessFieldStateEngine {
         for (MField field : fields) {
             field.lookupLoadComplete();
             field.validateValue();
-            parameterStates.add(new ProcessParameterState().processParaId(field.getAD_Field_ID()).columnname(field.getColumnName())
-                    .displayed(field.isDisplayed(true)).readonly(!field.isEditable(true)));
+            parameterStates.add(new ProcessParameterState().processParaId(field.getAD_Column_ID()).columnname(field.getColumnName())
+                    .displayed(field.isDisplayed(true)).readonly(!field.isEditablePara(true)));
         }
 
         return new ProcessState().values(values).parameters(parameterStates);
