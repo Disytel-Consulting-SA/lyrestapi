@@ -1,25 +1,32 @@
 package org.libertya.api.util;
 
 import org.libertya.api.common.UserInfo;
-import org.libertya.api.exception.AuthException;
 import org.libertya.api.repository.GenericRepository;
 import org.libertya.api.stub.model.GenericRecord;
 import org.libertya.api.stub.model.ProcessParameterState;
 import org.libertya.api.stub.model.ProcessState;
 import org.libertya.api.stub.model.ProcessStateRequest;
+import org.openXpertya.model.CalloutProcess;
 import org.openXpertya.model.MField;
 import org.openXpertya.model.MFieldVO;
+import org.openXpertya.model.MLookup;
 import org.openXpertya.util.DB;
+import org.openXpertya.util.DisplayType;
 import org.openXpertya.util.Env;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 public class ProcessFieldStateEngine {
     private static final int WINDOW_NO = 100;
@@ -35,26 +42,27 @@ public class ProcessFieldStateEngine {
         List<MField> fields = loadFields(ctx, processId);
         if (fields.isEmpty() && !processExists(processId)) throw new IllegalArgumentException("No existe AD_Process_ID=" + processId);
 
-        Map<String, String> values = new LinkedHashMap<>();
-        for (MField field : fields) {
-            String supplied = suppliedValues != null ? suppliedValues.get(field.getColumnName()) : null;
-            if (supplied != null) {
-                field.setValue(supplied, true);
-                values.put(field.getColumnName(), toProtocolValue(field.getValue()));
-                setContext(ctx, field.getColumnName(), toProtocolValue(field.getValue()));
-            } else {
-                Object defaultValue = field.getDefault();
-                if (defaultValue != null) {
-                    field.setValue(defaultValue, true);
-                    String value = toProtocolValue(field.getValue());
-                    if (value != null) {
-                        values.put(field.getColumnName(), value);
-                        setContext(ctx, field.getColumnName(), value);
-                    }
-                }
+        Map<String, MField> fieldsByColumn = new LinkedHashMap<>();
+        for (MField field : fields) fieldsByColumn.put(field.getColumnName(), field);
+
+        applyValuesAndDefaults(ctx, fields, suppliedValues);
+
+        List<String> changedParameters = request != null ? request.getChangedParameters() : null;
+        if (changedParameters == null || changedParameters.isEmpty()) {
+            processCalloutsOnLoad(ctx, fieldsByColumn);
+            for (MField field : fields) processDependencies(field, fields);
+        } else {
+            for (String columnName : changedParameters) {
+                MField changedField = fieldsByColumn.get(columnName);
+                if (changedField == null) throw new IllegalArgumentException("Parametro ajeno al proceso: " + columnName);
+                processCallout(ctx, changedField, changedField.getValue(), fieldsByColumn);
+                syncContext(ctx, fields);
+                processDependencies(changedField, fields);
+                syncContext(ctx, fields);
             }
         }
 
+        Map<String, String> values = collectValues(fields);
         List<ProcessParameterState> parameterStates = new ArrayList<>();
         for (MField field : fields) {
             field.lookupLoadComplete();
@@ -64,6 +72,79 @@ public class ProcessFieldStateEngine {
         }
 
         return new ProcessState().values(values).parameters(parameterStates);
+    }
+
+    private void applyValuesAndDefaults(Properties ctx, List<MField> fields, Map<String, String> suppliedValues) {
+        for (MField field : fields) {
+            String supplied = suppliedValues != null ? suppliedValues.get(field.getColumnName()) : null;
+            if (supplied != null) {
+                field.setValue(toCoreValue(field, supplied), true, true);
+            } else {
+                Object defaultValue = field.getDefault();
+                if (defaultValue != null) {
+                    field.refreshLookup();
+                    field.setValue(defaultValue, true, true);
+                }
+            }
+            setContext(ctx, field.getColumnName(), toProtocolValue(field.getValue()));
+        }
+    }
+
+    private void processCalloutsOnLoad(Properties ctx, Map<String, MField> fields) {
+        for (MField field : fields.values()) {
+            if (!field.isCalloutAlsoOnLoad()) continue;
+            processCallout(ctx, field, field.getValue(), fields);
+            syncContext(ctx, fields.values());
+        }
+    }
+
+    private void processCallout(Properties ctx, MField field, Object newValue, Map<String, MField> fields) {
+        String callout = field.getCallout();
+        if (callout == null || callout.trim().isEmpty()) return;
+
+        StringTokenizer commands = new StringTokenizer(callout, ";", false);
+        while (commands.hasMoreTokens()) {
+            String command = commands.nextToken().trim();
+            int methodStart = command.lastIndexOf('.');
+            if (methodStart <= 0 || methodStart == command.length() - 1) throw new IllegalStateException("Callout invalido: " + command);
+
+            String className = command.substring(0, methodStart);
+            String method = command.substring(methodStart + 1);
+            try {
+                CalloutProcess instance = (CalloutProcess) Class.forName(className).newInstance();
+                String result = instance.start(ctx, WINDOW_NO, method, field, newValue, field.getOldValue(), fields);
+                if (result != null && !result.isEmpty()) throw new IllegalStateException("Callout " + field.getColumnName() + ": " + result);
+            } catch (IllegalStateException e) {
+                throw e;
+            } catch (Exception e) {
+                throw new IllegalStateException("Callout invalido: " + command, e);
+            }
+        }
+    }
+
+    private void processDependencies(MField changedField, List<MField> fields) {
+        String columnName = changedField.getColumnName();
+        for (MField dependentField : fields) {
+            if (!dependentField.getDependentOn().contains(columnName) || !(dependentField.getLookup() instanceof MLookup)) continue;
+            MLookup lookup = (MLookup) dependentField.getLookup();
+            if (lookup.getValidation().contains("@" + columnName + "@")) {
+                dependentField.setValue(null, true);
+                dependentField.refreshLookup();
+            }
+        }
+    }
+
+    private void syncContext(Properties ctx, Iterable<MField> fields) {
+        for (MField field : fields) setContext(ctx, field.getColumnName(), toProtocolValue(field.getValue()));
+    }
+
+    private Map<String, String> collectValues(List<MField> fields) {
+        Map<String, String> values = new LinkedHashMap<>();
+        for (MField field : fields) {
+            String value = toProtocolValue(field.getValue());
+            if (value != null) values.put(field.getColumnName(), value);
+        }
+        return values;
     }
 
     private List<MField> loadFields(Properties ctx, int processId) throws Exception {
@@ -97,8 +178,33 @@ public class ProcessFieldStateEngine {
         setContext(ctx, spec.getKeyColumn(), String.valueOf(request.getRecordId()));
     }
 
+    private Object toCoreValue(MField field, Object value) {
+        if (value == null) return null;
+        int type = field.getDisplayType();
+        try {
+            if (type == DisplayType.YesNo) {
+                if (value instanceof Boolean) return value;
+                if ("Y".equals(value) || "N".equals(value)) return "Y".equals(value);
+            } else if (DisplayType.isID(type) || type == DisplayType.Integer) {
+                return new BigDecimal(value.toString()).intValueExact();
+            } else if (DisplayType.isNumeric(type)) {
+                return new BigDecimal(value.toString());
+            } else if ((type == DisplayType.Date || type == DisplayType.DateTime || type == DisplayType.Time) && value instanceof String) {
+                String date = (String) value;
+                if (date.endsWith("Z")) return Timestamp.from(Instant.parse(date));
+                if (date.length() == 10) return Timestamp.valueOf(LocalDate.parse(date).atStartOfDay());
+                return Timestamp.valueOf(date.replace('T', ' '));
+            } else {
+                return value;
+            }
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException("Valor invalido para " + field.getColumnName(), e);
+        }
+        throw new IllegalArgumentException("Valor invalido para " + field.getColumnName());
+    }
+
     private void setContext(Properties ctx, String key, String value) {
-        if (key != null && value != null) Env.setContext(ctx, WINDOW_NO, key, value);
+        if (key != null) Env.setContext(ctx, WINDOW_NO, key, value == null ? "" : value);
     }
 
     private boolean processExists(int processId) {
