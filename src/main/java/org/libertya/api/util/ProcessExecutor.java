@@ -67,7 +67,14 @@ public class ProcessExecutor {
 
         int type = parameter.getAD_Reference_ID();
         try {
-            if (type == DisplayType.YesNo) return "Y".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value);
+            /*
+             * CORE persiste los parámetros YesNo en MPInstancePara.P_String.
+             * MPInstancePara.setParameter(displayType, ...) castea explícitamente
+             * el valor a String, por lo que no debemos enviar Boolean.
+             */
+            if (type == DisplayType.YesNo) {
+                return ("Y".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value)) ? "Y" : "N";
+            }
             if (DisplayType.isID(type) || type == DisplayType.Integer) return new BigDecimal(value).intValueExact();
             if (DisplayType.isNumeric(type)) return new BigDecimal(value);
             if (type == DisplayType.Date || type == DisplayType.DateTime || type == DisplayType.Time) {
