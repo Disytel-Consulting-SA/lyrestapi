@@ -338,6 +338,17 @@ public class WindowRecordRepository extends AbstractRepository {
         MWindow window = new MWindow(vo);
 
         try {
+            /*
+             * MTab.getParentTabNo() resuelve la jerarquía leyendo
+             * CTX_TabLevel del contexto por número de pestaña. Los
+             * clientes clásicos cargan explícitamente ese contexto al
+             * inicializar cada tab; el endpoint REST construía MWindow
+             * pero no reproducía ese paso. En tabs de nivel > 1 eso
+             * podía dejar getParentTabNo() recorriendo tabNo hacia
+             * valores negativos indefinidamente.
+             */
+            initializeTabLevelContext(info, windowNo, window);
+
             MTab tab = findTab(window, adTabId);
 
             applyParentContext(
@@ -351,6 +362,22 @@ public class WindowRecordRepository extends AbstractRepository {
             Env.clearWinContext(info.getCtx(), windowNo);
         }
     }
+
+    private void initializeTabLevelContext(UserInfo info, int windowNo, MWindow window) {
+
+        for (int tabNo = 0; tabNo < window.getTabCount(); tabNo++) {
+            MTab tab = window.getTab(tabNo);
+
+            Env.setContext(
+                    info.getCtx(),
+                    windowNo,
+                    tabNo,
+                    MTab.CTX_TabLevel,
+                    Integer.toString(tab.getTabLevel())
+            );
+        }
+    }
+
 
     private void applyParentContext(UserInfo info, int windowNo, Map<String, String> parentValues) {
 
