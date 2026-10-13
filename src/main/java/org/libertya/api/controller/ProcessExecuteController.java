@@ -32,13 +32,25 @@ public class ProcessExecuteController implements ProcessexecuteApi {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         } catch (IllegalArgumentException e) {
             log.warn("Process execute {}: {}", id, e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(errorResponse(e.getMessage(), "Los parámetros del proceso no son válidos."));
         } catch (SecurityException e) {
             log.warn("Process execute {}: {}", id, e.getMessage());
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(errorResponse("No tiene permisos para ejecutar este proceso.", null));
         } catch (Exception e) {
             log.error("Error ejecutando proceso {}", id, e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(errorResponse("No fue posible ejecutar el proceso.",
+                            "Ocurrió un error interno durante la ejecución. Contacte al administrador si el problema persiste."));
         }
+    }
+
+    private ProcessExecuteResponse errorResponse(String summary, String fallback) {
+        String message = summary;
+        if (message == null || message.trim().isEmpty()) message = fallback;
+        return new ProcessExecuteResponse()
+                .success(false)
+                .summary(message);
     }
 }
