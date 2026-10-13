@@ -363,7 +363,25 @@ public class WindowRecordRepository extends AbstractRepository {
                 continue;
             }
 
-            Env.setContext(info.getCtx(), windowNo, entry.getKey(), entry.getValue());
+            String columnName = entry.getKey();
+            String value = entry.getValue();
+
+            /*
+             * CORE puede resolver expresiones de pestañas anidadas tanto
+             * contra @ColumnName@ como contra @N|ColumnName@. El frontend
+             * envía el registro padre inmediato, por lo que publicamos ese
+             * contexto también en los niveles de pestaña.
+             */
+            Env.setContext(info.getCtx(), windowNo, columnName, value);
+
+            for (int level = 1; level <= 10; level++) {
+                Env.setContext(
+                        info.getCtx(),
+                        windowNo,
+                        level + "|" + columnName,
+                        value
+                );
+            }
         }
     }
 
