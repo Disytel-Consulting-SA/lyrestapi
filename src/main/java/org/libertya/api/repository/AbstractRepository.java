@@ -610,9 +610,18 @@ public abstract class AbstractRepository {
                     if (shouldSkipColumn(column))
                         continue;
                     String colName = column.getColumnName();
+                    Object value = aPO.get_Value(colName);
                     // Ya fue asignado previamente en las propiedades predefinidas? Omitir
-                    if (!assignedColumns.contains(getColumnIdentity(column)) && aPO.get_Value(colName) != null)
-                        addPropToProps(props, field, object, columnResolver.getApiName(column), aPO.get_Value(colName).toString());
+                    if (assignedColumns.contains(getColumnIdentity(column)) || value == null)
+                        continue;
+                    addPropToProps(props, field, object, columnResolver.getApiName(column), value.toString());
+                    // Las referencias fuera del schema tambien se informan en referencedvalues, igual que las
+                    // predefinidas. Si se indicaron fields, solo las pedidas por nombre: cada una cuesta consultas
+                    // extra por registro, y una tabla puede tener muchas columnas fuera del schema.
+                    if (useReferencedValues(info) && value instanceof Integer &&
+                            Integer.class == DisplayType.getClass(column.getAD_Reference_ID(), false) &&
+                            (includeFields == null || includeFields.contains(schemaUtils.normalize(colName))))
+                        setReferencedValue(object, value, column);
                 }
             }
         } catch (Exception e) {
