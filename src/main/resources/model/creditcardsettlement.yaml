@@ -1,0 +1,143 @@
+components:
+  schemas:
+    CreditCardSettlement:
+      type: object
+      properties:
+        accounting_c_charge_id:
+          type: integer
+          description: "Cuenta Contable Alternativa"
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        adquirente:
+          type: string
+          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
+        amount:
+          type: number
+          description: "Importe en una moneda definida"
+        c_bpartner_id:
+          type: integer
+          description: "Identifica una Entidad Comercial"
+        c_creditcardsettlement_id:
+          type: integer
+          description: "Liquidaciones de Tarjetas de Crédito"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        commissionamount:
+          type: number
+          description: " "
+        couponstotalamount:
+          type: number
+          description: " "
+        c_payment_id:
+          type: integer
+          description: "Identificador del pago"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        creditcardtype:
+          type: string
+          description: "Tarjeta de Crédito "
+        docaction:
+          type: string
+          description: "El estado destino del documento"
+        docstatus:
+          type: string
+          description: "El estado actual del documento"
+        establishmentnumber:
+          type: string
+          description: "Nro de Comercio / Establecimiento SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
+        expenses:
+          type: number
+          description: " "
+        financingservice:
+          type: string
+          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isapproved:
+          type: boolean
+          description: "Indica si este documento requiere aprobación"
+        isreconciled:
+          type: boolean
+          description: " "
+        ivaamount:
+          type: number
+          description: " "
+        m_numerocomercio_id:
+          type: integer
+          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
+        netamount:
+          type: number
+          description: " "
+        payment:
+          type: string
+          description: " "
+        paymentdate:
+          type: string
+          description: " "
+        perception:
+          type: number
+          description: " "
+        posted:
+          type: string
+          description: "Las transacciones de Contabilidad General han sido procesadas"
+        processed:
+          type: boolean
+          description: "El documento ha sido procesado"
+        processing:
+          type: boolean
+          description: " "
+        reconcilecoupons:
+          type: string
+          description: " "
+        selectallcoupons:
+          type: string
+          description: " "
+        settlementno:
+          type: string
+          description: " "
+        unselectallcoupons:
+          type: string
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        withholding:
+          type: number
+          description: " "
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_bpartner_id
+         - c_creditcardsettlement_id
+         - created
+         - createdby
+         - docaction
+         - docstatus
+         - isactive
+         - isapproved
+         - isreconciled
+         - paymentdate
+         - processed
+         - updated
+         - updatedby

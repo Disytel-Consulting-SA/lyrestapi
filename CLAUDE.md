@@ -206,6 +206,19 @@ travels in a per-request `TableSpec`. Always go through `resolveTable` first and
 up concatenated into SQL and keys the `ColumnResolver` cache. `PO.load(int)` hard-codes `<Table>_ID` as the key,
 so tables whose key differs (views such as `RV_BPartner`) are read through a where clause and are read-only.
 
+## Credit card settlements (`C_CreditCardSettlement`)
+
+Implemented (August–September 2026), Tehuelche-core specific. `creditcardsettlements` (+ `/full`, `/process`),
+`creditcardcouponfilters`, `couponssettlements` (+ `/bulk`, `/exists`), `numeroscomercio`, the five concept
+child tables and their masters, and — for resolving the IIBB withholding schema by jurisdiction — the read-only
+`retenciontypes` and `orginfos`. **`docs/liquidaciones-tarjetas-api.md`** is the consumer guide; §12 covers the
+jurisdiction chain and its contract traps (no `id` column in filters; several `C_RetencionType` rows share
+`retentiontype='B'`, so filter with `IN`).
+
+Non-obvious: `AD_OrgInfo` has no own ID — its PK is `AD_Org_ID`, so `OrgInfoRepository` sets `pkColumns` and
+`/orginfos/{id}` takes the `ad_org_id`. Packaging for Tehuelche needs the jars in `/OXP-teh` (see memory
+`binarios-teh-en-oxp-teh`), and `numeroscomercio` only works against the Tehuelche dictionary.
+
 ## Still planned
 
 - **`factaccts`** (read-only `Fact_Acct`) so a consumer can reconcile what actually got posted. Posting is

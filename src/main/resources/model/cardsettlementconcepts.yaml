@@ -1,0 +1,62 @@
+components:
+  schemas:
+    CardSettlementConcepts:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        c_cardsettlementconcepts_id:
+          type: integer
+          description: " "
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        m_product_id:
+          type: integer
+          description: "Producto; servicio o Artículo"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        type:
+          type: string
+          description: "Tipo de validación (SQL; Java Script; Java Language)"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        value:
+          type: string
+          description: "Clave de búsqueda para el registro en el formato requerido; debe ser única"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_cardsettlementconcepts_id
+         - created
+         - createdby
+         - isactive
+         - m_product_id
+         - name
+         - type
+         - updated
+         - updatedby
+         - value

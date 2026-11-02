@@ -1,0 +1,35 @@
+components:
+  schemas:
+    CreditCardSettlementDocument:
+      type: object
+      properties:
+        header:
+          $ref: '../model/creditcardsettlement.yaml#/components/schemas/CreditCardSettlement'
+        filter:
+          $ref: '../model/creditcardcouponfilter.yaml#/components/schemas/CreditCardCouponFilter'
+    CreditCardSettlementCreated:
+      type: object
+      properties:
+        c_creditcardsettlement_id:
+          type: integer
+          description: "ID de la liquidacion creada"
+        c_creditcardcouponfilter_id:
+          type: integer
+          description: "ID del filtro por defecto creado, del cual deben colgarse los cupones"
+        children:
+          type: array
+          description: >
+            Filas hijas que genero el modelo de Libertya por si solo (generateAllChildrens): una fila en cero
+            por cada impuesto, esquema de retencion aplicable y concepto de liquidacion configurado como
+            maestro en el ERP. Se devuelven para ahorrar un GET por liquidacion.
+          items:
+            $ref: '../model/creditcardsettlement_doc.yaml#/components/schemas/CreditCardSettlementChild'
+    CreditCardSettlementChild:
+      type: object
+      properties:
+        tablename:
+          type: string
+          description: "Tabla de la fila hija (C_SettlementTaxes, C_SettlementRetenciones, C_CommissionConcepts, ...)"
+        record_id:
+          type: integer
+          description: "ID de la fila hija"

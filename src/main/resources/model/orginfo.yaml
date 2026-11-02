@@ -1,0 +1,89 @@
+components:
+  schemas:
+    OrgInfo:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        allowautomaticallocation:
+          type: boolean
+          description: "Esta marca permite incluir a esta organización en la generación automática de imputaciones de documentos"
+        authorizations:
+          type: boolean
+          description: " "
+        checkcuitcontrol:
+          type: boolean
+          description: "Control de CUIT de Cheques activado"
+        c_location_id:
+          type: integer
+          description: "Ubicación o Dirección"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        cuit:
+          type: string
+          description: " "
+        duns:
+          type: string
+          description: "Introduzca el CIF/NIF DE LA EMPRESA O PARTICULAR"
+        initialchecklimit:
+          type: number
+          description: "Monto límite inicial por CUIT para operar con cheques"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        m_warehouse_id:
+          type: integer
+          description: "Almacén"
+        nombrecomercio:
+          type: string
+          description: " "
+        overdueinvoicescharge:
+          type: number
+          description: "Importe del Cargo por cobro de facturas vencidas en Recibos de Cliente"
+        parent_org_id:
+          type: integer
+          description: "Organización Superior"
+        shipmentpermitfe:
+          type: boolean
+          description: " "
+        taxid:
+          type: string
+          description: "Codigo único de Identificacion Tributaria / Documento Nacional de Identidad"
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - allowautomaticallocation
+         - authorizations
+         - checkcuitcontrol
+         - created
+         - createdby
+         - duns
+         - initialchecklimit
+         - isactive
+         - overdueinvoicescharge
+         - shipmentpermitfe
+         - taxid
+         - updated
+         - updatedby

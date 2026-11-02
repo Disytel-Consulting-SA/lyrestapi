@@ -1,0 +1,64 @@
+components:
+  schemas:
+    RetencionType:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        c_retenciontype_id:
+          type: integer
+          description: " "
+        description:
+          type: string
+          description: "Descripción corta opcional del registro"
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        is_by_region:
+          type: boolean
+          description: " "
+        m_product_id:
+          type: integer
+          description: "Producto; servicio o Artículo"
+        name:
+          type: string
+          description: "Identificador alfanumérico de la Entidad"
+        retentiontype:
+          type: string
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - created
+         - createdby
+         - c_retenciontype_id
+         - isactive
+         - is_by_region
+         - m_product_id
+         - name
+         - updated
+         - updatedby

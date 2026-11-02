@@ -1,0 +1,26 @@
+get:
+  summary: Recupera un concepto de liquidacion en particular
+  tags:
+    - "cardsettlementconcept"
+  parameters:
+    - name: id
+      in: path
+      description: ID del registro
+      required: true
+      schema:
+        type: integer
+  description: Recupera la informacion de un concepto de liquidacion de tarjetas en particular
+  operationId: retrieveCardSettlementConcept
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/cardsettlementconcepts.yaml#/components/schemas/CardSettlementConcepts'
+    "404":
+      description: No encontrado
+      content:
+        application/json:
+          schema:
+            type: string

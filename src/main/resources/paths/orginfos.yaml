@@ -1,0 +1,54 @@
+get:
+  summary: Retorna la lista de informacion adicional de organizaciones
+  tags:
+    - "orginfo"
+  description: >
+    Retorna la informacion adicional de las organizaciones (AD_OrgInfo): domicilio (c_location_id), CUIT,
+    almacen por defecto, organizacion superior. Recurso de solo lectura: el mantenimiento se hace desde
+    Libertya.
+
+
+    AD_OrgInfo NO tiene un ID propio: es una extension 1 a 1 de AD_Org y su clave primaria es ad_org_id.
+    Por eso el {id} de /orginfos/{id} es directamente el ad_org_id de la organizacion, y no hace falta
+    pasar por filter para llegar a ella.
+
+
+    Lo que resuelve para una liquidacion de tarjetas es la jurisdiccion de la sucursal: orginfos.c_location_id
+    -> locations.c_region_id. Ver docs/liquidaciones-tarjetas-api.md (resolucion del esquema de IIBB por
+    jurisdiccion).
+  operationId: getAllOrgInfos
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/orginfo.yaml#/components/schemas/OrgInfo'

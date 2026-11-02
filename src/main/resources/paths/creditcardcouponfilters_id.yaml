@@ -1,0 +1,65 @@
+get:
+  tags:
+    - "creditcardcouponfilter"
+  summary: Recupera un filtro de cupones en particular
+  operationId: retrieveCreditCardCouponFilter
+  parameters:
+    - name: id
+      in: path
+      description: ID del filtro
+      required: true
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../model/creditcardcouponfilter.yaml#/components/schemas/CreditCardCouponFilter'
+    "404":
+      description: No encontrado
+      content:
+        application/json:
+          schema:
+            type: string
+delete:
+  tags:
+    - "creditcardcouponfilter"
+  summary: Elimina un filtro de cupones
+  description: >
+    Elimina un filtro que no tenga cupones colgados. Si los tiene, responde 409 e indica cuantos son.
+
+
+    POR QUE NO SE PERMITE BORRAR UN FILTRO CON CUPONES: la foreign key de los cupones contra el filtro es
+    ON DELETE CASCADE, con lo cual la base se los llevaria a todos sin pasar por el modelo. Eso saltearia la
+    regla R8, que impide borrar un cupon conciliado. Verificado contra la base: un cupon con isreconciled='Y'
+    desaparece sin ruido al borrar su filtro. Esta API lo bloquea para que la unica via de baja de un cupon
+    sea DELETE /v1.0/couponssettlements/{id}, que si aplica las validaciones del modelo.
+  operationId: deleteCreditCardCouponFilter
+  parameters:
+    - name: id
+      in: path
+      description: ID del filtro a eliminar
+      required: true
+      schema:
+        type: integer
+  responses:
+    "204":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible eliminar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

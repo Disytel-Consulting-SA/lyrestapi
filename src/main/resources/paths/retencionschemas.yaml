@@ -1,0 +1,55 @@
+get:
+  summary: Retorna la lista de esquemas de retencion
+  tags:
+    - "retencionschema"
+  description: >
+    Retorna la lista de esquemas de retencion. Recurso de solo lectura: el mantenimiento se hace desde
+    Libertya. Es el maestro que resuelve, para una liquidacion de tarjetas, contra que esquema se imputa cada
+    fila de C_WithholdingSettlement.
+
+
+    Para las retenciones SUFRIDAS (las de una liquidacion de tarjetas) hay que filtrar por
+    retencionapplication='S'; el valor 'E' son las emitidas, que no aplican aca. El filtro NO se aplica del
+    lado del servidor a proposito, para no limitar otros usos del maestro:
+
+
+        GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y'
+
+
+    c_region_id viaja en la propia fila del esquema, no hay que resolverlo por separado.
+  operationId: getAllRetencionSchemas
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/retencionschema.yaml#/components/schemas/RetencionSchema'

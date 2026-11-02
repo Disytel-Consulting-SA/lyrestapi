@@ -1,0 +1,58 @@
+get:
+  summary: Retorna las filas de percepciones de la liquidacion
+  tags:
+    - "perceptionssettlement"
+  description: >
+    Retorna las filas de percepciones de la liquidacion de una liquidacion de tarjetas.
+
+
+    NO HACE FALTA CREARLAS. Al crear la cabecera, el modelo ejecuta generateAllChildrens() y deja una fila en
+    cero por cada concepto activo del maestro correspondiente. Una fila por cada percepcion activa. El concepto se identifica por c_tax_id.
+    internalno es obligatorio en el diccionario, pero al venir la fila ya creada por el modelo no hace falta
+    enviarlo en el PUT.
+
+
+    El uso normal es listar las filas de una liquidacion para saber que concepto es cada una, y despues cargar
+    el importe con PUT /v1.0/perceptionssettlements/{id}:
+
+
+        GET /v1.0/perceptionssettlements?filter=c_creditcardsettlement_id=1234
+
+
+    Cuelgan directo de C_CreditCardSettlement, no del filtro de cupones.
+  operationId: getAllPerceptionsSettlements
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/perceptionssettlement.yaml#/components/schemas/PerceptionsSettlement'

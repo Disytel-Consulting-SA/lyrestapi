@@ -1,0 +1,98 @@
+put:
+  tags:
+    - "creditcardsettlement"
+  summary: Procesa una liquidacion de tarjetas
+  description: >
+    Aplica una accion de documento sobre una liquidacion de tarjetas.
+
+
+    ACCIONES SOPORTADAS: unicamente CO (completar), VO (anular) y CL (cerrar). Las acciones de reversion y
+    reactivacion del core (RC, RA, RE) NO estan disponibles: por un lado por la limitacion del procesado
+    generico de documentos de esta API, documentada en docs/PENDIENTES.md P1, y por otro porque
+    MCreditCardSettlement.reActivateIt() devuelve false de todos modos.
+
+
+    CO EXIGE TRES COSAS, y las tres devuelven 409 con el mensaje del core si no se cumplen: el periodo
+    contable tiene que estar abierto para la fecha de pago de la liquidacion (@PeriodClosed@); los importes
+    tienen que cuadrar, es decir amount contra la suma de netamount, ivaamount, perception, withholding,
+    commissionamount y expenses, dentro de la tolerancia configurada en el ERP
+    (ToleranciaCompletadoLiquidacionesTarjetas, 0,50 por defecto: CreditCardSettlementAmountsMismatch); y la
+    entidad financiera de la liquidacion tiene que tener configurada su cuenta bancaria de liquidacion
+    (SettlementBankAccountNotConfigured).
+
+
+    CO CREA UN COBRO. Si el importe acreditado (netamount) no es cero, completar genera un C_Payment por ese
+    importe y lo completa, con lo cual la operacion tiene efecto contable real. El c_payment_id NO viene en
+    la respuesta, que es vacia igual que la de los demas endpoints de procesado: se lee con
+    GET /v1.0/creditcardsettlements/{id} despues de completar.
+
+
+    CO ES IRREVERSIBLE EN LA PRACTICA. El core no permite reactivar una liquidacion completada, asi que el
+    unico camino de vuelta es VO, con todo lo que VO implica (ver abajo). Conviene tratar esta llamada como
+    definitiva y no como un paso mas del flujo.
+
+
+    UN CO FALLIDO NO ES DEL TODO INOCUO. La API revierte su transaccion, con lo cual la liquidacion sigue en
+    DR y no queda en estado invalido (IN) como si pasa al completar desde la ventana del ERP. Pero si el
+    fallo se produce despues de la validacion de cuadratura, el modelo ya borro las filas hijas de conceptos
+    que tenian importe cero, y ese borrado lo hace fuera de la transaccion, con lo cual sobrevive al
+    rollback. Si el consumidor guardo los IDs de las filas hijas que devolvio
+    POST /v1.0/creditcardsettlements/full, despues de un CO fallido conviene volver a leerlas.
+
+
+    ATENCION, VO ES DESTRUCTIVO Y VA MUCHO MAS ALLA DE CAMBIAR UN ESTADO. Anular una liquidacion BORRA
+    TODOS SUS CUPONES con un DELETE directo sobre C_CouponsSettlements, sin pasar por la validacion que
+    normalmente impide eliminar un cupon conciliado (regla R8), y sin importar cuantos sean. Ademas anula el
+    C_Payment generado al completar, borra los registros contables de la liquidacion, pone en cero los
+    importes de todas las filas hijas de conceptos, devuelve los cobros al estado de auditoria "a
+    verificar", y LE AGREGA UN CARACTER ^ AL SETTLEMENTNO, con lo cual el numero del documento deja de ser
+    el que era. Si lo que se busca es deshacer una liquidacion que todavia esta en borrador, lo correcto no
+    es VO sino DELETE /v1.0/creditcardsettlements/{id}, que es reversible y no toca los cobros.
+
+
+    CL solo es valido sobre una liquidacion ya completada, y se limita a marcarla como procesada.
+
+
+    SOBRE ACCIONES QUE NO APLICAN AL ESTADO ACTUAL: el core resuelve la accion contra el estado del
+    documento y, si la pedida no es valida para ese estado, cae a la que el registro tiene guardada en
+    docaction. La API detecta la discrepancia y responde 409 revirtiendo todo, pero conviene no apoyarse en
+    eso y pedir siempre la accion que corresponde al docstatus actual.
+
+
+    IDEMPOTENCIA: repetir una accion ya aplicada devuelve 409 indicando que la accion coincide con el estado
+    actual. Un consumidor automatico deberia interpretar ese caso puntual como exito, no como error. Lo que
+    no hay que hacer es reintentar a ciegas ante un timeout: dos CO en vuelo sobre la misma liquidacion
+    pueden dejar un C_Payment completado y huerfano.
+  operationId: processCreditCardSettlement
+  parameters:
+    - in: path
+      name: id
+      description: ID de la liquidacion a procesar
+      required: true
+      schema:
+        type: integer
+    - in: query
+      name: action
+      required: true
+      description: "Accion a aplicar. Valores validos: CO (completar), VO (anular), CL (cerrar)"
+      schema:
+        type: string
+  responses:
+    "200":
+      description: OK
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible procesar
+      content:
+        text/plain:
+          schema:
+            type: string
+    "404":
+      description: No encontrado
+      content:
+        text/plain:
+          schema:
+            type: string

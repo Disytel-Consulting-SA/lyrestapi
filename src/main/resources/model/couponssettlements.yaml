@@ -1,0 +1,103 @@
+components:
+  schemas:
+    CouponsSettlements:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        amount:
+          type: number
+          description: "Importe en una moneda definida"
+        a_name:
+          type: string
+          description: "Nombre de la Tarjeta de Crédito o el Poseedor de la cuenta"
+        c_couponssettlements_id:
+          type: integer
+          description: " "
+        c_creditcardcouponfilter_id:
+          type: integer
+          description: " "
+        c_creditcardsettlement_id:
+          type: integer
+          description: "Liquidaciones de Tarjetas de Crédito"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        couponno:
+          type: string
+          description: " "
+        c_payment_id:
+          type: integer
+          description: "Identificador del pago"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        creditcardno:
+          type: string
+          description: " "
+        include:
+          type: boolean
+          description: " "
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isreconciled:
+          type: boolean
+          description: " "
+        isrefused:
+          type: boolean
+          description: " "
+        m_entidadfinanciera_id:
+          type: integer
+          description: " "
+        m_entidadfinancieraplan_id:
+          type: integer
+          description: "Plan de Entidad Financiera"
+        paymentbatch:
+          type: string
+          description: " "
+        processed:
+          type: boolean
+          description: "El documento ha sido procesado"
+        trxdate:
+          type: string
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_couponssettlements_id
+         - c_creditcardcouponfilter_id
+         - c_creditcardsettlement_id
+         - c_currency_id
+         - c_payment_id
+         - created
+         - createdby
+         - include
+         - isactive
+         - isreconciled
+         - m_entidadfinanciera_id
+         - m_entidadfinancieraplan_id
+         - processed
+         - updated
+         - updatedby

@@ -1,0 +1,90 @@
+get:
+  tags:
+    - "creditcardcouponfilter"
+  summary: Retorna la lista de filtros de cupones
+  description: >
+    Retorna los filtros de cupones (C_CreditCardCouponFilter). Un filtro agrupa cupones dentro de una
+    liquidacion: es la fila de la que cuelgan los C_CouponsSettlements.
+
+
+    Uso tipico: resolver el filtro de una liquidacion ya existente antes de colgarle cupones, con
+    filter=c_creditcardsettlement_id=NNN
+
+
+    SINTAXIS DEL FILTRO: es un fragmento de clausula WHERE de SQL. Ver la nota en
+    GET /v1.0/creditcardsettlements.
+  operationId: getAllCreditCardCouponFilters
+  parameters:
+    - in: query
+      name: filter
+      schema:
+        type: string
+      description: Criterio de filtrado
+    - in: query
+      name: fields
+      schema:
+        type: string
+      description: Campos a recuperar
+    - in: query
+      name: sort
+      schema:
+        type: string
+      description: Criterio de ordenado
+    - in: query
+      name: limit
+      schema:
+        type: integer
+      description: Limite de elementos a retornar por pagina
+    - in: query
+      name: page
+      schema:
+        type: integer
+      description: Numero de pagina
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/creditcardcouponfilter.yaml#/components/schemas/CreditCardCouponFilter'
+post:
+  tags:
+    - "creditcardcouponfilter"
+  summary: Nuevo filtro de cupones
+  description: >
+    Crea un filtro de cupones dentro de una liquidacion existente. Normalmente NO hace falta llamarlo:
+    POST /v1.0/creditcardsettlements/full ya crea el filtro por defecto junto con la cabecera. Este
+    endpoint sirve para agregar un filtro adicional a una liquidacion que ya existe, o para reparar una
+    liquidacion vieja que quedo sin filtro.
+
+
+    CAMPOS OBLIGATORIOS sin valor por defecto: c_creditcardsettlement_id y c_currency_id.
+    m_numerocomercio_id no hace falta enviarlo: el modelo lo copia de la cabecera al guardar.
+
+
+    ATENCION con importcuponesfidelius: dejarlo vacio. La importacion de cupones desde las tablas
+    i_fidelius_* es un proceso aparte del ERP que esta API no dispara, y no tiene nada que ver con colgar
+    cupones via POST /v1.0/couponssettlements.
+  operationId: addCreditCardCouponFilter
+  responses:
+    "200":
+      description: OK. ID del filtro creado es retornado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "409":
+      description: Imposible insertar
+      content:
+        text/plain:
+          schema:
+            type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: '../model/creditcardcouponfilter.yaml#/components/schemas/CreditCardCouponFilter'

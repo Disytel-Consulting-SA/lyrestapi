@@ -1,0 +1,90 @@
+components:
+  schemas:
+    CreditCardCouponFilter:
+      type: object
+      properties:
+        ad_client_id:
+          type: integer
+          description: "Compañía o empresa que utiliza ésta instalación"
+        ad_org_id:
+          type: integer
+          description: "Entidad organizacional dentro de la compañía"
+        adquirente:
+          type: string
+          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
+        c_bpartner_id:
+          type: integer
+          description: "Identifica una Entidad Comercial"
+        c_creditcardcouponfilter_id:
+          type: integer
+          description: " "
+        c_creditcardsettlement_id:
+          type: integer
+          description: "Liquidaciones de Tarjetas de Crédito"
+        c_currency_id:
+          type: integer
+          description: "Moneda para este registro"
+        created:
+          type: string
+          description: "Fecha de creación de este registro"
+        createdby:
+          type: integer
+          description: "Usuario que creó este registro"
+        financingservice:
+          type: string
+          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
+        importcuponesfidelius:
+          type: string
+          description: " "
+        isactive:
+          type: boolean
+          description: "El registro está activo en el sistema"
+        isprocessed:
+          type: boolean
+          description: " "
+        m_entidadfinanciera_id:
+          type: integer
+          description: " "
+        m_entidadfinancieraplan_id:
+          type: integer
+          description: "Plan de Entidad Financiera"
+        m_numerocomercio_id:
+          type: integer
+          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
+        paymentbatch:
+          type: string
+          description: " "
+        process:
+          type: string
+          description: " "
+        trxdatefrom:
+          type: string
+          description: " "
+        trxdateto:
+          type: string
+          description: " "
+        updated:
+          type: string
+          description: "Determina si el campo esta actualizado"
+        updatedby:
+          type: integer
+          description: "Determina quien actualizó el campo"
+        additionalvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+        referencedvalues:
+          type: array
+          items:
+            $ref: './propertiesmap.yaml#/propertiesmap'
+      required:
+         - ad_client_id
+         - ad_org_id
+         - c_creditcardcouponfilter_id
+         - c_creditcardsettlement_id
+         - created
+         - createdby
+         - isactive
+         - isprocessed
+         - updated
+         - updatedby
