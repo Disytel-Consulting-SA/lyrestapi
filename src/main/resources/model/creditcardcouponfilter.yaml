@@ -9,9 +9,6 @@ components:
         ad_org_id:
           type: integer
           description: "Entidad organizacional dentro de la compañía"
-        adquirente:
-          type: string
-          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
         c_bpartner_id:
           type: integer
           description: "Identifica una Entidad Comercial"
@@ -30,9 +27,6 @@ components:
         createdby:
           type: integer
           description: "Usuario que creó este registro"
-        financingservice:
-          type: string
-          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
         importcuponesfidelius:
           type: string
           description: " "
@@ -48,9 +42,6 @@ components:
         m_entidadfinancieraplan_id:
           type: integer
           description: "Plan de Entidad Financiera"
-        m_numerocomercio_id:
-          type: integer
-          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
         paymentbatch:
           type: string
           description: " "

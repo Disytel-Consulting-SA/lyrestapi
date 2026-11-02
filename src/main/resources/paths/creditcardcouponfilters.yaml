@@ -61,7 +61,7 @@ post:
 
 
     CAMPOS OBLIGATORIOS sin valor por defecto: c_creditcardsettlement_id y c_currency_id.
-    m_numerocomercio_id no hace falta enviarlo: el modelo lo copia de la cabecera al guardar.
+    Las columnas propias de una instalacion que no son campos del schema se envian en additionalvalues.
 
 
     ATENCION con importcuponesfidelius: dejarlo vacio. La importacion de cupones desde las tablas

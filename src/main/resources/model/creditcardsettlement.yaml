@@ -12,9 +12,6 @@ components:
         ad_org_id:
           type: integer
           description: "Entidad organizacional dentro de la compañía"
-        adquirente:
-          type: string
-          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
         amount:
           type: number
           description: "Importe en una moneda definida"
@@ -51,15 +48,9 @@ components:
         docstatus:
           type: string
           description: "El estado actual del documento"
-        establishmentnumber:
-          type: string
-          description: "Nro de Comercio / Establecimiento SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
         expenses:
           type: number
           description: " "
-        financingservice:
-          type: string
-          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
         isactive:
           type: boolean
           description: "El registro está activo en el sistema"
@@ -72,9 +63,6 @@ components:
         ivaamount:
           type: number
           description: " "
-        m_numerocomercio_id:
-          type: integer
-          description: "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio."
         netamount:
           type: number
           description: " "

@@ -76,11 +76,11 @@ post:
     cupones con include='Y'. Si se quiere que el cupon participe del total hay que enviarlo explicitamente.
 
 
-    REGLAS DEL MODELO:
-    R6 - include='Y' o isreconciled='Y' exigen c_payment_id;
-    R7 - un mismo c_payment_id NO puede estar en dos liquidaciones. Si ya esta, la respuesta es 409.
-    Estas dos reglas son especificas del core de Tehuelche: sobre una instalacion con el core publico NO se
-    aplican, y un cobro podria quedar cargado en dos liquidaciones sin que nada avise.
+    UN MISMO COBRO EN DOS LIQUIDACIONES: el core publico no lo impide en este endpoint. Una instalacion puede
+    sumar en su core reglas propias (por ejemplo, rechazar un c_payment_id que ya esta en otra liquidacion, o
+    exigir c_payment_id cuando include='Y' o isreconciled='Y'); en ese caso la respuesta es 409 con el
+    mensaje del core. POST /v1.0/couponssettlements/bulk, en cambio, no cuelga un cobro que ya esta en otra
+    liquidacion en ninguna instalacion: lo informa como conflicto.
   operationId: addCouponsSettlement
   responses:
     "200":

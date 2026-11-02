@@ -98,9 +98,8 @@ public class CreditCardSettlementService extends AbstractService {
      * Arma el filtro a insertar. Si el cliente no mando ninguno se crea uno heredando de la cabecera los
      * datos que el filtro necesita para tener sentido.
      *
-     * m_numerocomercio_id no se fuerza: el modelo lo copia de la cabecera en su propio beforeSave. Se hereda
-     * igual por si esa copia no corriera (por ejemplo sobre una instalacion sin esa columna, donde el campo
-     * se ignora en silencio).
+     * Las columnas propias de una instalacion viajan en additionalvalues y no se heredan desde aca: si el
+     * filtro las necesita, las envia el cliente en el bloque filter o las completa el modelo al guardar.
      */
     protected CreditCardCouponFilter buildFilter(CreditCardSettlementDocument document, CreditCardSettlement header, int settlementID) {
         CreditCardCouponFilter filter = document.getFilter() != null ? document.getFilter() : new CreditCardCouponFilter();
@@ -111,8 +110,6 @@ public class CreditCardSettlementService extends AbstractService {
             filter.setCCurrencyId(header.getCCurrencyId());
         if (filter.getCBpartnerId() == null)
             filter.setCBpartnerId(header.getCBpartnerId());
-        if (filter.getMNumerocomercioId() == null)
-            filter.setMNumerocomercioId(header.getMNumerocomercioId());
         return filter;
     }
 

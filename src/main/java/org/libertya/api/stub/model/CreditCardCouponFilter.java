@@ -25,9 +25,6 @@ public class CreditCardCouponFilter   {
   @JsonProperty("ad_org_id")
   private Integer adOrgId = null;
 
-  @JsonProperty("adquirente")
-  private String adquirente = null;
-
   @JsonProperty("c_bpartner_id")
   private Integer cBpartnerId = null;
 
@@ -46,9 +43,6 @@ public class CreditCardCouponFilter   {
   @JsonProperty("createdby")
   private Integer createdby = null;
 
-  @JsonProperty("financingservice")
-  private String financingservice = null;
-
   @JsonProperty("importcuponesfidelius")
   private String importcuponesfidelius = null;
 
@@ -63,9 +57,6 @@ public class CreditCardCouponFilter   {
 
   @JsonProperty("m_entidadfinancieraplan_id")
   private Integer mEntidadfinancieraplanId = null;
-
-  @JsonProperty("m_numerocomercio_id")
-  private Integer mNumerocomercioId = null;
 
   @JsonProperty("paymentbatch")
   private String paymentbatch = null;
@@ -131,25 +122,6 @@ public class CreditCardCouponFilter   {
 
   public void setAdOrgId(Integer adOrgId) {
     this.adOrgId = adOrgId;
-  }
-
-  public CreditCardCouponFilter adquirente(String adquirente) {
-    this.adquirente = adquirente;
-    return this;
-  }
-
-  /**
-   * SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.
-   * @return adquirente
-   **/
-  @Schema(description = "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.")
-  
-    public String getAdquirente() {
-    return adquirente;
-  }
-
-  public void setAdquirente(String adquirente) {
-    this.adquirente = adquirente;
   }
 
   public CreditCardCouponFilter cBpartnerId(Integer cBpartnerId) {
@@ -270,25 +242,6 @@ public class CreditCardCouponFilter   {
     this.createdby = createdby;
   }
 
-  public CreditCardCouponFilter financingservice(String financingservice) {
-    this.financingservice = financingservice;
-    return this;
-  }
-
-  /**
-   * SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.
-   * @return financingservice
-   **/
-  @Schema(description = "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.")
-  
-    public String getFinancingservice() {
-    return financingservice;
-  }
-
-  public void setFinancingservice(String financingservice) {
-    this.financingservice = financingservice;
-  }
-
   public CreditCardCouponFilter importcuponesfidelius(String importcuponesfidelius) {
     this.importcuponesfidelius = importcuponesfidelius;
     return this;
@@ -384,25 +337,6 @@ public class CreditCardCouponFilter   {
 
   public void setMEntidadfinancieraplanId(Integer mEntidadfinancieraplanId) {
     this.mEntidadfinancieraplanId = mEntidadfinancieraplanId;
-  }
-
-  public CreditCardCouponFilter mNumerocomercioId(Integer mNumerocomercioId) {
-    this.mNumerocomercioId = mNumerocomercioId;
-    return this;
-  }
-
-  /**
-   * SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.
-   * @return mNumerocomercioId
-   **/
-  @Schema(description = "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.")
-  
-    public Integer getMNumerocomercioId() {
-    return mNumerocomercioId;
-  }
-
-  public void setMNumerocomercioId(Integer mNumerocomercioId) {
-    this.mNumerocomercioId = mNumerocomercioId;
   }
 
   public CreditCardCouponFilter paymentbatch(String paymentbatch) {
@@ -587,20 +521,17 @@ public class CreditCardCouponFilter   {
     CreditCardCouponFilter creditCardCouponFilter = (CreditCardCouponFilter) o;
     return Objects.equals(this.adClientId, creditCardCouponFilter.adClientId) &&
         Objects.equals(this.adOrgId, creditCardCouponFilter.adOrgId) &&
-        Objects.equals(this.adquirente, creditCardCouponFilter.adquirente) &&
         Objects.equals(this.cBpartnerId, creditCardCouponFilter.cBpartnerId) &&
         Objects.equals(this.cCreditcardcouponfilterId, creditCardCouponFilter.cCreditcardcouponfilterId) &&
         Objects.equals(this.cCreditcardsettlementId, creditCardCouponFilter.cCreditcardsettlementId) &&
         Objects.equals(this.cCurrencyId, creditCardCouponFilter.cCurrencyId) &&
         Objects.equals(this.created, creditCardCouponFilter.created) &&
         Objects.equals(this.createdby, creditCardCouponFilter.createdby) &&
-        Objects.equals(this.financingservice, creditCardCouponFilter.financingservice) &&
         Objects.equals(this.importcuponesfidelius, creditCardCouponFilter.importcuponesfidelius) &&
         Objects.equals(this.isactive, creditCardCouponFilter.isactive) &&
         Objects.equals(this.isprocessed, creditCardCouponFilter.isprocessed) &&
         Objects.equals(this.mEntidadfinancieraId, creditCardCouponFilter.mEntidadfinancieraId) &&
         Objects.equals(this.mEntidadfinancieraplanId, creditCardCouponFilter.mEntidadfinancieraplanId) &&
-        Objects.equals(this.mNumerocomercioId, creditCardCouponFilter.mNumerocomercioId) &&
         Objects.equals(this.paymentbatch, creditCardCouponFilter.paymentbatch) &&
         Objects.equals(this.process, creditCardCouponFilter.process) &&
         Objects.equals(this.trxdatefrom, creditCardCouponFilter.trxdatefrom) &&
@@ -613,7 +544,7 @@ public class CreditCardCouponFilter   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adClientId, adOrgId, adquirente, cBpartnerId, cCreditcardcouponfilterId, cCreditcardsettlementId, cCurrencyId, created, createdby, financingservice, importcuponesfidelius, isactive, isprocessed, mEntidadfinancieraId, mEntidadfinancieraplanId, mNumerocomercioId, paymentbatch, process, trxdatefrom, trxdateto, updated, updatedby, additionalvalues, referencedvalues);
+    return Objects.hash(adClientId, adOrgId, cBpartnerId, cCreditcardcouponfilterId, cCreditcardsettlementId, cCurrencyId, created, createdby, importcuponesfidelius, isactive, isprocessed, mEntidadfinancieraId, mEntidadfinancieraplanId, paymentbatch, process, trxdatefrom, trxdateto, updated, updatedby, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -623,20 +554,17 @@ public class CreditCardCouponFilter   {
     
     sb.append("    adClientId: ").append(toIndentedString(adClientId)).append("\n");
     sb.append("    adOrgId: ").append(toIndentedString(adOrgId)).append("\n");
-    sb.append("    adquirente: ").append(toIndentedString(adquirente)).append("\n");
     sb.append("    cBpartnerId: ").append(toIndentedString(cBpartnerId)).append("\n");
     sb.append("    cCreditcardcouponfilterId: ").append(toIndentedString(cCreditcardcouponfilterId)).append("\n");
     sb.append("    cCreditcardsettlementId: ").append(toIndentedString(cCreditcardsettlementId)).append("\n");
     sb.append("    cCurrencyId: ").append(toIndentedString(cCurrencyId)).append("\n");
     sb.append("    created: ").append(toIndentedString(created)).append("\n");
     sb.append("    createdby: ").append(toIndentedString(createdby)).append("\n");
-    sb.append("    financingservice: ").append(toIndentedString(financingservice)).append("\n");
     sb.append("    importcuponesfidelius: ").append(toIndentedString(importcuponesfidelius)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isprocessed: ").append(toIndentedString(isprocessed)).append("\n");
     sb.append("    mEntidadfinancieraId: ").append(toIndentedString(mEntidadfinancieraId)).append("\n");
     sb.append("    mEntidadfinancieraplanId: ").append(toIndentedString(mEntidadfinancieraplanId)).append("\n");
-    sb.append("    mNumerocomercioId: ").append(toIndentedString(mNumerocomercioId)).append("\n");
     sb.append("    paymentbatch: ").append(toIndentedString(paymentbatch)).append("\n");
     sb.append("    process: ").append(toIndentedString(process)).append("\n");
     sb.append("    trxdatefrom: ").append(toIndentedString(trxdatefrom)).append("\n");

@@ -29,9 +29,6 @@ public class CreditCardSettlement   {
   @JsonProperty("ad_org_id")
   private Integer adOrgId = null;
 
-  @JsonProperty("adquirente")
-  private String adquirente = null;
-
   @JsonProperty("amount")
   private BigDecimal amount = null;
 
@@ -68,14 +65,8 @@ public class CreditCardSettlement   {
   @JsonProperty("docstatus")
   private String docstatus = null;
 
-  @JsonProperty("establishmentnumber")
-  private String establishmentnumber = null;
-
   @JsonProperty("expenses")
   private BigDecimal expenses = null;
-
-  @JsonProperty("financingservice")
-  private String financingservice = null;
 
   @JsonProperty("isactive")
   private Boolean isactive = null;
@@ -88,9 +79,6 @@ public class CreditCardSettlement   {
 
   @JsonProperty("ivaamount")
   private BigDecimal ivaamount = null;
-
-  @JsonProperty("m_numerocomercio_id")
-  private Integer mNumerocomercioId = null;
 
   @JsonProperty("netamount")
   private BigDecimal netamount = null;
@@ -199,25 +187,6 @@ public class CreditCardSettlement   {
 
   public void setAdOrgId(Integer adOrgId) {
     this.adOrgId = adOrgId;
-  }
-
-  public CreditCardSettlement adquirente(String adquirente) {
-    this.adquirente = adquirente;
-    return this;
-  }
-
-  /**
-   * SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.
-   * @return adquirente
-   **/
-  @Schema(description = "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.")
-  
-    public String getAdquirente() {
-    return adquirente;
-  }
-
-  public void setAdquirente(String adquirente) {
-    this.adquirente = adquirente;
   }
 
   public CreditCardSettlement amount(BigDecimal amount) {
@@ -457,25 +426,6 @@ public class CreditCardSettlement   {
     this.docstatus = docstatus;
   }
 
-  public CreditCardSettlement establishmentnumber(String establishmentnumber) {
-    this.establishmentnumber = establishmentnumber;
-    return this;
-  }
-
-  /**
-   * Nro de Comercio / Establecimiento SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.
-   * @return establishmentnumber
-   **/
-  @Schema(description = "Nro de Comercio / Establecimiento SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.")
-  
-    public String getEstablishmentnumber() {
-    return establishmentnumber;
-  }
-
-  public void setEstablishmentnumber(String establishmentnumber) {
-    this.establishmentnumber = establishmentnumber;
-  }
-
   public CreditCardSettlement expenses(BigDecimal expenses) {
     this.expenses = expenses;
     return this;
@@ -494,25 +444,6 @@ public class CreditCardSettlement   {
 
   public void setExpenses(BigDecimal expenses) {
     this.expenses = expenses;
-  }
-
-  public CreditCardSettlement financingservice(String financingservice) {
-    this.financingservice = financingservice;
-    return this;
-  }
-
-  /**
-   * SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.
-   * @return financingservice
-   **/
-  @Schema(description = "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.")
-  
-    public String getFinancingservice() {
-    return financingservice;
-  }
-
-  public void setFinancingservice(String financingservice) {
-    this.financingservice = financingservice;
   }
 
   public CreditCardSettlement isactive(Boolean isactive) {
@@ -593,25 +524,6 @@ public class CreditCardSettlement   {
 
   public void setIvaamount(BigDecimal ivaamount) {
     this.ivaamount = ivaamount;
-  }
-
-  public CreditCardSettlement mNumerocomercioId(Integer mNumerocomercioId) {
-    this.mNumerocomercioId = mNumerocomercioId;
-    return this;
-  }
-
-  /**
-   * SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.
-   * @return mNumerocomercioId
-   **/
-  @Schema(description = "SOLO existe en el diccionario de Tehuelche; sobre una instalacion con el core publico esta columna no existe y el campo se ignora en silencio.")
-  
-    public Integer getMNumerocomercioId() {
-    return mNumerocomercioId;
-  }
-
-  public void setMNumerocomercioId(Integer mNumerocomercioId) {
-    this.mNumerocomercioId = mNumerocomercioId;
   }
 
   public CreditCardSettlement netamount(BigDecimal netamount) {
@@ -954,7 +866,6 @@ public class CreditCardSettlement   {
     return Objects.equals(this.accountingCChargeId, creditCardSettlement.accountingCChargeId) &&
         Objects.equals(this.adClientId, creditCardSettlement.adClientId) &&
         Objects.equals(this.adOrgId, creditCardSettlement.adOrgId) &&
-        Objects.equals(this.adquirente, creditCardSettlement.adquirente) &&
         Objects.equals(this.amount, creditCardSettlement.amount) &&
         Objects.equals(this.cBpartnerId, creditCardSettlement.cBpartnerId) &&
         Objects.equals(this.cCreditcardsettlementId, creditCardSettlement.cCreditcardsettlementId) &&
@@ -967,14 +878,11 @@ public class CreditCardSettlement   {
         Objects.equals(this.creditcardtype, creditCardSettlement.creditcardtype) &&
         Objects.equals(this.docaction, creditCardSettlement.docaction) &&
         Objects.equals(this.docstatus, creditCardSettlement.docstatus) &&
-        Objects.equals(this.establishmentnumber, creditCardSettlement.establishmentnumber) &&
         Objects.equals(this.expenses, creditCardSettlement.expenses) &&
-        Objects.equals(this.financingservice, creditCardSettlement.financingservice) &&
         Objects.equals(this.isactive, creditCardSettlement.isactive) &&
         Objects.equals(this.isapproved, creditCardSettlement.isapproved) &&
         Objects.equals(this.isreconciled, creditCardSettlement.isreconciled) &&
         Objects.equals(this.ivaamount, creditCardSettlement.ivaamount) &&
-        Objects.equals(this.mNumerocomercioId, creditCardSettlement.mNumerocomercioId) &&
         Objects.equals(this.netamount, creditCardSettlement.netamount) &&
         Objects.equals(this.payment, creditCardSettlement.payment) &&
         Objects.equals(this.paymentdate, creditCardSettlement.paymentdate) &&
@@ -995,7 +903,7 @@ public class CreditCardSettlement   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(accountingCChargeId, adClientId, adOrgId, adquirente, amount, cBpartnerId, cCreditcardsettlementId, cCurrencyId, commissionamount, couponstotalamount, cPaymentId, created, createdby, creditcardtype, docaction, docstatus, establishmentnumber, expenses, financingservice, isactive, isapproved, isreconciled, ivaamount, mNumerocomercioId, netamount, payment, paymentdate, perception, posted, processed, processing, reconcilecoupons, selectallcoupons, settlementno, unselectallcoupons, updated, updatedby, withholding, additionalvalues, referencedvalues);
+    return Objects.hash(accountingCChargeId, adClientId, adOrgId, amount, cBpartnerId, cCreditcardsettlementId, cCurrencyId, commissionamount, couponstotalamount, cPaymentId, created, createdby, creditcardtype, docaction, docstatus, expenses, isactive, isapproved, isreconciled, ivaamount, netamount, payment, paymentdate, perception, posted, processed, processing, reconcilecoupons, selectallcoupons, settlementno, unselectallcoupons, updated, updatedby, withholding, additionalvalues, referencedvalues);
   }
 
   @Override
@@ -1006,7 +914,6 @@ public class CreditCardSettlement   {
     sb.append("    accountingCChargeId: ").append(toIndentedString(accountingCChargeId)).append("\n");
     sb.append("    adClientId: ").append(toIndentedString(adClientId)).append("\n");
     sb.append("    adOrgId: ").append(toIndentedString(adOrgId)).append("\n");
-    sb.append("    adquirente: ").append(toIndentedString(adquirente)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("    cBpartnerId: ").append(toIndentedString(cBpartnerId)).append("\n");
     sb.append("    cCreditcardsettlementId: ").append(toIndentedString(cCreditcardsettlementId)).append("\n");
@@ -1019,14 +926,11 @@ public class CreditCardSettlement   {
     sb.append("    creditcardtype: ").append(toIndentedString(creditcardtype)).append("\n");
     sb.append("    docaction: ").append(toIndentedString(docaction)).append("\n");
     sb.append("    docstatus: ").append(toIndentedString(docstatus)).append("\n");
-    sb.append("    establishmentnumber: ").append(toIndentedString(establishmentnumber)).append("\n");
     sb.append("    expenses: ").append(toIndentedString(expenses)).append("\n");
-    sb.append("    financingservice: ").append(toIndentedString(financingservice)).append("\n");
     sb.append("    isactive: ").append(toIndentedString(isactive)).append("\n");
     sb.append("    isapproved: ").append(toIndentedString(isapproved)).append("\n");
     sb.append("    isreconciled: ").append(toIndentedString(isreconciled)).append("\n");
     sb.append("    ivaamount: ").append(toIndentedString(ivaamount)).append("\n");
-    sb.append("    mNumerocomercioId: ").append(toIndentedString(mNumerocomercioId)).append("\n");
     sb.append("    netamount: ").append(toIndentedString(netamount)).append("\n");
     sb.append("    payment: ").append(toIndentedString(payment)).append("\n");
     sb.append("    paymentdate: ").append(toIndentedString(paymentdate)).append("\n");

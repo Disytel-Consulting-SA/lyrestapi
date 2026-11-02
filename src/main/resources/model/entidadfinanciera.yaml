@@ -12,9 +12,6 @@ components:
         ad_org_id:
           type: integer
           description: "Entidad organizacional dentro de la compañía"
-        adquirente:
-          type: string
-          description: " "
         cardmask:
           type: string
           description: "Caracteres iniciales de la tarjeta que identifica la tarjeta o entidad financiera específica al pasarla por el lector en el TPV"
@@ -58,9 +55,6 @@ components:
           type: boolean
           description: "El retiro de efectivo de tarjeta de crédito está permitido"
         m_entidadfinanciera_id:
-          type: integer
-          description: " "
-        m_numerocomercio_id:
           type: integer
           description: " "
         name:

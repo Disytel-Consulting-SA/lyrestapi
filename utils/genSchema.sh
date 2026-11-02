@@ -40,6 +40,14 @@ generateSchema() {
   echo "$TABLE=/v1.0/$ENDPOINT" >> "$ENDPOINTS_FILE"
 }
 
+# Tabla con endpoint propio pero sin schema generado (yaml escrito a mano)
+registerEndpoint() {
+  TABLE="$1"
+  ENDPOINT="$2"
+
+  echo "$TABLE=/v1.0/$ENDPOINT" >> "$ENDPOINTS_FILE"
+}
+
 generateCreateEndpoint() {
   TABLE="$1"
   ENDPOINT="$2"
@@ -132,10 +140,15 @@ generateSchema Promotion                C_Promotion               promotion.yaml
 generateSchema POSLetter                C_POSLetter               posletter.yaml                posletters
 
 # Liquidaciones de tarjetas - conceptos de la liquidacion y sus dos maestros.
-# Todas estas tablas SI existen en el core publico (a diferencia de M_NumeroComercio, mas abajo).
+# Los yaml de la liquidacion, el filtro y los cupones (creditcardsettlement, creditcardsettlement_doc,
+# creditcardcouponfilter, couponssettlements y couponssettlements_bulk) se escribieron a mano y no se
+# generan aca; solo se registran sus endpoints.
 # OJO: 'amount' es ismandatory='N' en las cinco tablas hijas, con lo cual DEBE ir en el filtro explicito;
 #      sin eso el campo no existiria en el schema y el PUT no tendria como cargar el importe.
 #      Idem c_region_id en C_WithholdingSettlement y en C_RetencionSchema.
+registerEndpoint C_CreditCardSettlement   creditcardsettlements
+registerEndpoint C_CreditCardCouponFilter creditcardcouponfilters
+registerEndpoint C_CouponsSettlements     couponssettlements
 generateSchema RetencionSchema          C_RetencionSchema         retencionschema.yaml          retencionschemas            "('c_region_id', 'description')"
 generateSchema CardSettlementConcepts   C_CardSettlementConcepts  cardsettlementconcepts.yaml   cardsettlementconcepts
 generateSchema IVASettlements           C_IVASettlements          ivasettlements.yaml           ivasettlements              "('amount')"
@@ -168,18 +181,6 @@ generateSchema GLCategory               GL_Category               glcategory.yam
 generateSchema Period                   C_Period                  period.yaml                   periods                     "('description', 'periodtype', 'periodno', 'startdate', 'enddate', 'c_year_id')"
 generateSchema ValidCombination         C_ValidCombination        validcombination.yaml         validcombinations           "('description', 'alias', 'combination', 'account_id', 'm_product_id', 'c_bpartner_id', 'c_project_id', 'c_campaign_id', 'c_activity_id', 'c_salesregion_id', 'ad_orgtrx_id', 'c_acctschema_id')"
 
-# Liquidaciones de tarjetas - maestro exclusivo del diccionario de Tehuelche.
-# NO se genera por defecto: M_NumeroComercio no existe fuera de esa base y correr esto contra otro
-# diccionario deja el yaml vacio.  Para regenerarlo:
-#     DB_NAME=ly_core_teh ./genSchema.sh
-# financingservice, value y c_bankaccount_settlement_id son ismandatory='N' en el diccionario, asi que
-# DEBEN ir en el filtro explicito.  financingservice ademas es parte de la clave natural del comercio
-# (numerocomercio + adquirente + financingservice), con lo cual sin el el endpoint no sirve.
-# Nota: los otros yaml del dominio (creditcardsettlement, creditcardcouponfilter, couponssettlements) se
-# generaron a mano contra ly_core_teh y no estan listados aca.  Ver docs/liquidaciones-tarjetas-api.md
-if [ "$DB_NAME" = "ly_core_teh" ]; then
-generateSchema NumeroComercio           M_NumeroComercio          numerocomercio.yaml           numeroscomercio             "('value', 'financingservice', 'c_bankaccount_settlement_id')"
-fi
 
 # metadata
 generateSchema Table                    AD_Table                  table.yaml                    tables

@@ -21,9 +21,13 @@ post:
     CAMPOS DE LA CABECERA sin valor por defecto: c_bpartner_id, docstatus y docaction; en la practica
     tambien settlementno (numerico, regla R1), paymentdate y c_currency_id.
     CAMPOS DEL FILTRO sin valor por defecto: c_currency_id. El c_creditcardsettlement_id lo completa este
-    endpoint, y m_numerocomercio_id no hace falta enviarlo porque el modelo lo copia de la cabecera.
-    Si no se envia el bloque filter, se crea un filtro heredando c_currency_id, c_bpartner_id,
-    m_entidadfinanciera_id y m_numerocomercio_id de la cabecera.
+    endpoint. Si no se envia el bloque filter, se crea un filtro heredando ad_org_id, c_currency_id y
+    c_bpartner_id de la cabecera.
+
+
+    COLUMNAS PROPIAS DE UNA INSTALACION: las que no son campos del schema se envian en additionalvalues,
+    tanto en la cabecera como en el filtro. Un campo que no esta en el schema se descarta sin error, asi
+    que enviarlo como campo comun no lo graba.
 
 
     LA LIQUIDACION QUEDA EN BORRADOR (DR). Completar es una llamada aparte y deliberada,
