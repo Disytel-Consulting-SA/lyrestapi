@@ -159,7 +159,7 @@ generateSchema ExpenseConcepts          C_ExpenseConcepts         expenseconcept
 
 # Liquidaciones de tarjetas - resolucion del esquema de retencion de IIBB por jurisdiccion.
 # Dos maestros de solo lectura que completan la cadena EntidadFinanciera -> Org -> BPartner -> C_Region
-# (locations y bpartnerlocations ya existian).  Ver docs/liquidaciones-tarjetas-api.md
+# (locations y bpartnerlocations ya existian).  Ver docs/referencia/liquidaciones-tarjetas-api.md
 # OJO: retentiontype ('B' = IIBB) es ismandatory='N', y c_location_id en AD_OrgInfo tambien: los dos DEBEN ir
 #      en el filtro explicito, sin ellos los endpoints no sirven para lo que se crearon.
 #      AD_OrgInfo no tiene AD_OrgInfo_ID: su PK es AD_Org_ID (pkColumns en el repository).

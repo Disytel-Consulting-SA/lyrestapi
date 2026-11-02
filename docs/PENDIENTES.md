@@ -148,3 +148,25 @@ def oxpLib = { name ->
 ```
 
 Con las libs ya en su lugar, agregarlo no rompe nada.
+
+---
+
+## P5 — Los chequeos estáticos contra el core de una instalación no están en el repo
+
+**Detectado:** 2026-11-02, al preparar el despliegue con el `OXP.jar` de un core customizado en `loader.path`.
+**Alcance:** el empaquetado para instalaciones con core propio (`docs/compatibilidad-core.md` §6.6).
+**Impacto:** medio. Sin los chequeos, una incompatibilidad aparece recién en runtime, como 500 en el endpoint que
+la usa, o como una constante con otro valor que nadie ve.
+
+### Qué pasa
+
+§6.6 pide verificar, antes de desplegar, que las referencias del bytecode de lyrestapi al core existan en el
+`OXP.jar` de la instalación, y que las constantes `static final` que javac copió valgan lo mismo. El 2026-11-02 se
+verificó con dos scripts de Python armados para la ocasión, que leen `javap` sobre `build/classes` y sobre los dos
+jars. Esos scripts no quedaron en el repo.
+
+### Arreglo propuesto
+
+Sumarlos a `utils/` (por ejemplo `utils/check-core-refs.py` y `utils/check-core-consts.py`), con la invocación en
+`docs/compatibilidad-core.md` §5. Para confirmar que un script funciona, se lo corre contra el mismo core con el que
+se compiló: tiene que dar 0 diferencias.

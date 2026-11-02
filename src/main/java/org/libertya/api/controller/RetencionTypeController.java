@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/** Maestro de tipos de retencion, de solo lectura.  Los de IIBB son filter=retentiontype='B' (pueden ser varios).  Ver docs/liquidaciones-tarjetas-api.md */
+/** Maestro de tipos de retencion, de solo lectura.  Los de IIBB son filter=retentiontype='B' (pueden ser varios).  Ver docs/referencia/liquidaciones-tarjetas-api.md */
 @Controller
 @RequiredArgsConstructor
 public class RetencionTypeController extends AbstractController implements RetenciontypeApi {

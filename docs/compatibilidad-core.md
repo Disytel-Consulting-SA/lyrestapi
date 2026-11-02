@@ -71,6 +71,7 @@ La más nueva arriba.
 
 | lyrestapi | Core necesario para compilar | Esquema de base | Verificado | Nota |
 |---|---|---|---|---|
+| desde `01dbeaf` (2026-10-01) | Un core que incluya `e1259b8a`, `69d66fde` y `f3439a62` (los dos últimos, del 2026-10-01). **Hoy solo `dev`**: ningún release los incluye | 26.09 (`28-08-2026`). El `preinstall_from_26.09` de `dev` solo registra callouts de facturas: datos del diccionario, sin columnas nuevas | 2026-11-02, con el core `dev` `Versión 26.09 20261028-2019`: compilación y tests de liquidaciones. Con el `OXP.jar` de una instancia de core customizado en `loader.path`: chequeo estático, sin ejecutar | §6.5, §6.6 |
 | desde `2bdd59b` (2026-09-04) | Un core que incluya `e1259b8a` (2026-09-04). **Hoy solo `dev`**: ningún release lo incluye todavía, el primero va a ser el siguiente a 26.09 | 26.09 (`28-08-2026`). El `preinstall_from_26.09` de `dev` está vacío, así que este core no agrega cambios de esquema | 2026-09-30, con el core `dev@b9213a78` (`Versión 26.09 20260929-2359`): compilación, suite de integración y smoke con una instancia customizada vía `loader.path` | §6.1 |
 | hasta `8ddb196` (2026-09-04) | 26.05 o posterior (sin requisitos posteriores conocidos) | La de su core; ojo con bases anteriores a 26.05 | 2026-09-30: `8ddb196` compila con el core `dev` del 2026-08-25 (`Libertya 20260825-1522`) y `2bdd59b` ya no | §6.2 |
 | publicada como `lyrestapi-1.0.0_for_LY22.0ar.jar` (commit no registrado) | 22.0 **más** los commits de core `a101ec1` y `99b34e5` (incluidos de fábrica desde `v25.0`) | 22.0 | Según el manual para desarrolladores | §6.3 |
@@ -82,6 +83,7 @@ La más nueva arriba.
 ```bash
 # 1) El core a embeber tiene todo lo que lyrestapi necesita (uno por requisito de la tabla de §4)
 javap -cp $OXP_HOME/lib/OXP.jar org.openXpertya.model.MField | grep -q getAD_Field_ID && echo OK   # §6.1
+javap -cp $OXP_HOME/lib/OXP.jar org.openXpertya.model.MTab | grep -q getQueryDefinition && echo OK  # §6.5
 
 # 2) Qué versión de core se va a embeber
 unzip -p $OXP_HOME/lib/OXP.jar META-INF/MANIFEST.MF | grep Implementation-Version
@@ -100,7 +102,8 @@ grep "Core de Libertya cargado desde" <log>
 ```
 
 Si la instancia pone su propio `OXP.jar` en `loader.path`, el chequeo 1 hay que correrlo **también sobre ese
-jar**, porque es el que termina ejecutándose (§3, caso 3).
+jar**, porque es el que termina ejecutándose (§3, caso 3). Si ese jar es de otra rama del core (un core
+customizado), el chequeo 1 no alcanza: ver §6.6.
 
 ---
 
@@ -165,6 +168,68 @@ incluir `org/slf4j/impl/JDK14LoggerFactory`, que choca con el Logback de Spring 
 (`LoggerFactory is not a Logback LoggerContext`). Hay que usar un `OXPXLib.jar` sin `org/slf4j/impl` (§5,
 paso 3). El manual describe cómo quitarlo (sección "Consideraciones para LY CORE 26.0 o superiores"), junto con
 el reemplazo del driver JDBC para conectarse a Postgres 16 con `scram-sha-256`.
+
+### 6.5 2026-10-01 — lyrestapi usa `MQueryPreparation` y `MTabQueryDefinition`, que agregó el core en `69d66fde` y `f3439a62`
+
+**Qué cambió en el core:** los commits `69d66fde` y `f3439a62` (2026-10-01) agregan las clases
+`MQueryPreparation` y `MTabQueryDefinition`, y los métodos `MTab.getQueryDefinition()` y
+`MTab.getContextualWhereClause()`. Ningún release los incluye todavía (`git tag --contains` vacío): solo `dev`.
+No tocan el esquema.
+
+**Qué cambió en lyrestapi:** `WindowRecordRepository` (commit `01dbeaf`, 2026-10-01) los usa para recuperar los
+registros de una pestaña según su contexto. Endpoint afectado: `POST /v1.0/tabs/{id}/records`. Se registró recién
+el 2026-11-02: hasta entonces esta tabla solo mencionaba `e1259b8a`.
+
+**Cómo se manifiesta:**
+
+- **Al compilar** con un core anterior: `cannot find symbol: class MQueryPreparation`. javac corta en los imports
+  que faltan, así que este error tapa el de `getAD_Field_ID` de §6.1 si también falta.
+- **En un despliegue normal** (core embebido): nada.
+- **Con el `OXP.jar` de la instancia en `loader.path`** y ese jar sin estos commits: la app arranca, porque los
+  tipos que faltan no aparecen en firmas de beans, solo dentro de los métodos. Las dos clases nuevas se toman del
+  core embebido sin aviso, pero `MTab.getQueryDefinition()` no existe en el `MTab` de la instancia, así que
+  `/tabs/{id}/records` responde **500** (`NoSuchMethodError`) recién al llamarlo. Lo mismo que §6.1 para
+  `/new-record`, `/evaluate` y `/callout`.
+
+**Qué hacer:** compilar con un core que incluya los dos commits (hoy, `dev`). Chequeo: §5, paso 1.
+
+### 6.6 2026-11-02 — Desplegar con el `OXP.jar` de un core customizado de otra rama
+
+**El caso:** una instalación cuyo core es un fork del público (en el caso verificado, `DB_VERSION 16-11-2020`)
+con reglas de negocio propias, por ejemplo validaciones en `beforeSave` que el core público no tiene. lyrestapi ya
+no compila contra ese core (le faltan los commits de §6.1 y §6.5), y embeberle el core público no sirve: correría
+sin esas reglas, sin los plugins de la instalación y contra un esquema de otra versión, todo sin que nada avise.
+
+**Lo que se hace:** compilar con el core público y desplegar con el `OXP.jar` de la instalación **por delante** en
+`-Dloader.path` (§3, caso 3). Así corren las clases de la instalación, y lo que les falta se toma del core
+embebido. **Solo el `OXP.jar`:** el `OXPXLib.jar` embebido se mantiene (`docs/planes/plan-endpoint-generico.md` §4,
+cuidado 2). En el caso verificado, el `OXPXLib.jar` público contenía todas las clases del de la instalación salvo una
+de `org/apache/ecs/xhtml`, y la app arrancó y respondió igual con uno y con los dos.
+
+**Por qué el chequeo 1 de §5 no alcanza:** al compilar contra un core y ejecutar con otro, hay dos cosas que
+pueden romperse sin que nada lo detecte de antemano:
+
+1. **Referencias del bytecode** (clases, métodos y campos del core) que no existen en el core de la instalación →
+   `NoSuchMethodError`/`NoClassDefFoundError` en runtime.
+2. **Constantes `static final` del core**: javac copia su valor dentro del bytecode de lyrestapi, así que si la
+   instalación les da otro valor, lyrestapi usa el del core público sin error.
+
+**Verificado el 2026-11-02 (estático, sin ejecutar)** con el bytecode compilado contra el core `dev` 20261028 y
+un `OXP.jar` customizado de ese tipo:
+
+- de las **394** referencias al core, faltan **5**: las de §6.1 y §6.5. Todas se usan solo en `/tabs/{id}/records`,
+  `/new-record`, `/evaluate` y `/callout`;
+- las **129** constantes del core que usa el código valen lo mismo en los dos.
+
+**Cómo se manifiesta:** esos cuatro endpoints dan 500; el resto responde con la lógica de la instalación. Si
+`loader.path` no trae los jars de la instalación, la app corre con el core público sin avisar. La forma de
+confirmarlo es el log de arranque (§5, paso 5) y, si la instalación tiene una regla propia fácil de disparar,
+probarla.
+
+**Qué hacer:** antes de desplegar en una instalación así, repetir los dos chequeos estáticos con su `OXP.jar`
+(las referencias del bytecode y las constantes; hoy no hay script en el repo, ver `docs/PENDIENTES.md` P5) y
+avisar qué endpoints quedan sin soporte. En Docker hay que
+sobreescribir el `ENTRYPOINT`, que fija `-Dloader.path`.
 
 ---
 

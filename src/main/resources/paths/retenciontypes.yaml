@@ -17,7 +17,7 @@ get:
         GET /v1.0/retenciontypes?filter=retentiontype='B' AND isactive='Y'
 
 
-    Ver docs/liquidaciones-tarjetas-api.md (resolucion del esquema de IIBB por jurisdiccion).
+    Ver docs/referencia/liquidaciones-tarjetas-api.md (resolucion del esquema de IIBB por jurisdiccion).
   operationId: getAllRetencionTypes
   parameters:
     - in: query

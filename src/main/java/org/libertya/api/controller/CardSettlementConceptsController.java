@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/** Maestro de conceptos de liquidacion de tarjetas, de solo lectura.  type='CO' comisiones, 'OT' otros costos.  Ver docs/liquidaciones-tarjetas-api.md */
+/** Maestro de conceptos de liquidacion de tarjetas, de solo lectura.  type='CO' comisiones, 'OT' otros costos.  Ver docs/referencia/liquidaciones-tarjetas-api.md */
 @Controller
 @RequiredArgsConstructor
 public class CardSettlementConceptsController extends AbstractController implements CardsettlementconceptApi {

@@ -13,6 +13,7 @@
 | [`asientos-manuales-api.md`](referencia/asientos-manuales-api.md) | Integradores que cargan asientos contables (`/v1.0/journals`) |
 | [`endpoint-generico-api.md`](referencia/endpoint-generico-api.md) | Integradores que operan tablas sin endpoint propio (`/v1.0/generic/{table}`) |
 | [`productpos-api.md`](referencia/productpos-api.md) | Integradores que relacionan artículos con proveedores (`/v1.0/productpos`), requisito de los remitos de compra |
+| [`liquidaciones-tarjetas-api.md`](referencia/liquidaciones-tarjetas-api.md) | Integradores que materializan conciliaciones de cobros con tarjeta: liquidaciones, cupones, lotes y conceptos (`/v1.0/creditcardsettlements` y relacionados) |
 | [`invoice-print.md`](referencia/invoice-print.md) | Impresión de facturas en PDF y cómo regenerar `libs/JasperReports-ngroovy.jar` |
 
 ## `planes/` — diseño, decisiones y evidencia
@@ -21,6 +22,7 @@
 |---|---|
 | [`plan-asientos-manuales.md`](planes/plan-asientos-manuales.md) | Implementado (2026-08). Quedan las fases 3 y 4 |
 | [`plan-endpoint-generico.md`](planes/plan-endpoint-generico.md) | Implementado (2026-09). La §2 tiene decisiones tomadas a propósito |
+| [`plan-liquidaciones-tarjetas.md`](planes/plan-liquidaciones-tarjetas.md) | Implementado (2026-08/09); pasado a `main` en 2026-11 sin lo propio de la instalación que lo pidió |
 
 Las guías de `referencia/` están escritas para que las lea un integrador (persona o agente de IA) sin conocer
 el código; los `planes/` explican el porqué y no hace falta leerlos para usar la API.

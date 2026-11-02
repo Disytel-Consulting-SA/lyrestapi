@@ -13,9 +13,10 @@ get:
     pasar por filter para llegar a ella.
 
 
-    Lo que resuelve para una liquidacion de tarjetas es la jurisdiccion de la sucursal: orginfos.c_location_id
-    -> locations.c_region_id. Ver docs/liquidaciones-tarjetas-api.md (resolucion del esquema de IIBB por
-    jurisdiccion).
+    Sirve, entre otras cosas, para llegar a la jurisdiccion de una sucursal: orginfos.c_location_id ->
+    locations.c_region_id. El core publico elige el esquema de IIBB de una liquidacion de tarjetas por la region
+    de la entidad financiera; algunas instalaciones usan ademas la de la sucursal. Ver
+    docs/referencia/liquidaciones-tarjetas-api.md (resolucion del esquema de IIBB por jurisdiccion).
   operationId: getAllOrgInfos
   parameters:
     - in: query

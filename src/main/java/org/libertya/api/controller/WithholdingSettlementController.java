@@ -17,7 +17,7 @@ import java.util.List;
  * una por cada esquema de retencion sufrida activo. Lo unico que hay que hacer es listarlas para saber que concepto es cada
  * una y cargarles el importe con PUT, que dispara el recalculo del total Withholding de la cabecera.
  *
- * Ver docs/liquidaciones-tarjetas-api.md
+ * Ver docs/referencia/liquidaciones-tarjetas-api.md
  */
 @Controller
 @RequiredArgsConstructor

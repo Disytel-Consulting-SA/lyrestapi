@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * type separa las dos familias: 'CO' comisiones y 'OT' otros costos. Igual que en el maestro de retenciones,
  * el filtro se deja al parametro filter generico.
  *
- * Ver docs/liquidaciones-tarjetas-api.md
+ * Ver docs/referencia/liquidaciones-tarjetas-api.md
  */
 @Repository
 public class CardSettlementConceptsRepository extends AbstractRepository {

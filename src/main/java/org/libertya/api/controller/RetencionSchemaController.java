@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/** Maestro de esquemas de retencion, de solo lectura.  Las de liquidaciones de tarjetas son las sufridas: filter=retencionapplication='S'.  Ver docs/liquidaciones-tarjetas-api.md */
+/** Maestro de esquemas de retencion, de solo lectura.  Las de liquidaciones de tarjetas son las sufridas: filter=retencionapplication='S'.  Ver docs/referencia/liquidaciones-tarjetas-api.md */
 @Controller
 @RequiredArgsConstructor
 public class RetencionSchemaController extends AbstractController implements RetencionschemaApi {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/** Informacion adicional de organizaciones (AD_OrgInfo), de solo lectura.  El {id} es el ad_org_id: la tabla no tiene ID propio.  Ver docs/liquidaciones-tarjetas-api.md */
+/** Informacion adicional de organizaciones (AD_OrgInfo), de solo lectura.  El {id} es el ad_org_id: la tabla no tiene ID propio.  Ver docs/referencia/liquidaciones-tarjetas-api.md */
 @Controller
 @RequiredArgsConstructor
 public class OrgInfoController extends AbstractController implements OrginfoApi {

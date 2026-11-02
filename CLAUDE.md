@@ -208,16 +208,26 @@ so tables whose key differs (views such as `RV_BPartner`) are read through a whe
 
 ## Credit card settlements (`C_CreditCardSettlement`)
 
-Implemented (August–September 2026), Tehuelche-core specific. `creditcardsettlements` (+ `/full`, `/process`),
-`creditcardcouponfilters`, `couponssettlements` (+ `/bulk`, `/exists`), `numeroscomercio`, the five concept
-child tables and their masters, and — for resolving the IIBB withholding schema by jurisdiction — the read-only
-`retenciontypes` and `orginfos`. **`docs/liquidaciones-tarjetas-api.md`** is the consumer guide; §12 covers the
-jurisdiction chain and its contract traps (no `id` column in filters; several `C_RetencionType` rows share
-`retentiontype='B'`, so filter with `IN`).
+Implemented (August–September 2026), merged into `main` in November 2026. `creditcardsettlements` (+ `/full`,
+`/process`), `creditcardcouponfilters`, `couponssettlements` (+ `/bulk`, `/exists`), the five concept child tables
+and their masters, and — for resolving the IIBB withholding schema by jurisdiction — the read-only
+`retenciontypes` and `orginfos`. All of them are public-core tables. **`docs/referencia/liquidaciones-tarjetas-api.md`**
+is the consumer guide; **`docs/planes/plan-liquidaciones-tarjetas.md`** has the design, and its last section
+records what changed when it reached `main`.
 
-Non-obvious: `AD_OrgInfo` has no own ID — its PK is `AD_Org_ID`, so `OrgInfoRepository` sets `pkColumns` and
-`/orginfos/{id}` takes the `ad_org_id`. Packaging for Tehuelche needs the jars in `/OXP-teh` (see memory
-`binarios-teh-en-oxp-teh`), and `numeroscomercio` only works against the Tehuelche dictionary.
+Non-obvious:
+- Columns that exist only in an installation's own dictionary are not schema fields: they travel in
+  `additionalvalues`. A JSON field outside the schema is dropped silently (200, nothing saved). On read,
+  `additionalvalues` keys come normalized (lowercase, no underscores); `referencedvalues` also covers them.
+- The rule "a payment cannot be in two settlements" (R7) is not in the public core; some customized cores add it.
+  `/couponssettlements/bulk` enforces it on its own for every installation.
+- `AD_OrgInfo` has no own ID: its PK is `AD_Org_ID`, so `OrgInfoRepository` sets `pkColumns` and `/orginfos/{id}`
+  takes the `ad_org_id`.
+- An installation with a customized core runs this API with its own `OXP.jar` (not its `OXPXLib.jar`) first in
+  `loader.path` (`docs/compatibilidad-core.md` §6.6). Embedding the public core instead silently drops the
+  installation's rules.
+- `CreditCardSettlementIntegrationTests` needs `org.libertya.tests.use-dynamic-defaults=true` against
+  `libertya_rel_22ar_for_api_25` (the default bpartner no longer exists there).
 
 ## Still planned
 

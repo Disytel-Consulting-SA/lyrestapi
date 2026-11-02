@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
  *
  * c_region_id viaja en la propia fila; no hay que resolverlo por separado.
  *
- * Ver docs/liquidaciones-tarjetas-api.md
+ * Ver docs/referencia/liquidaciones-tarjetas-api.md
  */
 @Repository
 public class RetencionSchemaRepository extends AbstractRepository {

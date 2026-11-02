@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * la clase X_ pero es solo un String, y M_Table.getPO() resuelve la clase del modelo por convencion de
  * nombres, probando org.openXpertya.model.MIVASettlements antes de caer a la X_.
  *
- * Ver docs/liquidaciones-tarjetas-api.md
+ * Ver docs/referencia/liquidaciones-tarjetas-api.md
  */
 @Repository
 public class IVASettlementsRepository extends AbstractRepository {

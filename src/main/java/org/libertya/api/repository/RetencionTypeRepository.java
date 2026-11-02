@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * por jurisdiccion mas los sufridos), asi que el filtro sobre retencionschemas tiene que ser
  * c_retenciontype_id IN (...), nunca un igual. Ningun filtro se aplica del lado del servidor.
  *
- * Ver docs/liquidaciones-tarjetas-api.md
+ * Ver docs/referencia/liquidaciones-tarjetas-api.md
  */
 @Repository
 public class RetencionTypeRepository extends AbstractRepository {

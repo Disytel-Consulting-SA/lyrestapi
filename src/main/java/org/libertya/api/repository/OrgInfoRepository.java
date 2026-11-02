@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * jurisdiccion de la sucursal (segundo nivel de prioridad del core al resolver el esquema de IIBB sufrida:
  * region de la entidad financiera, si no la de la organizacion, si no la del bpartner).
  *
- * Ver docs/liquidaciones-tarjetas-api.md
+ * Ver docs/referencia/liquidaciones-tarjetas-api.md
  */
 @Repository
 public class OrgInfoRepository extends AbstractRepository {

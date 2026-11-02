@@ -2,7 +2,7 @@
 
 **Para quién es este documento:** para alguien —persona o agente de IA— que tiene que **consumir** estos
 endpoints desde afuera. No explica cómo están implementados; para eso está
-`docs/conciliador-ce/plan-endpoints-lyrestapi.md`.
+`docs/planes/plan-liquidaciones-tarjetas.md`.
 
 **Qué resuelven:** materializar en Libertya la conciliación de cobros electrónicos que ya resolvió un sistema
 externo. Tres operaciones, en este orden: **resolver o crear** la liquidación de tarjetas
@@ -10,10 +10,12 @@ externo. Tres operaciones, en este orden: **resolver o crear** la liquidación d
 cobro (`C_Payment`), y **cargar los importes de los conceptos** —IVA, percepciones, retenciones, comisiones y
 otros costos— sobre las filas que el propio modelo ya generó (sección 8).
 
-> ⚠️ **Estos endpoints asumen el core de Tehuelche.** Las reglas R6 y R7 —las que impiden que un mismo cobro
-> quede cargado en dos liquidaciones— viven en `MCouponsSettlements`, una clase que **sólo existe en el core
-> de Tehuelche**. Sobre una instalación con el core público el ERP **no rechazaría** el doble impacto y
-> pasaría en silencio. Ver la sección 10.
+> ⚠️ **Hay reglas que dependen del core que ejecuta la API.** El core público de Libertya no impide que un
+> mismo cobro quede cargado en dos liquidaciones (`POST /couponssettlements` lo acepta) y, al completar, exige
+> que la liquidación cuadre en forma exacta, sin tolerancia. Una instalación con un core customizado puede
+> sumar reglas propias —rechazar el cobro repetido, admitir una tolerancia—, y esas reglas sólo rigen si es su
+> core el que está cargado. `/couponssettlements/bulk`, en cambio, no cuelga un cobro que ya está en otra
+> liquidación en ninguna instalación. Ver la sección 10.
 
 ---
 
@@ -27,14 +29,15 @@ TOKEN=$(curl -s -X POST "$BASE/token" \
   -H "username: <usuario>" -H "password: <clave>" \
   -H "clientid: <id_compañía>" -H "orgid: <id_organización>")
 
-# 2) ¿La liquidación ya existe? (el 97% de las veces, sí)
+# 2) ¿La liquidación ya existe? (muchas veces sí: los procesos de importación del ERP también las crean)
 curl -G "$BASE/v1.0/creditcardsettlements" -H "Authorization: $TOKEN" \
   --data-urlencode "filter=settlementno='1145280' AND paymentdate >= '2026-07-07' AND paymentdate < '2026-07-08'"
 
-# 3) Si no existe: ¿contra qué entidad comercial se emite? Lo dice el número de comercio
-curl -G "$BASE/v1.0/numeroscomercio" -H "Authorization: $TOKEN" \
-  --data-urlencode "filter=numerocomercio='29283231' AND adquirente='P' AND financingservice='MA' AND isactive='Y'"
-# -> el c_bpartner_id del resultado es el que va en la cabecera. NO se deduce del adquirente. Ver sección 7.
+# 3) Si no existe: ¿contra qué entidad comercial se emite? La de la entidad financiera de los cupones
+curl -G "$BASE/v1.0/entidadesfinancieras" -H "Authorization: $TOKEN" \
+  --data-urlencode "filter=m_entidadfinanciera_id=1010228" \
+  --data-urlencode "fields=m_entidadfinanciera_id,c_bpartner_id"
+# -> el c_bpartner_id del resultado es el que va en la cabecera. Ver sección 7.
 
 # 4) Crearla con su filtro, en una sola transacción
 curl -X POST "$BASE/v1.0/creditcardsettlements/full" \
@@ -48,14 +51,13 @@ curl -X POST "$BASE/v1.0/creditcardsettlements/full" \
       "paymentdate": "2026-07-07 00:00:00",
       "docstatus": "DR",
       "docaction": "CO",
-      "m_numerocomercio_id": 1000005,
-      "adquirente": "P",
-      "financingservice": "MA",
-      "establishmentnumber": "29283231"
+      "additionalvalues": [ { "key": "x_codigo_externo", "value": "ABC-123" } ]
     },
     "filter": { "m_entidadfinanciera_id": 1010228 }
   }'
 # -> 200 con {"c_creditcardsettlement_id":..., "c_creditcardcouponfilter_id":..., "children":[...]}
+# additionalvalues va sólo si tu instalación tiene columnas propias en la cabecera
+# (x_codigo_externo es un nombre inventado). Ver sección 7.
 
 # 5) Colgar los cupones, de a lotes de 200
 curl -X POST "$BASE/v1.0/couponssettlements/bulk" \
@@ -90,8 +92,10 @@ de la sección 9 — nunca los hardcodees.
    cupones con `include='Y'`. Si querés que el cupón participe del total, mandalo explícito.
 5. **La liquidación queda en borrador (`DR`).** Ni el `POST` ni `/full` completan: completar es una llamada
    aparte y deliberada, y no se puede deshacer sin anular. Ver la sección 6.
-6. **El `c_bpartner_id` de la cabecera no se deduce del adquirente.** Un mismo adquirente puede operar contra
-   varias entidades comerciales; lo único que lo determina es el número de comercio. Ver la sección 7.
+6. **El `c_bpartner_id` de la cabecera es el de la entidad financiera.** No lo deduzcas de la tarjeta ni lo
+   armes con una tabla propia: sale de `M_EntidadFinanciera.c_bpartner_id`, que es de donde lo toman los
+   importadores del ERP, y es por esa relación que el core encuentra la cuenta bancaria al completar. Ver la
+   sección 7.
 
 ---
 
@@ -123,8 +127,7 @@ trae el registro. **Verificado el 2026-08-20.** La forma de rango además es la 
 ### El límite por defecto es 100
 
 Si no mandás `limit`, se devuelven como máximo 100 filas **y el resto se trunca sin aviso**. Una liquidación
-puede tener cientos de cupones (el máximo histórico ronda los 3.500), así que paginá explícitamente con
-`limit` y `page`.
+puede tener cientos o miles de cupones, así que paginá explícitamente con `limit` y `page`.
 
 ---
 
@@ -150,8 +153,13 @@ por cada uno:
 |---|---|---|
 | `creado` | el cupón se insertó en esta llamada | registrar el impacto |
 | `ya_existia` | el cobro ya estaba colgado de **esta misma** liquidación | nada; es el caso normal de un reintento |
-| `conflicto` | el cobro está en **otra** liquidación (R7), o el modelo lo rechazó (R6) | mirar `c_creditcardsettlement_id_en_conflicto` |
+| `conflicto` | el cobro está en **otra** liquidación (R7), o el core de la instalación rechazó el cupón con una regla propia (R6/R7) | mirar `c_creditcardsettlement_id_en_conflicto` y `motivo` |
 | `error` | falló por algo que no es una regla conocida | leer `motivo` |
+
+**El conflicto por R7 vale en cualquier instalación.** Antes de insertar, el lote consulta qué cobros ya están
+colgados de alguna liquidación, y uno que está en **otra** no se cuelga: vuelve como `conflicto` con el motivo
+`R7: el cobro ya esta cargado en otra liquidacion`, aunque el core cargado no tenga esa regla. Si además el core
+de la instalación rechaza un cupón con sus propias reglas (sección 10), también vuelve como `conflicto`.
 
 **Por qué así:** las colisiones de R7 son esperables, no excepcionales — los procesos de importación del ERP
 siguen activos y escribiendo sobre las mismas tablas. Si el lote fuera atómico, un solo cupón en conflicto
@@ -161,7 +169,8 @@ tiraría abajo los otros 699 que estaban bien.
 
 **Tope de 200 cupones por lote** (configurable con
 `org.libertya.api.service.couponssettlements.bulk-max-size`). Por encima se responde 409 con un mensaje
-explícito; **no se trunca en silencio.** Doscientos cubre el percentil 99 de las liquidaciones reales.
+explícito; **no se trunca en silencio.** Doscientos alcanza para la gran mayoría de las liquidaciones en una
+sola llamada; una más grande se parte en varios lotes.
 
 ### La guarda previa: `/exists`
 
@@ -179,9 +188,9 @@ Es una consulta, no una escritura: usa `POST` porque la lista puede tener ciento
 > y el `POST` puede haber corrido un proceso de importación del ERP. **La respuesta de `/bulk` es la única
 > verdad definitiva.**
 
-El campo `isactive` de cada item existe por un motivo: la regla R7 del modelo **no mira ese campo**, así que
-un cupón desactivado igual bloquea a su cobro. Un item con `isactive=false` explica un rechazo que de otro
-modo parecería inexplicable.
+El campo `isactive` de cada item existe por un motivo: ni la consulta previa de `/bulk` ni la regla R7 de un
+core que la tenga **miran ese campo**, así que un cupón desactivado igual bloquea a su cobro. Un item con
+`isactive=false` explica un rechazo que de otro modo parecería inexplicable.
 
 ---
 
@@ -193,21 +202,19 @@ Son los que la base rechaza si no vienen, y no están todos marcados como obliga
 
 | Campo | ¿Obligatorio? | Nota |
 |---|---|---|
-| `c_bpartner_id` | **sí** | la entidad comercial del adquirente. **Sale del número de comercio, no del adquirente** (sección 7). Entra en la unicidad de R2 |
+| `c_bpartner_id` | **sí** | la entidad comercial de la entidad financiera (sección 7). Entra en la unicidad de R2 |
 | `docstatus` | **sí** | mandar `"DR"` |
 | `docaction` | **sí** | mandar `"CO"` |
 | `settlementno` | en la práctica sí | **sólo numérico** (R1) |
 | `paymentdate` | en la práctica sí | `"YYYY-MM-DD HH:MM:SS"` |
 | `c_currency_id` | en la práctica sí | |
 | `ad_org_id` | sí | |
-| `adquirente`, `financingservice`, `establishmentnumber` | no, pero mandalos | son los tres campos del comercio. Ver abajo |
-| `m_numerocomercio_id` | no | ídem |
+| `additionalvalues` | no | columnas propias de tu instalación, si las tiene. Ver sección 7 |
 
-Los cuatro campos del comercio **no son obligatorios, pero conviene mandarlos igual**. Cuando alguien complete
-la liquidación desde el ERP, `completeIt()` los usa para resolver el comercio y armar la descripción del
-`C_Payment` que genera —número de liquidación, comercio, tarjeta y adquirente—. Si van en blanco el cobro
-queda sin esa información y no hay forma de reponerla después. No cuestan nada: ya salieron de la consulta que
-resolvió el `c_bpartner_id`.
+**Columnas propias de tu instalación.** Si la cabecera tiene columnas que no figuran en el schema —por
+ejemplo, datos que el core de la instalación usa al completar—, van dentro de `additionalvalues`. **Un campo
+suelto que no está en el schema se descarta sin error**: la llamada devuelve 200 y la columna queda vacía. Ver
+sección 7.
 
 **No mandes** `couponstotalamount`, `commissionamount`, `ivaamount`, `withholding`, `perception` ni
 `expenses`: los recalcula el modelo desde los cupones y desde las filas hijas de conceptos. Tampoco `processed`
@@ -222,7 +229,12 @@ son justamente los dos que se comparan al completar, así que sin ellos no hay n
 |---|---|---|
 | `c_creditcardsettlement_id` | **sí** | lo completa `/full` |
 | `c_currency_id` | **sí** | si usás `/full` y no lo mandás, se hereda de la cabecera |
-| `m_numerocomercio_id` | no | el modelo lo copia de la cabecera al guardar |
+| `ad_org_id`, `c_bpartner_id` | no | si usás `/full` y no los mandás, se heredan de la cabecera |
+| `additionalvalues` | no | columnas propias de tu instalación, si las tiene. Ver sección 7 |
+
+Si no mandás el bloque `filter`, `/full` crea uno heredando `ad_org_id`, `c_currency_id` y `c_bpartner_id` de
+la cabecera. Las columnas propias de la instalación **no se heredan**: si el filtro las necesita, mandalas en
+el `additionalvalues` del bloque `filter` (o las completa el modelo de tu instalación al guardar, si lo hace).
 
 **No mandes** `importcuponesfidelius`: la importación de cupones desde `i_fidelius_*` es un proceso aparte del
 ERP que esta API no dispara, y no tiene nada que ver con colgar cupones.
@@ -236,7 +248,7 @@ ERP que esta API no dispara, y no tiene nada que ver con colgar cupones.
 | `c_currency_id` | **sí** | sin default |
 | `m_entidadfinanciera_id` | **sí** | sin default |
 | `m_entidadfinancieraplan_id` | **sí** | sin default |
-| `c_payment_id` | en la práctica sí | R6 lo exige para `include` o `isreconciled` en `'Y'` |
+| `c_payment_id` | en la práctica sí | un cupón sin cobro no concilia nada. Un core con la regla R6 lo exige para `include` o `isreconciled` en `'Y'` (sección 10) |
 | `amount`, `trxdate` | en la práctica sí | sin ellos el cupón no significa nada |
 | `include` | recomendado | viene en `'N'`; sólo los `'Y'` suman al total |
 
@@ -263,8 +275,8 @@ Exige tres cosas, y las tres devuelven **409** con el mensaje del core si fallan
 | Requisito | Mensaje |
 |---|---|
 | Período contable abierto para la fecha de pago | `@PeriodClosed@` |
-| Que la liquidación **cuadre**: `amount` contra la suma de `netamount` + `ivaamount` + `perception` + `withholding` + `commissionamount` + `expenses`, dentro de la tolerancia del ERP (`ToleranciaCompletadoLiquidacionesTarjetas`, $0,50 por defecto) | `CreditCardSettlementAmountsMismatch` |
-| Cuenta bancaria de liquidación configurada en la entidad financiera | `SettlementBankAccountNotConfigured` |
+| Que la liquidación **cuadre**: `amount` contra la suma de `netamount` + `ivaamount` + `perception` + `withholding` + `commissionamount` + `expenses`. En el core público la comparación es **exacta, sin tolerancia**; un core customizado puede admitir una (sección 10) | `CreditCardSettlementAmountsMismatch` |
+| Cuenta bancaria de liquidación (`c_bankaccount_settlement_id`) configurada en la entidad financiera activa cuyo `c_bpartner_id` es el de la cabecera | `SettlementBankAccountNotConfigured` |
 
 Si el neto no es cero, completar **genera un `C_Payment` por ese importe y lo completa**: tiene efecto
 contable real. El `c_payment_id` **no viene en la respuesta** —que es vacía, como la de todos los endpoints de
@@ -333,79 +345,92 @@ corresponde al `docstatus` actual.
 
 ---
 
-## 7. El número de comercio: de dónde sale el `c_bpartner_id`
+## 7. La entidad comercial de la cabecera, y lo propio de cada instalación
 
-```
-GET /v1.0/numeroscomercio            (lista, con filter / fields / sort / limit / page)
-GET /v1.0/numeroscomercio/{id}
-```
+### 7.1 De dónde sale el `c_bpartner_id`
 
-Sólo lectura. El maestro se administra desde la ventana del ERP.
-
-### Por qué existe
-
-Para armar la cabecera hace falta un `c_bpartner_id`, y **no se deduce del adquirente**. Sobre los datos
-reales del cliente, un mismo adquirente opera contra varias entidades comerciales:
-
-| adquirente | entidades comerciales distintas |
-|---|---:|
-| `F` (Fiserv) | 6 |
-| `P` (Prisma) | 6 |
-| `T` (Otros) | 2 |
-| el resto | 1 |
-
-Lo único que determina la entidad comercial es el **número de comercio**. De ahí salen también las cuentas
-bancarias (`c_bankaccount_id`, `c_bankaccount_settlement_id`) que el ERP usa al completar.
-
-### Los campos
-
-| Campo | Qué es |
-|---|---|
-| `m_numerocomercio_id` | el id, para mandarlo en la cabecera |
-| `numerocomercio` | el número que asigna el adquirente al comercio |
-| `adquirente` | código de 1 letra: `P` Prisma, `F` Fiserv, `N` Naranja, `C` Cabal, `A` Amex, `M` Mercado Pago, `G` Galicia, `H` Patagonia 365, `O` Confiable, `T` Otros |
-| `financingservice` | código de 2 letras de la tarjeta: `VI`, `MA`, `AM`, `CA`, `NA`, `DI`, `UP`, `MP`, `QR`, ... |
-| `c_bpartner_id` | **la entidad comercial que va en la cabecera de la liquidación** |
-| `c_bankaccount_id` | cuenta bancaria del comercio |
-| `c_bankaccount_settlement_id` | cuenta para el pago que genera el ERP al completar. Suele venir vacía |
-| `value` | etiqueta legible, del estilo `29283231-PRISMA-Master` |
-| `ad_org_id` | la sucursal a la que pertenece el comercio |
-
-Los códigos de `adquirente` y `financingservice` salen de dos listas del diccionario —`Adquirentes tarjetas`
-y `CreditCardTypes`, en `AD_Ref_List`—. **Ojo: `/v1.0/reflists` no te las va a devolver**, porque esas filas
-son de `ad_client_id = 0` y el filtro por compañía que aplica la API las deja afuera. Usá la tabla de arriba,
-o miralas desde la ventana de referencias del ERP.
-
-La respuesta sí trae `referencedvalues` con el nombre de la sucursal (`ad_org_id__detail`) y de la cuenta
-bancaria, sin necesidad de otra llamada.
-
-### ⚠️ La clave natural NO es única
-
-El core resuelve el comercio por la terna `numerocomercio` + `adquirente` + `financingservice`
-(`MCreditCardSettlement.getM_NumeroComercio_ID()`), pero **esa terna puede devolver varias filas**: hay
-comercios repetidos entre sucursales y algunos repetidos dentro de la misma. Sobre los datos del cliente, 13
-ternas están duplicadas, con hasta 4 filas cada una.
-
-**Para lo que importa acá no cambia nada:** en las 13, todas las filas apuntan al **mismo** `c_bpartner_id`.
-Pero el consumidor tiene que estar preparado para más de un resultado y no asumir que el primero es "el
-correcto" — lo que varía entre ellas es la sucursal.
-
-Si además querés acotar por sucursal, agregá `ad_org_id` al filtro.
-
-### Atajo: desde la entidad financiera
-
-Si ya tenés el `m_entidadfinanciera_id` del cupón, la entidad financiera trae el comercio desnormalizado
-(`m_numerocomercio_id`, `adquirente`, `financingservice`, `establishmentnumber`, `c_bpartner_id`), así que
-podés saltar en un solo paso:
+Para armar la cabecera hace falta un `c_bpartner_id`: la entidad comercial contra la que se emite la
+liquidación. En el core público sale de la **entidad financiera** (`M_EntidadFinanciera.c_bpartner_id`, que es
+obligatorio en esa tabla):
 
 ```bash
-curl "$BASE/v1.0/entidadesfinancieras/1010228" -H "Authorization: $TOKEN"
+curl -G "$BASE/v1.0/entidadesfinancieras" -H "Authorization: $TOKEN" \
+  --data-urlencode "filter=m_entidadfinanciera_id=1010228" \
+  --data-urlencode "fields=m_entidadfinanciera_id,c_bpartner_id,c_bankaccount_settlement_id"
 ```
 
-**Pero es una copia, no la fuente.** El ERP la sincroniza sólo cuando se *modifica* un comercio existente
-(`MNumeroComercio.afterSave`), con lo cual un comercio nuevo nunca se propaga, y sobre los datos del cliente
-53 entidades financieras activas no tienen comercio asignado. Úsala como atajo, y ante cualquier duda leé el
-maestro.
+Dos motivos para tomarlo de ahí:
+
+- **Es lo que hace el ERP.** El importador de liquidaciones del core (`customImport/fidelius/jobs/ImportTarjeta.java`)
+  busca la entidad financiera del comercio y le pone a la cabecera el `c_bpartner_id` de esa entidad
+  financiera.
+- **Es lo que usa `CO`.** Al completar, el core busca la cuenta bancaria del cobro que genera
+  (`c_bankaccount_settlement_id`) entre las entidades financieras **activas con ese mismo `c_bpartner_id`**
+  (la modificada más recientemente). Si la cabecera apunta a una entidad comercial que no es la de ninguna
+  entidad financiera activa, `CO` falla con `SettlementBankAccountNotConfigured` (sección 6).
+
+Si en vez del id tenés el número de comercio, la entidad financiera se busca por su número de establecimiento
+(`establishmentnumber`). Puede haber más de una con el mismo número —una por tarjeta— y el importador elige la
+de la tarjeta que se liquida (`financingservice` de la entidad financiera); no asumas que la primera es la
+correcta.
+
+Si tu instalación resuelve la entidad comercial con un maestro propio (y su core lo usa al completar), seguí la
+regla de tu instalación: ese maestro se lee como explica la sección 7.3.
+
+### 7.2 Columnas propias de una instalación: `additionalvalues`
+
+Los schemas de estos endpoints traen sólo columnas del core público. Si tu instalación agregó columnas a estas
+tablas —una customización, un plugin—, se escriben y se leen por **`additionalvalues`**, una lista de pares
+`{"key": ..., "value": ...}` que tienen todos los DTO de la API.
+
+**Para escribir:**
+
+```json
+"additionalvalues": [
+  { "key": "x_codigo_externo",      "value": "ABC-123" },
+  { "key": "x_sucursal_externa_id", "value": "1000005" }
+]
+```
+
+- `key` es el nombre de la columna en minúscula, con o sin guiones bajos (`x_sucursal_externa_id` o
+  `xsucursalexternaid`).
+- `value` va siempre como texto, también los números y los ids.
+- Si la columna no existe en tu instalación, el par se ignora sin error.
+
+> ⚠️ **Mandar la columna como un campo suelto no la graba.** `{"header": {..., "x_codigo_externo": "ABC-123"}}`
+> responde **200** y la columna queda vacía: un campo JSON que no está en el schema se descarta en silencio. Va
+> dentro de `additionalvalues` o no va.
+
+**Para leer:** el `GET` devuelve en `additionalvalues` las columnas de la tabla que no son campos del schema y
+tienen valor.
+
+- Las claves vienen **normalizadas**: en minúscula y **sin guiones bajos** (`xsucursalexternaid`), salvo que dos
+  columnas de la tabla colisionen al normalizar, en cuyo caso cada una viene con su nombre propio. Para buscar
+  una clave, normalizá vos también.
+- Los valores vienen como texto.
+- Con `fields`, `additionalvalues` sólo viene si lo pedís por nombre:
+  `fields=c_creditcardsettlement_id,additionalvalues`.
+
+**Las referencias de esas columnas.** Si la API está configurada con valores referenciados, una columna propia
+que apunta a otra tabla trae además, en `referencedvalues`, el `<columna>__value` y el `<columna>__detail` del
+registro al que apunta —acá las claves **sí** conservan los guiones bajos: `x_sucursal_externa_id__detail`—.
+Sin `fields`, vienen para todas esas columnas; con `fields`, sólo para las que nombres:
+`fields=additionalvalues,x_sucursal_externa_id`.
+
+### 7.3 Tablas propias de una instalación: el endpoint genérico
+
+Esta API no tiene endpoints tipados para tablas que no son del core público. Si tu instalación tiene un
+maestro propio relacionado con las liquidaciones (por ejemplo, uno que determina la entidad comercial o las
+cuentas de cada comercio), leelo con el endpoint genérico:
+
+```bash
+curl -G "$BASE/v1.0/generic/<TablaPropia>" -H "Authorization: $TOKEN" \
+  --data-urlencode "filter=isactive='Y'"
+```
+
+La guía es `docs/referencia/endpoint-generico-api.md`. Ojo con una cosa: si es una tabla de plugin, su clase
+vive en el `OXP.jar` de la instalación, y si la API se desplegó sin él el genérico responde *"No se encontró la
+clase de modelo"* (§6 de esa guía). No es un problema del request: avisá a quien administra el despliegue.
 
 ---
 
@@ -467,8 +492,8 @@ GET /v1.0/cardsettlementconcepts?filter=type='CO' AND isactive='Y'
 salvo en los esquemas que son por provincia (Ingresos Brutos).
 
 > ⚠️ **La retención de IIBB sufrida no es un esquema fijo.** El core la resuelve en el momento de importar,
-> según la provincia del comercio que se está liquidando. Cómo replicar esa resolución con estos endpoints está
-> en la sección 12.
+> según la jurisdicción del comercio que se está liquidando. Cómo replicar esa resolución con estos endpoints
+> está en la sección 12.
 
 ### El flujo completo
 
@@ -479,7 +504,7 @@ GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y'
 
 # 2) Buscar la fila de ESA liquidación para ESE concepto
 GET /v1.0/withholdingsettlements?filter=c_creditcardsettlement_id=1000330
-# -> 34 filas en cero, una por esquema; buscar la de c_retencionschema_id=1010152
+# -> una fila en cero por esquema; buscar la de c_retencionschema_id=1010152
 
 # 3) Cargarle el importe
 PUT /v1.0/withholdingsettlements/1000594
@@ -494,16 +519,15 @@ Al guardar, `MIVASettlements` / `MPerceptionsSettlement` / `MWithholdingSettleme
 cabecera. **No hay que llamar a nada más.**
 
 Esa clase la resuelve `M_Table.getPO()` por convención de nombres: prueba `org.openXpertya.model.M<Tabla>`
-antes de caer a la `X_` generada, y las cinco `M` existen en `OXP.jar`. Es decir que no hay nada que
-configurar mal del lado de la API — pero **si el total de la cabecera no cambia después de un `PUT` que
-devolvió 200, el problema está en el core cargado**, no acá. Es la primera cosa a verificar en un ambiente
+antes de caer a la `X_` generada, y las cinco `M` existen en el `OXP.jar` del core público. Es decir que no hay
+nada que configurar mal del lado de la API — pero **si el total de la cabecera no cambia después de un `PUT`
+que devolvió 200, el problema está en el core cargado**, no acá. Es la primera cosa a verificar en un ambiente
 nuevo.
 
-> Verificado contra `ly_core_teh` (agosto 2026): `PUT` de un importe en `ivasettlements`,
-> `withholdingsettlements` y `perceptionssettlements` de la liquidación 1000330 actualizó `ivaamount`,
-> `withholding` y `perception` respectivamente. `commissionconcepts` y `expenseconcepts` no se pudieron
-> ejercitar porque esa base no tiene conceptos de tarjeta cargados, pero sus clases `M` son estructuralmente
-> idénticas a las otras tres.
+> Verificado en agosto de 2026: un `PUT` de importe en `ivasettlements`, `withholdingsettlements` y
+> `perceptionssettlements` actualizó `ivaamount`, `withholding` y `perception` respectivamente.
+> `commissionconcepts` y `expenseconcepts` no se pudieron ejercitar porque esa base no tenía conceptos de
+> tarjeta cargados, pero sus clases `M` son estructuralmente idénticas a las otras tres.
 
 Recordar que **esto no completa la liquidación** (sección 6): los importes quedan cargados y el documento
 sigue en `DR`.
@@ -514,48 +538,65 @@ sigue en `DR`.
 
 | Necesitás | Endpoint |
 |---|---|
-| Entidad comercial (el adquirente) | `GET /v1.0/bpartners?filter=...` |
+| **Entidad comercial de la cabecera** | `GET /v1.0/entidadesfinancieras?filter=...` → su `c_bpartner_id` — ver sección 7 |
 | Moneda | `GET /v1.0/currencies` |
 | Entidad financiera | `GET /v1.0/entidadesfinancieras` |
 | Plan de entidad financiera | `GET /v1.0/entidadfinancieraplanes` |
 | Cobro (`C_Payment`) | `GET /v1.0/payments?filter=...` |
-| **Número de comercio** (y con él el `c_bpartner_id`) | `GET /v1.0/numeroscomercio?filter=...` — ver sección 7 |
 | Liquidación existente | `GET /v1.0/creditcardsettlements?filter=...` |
 | Filtro de una liquidación | `GET /v1.0/creditcardcouponfilters?filter=c_creditcardsettlement_id=NNN` |
 | **Esquema de retención sufrida** | `GET /v1.0/retencionschemas?filter=retencionapplication='S'` — ver sección 8 |
-| **Esquema de retención de IIBB por jurisdicción** | cadena `entidadesfinancieras` → `orginfos` → `locations` → `bpartnerlocations` → `retencionschemas` — ver sección 12 |
+| **Esquema de retención de IIBB por jurisdicción** | `entidadesfinancieras` → `retencionschemas`, y si tu core cae a otros niveles, `orginfos` / `bpartnerlocations` → `locations` — ver sección 12 |
 | Tipo de retención (`'B'` = IIBB) | `GET /v1.0/retenciontypes?filter=retentiontype='B'` — ver sección 12 |
 | Domicilio de la organización (`AD_OrgInfo`) | `GET /v1.0/orginfos/{ad_org_id}` — ver sección 12 |
 | **Concepto de tarjeta** (comisión / otros) | `GET /v1.0/cardsettlementconcepts?filter=type='CO'` — ver sección 8 |
 | Impuesto (IVA / percepción) | `GET /v1.0/taxes` |
+| Tabla propia de tu instalación | `GET /v1.0/generic/{tabla}` — ver sección 7 |
 
 ---
 
-## 10. La advertencia sobre el core: R6 y R7 sólo existen en Tehuelche
+## 10. Reglas que dependen del core de la instalación
 
-Vale la pena repetirlo porque es la única de estas advertencias que **no se manifiesta como un error**.
+Vale la pena repetirlo porque son advertencias que **no se manifiestan como un error**.
 
-| Regla | Qué impide | ¿En el core público? |
-|---|---|---|
-| R6 | marcar `include`/`isreconciled` en `'Y'` sin `c_payment_id` | ❌ |
-| R7 | que un mismo `c_payment_id` esté en dos liquidaciones | ❌ |
+La API no agrega reglas de negocio propias sobre los cupones: delega en el core que tiene cargado. Las reglas
+del core público valen en cualquier instalación —R1 (`settlementno` numérico), la unicidad de R2, la generación
+de las filas hijas (`generateAllChildrens()`) y las guardas de borrado de R8—. Una instalación con un core
+customizado puede sumar las suyas, y esas **sólo rigen si la API corre con su core**.
 
-`MCouponsSettlements` del core público **no tiene `beforeSave`**. Sobre esa instalación un cobro puede quedar
-cargado en dos liquidaciones y el doble impacto pasa en silencio.
+| Regla | Qué impide | Core público | Core customizado |
+|---|---|---|---|
+| R6 | marcar `include`/`isreconciled` en `'Y'` sin `c_payment_id` | ❌ | si su core la tiene |
+| R7 | que un mismo `c_payment_id` esté en dos liquidaciones | ❌ en `POST /couponssettlements`. ✅ en `/bulk`, porque lo controla la API (sección 4) | si su core la tiene, también en el `POST` |
+| Tolerancia al completar | rechazar por centavos una liquidación que casi cuadra | ❌: la cuadratura es exacta | puede admitir una tolerancia |
+
+`MCouponsSettlements` del core público **no tiene `beforeSave`**. Sobre esa instalación, `POST
+/couponssettlements` deja cargar un cobro en dos liquidaciones y el doble impacto pasa en silencio.
 
 **Consecuencia para el consumidor:** las guardas propias (registro de impacto por cobro + `/exists` en vivo)
-**no son opcionales**. No se pueden delegar enteras en la invariante del ERP.
+**no son opcionales**. No se pueden delegar enteras en una invariante del ERP que puede no estar. Y si colgás
+cupones de a uno con el `POST`, la única protección contra el doble impacto en un core público es la tuya; con
+`/bulk` la API la aplica igual.
 
-Además, el jar de Tehuelche **exige el diccionario de Tehuelche**: `generateAllChildrens()` consulta la tabla
-`M_NumeroComercio`, que no existe en una base que no sea la de Tehuelche. Contra cualquier otra base el alta
-de la cabecera falla con `relation "m_numerocomercio" does not exist`.
+### Qué core está corriendo
 
-Por lo mismo, **`/v1.0/numeroscomercio` (sección 7) sólo funciona contra Tehuelche.** No es únicamente que la
-tabla no exista en otra base: es una tabla de plugin, y su clase Java vive en
-`com.hipertehuelche.sucursales.model`. Libertya la resuelve leyendo del diccionario qué componente es dueño de
-la tabla (`AD_Component` / `AD_ComponentVersion`), así que si ese registro falta —aunque la tabla y sus filas
-estén— la recuperación por id devuelve **404 sin ningún error**, porque `M_Table.getPO()` retorna `null` en vez
-de fallar. Es exactamente lo que verifica el test `retrieveDebeResolverLaClaseDelPlugin`.
+La API embebe un core. Una instalación con un core customizado corre lyrestapi compilada contra el core
+público, con el `OXP.jar` de la instalación primero en `-Dloader.path` (ver `docs/compatibilidad-core.md` §3,
+caso 3, y `docs/planes/plan-endpoint-generico.md` §4, con sus cuidados). Para saber cuál quedó cargado, mirá la
+línea de arranque `Core de Libertya cargado desde: ...` en el log.
+
+Un core customizado además **exige su propio diccionario**: si su modelo consulta tablas o columnas propias,
+contra otra base el alta de la cabecera falla con un `relation "..." does not exist`. El jar y la base tienen
+que ser de la misma instalación.
+
+### Qué se probó contra el core público
+
+El 2026-11-02 los 17 tests de `CreditCardSettlementIntegrationTests` pasaron contra el core público (26.09
+`dev`, build 20261028) sobre la base de tests `libertya_rel_22ar_for_api_25`, con
+`org.libertya.tests.use-dynamic-defaults=true` (la entidad comercial por defecto ya no existe en esa base).
+Ejercitan `/full`, el alta de un cupón, `/bulk` (incluido el conflicto de un cobro en otra liquidación),
+`/exists`, las bajas rechazadas, completar (`CO`) y anular (`VO`). Las reglas propias de un core customizado
+se verifican en la instalación que las tiene, no en este repo.
 
 ---
 
@@ -582,33 +623,45 @@ GET /v1.0/bpartnerlocations             GET /v1.0/bpartnerlocations/{id}    (ya 
 ### El problema
 
 Para casi todos los conceptos de una liquidación, el esquema o impuesto de destino se elige **una vez** y se
-reusa. La retención de **IIBB sufrida** es la excepción: el importador nativo del core
-(`getRetencionSchemaByNroEst`, `fidelius/jobs/Import.java`, usado desde `ImportTarjeta.java`) no usa un
-esquema fijo — lo resuelve en cada importación según la provincia del comercio que se está liquidando, con
-esta prioridad:
+reusa. La retención de **IIBB sufrida** es la excepción: `generateAllChildrens()` deja en
+`withholdingsettlements` una fila por cada esquema de retención sufrida activo, con el `c_region_id` del
+esquema, así que una liquidación tiene una fila de IIBB **por provincia**, y el importe va en la de la
+jurisdicción del comercio que se está liquidando.
 
-1. **Región de la entidad financiera** (`M_EntidadFinanciera.C_Region_ID`) — la más específica, cargada a mano.
-2. Si viene `null`: **región de la organización/sucursal** (`AD_Org` → `AD_OrgInfo.C_Location_ID` →
-   `C_Location.C_Region_ID`).
-3. Si tampoco: **región del domicilio del `C_BPartner` de esa entidad financiera** (`C_BPartner_Location` →
-   `C_Location.C_Region_ID`).
+El importador del core público (`getRetencionSchemaByNroEst`, en `customImport/fidelius/jobs/Import.java`,
+usado desde `ImportTarjeta.java`; hay uno igual en `customImport/centralPos/jobs/Import.java`) elige esa
+jurisdicción así:
 
-Con la región resuelta, busca un `C_RetencionSchema` activo, sufrido (`retencionapplication='S'`), de un tipo
-de retención con `retentiontype='B'` (IIBB) y con ese `c_region_id`. Un consumidor que quiera impactar
-`ret_iibb` como lo haría el ERP tiene que replicar exactamente esa cadena. Esta API no la resuelve del lado del
-servidor a propósito: son lookups de una fila, cacheables, y así el consumidor puede decidir qué hacer en cada
-nivel que falle.
+1. Busca la **entidad financiera** del comercio por su número de establecimiento (la misma búsqueda de la
+   sección 7.1).
+2. Toma su **región**: `M_EntidadFinanciera.C_Region_ID`.
+3. Con esa región, busca un `C_RetencionSchema` activo, sufrido (`retencionapplication='S'`) y con ese
+   `c_region_id`, entre los de tipo IIBB (`retentiontype='B'`).
+
+Si la entidad financiera no tiene región, o no hay esquema para ella, y hay importe de IIBB, el importador
+**rechaza el registro** (*"No existe retención de IIBB sufrida, para la región configurada en la
+E.Financiera"*): no cae a un esquema por defecto.
+
+**Una instalación puede resolverlo de otra forma.** Hay cores customizados que, si la entidad financiera no
+tiene región, caen a la de la **organización** (`AD_OrgInfo.C_Location_ID` → `C_Location.C_Region_ID`) y
+después a la del **domicilio de la entidad comercial** de esa entidad financiera (`C_BPartner_Location` →
+`C_Location.C_Region_ID`). Para esos dos niveles están `orginfos`, `locations` y `bpartnerlocations`. Replicá la
+cadena de **tu** core: un consumidor que aplica niveles que su core no aplica impacta retenciones que el ERP
+habría rechazado.
+
+Esta API no resuelve la cadena del lado del servidor a propósito: son lookups de una fila, cacheables, y así
+el consumidor puede decidir qué hacer en cada nivel que falle.
 
 ### Los dos maestros nuevos
 
-**`retenciontypes`** (`C_RetencionType`): traduce el código de negocio `retentiontype` (`'B'` IIBB, `'G'`
-Ganancias, `'I'` IVA, `'J'` SIJP) a los `c_retenciontype_id` que `C_RetencionSchema` referencia.
+**`retenciontypes`** (`C_RetencionType`): traduce el código de negocio `retentiontype` (`'B'` Ingresos Brutos,
+`'G'` Ganancias, `'I'` IVA, `'J'` SIJP, `'S'` SUSS) a los `c_retenciontype_id` que `C_RetencionSchema`
+referencia.
 
-> ⚠️ **No es uno solo.** En la base de Tehuelche hay **siete** tipos activos con `retentiontype='B'` (`IIBB`,
-> `TDF`, `Retención IIBB Chubut`, `Misiones`, `Santa Cruz`, `CABA`, `IIBB SUFRIDA`), y el esquema de una
-> provincia puede colgar de cualquiera de ellos — el de Santa Cruz, por ejemplo, cuelga de `IIBB SUFRIDA`, no
-> de `IIBB`. Tomar el primero y filtrar `retencionschemas` con `c_retenciontype_id = X` **devuelve vacío para
-> la mayoría de las provincias**. Hay que usar `IN (...)` con todos, o la subconsulta de abajo.
+> ⚠️ **No es uno solo.** Puede haber varios tipos activos con `retentiontype='B'` —por ejemplo uno general y
+> otros por provincia—, y el esquema de una provincia puede colgar de cualquiera de ellos. Tomar el primero y
+> filtrar `retencionschemas` con `c_retenciontype_id = X` **puede devolver vacío para la mayoría de las
+> provincias**. Hay que usar `IN (...)` con todos, o la subconsulta de abajo.
 
 **`orginfos`** (`AD_OrgInfo`): la información adicional de la organización, donde vive el domicilio
 (`c_location_id`), el CUIT y el almacén por defecto.
@@ -619,69 +672,64 @@ Ganancias, `'I'` IVA, `'J'` SIJP) a los `c_retenciontype_id` que `C_RetencionSch
 
 ### La cadena completa
 
-Para una liquidación con `numerocomercio` y `ad_org_id` ya conocidos:
+Para una liquidación cuyos cupones ya tienen su `m_entidadfinanciera_id`:
 
 ```bash
-# 1) El comercio (ya se resuelve para la cabecera, sección 7)
-GET /v1.0/numeroscomercio?filter=numerocomercio='33288515'&fields=m_numerocomercio_id,ad_org_id,c_bpartner_id
-# -> {"m_numerocomercio_id": 1000556, "ad_org_id": 1010116, "c_bpartner_id": 1051956}
+# 1) La región de la entidad financiera. Es el único nivel que usa el core público.
+GET /v1.0/entidadesfinancieras?filter=m_entidadfinanciera_id=1010228&fields=m_entidadfinanciera_id,c_region_id,c_bpartner_id
+# -> [{"m_entidadfinanciera_id": 1010228, "c_region_id": <región>, "c_bpartner_id": 1043088}]
+# c_region_id vino -> región resuelta. Saltar al paso 4.
+# Vino null -> con el core público no hay jurisdicción: no impactar (ver abajo).
 
-# 2) Su entidad financiera. Puede haber más de una (una por adquirente/medio); el core toma la primera.
-GET /v1.0/entidadesfinancieras?filter=m_numerocomercio_id=1000556&fields=m_entidadfinanciera_id,c_region_id,c_bpartner_id
-# -> [{"m_entidadfinanciera_id": 1055439, "c_region_id": 1000101, "c_bpartner_id": 1051956}, ...]
-# c_region_id vino -> nivel 1 resuelto: 1000101 (Santa Cruz). Saltar al paso 5.
+# 2) Sólo si tu core cae a la organización: la región de la sucursal. El {id} es el ad_org_id.
+GET /v1.0/orginfos/1010053
+# -> {"ad_org_id": 1010053, "c_location_id": <domicilio>, ...}
+GET /v1.0/locations/<domicilio>
+# -> {"c_location_id": ..., "c_region_id": ..., "regionname": ..., "city": ...}
+# c_region_id vino -> resuelto. Si no, sigue.
 
-# 3) Si c_region_id vino null: la región de la sucursal. El {id} es el ad_org_id.
-GET /v1.0/orginfos/1010116
-# -> {"ad_org_id": 1010116, "c_location_id": 1121397, ...}
-GET /v1.0/locations/1121397
-# -> {"c_location_id": 1121397, "c_region_id": 1000083, "regionname": ..., "city": ...}
-# c_region_id vino -> nivel 2 resuelto. Si no, sigue.
-
-# 4) Último recurso: el domicilio del bpartner de la entidad financiera (paso 2).
-GET /v1.0/bpartnerlocations?filter=c_bpartner_id=1051956&fields=c_bpartner_location_id,c_location_id
-# -> [{"c_bpartner_location_id": ..., "c_location_id": ...}]   (el core toma el primero, sin más condición)
+# 3) Sólo si tu core cae al domicilio del bpartner de la entidad financiera (paso 1).
+GET /v1.0/bpartnerlocations?filter=c_bpartner_id=1043088&fields=c_bpartner_location_id,c_location_id
+# -> [{"c_bpartner_location_id": ..., "c_location_id": ...}]   (tomar el criterio de tu core si hay varios)
 GET /v1.0/locations/<c_location_id>
 # -> c_region_id, o null: sin jurisdicción resuelta. NO inventar una.
 
-# 5) Con la región: el esquema. Una sola llamada, con los tipos IIBB resueltos por subconsulta.
-GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y' AND c_region_id=1000101
+# 4) Con la región: el esquema. Una sola llamada, con los tipos IIBB resueltos por subconsulta.
+GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y' AND c_region_id=<región>
         AND c_retenciontype_id IN (SELECT c_retenciontype_id FROM c_retenciontype WHERE retentiontype='B' AND isactive='Y')
-# -> [{"c_retencionschema_id": 1010257, "name": "Retención IIBB Santa Cruz", "c_region_id": 1000101, "c_retenciontype_id": 1010278}]
+# -> [{"c_retencionschema_id": ..., "name": "Retención IIBB <provincia>", "c_region_id": <región>, "c_retenciontype_id": ...}]
 ```
 
-El paso 5 en dos llamadas, si se prefiere no meter una subconsulta en el `filter` (el resultado de la
+El paso 4 en dos llamadas, si se prefiere no meter una subconsulta en el `filter` (el resultado de la
 primera es un catálogo chico, cacheable por corrida):
 
 ```bash
 GET /v1.0/retenciontypes?filter=retentiontype='B' AND isactive='Y'&fields=c_retenciontype_id
-# -> 1010012,1010247,1010248,1010249,1010250,1010178,1010278
-GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y' AND c_region_id=1000101
-        AND c_retenciontype_id IN (1010012,1010247,1010248,1010249,1010250,1010178,1010278)
+# -> la lista de ids; puede haber varios
+GET /v1.0/retencionschemas?filter=retencionapplication='S' AND isactive='Y' AND c_region_id=<región>
+        AND c_retenciontype_id IN (<los ids de arriba>)
 ```
 
-Con la región en `null` en los tres niveles, o sin ningún esquema activo para esa combinación, el resultado
-correcto es **no impactar ese concepto y decirlo** — nunca caer a un esquema por defecto. El core, en ese
-caso, tampoco lo hace.
+Con la región en `null` en todos los niveles que aplica tu core, o sin ningún esquema activo para esa
+combinación, el resultado correcto es **no impactar ese concepto y decirlo** — nunca caer a un esquema por
+defecto. El core, en ese caso, tampoco lo hace.
 
 ### Tres trampas del contrato
 
 | Trampa | Qué pasa | Qué hacer |
 |---|---|---|
-| **No existe la columna `id`** en ningún recurso | `filter=id=1121397` sobre `locations` no da 404 ni vacío: da **409** con un error de SQL (`column "id" does not exist`), y la respuesta viene como array de un string | Filtrar por la columna real (`c_location_id=...`) o, mejor, pedir `GET /locations/{id}` |
+| **No existe la columna `id`** en ningún recurso | `filter=id=<n>` sobre `locations` no da 404 ni vacío: da **409** con un error de SQL (`column "id" does not exist`), y la respuesta viene como array de un string | Filtrar por la columna real (`c_location_id=...`) o, mejor, pedir `GET /locations/{id}` |
 | La clave del tipo de retención es `c_retenciontype_id` | Leer `id` de la respuesta de `retenciontypes` da `null` | Leer `c_retenciontype_id` (la respuesta también lo trae como `cretenciontypeId`) |
-| Varios tipos con `retentiontype='B'` | `c_retenciontype_id = <el primero>` deja afuera a casi todas las provincias | `IN (...)` con todos, o la subconsulta del paso 5 |
+| Varios tipos con `retentiontype='B'` | `c_retenciontype_id = <el primero>` puede dejar afuera a la mayoría de las provincias | `IN (...)` con todos, o la subconsulta del paso 4 |
 
-Un detalle más, que no es de la API sino del core: en `getRetencionSchemaByNroEst` los joins a `AD_OrgInfo`
-/ `C_Location` / `C_Region` de la organización son **`INNER`**. Es decir que si la sucursal no tiene domicilio
-con provincia, el core no encuentra esquema **aunque la entidad financiera sí tenga región**. Un consumidor
-que implemente la cadena como cascada (nivel 1, si no 2, si no 3) es más permisivo que el ERP en ese caso
-puntual; no es incorrecto, pero conviene saberlo si alguna vez los dos difieren.
+Un detalle más, que no es de la API sino del core público: en `getRetencionSchemaByNroEst` el join con
+`C_RetencionType` compara el tipo del esquema consigo mismo (`rs.C_RetencionType_ID = rs.C_RetencionType_ID`),
+así que la condición `retentiontype='B'` no llega a filtrar el tipo del esquema: el importador toma el primer
+esquema sufrido activo de esa región, sin un orden definido. Si en la región hay un solo esquema sufrido da lo
+mismo; si hay más de uno, filtrar por tipo como en el paso 4 es más estricto que el ERP. No es incorrecto, pero
+conviene saberlo si alguna vez los dos difieren.
 
-> Verificado contra `ly_core_teh` (2026-09-16): comercio `33288515` con región en la entidad financiera →
-> `Retención IIBB Santa Cruz` (1010257) por el nivel 1; comercio `33288622` sin región en la entidad
-> financiera → cae al nivel 2, `orginfos/1010134` devuelve `c_location_id=1121411`. Esa `C_Location` no
-> existe en la copia local (la base tiene sólo 4 de 23 domicilios de sucursal cargados), así que el nivel 2 y
-> el 3 se ejercitaron por separado con domicilios existentes: `locations/{id}` devuelve `c_region_id`, y
-> `bpartnerlocations?filter=c_bpartner_id=1012145` → `locations/1012296` → región 1000083.
-
+> Los endpoints de la cadena se ejercitaron a mano en septiembre de 2026 contra una base con datos reales:
+> `entidadesfinancieras` devuelve `c_region_id`, `orginfos/{ad_org_id}` el `c_location_id` y `locations/{id}`
+> el `c_region_id`. Lo que hace el core público con esa región sale de leer su código
+> (`getRetencionSchemaByNroEst`), no de una prueba automática.
