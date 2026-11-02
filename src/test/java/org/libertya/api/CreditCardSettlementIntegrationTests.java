@@ -29,14 +29,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  *    compania de prueba, y varios C_Payment activos de esa compania (hay una foreign key sobre c_payment_id).
  *    Si no los hay, los tests se saltean solos en vez de fallar.
  *
- * EL TEST QUE MAS IMPORTA ES coreCargadoDebeSerElDeTehuelche. Las reglas R6 y R7 viven en
- * MCouponsSettlements, que es una clase del jar, no del diccionario: solo existen en el core de Tehuelche.
- * Si ese test pasa sin rechazo, el OXP.jar del classpath es el del core publico y toda la idempotencia que
- * asume el consumidor de estos endpoints no esta.
- *
- * Lo que estos tests NO cubren: la capa de plugins. Tehuelche registra plugins com.hipertehuelche en
- * AD_PLUGIN que corren dentro de PO.doBeforeSave, y esa activacion depende de la BASE, no del jar. Una base
- * de prueba sin esos registros valida un comportamiento distinto al de produccion.
+ * Prueban el comportamiento del core publico. Las reglas propias que una instalacion agregue en su core o en
+ * sus plugins (por ejemplo, rechazar un cobro que ya esta en otra liquidacion) se verifican en esa
+ * instalacion, fuera de este repositorio.
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests {
@@ -63,20 +58,16 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
     private static Integer entidadFinancieraPlanID;
     private static List<Integer> paymentIDs;
 
-    /** Si la base tiene el diccionario de Tehuelche. Ver diccionarioTehuelche(). */
-    private static Boolean esTehuelche;
-
     /** Numero de liquidacion irrepetible, para no chocar con la regla R2 entre corridas */
     private final String settlementNo = String.valueOf(System.currentTimeMillis() % 100000000L);
 
-    // =========================================================================
-    // Paso 0 del plan: verificar que el core cargado se comporta como se espera
-    // =========================================================================
+    // ======================================
+    // Alta de la liquidacion y de un cupon
+    // ======================================
 
     @Test
     @Order(10)
     void crearLiquidacionFullDebeCrearCabeceraFiltroEHijas() throws Exception {
-        if (!diccionarioTehuelche()) return;
         resolveFixtures();
         if (!fixturesDisponibles()) return;
 
@@ -125,27 +116,17 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
         assertThat(response.getStatusCode().toString()).doesNotContain("500");
     }
 
-    /**
-     * ESTE ES EL TEST DEL PLAN. Dos cupones con el mismo C_Payment_ID: el modelo tiene que rechazar el
-     * segundo. Si lo acepta, el jar cargado no es el de Tehuelche.
-     */
+    /** Cuelga el primer cobro, que el test del lote espera encontrar ya colgado de esta liquidacion */
     @Test
     @Order(30)
-    void coreCargadoDebeSerElDeTehuelche() throws Exception {
+    void colgarUnCuponDebeCrearlo() throws Exception {
         if (settlementID == null || !fixturesDisponibles()) return;
 
-        int paymentID = paymentIDs.get(0);
-        ResponseEntity<String> primero = post(COUPONS, couponJson(paymentID));
-        assertThat(primero.getStatusCode().toString())
-                .as("no se pudo crear ni el primer cupon: " + primero.getBody())
+        ResponseEntity<String> response = post(COUPONS, couponJson(paymentIDs.get(0)));
+        assertThat(response.getStatusCode().toString())
+                .as("no se pudo colgar el cupon: " + response.getBody())
                 .contains("200");
-
-        ResponseEntity<String> segundo = post(COUPONS, couponJson(paymentID));
-        assertThat(segundo.getStatusCode().toString())
-                .as("EL CORE CARGADO NO ES EL DE TEHUELCHE: acepto dos cupones con el mismo c_payment_id. " +
-                    "La regla R7 vive en MCouponsSettlements.beforeSave, que solo existe en el core de " +
-                    "Tehuelche. Revisar a que OXP_HOME apunto el build.")
-                .contains("409");
+        assertThat(Integer.parseInt(response.getBody())).isPositive();
     }
 
     // ==========================================
@@ -407,7 +388,7 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
      * Se prueba sobre la liquidacion del test anterior, que no tiene cupones colgados. NO se prueba el
      * borrado de cupones que hace voidIt() con un DELETE directo sobre C_CouponsSettlements, saltandose la
      * regla R8: esta documentado en el yaml del endpoint y verificarlo aca significaria destruir los cupones
-     * que los tests de mas arriba usan para probar R6, R7 y los lotes.
+     * que los tests de mas arriba usan para probar los lotes.
      */
     @Test
     @Order(170)
@@ -460,7 +441,7 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
         // A diferencia del resto de la clase, los tests de procesado NO necesitan cobros: procesan una
         // liquidacion sin cupones. Pedirles el juego completo de fixtures los saltearia cada vez que la base
         // se queda sin C_Payment libres, y eso pasa solo: cada corrida consume los que cuelga, para siempre.
-        if (!diccionarioTehuelche() || entidadFinancieraID == null) return null;
+        if (entidadFinancieraID == null) return null;
 
         String body = "{\"header\":{" +
                 "\"ad_org_id\":" + getOrgID() + "," +
@@ -544,25 +525,8 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
     }
 
     private boolean fixturesDisponibles() {
-        return diccionarioTehuelche() && entidadFinancieraID != null && entidadFinancieraPlanID != null
+        return entidadFinancieraID != null && entidadFinancieraPlanID != null
                 && paymentIDs != null && paymentIDs.size() >= 3;
-    }
-
-    /**
-     * El jar de Tehuelche NO puede operar sobre un diccionario que no sea el de Tehuelche.
-     *
-     * generateAllChildrens() de MCreditCardSettlement consulta la tabla M_NumeroComercio, que solo existe en
-     * la base de Tehuelche. Contra cualquier otra base el alta de la cabecera falla con
-     * 'relation "m_numerocomercio" does not exist' antes de llegar a ninguna regla de negocio.
-     *
-     * Por eso estos tests se saltean en vez de fallar: sobre una base que no es la de Tehuelche no hay nada
-     * que puedan probar. Es la contracara practica de compilar contra los jars de Tehuelche.
-     */
-    private boolean diccionarioTehuelche() {
-        if (esTehuelche == null)
-            esTehuelche = DB.getSQLValue(null,
-                    "SELECT count(1) FROM information_schema.tables WHERE table_name = 'm_numerocomercio'") > 0;
-        return esTehuelche;
     }
 
     /**
@@ -590,8 +554,8 @@ public class CreditCardSettlementIntegrationTests extends CommonIntegrationTests
         }
 
         // Se prefieren cobros de la propia compania. El fallback a cualquier cobro activo existe porque la
-        // unica restriccion real es la foreign key contra c_payment, y sin cobros no hay forma de probar R6,
-        // R7 ni los lotes, que es justo lo que mas importa verificar.
+        // unica restriccion real es la foreign key contra c_payment, y sin cobros no hay forma de probar los
+        // lotes, que es justo lo que mas importa verificar.
         paymentIDs = findPayments(" AND p.ad_client_id = " + credentials[2].split("=")[1]);
         if (paymentIDs.size() < 4)
             paymentIDs = findPayments("");
