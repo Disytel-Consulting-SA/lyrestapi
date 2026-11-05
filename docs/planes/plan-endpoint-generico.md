@@ -109,7 +109,8 @@ que es tarde para cambiarlo. Se usa el mismo mecanismo que ya se usa para Jasper
 `loader.properties`. La propiedad de sistema tiene prioridad sobre la variable de entorno.
 
 ```bash
-java -Dloader.path=/ruta/instancia/lib/OXP.jar,/lyrestapi/JasperReports-ngroovy.jar \
+# core-instancia/OXP.jar: symlink a lib/OXP.jar.default de la instancia, NO a lib/OXP.jar (cuidado 6)
+java -Dloader.path=/lyrestapi/libs/core-instancia/OXP.jar,/lyrestapi/JasperReports-ngroovy.jar \
      -jar lyrestapi-1.0.0.jar \
      --spring.config.location=file:/lyrestapi/application.properties
 ```
@@ -135,6 +136,11 @@ OXP.jar de la instancia **ganan** sobre las del embebido.
 5. **Docker:** el `ENTRYPOINT` actual fija `-Dloader.path=/JasperReports-ngroovy.jar`, que tiene prioridad
    sobre `LOADER_PATH`. Para sumar el OXP.jar de la instancia hay que sobreescribir el entrypoint o cambiar el
    `Dockerfile`. Es configuración de despliegue, no parte de la implementación: consultarlo antes.
+6. **Qué `OXP.jar`: el del build, no el instalado** (visto el 2026-11-05, `docs/compatibilidad-core.md` §6.7). El
+   `lib/OXP.jar` de un servidor instalado viene firmado y con librerías de terceros mezcladas, y con él la app no
+   arranca (`SecurityException` por firmas en `javax.servlet`). Va el `lib/OXP.jar.default`, mediante un symlink con
+   nombre `.jar`, porque el launcher ignora otras extensiones. Las customizaciones empaquetadas como componente no
+   están en el `.default`: es un caso abierto, `docs/PENDIENTES.md` P6.
 
 ---
 

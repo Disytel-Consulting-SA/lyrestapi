@@ -170,3 +170,27 @@ jars. Esos scripts no quedaron en el repo.
 Sumarlos a `utils/` (por ejemplo `utils/check-core-refs.py` y `utils/check-core-consts.py`), con la invocación en
 `docs/compatibilidad-core.md` §5. Para confirmar que un script funciona, se lo corre contra el mismo core con el que
 se compiló: tiene que dar 0 diferencias.
+
+---
+
+## P6 — Las customizaciones empaquetadas como componente no tienen un `OXP.jar` cargable
+
+**Detectado:** 2026-11-05, al desplegar con el `OXP.jar` de una instalación (`docs/compatibilidad-core.md` §6.7).
+**Alcance:** instalaciones cuyas clases propias llegan por un componente que el instalador mezcla en `lib/OXP.jar`
+(por ejemplo un `org.libertya.custom.*`), y en particular el endpoint genérico sobre sus tablas
+(`docs/planes/plan-endpoint-generico.md` DT-5 y §4).
+**Impacto:** alto para esas instalaciones: hoy no hay una forma verificada de cargar sus clases.
+
+### Qué pasa
+
+El `lib/OXP.jar` instalado no se puede poner en `loader.path`, porque viene firmado y con librerías de terceros
+(§6.7). El `lib/OXP.jar.default` sí se puede, pero es el core sin los componentes. Una instalación cuyo código propio
+está en el build del core (un fork) no tiene el problema; una que lo trae en un componente, sí.
+
+### Arreglo propuesto (sin verificar)
+
+- Poner en `loader.path`, junto al `.default`, el jar del componente, si su paquete de instalación lo trae por
+  separado y sin librerías de terceros.
+- Si no, armar una copia del `lib/OXP.jar` instalado sin firmas y sin los paquetes de terceros, como se hizo con
+  `libs/JasperReports-ngroovy.jar`. Es un binario armado a mano, que habría que regenerar cada vez que se instala un
+  componente.

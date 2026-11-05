@@ -582,8 +582,10 @@ cupones de a uno con el `POST`, la única protección contra el doble impacto en
 
 La API embebe un core. Una instalación con un core customizado corre lyrestapi compilada contra el core
 público, con el `OXP.jar` de la instalación primero en `-Dloader.path` (ver `docs/compatibilidad-core.md` §3,
-caso 3, y `docs/planes/plan-endpoint-generico.md` §4, con sus cuidados). Para saber cuál quedó cargado, mirá la
-línea de arranque `Core de Libertya cargado desde: ...` en el log.
+caso 3, y `docs/planes/plan-endpoint-generico.md` §4, con sus cuidados). Ese jar es el del build
+(`lib/OXP.jar.default`), no el `lib/OXP.jar` instalado, con el que la API no arranca
+(`docs/compatibilidad-core.md` §6.7). Para saber cuál quedó cargado, mirá la línea de arranque
+`Core de Libertya cargado desde: ...` en el log.
 
 Un core customizado además **exige su propio diccionario**: si su modelo consulta tablas o columnas propias,
 contra otra base el alta de la cabecera falla con un `relation "..." does not exist`. El jar y la base tienen

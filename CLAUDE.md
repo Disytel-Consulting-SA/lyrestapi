@@ -205,6 +205,7 @@ Gotchas: `GenericRepository` is a Spring singleton, so it never assigns `tableNa
 travels in a per-request `TableSpec`. Always go through `resolveTable` first and use the canonical name: it ends
 up concatenated into SQL and keys the `ColumnResolver` cache. `PO.load(int)` hard-codes `<Table>_ID` as the key,
 so tables whose key differs (views such as `RV_BPartner`) are read through a where clause and are read-only.
+Customizations shipped as a *component* are not in the loadable `OXP.jar.default` (`docs/PENDIENTES.md` P6).
 
 ## Credit card settlements (`C_CreditCardSettlement`)
 
@@ -225,7 +226,9 @@ Non-obvious:
   takes the `ad_org_id`.
 - An installation with a customized core runs this API with its own `OXP.jar` (not its `OXPXLib.jar`) first in
   `loader.path` (`docs/compatibilidad-core.md` §6.6). Embedding the public core instead silently drops the
-  installation's rules.
+  installation's rules. That jar is the clean build `lib/OXP.jar.default`, symlinked under a `.jar` name — never the
+  installed `lib/OXP.jar`, which is signed and bundles third-party libs, so startup dies with a `SecurityException`
+  (§6.7).
 - `CreditCardSettlementIntegrationTests` needs `org.libertya.tests.use-dynamic-defaults=true` against
   `libertya_rel_22ar_for_api_25` (the default bpartner no longer exists there).
 

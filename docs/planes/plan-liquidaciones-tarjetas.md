@@ -887,9 +887,10 @@ ella, fuera de este repo. En su lugar quedó un test que cuelga un cupón, que e
 
 La API embebe el core. Una instalación con un core customizado corre lyrestapi compilada contra el core
 público, con los jars de la instalación primero en `-Dloader.path` (ver `docs/compatibilidad-core.md` §3,
-caso 3, y `docs/planes/plan-endpoint-generico.md` §4, cuyo cuidado 2 dice qué hacer con `OXPXLib.jar`). Las
-reglas de negocio de esa instalación —como R6 y R7— sólo aplican cuando es su core el que está corriendo: para
-confirmarlo, mirar la línea de arranque `Core de Libertya cargado desde: ...`.
+caso 3, y `docs/planes/plan-endpoint-generico.md` §4, cuyo cuidado 2 dice qué hacer con `OXPXLib.jar` y el 6 cuál
+`OXP.jar` usar: el del build, no el instalado). Las reglas de negocio de esa instalación —como R6 y R7— sólo
+aplican cuando es su core el que está corriendo: para confirmarlo, mirar la línea de arranque
+`Core de Libertya cargado desde: ...`.
 
 Es la combinación que §3.5 descartaba en 2026-08 ("compilar contra público, correr contra el customizado").
 Lo que cambió es que el endpoint genérico ya había resuelto y verificado cómo cargar el `OXP.jar` de una

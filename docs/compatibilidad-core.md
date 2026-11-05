@@ -105,6 +105,16 @@ Si la instancia pone su propio `OXP.jar` en `loader.path`, el chequeo 1 hay que 
 jar**, porque es el que termina ejecutándose (§3, caso 3). Si ese jar es de otra rama del core (un core
 customizado), el chequeo 1 no alcanza: ver §6.6.
 
+Ese jar, además, tiene que ser el del build del core (`lib/OXP.jar.default`), no el `lib/OXP.jar` instalado. El
+instalado viene firmado y con librerías de terceros adentro, y con él la app no arranca (§6.7). Las dos líneas
+tienen que decir "0 files":
+
+```bash
+J=<el jar que va en loader.path>
+unzip -l $J 'META-INF/*.SF' | tail -1
+unzip -l $J 'javax/servlet/*' 'org/slf4j/*' 'com/fasterxml/*' | tail -1
+```
+
 ---
 
 ## 6. Bitácora
@@ -201,8 +211,8 @@ no compila contra ese core (le faltan los commits de §6.1 y §6.5), y embeberle
 sin esas reglas, sin los plugins de la instalación y contra un esquema de otra versión, todo sin que nada avise.
 
 **Lo que se hace:** compilar con el core público y desplegar con el `OXP.jar` de la instalación **por delante** en
-`-Dloader.path` (§3, caso 3). Así corren las clases de la instalación, y lo que les falta se toma del core
-embebido. **Solo el `OXP.jar`:** el `OXPXLib.jar` embebido se mantiene (`docs/planes/plan-endpoint-generico.md` §4,
+`-Dloader.path` (§3, caso 3). Tiene que ser el del build (`lib/OXP.jar.default`), no el instalado: ver §6.7. Así
+corren las clases de la instalación, y lo que les falta se toma del core embebido. **Solo el `OXP.jar`:** el `OXPXLib.jar` embebido se mantiene (`docs/planes/plan-endpoint-generico.md` §4,
 cuidado 2). En el caso verificado, el `OXPXLib.jar` público contenía todas las clases del de la instalación salvo una
 de `org/apache/ecs/xhtml`, y la app arrancó y respondió igual con uno y con los dos.
 
@@ -230,6 +240,53 @@ probarla.
 (las referencias del bytecode y las constantes; hoy no hay script en el repo, ver `docs/PENDIENTES.md` P5) y
 avisar qué endpoints quedan sin soporte. En Docker hay que
 sobreescribir el `ENTRYPOINT`, que fija `-Dloader.path`.
+
+### 6.7 2026-11-05 — El `OXP.jar` instalado en un servidor no sirve para `loader.path`
+
+**Qué pasó:** al desplegar en una instalación de core customizado (el caso de §6.6) con
+`-Dloader.path=/ServidorOXP/lib/OXP.jar,...`, la app no arrancó:
+
+```
+java.lang.IllegalStateException: Error processing condition on ...UserDetailsServiceAutoConfiguration
+...
+Caused by: java.lang.SecurityException: class "javax.servlet.DispatcherType"'s signer information does not
+match signer information of other classes in the same package
+```
+
+El mismo error aparece también con `javax.annotation.Nonnull`.
+
+**Por qué:** en un servidor instalado hay dos `OXP.jar`, y no son lo mismo:
+
+| | `lib/OXP.jar.default` | `lib/OXP.jar` |
+|---|---|---|
+| Qué es | El artefacto del build del core: lo que publica el CI y lo que copia un despliegue | Lo que se rearma encima al instalar, con lo que agregan los componentes |
+| En el caso verificado | 32 MB, sin firma, sólo clases de Libertya y de la customización | 54 MB, firmado con `LIBERTYA`, con servlet-api 2.x, jsr305, slf4j, Jackson, Guava, Jetty y clientes de AFIP adentro |
+
+Las entradas de `loader.path` van delante de `BOOT-INF/lib` (`docs/planes/plan-endpoint-generico.md` §4), así que
+esas librerías le ganan a las de Spring Boot. La JVM no admite que las clases de un mismo paquete tengan firmas
+distintas: `javax.servlet` viene firmado en el jar instalado y sin firmar en `tomcat-embed-core`, y la app no
+arranca. Aunque se le quitaran las firmas, chocarían igual las versiones viejas de slf4j y Jackson. Las clases
+de core de los dos jars coinciden salvo una, que no está identificada.
+
+Las pruebas de §6.6 no lo detectaron porque se hicieron con un `OXP.jar` de release, que es el limpio. Se descartó
+el `Class-Path:` del manifest: el jar instalado no lo tiene.
+
+**Qué hacer:** poner en `loader.path` el `OXP.jar.default` de la instalación, mediante un symlink cuyo nombre
+termine en `.jar`. `PropertiesLauncher` descarta sin avisar las entradas que no terminan en `.jar` o `.zip`
+(verificado en su bytecode), así que poner el `.default` directo no funciona:
+
+```bash
+mkdir -p /lyrestapi/libs/core-instancia
+ln -s /ServidorOXP/lib/OXP.jar.default /lyrestapi/libs/core-instancia/OXP.jar
+# -Dloader.path=/lyrestapi/libs/core-instancia/OXP.jar,/lyrestapi/libs/JasperReports-ngroovy.jar
+```
+
+El symlink sigue los despliegues del core sin tocar lyrestapi. Verificado el 2026-11-05: con esa configuración la
+app arrancó y las pruebas funcionales de las liquidaciones de tarjetas dieron bien. El chequeo previo está en §5.
+
+**Límite:** en el caso verificado el código propio está en el build del core (un fork), así que el `.default` lo
+trae. Si la customización es un componente que el instalador mezcla en `lib/OXP.jar`, el `.default` **no** tiene sus
+clases y el instalado no se puede usar. Ese caso está abierto: `docs/PENDIENTES.md` P6.
 
 ---
 
