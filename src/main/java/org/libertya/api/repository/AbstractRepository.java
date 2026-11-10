@@ -8,6 +8,7 @@ import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
 import org.libertya.api.security.ClientOrgAuth;
+import org.libertya.api.security.SafeQueryFilter;
 import org.libertya.api.stub.model.Propertiesmap;
 import org.libertya.api.util.SchemaUtils;
 import org.openXpertya.model.MOrg;
@@ -401,30 +402,40 @@ public abstract class AbstractRepository {
      * @param keyColumns columnas clave a recuperar, o null para usar las de la entidad
      */
     protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, String[] keyColumns, RetrieveEntityInterface iface, QueryParams params) throws ModelException, AuthException {
-        List retVal = new ArrayList();
-        // Si params lo recibo como null (sin ningun tipo de query), entonces instanciar uno vacio
-        if (params==null) {
+        List<T> retVal = new ArrayList<>();
+        if (params == null)
             params = new QueryParams();
-        }
-        if (params.getLimit()!=null && params.getLimit()<=0)
+        if (params.getLimit() != null && params.getLimit() <= 0)
             throw new ModelException("limit debe ser mayor o igual a 1 si se especifica");
-        if (params.getPage()!=null && params.getPage()<=0)
+        if (params.getPage() != null && params.getPage() <= 0)
             throw new ModelException("page debe ser mayor o igual a 1 si se especifica");
-        String theFilter = (params.getFilter() != null && params.getFilter().length() > 0 ? formatClause(params.getFilter()) + " AND " : "") + filterByClient(info);
-        String theSort = params.getSort() != null && params.getSort().length() > 0 ? " ORDER BY " + params.getSort() : " ";
-        Integer theLimit = (params.getLimit() != null && params.getLimit() > 0 ? params.getLimit() : DEFAULT_LIMIT);
-        Integer thePage = params.getPage() != null ? theLimit * (params.getPage() - 1) : 0;
-        List<Object[]> entitiesIDs = getAllKeys(tableName, keyColumns,
-                String.format( " %s %s LIMIT %d OFFSET %d ",
-                        theFilter,
-                        theSort,
-                        theLimit,
-                        thePage),
-                null);
-        if (entitiesIDs.isEmpty())
-            return retVal;
-        for (Object[] entityIDs : entitiesIDs)
-            retVal.add(iface.perform(entityIDs));
+
+        SafeQueryFilter.Compiled filter = compileHttpFilter(info, tableName, params.getFilter());
+        String sort = validateHttpSort(info, tableName, params.getSort());
+        int limit = params.getLimit() != null ? params.getLimit() : DEFAULT_LIMIT;
+        int page = params.getPage() != null ? params.getPage() : 1;
+        long offset = (long) limit * (page - 1L);
+        String[] keys = keyColumns != null ? keyColumns : pkColumns == null
+                ? new String[]{tableName + "_ID"} : pkColumns;
+
+        String sql = "SELECT " + String.join(",", keys) + " FROM " + tableName
+                + " WHERE (" + filter.sql + ") AND (" + filterByClient(info) + ")"
+                + sort + " LIMIT ? OFFSET ?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            int p = bindFilterValues(ps, filter.values);
+            ps.setInt(p++, limit);
+            ps.setLong(p, offset);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Object[] rowKeys = new Object[keys.length];
+                    for (int i = 0; i < keys.length; i++)
+                        rowKeys[i] = rs.getObject(i + 1);
+                    retVal.add((T) iface.perform(rowKeys));
+                }
+            }
+        } catch (SQLException e) {
+            throw new ModelException("Error al recuperar registros de " + tableName);
+        }
         return retVal;
     }
 
@@ -433,22 +444,64 @@ public abstract class AbstractRepository {
         return countAll(info, tableName, params);
     }
 
-    /** Recupera la cantidad total de entidades de la tabla indicada que respetan el filtro indicado. */
+    /** Cuenta con exactamente el mismo filtro parametrizado que el listado. */
     protected int countAll(UserInfo info, String tableName, QueryParams params) throws ModelException, AuthException {
-        if (params == null)
-            params = new QueryParams();
-
-        String theFilter = (params.getFilter() != null && params.getFilter().length() > 0
-                ? formatClause(params.getFilter()) + " AND "
-                : "") + filterByClient(info);
-
-        String sql = "SELECT COUNT(1) FROM " + tableName + " WHERE " + theFilter;
-
-        try {
-            return DB.getSQLValue(null, sql);
-        } catch (Exception e) {
-            throw new ModelException("Error al contar registros de " + tableName + ". " + e.getMessage());
+        SafeQueryFilter.Compiled filter = compileHttpFilter(info, tableName,
+                params == null ? null : params.getFilter());
+        String sql = "SELECT COUNT(1) FROM " + tableName
+                + " WHERE (" + filter.sql + ") AND (" + filterByClient(info) + ")";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            bindFilterValues(ps, filter.values);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        } catch (SQLException e) {
+            throw new ModelException("Error al contar registros de " + tableName);
         }
+    }
+
+    private int bindFilterValues(PreparedStatement ps, List<Object> values) throws SQLException {
+        int p = 1;
+        for (Object value : values)
+            ps.setObject(p++, value);
+        return p;
+    }
+
+    private Map<String, String> queryColumns(UserInfo info, String tableName) throws ModelException {
+        M_Table table = M_Table.get(getCtx(info), tableName);
+        if (table == null)
+            throw new ModelException("Tabla no disponible: " + tableName);
+        Map<String, String> columns = new HashMap<>();
+        for (M_Column column : table.getColumns(false)) {
+            String name = column.getColumnName();
+            if (name.matches("[A-Za-z_][A-Za-z0-9_]*"))
+                columns.put(name.toLowerCase(Locale.ROOT), name);
+        }
+        return columns;
+    }
+
+    private SafeQueryFilter.Compiled compileHttpFilter(UserInfo info, String tableName, String filter)
+            throws ModelException {
+        return SafeQueryFilter.compile(filter, queryColumns(info, tableName));
+    }
+
+    private String validateHttpSort(UserInfo info, String tableName, String sort) throws ModelException {
+        if (sort == null || sort.trim().isEmpty())
+            return "";
+        Map<String, String> columns = queryColumns(info, tableName);
+        List<String> parts = new ArrayList<>();
+        for (String item : sort.split(",")) {
+            String[] tokens = item.trim().split("\\s+");
+            if (tokens.length < 1 || tokens.length > 2)
+                throw new ModelException("Orden no admitido");
+            String column = columns.get(tokens[0].toLowerCase(Locale.ROOT));
+            if (column == null || (tokens.length == 2
+                    && !tokens[1].equalsIgnoreCase("ASC")
+                    && !tokens[1].equalsIgnoreCase("DESC")))
+                throw new ModelException("Columna u orden no permitido");
+            parts.add(column + (tokens.length == 2 ? " " + tokens[1].toUpperCase(Locale.ROOT) : ""));
+        }
+        return " ORDER BY " + String.join(", ", parts);
     }
 
     /** Genera un filtro si es que la busqueda no contiene uno especifico */
