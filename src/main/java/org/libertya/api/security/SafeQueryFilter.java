@@ -43,7 +43,13 @@ public final class SafeQueryFilter {
     public static Compiled compile(String input, Map<String, String> columns) throws ModelException {
         if (input == null || input.trim().isEmpty())
             return new Compiled("1=1", Collections.emptyList());
-        SafeQueryFilter parser = new SafeQueryFilter(input, columns);
+        String normalized = input.trim();
+        // Compatibilidad con filtros historicos documentados entre comillas dobles.
+        // Solo se retira el par exterior; no se eliminan caracteres internos.
+        if (normalized.length() >= 2 && normalized.charAt(0) == '"' &&
+                normalized.charAt(normalized.length() - 1) == '"')
+            normalized = normalized.substring(1, normalized.length() - 1);
+        SafeQueryFilter parser = new SafeQueryFilter(normalized, columns);
         String sql = parser.expression();
         if (!parser.is("END"))
             throw new ModelException("Sintaxis de filtro no admitida");
