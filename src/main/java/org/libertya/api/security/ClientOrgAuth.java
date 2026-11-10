@@ -2,28 +2,42 @@ package org.libertya.api.security;
 
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
-import org.openXpertya.model.MOrg;
+import org.openXpertya.model.MRole;
 import org.openXpertya.model.PO;
 
+/**
+ * Validacion de acceso a registros recuperados por la API.
+ *
+ * El contexto de autenticacion (/token) puede no tener UserInfo. Para las
+ * operaciones autenticadas, se verifica el alcance del token y, cuando hay
+ * un rol seleccionado, los permisos de lectura definidos por CORE.
+ */
 public class ClientOrgAuth {
 
-    /**
-     * Valida si el usuario que está intentando ejecutar la operacion tiene los permisos correspondientes.
-     * @param info informacion del usuario que realiza la peticion de operacion.
-     *             En el unico caso en que info puede ser null es al momento de generar el token
-     * @param aPO objeto a gestionar
-     * @return el aPO validado
-     * @throws AuthException en caso de no tener los permisos correspondientes
-     */
     public static PO validate(UserInfo info, PO aPO) throws AuthException {
-        // No es factible realizar validacion alguna
-        if (info==null || aPO==null || aPO.getID()==0)
+        if (info == null || aPO == null)
             return aPO;
 
-        // Si el token de acceso solo permite una compañia en particular, no permitir gestionar/retornar informacion de otra compañía
-        // Si el token de acceso es de compañía 0, entonces no limitar
-        if (info.getClientID() > 0 && aPO.getAD_Client_ID() != 0 && aPO.getAD_Client_ID() != info.getClientID()) {
+        int clientID = aPO.getAD_Client_ID();
+        int orgID = aPO.getAD_Org_ID();
+
+        if (info.getClientID() > 0 && clientID != 0 && clientID != info.getClientID())
             throw new AuthException("Token de acceso limitado a compañía " + info.getClientID());
+
+        // La organizacion del token es el contexto activo, no una lista de
+        // organizaciones permitidas. La autorizacion real corresponde a MRole.
+        if (!info.hasRole())
+            return aPO;
+
+        MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+        if (role == null)
+            throw new AuthException("Rol de acceso no disponible");
+
+        if (!role.isClientAccess(clientID, false)
+                || !role.isOrgAccess(orgID, false)
+                || !role.isTableAccess(aPO.get_Table_ID(), true)
+                || !role.isRecordAccess(aPO.get_Table_ID(), aPO.getID(), true)) {
+            throw new AuthException("Acceso de lectura no autorizado al registro");
         }
         return aPO;
     }
