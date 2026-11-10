@@ -45,6 +45,23 @@ class SafeQueryFilterTest {
     }
 
     @Test
+    void acceptsDocumentedQuotedFilters() throws Exception {
+        SafeQueryFilter.Compiled filter = SafeQueryFilter.compile(
+                "\"ad_client_id IN (0, 101) AND isactive='Y'\"", columns);
+        assertEquals(Arrays.asList(new java.math.BigDecimal("0"),
+                new java.math.BigDecimal("101"), "Y"), filter.values);
+        assertTrue(filter.sql.contains("AD_Client_ID IN (?, ?)"));
+    }
+
+    @Test
+    void rejectsInjectionInsideQuotedFilter() {
+        assertThrows(ModelException.class, () ->
+                SafeQueryFilter.compile("\"name='x'; DROP TABLE AD_User\"", columns));
+        assertThrows(ModelException.class, () ->
+                SafeQueryFilter.compile("\"name='x'\" OR 1=1", columns));
+    }
+
+    @Test
     void supportsInNullAndBetween() throws Exception {
         SafeQueryFilter.Compiled filter = SafeQueryFilter.compile(
                 "ad_client_id IN (0, 101) AND grandtotal BETWEEN 1 AND 100 AND name IS NOT NULL", columns);
