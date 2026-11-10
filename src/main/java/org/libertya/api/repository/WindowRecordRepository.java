@@ -152,6 +152,7 @@ public class WindowRecordRepository extends AbstractRepository {
 
         try {
             statement = DB.prepareStatement(sql, null);
+            bindFilterValues(statement, filter.values);
             result = statement.executeQuery();
             return result.next() ? result.getInt(1) : 0;
         } catch (Exception e) {
@@ -166,7 +167,7 @@ public class WindowRecordRepository extends AbstractRepository {
     /* =========================== SELECT base =========================== */
 
     private String buildBaseSelect(UserInfo info, MTab tab, int windowNo,
-                                   GenericRepository.TableSpec table, WindowRecordQuery query)
+                                   GenericRepository.TableSpec table, SafeQueryFilter.Compiled userFilter)
             throws ModelException {
 
         MTabQueryDefinition definition = tab.getQueryDefinition();
