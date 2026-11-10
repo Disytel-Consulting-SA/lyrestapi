@@ -33,10 +33,11 @@ public class ClientOrgAuth {
         if (role == null)
             throw new AuthException("Rol de acceso no disponible");
 
+        // NOTA: no usar MRole.isRecordAccess() hasta corregir su implementación
+        // en CORE (dev): itera m_tableAccess e indexa m_recordAccess.
         if (!role.isClientAccess(clientID, false)
                 || !role.isOrgAccess(orgID, false)
-                || !role.isTableAccess(aPO.get_Table_ID(), true)
-                || !role.isRecordAccess(aPO.get_Table_ID(), aPO.getID(), true)) {
+                || !role.isTableAccess(aPO.get_Table_ID(), true)) {
             throw new AuthException("Acceso de lectura no autorizado al registro");
         }
         return aPO;
