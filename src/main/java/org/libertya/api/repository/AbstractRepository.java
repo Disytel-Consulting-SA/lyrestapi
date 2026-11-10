@@ -421,6 +421,9 @@ public abstract class AbstractRepository {
         String sql = "SELECT " + String.join(",", keys) + " FROM " + tableName
                 + " WHERE (" + filter.sql + ") AND (" + filterByClient(info) + ")"
                 + sort + " LIMIT ? OFFSET ?";
+        // Recuperar primero las claves y cerrar JDBC antes de instanciar entidades.
+        // iface.perform puede ejecutar consultas adicionales.
+        List<Object[]> rows = new ArrayList<>();
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
             int p = bindFilterValues(ps, filter.values);
             ps.setInt(p++, limit);
@@ -430,12 +433,14 @@ public abstract class AbstractRepository {
                     Object[] rowKeys = new Object[keys.length];
                     for (int i = 0; i < keys.length; i++)
                         rowKeys[i] = rs.getObject(i + 1);
-                    retVal.add((T) iface.perform(rowKeys));
+                    rows.add(rowKeys);
                 }
             }
         } catch (SQLException e) {
             throw new ModelException("Error al recuperar registros de " + tableName);
         }
+        for (Object[] rowKeys : rows)
+            retVal.add((T) iface.perform(rowKeys));
         return retVal;
     }
 
