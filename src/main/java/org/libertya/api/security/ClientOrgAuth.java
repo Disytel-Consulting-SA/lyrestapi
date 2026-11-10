@@ -3,6 +3,11 @@ package org.libertya.api.security;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.openXpertya.model.MRole;
+import org.openXpertya.model.M_Table;
+import org.openXpertya.util.DB;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.openXpertya.model.PO;
 
 /**
@@ -39,6 +44,23 @@ public class ClientOrgAuth {
                 || !role.isOrgAccess(orgID, false)
                 || !role.isTableAccess(aPO.get_Table_ID(), true)) {
             throw new AuthException("Acceso de lectura no autorizado al registro");
+        }
+        // Comprobar la misma clausula que utilizan listados y conteos.
+        String tableName = aPO.get_TableName();
+        M_Table table = M_Table.get(info.getCtx(), tableName);
+        String recordWhere = RecordAccessFilter.where(role, table, tableName);
+        if (!"1=1".equals(recordWhere)) {
+            String key = tableName + "_ID";
+            String sql = "SELECT 1 FROM " + tableName + " WHERE " + key + "=? AND (" + recordWhere + ")";
+            try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+                ps.setInt(1, aPO.getID());
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next())
+                        throw new AuthException("Acceso de lectura no autorizado al registro");
+                }
+            } catch (SQLException e) {
+                throw new AuthException("No fue posible verificar el acceso al registro");
+            }
         }
         return aPO;
     }
