@@ -8,6 +8,7 @@ import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 
 import org.libertya.api.security.ClientOrgAuth;
+import org.libertya.api.security.RecordAccessFilter;
 import org.libertya.api.security.SafeQueryFilter;
 import org.libertya.api.stub.model.Propertiesmap;
 import org.libertya.api.util.SchemaUtils;
@@ -530,6 +531,7 @@ public abstract class AbstractRepository {
         String orgWhere = role.getOrgWhere(false);
         if (orgWhere != null && !orgWhere.trim().isEmpty())
             where.append(" AND (").append(orgWhere).append(")");
+        where.append(" AND ").append(RecordAccessFilter.where(role, table, targetTable));
         return where.toString();
     }
 
