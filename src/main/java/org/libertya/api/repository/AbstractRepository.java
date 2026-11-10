@@ -12,6 +12,7 @@ import org.libertya.api.security.SafeQueryFilter;
 import org.libertya.api.stub.model.Propertiesmap;
 import org.libertya.api.util.SchemaUtils;
 import org.openXpertya.model.MOrg;
+import org.openXpertya.model.MRole;
 import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PO;
@@ -419,7 +420,7 @@ public abstract class AbstractRepository {
                 ? new String[]{tableName + "_ID"} : pkColumns;
 
         String sql = "SELECT " + String.join(",", keys) + " FROM " + tableName
-                + " WHERE (" + filter.sql + ") AND (" + filterByClient(info) + ")"
+                + " WHERE (" + filter.sql + ") AND (" + filterByRole(info, tableName) + ")"
                 + sort + " LIMIT ? OFFSET ?";
         // Recuperar primero las claves y cerrar JDBC antes de instanciar entidades.
         // iface.perform puede ejecutar consultas adicionales.
@@ -454,7 +455,7 @@ public abstract class AbstractRepository {
         SafeQueryFilter.Compiled filter = compileHttpFilter(info, tableName,
                 params == null ? null : params.getFilter());
         String sql = "SELECT COUNT(1) FROM " + tableName
-                + " WHERE (" + filter.sql + ") AND (" + filterByClient(info) + ")";
+                + " WHERE (" + filter.sql + ") AND (" + filterByRole(info, tableName) + ")";
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
             bindFilterValues(ps, filter.values);
             try (ResultSet rs = ps.executeQuery()) {
@@ -507,6 +508,29 @@ public abstract class AbstractRepository {
             parts.add(column + (tokens.length == 2 ? " " + tokens[1].toUpperCase(Locale.ROOT) : ""));
         }
         return " ORDER BY " + String.join(", ", parts);
+    }
+
+    /**
+     * Restricciones de lectura del rol para listados y conteos.
+     * Se aplican antes de LIMIT/OFFSET para evitar filtrar despues de paginar.
+     */
+    protected String filterByRole(UserInfo info, String targetTable) throws AuthException {
+        if (info == null)
+            throw new AuthException("Contexto de autenticacion no disponible");
+        if (!info.hasRole())
+            return filterByClient(info); // Compatibilidad con tokens historicos sin rol.
+
+        MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+        M_Table table = M_Table.get(getCtx(info), targetTable);
+        if (role == null || table == null || !role.isTableAccess(table.getAD_Table_ID(), true))
+            throw new AuthException("Acceso de lectura no autorizado a la tabla");
+
+        StringBuilder where = new StringBuilder("(").append(filterByClient(info)).append(")");
+        where.append(" AND (").append(role.getClientWhere(false)).append(")");
+        String orgWhere = role.getOrgWhere(false);
+        if (orgWhere != null && !orgWhere.trim().isEmpty())
+            where.append(" AND (").append(orgWhere).append(")");
+        return where.toString();
     }
 
     /** Genera un filtro si es que la busqueda no contiene uno especifico */
