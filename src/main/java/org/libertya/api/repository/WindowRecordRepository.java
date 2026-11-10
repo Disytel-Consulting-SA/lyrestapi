@@ -7,6 +7,7 @@ import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
 import org.libertya.api.stub.model.GenericRecord;
 import org.libertya.api.stub.model.WindowRecordQuery;
+import org.libertya.api.security.SafeQueryFilter;
 import org.openXpertya.model.MQueryPreparation;
 import org.openXpertya.model.MTab;
 import org.openXpertya.model.MTabQueryDefinition;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,16 +37,6 @@ import java.util.regex.Pattern;
 public class WindowRecordRepository extends AbstractRepository {
 
     private static final AtomicInteger NEXT_WINDOW_NO = new AtomicInteger(2000);
-
-    /*
-     * Los filtros HTTP admiten solamente la sintaxis que actualmente
-     * genera el frontend. Las cláusulas de metadata no pasan por aquí.
-     */
-    private static final Pattern FILTER_COLUMN_PATTERN = Pattern.compile(
-            "(?i)([A-Za-z][A-Za-z0-9_]*)\\s*(?:=|<>|!=|ILIKE|LIKE|IS\\s+NULL|IS\\s+NOT\\s+NULL)");
-
-    private static final Pattern SAFE_FILTER_PATTERN = Pattern.compile(
-            "(?is)^[A-Za-z0-9_\\s().'%,=<>!+-]+$");
 
     private static final Pattern SORT_PATTERN = Pattern.compile(
             "(?i)^([A-Za-z][A-Za-z0-9_]*)(?:\\s+(ASC|DESC))?$");
@@ -76,7 +69,8 @@ public class WindowRecordRepository extends AbstractRepository {
         MTabQueryDefinition definition = tab.getQueryDefinition();
         GenericRepository.TableSpec table = genericRepository.resolveTable(info, definition.getTableName());
 
-        String sql = buildBaseSelect(info, tab, windowNo, table, query);
+        SafeQueryFilter.Compiled filter = validateFilter(info, table, query != null ? query.getFilter() : null);
+        String sql = buildBaseSelect(info, tab, windowNo, table, filter);
 
         /*
          * El sort explícito tiene prioridad. Si no viene, usamos
@@ -112,6 +106,7 @@ public class WindowRecordRepository extends AbstractRepository {
 
         try {
             statement = DB.prepareStatement(sql, null);
+            bindFilterValues(statement, filter.values);
             result = statement.executeQuery();
 
             while (result.next()) {
@@ -148,7 +143,8 @@ public class WindowRecordRepository extends AbstractRepository {
          * Mismo universo que retrieveRecords(), pero sin ORDER BY
          * ni paginación.
          */
-        String innerSql = buildBaseSelect(info, tab, windowNo, table, query);
+        SafeQueryFilter.Compiled filter = validateFilter(info, table, query != null ? query.getFilter() : null);
+        String innerSql = buildBaseSelect(info, tab, windowNo, table, filter);
         String sql = "SELECT COUNT(*) FROM (" + innerSql + ") tab_records";
 
         PreparedStatement statement = null;
@@ -156,6 +152,7 @@ public class WindowRecordRepository extends AbstractRepository {
 
         try {
             statement = DB.prepareStatement(sql, null);
+            bindFilterValues(statement, filter.values);
             result = statement.executeQuery();
             return result.next() ? result.getInt(1) : 0;
         } catch (Exception e) {
@@ -170,7 +167,7 @@ public class WindowRecordRepository extends AbstractRepository {
     /* =========================== SELECT base =========================== */
 
     private String buildBaseSelect(UserInfo info, MTab tab, int windowNo,
-                                   GenericRepository.TableSpec table, WindowRecordQuery query)
+                                   GenericRepository.TableSpec table, SafeQueryFilter.Compiled userFilter)
             throws ModelException {
 
         MTabQueryDefinition definition = tab.getQueryDefinition();
@@ -185,10 +182,6 @@ public class WindowRecordRepository extends AbstractRepository {
         /*
          * El filtro HTTP es input externo y por eso sí se valida.
          */
-        String userFilter = query != null
-                ? validateFilter(info, table, query.getFilter())
-                : null;
-
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT ").append(table.getTableName()).append(".").append(table.getKeyColumn())
                 .append(" FROM ").append(table.getTableName());
@@ -204,8 +197,8 @@ public class WindowRecordRepository extends AbstractRepository {
          * El filtro del usuario siempre se agrega con AND:
          * puede reducir el universo de CORE, nunca ampliarlo.
          */
-        if (userFilter != null && !userFilter.isEmpty()) {
-            sql.append(hasWhere ? " AND (" : " WHERE (").append(userFilter).append(")");
+        if (!userFilter.values.isEmpty() || !"1=1".equals(userFilter.sql)) {
+            sql.append(hasWhere ? " AND (" : " WHERE (").append(userFilter.sql).append(")");
         }
 
         return MQueryPreparation.applyReadAccess(
@@ -215,52 +208,19 @@ public class WindowRecordRepository extends AbstractRepository {
 
     /* =========================== Filtro HTTP =========================== */
 
-    private String validateFilter(UserInfo info, GenericRepository.TableSpec tableSpec, String filter)
+    private SafeQueryFilter.Compiled validateFilter(UserInfo info, GenericRepository.TableSpec tableSpec, String filter)
             throws ModelException {
-
-        if (filter == null || filter.trim().isEmpty()) {
-            return null;
-        }
-
-        String value = filter.trim();
-
-        if (value.contains(";") || value.contains("--") || value.contains("/*") || value.contains("*/")
-                || !SAFE_FILTER_PATTERN.matcher(value).matches()) {
-            throw new ModelException("Filtro no permitido");
-        }
-
-        Set<String> columns = getTableColumns(info, tableSpec.getTableName());
-        Matcher matcher = FILTER_COLUMN_PATTERN.matcher(value);
-        boolean foundCondition = false;
-
-        while (matcher.find()) {
-            foundCondition = true;
-            String column = matcher.group(1).toLowerCase();
-
-            if (!columns.contains(column)) {
-                throw new ModelException("Columna no valida en filtro: " + matcher.group(1));
-            }
-        }
-
-        if (!foundCondition) {
-            throw new ModelException("Filtro no valido");
-        }
-
-        String padded = " " + value.toUpperCase() + " ";
-        String[] forbidden = {
-                " SELECT ", " INSERT ", " UPDATE ", " DELETE ", " DROP ",
-                " ALTER ", " CREATE ", " UNION ", " JOIN ", " FROM ", " EXISTS "
-        };
-
-        for (String keyword : forbidden) {
-            if (padded.contains(keyword)) {
-                throw new ModelException("Filtro no permitido");
-            }
-        }
-
-        return value;
+        Map<String, String> columns = new HashMap<>();
+        M_Table table = M_Table.get(info.getCtx(), tableSpec.getTableName());
+        for (M_Column column : table.getColumns(false))
+            columns.put(column.getColumnName().toLowerCase(Locale.ROOT), column.getColumnName());
+        return SafeQueryFilter.compile(filter, columns);
     }
 
+    private void bindFilterValues(PreparedStatement statement, List<Object> values) throws java.sql.SQLException {
+        for (int i = 0; i < values.size(); i++)
+            statement.setObject(i + 1, values.get(i));
+    }
 
     /* =========================== Sort HTTP =========================== */
 

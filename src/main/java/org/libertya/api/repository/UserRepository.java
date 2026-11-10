@@ -3,8 +3,12 @@ package org.libertya.api.repository;
 import org.libertya.api.stub.model.User;
 import org.openXpertya.model.PO;
 import org.openXpertya.model.X_AD_User;
+import org.openXpertya.util.DB;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Repository
@@ -24,25 +28,41 @@ public class UserRepository extends AbstractRepository {
     }
 
     public Optional<PO> find(String username, String password, String clientId, String orgId, boolean active) {
-        int[] ids = PO.getAllIDs(
-                X_AD_User.Table_Name,
-                String.format(
-                        " name = '%s' " +
-                            (active ? " and isactive = 'Y' " : "") +
-                            (password!=null ? " and password = '%s' " : " and %s is null") +
-                            " and ad_client_id = %s " +
-                            " and (ad_org_id = %s or (ad_org_id = 0 and %s in (select ad_org_id from ad_org where ad_client_id = %s)))", username, password, clientId, orgId, orgId, clientId),
-                null);
-        if (ids == null || ids.length == 0) {
+        if (username == null || clientId == null || orgId == null)
+            return Optional.empty();
+
+        final int client;
+        final int org;
+        try {
+            client = Integer.parseInt(clientId);
+            org = Integer.parseInt(orgId);
+        } catch (NumberFormatException e) {
             return Optional.empty();
         }
-        try {
-            return Optional.of(getPO(null, X_AD_User.Table_Name, new int[]{ids[0]}, null));
-        } catch (Exception e) {
+
+        String sql = "SELECT AD_User_ID FROM AD_User WHERE Name = ?"
+                + (active ? " AND IsActive = 'Y'" : "")
+                + (password != null ? " AND Password = ?" : "")
+                + " AND AD_Client_ID = ?"
+                + " AND (AD_Org_ID = ? OR (AD_Org_ID = 0"
+                + " AND ? IN (SELECT AD_Org_ID FROM AD_Org WHERE AD_Client_ID = ?)))";
+
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            int p = 1;
+            ps.setString(p++, username);
+            if (password != null)
+                ps.setString(p++, password);
+            ps.setInt(p++, client);
+            ps.setInt(p++, org);
+            ps.setInt(p++, org);
+            ps.setInt(p, client);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    return Optional.empty();
+                return Optional.ofNullable(getPO(null, X_AD_User.Table_Name, new int[]{rs.getInt(1)}, null));
+            }
+        } catch (SQLException | org.libertya.api.exception.AuthException e) {
             return Optional.empty();
         }
     }
-
-
-
 }

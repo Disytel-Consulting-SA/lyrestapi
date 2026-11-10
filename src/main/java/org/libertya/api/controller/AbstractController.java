@@ -55,6 +55,16 @@ public abstract class AbstractController {
             HttpHeaders headers = new HttpHeaders();
             appendHeaderLinks(headers, request);
 
+            // Alias historico documentado: order. El parametro sort prevalece.
+            // Ambos pasan por la misma validacion de ordenamiento del repositorio.
+            if (params == null)
+                params = new QueryParams();
+            if (params.getSort() == null || params.getSort().trim().isEmpty()) {
+                String order = request.getParameter("order");
+                if (order != null && !order.trim().isEmpty())
+                    params.setSort(order);
+            }
+
             UserInfo info = jwt.infoOf(request);
             List<T> entities = retrieveAll.perform(info, params);
 
