@@ -65,14 +65,17 @@ public class NativeReportGenerator {
         }
 
         MQuery query = new MQuery(tableName);
-        // Mismas restricciones de lectura que los listados de la REST API.
-        if (user.getClientID() > 0) {
-            query.addRestriction("AD_Client_ID IN (0, " + user.getClientID() + ")");
+        // Calificar columnas de seguridad: el formato puede incorporar JOINs
+        // con tablas que también contienen AD_Client_ID y AD_Org_ID.
+        String clientWhere = role.getClientWhere(false);
+        if (clientWhere != null && !clientWhere.trim().isEmpty()) {
+            query.addRestriction("(" + clientWhere.replaceAll("(?i)\\bAD_Client_ID\\b",
+                    tableName + ".AD_Client_ID") + ")");
         }
-        query.addRestriction("(" + role.getClientWhere(false) + ")");
         String orgWhere = role.getOrgWhere(false);
         if (orgWhere != null && !orgWhere.trim().isEmpty()) {
-            query.addRestriction("(" + orgWhere + ")");
+            query.addRestriction("(" + orgWhere.replaceAll("(?i)\\bAD_Org_ID\\b",
+                    tableName + ".AD_Org_ID") + ")");
         }
         query.addRestriction(RecordAccessFilter.where(role, table, tableName));
         Map<String, String> values = request == null ? null : request.getValues();
