@@ -6,6 +6,9 @@ import org.libertya.api.exception.AuthException;
 import org.libertya.api.security.JWTUtils;
 import org.libertya.api.stub.model.ProcessExecuteRequest;
 import org.libertya.api.util.NativeReportGenerator;
+import org.libertya.api.util.JasperReportGenerator;
+import org.openXpertya.model.MProcess;
+import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -20,8 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Informes nativos síncronos. Los reportes Jasper se incorporarán luego.
- * Se exige rol explícito para evitar consultas de informes sin autorización.
+ * Informes síncronos PDF. CORE determina la definición del proceso;
+ * la REST API solo devuelve el resultado del motor correspondiente.
  */
 @RestController
 @RequiredArgsConstructor
@@ -45,7 +48,15 @@ public class ProcessReportController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         try {
-            byte[] pdf = new NativeReportGenerator().generate(info, id, body);
+            Properties ctx = new Properties();
+            ctx.putAll(info.getCtx());
+            MProcess process = MProcess.get(ctx, id);
+            if (process == null || process.getID() <= 0 || !process.isActive() || !process.isReport()) {
+                throw new IllegalArgumentException("No existe un informe activo AD_Process_ID=" + id);
+            }
+            byte[] pdf = process.isJasperReport()
+                    ? new JasperReportGenerator().generate(info, id, body)
+                    : new NativeReportGenerator().generate(info, id, body);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"reporte-" + id + ".pdf\"")
