@@ -54,7 +54,7 @@ public class ProcessReportController {
             if (process == null || process.getID() <= 0 || !process.isActive() || !process.isReport()) {
                 throw new IllegalArgumentException("No existe un informe activo AD_Process_ID=" + id);
             }
-            byte[] pdf = process.isJasperReport()
+            byte[] pdf = isJasperConfigured(process)
                     ? new JasperReportGenerator().generate(info, id, body)
                     : new NativeReportGenerator().generate(info, id, body);
             return ResponseEntity.ok()
@@ -72,4 +72,12 @@ public class ProcessReportController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    private static boolean isJasperConfigured(MProcess process) {
+        String jasper = process.getJasperReport();
+        return process.isJasperReport()
+                || (process.isDynamicReport() && jasper != null
+                    && !jasper.trim().isEmpty()
+                    && !jasper.toLowerCase(java.util.Locale.ROOT).contains("xls"));
+    }
 }
+
