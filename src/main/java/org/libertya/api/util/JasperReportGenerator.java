@@ -65,6 +65,26 @@ public class JasperReportGenerator {
 
         Map<String, String> values = request == null ? null : request.getValues();
         Map<String, String> valuesTo = request == null ? null : request.getValuesTo();
+
+        // No permitir que un cliente seleccione una organización fuera de su rol.
+        // La validación precede a la creación de AD_PInstance y a la ejecución de Jasper.
+        if (values != null && values.containsKey("AD_Org_ID")) {
+            String orgValue = values.get("AD_Org_ID");
+            if (orgValue != null && !orgValue.trim().isEmpty()) {
+                final int orgId;
+                try {
+                    orgId = new BigDecimal(orgValue.trim()).intValueExact();
+                } catch (ArithmeticException e) {
+                    throw new IllegalArgumentException("AD_Org_ID inválido: " + orgValue, e);
+                }
+                if (orgId < 0) {
+                    throw new IllegalArgumentException("AD_Org_ID inválido: " + orgValue);
+                }
+                if (!role.isOrgAccess(orgId, false)) {
+                    throw new SecurityException("Acceso no autorizado a la organización " + orgId);
+                }
+            }
+        }
         List<ProcessInfoParameter> parameters = new ArrayList<>();
         Map<String, String> jasperTypes = readJasperParameterTypes(process, jasper);
 
