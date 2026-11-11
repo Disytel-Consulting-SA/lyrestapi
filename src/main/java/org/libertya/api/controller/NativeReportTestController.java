@@ -3,11 +3,8 @@ package org.libertya.api.controller;
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.common.UserInfo;
 import org.libertya.api.security.JWTUtils;
-import org.openXpertya.model.MQuery;
-import org.openXpertya.model.M_Table;
-import org.openXpertya.model.PrintInfo;
-import org.openXpertya.print.MPrintFormat;
-import org.openXpertya.print.ReportEngine;
+import org.libertya.api.stub.model.ProcessExecuteRequest;
+import org.libertya.api.util.NativeReportGenerator;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,54 +13,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Properties;
+import java.util.Collections;
 
 /**
- * Prueba aislada del motor de impresión nativo.
- *
- * Endpoint temporal de diagnóstico, disponible en la rama de pruebas.
- * NO habilitar en ambientes productivos: faltan controles de autorización
- * por registro y restricciones adicionales del reporteador.
+ * Endpoint temporal de diagnóstico. No publicar en producción:
+ * la autorización de informes y de sus registros todavía está pendiente.
  */
 @RestController
 @RequestMapping("/api/test")
 @RequiredArgsConstructor
 public class NativeReportTestController {
 
-    private static final int PRINT_FORMAT_ID = 1011063;
+    private static final int PROCESS_ID = 1000157;
     private static final int BANK_ACCOUNT_ID = 1010455;
 
     private final JWTUtils jwt;
     private final HttpServletRequest request;
 
     @GetMapping(value = "/native-report", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> generate() throws Exception {
+    public ResponseEntity<byte[]> generate() {
         UserInfo user = jwt.infoOf(request);
-        Properties ctx = new Properties();
-        ctx.putAll(user.getCtx());
 
-        MPrintFormat format = MPrintFormat.get(ctx, PRINT_FORMAT_ID, true);
-        if (format == null || format.getID() <= 0) {
-            throw new IllegalStateException("No se encontró el formato de impresión " + PRINT_FORMAT_ID);
-        }
-
-        String tableName = M_Table.getTableName(ctx, format.getAD_Table_ID());
-        if (tableName == null || tableName.trim().isEmpty()) {
-            throw new IllegalStateException("No se encontró la tabla asociada al formato");
-        }
-
-        MQuery query = new MQuery(tableName);
-        query.addRestriction("C_BankAccount_ID", MQuery.EQUAL, BANK_ACCOUNT_ID);
-
-        PrintInfo printInfo = new PrintInfo(format.getName(), format.getAD_Table_ID(), 0);
-        ReportEngine engine = new ReportEngine(ctx, format, query, printInfo);
-        byte[] pdf = engine.createPDFData();
-
-        if (pdf == null || pdf.length < 5
-                || pdf[0] != '%' || pdf[1] != 'P' || pdf[2] != 'D'
-                || pdf[3] != 'F' || pdf[4] != '-') {
-            throw new IllegalStateException("El reporteador no devolvió un PDF válido");
-        }
+        ProcessExecuteRequest parameters = new ProcessExecuteRequest()
+                .values(Collections.singletonMap("C_BankAccount_ID", String.valueOf(BANK_ACCOUNT_ID)));
+        byte[] pdf = new NativeReportGenerator().generate(user, PROCESS_ID, parameters);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
