@@ -39,10 +39,6 @@ public class NativeReportTestController {
     @GetMapping(value = "/native-report", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> generate() throws Exception {
         UserInfo user = jwt.infoOf(request);
-        if (!user.hasRole()) {
-            throw new SecurityException("La prueba requiere un rol autenticado");
-        }
-
         Properties ctx = new Properties();
         ctx.putAll(user.getCtx());
 
