@@ -1,8 +1,11 @@
 package org.libertya.api.util;
 
 import org.libertya.api.common.UserInfo;
+import org.libertya.api.security.RecordAccessFilter;
+import org.libertya.api.exception.AuthException;
 import org.libertya.api.stub.model.ProcessExecuteRequest;
 import org.openXpertya.model.MProcess;
+import org.openXpertya.model.MRole;
 import org.openXpertya.model.MProcessPara;
 import org.openXpertya.model.MQuery;
 import org.openXpertya.model.M_Table;
@@ -22,7 +25,7 @@ import java.util.Properties;
  */
 public class NativeReportGenerator {
 
-    public byte[] generate(UserInfo user, int processId, ProcessExecuteRequest request) {
+    public byte[] generate(UserInfo user, int processId, ProcessExecuteRequest request) throws AuthException {
         Properties ctx = new Properties();
         ctx.putAll(user.getCtx());
 
@@ -47,7 +50,31 @@ public class NativeReportGenerator {
             throw new IllegalStateException("No se encontró la tabla del formato de impresión");
         }
 
+        // Los informes consultan conjuntos de registros: JWT no basta.
+        if (!user.hasRole()) {
+            throw new SecurityException("Se requiere un token con rol para generar informes");
+        }
+        MRole role = MRole.get(ctx, user.getRoleID(), user.getUserID(), false);
+        if (role == null || role.getProcessAccess(processId) == null
+                || !role.isTableAccess(format.getAD_Table_ID(), true)) {
+            throw new SecurityException("Acceso no autorizado al proceso o a la tabla del informe");
+        }
+        M_Table table = M_Table.get(ctx, tableName);
+        if (table == null) {
+            throw new IllegalStateException("No se encontraron metadatos de la tabla del informe");
+        }
+
         MQuery query = new MQuery(tableName);
+        // Mismas restricciones de lectura que los listados de la REST API.
+        if (user.getClientID() > 0) {
+            query.addRestriction("AD_Client_ID IN (0, " + user.getClientID() + ")");
+        }
+        query.addRestriction("(" + role.getClientWhere(false) + ")");
+        String orgWhere = role.getOrgWhere(false);
+        if (orgWhere != null && !orgWhere.trim().isEmpty()) {
+            query.addRestriction("(" + orgWhere + ")");
+        }
+        query.addRestriction(RecordAccessFilter.where(role, table, tableName));
         Map<String, String> values = request == null ? null : request.getValues();
         Map<String, String> valuesTo = request == null ? null : request.getValuesTo();
 
@@ -64,6 +91,14 @@ public class NativeReportGenerator {
                 if (values != null && values.containsKey(entry.getKey())) continue;
                 MProcessPara parameter = requireParameter(process, entry.getKey());
                 apply(query, parameter, null, ProcessExecutor.convert(process, entry.getKey(), entry.getValue()));
+            }
+        }
+
+        for (MProcessPara parameter : process.getParameters()) {
+            if (!parameter.isMandatory()) continue;
+            String value = values == null ? null : values.get(parameter.getColumnName());
+            if (value == null || value.trim().isEmpty()) {
+                throw new IllegalArgumentException("Falta parámetro obligatorio: " + parameter.getColumnName());
             }
         }
 
