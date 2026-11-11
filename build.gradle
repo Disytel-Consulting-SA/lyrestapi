@@ -22,7 +22,7 @@ dependencies {
 	def OXPLIBS = System.getenv("OXP_HOME")
 	implementation files("$OXPLIBS/lib/OXP.jar")
 	implementation files("$OXPLIBS/lib/OXPXLib.jar")
-	compileOnly files("libs/JasperReports-ngroovy.jar")
+	implementation files("libs/JasperReports-ngroovy.jar")
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
