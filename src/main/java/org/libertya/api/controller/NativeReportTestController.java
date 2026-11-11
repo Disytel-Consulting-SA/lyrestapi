@@ -8,7 +8,6 @@ import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PrintInfo;
 import org.openXpertya.print.MPrintFormat;
 import org.openXpertya.print.ReportEngine;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +21,11 @@ import java.util.Properties;
 /**
  * Prueba aislada del motor de impresión nativo.
  *
- * Solo se registra al activar explícitamente el perfil "prueba-reportes".
+ * Endpoint temporal de diagnóstico, disponible en la rama de pruebas.
  * NO habilitar en ambientes productivos: faltan controles de autorización
  * por registro y restricciones adicionales del reporteador.
  */
 @RestController
-@Profile("prueba-reportes")
 @RequestMapping("/api/test")
 @RequiredArgsConstructor
 public class NativeReportTestController {
