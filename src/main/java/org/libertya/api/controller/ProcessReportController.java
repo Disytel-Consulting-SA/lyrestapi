@@ -37,17 +37,20 @@ public class ProcessReportController {
     public ResponseEntity<byte[]> generateProcessReport(
             @PathVariable("id") Integer id,
             @RequestBody(required = false) ProcessExecuteRequest body) {
+        UserInfo info;
         try {
-            UserInfo info = jwt.infoOf(request);
+            info = jwt.infoOf(request);
+        } catch (AuthException e) {
+            log.warn("Autenticación inválida para informe {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        try {
             byte[] pdf = new NativeReportGenerator().generate(info, id, body);
             return ResponseEntity.ok()
                     .contentType(MediaType.APPLICATION_PDF)
                     .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"reporte-" + id + ".pdf\"")
                     .body(pdf);
-        } catch (AuthException e) {
-            log.warn("Autenticación o acceso al informe {}: {}", id, e.getMessage());
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        } catch (SecurityException e) {
+        } catch (AuthException | SecurityException e) {
             log.warn("Acceso denegado al informe {}: {}", id, e.getMessage());
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } catch (IllegalArgumentException e) {
