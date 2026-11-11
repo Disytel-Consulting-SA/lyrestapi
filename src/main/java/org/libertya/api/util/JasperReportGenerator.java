@@ -160,7 +160,7 @@ public class JasperReportGenerator {
             if (xml == null) return types;
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            // Los JRXML antiguos incluyen DOCTYPE; permitirlo sin resolver DTD ni entidades externas.
             factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
             factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
             factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
