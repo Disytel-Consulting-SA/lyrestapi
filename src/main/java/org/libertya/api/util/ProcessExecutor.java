@@ -60,7 +60,7 @@ public class ProcessExecutor {
         return new ProcessExecuteResponse().processInstanceId(pi.getAD_PInstance_ID()).success(!pi.isError()).summary(pi.getSummary());
     }
 
-    private Object convert(MProcess process, String columnName, String value) {
+    static Object convert(MProcess process, String columnName, String value) {
         MProcessPara parameter = process.getParameter(columnName);
         if (parameter == null) throw new IllegalArgumentException("Parametro ajeno al proceso: " + columnName);
         if (value == null || value.isEmpty()) return null;
