@@ -2,6 +2,7 @@ package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.libertya.api.common.UserInfo;
+import org.libertya.api.exception.AuthException;
 import org.libertya.api.security.JWTUtils;
 import org.libertya.api.stub.model.ProcessExecuteRequest;
 import org.libertya.api.util.NativeReportGenerator;
@@ -31,7 +32,7 @@ public class NativeReportTestController {
     private final HttpServletRequest request;
 
     @GetMapping(value = "/native-report", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> generate() {
+    public ResponseEntity<byte[]> generate() throws AuthException {
         UserInfo user = jwt.infoOf(request);
 
         ProcessExecuteRequest parameters = new ProcessExecuteRequest()
