@@ -11,7 +11,6 @@ import org.openXpertya.print.MPrintFormat;
 import org.openXpertya.print.ReportEngine;
 import org.openXpertya.util.DisplayType;
 
-import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Properties;
 
@@ -55,8 +54,8 @@ public class NativeReportGenerator {
         if (values != null) {
             for (Map.Entry<String, String> entry : values.entrySet()) {
                 MProcessPara parameter = requireParameter(process, entry.getKey());
-                Object from = convert(parameter, entry.getValue());
-                Object to = valuesTo == null ? null : convert(parameter, valuesTo.get(entry.getKey()));
+                Object from = ProcessExecutor.convert(process, entry.getKey(), entry.getValue());
+                Object to = valuesTo == null ? null : ProcessExecutor.convert(process, entry.getKey(), valuesTo.get(entry.getKey()));
                 apply(query, parameter, from, to);
             }
         }
@@ -64,7 +63,7 @@ public class NativeReportGenerator {
             for (Map.Entry<String, String> entry : valuesTo.entrySet()) {
                 if (values != null && values.containsKey(entry.getKey())) continue;
                 MProcessPara parameter = requireParameter(process, entry.getKey());
-                apply(query, parameter, null, convert(parameter, entry.getValue()));
+                apply(query, parameter, null, ProcessExecutor.convert(process, entry.getKey(), entry.getValue()));
             }
         }
 
@@ -83,30 +82,6 @@ public class NativeReportGenerator {
             throw new IllegalArgumentException("Parámetro ajeno al proceso: " + column);
         }
         return parameter;
-    }
-
-    private Object convert(MProcessPara parameter, String value) {
-        if (value == null || value.isEmpty()) return null;
-        int type = parameter.getAD_Reference_ID();
-        try {
-            if (type == DisplayType.YesNo) {
-                return ("Y".equalsIgnoreCase(value) || "true".equalsIgnoreCase(value)) ? "Y" : "N";
-            }
-            if (DisplayType.isID(type) || type == DisplayType.Integer) {
-                return new java.math.BigDecimal(value).intValueExact();
-            }
-            if (DisplayType.isNumeric(type)) return new java.math.BigDecimal(value);
-            if (type == DisplayType.Date || type == DisplayType.DateTime || type == DisplayType.Time) {
-                if (value.endsWith("Z")) return Timestamp.from(java.time.Instant.parse(value));
-                if (value.length() == 10) {
-                    return Timestamp.valueOf(java.time.LocalDate.parse(value).atStartOfDay());
-                }
-                return Timestamp.valueOf(value.replace('T', ' '));
-            }
-            return value;
-        } catch (RuntimeException e) {
-            throw new IllegalArgumentException("Valor inválido para " + parameter.getColumnName(), e);
-        }
     }
 
     private void apply(MQuery query, MProcessPara parameter, Object from, Object to) {
