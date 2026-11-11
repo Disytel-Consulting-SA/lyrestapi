@@ -1,0 +1,29 @@
+post:
+  summary: Genera un informe de Libertya en PDF
+  description: >
+    Genera sincrónicamente un informe asociado al proceso indicado.
+    Reutiliza la estructura de parámetros de ejecución de procesos,
+    incluidos los valores de rango. La respuesta exitosa es el PDF binario.
+  tags: [ "processreport" ]
+  operationId: generateProcessReport
+  parameters:
+    - { name: id, in: path, description: ID del proceso, required: true, schema: { type: integer } }
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          $ref: '../model/processexecute.yaml#/components/schemas/ProcessExecuteRequest'
+  responses:
+    "200":
+      description: Informe generado correctamente
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    "400": { description: Parámetros inválidos o proceso incompatible }
+    "401": { description: Autenticación requerida }
+    "403": { description: Sin autorización para acceder al informe }
+    "404": { description: Proceso o registro origen inexistente }
+    "500": { description: Error durante la generación del informe }
