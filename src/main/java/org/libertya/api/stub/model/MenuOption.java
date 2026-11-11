@@ -29,7 +29,9 @@ public class MenuOption   {
   public enum TypeEnum {
     WINDOW("window"),
     
-    PROCESS("process");
+    PROCESS("process"),
+
+    REPORT("report");
 
     private String value;
 
