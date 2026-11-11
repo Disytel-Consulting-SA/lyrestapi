@@ -33,7 +33,11 @@ public class JasperReportGenerator {
         if (process == null || process.getID() <= 0 || !process.isActive()) {
             throw new IllegalArgumentException("No existe el proceso activo AD_Process_ID=" + processId);
         }
-        if (!process.isReport() || !process.isJasperReport()) {
+        String jasper = process.getJasperReport();
+        boolean dynamicJasper = process.isDynamicReport() && jasper != null
+                && !jasper.trim().isEmpty()
+                && !jasper.toLowerCase(java.util.Locale.ROOT).contains("xls");
+        if (!process.isReport() || (!process.isJasperReport() && !dynamicJasper)) {
             throw new IllegalArgumentException("El proceso no es un informe Jasper: " + processId);
         }
         if (!user.hasRole()) {
