@@ -126,7 +126,7 @@ public class NativeReportGenerator {
      * del formato, la cláusula WhereClause y el armado de la consulta por parámetros.
      */
     private byte[] generateFromReportView(Properties ctx, UserInfo user, MProcess process,
-                                          ProcessExecuteRequest request) {
+                                          ProcessExecuteRequest request) throws AuthException {
         int processId = process.getAD_Process_ID();
         if (!user.hasRole()) {
             throw new SecurityException("Se requiere un token con rol para generar informes");
