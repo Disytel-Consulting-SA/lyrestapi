@@ -42,6 +42,8 @@ public class DynamicLookupResolver {
         boolean hasValue = value != null && !value.trim().isEmpty();
         String validationCode = resolveValidationCode(info, column, contextValues);
         String referenceWhereClause = resolveReferenceClause(info, referenceInfo.whereClause, contextValues);
+        if (!hasValue && (isUnresolved(column.validationCode, validationCode)
+                || isUnresolved(referenceInfo.whereClause, referenceWhereClause))) return new ArrayList<>();
 
         /*
          * Sólo filtramos por client si:
@@ -222,6 +224,7 @@ public class DynamicLookupResolver {
         boolean hasValue = value != null && !value.trim().isEmpty();
         boolean hasClientFilter = shouldFilterByClient(info, tableName);
         String validationCode = resolveValidationCode(info, column, contextValues);
+        if (!hasValue && isUnresolved(column.validationCode, validationCode)) return new ArrayList<>();
 
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ").append(tableName).append(".").append(lookupInfo.keyColumn).append(" AS lookup_value, ");
@@ -353,6 +356,8 @@ public class DynamicLookupResolver {
 
         Properties ctx = new Properties();
         ctx.putAll(info.getCtx());
+        Env.setContext(ctx, 0, "AD_Client_ID", String.valueOf(info.getClientID()));
+        Env.setContext(ctx, 0, "AD_Org_ID", String.valueOf(info.getOrgID()));
 
         if (contextValues != null) {
             for (Map.Entry<String, String> entry : contextValues.entrySet()) {
@@ -376,7 +381,11 @@ public class DynamicLookupResolver {
         if (clause == null || clause.trim().isEmpty()) return null;
 
         Properties ctx = new Properties();
-        if (info != null) ctx.putAll(info.getCtx());
+        if (info != null) {
+            ctx.putAll(info.getCtx());
+            Env.setContext(ctx, 0, "AD_Client_ID", String.valueOf(info.getClientID()));
+            Env.setContext(ctx, 0, "AD_Org_ID", String.valueOf(info.getOrgID()));
+        }
 
         if (contextValues != null) {
             for (Map.Entry<String, String> entry : contextValues.entrySet()) {
@@ -390,6 +399,16 @@ public class DynamicLookupResolver {
         if (resolved == null || resolved.trim().isEmpty() || resolved.indexOf('@') >= 0) return null;
 
         return resolved.trim();
+    }
+
+    /**
+     * Una regla configurada que no se pudo resolver no debe transformarse
+     * silenciosamente en una consulta sin restricciones.
+     * La resolución puntual por ID se conserva para mostrar valores existentes.
+     */
+    private boolean isUnresolved(String configuredClause, String resolvedClause) {
+        return configuredClause != null && !configuredClause.trim().isEmpty()
+                && (resolvedClause == null || resolvedClause.trim().isEmpty());
     }
 
     /**
