@@ -7,6 +7,9 @@ import org.libertya.api.stub.model.ProcessExecuteRequest;
 import org.openXpertya.model.MProcess;
 import org.openXpertya.model.MRole;
 import org.openXpertya.model.MProcessPara;
+import org.openXpertya.model.MPInstance;
+import org.openXpertya.model.MPInstancePara;
+import org.openXpertya.process.ProcessInfo;
 import org.openXpertya.model.MQuery;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.model.PrintInfo;
@@ -36,8 +39,11 @@ public class NativeReportGenerator {
         if (!process.isReport() || process.isJasperReport()) {
             throw new IllegalArgumentException("El proceso no es un informe nativo: " + processId);
         }
+        if (process.getAD_PrintFormat_ID() <= 0 && process.getAD_ReportView_ID() > 0) {
+            return generateFromReportView(ctx, user, process, request);
+        }
         if (process.getAD_PrintFormat_ID() <= 0) {
-            throw new IllegalArgumentException("El proceso no tiene formato de impresión: " + processId);
+            throw new IllegalArgumentException("El proceso no tiene formato de impresión ni vista de reporte: " + processId);
         }
 
         MPrintFormat format = MPrintFormat.get(ctx, process.getAD_PrintFormat_ID(), true);
@@ -107,6 +113,117 @@ public class NativeReportGenerator {
 
         PrintInfo printInfo = new PrintInfo(format.getName(), format.getAD_Table_ID(), 0);
         byte[] pdf = new ReportEngine(ctx, format, query, printInfo).createPDFData();
+        if (pdf == null || pdf.length < 5 || pdf[0] != '%' || pdf[1] != 'P'
+                || pdf[2] != 'D' || pdf[3] != 'F' || pdf[4] != '-') {
+            throw new IllegalStateException("El reporteador no devolvió un PDF válido");
+        }
+        return pdf;
+    }
+
+
+    /**
+     * Reportes definidos por AD_ReportView: delegar a CORE la elección o creación
+     * del formato, la cláusula WhereClause y el armado de la consulta por parámetros.
+     */
+    private byte[] generateFromReportView(Properties ctx, UserInfo user, MProcess process,
+                                          ProcessExecuteRequest request) {
+        int processId = process.getAD_Process_ID();
+        if (!user.hasRole()) {
+            throw new SecurityException("Se requiere un token con rol para generar informes");
+        }
+        MRole role = MRole.get(ctx, user.getRoleID(), user.getUserID(), false);
+        if (role == null || role.getProcessAccess(processId) == null) {
+            throw new SecurityException("Acceso no autorizado al informe " + processId);
+        }
+        if (request != null && (request.getRecordId() != null
+                || (request.getTable() != null && !request.getTable().trim().isEmpty()))) {
+            throw new IllegalArgumentException("No se admite ejecutar este informe por registro");
+        }
+
+        Map<String, String> values = request == null ? null : request.getValues();
+        Map<String, String> valuesTo = request == null ? null : request.getValuesTo();
+        for (MProcessPara parameter : process.getParameters()) {
+            if (!parameter.isMandatory()) continue;
+            String value = values == null ? null : values.get(parameter.getColumnName());
+            if (value == null || value.trim().isEmpty()) {
+                throw new IllegalArgumentException("Falta parámetro obligatorio: " + parameter.getColumnName());
+            }
+        }
+
+        // Validar todos los parámetros antes de crear registros persistentes.
+        java.util.Map<String, Object[]> converted = new java.util.LinkedHashMap<>();
+        java.util.Set<String> names = new java.util.LinkedHashSet<>();
+        if (values != null) names.addAll(values.keySet());
+        if (valuesTo != null) names.addAll(valuesTo.keySet());
+        for (String name : names) {
+            MProcessPara parameter = requireParameter(process, name);
+            String fromText = values == null ? null : values.get(name);
+            String toText = valuesTo == null ? null : valuesTo.get(name);
+            Object from = ProcessExecutor.convert(process, name, fromText);
+            Object to = ProcessExecutor.convert(process, name, toText);
+            if (to != null && !parameter.isRange()) {
+                throw new IllegalArgumentException("El parámetro no admite rango: " + name);
+            }
+            if ("AD_Org_ID".equalsIgnoreCase(name) && from != null) {
+                int orgId = new java.math.BigDecimal(from.toString()).intValueExact();
+                if (orgId < 0 || !role.isOrgAccess(orgId, false)) {
+                    throw new SecurityException("Acceso no autorizado a la organización " + orgId);
+                }
+            }
+            if (from != null || to != null) converted.put(name, new Object[]{parameter, from, to});
+        }
+
+        MPInstance instance = new MPInstance(ctx, processId, 0, null);
+        if (!instance.save()) {
+            throw new IllegalStateException("No se pudo crear AD_PInstance para el informe " + processId);
+        }
+        int seq = 10;
+        for (java.util.Map.Entry<String, Object[]> entry : converted.entrySet()) {
+            MProcessPara parameter = (MProcessPara) entry.getValue()[0];
+            MPInstancePara instancePara = new MPInstancePara(instance, seq);
+            instancePara.setParameterName(entry.getKey());
+            if (entry.getValue()[1] != null) {
+                instancePara.setParameter(parameter.getAD_Reference_ID(), entry.getValue()[1], false);
+            }
+            if (entry.getValue()[2] != null) {
+                instancePara.setParameter(parameter.getAD_Reference_ID(), entry.getValue()[2], true);
+            }
+            if (!instancePara.save()) {
+                throw new IllegalStateException("No se pudo guardar el parámetro " + entry.getKey());
+            }
+            seq += 10;
+        }
+
+        ProcessInfo pi = new ProcessInfo(process.getName(), processId);
+        pi.setAD_PInstance_ID(instance.getID());
+        // setQuery=false evita consultar datos antes de incorporar filtros de seguridad.
+        ReportEngine engine = ReportEngine.get(ctx, pi, false);
+        if (engine == null) {
+            throw new IllegalStateException("CORE no pudo resolver el formato de la vista del informe " + processId);
+        }
+        MPrintFormat format = engine.getPrintFormat();
+        M_Table table = M_Table.get(ctx, format.getAD_Table_ID());
+        if (table == null || !role.isTableAccess(format.getAD_Table_ID(), true)) {
+            throw new SecurityException("Acceso no autorizado a la tabla del informe");
+        }
+        String tableName = M_Table.getTableName(ctx, format.getAD_Table_ID());
+        MQuery query = engine.getQuery();
+        if (query == null || tableName == null || tableName.trim().isEmpty()) {
+            throw new IllegalStateException("No se pudo construir la consulta del informe");
+        }
+        String clientWhere = role.getClientWhere(false);
+        if (clientWhere != null && !clientWhere.trim().isEmpty()) {
+            query.addRestriction("(" + clientWhere.replaceAll("(?i)\\bAD_Client_ID\\b",
+                    tableName + ".AD_Client_ID") + ")");
+        }
+        String orgWhere = role.getOrgWhere(false);
+        if (orgWhere != null && !orgWhere.trim().isEmpty()) {
+            query.addRestriction("(" + orgWhere.replaceAll("(?i)\\bAD_Org_ID\\b",
+                    tableName + ".AD_Org_ID") + ")");
+        }
+        query.addRestriction(RecordAccessFilter.where(role, table, tableName));
+        engine.setQuery(query);
+        byte[] pdf = engine.createPDFData();
         if (pdf == null || pdf.length < 5 || pdf[0] != '%' || pdf[1] != 'P'
                 || pdf[2] != 'D' || pdf[3] != 'F' || pdf[4] != '-') {
             throw new IllegalStateException("El reporteador no devolvió un PDF válido");
