@@ -18,7 +18,7 @@ public class MenuOptionsRepository {
         String effectiveLanguage = language != null && !language.trim().isEmpty() ? language.trim() : DEFAULT_LANGUAGE;
 
         String sql =
-                "SELECT m.ad_menu_id, COALESCE(mt.name,m.name) AS name, m.ad_window_id, m.ad_process_id " +
+                "SELECT m.ad_menu_id, COALESCE(mt.name,m.name) AS name, m.ad_window_id, m.ad_process_id, p.isreport " +
                 "FROM ad_menu m " +
                 "LEFT JOIN ad_menu_trl mt ON mt.ad_menu_id=m.ad_menu_id AND mt.ad_language=? " +
                 /*
@@ -40,7 +40,7 @@ public class MenuOptionsRepository {
                 "LEFT JOIN ad_process_access pa ON pa.ad_process_id=m.ad_process_id AND pa.ad_role_id=? AND pa.isactive='Y' " +
                 "WHERE m.isactive='Y' AND (" +
                 " (m.ad_window_id IS NOT NULL AND wa.ad_window_id IS NOT NULL) OR " +
-                " (m.ad_process_id IS NOT NULL AND p.isactive='Y' AND p.isreport='N' AND pa.ad_process_id IS NOT NULL)" +
+                " (m.ad_process_id IS NOT NULL AND p.isactive='Y' AND pa.ad_process_id IS NOT NULL)" +
                 ") ORDER BY COALESCE(mt.name,m.name)";
 
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
@@ -60,7 +60,7 @@ public class MenuOptionsRepository {
                                 .type(MenuOption.TypeEnum.WINDOW).targetId(windowId));
                     } else if (processId != null) {
                         result.add(new MenuOption().adMenuId(rs.getInt("ad_menu_id")).name(rs.getString("name"))
-                                .type(MenuOption.TypeEnum.PROCESS).targetId(processId));
+                                .type("Y".equals(rs.getString("isreport")) ? MenuOption.TypeEnum.REPORT : MenuOption.TypeEnum.PROCESS).targetId(processId));
                     }
                 }
                 return result;
