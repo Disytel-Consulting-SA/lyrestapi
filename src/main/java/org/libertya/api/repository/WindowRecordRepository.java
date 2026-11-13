@@ -125,9 +125,16 @@ public class WindowRecordRepository extends AbstractRepository {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar al menos un campo para actualizar");
         withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
-            requireParentContext(info, tab, parentValues);
+            ParentLink parent = requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
+            verifyParentLink(info, spec, recordId, parent);
+            if (parent != null) {
+                for (String field : values.keySet()) {
+                    if (parent.key.equalsIgnoreCase(field))
+                        throw new AuthException("No se permite cambiar la referencia al padre desde esta pestaña");
+                }
+            }
             genericRepository.updateRecord(info, spec.getTableName(), recordId, values);
             return null;
         });
@@ -137,9 +144,10 @@ public class WindowRecordRepository extends AbstractRepository {
             Map<String, String> parentValues)
             throws ModelException, NotFoundException, AuthException {
         withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
-            requireParentContext(info, tab, parentValues);
+            ParentLink parent = requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
+            verifyParentLink(info, spec, recordId, parent);
             genericRepository.deleteRecord(info, spec.getTableName(), recordId);
             return null;
         });
@@ -149,10 +157,10 @@ public class WindowRecordRepository extends AbstractRepository {
      * Un detalle no puede evaluarse con contexto padre ausente: las
      * expresiones de CORE podrían quedar sin resolver o ampliar el filtro.
      */
-    private void requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues)
+    private ParentLink requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues)
             throws AuthException, ModelException, NotFoundException {
         if (tab.getTabLevel() <= 0)
-            return;
+            return null;
         if (parentValues == null || parentValues.isEmpty())
             throw new AuthException("Se requiere contexto del registro padre para operar en una pestaña detalle");
 
@@ -203,6 +211,42 @@ public class WindowRecordRepository extends AbstractRepository {
         }
         if (!genericRepository.retrieveRecord(info, parentSpec.getTableName(), parentId, parentKey).isPresent())
             throw new AuthException("El registro padre no existe o no es accesible");
+        return new ParentLink(parentKey, parentId);
+    }
+
+    private static final class ParentLink {
+        final String key;
+        final int id;
+        ParentLink(String key, int id) {
+            this.key = key;
+            this.id = id;
+        }
+    }
+
+    /**
+     * Verificación explícita de la FK padre-hijo. Solo se admiten tablas
+     * con columna directa homónima a la PK del padre; relaciones indirectas
+     * requieren resolución específica y se deniegan por defecto.
+     */
+    private void verifyParentLink(UserInfo info, GenericRepository.TableSpec child,
+            int recordId, ParentLink parent) throws AuthException, ModelException {
+        if (parent == null)
+            return;
+        M_Table childTable = M_Table.get(info.getCtx(), child.getTableName());
+        if (childTable == null || childTable.getColumn(parent.key) == null)
+            throw new AuthException("No se puede verificar la relación directa padre-hijo de esta pestaña");
+        String sql = "SELECT 1 FROM " + child.getTableName()
+                + " WHERE " + child.getKeyColumn() + "=? AND " + parent.key + "=?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, recordId);
+            ps.setInt(2, parent.id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("El registro no pertenece al padre indicado");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error verificando relación padre-hijo: " + e.getMessage());
+        }
     }
 
     private WindowRecordQuery parentQuery(Map<String, String> values) {
