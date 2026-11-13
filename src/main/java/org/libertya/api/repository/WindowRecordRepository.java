@@ -240,7 +240,7 @@ public class WindowRecordRepository extends AbstractRepository {
      * arbitrarias con apariencia de identificadores.
      */
     private void validateWriteParentValues(UserInfo info, int tabId,
-            Map<String, String> values) throws AuthException, ModelException {
+            Map<String, String> values) throws AuthException, ModelException, NotFoundException {
         if (info == null)
             throw new AuthException("Usuario no autenticado");
         String sql = "SELECT p.AD_Table_ID, p.TabLevel FROM AD_Tab c "
