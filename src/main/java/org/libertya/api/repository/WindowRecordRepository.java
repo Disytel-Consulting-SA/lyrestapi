@@ -161,7 +161,18 @@ public class WindowRecordRepository extends AbstractRepository {
                 }
                 insertValues.put(parent.key, parent.id);
             }
-            return genericRepository.insertRecord(info, spec.getTableName(), insertValues, trxName);
+            String createdId = genericRepository.insertRecord(info, spec.getTableName(), insertValues, trxName);
+            // Verificar antes del commit que el registro nuevo resulte
+            // efectivamente visible dentro del universo de esta pestaña.
+            int numericId;
+            try {
+                numericId = Integer.parseInt(createdId);
+            } catch (NumberFormatException ex) {
+                throw new ModelException("La creación contextual requiere una clave primaria numérica simple");
+            }
+            contextualTable(info, tab, windowNo, numericId, trxName);
+            verifyParentLink(info, spec, numericId, parent, trxName);
+            return createdId;
         }));
     }
 
