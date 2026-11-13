@@ -86,6 +86,27 @@ public class WindowSchemaRepository {
     }
 
     /**
+     * Anuncia únicamente operaciones verificables. Los endpoints específicos
+     * conservan su precedencia; no se presupone que implementen PUT/DELETE.
+     */
+    private Map<String, String> resolveCrudEndpoints(String dataEndpoint, String createEndpoint,
+            GenericRepository.TableSpec genericSpec, boolean readOnly, boolean insertRecord) {
+        Map<String, String> endpoints = new LinkedHashMap<>();
+        if (dataEndpoint == null)
+            return endpoints;
+
+        endpoints.put("GET", dataEndpoint);
+        if (!readOnly && insertRecord)
+            endpoints.put("POST", createEndpoint != null ? createEndpoint : dataEndpoint);
+
+        if (!readOnly && genericSpec != null && !genericSpec.isView() && genericSpec.hasStandardKey()) {
+            endpoints.put("PUT", dataEndpoint + "/{id}");
+            endpoints.put("DELETE", dataEndpoint + "/{id}");
+        }
+        return endpoints;
+    }
+
+    /**
      * Mantiene compatibilidad con llamadas sin contexto ni idioma.
      */
     public WindowSchema retrieve(Integer windowId) {
@@ -282,6 +303,9 @@ public class WindowSchemaRepository {
                     if (genericSpec != null)
                         dataEndpoint = "/v1.0/generic/" + genericSpec.getTableName();
 
+                    boolean readOnly = "Y".equals(rs.getString("tab_isreadonly"));
+                    boolean insertRecord = "Y".equals(rs.getString("tab_isinsertrecord"));
+
                     currentTab = new WindowSchemaTab()
                             .adTabId(tabId)
                             .name(rs.getString("tab_name"))
@@ -290,12 +314,13 @@ public class WindowSchemaRepository {
                             .tablevel(tablevel)
                             .whereclause(rs.getString("tab_whereclause"))
                             .orderbyclause(rs.getString("tab_orderbyclause"))
-                            .isreadonly("Y".equals(rs.getString("tab_isreadonly")))
-                            .isinsertrecord("Y".equals(rs.getString("tab_isinsertrecord")))
+                            .isreadonly(readOnly)
+                            .isinsertrecord(insertRecord)
                             .adTableId(rs.getInt("ad_table_id"))
                             .tablename(tableName)
                             .dataEndpoint(dataEndpoint)
                             .createEndpoint(createEndpoint)
+                            .crudEndpoints(resolveCrudEndpoints(dataEndpoint, createEndpoint, genericSpec, readOnly, insertRecord))
                             .pkColumns(getPkColumns(tableName, dataEndpoint, genericSpec));
 
                     /*
