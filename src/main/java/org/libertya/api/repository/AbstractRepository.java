@@ -1109,8 +1109,14 @@ public abstract class AbstractRepository {
      * @throws NotFoundException si no existe el id especificado
      */
     protected void updateEntity(UserInfo info, int[] id, String tableName, Object source, boolean ignoreNulls) throws ModelException, NotFoundException, AuthException {
+        updateEntity(info, id, tableName, source, ignoreNulls, null);
+    }
+
+    /** Variante para escrituras que participan de una Trx de CORE. */
+    protected void updateEntity(UserInfo info, int[] id, String tableName, Object source,
+            boolean ignoreNulls, String trxName) throws ModelException, NotFoundException, AuthException {
         // Recuperar el PO asociado en BDD
-        PO aPO = getPO(info, tableName, id, null);
+        PO aPO = getPO(info, tableName, id, trxName);
         if (aPO == null || aPO.getID() == 0) {
             throw new NotFoundException();
         }
@@ -1159,7 +1165,13 @@ public abstract class AbstractRepository {
      * @throws NotFoundException si el registro no existe
      */
     protected void deleteEntity(UserInfo info, String tableName,  int[] id) throws ModelException, NotFoundException, AuthException {
-        PO aPO = getPO(info, tableName, id, null);
+        deleteEntity(info, tableName, id, null);
+    }
+
+    /** Variante para escrituras que participan de una Trx de CORE. */
+    protected void deleteEntity(UserInfo info, String tableName, int[] id, String trxName)
+            throws ModelException, NotFoundException, AuthException {
+        PO aPO = getPO(info, tableName, id, trxName);
         // getPO retorna null si se solicita ID=0 y no existe
         if (aPO == null || aPO.getID()<=0)
             throw new NotFoundException();
