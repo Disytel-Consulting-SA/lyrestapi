@@ -149,6 +149,7 @@ public class WindowRecordRepository extends AbstractRepository {
             }
             GenericRepository.TableSpec spec = genericRepository.resolveTable(
                     info, tab.getQueryDefinition().getTableName());
+            validateAncestorRelations(info, tabId, parentValues, trxName);
             ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
             Map<String, Object> insertValues = new HashMap<>(values);
             if (parent != null) {
@@ -183,6 +184,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throw new ModelException("Debe indicar al menos un campo para actualizar");
         validateWriteParentValues(info, tabId, parentValues);
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            validateAncestorRelations(info, tabId, parentValues, trxName);
             ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = genericRepository.resolveTable(
@@ -210,6 +212,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
         validateWriteParentValues(info, tabId, parentValues);
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            validateAncestorRelations(info, tabId, parentValues, trxName);
             ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = genericRepository.resolveTable(
@@ -279,14 +282,12 @@ public class WindowRecordRepository extends AbstractRepository {
         while (branch.size() > targetLevel)
             branch.remove(branch.size() - 1);
         Set<String> allowed = new HashSet<>();
-        List<GenericRepository.TableSpec> ancestorSpecs = new ArrayList<>();
         for (Integer tableId : branch) {
             M_Table table = M_Table.get(info.getCtx(), tableId);
             if (table == null)
                 throw new AuthException("Metadatos de tabla ancestra no disponibles");
             GenericRepository.TableSpec spec = genericRepository.resolveTable(info, table.getTableName());
             allowed.add(spec.getKeyColumn().toLowerCase(Locale.ROOT));
-            ancestorSpecs.add(spec);
         }
         if (values == null || values.isEmpty()) {
             if (targetLevel > 0)
@@ -310,22 +311,60 @@ public class WindowRecordRepository extends AbstractRepository {
         }
         if (supplied.size() != allowed.size())
             throw new AuthException("Faltan identificadores de pestañas ancestras");
-        // Comprobar que los registros declarados formen realmente una cadena
-        // de relaciones directas. Si no hay FK verificable, denegar por defecto.
-        for (int i = 1; i < ancestorSpecs.size(); i++) {
-            GenericRepository.TableSpec parent = ancestorSpecs.get(i - 1);
-            GenericRepository.TableSpec child = ancestorSpecs.get(i);
+
+    }
+
+    /**
+     * Comprobación relacional ejecutada dentro de la misma Trx CORE que
+     * la escritura. No se confía en relaciones suministradas por el cliente.
+     */
+    private void validateAncestorRelations(UserInfo info, int tabId,
+            Map<String, String> values, String trxName)
+            throws AuthException, ModelException, NotFoundException {
+        if (values == null || values.isEmpty())
+            return;
+        String sql = "SELECT p.AD_Table_ID, p.TabLevel FROM AD_Tab c "
+                + "JOIN AD_Tab p ON p.AD_Window_ID=c.AD_Window_ID "
+                + "AND p.IsActive='Y' AND p.SeqNo<c.SeqNo "
+                + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y' ORDER BY p.SeqNo";
+        List<GenericRepository.TableSpec> branch = new ArrayList<>();
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int level = rs.getInt(2);
+                    if (level < 0 || level > branch.size())
+                        throw new AuthException("Jerarquía de pestañas inconsistente");
+                    while (branch.size() > level)
+                        branch.remove(branch.size() - 1);
+                    M_Table table = M_Table.get(info.getCtx(), rs.getInt(1));
+                    if (table == null)
+                        throw new AuthException("Tabla ancestral no disponible");
+                    branch.add(genericRepository.resolveTable(info, table.getTableName()));
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error consultando ancestros: " + e.getMessage());
+        }
+        // Comprobar también la accesibilidad individual de cada ancestro.
+        for (GenericRepository.TableSpec ancestor : branch) {
+            int id = contextRecordId(values, ancestor.getKeyColumn());
+            if (!genericRepository.retrieveRecord(info, ancestor.getTableName(), id,
+                    ancestor.getKeyColumn()).isPresent())
+                throw new AuthException("Registro ancestral inexistente o no accesible");
+        }
+        for (int i = 1; i < branch.size(); i++) {
+            GenericRepository.TableSpec parent = branch.get(i - 1);
+            GenericRepository.TableSpec child = branch.get(i);
             M_Table childTable = M_Table.get(info.getCtx(), child.getTableName());
             if (childTable == null || childTable.getColumn(parent.getKeyColumn()) == null)
                 throw new AuthException("No se puede verificar la relación entre pestañas ancestras");
-            int parentId = contextRecordId(values, parent.getKeyColumn());
-            int childId = contextRecordId(values, child.getKeyColumn());
             String relationSql = "SELECT 1 FROM " + child.getTableName()
                     + " WHERE " + child.getKeyColumn() + "=? AND "
                     + parent.getKeyColumn() + "=?";
-            try (PreparedStatement ps = DB.prepareStatement(relationSql, null)) {
-                ps.setInt(1, childId);
-                ps.setInt(2, parentId);
+            try (PreparedStatement ps = DB.prepareStatement(relationSql, trxName)) {
+                ps.setInt(1, contextRecordId(values, child.getKeyColumn()));
+                ps.setInt(2, contextRecordId(values, parent.getKeyColumn()));
                 try (ResultSet rs = ps.executeQuery()) {
                     if (!rs.next())
                         throw new AuthException("Los registros ancestrales no pertenecen a la misma jerarquía");
