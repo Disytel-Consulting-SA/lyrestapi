@@ -384,12 +384,18 @@ public class WindowRecordRepository extends AbstractRepository {
         for (int i = 1; i < branch.size(); i++) {
             GenericRepository.TableSpec parent = branch.get(i - 1);
             GenericRepository.TableSpec child = branch.get(i);
-            M_Table childTable = M_Table.get(info.getCtx(), child.getTableName());
-            if (childTable == null || childTable.getColumn(parent.getKeyColumn()) == null)
-                throw new AuthException("No se puede verificar la relación entre pestañas ancestras");
+            // Aplicar exactamente la misma resolución de vínculo utilizada
+            // para la pestaña destino: AD_Tab.AD_Column_ID o IsParent
+            // inequívoco. La mera existencia de una columna homónima
+            // no prueba que sea la relación configurada en la ventana.
+            M_Table parentTable = M_Table.get(info.getCtx(), parent.getTableName());
+            if (parentTable == null)
+                throw new AuthException("Metadatos del padre ancestral no disponibles");
+            String linkColumn = resolveParentLinkColumn(
+                    ancestorTabIds.get(i), parentTable.getAD_Table_ID(), parent.getKeyColumn());
             String relationSql = "SELECT 1 FROM " + child.getTableName()
                     + " WHERE " + child.getKeyColumn() + "=? AND "
-                    + parent.getKeyColumn() + "=?";
+                    + linkColumn + "=?";
             try (PreparedStatement ps = DB.prepareStatement(relationSql, trxName)) {
                 ps.setInt(1, contextRecordId(values, child.getKeyColumn()));
                 ps.setInt(2, contextRecordId(values, parent.getKeyColumn()));
