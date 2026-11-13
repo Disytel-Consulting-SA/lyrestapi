@@ -582,6 +582,32 @@ public class WindowSchemaRepository {
     }
 
     /**
+     * Replica el criterio de resolveParentLinkColumn del repositorio
+     * contextual: una única columna activa IsParent en AD_Column.
+     * No depende de que la columna tenga un AD_Field visible.
+     */
+    private boolean hasUniqueParentColumn(Integer tableId, String parentKey) {
+        if (tableId == null || parentKey == null)
+            return false;
+        String sql = "SELECT ColumnName FROM AD_Column WHERE AD_Table_ID=? "
+                + "AND IsActive='Y' AND IsParent='Y'";
+        String candidate = null;
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tableId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (candidate != null)
+                        return false;
+                    candidate = rs.getString(1);
+                }
+            }
+        } catch (java.sql.SQLException ex) {
+            return false;
+        }
+        return candidate != null && candidate.equalsIgnoreCase(parentKey);
+    }
+
+    /**
      * Las escrituras de ventanas dinámicas no deben caer silenciosamente
      * en el CRUD genérico, que no aplica el WhereClause de la pestaña.
      * Solo se anuncian endpoints contextuales cuando toda la rama posee
@@ -616,9 +642,9 @@ public class WindowSchemaRepository {
                     if (explicit != null) {
                         relationSupported = explicit.equalsIgnoreCase(parentKey);
                     } else {
-                        List<WindowSchemaField> candidates = getParentFields(tab);
-                        relationSupported = candidates.size() == 1
-                                && parentKey.equalsIgnoreCase(candidates.get(0).getColumnname());
+                        // El backend consulta AD_Column completo, no solo
+                        // los campos presentes en el formulario AD_Field.
+                        relationSupported = hasUniqueParentColumn(tab.getAdTableId(), parentKey);
                     }
                 }
             }
