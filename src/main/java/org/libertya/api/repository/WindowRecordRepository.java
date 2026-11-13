@@ -279,12 +279,14 @@ public class WindowRecordRepository extends AbstractRepository {
         while (branch.size() > targetLevel)
             branch.remove(branch.size() - 1);
         Set<String> allowed = new HashSet<>();
+        List<GenericRepository.TableSpec> ancestorSpecs = new ArrayList<>();
         for (Integer tableId : branch) {
             M_Table table = M_Table.get(info.getCtx(), tableId);
             if (table == null)
                 throw new AuthException("Metadatos de tabla ancestra no disponibles");
             GenericRepository.TableSpec spec = genericRepository.resolveTable(info, table.getTableName());
             allowed.add(spec.getKeyColumn().toLowerCase(Locale.ROOT));
+            ancestorSpecs.add(spec);
         }
         if (values == null || values.isEmpty()) {
             if (targetLevel > 0)
@@ -308,6 +310,43 @@ public class WindowRecordRepository extends AbstractRepository {
         }
         if (supplied.size() != allowed.size())
             throw new AuthException("Faltan identificadores de pestañas ancestras");
+        // Comprobar que los registros declarados formen realmente una cadena
+        // de relaciones directas. Si no hay FK verificable, denegar por defecto.
+        for (int i = 1; i < ancestorSpecs.size(); i++) {
+            GenericRepository.TableSpec parent = ancestorSpecs.get(i - 1);
+            GenericRepository.TableSpec child = ancestorSpecs.get(i);
+            M_Table childTable = M_Table.get(info.getCtx(), child.getTableName());
+            if (childTable == null || childTable.getColumn(parent.getKeyColumn()) == null)
+                throw new AuthException("No se puede verificar la relación entre pestañas ancestras");
+            int parentId = contextRecordId(values, parent.getKeyColumn());
+            int childId = contextRecordId(values, child.getKeyColumn());
+            String relationSql = "SELECT 1 FROM " + child.getTableName()
+                    + " WHERE " + child.getKeyColumn() + "=? AND "
+                    + parent.getKeyColumn() + "=?";
+            try (PreparedStatement ps = DB.prepareStatement(relationSql, null)) {
+                ps.setInt(1, childId);
+                ps.setInt(2, parentId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next())
+                        throw new AuthException("Los registros ancestrales no pertenecen a la misma jerarquía");
+                }
+            } catch (java.sql.SQLException e) {
+                throw new ModelException("Error validando jerarquía de registros: " + e.getMessage());
+            }
+        }
+    }
+
+    private int contextRecordId(Map<String, String> values, String column) throws AuthException {
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            if (column.equalsIgnoreCase(entry.getKey())) {
+                try {
+                    return Integer.parseInt(entry.getValue());
+                } catch (NumberFormatException ex) {
+                    throw new AuthException("Identificador ancestral inválido");
+                }
+            }
+        }
+        throw new AuthException("Falta identificador ancestral: " + column);
     }
 
     private ParentLink requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues, String trxName)
