@@ -96,8 +96,14 @@ public class WindowSchemaRepository {
             return endpoints;
 
         endpoints.put("GET", dataEndpoint);
-        if (!readOnly && insertRecord)
-            endpoints.put("POST", createEndpoint != null ? createEndpoint : dataEndpoint);
+        // Un endpoint de lectura específico no garantiza soporte de POST.
+        // El endpoint alternativo de cabecera sí está declarado explícitamente.
+        if (!readOnly && insertRecord) {
+            if (createEndpoint != null)
+                endpoints.put("POST", createEndpoint);
+            else if (genericSpec != null && !genericSpec.isView() && genericSpec.hasStandardKey())
+                endpoints.put("POST", dataEndpoint);
+        }
 
         if (!readOnly && genericSpec != null && !genericSpec.isView() && genericSpec.hasStandardKey()) {
             endpoints.put("PUT", dataEndpoint + "/{id}");
