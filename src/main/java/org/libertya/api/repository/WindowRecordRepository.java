@@ -94,6 +94,8 @@ public class WindowRecordRepository extends AbstractRepository {
     public void updateTabRecord(UserInfo info, int tabId, int recordId,
             Map<String, String> parentValues, Map<String, Object> values)
             throws ModelException, NotFoundException, AuthException {
+        if (values == null || values.isEmpty())
+            throw new ModelException("Debe indicar al menos un campo para actualizar");
         withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
