@@ -125,7 +125,7 @@ public class WindowRecordRepository extends AbstractRepository {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar al menos un campo para actualizar");
         withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
-            requireParentContext(tab, parentValues);
+            requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
             genericRepository.updateRecord(info, spec.getTableName(), recordId, values);
@@ -137,7 +137,7 @@ public class WindowRecordRepository extends AbstractRepository {
             Map<String, String> parentValues)
             throws ModelException, NotFoundException, AuthException {
         withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
-            requireParentContext(tab, parentValues);
+            requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
             genericRepository.deleteRecord(info, spec.getTableName(), recordId);
@@ -149,17 +149,60 @@ public class WindowRecordRepository extends AbstractRepository {
      * Un detalle no puede evaluarse con contexto padre ausente: las
      * expresiones de CORE podrían quedar sin resolver o ampliar el filtro.
      */
-    private void requireParentContext(MTab tab, Map<String, String> parentValues)
-            throws AuthException {
+    private void requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues)
+            throws AuthException, ModelException, NotFoundException {
         if (tab.getTabLevel() <= 0)
             return;
         if (parentValues == null || parentValues.isEmpty())
             throw new AuthException("Se requiere contexto del registro padre para operar en una pestaña detalle");
+
         for (Map.Entry<String, String> entry : parentValues.entrySet()) {
             if (entry.getKey() == null || !entry.getKey().matches("[A-Za-z_][A-Za-z0-9_]*")
                     || entry.getValue() == null || entry.getValue().trim().isEmpty())
                 throw new AuthException("Contexto del registro padre inválido o incompleto");
         }
+
+        // El padre inmediato se identifica por la jerarquía de AD_Tab, no por
+        // un nombre de columna arbitrario enviado por el cliente.
+        String sql = "SELECT p.AD_Table_ID FROM AD_Tab c JOIN AD_Tab p "
+                + "ON p.AD_Window_ID=c.AD_Window_ID AND p.IsActive='Y' "
+                + "AND p.SeqNo=(SELECT MAX(p2.SeqNo) FROM AD_Tab p2 "
+                + "WHERE p2.AD_Window_ID=c.AD_Window_ID AND p2.IsActive='Y' "
+                + "AND p2.SeqNo<c.SeqNo AND p2.TabLevel=c.TabLevel-1) "
+                + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y'";
+        int parentTableId;
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tab.getAD_Tab_ID());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("No se pudo determinar la pestaña padre");
+                parentTableId = rs.getInt(1);
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error resolviendo pestaña padre: " + e.getMessage());
+        }
+        M_Table parentTable = M_Table.get(info.getCtx(), parentTableId);
+        if (parentTable == null)
+            throw new AuthException("Metadatos de la tabla padre no disponibles");
+        GenericRepository.TableSpec parentSpec = genericRepository.resolveTable(info, parentTable.getTableName());
+        String parentKey = parentSpec.getKeyColumn();
+        String rawId = null;
+        for (Map.Entry<String, String> entry : parentValues.entrySet()) {
+            if (parentKey.equalsIgnoreCase(entry.getKey())) {
+                rawId = entry.getValue();
+                break;
+            }
+        }
+        if (rawId == null || !rawId.matches("[0-9]{1,10}"))
+            throw new AuthException("Falta el identificador de la entidad padre: " + parentKey);
+        int parentId;
+        try {
+            parentId = Integer.parseInt(rawId);
+        } catch (NumberFormatException e) {
+            throw new AuthException("Identificador de entidad padre inválido");
+        }
+        if (!genericRepository.retrieveRecord(info, parentSpec.getTableName(), parentId, parentKey).isPresent())
+            throw new AuthException("El registro padre no existe o no es accesible");
     }
 
     private WindowRecordQuery parentQuery(Map<String, String> values) {
