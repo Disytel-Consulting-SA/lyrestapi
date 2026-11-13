@@ -134,6 +134,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar los valores del nuevo registro");
+        validateWriteParentValues(parentValues);
         return inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             checkTabWritable(tabId);
             String sql = "SELECT IsInsertRecord FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
@@ -169,6 +170,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar al menos un campo para actualizar");
+        validateWriteParentValues(parentValues);
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             ParentLink parent = requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
@@ -188,6 +190,7 @@ public class WindowRecordRepository extends AbstractRepository {
     public void deleteTabRecord(UserInfo info, int tabId, int recordId,
             Map<String, String> parentValues)
             throws ModelException, NotFoundException, AuthException {
+        validateWriteParentValues(parentValues);
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             ParentLink parent = requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
@@ -202,6 +205,33 @@ public class WindowRecordRepository extends AbstractRepository {
      * Un detalle no puede evaluarse con contexto padre ausente: las
      * expresiones de CORE podrían quedar sin resolver o ampliar el filtro.
      */
+    /**
+     * Las variables de contexto provienen del cliente y se aplican a Env.
+     * Las escrituras solo admiten identificadores de registros, nunca
+     * variables de seguridad, organización o contexto arbitrario.
+     */
+    private void validateWriteParentValues(Map<String, String> values) throws AuthException {
+        if (values == null)
+            return;
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (key == null || !key.matches("[A-Za-z][A-Za-z0-9_]*_ID")
+                    || key.equalsIgnoreCase("AD_Client_ID")
+                    || key.equalsIgnoreCase("AD_Org_ID")
+                    || key.equalsIgnoreCase("AD_Role_ID")
+                    || key.equalsIgnoreCase("AD_User_ID")
+                    || value == null || !value.matches("[0-9]{1,10}"))
+                throw new AuthException("El contexto de escritura solo admite identificadores padre válidos");
+            try {
+                if (Integer.parseInt(value) <= 0)
+                    throw new AuthException("Identificador padre inválido");
+            } catch (NumberFormatException e) {
+                throw new AuthException("Identificador padre fuera de rango");
+            }
+        }
+    }
+
     private ParentLink requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues)
             throws AuthException, ModelException, NotFoundException {
         if (tab.getTabLevel() <= 0)
