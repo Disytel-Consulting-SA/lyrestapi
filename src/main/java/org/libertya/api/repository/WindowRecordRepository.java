@@ -188,11 +188,11 @@ public class WindowRecordRepository extends AbstractRepository {
     public void deleteTabRecord(UserInfo info, int tabId, int recordId,
             Map<String, String> parentValues)
             throws ModelException, NotFoundException, AuthException {
-        withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+        inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             ParentLink parent = requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
-            GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
-            verifyParentLink(info, spec, recordId, parent);
+            GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId, trxName);
+            verifyParentLink(info, spec, recordId, parent, trxName);
             genericRepository.deleteRecord(info, spec.getTableName(), recordId, trxName);
             return null;
         }));
