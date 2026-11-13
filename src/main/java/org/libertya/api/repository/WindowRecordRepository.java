@@ -186,6 +186,10 @@ public class WindowRecordRepository extends AbstractRepository {
                 }
             }
             genericRepository.updateRecord(info, spec.getTableName(), recordId, values, trxName);
+            // Un PUT no puede desplazar el registro fuera del universo
+            // contextual que autorizó la modificación.
+            contextualTable(info, tab, windowNo, recordId, trxName);
+            verifyParentLink(info, spec, recordId, parent, trxName);
             return null;
         }));
     }
