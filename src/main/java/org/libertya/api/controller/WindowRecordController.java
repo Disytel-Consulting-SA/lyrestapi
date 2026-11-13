@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -120,7 +121,7 @@ public class WindowRecordController implements WindowrecordsApi {
 
     @Override
     public ResponseEntity<String> deleteContextualRecord(Integer tabId,
-            Integer recordId, Map<String, String> parentValues) {
+            Integer recordId, @RequestBody(required = false) Map<String, String> parentValues) {
         try {
             repository.deleteTabRecord(jwt.infoOf(request), tabId, recordId, parentValues);
             return ResponseEntity.ok("OK");
