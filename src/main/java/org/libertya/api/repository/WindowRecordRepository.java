@@ -287,7 +287,8 @@ public class WindowRecordRepository extends AbstractRepository {
             if (table == null)
                 throw new AuthException("Metadatos de tabla ancestra no disponibles");
             GenericRepository.TableSpec spec = genericRepository.resolveTable(info, table.getTableName());
-            allowed.add(spec.getKeyColumn().toLowerCase(Locale.ROOT));
+            if (!allowed.add(spec.getKeyColumn().toLowerCase(Locale.ROOT)))
+                throw new AuthException("La jerarquía reutiliza una clave primaria y no admite un contexto inequívoco");
         }
         if (values == null || values.isEmpty()) {
             if (targetLevel > 0)
@@ -349,6 +350,11 @@ public class WindowRecordRepository extends AbstractRepository {
             }
         } catch (java.sql.SQLException e) {
             throw new ModelException("Error consultando ancestros: " + e.getMessage());
+        }
+        Set<String> uniqueKeys = new HashSet<>();
+        for (GenericRepository.TableSpec ancestor : branch) {
+            if (!uniqueKeys.add(ancestor.getKeyColumn().toLowerCase(Locale.ROOT)))
+                throw new AuthException("La jerarquía reutiliza una clave primaria y no admite un contexto inequívoco");
         }
         // Bloquear siempre en orden raíz -> hoja para minimizar
         // interbloqueos entre operaciones sobre una misma jerarquía.
