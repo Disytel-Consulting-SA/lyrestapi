@@ -87,6 +87,70 @@ public class WindowRecordRepository extends AbstractRepository {
         });
     }
 
+    /**
+     * Escrituras contextuales: comprueba el registro contra el mismo universo
+     * de consulta de la pestaña, con contexto maestro/detalle.
+     */
+    public void updateTabRecord(UserInfo info, int tabId, int recordId,
+            Map<String, String> parentValues, Map<String, Object> values)
+            throws ModelException, NotFoundException, AuthException {
+        withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            checkTabWritable(tabId);
+            GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
+            genericRepository.updateRecord(info, spec.getTableName(), recordId, values);
+            return null;
+        });
+    }
+
+    public void deleteTabRecord(UserInfo info, int tabId, int recordId,
+            Map<String, String> parentValues)
+            throws ModelException, NotFoundException, AuthException {
+        withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            checkTabWritable(tabId);
+            GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
+            genericRepository.deleteRecord(info, spec.getTableName(), recordId);
+            return null;
+        });
+    }
+
+    private WindowRecordQuery parentQuery(Map<String, String> values) {
+        WindowRecordQuery query = new WindowRecordQuery();
+        query.setParentValues(values);
+        return query;
+    }
+
+    private void checkTabWritable(int tabId) throws ModelException, AuthException {
+        String sql = "SELECT IsReadOnly FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next() || "Y".equalsIgnoreCase(rs.getString(1)))
+                    throw new AuthException("La pestaña no permite modificar registros");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error verificando la pestaña: " + e.getMessage());
+        }
+    }
+
+    private GenericRepository.TableSpec contextualTable(UserInfo info, MTab tab,
+            int windowNo, int recordId) throws ModelException, NotFoundException, AuthException {
+        GenericRepository.TableSpec spec = genericRepository.resolveTable(
+                info, tab.getQueryDefinition().getTableName());
+        SafeQueryFilter.Compiled filter = validateFilter(info, spec, null);
+        String sql = "SELECT 1 FROM (" + buildBaseSelect(info, tab, windowNo, spec, filter)
+                + ") contextual WHERE " + spec.getKeyColumn() + "=?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, recordId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("El registro no pertenece al contexto accesible de la pestaña");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error verificando pertenencia a la pestaña: " + e.getMessage());
+        }
+        return spec;
+    }
+
     /* =========================== Recuperación =========================== */
 
     private List<GenericRecord> retrieveRecords(UserInfo info, MTab tab, int windowNo, WindowRecordQuery query)
