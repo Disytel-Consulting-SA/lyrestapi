@@ -174,7 +174,10 @@ public class WindowRecordRepository extends AbstractRepository {
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             ParentLink parent = requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
-            GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId, trxName);
+            GenericRepository.TableSpec spec = genericRepository.resolveTable(
+                    info, tab.getQueryDefinition().getTableName());
+            lockRecordForWrite(spec, recordId, trxName);
+            spec = contextualTable(info, tab, windowNo, recordId, trxName);
             verifyParentLink(info, spec, recordId, parent, trxName);
             if (parent != null) {
                 for (String field : values.keySet()) {
@@ -194,7 +197,10 @@ public class WindowRecordRepository extends AbstractRepository {
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             ParentLink parent = requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
-            GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId, trxName);
+            GenericRepository.TableSpec spec = genericRepository.resolveTable(
+                    info, tab.getQueryDefinition().getTableName());
+            lockRecordForWrite(spec, recordId, trxName);
+            spec = contextualTable(info, tab, windowNo, recordId, trxName);
             verifyParentLink(info, spec, recordId, parent, trxName);
             genericRepository.deleteRecord(info, spec.getTableName(), recordId, trxName);
             return null;
@@ -391,6 +397,25 @@ public class WindowRecordRepository extends AbstractRepository {
             }
         } catch (java.sql.SQLException e) {
             throw new ModelException("Error verificando la pestaña: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Bloquea la fila antes de comprobar su pertenencia contextual.
+     * El bloqueo se conserva hasta el commit/rollback de la misma Trx.
+     */
+    private void lockRecordForWrite(GenericRepository.TableSpec spec, int recordId,
+            String trxName) throws ModelException, AuthException {
+        String sql = "SELECT " + spec.getKeyColumn() + " FROM " + spec.getTableName()
+                + " WHERE " + spec.getKeyColumn() + "=? FOR UPDATE";
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
+            ps.setInt(1, recordId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("El registro no existe o no está disponible para modificar");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error bloqueando registro para escritura: " + e.getMessage());
         }
     }
 
