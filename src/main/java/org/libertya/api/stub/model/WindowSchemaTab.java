@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.libertya.api.stub.model.WindowSchemaField;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -64,6 +65,9 @@ public class WindowSchemaTab   {
 
   @JsonProperty("isinsertrecord")
   private Boolean isinsertrecord = null;
+
+  @JsonProperty("crud_endpoints")
+  private Map<String, String> crudEndpoints = null;
 
   @JsonProperty("create_endpoint")
   private String createEndpoint = null;
@@ -365,6 +369,20 @@ public class WindowSchemaTab   {
     this.isinsertrecord = isinsertrecord;
   }
 
+  public WindowSchemaTab crudEndpoints(Map<String, String> crudEndpoints) {
+    this.crudEndpoints = crudEndpoints;
+    return this;
+  }
+
+  @Schema(description = "Endpoints disponibles por operación (GET, POST, PUT, DELETE)")
+  public Map<String, String> getCrudEndpoints() {
+    return crudEndpoints;
+  }
+
+  public void setCrudEndpoints(Map<String, String> crudEndpoints) {
+    this.crudEndpoints = crudEndpoints;
+  }
+
   public WindowSchemaTab createEndpoint(String createEndpoint) {
     this.createEndpoint = createEndpoint;
     return this;
@@ -465,6 +483,7 @@ public class WindowSchemaTab   {
     sb.append("    orderbyclause: ").append(toIndentedString(orderbyclause)).append("\n");
     sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
     sb.append("    isinsertrecord: ").append(toIndentedString(isinsertrecord)).append("\n");
+    sb.append("    crudEndpoints: ").append(toIndentedString(crudEndpoints)).append("\n");
     sb.append("    createEndpoint: ").append(toIndentedString(createEndpoint)).append("\n");
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("}");
