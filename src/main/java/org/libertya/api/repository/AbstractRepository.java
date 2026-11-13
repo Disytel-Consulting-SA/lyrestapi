@@ -1114,8 +1114,12 @@ public abstract class AbstractRepository {
         if (aPO == null || aPO.getID() == 0) {
             throw new NotFoundException();
         }
+        if (source instanceof Map)
+            ClientOrgAuth.validateWrite(info, aPO, true);
         loadPOInitialValues(info, aPO, false);
         loadPOFromEntity(info, aPO, source, ignoreNulls, false);
+        if (source instanceof Map)
+            ClientOrgAuth.validateWrite(info, aPO, false);
         if (!aPO.save())
             throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
     }
@@ -1136,6 +1140,8 @@ public abstract class AbstractRepository {
         }
         loadPOInitialValues(info, aPO, true);
         loadPOFromEntity(info, aPO, source, false, true);
+        if (source instanceof Map)
+            ClientOrgAuth.validateWrite(info, aPO, false);
         // Se especificó una organizacion adecuada perteneciente a la compañía?
         if (aPO.getAD_Org_ID() > 0 && (MOrg.get(info.getCtx(), aPO.getAD_Org_ID()).getID()==0 || MOrg.get(info.getCtx(), aPO.getAD_Org_ID()).getAD_Client_ID()!= aPO.getAD_Client_ID())) {
             throw new ModelException("Organizacion " + aPO.getAD_Org_ID() + " inexistente para compañía " + info.getClientID());
@@ -1157,6 +1163,8 @@ public abstract class AbstractRepository {
         // getPO retorna null si se solicita ID=0 y no existe
         if (aPO == null || aPO.getID()<=0)
             throw new NotFoundException();
+        if (this instanceof GenericRepository)
+            ClientOrgAuth.validateWrite(info, aPO, true);
         if (!aPO.delete(false))
             throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
     }
