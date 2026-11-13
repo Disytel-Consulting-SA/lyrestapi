@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -74,6 +76,47 @@ public class WindowRecordController implements WindowrecordsApi {
         } catch (IllegalArgumentException e) {
             return error(e.getMessage(), HttpStatus.CONFLICT);
         }
+    }
+
+    /**
+     * Operaciones contextuales para registros existentes.
+     * El body separa los valores del registro del contexto maestro/detalle.
+     */
+    @PutMapping("/v1.0/windowrecords/{tabId}/records/{recordId}")
+    public ResponseEntity<String> updateContextualRecord(@PathVariable Integer tabId,
+            @PathVariable Integer recordId, @RequestBody ContextualUpdate body) {
+        try {
+            repository.updateTabRecord(jwt.infoOf(request), tabId, recordId,
+                    body.parentValues, body.values);
+            return ResponseEntity.ok("OK");
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (AuthException | SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (ModelException | IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/v1.0/windowrecords/{tabId}/records/{recordId}")
+    public ResponseEntity<String> deleteContextualRecord(@PathVariable Integer tabId,
+            @PathVariable Integer recordId,
+            @RequestBody(required = false) Map<String, String> parentValues) {
+        try {
+            repository.deleteTabRecord(jwt.infoOf(request), tabId, recordId, parentValues);
+            return ResponseEntity.ok("OK");
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (AuthException | SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (ModelException | IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
+
+    public static class ContextualUpdate {
+        public Map<String, String> parentValues;
+        public Map<String, Object> values;
     }
 
     @SuppressWarnings({
