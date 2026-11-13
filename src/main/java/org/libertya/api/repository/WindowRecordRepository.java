@@ -237,16 +237,22 @@ public class WindowRecordRepository extends AbstractRepository {
      */
     private String resolveParentLinkColumn(int tabId, int parentTableId, String parentKey)
             throws ModelException, AuthException {
-        String sql = "SELECT c.ColumnName FROM AD_Tab t "
-                + "JOIN AD_Column c ON c.AD_Column_ID=t.AD_Column_ID "
-                + "WHERE t.AD_Tab_ID=? AND c.AD_Table_ID=t.AD_Table_ID "
-                + "AND c.IsActive='Y' AND c.ColumnName=?";
+        String sql = "SELECT t.AD_Column_ID, c.ColumnName FROM AD_Tab t "
+                + "LEFT JOIN AD_Column c ON c.AD_Column_ID=t.AD_Column_ID "
+                + "AND c.AD_Table_ID=t.AD_Table_ID AND c.IsActive='Y' "
+                + "WHERE t.AD_Tab_ID=?";
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
             ps.setInt(1, tabId);
-            ps.setString(2, parentKey);
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next())
-                    return rs.getString(1);
+                if (!rs.next())
+                    throw new AuthException("Pestaña no disponible");
+                int explicitId = rs.getInt(1);
+                if (explicitId > 0) {
+                    String column = rs.getString(2);
+                    if (column == null || !column.equalsIgnoreCase(parentKey))
+                        throw new AuthException("El vínculo explícito de la pestaña no coincide con la clave del padre");
+                    return column;
+                }
             }
         } catch (java.sql.SQLException e) {
             throw new ModelException("Error resolviendo vínculo explícito: " + e.getMessage());
