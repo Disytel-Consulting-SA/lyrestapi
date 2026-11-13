@@ -1,0 +1,9 @@
+components:
+  schemas:
+    ContextualRecordDelete:
+      type: object
+      description: >
+        Contexto ancestral requerido para eliminar un registro de detalle.
+        Para pestañas raíz puede omitirse el cuerpo.
+      additionalProperties:
+        type: string
