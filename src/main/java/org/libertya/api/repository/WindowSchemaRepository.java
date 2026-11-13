@@ -351,7 +351,10 @@ public class WindowSchemaRepository {
                     String dataEndpoint = TABLE_ENDPOINTS.getProperty(tableName);
                     String createEndpoint = TABLE_CREATE_ENDPOINTS.getProperty(tableName);
                     GenericRepository.TableSpec genericSpec = resolveGenericFallback(info, tableName);
-                    if (genericSpec != null)
+                    // El endpoint específico conserva prioridad. El fallback
+                    // genérico se resuelve por operación en resolveCrudEndpoints,
+                    // sin sustituir el endpoint declarado para la tabla.
+                    if (dataEndpoint == null && genericSpec != null)
                         dataEndpoint = "/v1.0/generic/" + genericSpec.getTableName();
 
                     boolean readOnly = "Y".equals(rs.getString("tab_isreadonly"));
