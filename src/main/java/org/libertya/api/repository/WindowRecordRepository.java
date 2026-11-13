@@ -226,7 +226,46 @@ public class WindowRecordRepository extends AbstractRepository {
         }
         if (!genericRepository.retrieveRecord(info, parentSpec.getTableName(), parentId, parentKey).isPresent())
             throw new AuthException("El registro padre no existe o no es accesible");
-        return new ParentLink(parentKey, parentId);
+        String linkColumn = resolveParentLinkColumn(tab.getAD_Tab_ID(), parentTableId, parentKey);
+        return new ParentLink(linkColumn, parentId);
+    }
+
+    /**
+     * Respeta AD_Tab.AD_Column_ID cuando está configurado. En su ausencia
+     * acepta únicamente una columna IsParent inequívoca que referencie la
+     * tabla padre. Nunca deduce la relación solo por coincidencia de nombres.
+     */
+    private String resolveParentLinkColumn(int tabId, int parentTableId, String parentKey)
+            throws ModelException, AuthException {
+        String sql = "SELECT c.ColumnName FROM AD_Tab t "
+                + "JOIN AD_Column c ON c.AD_Column_ID=t.AD_Column_ID "
+                + "WHERE t.AD_Tab_ID=? AND c.AD_Table_ID=t.AD_Table_ID "
+                + "AND c.IsActive='Y' AND c.ColumnName=?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tabId);
+            ps.setString(2, parentKey);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next())
+                    return rs.getString(1);
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error resolviendo vínculo explícito: " + e.getMessage());
+        }
+        sql = "SELECT c.ColumnName FROM AD_Tab t "
+                + "JOIN AD_Column c ON c.AD_Table_ID=t.AD_Table_ID "
+                + "WHERE t.AD_Tab_ID=? AND c.IsActive='Y' AND c.IsParent='Y' "
+                + "AND c.ColumnName=?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tabId);
+            ps.setString(2, parentKey);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next())
+                    return rs.getString(1);
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error resolviendo vínculo IsParent: " + e.getMessage());
+        }
+        throw new AuthException("No hay relación padre-hijo explícita y verificable en los metadatos");
     }
 
     private static final class ParentLink {
