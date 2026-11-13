@@ -449,6 +449,7 @@ public class WindowSchemaRepository {
                  * Resolver relaciones master/detail.
                  */
                 resolveLinkColumns(schema, explicitLinkColumns);
+                resolveContextualCrudEndpoints(info, schema, explicitLinkColumns);
 
                 /*
                  * Resolver listas AD_Ref_List.
@@ -577,6 +578,64 @@ public class WindowSchemaRepository {
                     tab.linkColumnname(linkColumn);
                 }
             }
+        }
+    }
+
+    /**
+     * Las escrituras de ventanas dinámicas no deben caer silenciosamente
+     * en el CRUD genérico, que no aplica el WhereClause de la pestaña.
+     * Solo se anuncian endpoints contextuales cuando toda la rama posee
+     * relaciones directas inequívocas verificables en metadatos.
+     */
+    private void resolveContextualCrudEndpoints(UserInfo info, WindowSchema schema,
+            Map<Integer, String> explicitLinkColumns) {
+        if (schema.getTabs() == null)
+            return;
+        Map<Integer, WindowSchemaTab> byId = new HashMap<>();
+        Map<Integer, Boolean> supported = new HashMap<>();
+        for (WindowSchemaTab tab : schema.getTabs()) {
+            byId.put(tab.getAdTabId(), tab);
+            boolean relationSupported = true;
+            if (tab.getTablevel() != null && tab.getTablevel() > 0) {
+                WindowSchemaTab parent = byId.get(tab.getParentAdTabId());
+                relationSupported = parent != null
+                        && Boolean.TRUE.equals(supported.get(parent.getAdTabId()))
+                        && parent.getPkColumns() != null && parent.getPkColumns().size() == 1;
+                if (relationSupported) {
+                    String parentKey = parent.getPkColumns().get(0);
+                    String explicit = explicitLinkColumns.get(tab.getAdTabId());
+                    if (explicit != null) {
+                        relationSupported = explicit.equalsIgnoreCase(parentKey);
+                    } else {
+                        List<WindowSchemaField> candidates = getParentFields(tab);
+                        relationSupported = candidates.size() == 1
+                                && parentKey.equalsIgnoreCase(candidates.get(0).getColumnname());
+                    }
+                }
+            }
+            GenericRepository.TableSpec spec = resolveGenericFallback(info, tab.getTablename());
+            boolean writable = relationSupported && spec != null
+                    && !spec.isView() && spec.hasStandardKey()
+                    && !Boolean.TRUE.equals(tab.isIsreadonly());
+            if (writable) {
+                try {
+                    genericRepository.checkWriteAccess(info, spec);
+                } catch (org.libertya.api.exception.AuthException ex) {
+                    writable = false;
+                }
+            }
+            supported.put(tab.getAdTabId(), relationSupported);
+            Map<String, String> endpoints = new LinkedHashMap<>();
+            if (tab.getCrudEndpoints() != null && tab.getCrudEndpoints().get("GET") != null)
+                endpoints.put("GET", tab.getCrudEndpoints().get("GET"));
+            if (writable) {
+                String base = "/v1.0/windowrecords/" + tab.getAdTabId() + "/records";
+                if (Boolean.TRUE.equals(tab.isIsinsertrecord()))
+                    endpoints.put("POST", base);
+                endpoints.put("PUT", base + "/{recordId}");
+                endpoints.put("DELETE", base + "/{recordId}");
+            }
+            tab.crudEndpoints(endpoints);
         }
     }
 
