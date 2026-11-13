@@ -215,6 +215,7 @@ public class WindowSchemaRepository {
          * AD_Tab.AD_Column_ID es el override explícito
          * para la columna master/detail.
          */
+        sql.append("   t.ad_column_id AS tab_link_column_id, ");
         sql.append("   tc.columnname AS tab_link_columnname, ");
 
         sql.append("   tb.ad_table_id, ");
@@ -280,7 +281,8 @@ public class WindowSchemaRepository {
          * LEFT JOIN porque AD_Tab.AD_Column_ID
          * puede no estar configurado.
          */
-        sql.append(" LEFT JOIN ad_column tc ON tc.ad_column_id = t.ad_column_id ");
+        sql.append(" LEFT JOIN ad_column tc ON tc.ad_column_id = t.ad_column_id "
+                + "AND tc.ad_table_id = t.ad_table_id AND tc.isactive = 'Y' ");
 
         sql.append(" WHERE w.ad_window_id = ? ");
         sql.append("   AND w.isactive = 'Y' ");
@@ -394,8 +396,9 @@ public class WindowSchemaRepository {
                      * master/detail, si existe.
                      */
                     String explicitLinkColumn = rs.getString("tab_link_columnname");
-                    if (explicitLinkColumn != null && !explicitLinkColumn.isEmpty()) {
-                        explicitLinkColumns.put(tabId, explicitLinkColumn);
+                    if (rs.getInt("tab_link_column_id") > 0) {
+                        // Un override inválido no puede caer al fallback IsParent.
+                        explicitLinkColumns.put(tabId, explicitLinkColumn == null ? "" : explicitLinkColumn);
                     }
 
                     schema.addTabsItem(currentTab);
