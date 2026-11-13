@@ -115,13 +115,20 @@ public class WindowSchemaRepository {
      * genérico para completar las faltantes cuando la tabla es compatible.
      * El schema no reemplaza los controles de permisos del servidor.
      */
-    private Map<String, String> resolveCrudEndpoints(String dataEndpoint, String createEndpoint,
+    private Map<String, String> resolveCrudEndpoints(UserInfo info, String dataEndpoint, String createEndpoint,
             GenericRepository.TableSpec genericSpec, boolean readOnly, boolean insertRecord) {
         Map<String, String> endpoints = new LinkedHashMap<>();
         String genericEndpoint = genericSpec != null
                 ? "/v1.0/generic/" + genericSpec.getTableName() : null;
         boolean writable = !readOnly && genericSpec != null
                 && !genericSpec.isView() && genericSpec.hasStandardKey();
+        if (writable) {
+            try {
+                genericRepository.checkWriteAccess(info, genericSpec);
+            } catch (org.libertya.api.exception.AuthException ex) {
+                writable = false;
+            }
+        }
 
         if (supportsSpecific(RequestMethod.GET, dataEndpoint))
             endpoints.put("GET", dataEndpoint);
@@ -364,7 +371,7 @@ public class WindowSchemaRepository {
                             .tablename(tableName)
                             .dataEndpoint(dataEndpoint)
                             .createEndpoint(createEndpoint)
-                            .crudEndpoints(resolveCrudEndpoints(dataEndpoint, createEndpoint, genericSpec, readOnly, insertRecord))
+                            .crudEndpoints(resolveCrudEndpoints(info, dataEndpoint, createEndpoint, genericSpec, readOnly, insertRecord))
                             .pkColumns(getPkColumns(tableName, dataEndpoint, genericSpec));
 
                     /*
