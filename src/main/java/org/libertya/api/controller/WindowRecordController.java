@@ -82,6 +82,21 @@ public class WindowRecordController implements WindowrecordsApi {
      * Operaciones contextuales para registros existentes.
      * El body separa los valores del registro del contexto maestro/detalle.
      */
+    @PostMapping("/v1.0/windowrecords/{tabId}/records")
+    public ResponseEntity<String> insertContextualRecord(@PathVariable Integer tabId,
+            @RequestBody Map<String, Object> values) {
+        try {
+            String id = repository.insertTabRecord(jwt.infoOf(request), tabId, values);
+            return ResponseEntity.status(HttpStatus.CREATED).body(id);
+        } catch (NotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (AuthException | SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (ModelException | IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
+
     @PutMapping("/v1.0/windowrecords/{tabId}/records/{recordId}")
     public ResponseEntity<String> updateContextualRecord(@PathVariable Integer tabId,
             @PathVariable Integer recordId, @RequestBody ContextualUpdate body) {
