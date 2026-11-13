@@ -167,8 +167,6 @@ public class WindowRecordRepository extends AbstractRepository {
         GenericRepository.TableSpec spec = genericRepository.resolveTable(
                 info, tab.getQueryDefinition().getTableName());
         SafeQueryFilter.Compiled filter = validateFilter(info, spec, null);
-        if (tab.getTabLevel() > 0 && (Env.getContext(info.getCtx(), windowNo, tab.getTabNo(), MTab.CTX_TabLevel) == null))
-            throw new AuthException("Contexto de pestaña detalle incompleto");
         String sql = "SELECT 1 FROM (" + buildBaseSelect(info, tab, windowNo, spec, filter)
                 + ") contextual WHERE contextual." + spec.getKeyColumn() + "=?";
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
