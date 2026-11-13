@@ -91,6 +91,34 @@ public class WindowRecordRepository extends AbstractRepository {
      * Escrituras contextuales: comprueba el registro contra el mismo universo
      * de consulta de la pestaña, con contexto maestro/detalle.
      */
+    /**
+     * Creación contextual de pestañas raíz. Las pestañas detalle requieren
+     * validación explícita de la relación padre/hijo antes de habilitar POST.
+     */
+    public String insertTabRecord(UserInfo info, int tabId, Map<String, Object> values)
+            throws ModelException, NotFoundException, AuthException {
+        if (values == null || values.isEmpty())
+            throw new ModelException("Debe indicar los valores del nuevo registro");
+        return withTab(info, tabId, null, (tab, windowNo) -> {
+            checkTabWritable(tabId);
+            if (tab.getTabLevel() > 0)
+                throw new AuthException("La creación contextual de pestañas detalle requiere validar el registro padre");
+            String sql = "SELECT IsInsertRecord FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
+            try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+                ps.setInt(1, tabId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next() || !"Y".equalsIgnoreCase(rs.getString(1)))
+                        throw new AuthException("La pestaña no permite crear registros");
+                }
+            } catch (java.sql.SQLException e) {
+                throw new ModelException("Error verificando creación en pestaña: " + e.getMessage());
+            }
+            GenericRepository.TableSpec spec = genericRepository.resolveTable(
+                    info, tab.getQueryDefinition().getTableName());
+            return genericRepository.insertRecord(info, spec.getTableName(), values);
+        });
+    }
+
     public void updateTabRecord(UserInfo info, int tabId, int recordId,
             Map<String, String> parentValues, Map<String, Object> values)
             throws ModelException, NotFoundException, AuthException {
@@ -139,8 +167,10 @@ public class WindowRecordRepository extends AbstractRepository {
         GenericRepository.TableSpec spec = genericRepository.resolveTable(
                 info, tab.getQueryDefinition().getTableName());
         SafeQueryFilter.Compiled filter = validateFilter(info, spec, null);
+        if (tab.getTabLevel() > 0 && (Env.getContext(info.getCtx(), windowNo, tab.getTabNo(), MTab.CTX_TabLevel) == null))
+            throw new AuthException("Contexto de pestaña detalle incompleto");
         String sql = "SELECT 1 FROM (" + buildBaseSelect(info, tab, windowNo, spec, filter)
-                + ") contextual WHERE " + spec.getKeyColumn() + "=?";
+                + ") contextual WHERE contextual." + spec.getKeyColumn() + "=?";
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
             ps.setInt(1, recordId);
             try (ResultSet rs = ps.executeQuery()) {
