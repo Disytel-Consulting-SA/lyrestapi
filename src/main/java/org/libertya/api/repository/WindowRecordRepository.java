@@ -346,9 +346,13 @@ public class WindowRecordRepository extends AbstractRepository {
         } catch (java.sql.SQLException e) {
             throw new ModelException("Error consultando ancestros: " + e.getMessage());
         }
-        // Comprobar también la accesibilidad individual de cada ancestro.
+        // Bloquear siempre en orden raíz -> hoja para minimizar
+        // interbloqueos entre operaciones sobre una misma jerarquía.
+        // La autorización genérica sigue siendo necesaria: el bloqueo
+        // por sí solo no concede acceso al registro.
         for (GenericRepository.TableSpec ancestor : branch) {
             int id = contextRecordId(values, ancestor.getKeyColumn());
+            lockRecordForWrite(ancestor, id, trxName);
             if (!genericRepository.retrieveRecord(info, ancestor.getTableName(), id,
                     ancestor.getKeyColumn()).isPresent())
                 throw new AuthException("Registro ancestral inexistente o no accesible");
