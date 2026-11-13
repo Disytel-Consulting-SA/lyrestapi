@@ -232,6 +232,26 @@ Non-obvious:
 - `CreditCardSettlementIntegrationTests` needs `org.libertya.tests.use-dynamic-defaults=true` against
   `libertya_rel_22ar_for_api_25` (the default bpartner no longer exists there).
 
+## Account statement (`/v1.0/bpartners/{id}/accountstatement`)
+
+Implemented (November 2026). Read-only: for one business partner, every open invoice, installment, unallocated
+payment and unallocated cash line, with balances computed by the same DB functions the ERP's `EstadoDeCuentaProcess`
+report uses (`invoiceopen`, `getallocatedamt`, `paymentavailable`, `paymentallocated`, `cashlineavailable`). Own SQL
+in `AccountStatementRepository` (no service); the method lives in `BPartnerController` because it is tag `bpartner`.
+
+- **`docs/referencia/estado-de-cuenta-api.md`** — consumer guide.
+- **`docs/planes/plan-estado-de-cuenta.md`** — decisions R1–R7 (§3.1, agreed; don't reopen them without asking) and
+  what changed during implementation plus the validation evidence (§11).
+
+Non-obvious:
+- Consumers hash the response, so it must be byte-identical across calls **and across restarts**. The generated DTOs
+  are not (`docs/PENDIENTES.md` P7); `config/AccountStatementJsonConfig` pins the key order for
+  `AccountStatementLine`. Keep its list in sync with `model/accountstatementline.yaml`.
+- The error responses in `paths/bpartners_id_accountstatement.yaml` have no `content` on purpose: declaring
+  `text/plain` adds it to `produces`, and a client sending `Accept: text/plain, application/json` gets a 500.
+- To compare against the report, reproduce `fillTable()`'s SQL read-only: running the process writes to
+  `T_EstadoDeCuenta`.
+
 ## Still planned
 
 - **`factaccts`** (read-only `Fact_Acct`) so a consumer can reconcile what actually got posted. Posting is

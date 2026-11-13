@@ -1,8 +1,10 @@
 package org.libertya.api.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.libertya.api.repository.AccountStatementRepository;
 import org.libertya.api.repository.BPartnerRepository;
 import org.libertya.api.stub.iface.BpartnerApi;
+import org.libertya.api.stub.model.AccountStatementLine;
 import org.libertya.api.stub.model.BPartner;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,8 @@ public class BPartnerController extends AbstractController implements BpartnerAp
     private final HttpServletRequest request;
 
     private final BPartnerRepository repository;
+
+    private final AccountStatementRepository accountStatementRepository;
 
     @Override
     public ResponseEntity<String> addBPartner(BPartner body) {
@@ -41,6 +45,12 @@ public class BPartnerController extends AbstractController implements BpartnerAp
     @Override
     public ResponseEntity<String> updateBPartner(Integer id, BPartner body) {
         return updateAction(request, (info) -> repository.update(info, id, body));
+    }
+
+    /** Sin paginar: retrieveAllAction agregaria los encabezados prev/next, que aca no significan nada */
+    @Override
+    public ResponseEntity<List<AccountStatementLine>> getBPartnerAccountStatement(Integer id, Integer adOrgId) {
+        return retrieveAction(request, (info) -> accountStatementRepository.retrieveStatement(info, id, adOrgId));
     }
 
 }

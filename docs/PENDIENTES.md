@@ -194,3 +194,28 @@ está en el build del core (un fork) no tiene el problema; una que lo trae en un
 - Si no, armar una copia del `lib/OXP.jar` instalado sin firmas y sin los paquetes de terceros, como se hizo con
   `libs/JasperReports-ngroovy.jar`. Es un binario armado a mano, que habría que regenerar cada vez que se instala un
   componente.
+
+---
+
+## P7 — Los DTO generados serializan cada `c_xxx_id` dos veces, y el orden de las claves cambia en cada arranque
+
+**Detectado:** 2026-11-13, al validar `GET /v1.0/bpartners/{id}/accountstatement` (`docs/planes/plan-estado-de-cuenta.md`
+§11.1).
+**Alcance:** todas las respuestas JSON armadas con los DTO de `stub/model/`. El estado de cuenta ya está corregido.
+**Impacto:** bajo para un consumidor que parsea el JSON y lee las claves con guion bajo. Alto para uno que compara
+respuestas byte a byte o calcula un hash sobre ellas: después de cada reinicio de la API, todo parece cambiado.
+
+### Qué pasa
+
+swagger-codegen genera, para `c_bpartner_id`, el campo `cBpartnerId` con `@JsonProperty("c_bpartner_id")` y el getter
+`getCBpartnerId()`. Jackson deriva del getter el nombre `cbpartnerId`, que no coincide con el del campo, y lo
+serializa como otra propiedad. `GET /v1.0/invoices/{id}` trae, por ejemplo, `"cbpartnerId":…` además de `"c_bpartner_id":…`,
+y 21 claves así en toda la respuesta. El orden de esas claves sale de la reflexión sobre los métodos y **cambia de un arranque de la JVM a
+otro** (verificado con tres arranques seguidos: el cuerpo de `/invoices/1022263` dio tres hashes distintos).
+
+### Arreglo propuesto
+
+Una configuración global de Jackson que ignore los getters de los DTO de `stub/model` (con un mixin por paquete o un
+`AnnotationIntrospector` que solo acepte los campos con `@JsonProperty`). Cambia la salida de todos los endpoints
+(desaparecen las claves camelCase), así que hay que avisar a los consumidores antes. `AccountStatementJsonConfig`
+hace lo mismo para un solo DTO y sirve de punto de partida.

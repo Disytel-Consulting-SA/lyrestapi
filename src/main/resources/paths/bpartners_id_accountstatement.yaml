@@ -1,0 +1,65 @@
+get:
+  tags:
+    - "bpartner"
+  summary: Estado de cuenta de una entidad comercial
+  operationId: getBPartnerAccountStatement
+  description: >
+    Devuelve todo lo que la entidad comercial tiene con saldo distinto de cero, con el saldo de cada
+    comprobante y de cada cuota calculado por Libertya (invoiceopen, getallocatedamt, paymentavailable,
+    paymentallocated, cashlineavailable), con la misma consulta que el informe de Estado de Cuenta para
+    clientes con saldo pendiente.
+
+
+    Es una lista plana, una fila por partida con saldo: facturas sin cuotas validas (rowtype=invoice), una
+    fila por cuota con saldo de las facturas con cuotas validas (installment), cobros y pagos sin imputar
+    (payment) y lineas de caja sin imputar (cashline). Solo documentos en estado CO, CL o WC. Si la entidad
+    no tiene saldo, la respuesta es una lista vacia.
+
+
+    SIGNOS: positivo es deuda de la entidad y negativo es saldo a su favor. Todos los importes de una fila
+    se multiplican por la columna signo (signo_issotrx del tipo de documento). Un importe negativo en el
+    comprobante (el contra-movimiento de una boleta de deposito) invierte los de toda la fila, y una imputacion
+    de mas deja el saldo con el signo contrario al del total.
+
+
+    IMPORTES en la moneda del comprobante, sin convertir. FECHAS como yyyy-MM-dd.
+
+
+    ORDEN estable: dateacct, doc_id, installmentno, rowtype. Dos llamadas sin cambios en la base devuelven
+    la misma respuesta.
+
+
+    SEGURIDAD: la entidad se valida igual que en GET /v1.0/bpartners/{id}, y cada parte se filtra por el
+    acceso del rol a C_Invoice, C_Payment y C_CashLine. Si el rol no puede leer alguna de esas tablas, la
+    llamada entera responde 401.
+  parameters:
+    - in: path
+      name: id
+      description: ID de la entidad comercial (c_bpartner_id)
+      required: true
+      schema:
+        type: integer
+    - in: query
+      name: ad_org_id
+      description: Limita las filas a esa organizacion. Sin el parametro, todas las que el rol puede ver
+      required: false
+      schema:
+        type: integer
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../model/accountstatementline.yaml#/components/schemas/AccountStatementLine'
+    # Las respuestas de error no declaran content a proposito: con text/plain el metodo generado produciria
+    # application/json y text/plain, y un cliente que pida primero text/plain recibiria 500 al no poder escribirse
+    # la lista. El mensaje de error viaja igual en el cuerpo, como texto.
+    "401":
+      description: Entidad de otra compania, o el rol no tiene acceso a la entidad o a alguna de las tablas. El mensaje va en el cuerpo
+    "404":
+      description: Entidad comercial inexistente
+    "409":
+      description: Error al calcular el estado de cuenta. El mensaje va en el cuerpo

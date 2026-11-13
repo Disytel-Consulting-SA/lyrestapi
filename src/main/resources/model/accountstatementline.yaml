@@ -1,0 +1,105 @@
+components:
+  schemas:
+    AccountStatementLine:
+      type: object
+      description: >
+        Una partida con saldo del estado de cuenta. Todos los importes estan en la moneda del comprobante y
+        multiplicados por signo: positivo es deuda de la entidad, negativo es saldo a su favor.
+      properties:
+        rowtype:
+          type: string
+          description: >
+            invoice = factura sin cuotas validas; installment = una cuota de una factura con cuotas validas;
+            payment = cobro o pago sin imputar; cashline = linea de caja sin imputar
+        doc_id:
+          type: integer
+          description: "c_invoice_id, c_payment_id o c_cashline_id segun rowtype. Los ids de tablas distintas pueden coincidir"
+        c_invoicepayschedule_id:
+          type: integer
+          description: "Cuota. Solo en rowtype=installment"
+        installmentno:
+          type: integer
+          description: >
+            Numero de la cuota entre las cuotas validas de la factura, ordenadas por vencimiento y por id. Se
+            numera antes de descartar las cuotas pagadas. Solo en rowtype=installment
+        installmentcount:
+          type: integer
+          description: "Cantidad de cuotas validas de la factura. Solo en rowtype=installment"
+        c_bpartner_id:
+          type: integer
+          description: "Entidad comercial. En las lineas de caja sin entidad propia, la de su factura"
+        ad_org_id:
+          type: integer
+          description: "Organizacion del comprobante"
+        issotrx:
+          type: boolean
+          description: "Factura: issotrx. Cobro o pago: isreceipt. Linea de caja: importe mayor o igual a cero"
+        c_doctype_id:
+          type: integer
+          description: "Tipo de documento. En las lineas de caja, el tipo CMC de la compania"
+        doctypekey:
+          type: string
+          description: "Clave del tipo de documento"
+        docbasetype:
+          type: string
+          description: "Tipo base del documento (ARI, ARC, ARR, API, APC, APP, CMC...)"
+        doctypename:
+          type: string
+          description: "Nombre del tipo de documento"
+        doctypeprintname:
+          type: string
+          description: "Nombre de impresion del tipo de documento"
+        documentno:
+          type: string
+          description: "Numero de documento. En las lineas de caja, <nombre de la caja> / <linea>"
+        puntodeventa:
+          type: integer
+          description: "Punto de venta. Solo facturas"
+        numerocomprobante:
+          type: integer
+          description: "Numero de comprobante. Solo facturas"
+        letra:
+          type: string
+          description: "Letra del comprobante (la letra, no el id). Solo facturas"
+        dateinvoiced:
+          type: string
+          description: "yyyy-MM-dd. Factura: fecha de facturacion. Cobro o pago: fecha de transaccion. Linea de caja: fecha del extracto"
+        dateacct:
+          type: string
+          description: "yyyy-MM-dd. Fecha contable"
+        duedate:
+          type: string
+          description: "yyyy-MM-dd. Factura sin cuotas: vencimiento segun el termino de pago (paymenttermduedate). Cuota: su vencimiento. Vacio en cobros, pagos y lineas de caja"
+        c_currency_id:
+          type: integer
+          description: "Moneda del comprobante"
+        iso_code:
+          type: string
+          description: "Codigo ISO de la moneda del comprobante"
+        signo:
+          type: integer
+          description: "1 o -1. signo_issotrx del tipo de documento; en las lineas de caja, 1 si el importe es negativo y -1 si no"
+        grandtotal:
+          type: number
+          description: "Total del comprobante por signo. Factura: c_invoice.grandtotal. Cobro o pago: payamt, con su signo. Linea de caja: abs(amount)"
+        dueamt:
+          type: number
+          description: "Importe de la cuota por signo. Solo en rowtype=installment"
+        paidamt:
+          type: number
+          description: "Imputado por signo. En las cuotas es dueamt - openamt"
+        openamt:
+          type: number
+          description: "Saldo calculado por Libertya, por signo"
+        salesrep_id:
+          type: integer
+          description: "Vendedor de la factura. Solo facturas"
+        c_paymentterm_id:
+          type: integer
+          description: "Termino de pago de la factura. Solo facturas"
+        paymentrule:
+          type: string
+          description: "Forma de pago de la factura. Solo facturas"
+        c_order_id:
+          type: integer
+          description: "Pedido de la factura. Solo facturas"
