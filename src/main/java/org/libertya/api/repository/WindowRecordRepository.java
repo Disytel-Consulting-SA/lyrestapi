@@ -17,6 +17,7 @@ import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.Env;
+import org.openXpertya.util.Trx;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -42,6 +43,35 @@ public class WindowRecordRepository extends AbstractRepository {
             "(?i)^([A-Za-z][A-Za-z0-9_]*)(?:\\s+(ASC|DESC))?$");
 
     private final GenericRepository genericRepository;
+
+    @FunctionalInterface
+    private interface CoreTransactionWork<T> {
+        T execute(String trxName) throws ModelException, NotFoundException, AuthException;
+    }
+
+    /**
+     * La transacción pertenece al repositorio contextual. Ante cualquier
+     * fallo no se confirma ninguna escritura realizada con este trxName.
+     */
+    private <T> T inCoreTransaction(CoreTransactionWork<T> work)
+            throws ModelException, NotFoundException, AuthException {
+        String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
+        try {
+            T result = work.execute(trxName);
+            commitTransaction(trxName);
+            return result;
+        } catch (Exception ex) {
+            rollbackTransaction(trxName);
+            if (ex instanceof ModelException) throw (ModelException) ex;
+            if (ex instanceof NotFoundException) throw (NotFoundException) ex;
+            if (ex instanceof AuthException) throw (AuthException) ex;
+            if (ex instanceof RuntimeException) throw (RuntimeException) ex;
+            throw new ModelException("Error en operación contextual: " + ex.getMessage());
+        } finally {
+            closeTransaction(trxName);
+        }
+    }
+
 
 
     /* =========================== API pública =========================== */
@@ -104,7 +134,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar los valores del nuevo registro");
-        return withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+        return inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             checkTabWritable(tabId);
             String sql = "SELECT IsInsertRecord FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
             try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
@@ -130,8 +160,8 @@ public class WindowRecordRepository extends AbstractRepository {
                 }
                 insertValues.put(parent.key, parent.id);
             }
-            return genericRepository.insertRecord(info, spec.getTableName(), insertValues);
-        });
+            return genericRepository.insertRecord(info, spec.getTableName(), insertValues, trxName);
+        }));
     }
 
     public void updateTabRecord(UserInfo info, int tabId, int recordId,
@@ -139,20 +169,20 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar al menos un campo para actualizar");
-        withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+        inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             ParentLink parent = requireParentContext(info, tab, parentValues);
             checkTabWritable(tabId);
-            GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
-            verifyParentLink(info, spec, recordId, parent);
+            GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId, trxName);
+            verifyParentLink(info, spec, recordId, parent, trxName);
             if (parent != null) {
                 for (String field : values.keySet()) {
                     if (parent.key.equalsIgnoreCase(field))
                         throw new AuthException("No se permite cambiar la referencia al padre desde esta pestaña");
                 }
             }
-            genericRepository.updateRecord(info, spec.getTableName(), recordId, values);
+            genericRepository.updateRecord(info, spec.getTableName(), recordId, values, trxName);
             return null;
-        });
+        }));
     }
 
     public void deleteTabRecord(UserInfo info, int tabId, int recordId,
@@ -163,9 +193,9 @@ public class WindowRecordRepository extends AbstractRepository {
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
             verifyParentLink(info, spec, recordId, parent);
-            genericRepository.deleteRecord(info, spec.getTableName(), recordId);
+            genericRepository.deleteRecord(info, spec.getTableName(), recordId, trxName);
             return null;
-        });
+        }));
     }
 
     /**
@@ -295,7 +325,7 @@ public class WindowRecordRepository extends AbstractRepository {
      * requieren resolución específica y se deniegan por defecto.
      */
     private void verifyParentLink(UserInfo info, GenericRepository.TableSpec child,
-            int recordId, ParentLink parent) throws AuthException, ModelException {
+            int recordId, ParentLink parent, String trxName) throws AuthException, ModelException {
         if (parent == null)
             return;
         M_Table childTable = M_Table.get(info.getCtx(), child.getTableName());
@@ -303,7 +333,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throw new AuthException("No se puede verificar la relación directa padre-hijo de esta pestaña");
         String sql = "SELECT 1 FROM " + child.getTableName()
                 + " WHERE " + child.getKeyColumn() + "=? AND " + parent.key + "=?";
-        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
             ps.setInt(1, recordId);
             ps.setInt(2, parent.id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -335,13 +365,13 @@ public class WindowRecordRepository extends AbstractRepository {
     }
 
     private GenericRepository.TableSpec contextualTable(UserInfo info, MTab tab,
-            int windowNo, int recordId) throws ModelException, NotFoundException, AuthException {
+            int windowNo, int recordId, String trxName) throws ModelException, NotFoundException, AuthException {
         GenericRepository.TableSpec spec = genericRepository.resolveTable(
                 info, tab.getQueryDefinition().getTableName());
         SafeQueryFilter.Compiled filter = validateFilter(info, spec, null);
         String sql = "SELECT 1 FROM (" + buildBaseSelect(info, tab, windowNo, spec, filter)
                 + ") contextual WHERE contextual." + spec.getKeyColumn() + "=?";
-        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
             ps.setInt(1, recordId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next())
