@@ -84,9 +84,10 @@ public class WindowRecordController implements WindowrecordsApi {
      */
     @PostMapping("/v1.0/windowrecords/{tabId}/records")
     public ResponseEntity<String> insertContextualRecord(@PathVariable Integer tabId,
-            @RequestBody Map<String, Object> values) {
+            @RequestBody ContextualUpdate body) {
         try {
-            String id = repository.insertTabRecord(jwt.infoOf(request), tabId, values);
+            String id = repository.insertTabRecord(jwt.infoOf(request), tabId,
+                    body.parentValues, body.values);
             return ResponseEntity.status(HttpStatus.CREATED).body(id);
         } catch (NotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
