@@ -64,7 +64,7 @@ public class WindowSchemaRepository {
     }
 
     private List<String> getPkColumns(String tableName, String dataEndpoint, GenericRepository.TableSpec genericSpec) {
-        if (dataEndpoint == null) return null;
+        if (dataEndpoint == null && genericSpec == null) return null;
 
         AbstractRepository repository = repositoriesByTable.get(tableName.toLowerCase());
         if (repository != null) {
