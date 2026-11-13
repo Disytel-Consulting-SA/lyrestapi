@@ -528,6 +528,10 @@ paths:
     $ref: ./paths/processes_id_parameters_parameterid_lookup.yaml
   /v1.0/tabs/{id}/records:
     $ref: ./paths/tabs_id_records.yaml
+  /v1.0/windowrecords/{tabId}/records:
+    $ref: ./paths/windowrecords_tabid_records.yaml
+  /v1.0/windowrecords/{tabId}/records/{recordId}:
+    $ref: ./paths/windowrecords_tabid_records_recordid.yaml
   /v1.0/tabs/{id}/new-record:
     $ref: ./paths/tabs_id_new_record.yaml
   /v1.0/tabs/{id}/evaluate:
