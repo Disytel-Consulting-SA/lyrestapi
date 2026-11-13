@@ -7,6 +7,9 @@ import org.libertya.api.stub.model.WindowSchemaReferenceValue;
 import org.libertya.api.stub.model.WindowSchemaTab;
 import org.openXpertya.util.DB;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.io.InputStream;
 import java.sql.PreparedStatement;
@@ -45,9 +48,12 @@ public class WindowSchemaRepository {
 
     private final Map<String, AbstractRepository> repositoriesByTable;
     private final GenericRepository genericRepository;
+    private final Set<String> specificCrudMappings;
 
-    public WindowSchemaRepository(List<AbstractRepository> repositories, GenericRepository genericRepository) {
+    public WindowSchemaRepository(List<AbstractRepository> repositories, GenericRepository genericRepository,
+            RequestMappingHandlerMapping handlerMapping) {
         this.genericRepository = genericRepository;
+        this.specificCrudMappings = collectCrudMappings(handlerMapping);
         repositoriesByTable = new HashMap<>();
 
         for (AbstractRepository repository : repositories) {
@@ -86,31 +92,61 @@ public class WindowSchemaRepository {
     }
 
     /**
-     * Anuncia únicamente operaciones verificables. Los endpoints específicos
-     * conservan su precedencia; no se presupone que implementen PUT/DELETE.
+     * Inspecciona los mappings HTTP efectivamente registrados por Spring,
+     * incluidos los definidos en interfaces OpenAPI generadas.
+     */
+    private static Set<String> collectCrudMappings(RequestMappingHandlerMapping mapping) {
+        Set<String> result = new HashSet<>();
+        for (RequestMappingInfo info : mapping.getHandlerMethods().keySet()) {
+            for (String path : info.getPatternValues()) {
+                for (RequestMethod method : info.getMethodsCondition().getMethods())
+                    result.add(method.name() + " " + path);
+            }
+        }
+        return Collections.unmodifiableSet(result);
+    }
+
+    private boolean supportsSpecific(RequestMethod method, String path) {
+        return path != null && specificCrudMappings.contains(method.name() + " " + path);
+    }
+
+    /**
+     * Prioriza operaciones específicas realmente publicadas y usa el endpoint
+     * genérico para completar las faltantes cuando la tabla es compatible.
+     * El schema no reemplaza los controles de permisos del servidor.
      */
     private Map<String, String> resolveCrudEndpoints(String dataEndpoint, String createEndpoint,
             GenericRepository.TableSpec genericSpec, boolean readOnly, boolean insertRecord) {
         Map<String, String> endpoints = new LinkedHashMap<>();
-        if (dataEndpoint != null)
-            endpoints.put("GET", dataEndpoint);
-        if (dataEndpoint == null && genericSpec == null)
-            return endpoints;
-
         String genericEndpoint = genericSpec != null
                 ? "/v1.0/generic/" + genericSpec.getTableName() : null;
-        // Un endpoint de lectura específico no garantiza soporte de POST.
-        // El endpoint alternativo de cabecera sí está declarado explícitamente.
+        boolean writable = !readOnly && genericSpec != null
+                && !genericSpec.isView() && genericSpec.hasStandardKey();
+
+        if (supportsSpecific(RequestMethod.GET, dataEndpoint))
+            endpoints.put("GET", dataEndpoint);
+        else if (genericEndpoint != null)
+            endpoints.put("GET", genericEndpoint);
+
         if (!readOnly && insertRecord) {
-            if (createEndpoint != null)
+            if (supportsSpecific(RequestMethod.POST, createEndpoint))
                 endpoints.put("POST", createEndpoint);
-            else if (genericEndpoint != null && !genericSpec.isView() && genericSpec.hasStandardKey())
+            else if (supportsSpecific(RequestMethod.POST, dataEndpoint))
+                endpoints.put("POST", dataEndpoint);
+            else if (writable)
                 endpoints.put("POST", genericEndpoint);
         }
 
-        if (!readOnly && genericSpec != null && !genericSpec.isView() && genericSpec.hasStandardKey()) {
-            endpoints.put("PUT", genericEndpoint + "/{id}");
-            endpoints.put("DELETE", genericEndpoint + "/{id}");
+        if (!readOnly) {
+            if (supportsSpecific(RequestMethod.PUT, dataEndpoint == null ? null : dataEndpoint + "/{id}"))
+                endpoints.put("PUT", dataEndpoint + "/{id}");
+            else if (writable)
+                endpoints.put("PUT", genericEndpoint + "/{id}");
+
+            if (supportsSpecific(RequestMethod.DELETE, dataEndpoint == null ? null : dataEndpoint + "/{id}"))
+                endpoints.put("DELETE", dataEndpoint + "/{id}");
+            else if (writable)
+                endpoints.put("DELETE", genericEndpoint + "/{id}");
         }
         return endpoints;
     }
