@@ -19,6 +19,41 @@ import org.openXpertya.model.PO;
  */
 public class ClientOrgAuth {
 
+    /**
+     * Comprueba permisos de escritura sobre la tabla y el alcance del registro.
+     * Para registros existentes también aplica las restricciones de registro del rol.
+     */
+    public static void validateWrite(UserInfo info, PO po, boolean existing) throws AuthException {
+        if (info == null || po == null || !info.hasRole())
+            throw new AuthException("Se requiere un rol para escribir registros");
+        MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+        if (role == null || !role.isTableAccess(po.get_Table_ID(), false))
+            throw new AuthException("Acceso de escritura no autorizado a la tabla");
+        int clientId = po.getAD_Client_ID();
+        int orgId = po.getAD_Org_ID();
+        if ((info.getClientID() > 0 && clientId != 0 && clientId != info.getClientID())
+                || !role.isClientAccess(clientId, false)
+                || !role.isOrgAccess(orgId, false))
+            throw new AuthException("Acceso de escritura no autorizado a compañía u organización");
+        if (existing) {
+            String tableName = po.get_TableName();
+            M_Table table = M_Table.get(info.getCtx(), tableName);
+            String restriction = RecordAccessFilter.where(role, table, tableName);
+            if (!"1=1".equals(restriction)) {
+                String sql = "SELECT 1 FROM " + tableName + " WHERE " + tableName + "_ID=? AND (" + restriction + ")";
+                try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+                    ps.setInt(1, po.getID());
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (!rs.next())
+                            throw new AuthException("Acceso de escritura no autorizado al registro");
+                    }
+                } catch (SQLException e) {
+                    throw new AuthException("No fue posible verificar permisos de escritura del registro");
+                }
+            }
+        }
+    }
+
     public static PO validate(UserInfo info, PO aPO) throws AuthException {
         if (info == null || aPO == null)
             return aPO;
