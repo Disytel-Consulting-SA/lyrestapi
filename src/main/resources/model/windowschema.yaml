@@ -61,6 +61,11 @@ components:
           type: string
           nullable: true
           description: Endpoint REST alternativo utilizado para crear nuevos registros
+        crud_endpoints:
+          type: object
+          description: Endpoints disponibles por operación (GET, POST, PUT, DELETE). La ausencia de una operación indica que no se anuncia como disponible.
+          additionalProperties:
+            type: string
         fields:
           type: array
           items:
