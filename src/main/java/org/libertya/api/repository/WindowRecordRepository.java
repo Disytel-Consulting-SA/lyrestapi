@@ -134,7 +134,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar los valores del nuevo registro");
-        validateWriteParentValues(parentValues);
+        validateWriteParentValues(info, tabId, parentValues);
         return inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             checkTabWritable(tabId);
             String sql = "SELECT IsInsertRecord FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
@@ -181,7 +181,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar al menos un campo para actualizar");
-        validateWriteParentValues(parentValues);
+        validateWriteParentValues(info, tabId, parentValues);
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
             checkTabWritable(tabId);
@@ -208,7 +208,7 @@ public class WindowRecordRepository extends AbstractRepository {
     public void deleteTabRecord(UserInfo info, int tabId, int recordId,
             Map<String, String> parentValues)
             throws ModelException, NotFoundException, AuthException {
-        validateWriteParentValues(parentValues);
+        validateWriteParentValues(info, tabId, parentValues);
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
             checkTabWritable(tabId);
@@ -231,19 +231,73 @@ public class WindowRecordRepository extends AbstractRepository {
      * Las escrituras solo admiten identificadores de registros, nunca
      * variables de seguridad, organización o contexto arbitrario.
      */
-    private void validateWriteParentValues(Map<String, String> values) throws AuthException {
-        if (values == null)
+    /**
+     * Solo admite claves primarias de las pestañas ancestras reales.
+     * Se valida antes de poblar Env para impedir inyección de variables
+     * arbitrarias con apariencia de identificadores.
+     */
+    private void validateWriteParentValues(UserInfo info, int tabId,
+            Map<String, String> values) throws AuthException, ModelException {
+        if (info == null)
+            throw new AuthException("Usuario no autenticado");
+        String sql = "SELECT p.AD_Table_ID, p.TabLevel FROM AD_Tab c "
+                + "JOIN AD_Tab p ON p.AD_Window_ID=c.AD_Window_ID "
+                + "AND p.IsActive='Y' AND p.SeqNo<c.SeqNo "
+                + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y' ORDER BY p.SeqNo";
+        List<Integer> ancestors = new ArrayList<>();
+        int targetLevel;
+        try (PreparedStatement ps = DB.prepareStatement(
+                "SELECT TabLevel FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'", null)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("Pestaña no disponible");
+                targetLevel = rs.getInt(1);
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error consultando nivel de pestaña: " + e.getMessage());
+        }
+        // Reconstruye la rama activa: una pestaña del mismo nivel reemplaza
+        // a sus hermanas; una de nivel inferior cierra los descendientes.
+        List<Integer> branch = new ArrayList<>();
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int level = rs.getInt(2);
+                    if (level < 0 || level > branch.size())
+                        throw new AuthException("Jerarquía de pestañas inconsistente");
+                    while (branch.size() > level)
+                        branch.remove(branch.size() - 1);
+                    branch.add(rs.getInt(1));
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error resolviendo jerarquía de pestañas: " + e.getMessage());
+        }
+        if (targetLevel < 0 || targetLevel > branch.size())
+            throw new AuthException("Jerarquía de pestañas incompleta");
+        while (branch.size() > targetLevel)
+            branch.remove(branch.size() - 1);
+        Set<String> allowed = new HashSet<>();
+        for (Integer tableId : branch) {
+            M_Table table = M_Table.get(info.getCtx(), tableId);
+            if (table == null)
+                throw new AuthException("Metadatos de tabla ancestra no disponibles");
+            GenericRepository.TableSpec spec = genericRepository.resolveTable(info, table.getTableName());
+            allowed.add(spec.getKeyColumn().toLowerCase(Locale.ROOT));
+        }
+        if (values == null || values.isEmpty()) {
+            if (targetLevel > 0)
+                throw new AuthException("Falta el contexto de las pestañas ancestras");
             return;
+        }
         for (Map.Entry<String, String> entry : values.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            if (key == null || !key.matches("[A-Za-z][A-Za-z0-9_]*_ID")
-                    || key.equalsIgnoreCase("AD_Client_ID")
-                    || key.equalsIgnoreCase("AD_Org_ID")
-                    || key.equalsIgnoreCase("AD_Role_ID")
-                    || key.equalsIgnoreCase("AD_User_ID")
+            if (key == null || !allowed.contains(key.toLowerCase(Locale.ROOT))
                     || value == null || !value.matches("[0-9]{1,10}"))
-                throw new AuthException("El contexto de escritura solo admite identificadores padre válidos");
+                throw new AuthException("El contexto contiene una columna ajena a la jerarquía de pestañas");
             try {
                 if (Integer.parseInt(value) <= 0)
                     throw new AuthException("Identificador padre inválido");
@@ -251,6 +305,8 @@ public class WindowRecordRepository extends AbstractRepository {
                 throw new AuthException("Identificador padre fuera de rango");
             }
         }
+        if (values.size() != allowed.size())
+            throw new AuthException("Faltan identificadores de pestañas ancestras");
     }
 
     private ParentLink requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues, String trxName)
