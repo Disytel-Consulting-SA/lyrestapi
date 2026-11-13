@@ -593,14 +593,23 @@ public class WindowSchemaRepository {
             return;
         Map<Integer, WindowSchemaTab> byId = new HashMap<>();
         Map<Integer, Boolean> supported = new HashMap<>();
+        Map<Integer, Set<String>> ancestorKeys = new HashMap<>();
         for (WindowSchemaTab tab : schema.getTabs()) {
             byId.put(tab.getAdTabId(), tab);
             boolean relationSupported = true;
+            Set<String> keys = new HashSet<>();
             if (tab.getTablevel() != null && tab.getTablevel() > 0) {
                 WindowSchemaTab parent = byId.get(tab.getParentAdTabId());
                 relationSupported = parent != null
                         && Boolean.TRUE.equals(supported.get(parent.getAdTabId()))
                         && parent.getPkColumns() != null && parent.getPkColumns().size() == 1;
+                if (relationSupported) {
+                    keys.addAll(ancestorKeys.get(parent.getAdTabId()));
+                    String parentKey = parent.getPkColumns().get(0);
+                    // parentValues identifica ancestros por nombre de PK:
+                    // dos ancestros con la misma PK serían ambiguos.
+                    relationSupported = keys.add(parentKey.toLowerCase(Locale.ROOT));
+                }
                 if (relationSupported) {
                     String parentKey = parent.getPkColumns().get(0);
                     String explicit = explicitLinkColumns.get(tab.getAdTabId());
@@ -625,6 +634,7 @@ public class WindowSchemaRepository {
                 }
             }
             supported.put(tab.getAdTabId(), relationSupported);
+            ancestorKeys.put(tab.getAdTabId(), keys);
             Map<String, String> endpoints = new LinkedHashMap<>();
             if (tab.getCrudEndpoints() != null && tab.getCrudEndpoints().get("GET") != null)
                 endpoints.put("GET", tab.getCrudEndpoints().get("GET"));
