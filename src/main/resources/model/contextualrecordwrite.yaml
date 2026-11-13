@@ -1,0 +1,23 @@
+components:
+  schemas:
+    ContextualRecordWrite:
+      type: object
+      description: >
+        Escritura de un registro en el contexto de una pestaña dinámica.
+        parentValues identifica toda la cadena ancestral por sus claves
+        primarias; values contiene exclusivamente los campos del registro.
+      required:
+        - values
+      properties:
+        parentValues:
+          type: object
+          description: >
+            Mapa de claves primarias ancestras a identificadores positivos
+            expresados como strings. Obligatorio para pestañas detalle.
+          additionalProperties:
+            type: string
+        values:
+          type: object
+          description: Campos del registro a crear o modificar.
+          minProperties: 1
+          additionalProperties: true
