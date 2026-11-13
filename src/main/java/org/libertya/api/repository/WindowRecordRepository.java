@@ -125,6 +125,7 @@ public class WindowRecordRepository extends AbstractRepository {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar al menos un campo para actualizar");
         withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            requireParentContext(tab, parentValues);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
             genericRepository.updateRecord(info, spec.getTableName(), recordId, values);
@@ -136,11 +137,29 @@ public class WindowRecordRepository extends AbstractRepository {
             Map<String, String> parentValues)
             throws ModelException, NotFoundException, AuthException {
         withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            requireParentContext(tab, parentValues);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = contextualTable(info, tab, windowNo, recordId);
             genericRepository.deleteRecord(info, spec.getTableName(), recordId);
             return null;
         });
+    }
+
+    /**
+     * Un detalle no puede evaluarse con contexto padre ausente: las
+     * expresiones de CORE podrían quedar sin resolver o ampliar el filtro.
+     */
+    private void requireParentContext(MTab tab, Map<String, String> parentValues)
+            throws AuthException {
+        if (tab.getTabLevel() <= 0)
+            return;
+        if (parentValues == null || parentValues.isEmpty())
+            throw new AuthException("Se requiere contexto del registro padre para operar en una pestaña detalle");
+        for (Map.Entry<String, String> entry : parentValues.entrySet()) {
+            if (entry.getKey() == null || !entry.getKey().matches("[A-Za-z_][A-Za-z0-9_]*")
+                    || entry.getValue() == null || entry.getValue().trim().isEmpty())
+                throw new AuthException("Contexto del registro padre inválido o incompleto");
+        }
     }
 
     private WindowRecordQuery parentQuery(Map<String, String> values) {
