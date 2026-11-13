@@ -446,9 +446,8 @@ public class WindowRecordRepository extends AbstractRepository {
         }
         if (!genericRepository.retrieveRecord(info, parentSpec.getTableName(), parentId, parentKey).isPresent())
             throw new AuthException("El registro padre no existe o no es accesible");
-        // El padre queda protegido frente a cambios concurrentes hasta el
-        // commit o rollback de la escritura contextual.
-        lockRecordForWrite(parentSpec, parentId, trxName);
+        // validateAncestorRelations ya bloqueó toda la cadena, incluido
+        // el padre inmediato, en la misma transacción.
         String linkColumn = resolveParentLinkColumn(tab.getAD_Tab_ID(), parentTableId, parentKey);
         return new ParentLink(linkColumn, parentId);
     }
