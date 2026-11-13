@@ -366,6 +366,35 @@ public class GenericRepository extends AbstractRepository {
     }
 
     /**
+     * Variantes con transacción explícita para orquestación contextual.
+     * La transacción pertenece al invocador: estos métodos no hacen commit.
+     */
+    public String insertRecord(UserInfo info, String table, Map<String, Object> values,
+            String trxName) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTable(info, table);
+        checkWritable(spec);
+        checkWriteAccess(info, spec);
+        return insertEntity(info, spec.getTableName(), values, trxName);
+    }
+
+    public void updateRecord(UserInfo info, String table, int id,
+            Map<String, Object> values, String trxName)
+            throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTable(info, table);
+        checkWritable(spec);
+        checkWriteAccess(info, spec);
+        updateEntity(info, new int[]{id}, spec.getTableName(), values, true, trxName);
+    }
+
+    public void deleteRecord(UserInfo info, String table, int id, String trxName)
+            throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTable(info, table);
+        checkWritable(spec);
+        checkWriteAccess(info, spec);
+        deleteEntity(info, spec.getTableName(), new int[]{id}, trxName);
+    }
+
+    /**
      * Recupera las acciones de procesamiento actualmente disponibles para un documento.
      *
      * La disponibilidad se determina utilizando el estado persistido actual del PO,
