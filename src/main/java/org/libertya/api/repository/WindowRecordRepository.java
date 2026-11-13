@@ -149,7 +149,7 @@ public class WindowRecordRepository extends AbstractRepository {
             }
             GenericRepository.TableSpec spec = genericRepository.resolveTable(
                     info, tab.getQueryDefinition().getTableName());
-            ParentLink parent = requireParentContext(info, tab, parentValues);
+            ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
             Map<String, Object> insertValues = new HashMap<>(values);
             if (parent != null) {
                 M_Table childTable = M_Table.get(info.getCtx(), spec.getTableName());
@@ -172,7 +172,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throw new ModelException("Debe indicar al menos un campo para actualizar");
         validateWriteParentValues(parentValues);
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
-            ParentLink parent = requireParentContext(info, tab, parentValues);
+            ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = genericRepository.resolveTable(
                     info, tab.getQueryDefinition().getTableName());
@@ -195,7 +195,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
         validateWriteParentValues(parentValues);
         inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
-            ParentLink parent = requireParentContext(info, tab, parentValues);
+            ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
             checkTabWritable(tabId);
             GenericRepository.TableSpec spec = genericRepository.resolveTable(
                     info, tab.getQueryDefinition().getTableName());
@@ -238,7 +238,7 @@ public class WindowRecordRepository extends AbstractRepository {
         }
     }
 
-    private ParentLink requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues)
+    private ParentLink requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues, String trxName)
             throws AuthException, ModelException, NotFoundException {
         if (tab.getTabLevel() <= 0)
             return null;
@@ -292,6 +292,9 @@ public class WindowRecordRepository extends AbstractRepository {
         }
         if (!genericRepository.retrieveRecord(info, parentSpec.getTableName(), parentId, parentKey).isPresent())
             throw new AuthException("El registro padre no existe o no es accesible");
+        // El padre queda protegido frente a cambios concurrentes hasta el
+        // commit o rollback de la escritura contextual.
+        lockRecordForWrite(parentSpec, parentId, trxName);
         String linkColumn = resolveParentLinkColumn(tab.getAD_Tab_ID(), parentTableId, parentKey);
         return new ParentLink(linkColumn, parentId);
     }
