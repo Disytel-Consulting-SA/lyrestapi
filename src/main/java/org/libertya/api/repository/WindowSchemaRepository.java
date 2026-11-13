@@ -44,8 +44,10 @@ public class WindowSchemaRepository {
     private static final Properties TABLE_CREATE_ENDPOINTS = loadTableCreateEndpoints();
 
     private final Map<String, AbstractRepository> repositoriesByTable;
+    private final GenericRepository genericRepository;
 
-    public WindowSchemaRepository(List<AbstractRepository> repositories) {
+    public WindowSchemaRepository(List<AbstractRepository> repositories, GenericRepository genericRepository) {
+        this.genericRepository = genericRepository;
         repositoriesByTable = new HashMap<>();
 
         for (AbstractRepository repository : repositories) {
@@ -55,16 +57,32 @@ public class WindowSchemaRepository {
         }
     }
 
-    private List<String> getPkColumns(String tableName, String dataEndpoint) {
+    private List<String> getPkColumns(String tableName, String dataEndpoint, GenericRepository.TableSpec genericSpec) {
         if (dataEndpoint == null) return null;
 
         AbstractRepository repository = repositoriesByTable.get(tableName.toLowerCase());
-        if (repository == null) return null;
+        if (repository != null) {
+            String[] pkColumns = repository.getPkColumns();
+            return pkColumns != null ? Arrays.asList(pkColumns) : Arrays.asList(tableName + "_ID");
+        }
 
-        String[] pkColumns = repository.getPkColumns();
-        if (pkColumns != null) return Arrays.asList(pkColumns);
+        return genericSpec != null ? Arrays.asList(genericSpec.getKeyColumn()) : null;
+    }
 
-        return Arrays.asList(tableName + "_ID");
+    /**
+     * El mapping generado tiene prioridad. Para tablas sin endpoint específico,
+     * se publica el genérico únicamente si el modelo y la PK son compatibles.
+     * La disponibilidad se determina en tiempo de consulta, sin modificar
+     * table-endpoints.properties (generado por utils/genSchema.sh).
+     */
+    private GenericRepository.TableSpec resolveGenericFallback(UserInfo info, String tableName) {
+        if (info == null || TABLE_ENDPOINTS.containsKey(tableName))
+            return null;
+        try {
+            return genericRepository.resolveTable(info, tableName);
+        } catch (org.libertya.api.exception.ModelException | org.libertya.api.exception.NotFoundException ex) {
+            return null;
+        }
     }
 
     /**
@@ -259,6 +277,10 @@ public class WindowSchemaRepository {
                     String tableName = rs.getString("tablename");
                     String dataEndpoint = TABLE_ENDPOINTS.getProperty(tableName);
                     String createEndpoint = TABLE_CREATE_ENDPOINTS.getProperty(tableName);
+                    GenericRepository.TableSpec genericSpec = dataEndpoint == null
+                            ? resolveGenericFallback(info, tableName) : null;
+                    if (genericSpec != null)
+                        dataEndpoint = "/v1.0/generic/" + genericSpec.getTableName();
 
                     currentTab = new WindowSchemaTab()
                             .adTabId(tabId)
@@ -274,7 +296,7 @@ public class WindowSchemaRepository {
                             .tablename(tableName)
                             .dataEndpoint(dataEndpoint)
                             .createEndpoint(createEndpoint)
-                            .pkColumns(getPkColumns(tableName, dataEndpoint));
+                            .pkColumns(getPkColumns(tableName, dataEndpoint, genericSpec));
 
                     /*
                      * Padre estructural:
