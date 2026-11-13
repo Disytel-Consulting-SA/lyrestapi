@@ -244,7 +244,6 @@ public class WindowRecordRepository extends AbstractRepository {
                 + "JOIN AD_Tab p ON p.AD_Window_ID=c.AD_Window_ID "
                 + "AND p.IsActive='Y' AND p.SeqNo<c.SeqNo "
                 + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y' ORDER BY p.SeqNo";
-        List<Integer> ancestors = new ArrayList<>();
         int targetLevel;
         try (PreparedStatement ps = DB.prepareStatement(
                 "SELECT TabLevel FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'", null)) {
@@ -292,10 +291,12 @@ public class WindowRecordRepository extends AbstractRepository {
                 throw new AuthException("Falta el contexto de las pestañas ancestras");
             return;
         }
+        Set<String> supplied = new HashSet<>();
         for (Map.Entry<String, String> entry : values.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
-            if (key == null || !allowed.contains(key.toLowerCase(Locale.ROOT))
+            if (key == null || !supplied.add(key.toLowerCase(Locale.ROOT))
+                    || !allowed.contains(key.toLowerCase(Locale.ROOT))
                     || value == null || !value.matches("[0-9]{1,10}"))
                 throw new AuthException("El contexto contiene una columna ajena a la jerarquía de pestañas");
             try {
@@ -305,7 +306,7 @@ public class WindowRecordRepository extends AbstractRepository {
                 throw new AuthException("Identificador padre fuera de rango");
             }
         }
-        if (values.size() != allowed.size())
+        if (supplied.size() != allowed.size())
             throw new AuthException("Faltan identificadores de pestañas ancestras");
     }
 
