@@ -5,6 +5,7 @@ import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
+import org.libertya.api.security.ClientOrgAuth;
 import org.libertya.api.stub.model.DocumentAction;
 import org.libertya.api.stub.model.DocumentActions;
 import org.libertya.api.stub.model.GenericRecord;
@@ -402,6 +403,10 @@ public class GenericRepository extends AbstractRepository {
         if (!spec.isDocument())
             throw new ModelException("La tabla " + spec.getTableName() + " no es un documento: no admite process");
 
+        PO document = getPO(info, spec.getTableName(), new int[]{id}, null);
+        if (document == null || document.getID() <= 0)
+            throw new NotFoundException();
+        ClientOrgAuth.validateWrite(info, document, true);
         return processEntity(info, spec.getTableName(), new int[]{id}, action, null);
     }
 
