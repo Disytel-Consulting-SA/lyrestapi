@@ -95,14 +95,17 @@ public class WindowRecordRepository extends AbstractRepository {
      * Creación contextual de pestañas raíz. Las pestañas detalle requieren
      * validación explícita de la relación padre/hijo antes de habilitar POST.
      */
-    public String insertTabRecord(UserInfo info, int tabId, Map<String, Object> values)
+    /**
+     * Inserción contextual. En detalles solo se habilita una relación directa
+     * inequívoca con el padre, que se valida y se impone desde el servidor.
+     */
+    public String insertTabRecord(UserInfo info, int tabId,
+            Map<String, String> parentValues, Map<String, Object> values)
             throws ModelException, NotFoundException, AuthException {
         if (values == null || values.isEmpty())
             throw new ModelException("Debe indicar los valores del nuevo registro");
-        return withTab(info, tabId, null, (tab, windowNo) -> {
+        return withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
             checkTabWritable(tabId);
-            if (tab.getTabLevel() > 0)
-                throw new AuthException("La creación contextual de pestañas detalle requiere validar el registro padre");
             String sql = "SELECT IsInsertRecord FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
             try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
                 ps.setInt(1, tabId);
@@ -115,7 +118,19 @@ public class WindowRecordRepository extends AbstractRepository {
             }
             GenericRepository.TableSpec spec = genericRepository.resolveTable(
                     info, tab.getQueryDefinition().getTableName());
-            return genericRepository.insertRecord(info, spec.getTableName(), values);
+            ParentLink parent = requireParentContext(info, tab, parentValues);
+            Map<String, Object> insertValues = new HashMap<>(values);
+            if (parent != null) {
+                M_Table childTable = M_Table.get(info.getCtx(), spec.getTableName());
+                if (childTable == null || childTable.getColumn(parent.key) == null)
+                    throw new AuthException("No se puede resolver una relación directa padre-hijo para crear el detalle");
+                for (String field : values.keySet()) {
+                    if (parent.key.equalsIgnoreCase(field))
+                        throw new AuthException("La referencia al padre debe provenir exclusivamente del contexto validado");
+                }
+                insertValues.put(parent.key, parent.id);
+            }
+            return genericRepository.insertRecord(info, spec.getTableName(), insertValues);
         });
     }
 
