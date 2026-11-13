@@ -1,0 +1,30 @@
+post:
+  tags:
+    - windowrecords
+  summary: Crea un registro dentro del contexto de una pestaña
+  operationId: insertContextualRecord
+  parameters:
+    - name: tabId
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/contextualrecordwrite.yaml#/components/schemas/ContextualRecordWrite'
+  responses:
+    "201":
+      description: Identificador del registro creado
+      content:
+        text/plain:
+          schema:
+            type: string
+    "403":
+      description: Escritura no autorizada
+    "404":
+      description: Pestaña o registro ancestral inexistente
+    "409":
+      description: Error de validación contextual o de modelo
