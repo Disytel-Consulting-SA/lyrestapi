@@ -70,13 +70,13 @@ public class WindowSchemaRepository {
     }
 
     /**
-     * El mapping generado tiene prioridad. Para tablas sin endpoint específico,
-     * se publica el genérico únicamente si el modelo y la PK son compatibles.
+     * Resuelve compatibilidad genérica independientemente de la existencia de
+     * endpoints específicos: estos conservan prioridad por operación.
      * La disponibilidad se determina en tiempo de consulta, sin modificar
      * table-endpoints.properties (generado por utils/genSchema.sh).
      */
     private GenericRepository.TableSpec resolveGenericFallback(UserInfo info, String tableName) {
-        if (info == null || TABLE_ENDPOINTS.containsKey(tableName))
+        if (info == null)
             return null;
         try {
             return genericRepository.resolveTable(info, tableName);
@@ -92,22 +92,25 @@ public class WindowSchemaRepository {
     private Map<String, String> resolveCrudEndpoints(String dataEndpoint, String createEndpoint,
             GenericRepository.TableSpec genericSpec, boolean readOnly, boolean insertRecord) {
         Map<String, String> endpoints = new LinkedHashMap<>();
-        if (dataEndpoint == null)
+        if (dataEndpoint != null)
+            endpoints.put("GET", dataEndpoint);
+        if (dataEndpoint == null && genericSpec == null)
             return endpoints;
 
-        endpoints.put("GET", dataEndpoint);
+        String genericEndpoint = genericSpec != null
+                ? "/v1.0/generic/" + genericSpec.getTableName() : null;
         // Un endpoint de lectura específico no garantiza soporte de POST.
         // El endpoint alternativo de cabecera sí está declarado explícitamente.
         if (!readOnly && insertRecord) {
             if (createEndpoint != null)
                 endpoints.put("POST", createEndpoint);
-            else if (genericSpec != null && !genericSpec.isView() && genericSpec.hasStandardKey())
-                endpoints.put("POST", dataEndpoint);
+            else if (genericEndpoint != null && !genericSpec.isView() && genericSpec.hasStandardKey())
+                endpoints.put("POST", genericEndpoint);
         }
 
         if (!readOnly && genericSpec != null && !genericSpec.isView() && genericSpec.hasStandardKey()) {
-            endpoints.put("PUT", dataEndpoint + "/{id}");
-            endpoints.put("DELETE", dataEndpoint + "/{id}");
+            endpoints.put("PUT", genericEndpoint + "/{id}");
+            endpoints.put("DELETE", genericEndpoint + "/{id}");
         }
         return endpoints;
     }
@@ -304,8 +307,7 @@ public class WindowSchemaRepository {
                     String tableName = rs.getString("tablename");
                     String dataEndpoint = TABLE_ENDPOINTS.getProperty(tableName);
                     String createEndpoint = TABLE_CREATE_ENDPOINTS.getProperty(tableName);
-                    GenericRepository.TableSpec genericSpec = dataEndpoint == null
-                            ? resolveGenericFallback(info, tableName) : null;
+                    GenericRepository.TableSpec genericSpec = resolveGenericFallback(info, tableName);
                     if (genericSpec != null)
                         dataEndpoint = "/v1.0/generic/" + genericSpec.getTableName();
 
