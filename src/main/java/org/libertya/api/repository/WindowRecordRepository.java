@@ -61,6 +61,32 @@ public class WindowRecordRepository extends AbstractRepository {
     }
 
 
+    /**
+     * Verifica autorización contextual para escrituras de una pestaña.
+     * No ejecuta la escritura: la invocación posterior debe volver a
+     * verificar los permisos de tabla/registro en el repositorio genérico.
+     */
+    public void validateTabWrite(UserInfo info, int adTabId, boolean inserting)
+            throws ModelException, NotFoundException, AuthException {
+        withTab(info, adTabId, null, (tab, windowNo) -> {
+            String sql = "SELECT IsReadOnly, IsInsertRecord FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
+            try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+                ps.setInt(1, adTabId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next())
+                        throw new NotFoundException("Pestaña inexistente o inactiva");
+                    if ("Y".equalsIgnoreCase(rs.getString("IsReadOnly")))
+                        throw new AuthException("La pestaña es de solo lectura");
+                    if (inserting && !"Y".equalsIgnoreCase(rs.getString("IsInsertRecord")))
+                        throw new AuthException("La pestaña no permite insertar registros");
+                }
+            } catch (java.sql.SQLException ex) {
+                throw new ModelException("No fue posible validar los permisos de la pestaña: " + ex.getMessage());
+            }
+            return null;
+        });
+    }
+
     /* =========================== Recuperación =========================== */
 
     private List<GenericRecord> retrieveRecords(UserInfo info, MTab tab, int windowNo, WindowRecordQuery query)
