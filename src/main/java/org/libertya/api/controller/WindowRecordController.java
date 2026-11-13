@@ -86,6 +86,8 @@ public class WindowRecordController implements WindowrecordsApi {
     public ResponseEntity<String> insertContextualRecord(@PathVariable Integer tabId,
             @RequestBody ContextualUpdate body) {
         try {
+            if (body == null || body.values == null || body.values.isEmpty())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Debe indicar los valores del nuevo registro");
             String id = repository.insertTabRecord(jwt.infoOf(request), tabId,
                     body.parentValues, body.values);
             return ResponseEntity.status(HttpStatus.CREATED).body(id);
@@ -102,6 +104,8 @@ public class WindowRecordController implements WindowrecordsApi {
     public ResponseEntity<String> updateContextualRecord(@PathVariable Integer tabId,
             @PathVariable Integer recordId, @RequestBody ContextualUpdate body) {
         try {
+            if (body == null || body.values == null || body.values.isEmpty())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Debe indicar al menos un campo para actualizar");
             repository.updateTabRecord(jwt.infoOf(request), tabId, recordId,
                     body.parentValues, body.values);
             return ResponseEntity.ok("OK");
