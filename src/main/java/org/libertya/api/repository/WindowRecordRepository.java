@@ -106,7 +106,7 @@ public class WindowRecordRepository extends AbstractRepository {
 
         try {
             statement = DB.prepareStatement(sql, null);
-            bindFilterValues(statement, filter.values);
+            filter.bind(statement, 1);
             result = statement.executeQuery();
 
             while (result.next()) {
@@ -152,7 +152,7 @@ public class WindowRecordRepository extends AbstractRepository {
 
         try {
             statement = DB.prepareStatement(sql, null);
-            bindFilterValues(statement, filter.values);
+            filter.bind(statement, 1);
             result = statement.executeQuery();
             return result.next() ? result.getInt(1) : 0;
         } catch (Exception e) {
@@ -215,11 +215,6 @@ public class WindowRecordRepository extends AbstractRepository {
         for (M_Column column : table.getColumns(false))
             columns.put(column.getColumnName().toLowerCase(Locale.ROOT), column.getColumnName());
         return SafeQueryFilter.compile(filter, columns);
-    }
-
-    private void bindFilterValues(PreparedStatement statement, List<Object> values) throws java.sql.SQLException {
-        for (int i = 0; i < values.size(); i++)
-            statement.setObject(i + 1, values.get(i));
     }
 
     /* =========================== Sort HTTP =========================== */

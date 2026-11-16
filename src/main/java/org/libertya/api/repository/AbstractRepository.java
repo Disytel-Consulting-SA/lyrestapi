@@ -21,6 +21,8 @@ import org.openXpertya.model.POInfo;
 import org.openXpertya.process.DocAction;
 import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -33,6 +35,8 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public abstract class AbstractRepository {
+
+    private static final Logger log = LoggerFactory.getLogger(AbstractRepository.class);
 
     @Autowired
     protected SchemaUtils schemaUtils;
@@ -427,7 +431,7 @@ public abstract class AbstractRepository {
         // iface.perform puede ejecutar consultas adicionales.
         List<Object[]> rows = new ArrayList<>();
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
-            int p = bindFilterValues(ps, filter.values);
+            int p = filter.bind(ps, 1);
             ps.setInt(p++, limit);
             ps.setLong(p, offset);
             try (ResultSet rs = ps.executeQuery()) {
@@ -439,7 +443,7 @@ public abstract class AbstractRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new ModelException("Error al recuperar registros de " + tableName);
+            throw filterQueryError("Error al recuperar registros de " + tableName, e);
         }
         for (Object[] rowKeys : rows)
             retVal.add((T) iface.perform(rowKeys));
@@ -458,20 +462,36 @@ public abstract class AbstractRepository {
         String sql = "SELECT COUNT(1) FROM " + tableName
                 + " WHERE (" + filter.sql + ") AND (" + filterByRole(info, tableName) + ")";
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
-            bindFilterValues(ps, filter.values);
+            filter.bind(ps, 1);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? rs.getInt(1) : 0;
             }
         } catch (SQLException e) {
-            throw new ModelException("Error al contar registros de " + tableName);
+            throw filterQueryError("Error al contar registros de " + tableName, e);
         }
     }
 
-    private int bindFilterValues(PreparedStatement ps, List<Object> values) throws SQLException {
-        int p = 1;
-        for (Object value : values)
-            ps.setObject(p++, value);
-        return p;
+    /**
+     * Error SQL de un listado o conteo con filtro HTTP. La causa completa va al log. Al consumidor solo se le dice si
+     * fue un valor u operador que no corresponde al tipo de la columna (p. ej. {@code updated > 'no-es-fecha'}),
+     * sin el texto de PostgreSQL, que puede mostrar detalles internos.
+     */
+    private ModelException filterQueryError(String message, SQLException e) {
+        String state = e.getSQLState();
+        log.warn("{} (SQLState {}): {}", message, state, e.getMessage());
+        if (state != null && state.startsWith("22"))   // data_exception: el valor no se puede leer con ese tipo
+            return new ModelException(message + ": un valor del filtro no corresponde al tipo de la columna");
+        if ("42883".equals(state))                      // undefined_function: p. ej. LIKE sobre una fecha
+            return new ModelException(message + ": un operador del filtro no se aplica al tipo de la columna");
+        return new ModelException(message);
+    }
+
+    /**
+     * Columnas que el filtro HTTP admite aunque la tabla no las tenga, resueltas con SQL fijo del repositorio
+     * (ver {@link SafeQueryFilter.DerivedColumn}), por nombre en minusculas. Por defecto, ninguna.
+     */
+    protected Map<String, SafeQueryFilter.DerivedColumn> derivedFilterColumns() {
+        return Collections.emptyMap();
     }
 
     private Map<String, String> queryColumns(UserInfo info, String tableName) throws ModelException {
@@ -489,7 +509,7 @@ public abstract class AbstractRepository {
 
     private SafeQueryFilter.Compiled compileHttpFilter(UserInfo info, String tableName, String filter)
             throws ModelException {
-        return SafeQueryFilter.compile(filter, queryColumns(info, tableName));
+        return SafeQueryFilter.compile(filter, queryColumns(info, tableName), derivedFilterColumns());
     }
 
     private String validateHttpSort(UserInfo info, String tableName, String sort) throws ModelException {

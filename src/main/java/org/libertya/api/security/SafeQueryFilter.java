@@ -3,6 +3,9 @@ package org.libertya.api.security;
 import org.libertya.api.exception.ModelException;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +24,56 @@ public final class SafeQueryFilter {
             this.sql = sql;
             this.values = Collections.unmodifiableList(new ArrayList<>(values));
         }
+
+        /**
+         * Liga los valores desde la posicion {@code first} y devuelve la siguiente libre.
+         * <p>
+         * Los textos se ligan sin tipo ({@link Types#OTHER}) para que PostgreSQL los lea con el tipo de la columna
+         * con la que se comparan, igual que un literal escrito en el SQL: {@code updated > '2026-11-01'} o
+         * {@code c_bpartner_id = '1012145'}. Ligados como {@code varchar} fallan contra columnas de fecha o
+         * numericas ({@code operator does not exist: timestamp > character varying}). Siguen siendo parametros:
+         * PostgreSQL los convierte al tipo de la columna o da error, nunca los interpreta como SQL.
+         * <p>
+         * Va la variante de cuatro argumentos a proposito: el {@code CPreparedStatement} del core (lo que devuelve
+         * {@code DB.prepareStatement}) descarta el tipo en {@code setObject(int, Object, int)} y llama a
+         * {@code setObject(int, Object)}; la de cuatro si lo pasa al driver.
+         */
+        public int bind(PreparedStatement ps, int first) throws SQLException {
+            int p = first;
+            for (Object value : values) {
+                if (value instanceof String)
+                    ps.setObject(p++, value, Types.OTHER, 0);
+                else
+                    ps.setObject(p++, value);
+            }
+            return p;
+        }
+    }
+
+    /**
+     * Columna que el filtro admite aunque la tabla no la tenga, resuelta con un predicado SQL fijo escrito en el
+     * codigo del repositorio (por ejemplo, el almacen de M_Storage a traves de M_Locator). Del filtro solo se toman
+     * los valores: admite {@code = n} e {@code IN (n, ...)} con numeros, que se ligan como parametros en el lugar
+     * de {@link #VALUES}. El texto del filtro nunca llega al SQL.
+     * <p>
+     * La plantilla se concatena al SQL tal cual: tiene que ser una constante del codigo, nunca armarse con datos del
+     * request. No confundir con las columnas virtuales del diccionario de Libertya ({@code AD_Column.ColumnSQL}).
+     */
+    public static final class DerivedColumn {
+        public static final String VALUES = "{values}";
+        private final String sqlTemplate;
+
+        /** @param sqlTemplate predicado SQL que contiene {@link #VALUES} una sola vez */
+        public DerivedColumn(String sqlTemplate) {
+            int at = sqlTemplate.indexOf(VALUES);
+            if (at < 0 || at != sqlTemplate.lastIndexOf(VALUES))
+                throw new IllegalArgumentException("La plantilla debe contener " + VALUES + " una sola vez");
+            this.sqlTemplate = sqlTemplate;
+        }
+
+        private String render(String placeholders) {
+            return "(" + sqlTemplate.replace(VALUES, placeholders) + ")";
+        }
     }
 
     private static final class Token {
@@ -30,17 +83,30 @@ public final class SafeQueryFilter {
 
     private final String input;
     private final Map<String, String> columns;
+    private final Map<String, DerivedColumn> derivedColumns;
     private final List<Token> tokens = new ArrayList<>();
     private final List<Object> values = new ArrayList<>();
     private int pos;
 
-    private SafeQueryFilter(String input, Map<String, String> columns) throws ModelException {
+    private SafeQueryFilter(String input, Map<String, String> columns, Map<String, DerivedColumn> derivedColumns)
+            throws ModelException {
         this.input = input;
         this.columns = columns;
+        this.derivedColumns = derivedColumns;
         tokenize();
     }
 
     public static Compiled compile(String input, Map<String, String> columns) throws ModelException {
+        return compile(input, columns, Collections.emptyMap());
+    }
+
+    /**
+     * @param columns        columnas reales de la tabla, por nombre en minusculas
+     * @param derivedColumns columnas derivadas, por nombre en minusculas; una columna real del mismo nombre tiene
+     *                       prioridad
+     */
+    public static Compiled compile(String input, Map<String, String> columns,
+                                   Map<String, DerivedColumn> derivedColumns) throws ModelException {
         if (input == null || input.trim().isEmpty())
             return new Compiled("1=1", Collections.emptyList());
         String normalized = input.trim();
@@ -49,7 +115,7 @@ public final class SafeQueryFilter {
         if (normalized.length() >= 2 && normalized.charAt(0) == '"' &&
                 normalized.charAt(normalized.length() - 1) == '"')
             normalized = normalized.substring(1, normalized.length() - 1);
-        SafeQueryFilter parser = new SafeQueryFilter(normalized, columns);
+        SafeQueryFilter parser = new SafeQueryFilter(normalized, columns, derivedColumns);
         String sql = parser.expression();
         if (!parser.is("END"))
             throw new ModelException("Sintaxis de filtro no admitida");
@@ -140,8 +206,13 @@ public final class SafeQueryFilter {
         Token t = tokens.get(pos);
         if (!t.type.equals("WORD")) throw new ModelException("Se esperaba columna en filtro");
         pos++;
-        String column = columns.get(t.text.toLowerCase(Locale.ROOT));
-        if (column == null) throw new ModelException("Columna no permitida: " + t.text);
+        String key = t.text.toLowerCase(Locale.ROOT);
+        String column = columns.get(key);
+        if (column == null) {
+            DerivedColumn derived = derivedColumns.get(key);
+            if (derived == null) throw new ModelException("Columna no permitida: " + t.text);
+            return derivedPredicate(t.text, derived);
+        }
 
         if (take("IS")) {
             boolean not = take("NOT");
@@ -175,6 +246,26 @@ public final class SafeQueryFilter {
             throw new ModelException("Operador no permitido en filtro");
         pos++;
         return column + " " + op + " " + literal();
+    }
+    /** Columna derivada: solo {@code = n} o {@code IN (n, ...)}. El SQL lo pone la plantilla; del filtro salen los valores. */
+    private String derivedPredicate(String name, DerivedColumn derived) throws ModelException {
+        List<String> placeholders = new ArrayList<>();
+        if (take("=")) {
+            placeholders.add(numberLiteral(name));
+        } else if (take("IN")) {
+            expect("(");
+            placeholders.add(numberLiteral(name));
+            while (take(",")) placeholders.add(numberLiteral(name));
+            expect(")");
+        } else {
+            throw new ModelException("Operador no permitido para " + name + ": solo = o IN");
+        }
+        return derived.render(String.join(", ", placeholders));
+    }
+    private String numberLiteral(String name) throws ModelException {
+        if (!tokens.get(pos).type.equals("NUMBER"))
+            throw new ModelException("Se esperaba un número para " + name);
+        return literal();
     }
     private String literal() throws ModelException {
         Token t = tokens.get(pos);
