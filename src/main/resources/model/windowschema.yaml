@@ -43,6 +43,10 @@ components:
           type: string
         data_endpoint:
           type: string
+        data_endpoint_error:
+          type: string
+          nullable: true
+          description: Motivo por el cual no está disponible el acceso REST a la pestaña
         pk_columns:
           type: array
           description: Columnas que conforman la clave primaria de la entidad, en el orden requerido por el endpoint REST
