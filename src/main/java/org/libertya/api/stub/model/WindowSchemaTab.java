@@ -50,6 +50,9 @@ public class WindowSchemaTab   {
   @JsonProperty("data_endpoint")
   private String dataEndpoint = null;
 
+  @JsonProperty("data_endpoint_error")
+  private String dataEndpointError = null;
+
   @JsonProperty("pk_columns")
   @Valid
   private List<String> pkColumns = null;
@@ -246,6 +249,15 @@ public class WindowSchemaTab   {
   public void setTablename(String tablename) {
     this.tablename = tablename;
   }
+
+  public WindowSchemaTab dataEndpointError(String dataEndpointError) {
+    this.dataEndpointError = dataEndpointError;
+    return this;
+  }
+
+  public String getDataEndpointError() { return dataEndpointError; }
+
+  public void setDataEndpointError(String dataEndpointError) { this.dataEndpointError = dataEndpointError; }
 
   public WindowSchemaTab dataEndpoint(String dataEndpoint) {
     this.dataEndpoint = dataEndpoint;
@@ -449,6 +461,7 @@ public class WindowSchemaTab   {
         Objects.equals(this.adTableId, windowSchemaTab.adTableId) &&
         Objects.equals(this.tablename, windowSchemaTab.tablename) &&
         Objects.equals(this.dataEndpoint, windowSchemaTab.dataEndpoint) &&
+        Objects.equals(this.dataEndpointError, windowSchemaTab.dataEndpointError) &&
         Objects.equals(this.pkColumns, windowSchemaTab.pkColumns) &&
         Objects.equals(this.whereclause, windowSchemaTab.whereclause) &&
         Objects.equals(this.orderbyclause, windowSchemaTab.orderbyclause) &&
@@ -460,7 +473,7 @@ public class WindowSchemaTab   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, pkColumns, whereclause, orderbyclause, isreadonly, isinsertrecord, createEndpoint, fields);
+    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, dataEndpointError, pkColumns, whereclause, orderbyclause, isreadonly, isinsertrecord, createEndpoint, fields);
   }
 
   @Override
@@ -477,6 +490,7 @@ public class WindowSchemaTab   {
     sb.append("    linkColumnname: ").append(toIndentedString(linkColumnname)).append("\n");
     sb.append("    adTableId: ").append(toIndentedString(adTableId)).append("\n");
     sb.append("    tablename: ").append(toIndentedString(tablename)).append("\n");
+    sb.append("    dataEndpointError: ").append(toIndentedString(dataEndpointError)).append("\n");
     sb.append("    dataEndpoint: ").append(toIndentedString(dataEndpoint)).append("\n");
     sb.append("    pkColumns: ").append(toIndentedString(pkColumns)).append("\n");
     sb.append("    whereclause: ").append(toIndentedString(whereclause)).append("\n");
