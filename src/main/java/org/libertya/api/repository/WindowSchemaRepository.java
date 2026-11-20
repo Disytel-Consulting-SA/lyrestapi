@@ -361,7 +361,15 @@ public class WindowSchemaRepository {
                     String tableName = rs.getString("tablename");
                     String dataEndpoint = TABLE_ENDPOINTS.getProperty(tableName);
                     String createEndpoint = TABLE_CREATE_ENDPOINTS.getProperty(tableName);
-                    GenericRepository.TableSpec genericSpec = resolveGenericFallback(info, tableName);
+                    GenericRepository.TableSpec genericSpec = null;
+                    String dataEndpointError = null;
+                    if (info != null) {
+                        try {
+                            genericSpec = genericRepository.resolveTable(info, tableName);
+                        } catch (org.libertya.api.exception.ModelException | org.libertya.api.exception.NotFoundException ex) {
+                            dataEndpointError = ex.getMessage();
+                        }
+                    }
                     // El endpoint específico conserva prioridad. El fallback
                     // genérico se resuelve por operación en resolveCrudEndpoints,
                     // sin sustituir el endpoint declarado para la tabla.
@@ -384,6 +392,7 @@ public class WindowSchemaRepository {
                             .adTableId(rs.getInt("ad_table_id"))
                             .tablename(tableName)
                             .dataEndpoint(dataEndpoint)
+                            .dataEndpointError(dataEndpoint == null ? dataEndpointError : null)
                             .createEndpoint(createEndpoint)
                             .crudEndpoints(resolveCrudEndpoints(info, dataEndpoint, createEndpoint, genericSpec, readOnly, insertRecord))
                             .pkColumns(getPkColumns(tableName, dataEndpoint, genericSpec));
