@@ -7,6 +7,8 @@ import org.libertya.api.stub.model.WindowSchemaReferenceValue;
 import org.libertya.api.stub.model.WindowSchemaTab;
 import org.openXpertya.util.DB;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -48,12 +50,13 @@ public class WindowSchemaRepository {
 
     private final Map<String, AbstractRepository> repositoriesByTable;
     private final GenericRepository genericRepository;
-    private final Set<String> specificCrudMappings;
+    private final ObjectProvider<RequestMappingHandlerMapping> handlerMapping;
+    private volatile Set<String> specificCrudMappings;
 
     public WindowSchemaRepository(List<AbstractRepository> repositories, GenericRepository genericRepository,
-            RequestMappingHandlerMapping handlerMapping) {
+            @Qualifier("requestMappingHandlerMapping") ObjectProvider<RequestMappingHandlerMapping> handlerMapping) {
         this.genericRepository = genericRepository;
-        this.specificCrudMappings = collectCrudMappings(handlerMapping);
+        this.handlerMapping = handlerMapping;
         repositoriesByTable = new HashMap<>();
 
         for (AbstractRepository repository : repositories) {
@@ -107,7 +110,13 @@ public class WindowSchemaRepository {
     }
 
     private boolean supportsSpecific(RequestMethod method, String path) {
-        return path != null && specificCrudMappings.contains(method.name() + " " + path);
+        if (path == null) return false;
+        Set<String> mappings = specificCrudMappings;
+        if (mappings == null) {
+            mappings = collectCrudMappings(handlerMapping.getObject());
+            specificCrudMappings = mappings;
+        }
+        return mappings.contains(method.name() + " " + path);
     }
 
     /**
