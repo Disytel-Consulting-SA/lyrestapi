@@ -72,15 +72,19 @@ public class GenericRepository extends AbstractRepository {
 
         /** Nombre canonico, tal como figura en AD_Table (nunca el recibido en la URL) */
         private final String tableName;
-        /** Columna clave simple */
-        private final String keyColumn;
+        /** Columnas clave y tipos Java, en el orden definido por CORE */
+        private final String[] keyColumns;
+        private final Class<?>[] keyTypes;
+        private final boolean legacyNumericKey;
         private final boolean view;
         /** La clase de modelo implementa DocAction */
         private final boolean document;
 
-        TableSpec(String tableName, String keyColumn, boolean view, boolean document) {
+        TableSpec(String tableName, String[] keyColumns, Class<?>[] keyTypes, boolean legacyNumericKey, boolean view, boolean document) {
             this.tableName = tableName;
-            this.keyColumn = keyColumn;
+            this.keyColumns = keyColumns.clone();
+            this.keyTypes = keyTypes.clone();
+            this.legacyNumericKey = legacyNumericKey;
             this.view = view;
             this.document = document;
         }
@@ -90,7 +94,21 @@ public class GenericRepository extends AbstractRepository {
         }
 
         public String getKeyColumn() {
-            return keyColumn;
+            if (keyColumns.length != 1)
+                throw new IllegalStateException("La tabla " + tableName + " tiene una clave compuesta");
+            return keyColumns[0];
+        }
+
+        public String[] getKeyColumns() {
+            return keyColumns.clone();
+        }
+
+        public Class<?>[] getKeyTypes() {
+            return keyTypes.clone();
+        }
+
+        public boolean hasLegacyNumericKey() {
+            return legacyNumericKey;
         }
 
         public boolean isView() {
@@ -99,7 +117,7 @@ public class GenericRepository extends AbstractRepository {
 
         /** La clave sigue la convencion NOMBRETABLA_ID, que es la que asume PO.load(int) al actualizar o eliminar */
         public boolean hasStandardKey() {
-            return keyColumn.equalsIgnoreCase(tableName + "_ID");
+            return legacyNumericKey && keyColumns[0].equalsIgnoreCase(tableName + "_ID");
         }
 
         public boolean isDocument() {
@@ -115,6 +133,15 @@ public class GenericRepository extends AbstractRepository {
      * @throws ModelException si no hay clase de modelo para la tabla, o su clave no es simple y numerica
      */
     public TableSpec resolveTable(UserInfo info, String rawTableName) throws NotFoundException, ModelException {
+        TableSpec spec = resolveTableIdentity(info, rawTableName);
+        if (!spec.hasLegacyNumericKey())
+            throw new ModelException("La tabla " + spec.getTableName() + " no tiene una clave simple numerica (" + String.join(", ", spec.getKeyColumns()) +
+                    "). El endpoint generico todavia no soporta claves compuestas ni alfanumericas");
+        return spec;
+    }
+
+    /** Resuelve la identidad completa sin habilitar las operaciones historicas sobre claves no soportadas. */
+    public TableSpec resolveTableIdentity(UserInfo info, String rawTableName) throws NotFoundException, ModelException {
         M_Table table = M_Table.get(getCtx(info), rawTableName);
         if (table == null || table.getAD_Table_ID() == 0)
             throw new NotFoundException("No existe la tabla " + rawTableName);
@@ -125,14 +152,24 @@ public class GenericRepository extends AbstractRepository {
         if (modelClass == null)
             throw new ModelException(noModelClassMessage(table));
 
-        // Solo PK simple numerica. getKeyColumnsAsArray devuelve la columna IsKey o, si no hay, las IsParent
         String[] keyColumns = table.getKeyColumnsAsArray();
-        M_Column keyColumn = keyColumns.length == 1 ? table.getColumn(keyColumns[0]) : null;
-        if (keyColumn == null || !keyColumn.isKey() || Integer.class != DisplayType.getClass(keyColumn.getAD_Reference_ID(), false))
-            throw new ModelException("La tabla " + tableName + " no tiene una clave simple numerica (" + String.join(", ", keyColumns) +
-                    "). El endpoint generico todavia no soporta claves compuestas ni alfanumericas");
-
-        return new TableSpec(tableName, keyColumn.getColumnName(), table.isView(), DocAction.class.isAssignableFrom(modelClass));
+        if (keyColumns == null || keyColumns.length == 0)
+            throw new ModelException("La tabla " + tableName + " no tiene columnas clave");
+        Class<?>[] keyTypes = new Class<?>[keyColumns.length];
+        String[] canonicalKeys = new String[keyColumns.length];
+        boolean legacyNumericKey = false;
+        Set<String> uniqueKeys = new HashSet<>();
+        for (int i = 0; i < keyColumns.length; i++) {
+            M_Column column = table.getColumn(keyColumns[i]);
+            if (column == null || column.isVirtualColumn() || !uniqueKeys.add(column.getColumnName().toLowerCase(java.util.Locale.ROOT)))
+                throw new ModelException("Columna clave invalida en " + tableName + ": " + keyColumns[i]);
+            canonicalKeys[i] = column.getColumnName();
+            keyTypes[i] = DisplayType.getClass(column.getAD_Reference_ID(), false);
+            if (keyTypes[i] != Integer.class && keyTypes[i] != String.class)
+                throw new ModelException("Tipo de clave no soportado en " + tableName + ": " + canonicalKeys[i]);
+            legacyNumericKey = keyColumns.length == 1 && column.isKey() && keyTypes[i] == Integer.class;
+        }
+        return new TableSpec(tableName, canonicalKeys, keyTypes, legacyNumericKey, table.isView(), DocAction.class.isAssignableFrom(modelClass));
     }
 
     /** Mensaje para una tabla sin clase de modelo en el classpath, con el componente duenio si lo tiene */
