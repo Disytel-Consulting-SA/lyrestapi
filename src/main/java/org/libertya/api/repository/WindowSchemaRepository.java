@@ -75,7 +75,7 @@ public class WindowSchemaRepository {
             return pkColumns != null ? Arrays.asList(pkColumns) : Arrays.asList(tableName + "_ID");
         }
 
-        return genericSpec != null ? Arrays.asList(genericSpec.getKeyColumn()) : null;
+        return genericSpec != null ? Arrays.asList(genericSpec.getKeyColumns()) : null;
     }
 
     /**
@@ -370,6 +370,16 @@ public class WindowSchemaRepository {
                             dataEndpointError = ex.getMessage();
                         }
                     }
+                    // La identidad de diccionario es independiente del soporte
+                    // del endpoint genérico histórico (que requiere una clave numérica).
+                    GenericRepository.TableSpec identitySpec = genericSpec;
+                    if (identitySpec == null && info != null) {
+                        try {
+                            identitySpec = genericRepository.resolveTableIdentity(info, tableName);
+                        } catch (org.libertya.api.exception.ModelException | org.libertya.api.exception.NotFoundException ex) {
+                            // Conservar el diagnóstico de disponibilidad del endpoint histórico.
+                        }
+                    }
                     // El endpoint específico conserva prioridad. El fallback
                     // genérico se resuelve por operación en resolveCrudEndpoints,
                     // sin sustituir el endpoint declarado para la tabla.
@@ -395,7 +405,7 @@ public class WindowSchemaRepository {
                             .dataEndpointError(dataEndpoint == null ? dataEndpointError : null)
                             .createEndpoint(createEndpoint)
                             .crudEndpoints(resolveCrudEndpoints(info, dataEndpoint, createEndpoint, genericSpec, readOnly, insertRecord))
-                            .pkColumns(getPkColumns(tableName, dataEndpoint, genericSpec));
+                            .pkColumns(getPkColumns(tableName, dataEndpoint, identitySpec));
 
                     /*
                      * Padre estructural:
