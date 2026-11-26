@@ -482,6 +482,81 @@ public class WindowRecordRepository extends AbstractRepository {
         return result;
     }
 
+    /**
+     * Valida y bloquea la rama ancestral antes de operar sobre la pestaña destino.
+     * CORE solo garantiza un vínculo automático de una columna por nivel.
+     */
+    private Map<String, String> validateStructuredAncestors(UserInfo info, int targetTabId,
+            List<AncestorIdentity> ancestors, String trxName)
+            throws AuthException, ModelException, NotFoundException {
+        Map<String, String> context = new HashMap<>();
+        for (AncestorIdentity ancestor : ancestors) {
+            if (ancestor.spec.getKeyColumns().length != 1 || ancestor.spec.isView())
+                throw new AuthException("La pestaña ancestral no posee una identidad simple bloqueable: " + ancestor.tabId);
+        }
+        AncestorIdentity previous = null;
+        for (AncestorIdentity ancestor : ancestors) {
+            String key = ancestor.spec.getKeyColumns()[0];
+            Object value = ancestor.identity[0];
+            if (value instanceof Number && ((Number) value).longValue() <= 0)
+                throw new AuthException("Identificador ancestral inválido");
+            for (String existing : context.keySet()) {
+                if (existing.equalsIgnoreCase(key))
+                    throw new AuthException("CORE no permite representar inequívocamente las claves ancestrales repetidas");
+            }
+            lockRecordForWrite(ancestor.spec, ancestor.identity, trxName);
+            Map<String, Object> identity = new HashMap<>();
+            identity.put(key, value);
+            if (!genericRepository.retrieveRecord(info, ancestor.spec.getTableName(), identity, key).isPresent())
+                throw new AuthException("Registro ancestral inexistente o no accesible");
+            withTab(info, ancestor.tabId, parentQuery(new HashMap<>(context)), (tab, windowNo) -> {
+                contextualTable(info, tab, windowNo, ancestor.spec, ancestor.identity, trxName);
+                return null;
+            });
+            if (previous != null)
+                verifyStructuredParentLink(info, ancestor.tabId, ancestor.spec, ancestor.identity, previous, trxName);
+            context.put(key, String.valueOf(value));
+            previous = ancestor;
+        }
+        if (previous != null)
+            resolveStructuredParentLink(info, targetTabId, previous);
+        return context;
+    }
+
+    private String resolveStructuredParentLink(UserInfo info, int childTabId, AncestorIdentity parent)
+            throws AuthException, ModelException {
+        String[] keys = parent.spec.getKeyColumns();
+        if (keys.length != 1)
+            throw new AuthException("CORE no garantiza vínculos con padres de identidad compuesta");
+        M_Table table = M_Table.get(info.getCtx(), parent.spec.getTableName());
+        if (table == null)
+            throw new AuthException("Metadatos del padre no disponibles");
+        String link = resolveParentLinkColumn(childTabId, table.getAD_Table_ID(), keys[0]);
+        // CORE interpreta los nombres terminados en _ID como números.
+        if (link.endsWith("_ID") && !(parent.identity[0] instanceof Number))
+            throw new AuthException("El vínculo alfanumérico no es compatible con el contexto de CORE");
+        return link;
+    }
+
+    private void verifyStructuredParentLink(UserInfo info, int childTabId, GenericRepository.TableSpec child,
+            Object[] childIdentity, AncestorIdentity parent, String trxName)
+            throws AuthException, ModelException {
+        String link = resolveStructuredParentLink(info, childTabId, parent);
+        String sql = "SELECT 1 FROM " + child.getTableName() + " WHERE "
+                + getParameterizedKeyWhereClause(child.getKeyColumns(), childIdentity) + " AND " + link + "=?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
+            for (int i = 0; i < childIdentity.length; i++)
+                ps.setObject(i + 1, childIdentity[i]);
+            ps.setObject(childIdentity.length + 1, parent.identity[0]);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("El registro no pertenece al padre indicado");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error verificando relación padre-hijo: " + e.getMessage());
+        }
+    }
+
     private int contextRecordId(Map<String, String> values, String column) throws AuthException {
         for (Map.Entry<String, String> entry : values.entrySet()) {
             if (column.equalsIgnoreCase(entry.getKey())) {
