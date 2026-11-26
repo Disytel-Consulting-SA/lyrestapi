@@ -7,6 +7,11 @@ import org.libertya.api.stub.model.WindowSchemaReferenceValue;
 import org.libertya.api.stub.model.WindowSchemaTab;
 import org.openXpertya.util.DB;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.io.InputStream;
 import java.sql.PreparedStatement;
@@ -44,8 +49,14 @@ public class WindowSchemaRepository {
     private static final Properties TABLE_CREATE_ENDPOINTS = loadTableCreateEndpoints();
 
     private final Map<String, AbstractRepository> repositoriesByTable;
+    private final GenericRepository genericRepository;
+    private final ObjectProvider<RequestMappingHandlerMapping> handlerMapping;
+    private volatile Set<String> specificCrudMappings;
 
-    public WindowSchemaRepository(List<AbstractRepository> repositories) {
+    public WindowSchemaRepository(List<AbstractRepository> repositories, GenericRepository genericRepository,
+            @Qualifier("requestMappingHandlerMapping") ObjectProvider<RequestMappingHandlerMapping> handlerMapping) {
+        this.genericRepository = genericRepository;
+        this.handlerMapping = handlerMapping;
         repositoriesByTable = new HashMap<>();
 
         for (AbstractRepository repository : repositories) {
@@ -55,16 +66,105 @@ public class WindowSchemaRepository {
         }
     }
 
-    private List<String> getPkColumns(String tableName, String dataEndpoint) {
-        if (dataEndpoint == null) return null;
+    private List<String> getPkColumns(String tableName, String dataEndpoint, GenericRepository.TableSpec genericSpec) {
+        if (dataEndpoint == null && genericSpec == null) return null;
 
         AbstractRepository repository = repositoriesByTable.get(tableName.toLowerCase());
-        if (repository == null) return null;
+        if (repository != null) {
+            String[] pkColumns = repository.getPkColumns();
+            return pkColumns != null ? Arrays.asList(pkColumns) : Arrays.asList(tableName + "_ID");
+        }
 
-        String[] pkColumns = repository.getPkColumns();
-        if (pkColumns != null) return Arrays.asList(pkColumns);
+        return genericSpec != null ? Arrays.asList(genericSpec.getKeyColumn()) : null;
+    }
 
-        return Arrays.asList(tableName + "_ID");
+    /**
+     * Resuelve compatibilidad genérica independientemente de la existencia de
+     * endpoints específicos: estos conservan prioridad por operación.
+     * La disponibilidad se determina en tiempo de consulta, sin modificar
+     * table-endpoints.properties (generado por utils/genSchema.sh).
+     */
+    private GenericRepository.TableSpec resolveGenericFallback(UserInfo info, String tableName) {
+        if (info == null)
+            return null;
+        try {
+            return genericRepository.resolveTable(info, tableName);
+        } catch (org.libertya.api.exception.ModelException | org.libertya.api.exception.NotFoundException ex) {
+            return null;
+        }
+    }
+
+    /**
+     * Inspecciona los mappings HTTP efectivamente registrados por Spring,
+     * incluidos los definidos en interfaces OpenAPI generadas.
+     */
+    private static Set<String> collectCrudMappings(RequestMappingHandlerMapping mapping) {
+        Set<String> result = new HashSet<>();
+        for (RequestMappingInfo info : mapping.getHandlerMethods().keySet()) {
+            for (String path : info.getPatternValues()) {
+                for (RequestMethod method : info.getMethodsCondition().getMethods())
+                    result.add(method.name() + " " + path);
+            }
+        }
+        return Collections.unmodifiableSet(result);
+    }
+
+    private boolean supportsSpecific(RequestMethod method, String path) {
+        if (path == null) return false;
+        Set<String> mappings = specificCrudMappings;
+        if (mappings == null) {
+            mappings = collectCrudMappings(handlerMapping.getObject());
+            specificCrudMappings = mappings;
+        }
+        return mappings.contains(method.name() + " " + path);
+    }
+
+    /**
+     * Prioriza operaciones específicas realmente publicadas y usa el endpoint
+     * genérico para completar las faltantes cuando la tabla es compatible.
+     * El schema no reemplaza los controles de permisos del servidor.
+     */
+    private Map<String, String> resolveCrudEndpoints(UserInfo info, String dataEndpoint, String createEndpoint,
+            GenericRepository.TableSpec genericSpec, boolean readOnly, boolean insertRecord) {
+        Map<String, String> endpoints = new LinkedHashMap<>();
+        String genericEndpoint = genericSpec != null
+                ? "/v1.0/generic/" + genericSpec.getTableName() : null;
+        boolean writable = !readOnly && genericSpec != null
+                && !genericSpec.isView() && genericSpec.hasStandardKey();
+        if (writable) {
+            try {
+                genericRepository.checkWriteAccess(info, genericSpec);
+            } catch (org.libertya.api.exception.AuthException ex) {
+                writable = false;
+            }
+        }
+
+        if (supportsSpecific(RequestMethod.GET, dataEndpoint))
+            endpoints.put("GET", dataEndpoint);
+        else if (genericEndpoint != null)
+            endpoints.put("GET", genericEndpoint);
+
+        if (!readOnly && insertRecord) {
+            if (supportsSpecific(RequestMethod.POST, createEndpoint))
+                endpoints.put("POST", createEndpoint);
+            else if (supportsSpecific(RequestMethod.POST, dataEndpoint))
+                endpoints.put("POST", dataEndpoint);
+            else if (writable)
+                endpoints.put("POST", genericEndpoint);
+        }
+
+        if (!readOnly) {
+            if (supportsSpecific(RequestMethod.PUT, dataEndpoint == null ? null : dataEndpoint + "/{id}"))
+                endpoints.put("PUT", dataEndpoint + "/{id}");
+            else if (writable)
+                endpoints.put("PUT", genericEndpoint + "/{id}");
+
+            if (supportsSpecific(RequestMethod.DELETE, dataEndpoint == null ? null : dataEndpoint + "/{id}"))
+                endpoints.put("DELETE", dataEndpoint + "/{id}");
+            else if (writable)
+                endpoints.put("DELETE", genericEndpoint + "/{id}");
+        }
+        return endpoints;
     }
 
     /**
@@ -124,6 +224,7 @@ public class WindowSchemaRepository {
          * AD_Tab.AD_Column_ID es el override explícito
          * para la columna master/detail.
          */
+        sql.append("   t.ad_column_id AS tab_link_column_id, ");
         sql.append("   tc.columnname AS tab_link_columnname, ");
 
         sql.append("   tb.ad_table_id, ");
@@ -189,7 +290,8 @@ public class WindowSchemaRepository {
          * LEFT JOIN porque AD_Tab.AD_Column_ID
          * puede no estar configurado.
          */
-        sql.append(" LEFT JOIN ad_column tc ON tc.ad_column_id = t.ad_column_id ");
+        sql.append(" LEFT JOIN ad_column tc ON tc.ad_column_id = t.ad_column_id "
+                + "AND tc.ad_table_id = t.ad_table_id AND tc.isactive = 'Y' ");
 
         sql.append(" WHERE w.ad_window_id = ? ");
         sql.append("   AND w.isactive = 'Y' ");
@@ -259,6 +361,23 @@ public class WindowSchemaRepository {
                     String tableName = rs.getString("tablename");
                     String dataEndpoint = TABLE_ENDPOINTS.getProperty(tableName);
                     String createEndpoint = TABLE_CREATE_ENDPOINTS.getProperty(tableName);
+                    GenericRepository.TableSpec genericSpec = null;
+                    String dataEndpointError = null;
+                    if (info != null) {
+                        try {
+                            genericSpec = genericRepository.resolveTable(info, tableName);
+                        } catch (org.libertya.api.exception.ModelException | org.libertya.api.exception.NotFoundException ex) {
+                            dataEndpointError = ex.getMessage();
+                        }
+                    }
+                    // El endpoint específico conserva prioridad. El fallback
+                    // genérico se resuelve por operación en resolveCrudEndpoints,
+                    // sin sustituir el endpoint declarado para la tabla.
+                    if (dataEndpoint == null && genericSpec != null)
+                        dataEndpoint = "/v1.0/generic/" + genericSpec.getTableName();
+
+                    boolean readOnly = "Y".equals(rs.getString("tab_isreadonly"));
+                    boolean insertRecord = "Y".equals(rs.getString("tab_isinsertrecord"));
 
                     currentTab = new WindowSchemaTab()
                             .adTabId(tabId)
@@ -268,13 +387,15 @@ public class WindowSchemaRepository {
                             .tablevel(tablevel)
                             .whereclause(rs.getString("tab_whereclause"))
                             .orderbyclause(rs.getString("tab_orderbyclause"))
-                            .isreadonly("Y".equals(rs.getString("tab_isreadonly")))
-                            .isinsertrecord("Y".equals(rs.getString("tab_isinsertrecord")))
+                            .isreadonly(readOnly)
+                            .isinsertrecord(insertRecord)
                             .adTableId(rs.getInt("ad_table_id"))
                             .tablename(tableName)
                             .dataEndpoint(dataEndpoint)
+                            .dataEndpointError(dataEndpoint == null ? dataEndpointError : null)
                             .createEndpoint(createEndpoint)
-                            .pkColumns(getPkColumns(tableName, dataEndpoint));
+                            .crudEndpoints(resolveCrudEndpoints(info, dataEndpoint, createEndpoint, genericSpec, readOnly, insertRecord))
+                            .pkColumns(getPkColumns(tableName, dataEndpoint, genericSpec));
 
                     /*
                      * Padre estructural:
@@ -293,8 +414,9 @@ public class WindowSchemaRepository {
                      * master/detail, si existe.
                      */
                     String explicitLinkColumn = rs.getString("tab_link_columnname");
-                    if (explicitLinkColumn != null && !explicitLinkColumn.isEmpty()) {
-                        explicitLinkColumns.put(tabId, explicitLinkColumn);
+                    if (rs.getInt("tab_link_column_id") > 0) {
+                        // Un override inválido no puede caer al fallback IsParent.
+                        explicitLinkColumns.put(tabId, explicitLinkColumn == null ? "" : explicitLinkColumn);
                     }
 
                     schema.addTabsItem(currentTab);
@@ -348,6 +470,7 @@ public class WindowSchemaRepository {
                  * Resolver relaciones master/detail.
                  */
                 resolveLinkColumns(schema, explicitLinkColumns);
+                resolveContextualCrudEndpoints(info, schema, explicitLinkColumns);
 
                 /*
                  * Resolver listas AD_Ref_List.
@@ -476,6 +599,100 @@ public class WindowSchemaRepository {
                     tab.linkColumnname(linkColumn);
                 }
             }
+        }
+    }
+
+    /**
+     * Replica el criterio de resolveParentLinkColumn del repositorio
+     * contextual: una única columna activa IsParent en AD_Column.
+     * No depende de que la columna tenga un AD_Field visible.
+     */
+    private boolean hasUniqueParentColumn(Integer tableId, String parentKey) {
+        if (tableId == null || parentKey == null)
+            return false;
+        String sql = "SELECT ColumnName FROM AD_Column WHERE AD_Table_ID=? "
+                + "AND IsActive='Y' AND IsParent='Y'";
+        String candidate = null;
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tableId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (candidate != null)
+                        return false;
+                    candidate = rs.getString(1);
+                }
+            }
+        } catch (java.sql.SQLException ex) {
+            return false;
+        }
+        return candidate != null && candidate.equalsIgnoreCase(parentKey);
+    }
+
+    /**
+     * Las escrituras de ventanas dinámicas no deben caer silenciosamente
+     * en el CRUD genérico, que no aplica el WhereClause de la pestaña.
+     * Solo se anuncian endpoints contextuales cuando toda la rama posee
+     * relaciones directas inequívocas verificables en metadatos.
+     */
+    private void resolveContextualCrudEndpoints(UserInfo info, WindowSchema schema,
+            Map<Integer, String> explicitLinkColumns) {
+        if (schema.getTabs() == null)
+            return;
+        Map<Integer, WindowSchemaTab> byId = new HashMap<>();
+        Map<Integer, Boolean> supported = new HashMap<>();
+        Map<Integer, Set<String>> ancestorKeys = new HashMap<>();
+        for (WindowSchemaTab tab : schema.getTabs()) {
+            byId.put(tab.getAdTabId(), tab);
+            boolean relationSupported = true;
+            Set<String> keys = new HashSet<>();
+            if (tab.getTablevel() != null && tab.getTablevel() > 0) {
+                WindowSchemaTab parent = byId.get(tab.getParentAdTabId());
+                relationSupported = parent != null
+                        && Boolean.TRUE.equals(supported.get(parent.getAdTabId()))
+                        && parent.getPkColumns() != null && parent.getPkColumns().size() == 1;
+                if (relationSupported) {
+                    keys.addAll(ancestorKeys.get(parent.getAdTabId()));
+                    String parentKey = parent.getPkColumns().get(0);
+                    // parentValues identifica ancestros por nombre de PK:
+                    // dos ancestros con la misma PK serían ambiguos.
+                    relationSupported = keys.add(parentKey.toLowerCase(Locale.ROOT));
+                }
+                if (relationSupported) {
+                    String parentKey = parent.getPkColumns().get(0);
+                    String explicit = explicitLinkColumns.get(tab.getAdTabId());
+                    if (explicit != null) {
+                        relationSupported = explicit.equalsIgnoreCase(parentKey);
+                    } else {
+                        // El backend consulta AD_Column completo, no solo
+                        // los campos presentes en el formulario AD_Field.
+                        relationSupported = hasUniqueParentColumn(tab.getAdTableId(), parentKey);
+                    }
+                }
+            }
+            GenericRepository.TableSpec spec = resolveGenericFallback(info, tab.getTablename());
+            boolean writable = relationSupported && spec != null
+                    && !spec.isView() && spec.hasStandardKey()
+                    && !Boolean.TRUE.equals(tab.isIsreadonly());
+            if (writable) {
+                try {
+                    genericRepository.checkWriteAccess(info, spec);
+                } catch (org.libertya.api.exception.AuthException ex) {
+                    writable = false;
+                }
+            }
+            supported.put(tab.getAdTabId(), relationSupported);
+            ancestorKeys.put(tab.getAdTabId(), keys);
+            Map<String, String> endpoints = new LinkedHashMap<>();
+            if (tab.getCrudEndpoints() != null && tab.getCrudEndpoints().get("GET") != null)
+                endpoints.put("GET", tab.getCrudEndpoints().get("GET"));
+            if (writable) {
+                String base = "/v1.0/windowrecords/" + tab.getAdTabId() + "/records";
+                if (Boolean.TRUE.equals(tab.isIsinsertrecord()))
+                    endpoints.put("POST", base);
+                endpoints.put("PUT", base + "/{recordId}");
+                endpoints.put("DELETE", base + "/{recordId}");
+            }
+            tab.crudEndpoints(endpoints);
         }
     }
 

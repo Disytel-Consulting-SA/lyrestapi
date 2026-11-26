@@ -43,6 +43,10 @@ components:
           type: string
         data_endpoint:
           type: string
+        data_endpoint_error:
+          type: string
+          nullable: true
+          description: Motivo por el cual no está disponible el acceso REST a la pestaña
         pk_columns:
           type: array
           description: Columnas que conforman la clave primaria de la entidad, en el orden requerido por el endpoint REST
@@ -61,6 +65,11 @@ components:
           type: string
           nullable: true
           description: Endpoint REST alternativo utilizado para crear nuevos registros
+        crud_endpoints:
+          type: object
+          description: Endpoints disponibles por operación (GET, POST, PUT, DELETE). La ausencia de una operación indica que no se anuncia como disponible.
+          additionalProperties:
+            type: string
         fields:
           type: array
           items:

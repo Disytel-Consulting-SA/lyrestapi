@@ -5,6 +5,7 @@
  */
 package org.libertya.api.stub.iface;
 
+import org.libertya.api.stub.model.ContextualRecordWrite;
 import org.libertya.api.stub.model.GenericRecord;
 import org.libertya.api.stub.model.WindowRecordQuery;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,6 +59,37 @@ public interface WindowrecordsApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
+    @Operation(summary = "Elimina un registro dentro de su pestaña", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "windowrecords" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "Eliminación realizada", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "403", description = "Escritura no autorizada"),
+        
+        @ApiResponse(responseCode = "404", description = "Registro o pestaña inexistente"),
+        
+        @ApiResponse(responseCode = "409", description = "Error de validación contextual o de modelo") })
+    @RequestMapping(value = "/v1.0/windowrecords/{tabId}/records/{recordId}",
+        produces = { "text/plain" }, 
+        consumes = { "application/json" }, 
+        method = RequestMethod.DELETE)
+    default ResponseEntity<String> deleteContextualRecord(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("tabId") Integer tabId, @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("recordId") Integer recordId, @Parameter(in = ParameterIn.DEFAULT, description = "", schema=@Schema()) @Valid @RequestBody Map<String, String> body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default WindowrecordsApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
     @Operation(summary = "Retorna los registros visibles de una pestana", description = "Retorna los registros pertenecientes al universo definido por Libertya para la pestana indicada. Se aplican la clausula Where de la pestana, el contexto de ventana, las restricciones de acceso del rol y, para pestanas hijas, el contexto del registro padre. Si no se especifica sort se utiliza el OrderByClause definido por la pestana. ", security = {
         @SecurityRequirement(name = "jwtAuth")    }, tags={ "windowrecords" })
     @ApiResponses(value = { 
@@ -79,6 +111,68 @@ public interface WindowrecordsApi {
             if (getAcceptHeader().get().contains("application/json")) {
                 try {
                     return new ResponseEntity<>(getObjectMapper().get().readValue("[ \"\", \"\" ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default WindowrecordsApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @Operation(summary = "Crea un registro dentro del contexto de una pestaña", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "windowrecords" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "201", description = "Identificador del registro creado", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "403", description = "Escritura no autorizada"),
+        
+        @ApiResponse(responseCode = "404", description = "Pestaña o registro ancestral inexistente"),
+        
+        @ApiResponse(responseCode = "409", description = "Error de validación contextual o de modelo") })
+    @RequestMapping(value = "/v1.0/windowrecords/{tabId}/records",
+        produces = { "text/plain" }, 
+        consumes = { "application/json" }, 
+        method = RequestMethod.POST)
+    default ResponseEntity<String> insertContextualRecord(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("tabId") Integer tabId, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody ContextualRecordWrite body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
+                } catch (IOException e) {
+                    log.error("Couldn't serialize response for content type application/json", e);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+        } else {
+            log.warn("ObjectMapper or HttpServletRequest not configured in default WindowrecordsApi interface so no example is generated");
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+
+    @Operation(summary = "Actualiza un registro dentro de su pestaña", description = "", security = {
+        @SecurityRequirement(name = "jwtAuth")    }, tags={ "windowrecords" })
+    @ApiResponses(value = { 
+        @ApiResponse(responseCode = "200", description = "Actualización realizada", content = @Content(mediaType = "text/plain", schema = @Schema(implementation = String.class))),
+        
+        @ApiResponse(responseCode = "403", description = "Escritura no autorizada"),
+        
+        @ApiResponse(responseCode = "404", description = "Registro o pestaña inexistente"),
+        
+        @ApiResponse(responseCode = "409", description = "Error de validación contextual o de modelo") })
+    @RequestMapping(value = "/v1.0/windowrecords/{tabId}/records/{recordId}",
+        produces = { "text/plain" }, 
+        consumes = { "application/json" }, 
+        method = RequestMethod.PUT)
+    default ResponseEntity<String> updateContextualRecord(@Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("tabId") Integer tabId, @Parameter(in = ParameterIn.PATH, description = "", required=true, schema=@Schema()) @PathVariable("recordId") Integer recordId, @Parameter(in = ParameterIn.DEFAULT, description = "", required=true, schema=@Schema()) @Valid @RequestBody ContextualRecordWrite body) {
+        if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
+            if (getAcceptHeader().get().contains("application/json")) {
+                try {
+                    return new ResponseEntity<>(getObjectMapper().get().readValue("\"\"", String.class), HttpStatus.NOT_IMPLEMENTED);
                 } catch (IOException e) {
                     log.error("Couldn't serialize response for content type application/json", e);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -17,6 +17,7 @@ import org.openXpertya.model.M_Column;
 import org.openXpertya.model.M_Table;
 import org.openXpertya.util.DB;
 import org.openXpertya.util.Env;
+import org.openXpertya.util.Trx;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -43,6 +44,35 @@ public class WindowRecordRepository extends AbstractRepository {
 
     private final GenericRepository genericRepository;
 
+    @FunctionalInterface
+    private interface CoreTransactionWork<T> {
+        T execute(String trxName) throws ModelException, NotFoundException, AuthException;
+    }
+
+    /**
+     * La transacción pertenece al repositorio contextual. Ante cualquier
+     * fallo no se confirma ninguna escritura realizada con este trxName.
+     */
+    private <T> T inCoreTransaction(CoreTransactionWork<T> work)
+            throws ModelException, NotFoundException, AuthException {
+        String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
+        try {
+            T result = work.execute(trxName);
+            commitTransaction(trxName);
+            return result;
+        } catch (Exception ex) {
+            rollbackTransaction(trxName);
+            if (ex instanceof ModelException) throw (ModelException) ex;
+            if (ex instanceof NotFoundException) throw (NotFoundException) ex;
+            if (ex instanceof AuthException) throw (AuthException) ex;
+            if (ex instanceof RuntimeException) throw (RuntimeException) ex;
+            throw new ModelException("Error en operación contextual: " + ex.getMessage());
+        } finally {
+            closeTransaction(trxName);
+        }
+    }
+
+
 
     /* =========================== API pública =========================== */
 
@@ -60,6 +90,539 @@ public class WindowRecordRepository extends AbstractRepository {
                 (tab, windowNo) -> countRecords(info, tab, windowNo, query));
     }
 
+
+    /**
+     * Verifica autorización contextual para escrituras de una pestaña.
+     * No ejecuta la escritura: la invocación posterior debe volver a
+     * verificar los permisos de tabla/registro en el repositorio genérico.
+     */
+    public void validateTabWrite(UserInfo info, int adTabId, boolean inserting)
+            throws ModelException, NotFoundException, AuthException {
+        withTab(info, adTabId, null, (tab, windowNo) -> {
+            String sql = "SELECT IsReadOnly, IsInsertRecord FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
+            try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+                ps.setInt(1, adTabId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next())
+                        throw new NotFoundException("Pestaña inexistente o inactiva");
+                    if ("Y".equalsIgnoreCase(rs.getString("IsReadOnly")))
+                        throw new AuthException("La pestaña es de solo lectura");
+                    if (inserting && !"Y".equalsIgnoreCase(rs.getString("IsInsertRecord")))
+                        throw new AuthException("La pestaña no permite insertar registros");
+                }
+            } catch (java.sql.SQLException ex) {
+                throw new ModelException("No fue posible validar los permisos de la pestaña: " + ex.getMessage());
+            }
+            return null;
+        });
+    }
+
+    /**
+     * Escrituras contextuales: comprueba el registro contra el mismo universo
+     * de consulta de la pestaña, con contexto maestro/detalle.
+     */
+    /**
+     * Creación contextual de pestañas raíz. Las pestañas detalle requieren
+     * validación explícita de la relación padre/hijo antes de habilitar POST.
+     */
+    /**
+     * Inserción contextual. En detalles solo se habilita una relación directa
+     * inequívoca con el padre, que se valida y se impone desde el servidor.
+     */
+    public String insertTabRecord(UserInfo info, int tabId,
+            Map<String, String> parentValues, Map<String, Object> values)
+            throws ModelException, NotFoundException, AuthException {
+        if (values == null || values.isEmpty())
+            throw new ModelException("Debe indicar los valores del nuevo registro");
+        validateWriteParentValues(info, tabId, parentValues);
+        return inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            checkTabWritable(tabId);
+            String sql = "SELECT IsInsertRecord FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
+            try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+                ps.setInt(1, tabId);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next() || !"Y".equalsIgnoreCase(rs.getString(1)))
+                        throw new AuthException("La pestaña no permite crear registros");
+                }
+            } catch (java.sql.SQLException e) {
+                throw new ModelException("Error verificando creación en pestaña: " + e.getMessage());
+            }
+            GenericRepository.TableSpec spec = genericRepository.resolveTable(
+                    info, tab.getQueryDefinition().getTableName());
+            validateAncestorRelations(info, tabId, parentValues, trxName);
+            ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
+            Map<String, Object> insertValues = new HashMap<>(values);
+            if (parent != null) {
+                M_Table childTable = M_Table.get(info.getCtx(), spec.getTableName());
+                if (childTable == null || childTable.getColumn(parent.key) == null)
+                    throw new AuthException("No se puede resolver una relación directa padre-hijo para crear el detalle");
+                for (String field : values.keySet()) {
+                    if (parent.key.equalsIgnoreCase(field))
+                        throw new AuthException("La referencia al padre debe provenir exclusivamente del contexto validado");
+                }
+                insertValues.put(parent.key, parent.id);
+            }
+            String createdId = genericRepository.insertRecord(info, spec.getTableName(), insertValues, trxName);
+            // Verificar antes del commit que el registro nuevo resulte
+            // efectivamente visible dentro del universo de esta pestaña.
+            int numericId;
+            try {
+                numericId = Integer.parseInt(createdId);
+            } catch (NumberFormatException ex) {
+                throw new ModelException("La creación contextual requiere una clave primaria numérica simple");
+            }
+            contextualTable(info, tab, windowNo, numericId, trxName);
+            verifyParentLink(info, spec, numericId, parent, trxName);
+            return createdId;
+        }));
+    }
+
+    public void updateTabRecord(UserInfo info, int tabId, int recordId,
+            Map<String, String> parentValues, Map<String, Object> values)
+            throws ModelException, NotFoundException, AuthException {
+        if (values == null || values.isEmpty())
+            throw new ModelException("Debe indicar al menos un campo para actualizar");
+        validateWriteParentValues(info, tabId, parentValues);
+        inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            validateAncestorRelations(info, tabId, parentValues, trxName);
+            ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
+            checkTabWritable(tabId);
+            GenericRepository.TableSpec spec = genericRepository.resolveTable(
+                    info, tab.getQueryDefinition().getTableName());
+            lockRecordForWrite(spec, recordId, trxName);
+            spec = contextualTable(info, tab, windowNo, recordId, trxName);
+            verifyParentLink(info, spec, recordId, parent, trxName);
+            if (parent != null) {
+                for (String field : values.keySet()) {
+                    if (parent.key.equalsIgnoreCase(field))
+                        throw new AuthException("No se permite cambiar la referencia al padre desde esta pestaña");
+                }
+            }
+            genericRepository.updateRecord(info, spec.getTableName(), recordId, values, trxName);
+            // Un PUT no puede desplazar el registro fuera del universo
+            // contextual que autorizó la modificación.
+            contextualTable(info, tab, windowNo, recordId, trxName);
+            verifyParentLink(info, spec, recordId, parent, trxName);
+            return null;
+        }));
+    }
+
+    public void deleteTabRecord(UserInfo info, int tabId, int recordId,
+            Map<String, String> parentValues)
+            throws ModelException, NotFoundException, AuthException {
+        validateWriteParentValues(info, tabId, parentValues);
+        inCoreTransaction(trxName -> withTab(info, tabId, parentQuery(parentValues), (tab, windowNo) -> {
+            validateAncestorRelations(info, tabId, parentValues, trxName);
+            ParentLink parent = requireParentContext(info, tab, parentValues, trxName);
+            checkTabWritable(tabId);
+            GenericRepository.TableSpec spec = genericRepository.resolveTable(
+                    info, tab.getQueryDefinition().getTableName());
+            lockRecordForWrite(spec, recordId, trxName);
+            spec = contextualTable(info, tab, windowNo, recordId, trxName);
+            verifyParentLink(info, spec, recordId, parent, trxName);
+            genericRepository.deleteRecord(info, spec.getTableName(), recordId, trxName);
+            return null;
+        }));
+    }
+
+    /**
+     * Un detalle no puede evaluarse con contexto padre ausente: las
+     * expresiones de CORE podrían quedar sin resolver o ampliar el filtro.
+     */
+    /**
+     * Las variables de contexto provienen del cliente y se aplican a Env.
+     * Las escrituras solo admiten identificadores de registros, nunca
+     * variables de seguridad, organización o contexto arbitrario.
+     */
+    /**
+     * Solo admite claves primarias de las pestañas ancestras reales.
+     * Se valida antes de poblar Env para impedir inyección de variables
+     * arbitrarias con apariencia de identificadores.
+     */
+    private void validateWriteParentValues(UserInfo info, int tabId,
+            Map<String, String> values) throws AuthException, ModelException, NotFoundException {
+        if (info == null)
+            throw new AuthException("Usuario no autenticado");
+        String sql = "SELECT p.AD_Table_ID, p.TabLevel FROM AD_Tab c "
+                + "JOIN AD_Tab p ON p.AD_Window_ID=c.AD_Window_ID "
+                + "AND p.IsActive='Y' AND p.SeqNo<c.SeqNo "
+                + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y' ORDER BY p.SeqNo";
+        int targetLevel;
+        try (PreparedStatement ps = DB.prepareStatement(
+                "SELECT TabLevel FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'", null)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("Pestaña no disponible");
+                targetLevel = rs.getInt(1);
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error consultando nivel de pestaña: " + e.getMessage());
+        }
+        // Reconstruye la rama activa: una pestaña del mismo nivel reemplaza
+        // a sus hermanas; una de nivel inferior cierra los descendientes.
+        List<Integer> branch = new ArrayList<>();
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int level = rs.getInt(2);
+                    if (level < 0 || level > branch.size())
+                        throw new AuthException("Jerarquía de pestañas inconsistente");
+                    while (branch.size() > level)
+                        branch.remove(branch.size() - 1);
+                    branch.add(rs.getInt(1));
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error resolviendo jerarquía de pestañas: " + e.getMessage());
+        }
+        if (targetLevel < 0 || targetLevel > branch.size())
+            throw new AuthException("Jerarquía de pestañas incompleta");
+        while (branch.size() > targetLevel)
+            branch.remove(branch.size() - 1);
+        Set<String> allowed = new HashSet<>();
+        for (Integer tableId : branch) {
+            M_Table table = M_Table.get(info.getCtx(), tableId);
+            if (table == null)
+                throw new AuthException("Metadatos de tabla ancestra no disponibles");
+            GenericRepository.TableSpec spec = genericRepository.resolveTable(info, table.getTableName());
+            if (!allowed.add(spec.getKeyColumn().toLowerCase(Locale.ROOT)))
+                throw new AuthException("La jerarquía reutiliza una clave primaria y no admite un contexto inequívoco");
+        }
+        if (values == null || values.isEmpty()) {
+            if (targetLevel > 0)
+                throw new AuthException("Falta el contexto de las pestañas ancestras");
+            return;
+        }
+        Set<String> supplied = new HashSet<>();
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (key == null || !supplied.add(key.toLowerCase(Locale.ROOT))
+                    || !allowed.contains(key.toLowerCase(Locale.ROOT))
+                    || value == null || !value.matches("[0-9]{1,10}"))
+                throw new AuthException("El contexto contiene una columna ajena a la jerarquía de pestañas");
+            try {
+                if (Integer.parseInt(value) <= 0)
+                    throw new AuthException("Identificador padre inválido");
+            } catch (NumberFormatException e) {
+                throw new AuthException("Identificador padre fuera de rango");
+            }
+        }
+        if (supplied.size() != allowed.size())
+            throw new AuthException("Faltan identificadores de pestañas ancestras");
+
+    }
+
+    /**
+     * Comprobación relacional ejecutada dentro de la misma Trx CORE que
+     * la escritura. No se confía en relaciones suministradas por el cliente.
+     */
+    private void validateAncestorRelations(UserInfo info, int tabId,
+            Map<String, String> values, String trxName)
+            throws AuthException, ModelException, NotFoundException {
+        if (values == null || values.isEmpty())
+            return;
+        String sql = "SELECT p.AD_Tab_ID, p.AD_Table_ID, p.TabLevel FROM AD_Tab c "
+                + "JOIN AD_Tab p ON p.AD_Window_ID=c.AD_Window_ID "
+                + "AND p.IsActive='Y' AND p.SeqNo<c.SeqNo "
+                + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y' ORDER BY p.SeqNo";
+        List<GenericRepository.TableSpec> branch = new ArrayList<>();
+        List<Integer> ancestorTabIds = new ArrayList<>();
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int level = rs.getInt(3);
+                    if (level < 0 || level > branch.size())
+                        throw new AuthException("Jerarquía de pestañas inconsistente");
+                    while (branch.size() > level) {
+                        branch.remove(branch.size() - 1);
+                        ancestorTabIds.remove(ancestorTabIds.size() - 1);
+                    }
+                    M_Table table = M_Table.get(info.getCtx(), rs.getInt(2));
+                    if (table == null)
+                        throw new AuthException("Tabla ancestral no disponible");
+                    branch.add(genericRepository.resolveTable(info, table.getTableName()));
+                    ancestorTabIds.add(rs.getInt(1));
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error consultando ancestros: " + e.getMessage());
+        }
+        Set<String> uniqueKeys = new HashSet<>();
+        for (GenericRepository.TableSpec ancestor : branch) {
+            if (!uniqueKeys.add(ancestor.getKeyColumn().toLowerCase(Locale.ROOT)))
+                throw new AuthException("La jerarquía reutiliza una clave primaria y no admite un contexto inequívoco");
+        }
+        // Bloquear siempre en orden raíz -> hoja para minimizar
+        // interbloqueos entre operaciones sobre una misma jerarquía.
+        // La autorización genérica sigue siendo necesaria: el bloqueo
+        // por sí solo no concede acceso al registro.
+        for (GenericRepository.TableSpec ancestor : branch) {
+            int id = contextRecordId(values, ancestor.getKeyColumn());
+            lockRecordForWrite(ancestor, id, trxName);
+            if (!genericRepository.retrieveRecord(info, ancestor.getTableName(), id,
+                    ancestor.getKeyColumn()).isPresent())
+                throw new AuthException("Registro ancestral inexistente o no accesible");
+        }
+        // Cada ancestro debe ser visible bajo el WhereClause contextual
+        // de SU pestaña, no solamente bajo los permisos de tabla.
+        Map<String, String> prefix = new HashMap<>();
+        for (int i = 0; i < branch.size(); i++) {
+            GenericRepository.TableSpec ancestor = branch.get(i);
+            final int ancestorId = contextRecordId(values, ancestor.getKeyColumn());
+            final int ancestorTabId = ancestorTabIds.get(i);
+            final Map<String, String> ancestorContext = new HashMap<>(prefix);
+            withTab(info, ancestorTabId, parentQuery(ancestorContext), (tab, windowNo) -> {
+                contextualTable(info, tab, windowNo, ancestorId, trxName);
+                return null;
+            });
+            prefix.put(ancestor.getKeyColumn(), String.valueOf(ancestorId));
+        }
+        for (int i = 1; i < branch.size(); i++) {
+            GenericRepository.TableSpec parent = branch.get(i - 1);
+            GenericRepository.TableSpec child = branch.get(i);
+            // Aplicar exactamente la misma resolución de vínculo utilizada
+            // para la pestaña destino: AD_Tab.AD_Column_ID o IsParent
+            // inequívoco. La mera existencia de una columna homónima
+            // no prueba que sea la relación configurada en la ventana.
+            M_Table parentTable = M_Table.get(info.getCtx(), parent.getTableName());
+            if (parentTable == null)
+                throw new AuthException("Metadatos del padre ancestral no disponibles");
+            String linkColumn = resolveParentLinkColumn(
+                    ancestorTabIds.get(i), parentTable.getAD_Table_ID(), parent.getKeyColumn());
+            String relationSql = "SELECT 1 FROM " + child.getTableName()
+                    + " WHERE " + child.getKeyColumn() + "=? AND "
+                    + linkColumn + "=?";
+            try (PreparedStatement ps = DB.prepareStatement(relationSql, trxName)) {
+                ps.setInt(1, contextRecordId(values, child.getKeyColumn()));
+                ps.setInt(2, contextRecordId(values, parent.getKeyColumn()));
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (!rs.next())
+                        throw new AuthException("Los registros ancestrales no pertenecen a la misma jerarquía");
+                }
+            } catch (java.sql.SQLException e) {
+                throw new ModelException("Error validando jerarquía de registros: " + e.getMessage());
+            }
+        }
+    }
+
+    private int contextRecordId(Map<String, String> values, String column) throws AuthException {
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            if (column.equalsIgnoreCase(entry.getKey())) {
+                try {
+                    return Integer.parseInt(entry.getValue());
+                } catch (NumberFormatException ex) {
+                    throw new AuthException("Identificador ancestral inválido");
+                }
+            }
+        }
+        throw new AuthException("Falta identificador ancestral: " + column);
+    }
+
+    private ParentLink requireParentContext(UserInfo info, MTab tab, Map<String, String> parentValues, String trxName)
+            throws AuthException, ModelException, NotFoundException {
+        if (tab.getTabLevel() <= 0)
+            return null;
+        if (parentValues == null || parentValues.isEmpty())
+            throw new AuthException("Se requiere contexto del registro padre para operar en una pestaña detalle");
+
+        for (Map.Entry<String, String> entry : parentValues.entrySet()) {
+            if (entry.getKey() == null || !entry.getKey().matches("[A-Za-z_][A-Za-z0-9_]*")
+                    || entry.getValue() == null || entry.getValue().trim().isEmpty())
+                throw new AuthException("Contexto del registro padre inválido o incompleto");
+        }
+
+        // El padre inmediato se identifica por la jerarquía de AD_Tab, no por
+        // un nombre de columna arbitrario enviado por el cliente.
+        String sql = "SELECT p.AD_Table_ID FROM AD_Tab c JOIN AD_Tab p "
+                + "ON p.AD_Window_ID=c.AD_Window_ID AND p.IsActive='Y' "
+                + "AND p.SeqNo=(SELECT MAX(p2.SeqNo) FROM AD_Tab p2 "
+                + "WHERE p2.AD_Window_ID=c.AD_Window_ID AND p2.IsActive='Y' "
+                + "AND p2.SeqNo<c.SeqNo AND p2.TabLevel=c.TabLevel-1) "
+                + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y'";
+        int parentTableId;
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tab.getAD_Tab_ID());
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("No se pudo determinar la pestaña padre");
+                parentTableId = rs.getInt(1);
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error resolviendo pestaña padre: " + e.getMessage());
+        }
+        M_Table parentTable = M_Table.get(info.getCtx(), parentTableId);
+        if (parentTable == null)
+            throw new AuthException("Metadatos de la tabla padre no disponibles");
+        GenericRepository.TableSpec parentSpec = genericRepository.resolveTable(info, parentTable.getTableName());
+        String parentKey = parentSpec.getKeyColumn();
+        String rawId = null;
+        for (Map.Entry<String, String> entry : parentValues.entrySet()) {
+            if (parentKey.equalsIgnoreCase(entry.getKey())) {
+                rawId = entry.getValue();
+                break;
+            }
+        }
+        if (rawId == null || !rawId.matches("[0-9]{1,10}"))
+            throw new AuthException("Falta el identificador de la entidad padre: " + parentKey);
+        int parentId;
+        try {
+            parentId = Integer.parseInt(rawId);
+        } catch (NumberFormatException e) {
+            throw new AuthException("Identificador de entidad padre inválido");
+        }
+        if (!genericRepository.retrieveRecord(info, parentSpec.getTableName(), parentId, parentKey).isPresent())
+            throw new AuthException("El registro padre no existe o no es accesible");
+        // validateAncestorRelations ya bloqueó toda la cadena, incluido
+        // el padre inmediato, en la misma transacción.
+        String linkColumn = resolveParentLinkColumn(tab.getAD_Tab_ID(), parentTableId, parentKey);
+        return new ParentLink(linkColumn, parentId);
+    }
+
+    /**
+     * Respeta AD_Tab.AD_Column_ID cuando está configurado. En su ausencia
+     * acepta únicamente una columna IsParent inequívoca que referencie la
+     * tabla padre. Nunca deduce la relación solo por coincidencia de nombres.
+     */
+    private String resolveParentLinkColumn(int tabId, int parentTableId, String parentKey)
+            throws ModelException, AuthException {
+        String sql = "SELECT t.AD_Column_ID, c.ColumnName FROM AD_Tab t "
+                + "LEFT JOIN AD_Column c ON c.AD_Column_ID=t.AD_Column_ID "
+                + "AND c.AD_Table_ID=t.AD_Table_ID AND c.IsActive='Y' "
+                + "WHERE t.AD_Tab_ID=?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("Pestaña no disponible");
+                int explicitId = rs.getInt(1);
+                if (explicitId > 0) {
+                    String column = rs.getString(2);
+                    if (column == null || !column.equalsIgnoreCase(parentKey))
+                        throw new AuthException("El vínculo explícito de la pestaña no coincide con la clave del padre");
+                    return column;
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error resolviendo vínculo explícito: " + e.getMessage());
+        }
+        // Sin override explícito, no elegir arbitrariamente entre varias
+        // columnas IsParent: la relación debe ser única y coincidir con la PK.
+        sql = "SELECT c.ColumnName FROM AD_Tab t "
+                + "JOIN AD_Column c ON c.AD_Table_ID=t.AD_Table_ID "
+                + "WHERE t.AD_Tab_ID=? AND c.IsActive='Y' AND c.IsParent='Y'";
+        String candidate = null;
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    if (candidate != null)
+                        throw new AuthException("La pestaña tiene múltiples columnas IsParent sin vínculo explícito");
+                    candidate = rs.getString(1);
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error resolviendo vínculo IsParent: " + e.getMessage());
+        }
+        if (candidate != null && candidate.equalsIgnoreCase(parentKey))
+            return candidate;
+        throw new AuthException("No hay relación padre-hijo explícita y verificable en los metadatos");
+    }
+
+    private static final class ParentLink {
+        final String key;
+        final int id;
+        ParentLink(String key, int id) {
+            this.key = key;
+            this.id = id;
+        }
+    }
+
+    /**
+     * Verificación explícita de la FK padre-hijo. Solo se admiten tablas
+     * con columna directa homónima a la PK del padre; relaciones indirectas
+     * requieren resolución específica y se deniegan por defecto.
+     */
+    private void verifyParentLink(UserInfo info, GenericRepository.TableSpec child,
+            int recordId, ParentLink parent, String trxName) throws AuthException, ModelException {
+        if (parent == null)
+            return;
+        M_Table childTable = M_Table.get(info.getCtx(), child.getTableName());
+        if (childTable == null || childTable.getColumn(parent.key) == null)
+            throw new AuthException("No se puede verificar la relación directa padre-hijo de esta pestaña");
+        String sql = "SELECT 1 FROM " + child.getTableName()
+                + " WHERE " + child.getKeyColumn() + "=? AND " + parent.key + "=?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
+            ps.setInt(1, recordId);
+            ps.setInt(2, parent.id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("El registro no pertenece al padre indicado");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error verificando relación padre-hijo: " + e.getMessage());
+        }
+    }
+
+    private WindowRecordQuery parentQuery(Map<String, String> values) {
+        WindowRecordQuery query = new WindowRecordQuery();
+        query.setParentValues(values);
+        return query;
+    }
+
+    private void checkTabWritable(int tabId) throws ModelException, AuthException {
+        String sql = "SELECT IsReadOnly FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next() || "Y".equalsIgnoreCase(rs.getString(1)))
+                    throw new AuthException("La pestaña no permite modificar registros");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error verificando la pestaña: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Bloquea la fila antes de comprobar su pertenencia contextual.
+     * El bloqueo se conserva hasta el commit/rollback de la misma Trx.
+     */
+    private void lockRecordForWrite(GenericRepository.TableSpec spec, int recordId,
+            String trxName) throws ModelException, AuthException {
+        String sql = "SELECT " + spec.getKeyColumn() + " FROM " + spec.getTableName()
+                + " WHERE " + spec.getKeyColumn() + "=? FOR UPDATE";
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
+            ps.setInt(1, recordId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("El registro no existe o no está disponible para modificar");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error bloqueando registro para escritura: " + e.getMessage());
+        }
+    }
+
+    private GenericRepository.TableSpec contextualTable(UserInfo info, MTab tab,
+            int windowNo, int recordId, String trxName) throws ModelException, NotFoundException, AuthException {
+        GenericRepository.TableSpec spec = genericRepository.resolveTable(
+                info, tab.getQueryDefinition().getTableName());
+        SafeQueryFilter.Compiled filter = validateFilter(info, spec, null);
+        String sql = "SELECT 1 FROM (" + buildBaseSelect(info, tab, windowNo, spec, filter)
+                + ") contextual WHERE contextual." + spec.getKeyColumn() + "=?";
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
+            ps.setInt(1, recordId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("El registro no pertenece al contexto accesible de la pestaña");
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error verificando pertenencia a la pestaña: " + e.getMessage());
+        }
+        return spec;
+    }
 
     /* =========================== Recuperación =========================== */
 

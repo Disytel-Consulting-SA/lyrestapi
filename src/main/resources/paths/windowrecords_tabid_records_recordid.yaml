@@ -1,0 +1,59 @@
+parameters:
+  - name: tabId
+    in: path
+    required: true
+    schema:
+      type: integer
+  - name: recordId
+    in: path
+    required: true
+    schema:
+      type: integer
+put:
+  tags:
+    - windowrecords
+  summary: Actualiza un registro dentro de su pestaña
+  operationId: updateContextualRecord
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/contextualrecordwrite.yaml#/components/schemas/ContextualRecordWrite'
+  responses:
+    "200":
+      description: Actualización realizada
+      content:
+        text/plain:
+          schema:
+            type: string
+    "403":
+      description: Escritura no autorizada
+    "404":
+      description: Registro o pestaña inexistente
+    "409":
+      description: Error de validación contextual o de modelo
+delete:
+  tags:
+    - windowrecords
+  summary: Elimina un registro dentro de su pestaña
+  operationId: deleteContextualRecord
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          $ref: '../model/contextualrecorddelete.yaml#/components/schemas/ContextualRecordDelete'
+  responses:
+    "200":
+      description: Eliminación realizada
+      content:
+        text/plain:
+          schema:
+            type: string
+    "403":
+      description: Escritura no autorizada
+    "404":
+      description: Registro o pestaña inexistente
+    "409":
+      description: Error de validación contextual o de modelo

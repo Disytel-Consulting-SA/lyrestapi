@@ -5,6 +5,7 @@ import org.libertya.api.common.UserInfo;
 import org.libertya.api.exception.AuthException;
 import org.libertya.api.exception.ModelException;
 import org.libertya.api.exception.NotFoundException;
+import org.libertya.api.security.ClientOrgAuth;
 import org.libertya.api.stub.model.DocumentAction;
 import org.libertya.api.stub.model.DocumentActions;
 import org.libertya.api.stub.model.GenericRecord;
@@ -154,6 +155,20 @@ public class GenericRepository extends AbstractRepository {
         if (!spec.hasStandardKey())
             throw new ModelException("La clave de la tabla " + spec.getTableName() + " es " + spec.getKeyColumn() +
                     " y no " + spec.getTableName() + "_ID: el endpoint generico solo puede leerla");
+    }
+
+    /**
+     * La autorización de lectura no concede permiso de escritura.
+     */
+    public void checkWriteAccess(UserInfo info, TableSpec spec) throws AuthException {
+        if (info == null)
+            throw new AuthException("Contexto de autenticación no disponible");
+        if (!info.hasRole())
+            throw new AuthException("Se requiere un rol para operaciones genéricas de escritura");
+        MRole role = MRole.get(info.getCtx(), info.getRoleID(), info.getUserID(), false);
+        M_Table table = M_Table.get(getCtx(info), spec.getTableName());
+        if (role == null || table == null || !role.isTableAccess(table.getAD_Table_ID(), false))
+            throw new AuthException("Acceso de escritura no autorizado a la tabla");
     }
 
     /** Un registro recuperado del core, como objeto de la API */
@@ -330,6 +345,7 @@ public class GenericRepository extends AbstractRepository {
     public String insertRecord(UserInfo info, String table, Map<String, Object> values) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveTable(info, table);
         checkWritable(spec);
+        checkWriteAccess(info, spec);
         return insertEntity(info, spec.getTableName(), values, null);
     }
 
@@ -337,6 +353,7 @@ public class GenericRepository extends AbstractRepository {
     public void updateRecord(UserInfo info, String table, int id, Map<String, Object> values) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveTable(info, table);
         checkWritable(spec);
+        checkWriteAccess(info, spec);
         updateEntity(info, new int[]{id}, spec.getTableName(), values, true);
     }
 
@@ -344,7 +361,37 @@ public class GenericRepository extends AbstractRepository {
     public void deleteRecord(UserInfo info, String table, int id) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveTable(info, table);
         checkWritable(spec);
+        checkWriteAccess(info, spec);
         deleteEntity(info, spec.getTableName(), new int[]{id});
+    }
+
+    /**
+     * Variantes con transacción explícita para orquestación contextual.
+     * La transacción pertenece al invocador: estos métodos no hacen commit.
+     */
+    public String insertRecord(UserInfo info, String table, Map<String, Object> values,
+            String trxName) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTable(info, table);
+        checkWritable(spec);
+        checkWriteAccess(info, spec);
+        return insertEntity(info, spec.getTableName(), values, trxName);
+    }
+
+    public void updateRecord(UserInfo info, String table, int id,
+            Map<String, Object> values, String trxName)
+            throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTable(info, table);
+        checkWritable(spec);
+        checkWriteAccess(info, spec);
+        updateEntity(info, new int[]{id}, spec.getTableName(), values, true, trxName);
+    }
+
+    public void deleteRecord(UserInfo info, String table, int id, String trxName)
+            throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTable(info, table);
+        checkWritable(spec);
+        checkWriteAccess(info, spec);
+        deleteEntity(info, spec.getTableName(), new int[]{id}, trxName);
     }
 
     /**
@@ -380,10 +427,15 @@ public class GenericRepository extends AbstractRepository {
     public String processRecord(UserInfo info, String table, int id, String action) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveTable(info, table);
         checkWritable(spec);
+        checkWriteAccess(info, spec);
 
         if (!spec.isDocument())
             throw new ModelException("La tabla " + spec.getTableName() + " no es un documento: no admite process");
 
+        PO document = getPO(info, spec.getTableName(), new int[]{id}, null);
+        if (document == null || document.getID() <= 0)
+            throw new NotFoundException();
+        ClientOrgAuth.validateWrite(info, document, true);
         return processEntity(info, spec.getTableName(), new int[]{id}, action, null);
     }
 

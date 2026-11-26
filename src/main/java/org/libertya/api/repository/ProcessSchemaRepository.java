@@ -45,7 +45,8 @@ public class ProcessSchemaRepository {
                 while (rs.next()) {
                     if (schema == null) {
                         schema = new ProcessSchema().processId(rs.getInt("ad_process_id")).name(rs.getString("process_name"))
-                                .description(rs.getString("process_description")).help(rs.getString("process_help"));
+                                .description(rs.getString("process_description")).help(rs.getString("process_help"))
+                                .parameters(new ArrayList<>());
                     }
 
                     Integer paraId = getNullableInteger(rs, "ad_process_para_id");

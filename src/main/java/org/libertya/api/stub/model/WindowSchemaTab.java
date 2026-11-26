@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.libertya.api.stub.model.WindowSchemaField;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
@@ -49,6 +50,9 @@ public class WindowSchemaTab   {
   @JsonProperty("data_endpoint")
   private String dataEndpoint = null;
 
+  @JsonProperty("data_endpoint_error")
+  private String dataEndpointError = null;
+
   @JsonProperty("pk_columns")
   @Valid
   private List<String> pkColumns = null;
@@ -64,6 +68,9 @@ public class WindowSchemaTab   {
 
   @JsonProperty("isinsertrecord")
   private Boolean isinsertrecord = null;
+
+  @JsonProperty("crud_endpoints")
+  private Map<String, String> crudEndpoints = null;
 
   @JsonProperty("create_endpoint")
   private String createEndpoint = null;
@@ -243,6 +250,15 @@ public class WindowSchemaTab   {
     this.tablename = tablename;
   }
 
+  public WindowSchemaTab dataEndpointError(String dataEndpointError) {
+    this.dataEndpointError = dataEndpointError;
+    return this;
+  }
+
+  public String getDataEndpointError() { return dataEndpointError; }
+
+  public void setDataEndpointError(String dataEndpointError) { this.dataEndpointError = dataEndpointError; }
+
   public WindowSchemaTab dataEndpoint(String dataEndpoint) {
     this.dataEndpoint = dataEndpoint;
     return this;
@@ -365,6 +381,20 @@ public class WindowSchemaTab   {
     this.isinsertrecord = isinsertrecord;
   }
 
+  public WindowSchemaTab crudEndpoints(Map<String, String> crudEndpoints) {
+    this.crudEndpoints = crudEndpoints;
+    return this;
+  }
+
+  @Schema(description = "Endpoints disponibles por operación (GET, POST, PUT, DELETE)")
+  public Map<String, String> getCrudEndpoints() {
+    return crudEndpoints;
+  }
+
+  public void setCrudEndpoints(Map<String, String> crudEndpoints) {
+    this.crudEndpoints = crudEndpoints;
+  }
+
   public WindowSchemaTab createEndpoint(String createEndpoint) {
     this.createEndpoint = createEndpoint;
     return this;
@@ -431,6 +461,7 @@ public class WindowSchemaTab   {
         Objects.equals(this.adTableId, windowSchemaTab.adTableId) &&
         Objects.equals(this.tablename, windowSchemaTab.tablename) &&
         Objects.equals(this.dataEndpoint, windowSchemaTab.dataEndpoint) &&
+        Objects.equals(this.dataEndpointError, windowSchemaTab.dataEndpointError) &&
         Objects.equals(this.pkColumns, windowSchemaTab.pkColumns) &&
         Objects.equals(this.whereclause, windowSchemaTab.whereclause) &&
         Objects.equals(this.orderbyclause, windowSchemaTab.orderbyclause) &&
@@ -442,7 +473,7 @@ public class WindowSchemaTab   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, pkColumns, whereclause, orderbyclause, isreadonly, isinsertrecord, createEndpoint, fields);
+    return Objects.hash(adTabId, name, description, seqno, tablevel, parentAdTabId, linkColumnname, adTableId, tablename, dataEndpoint, dataEndpointError, pkColumns, whereclause, orderbyclause, isreadonly, isinsertrecord, createEndpoint, fields);
   }
 
   @Override
@@ -459,12 +490,14 @@ public class WindowSchemaTab   {
     sb.append("    linkColumnname: ").append(toIndentedString(linkColumnname)).append("\n");
     sb.append("    adTableId: ").append(toIndentedString(adTableId)).append("\n");
     sb.append("    tablename: ").append(toIndentedString(tablename)).append("\n");
+    sb.append("    dataEndpointError: ").append(toIndentedString(dataEndpointError)).append("\n");
     sb.append("    dataEndpoint: ").append(toIndentedString(dataEndpoint)).append("\n");
     sb.append("    pkColumns: ").append(toIndentedString(pkColumns)).append("\n");
     sb.append("    whereclause: ").append(toIndentedString(whereclause)).append("\n");
     sb.append("    orderbyclause: ").append(toIndentedString(orderbyclause)).append("\n");
     sb.append("    isreadonly: ").append(toIndentedString(isreadonly)).append("\n");
     sb.append("    isinsertrecord: ").append(toIndentedString(isinsertrecord)).append("\n");
+    sb.append("    crudEndpoints: ").append(toIndentedString(crudEndpoints)).append("\n");
     sb.append("    createEndpoint: ").append(toIndentedString(createEndpoint)).append("\n");
     sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("}");
