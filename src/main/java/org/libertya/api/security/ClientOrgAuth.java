@@ -40,16 +40,8 @@ public class ClientOrgAuth {
             M_Table table = M_Table.get(info.getCtx(), tableName);
             String restriction = RecordAccessFilter.where(role, table, tableName);
             if (!"1=1".equals(restriction)) {
-                String sql = "SELECT 1 FROM " + tableName + " WHERE " + tableName + "_ID=? AND (" + restriction + ")";
-                try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
-                    ps.setInt(1, po.getID());
-                    try (ResultSet rs = ps.executeQuery()) {
-                        if (!rs.next())
-                            throw new AuthException("Acceso de escritura no autorizado al registro");
-                    }
-                } catch (SQLException e) {
-                    throw new AuthException("No fue posible verificar permisos de escritura del registro");
-                }
+                validateRecordRestriction(po, table, restriction);
+
             }
         }
     }
@@ -85,18 +77,30 @@ public class ClientOrgAuth {
         M_Table table = M_Table.get(info.getCtx(), tableName);
         String recordWhere = RecordAccessFilter.where(role, table, tableName);
         if (!"1=1".equals(recordWhere)) {
-            String key = tableName + "_ID";
-            String sql = "SELECT 1 FROM " + tableName + " WHERE " + key + "=? AND (" + recordWhere + ")";
-            try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
-                ps.setInt(1, aPO.getID());
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (!rs.next())
-                        throw new AuthException("Acceso de lectura no autorizado al registro");
-                }
-            } catch (SQLException e) {
-                throw new AuthException("No fue posible verificar el acceso al registro");
-            }
+            validateRecordRestriction(aPO, table, recordWhere);
         }
         return aPO;
+    }
+    /**
+     * CORE expresa las restricciones individuales mediante Record_ID numerico.
+     * RecordAccessFilter rechaza las identidades que no pueden representarse de esa forma.
+     */
+    private static void validateRecordRestriction(PO po, M_Table table, String restriction) throws AuthException {
+        String[] keys = table.getKeyColumnsAsArray();
+        if (keys == null || keys.length != 1 || !keys[0].equalsIgnoreCase(table.getTableName() + "_ID"))
+            throw new AuthException("No es posible evaluar restricciones de registro en " + table.getTableName());
+        Object value = po.get_Value(keys[0]);
+        if (!(value instanceof Integer))
+            throw new AuthException("Identidad numerica no disponible para verificar el acceso");
+        String sql = "SELECT 1 FROM " + table.getTableName() + " WHERE " + keys[0] + "=? AND (" + restriction + ")";
+        try (PreparedStatement ps = DB.prepareStatement(sql, po.get_TrxName())) {
+            ps.setObject(1, value);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("Acceso no autorizado al registro");
+            }
+        } catch (SQLException e) {
+            throw new AuthException("No fue posible verificar el acceso al registro");
+        }
     }
 }
