@@ -501,6 +501,70 @@ public class GenericRepository extends AbstractRepository {
         deleteEntity(info, spec.getTableName(), new int[]{id}, trxName);
     }
 
+    /** Las nuevas escrituras requieren una transaccion gestionada por el invocador. */
+    private TableSpec resolveWritableIdentity(UserInfo info, String table, String trxName) throws ModelException, NotFoundException, AuthException {
+        if (trxName == null || trxName.trim().isEmpty())
+            throw new ModelException("Se requiere una transaccion para escribir por identidad");
+        TableSpec spec = resolveTableIdentity(info, table);
+        if (spec.isView())
+            throw new ModelException("La tabla " + spec.getTableName() + " es una vista: solo admite lectura");
+        checkWriteAccess(info, spec);
+        return spec;
+    }
+
+    /** Alta por identidad; las claves no autogeneradas deben ser explicitas. */
+    public Map<String, Object> insertRecordByIdentity(UserInfo info, String table, Map<String, Object> values, String trxName) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveWritableIdentity(info, table, trxName);
+        if (values == null || values.isEmpty())
+            throw new ModelException("Se requieren valores para crear el registro");
+        boolean generated = spec.hasStandardKey();
+        String[] keys = spec.getKeyColumns();
+        Map<String, Object> expected = new java.util.LinkedHashMap<>();
+        Map<String, Object> normalized = new java.util.LinkedHashMap<>(values);
+        if (!generated) {
+            for (Map.Entry<String, Object> entry : values.entrySet()) {
+                for (String key : keys) {
+                    if (key.equalsIgnoreCase(entry.getKey())) {
+                        if (expected.containsKey(key))
+                            throw new ModelException("Columna clave duplicada: " + key);
+                        expected.put(key, entry.getValue());
+                        normalized.remove(entry.getKey());
+                    }
+                }
+            }
+            Object[] id = resolveIdentityValues(spec, expected);
+            for (int i = 0; i < keys.length; i++)
+                normalized.put(keys[i], id[i]);
+        }
+        Map<String, Object> created = insertEntity(info, spec.getTableName(), keys, generated, normalized, trxName);
+        Object[] actual = resolveIdentityValues(spec, created);
+        if (!generated && !Arrays.equals(resolveIdentityValues(spec, expected), actual))
+            throw new ModelException("La identidad persistida no coincide con la solicitada");
+        if (getPO(info, spec.getTableName(), keys, actual, trxName) == null)
+            throw new ModelException("No se pudo recuperar el registro creado");
+        return created;
+    }
+
+    /** Actualizacion parcial por identidad completa. */
+    public void updateRecord(UserInfo info, String table, Map<String, ?> identity, Map<String, Object> values, String trxName) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveWritableIdentity(info, table, trxName);
+        if (values == null || values.isEmpty())
+            throw new ModelException("Se requieren valores para actualizar el registro");
+        Object[] id = resolveIdentityValues(spec, identity);
+        updateEntity(info, spec.getTableName(), spec.getKeyColumns(), id, values, true, trxName);
+        if (getPO(info, spec.getTableName(), spec.getKeyColumns(), id, trxName) == null)
+            throw new ModelException("No se pudo recuperar el registro actualizado con su identidad original");
+    }
+
+    /** Eliminacion por identidad completa. */
+    public void deleteRecord(UserInfo info, String table, Map<String, ?> identity, String trxName) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveWritableIdentity(info, table, trxName);
+        Object[] id = resolveIdentityValues(spec, identity);
+        deleteEntity(info, spec.getTableName(), spec.getKeyColumns(), id, trxName);
+        if (getPO(info, spec.getTableName(), spec.getKeyColumns(), id, trxName) != null)
+            throw new ModelException("El registro continua existiendo luego de la eliminacion");
+    }
+
     /**
      * Recupera las acciones de procesamiento actualmente disponibles para un documento.
      *
