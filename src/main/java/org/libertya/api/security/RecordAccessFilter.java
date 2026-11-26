@@ -15,9 +15,12 @@ public final class RecordAccessFilter {
             throw new AuthException("Metadatos de acceso a registros no disponibles");
 
         String expectedKey = tableName + "_ID";
+        String[] keys = table.getKeyColumnsAsArray();
+        boolean standardIdentity = keys != null && keys.length == 1 && expectedKey.equalsIgnoreCase(keys[0]);
         String key = null;
         for (M_Column column : table.getColumns(false)) {
-            if (expectedKey.equalsIgnoreCase(column.getColumnName())) {
+            if (standardIdentity && expectedKey.equalsIgnoreCase(column.getColumnName())
+                    && column.isKey() && Integer.class == org.openXpertya.util.DisplayType.getClass(column.getAD_Reference_ID(), false)) {
                 key = column.getColumnName();
                 break;
             }
