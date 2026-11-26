@@ -1,0 +1,18 @@
+components:
+  schemas:
+    ContextualIdentityUpdate:
+      type: object
+      required:
+        - ancestors
+        - identity
+        - values
+      properties:
+        ancestors:
+          type: object
+          description: Identidades completas de ancestros indexadas por AD_Tab_ID decimal. Objeto vacio para pestañas raiz.
+          additionalProperties:
+            $ref: './genericrecord.yaml#/components/schemas/GenericRecord'
+        identity:
+          $ref: './genericrecord.yaml#/components/schemas/GenericRecord'
+        values:
+          $ref: './genericrecord.yaml#/components/schemas/GenericRecord'
