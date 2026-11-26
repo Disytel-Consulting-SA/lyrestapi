@@ -1,6 +1,6 @@
 get:
   tags:
-    - "generic"
+    - "genericidentity"
   summary: Retorna registros con cualquier identidad soportada
   description: >
     Retorna los registros de cualquier tabla definida en AD_Table, indicada por su nombre (sin distinguir
@@ -66,13 +66,13 @@ get:
               type: string
 post:
   tags:
-    - "generic"
+    - "genericidentity"
   summary: Nuevo registro en una tabla
   description: >
     Crea un registro en cualquier tabla definida en AD_Table, pasando por el modelo de Libertya (beforeSave,
     afterSave y plugins). El body es un objeto plano con una clave por columna; una clave que no es columna
     de la tabla responde 409. Las claves asignadas deben incluirse completas; las convencionales se generan en CORE. Si la tabla es un
-    documento, queda en borrador: para completarlo usar PUT /v1.0/generic/{table}/{id}/process?action=CO.
+    documento, queda en borrador: el procesamiento de documentos conserva su contrato historico.
   operationId: addGenericRecordByIdentity
   parameters:
     - in: path
