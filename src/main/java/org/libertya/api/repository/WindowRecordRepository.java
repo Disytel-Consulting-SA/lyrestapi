@@ -491,15 +491,18 @@ public class WindowRecordRepository extends AbstractRepository {
             throws AuthException, ModelException, NotFoundException {
         Map<String, String> context = new HashMap<>();
         for (AncestorIdentity ancestor : ancestors) {
-            if (ancestor.spec.getKeyColumns().length != 1 || ancestor.spec.isView())
+            if (!ancestor.spec.hasLegacyNumericKey() || ancestor.spec.isView())
                 throw new AuthException("La pestaña ancestral no posee una identidad simple bloqueable: " + ancestor.tabId);
         }
         AncestorIdentity previous = null;
         for (AncestorIdentity ancestor : ancestors) {
             String key = ancestor.spec.getKeyColumns()[0];
             Object value = ancestor.identity[0];
-            if (value instanceof Number && ((Number) value).longValue() <= 0)
+            if (!(value instanceof Integer) || ((Integer) value) <= 0)
                 throw new AuthException("Identificador ancestral inválido");
+            if (key.equalsIgnoreCase("AD_Client_ID") || key.equalsIgnoreCase("AD_Org_ID")
+                    || key.equalsIgnoreCase("AD_Role_ID") || key.equalsIgnoreCase("AD_User_ID"))
+                throw new AuthException("La clave ancestral coincide con una variable de contexto reservada");
             for (String existing : context.keySet()) {
                 if (existing.equalsIgnoreCase(key))
                     throw new AuthException("CORE no permite representar inequívocamente las claves ancestrales repetidas");
@@ -509,7 +512,10 @@ public class WindowRecordRepository extends AbstractRepository {
             identity.put(key, value);
             if (!genericRepository.retrieveRecord(info, ancestor.spec.getTableName(), identity, key).isPresent())
                 throw new AuthException("Registro ancestral inexistente o no accesible");
+            final AncestorIdentity immediateParent = previous;
             withTab(info, ancestor.tabId, parentQuery(new HashMap<>(context)), (tab, windowNo) -> {
+                if (immediateParent != null)
+                    checkedStructuredLink(info, tab, immediateParent);
                 contextualTable(info, tab, windowNo, ancestor.spec, ancestor.identity, trxName);
                 return null;
             });
@@ -872,6 +878,8 @@ public class WindowRecordRepository extends AbstractRepository {
 
     private GenericRepository.TableSpec contextualTable(UserInfo info, MTab tab, int windowNo,
             GenericRepository.TableSpec spec, Object[] identity, String trxName) throws ModelException, AuthException {
+        if (!spec.getTableName().equalsIgnoreCase(tab.getQueryDefinition().getTableName()))
+            throw new AuthException("La identidad no corresponde a la tabla efectiva de la pestaña");
         SafeQueryFilter.Compiled filter = validateFilter(info, spec, null);
         String sql = "SELECT 1 FROM (" + buildBaseSelect(info, tab, windowNo, spec, filter)
                 + ") contextual WHERE " + getParameterizedKeyWhereClause(spec.getKeyColumns(), identity);
