@@ -721,7 +721,8 @@ public class WindowSchemaRepository {
                 if (insertSupported && Boolean.TRUE.equals(tab.isIsinsertrecord()))
                     endpoints.put("POST", base + "/records");
                 endpoints.put("PUT", base + "/record");
-                // DELETE no convencional queda deshabilitado hasta revisar PO.delete().
+                if (spec.supportsIdentityDelete())
+                    endpoints.put("DELETE", base + "/record");
             }
             tab.crudEndpoints(endpoints);
         }
