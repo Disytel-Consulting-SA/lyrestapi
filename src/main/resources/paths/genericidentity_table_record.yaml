@@ -1,0 +1,52 @@
+put:
+  tags:
+    - genericidentity
+  summary: Actualiza un registro por su identidad completa
+  operationId: updateGenericRecordByIdentity
+  parameters:
+    - in: path
+      name: table
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/identityrecordwrite.yaml#/components/schemas/IdentityRecordWrite'
+  responses:
+    "204":
+      description: Registro actualizado
+    "403":
+      description: Acceso denegado
+    "404":
+      description: Tabla o registro no encontrado
+    "409":
+      description: Identidad u operacion invalida
+delete:
+  tags:
+    - genericidentity
+  summary: Elimina un registro por su identidad completa
+  operationId: deleteGenericRecordByIdentity
+  parameters:
+    - in: path
+      name: table
+      required: true
+      schema:
+        type: string
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/genericrecord.yaml#/components/schemas/GenericRecord'
+  responses:
+    "204":
+      description: Registro eliminado
+    "403":
+      description: Acceso denegado
+    "404":
+      description: Tabla o registro no encontrado
+    "409":
+      description: Identidad u operacion invalida
