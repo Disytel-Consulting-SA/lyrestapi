@@ -1,0 +1,12 @@
+components:
+  schemas:
+    IdentityRecordWrite:
+      type: object
+      required:
+        - identity
+        - values
+      properties:
+        identity:
+          $ref: './genericrecord.yaml#/components/schemas/GenericRecord'
+        values:
+          $ref: './genericrecord.yaml#/components/schemas/GenericRecord'
