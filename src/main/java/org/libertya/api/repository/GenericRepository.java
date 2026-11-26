@@ -378,6 +378,76 @@ public class GenericRepository extends AbstractRepository {
         return countAll(info, spec.getTableName(), params);
     }
 
+    /** Valida una identidad externa y ordena sus valores segun las columnas clave de CORE. */
+    protected Object[] resolveIdentityValues(TableSpec spec, Map<String, ?> identity) throws ModelException {
+        String[] columns = spec.getKeyColumns();
+        Class<?>[] types = spec.getKeyTypes();
+        if (identity == null || identity.size() != columns.length)
+            throw new ModelException("La identidad debe contener todas las columnas clave de " + spec.getTableName());
+        Object[] values = new Object[columns.length];
+        Set<String> seen = new HashSet<>();
+        for (Map.Entry<String, ?> entry : identity.entrySet()) {
+            String key = entry.getKey();
+            int index = -1;
+            for (int i = 0; i < columns.length; i++)
+                if (columns[i].equalsIgnoreCase(key))
+                    index = i;
+            if (index < 0 || !seen.add(columns[index]))
+                throw new ModelException("Columna clave desconocida o duplicada: " + key);
+            Object value = entry.getValue();
+            if (value == null)
+                throw new ModelException("Valor nulo para la columna clave " + key);
+            if (types[index] == Integer.class) {
+                try {
+                    if (!(value instanceof Number) && !(value instanceof String))
+                        throw new NumberFormatException();
+                    values[index] = new java.math.BigDecimal(value.toString()).intValueExact();
+                } catch (ArithmeticException | NumberFormatException e) {
+                    throw new ModelException("Valor entero invalido para la columna clave " + key);
+                }
+            } else {
+                if (!(value instanceof String) || ((String) value).isEmpty())
+                    throw new ModelException("Valor alfanumerico invalido para la columna clave " + key);
+                values[index] = value;
+            }
+        }
+        return values;
+    }
+
+    /** Recuperacion por identidad completa, aplicando las restricciones de lectura antes de cargar el PO. */
+    public Optional<GenericRecord> retrieveRecord(UserInfo info, String table, Map<String, ?> identity, String fields) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTableIdentity(info, table);
+        Object[] id = resolveIdentityValues(spec, identity);
+        String where = getParameterizedKeyWhereClause(spec.getKeyColumns(), id);
+        String sql = "SELECT 1 FROM " + spec.getTableName() + " WHERE (" + where + ") AND (" + filterByRole(info, spec.getTableName()) + ")";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
+            for (int i = 0; i < id.length; i++)
+                ps.setObject(i + 1, id[i]);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    return Optional.empty();
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error al verificar la identidad de " + spec.getTableName());
+        }
+        return loadRecordFromPO(info, spec.getTableName(), spec.getKeyColumns(), id, null, fields).map(GenericRepository::toRecord);
+    }
+
+    /** Listado generalizado, sin modificar el contrato historico de los endpoints. */
+    public List<GenericRecord> retrieveAllRecordsByIdentity(UserInfo info, String table, QueryParams params) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTableIdentity(info, table);
+        String fields = params != null ? params.getFields() : null;
+        String[] keys = spec.getKeyColumns();
+        return retrieveAllEntities(info, spec.getTableName(), keys,
+                id -> loadRecordFromPO(info, spec.getTableName(), keys, id, null, fields).map(GenericRepository::toRecord).orElse(null), params);
+    }
+
+    /** Conteo generalizado con las mismas restricciones que el listado. */
+    public int countAllRecordsByIdentity(UserInfo info, String table, QueryParams params) throws ModelException, NotFoundException, AuthException {
+        TableSpec spec = resolveTableIdentity(info, table);
+        return countAll(info, spec.getTableName(), params);
+    }
+
     /** Insercion de un registro. No completa documentos: completar es siempre un process explicito */
     public String insertRecord(UserInfo info, String table, Map<String, Object> values) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveTable(info, table);
