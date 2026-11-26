@@ -439,7 +439,7 @@ public class GenericRepository extends AbstractRepository {
         String fields = params != null ? params.getFields() : null;
         String[] keys = spec.getKeyColumns();
         return retrieveAllEntities(info, spec.getTableName(), keys,
-                id -> loadRecordFromPO(info, spec.getTableName(), keys, id, null, fields).map(GenericRepository::toRecord).orElse(null), params);
+                id -> loadRecordFromPO(info, spec.getTableName(), keys, id, null, fields).map(GenericRepository::toRecord).orElse(null), params, true);
     }
 
     /** Conteo generalizado con las mismas restricciones que el listado. */
