@@ -623,9 +623,7 @@ public class WindowRecordRepository extends AbstractRepository {
                 if (parent != null)
                     verifyStructuredParentLink(info, tabId, spec, id, parent, trxName);
                 if (deleting) {
-                    // La eliminación de PO con claves no convencionales requiere
-                    // revisar previamente los efectos sobre adjuntos de CORE.
-                    if (!spec.hasStandardKey())
+                    if (!spec.supportsIdentityDelete())
                         throw new ModelException("Eliminación contextual no habilitada para esta identidad");
                     genericRepository.deleteRecord(info, spec.getTableName(), identity, trxName);
                 } else {
