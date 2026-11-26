@@ -508,6 +508,8 @@ public class GenericRepository extends AbstractRepository {
         TableSpec spec = resolveTableIdentity(info, table);
         if (spec.isView())
             throw new ModelException("La tabla " + spec.getTableName() + " es una vista: solo admite lectura");
+        if (!spec.hasStandardKey() && spec.isDocument())
+            throw new ModelException("Los documentos con identidad no convencional requieren un endpoint específico");
         checkWriteAccess(info, spec);
         return spec;
     }
@@ -519,6 +521,8 @@ public class GenericRepository extends AbstractRepository {
             throw new ModelException("Se requieren valores para crear el registro");
         boolean generated = spec.hasStandardKey();
         String[] keys = spec.getKeyColumns();
+        if (!generated && keys.length == 1 && !"AD_Language".equalsIgnoreCase(keys[0]))
+            throw new ModelException("CORE no garantiza el alta con esta clave simple explícita");
         Map<String, Object> expected = new java.util.LinkedHashMap<>();
         Map<String, Object> normalized = new java.util.LinkedHashMap<>(values);
         if (!generated) {
@@ -533,6 +537,8 @@ public class GenericRepository extends AbstractRepository {
                 }
             }
             Object[] id = resolveIdentityValues(spec, expected);
+            if (id[0] instanceof Number && ((Number) id[0]).longValue() <= 0)
+                throw new ModelException("La primera columna clave numérica debe ser positiva para el alta");
             for (int i = 0; i < keys.length; i++)
                 normalized.put(keys[i], id[i]);
         }
@@ -559,6 +565,10 @@ public class GenericRepository extends AbstractRepository {
     /** Eliminacion por identidad completa. */
     public void deleteRecord(UserInfo info, String table, Map<String, ?> identity, String trxName) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveWritableIdentity(info, table, trxName);
+        // PO.delete() utiliza Record_ID numérico para adjuntos de clave simple.
+        // Las claves compuestas requieren además revisar auditoría y hooks de modelo.
+        if (!spec.hasStandardKey())
+            throw new ModelException("Eliminación no habilitada para identidades no convencionales");
         Object[] id = resolveIdentityValues(spec, identity);
         deleteEntity(info, spec.getTableName(), spec.getKeyColumns(), id, trxName);
         if (getPO(info, spec.getTableName(), spec.getKeyColumns(), id, trxName) != null)
