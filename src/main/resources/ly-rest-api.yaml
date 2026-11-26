@@ -410,6 +410,12 @@ paths:
     $ref: ./paths/generic_table_id_process.yaml
   /v1.0/generic/{table}/{id}/process/actions:
     $ref: ./paths/generic_table_id_process_actions.yaml
+  /v1.0/genericidentity/{table}:
+    $ref: ./paths/genericidentity_table.yaml
+  /v1.0/genericidentity/{table}/lookup:
+    $ref: ./paths/genericidentity_table_lookup.yaml
+  /v1.0/genericidentity/{table}/record:
+    $ref: ./paths/genericidentity_table_record.yaml
 # metadata end-points
   /v1.0/tables:
     $ref: ./paths/tables.yaml
