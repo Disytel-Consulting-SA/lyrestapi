@@ -436,6 +436,11 @@ public abstract class AbstractRepository {
      * @param keyColumns columnas clave a recuperar, o null para usar las de la entidad
      */
     protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, String[] keyColumns, RetrieveEntityInterface iface, QueryParams params) throws ModelException, AuthException {
+        return retrieveAllEntities(info, tableName, keyColumns, iface, params, false);
+    }
+
+    /** Permite ordenar por identidad completa sin alterar los listados históricos. */
+    protected <T> List<T> retrieveAllEntities(UserInfo info, String tableName, String[] keyColumns, RetrieveEntityInterface iface, QueryParams params, boolean stableOrder) throws ModelException, AuthException {
         List<T> retVal = new ArrayList<>();
         if (params == null)
             params = new QueryParams();
@@ -451,6 +456,9 @@ public abstract class AbstractRepository {
         long offset = (long) limit * (page - 1L);
         String[] keys = keyColumns != null ? keyColumns : pkColumns == null
                 ? new String[]{tableName + "_ID"} : pkColumns;
+
+        if (stableOrder)
+            sort = appendIdentityOrder(info, tableName, sort, keys);
 
         String sql = "SELECT " + String.join(",", keys) + " FROM " + tableName
                 + " WHERE (" + filter.sql + ") AND (" + filterByRole(info, tableName) + ")"
@@ -538,6 +546,25 @@ public abstract class AbstractRepository {
     private SafeQueryFilter.Compiled compileHttpFilter(UserInfo info, String tableName, String filter)
             throws ModelException {
         return SafeQueryFilter.compile(filter, queryColumns(info, tableName), derivedFilterColumns());
+    }
+
+    /** Completa un ORDER BY previamente validado con las columnas clave faltantes. */
+    private String appendIdentityOrder(UserInfo info, String tableName, String sort, String[] keys) throws ModelException {
+        Set<String> ordered = new HashSet<>();
+        if (!sort.isEmpty()) {
+            for (String item : sort.substring(" ORDER BY ".length()).split(","))
+                ordered.add(item.trim().split("\\s+")[0].toLowerCase(Locale.ROOT));
+        }
+        Map<String, String> columns = queryColumns(info, tableName);
+        StringBuilder result = new StringBuilder(sort);
+        for (String key : keys) {
+            String canonical = columns.get(key.toLowerCase(Locale.ROOT));
+            if (canonical == null)
+                throw new ModelException("Columna clave no permitida para ordenamiento");
+            if (ordered.add(canonical.toLowerCase(Locale.ROOT)))
+                result.append(result.length() == 0 ? " ORDER BY " : ", ").append(canonical).append(" ASC");
+        }
+        return result.toString();
     }
 
     private String validateHttpSort(UserInfo info, String tableName, String sort) throws ModelException {
