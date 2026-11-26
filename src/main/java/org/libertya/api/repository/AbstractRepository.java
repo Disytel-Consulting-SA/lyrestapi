@@ -799,7 +799,6 @@ public abstract class AbstractRepository {
      * @return un optional con el registro, vacio si no existe
      */
     protected Optional<Map<String, Object>> loadRecordFromPO(UserInfo info, String tableName, String keyColumn, int id, String trxName, String filterFields) throws ModelException, AuthException {
-        Set<String> includeFields = getFilterFields(filterFields);
         M_Table table = M_Table.get(getCtx(info), tableName);
         // getPO(int) interpreta ID=0 como registro nuevo, aunque puede ser un registro valido de sistema (ver getPO),
         // y PO.load(int) asume que la clave es NOMBRETABLA_ID, lo cual no se cumple en las vistas (RV_BPartner usa
@@ -809,6 +808,20 @@ public abstract class AbstractRepository {
         if (aPO == null || (aPO.getID() == 0 && id != 0))
             return Optional.empty();
 
+        return Optional.of(toGenericRecord(info, table, aPO, filterFields));
+    }
+
+    /** Recupera un registro mediante una identidad explicita simple o compuesta. */
+    protected Optional<Map<String, Object>> loadRecordFromPO(UserInfo info, String tableName, String[] keyColumns, Object[] id, String trxName, String filterFields) throws ModelException, AuthException {
+        PO aPO = getPO(info, tableName, keyColumns, id, trxName);
+        if (aPO == null)
+            return Optional.empty();
+        return Optional.of(toGenericRecord(info, M_Table.get(getCtx(info), tableName), aPO, filterFields));
+    }
+
+    /** Transforma un PO recuperado en un registro generico, independientemente de su clave. */
+    private Map<String, Object> toGenericRecord(UserInfo info, M_Table table, PO aPO, String filterFields) throws ModelException, AuthException {
+        Set<String> includeFields = getFilterFields(filterFields);
         Map<String, Object> record = new LinkedHashMap<>();
         List<Propertiesmap> referencedValues = new ArrayList<>();
         boolean includeReferencedValues = useReferencedValues(info) &&
@@ -829,7 +842,7 @@ public abstract class AbstractRepository {
         }
         if (!referencedValues.isEmpty())
             record.put(REFERENCED_VALUES_PROPERTY, referencedValues);
-        return Optional.of(record);
+        return record;
     }
 
     /** Nomina de columnas que no deben incluirse en el entity a ser cargado a partir de un PO */
