@@ -680,6 +680,24 @@ public abstract class AbstractRepository {
         return retValue.toString().substring(0, retValue.toString().length()-1);
     }
 
+    /** Recupera la identidad del PO conservando los nombres y tipos de sus columnas clave. */
+    protected Map<String, Object> getRecordIdentity(PO aPO, String[] keyColumns) {
+        if (aPO == null || keyColumns == null || keyColumns.length == 0)
+            throw new IllegalArgumentException("Se requiere un PO y sus columnas clave");
+
+        Map<String, Object> identity = new LinkedHashMap<>();
+        Set<String> columns = new HashSet<>();
+        for (String column : keyColumns) {
+            if (column == null || !column.matches("[A-Za-z_][A-Za-z0-9_]*") || !columns.add(column.toLowerCase(Locale.ROOT)))
+                throw new IllegalArgumentException("Columna clave invalida o duplicada: " + column);
+            Object value = aPO.get_Value(column);
+            if (value == null)
+                throw new IllegalArgumentException("El valor de la columna clave " + column + " no puede ser nulo");
+            identity.put(column, value);
+        }
+        return identity;
+    }
+
     protected String formatClause(String str) {
         return str.replace("\"", "").replace("--", "").replace(";", "");
     }
