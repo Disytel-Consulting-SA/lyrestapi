@@ -7,6 +7,7 @@ info:
 
 tags:
   - name: "LYRESTAPI"
+  - name: "windowidentity"
 
 security:
   - jwtAuth: []
@@ -536,6 +537,10 @@ paths:
     $ref: ./paths/processes_id_parameters_parameterid_lookup.yaml
   /v1.0/tabs/{id}/records:
     $ref: ./paths/tabs_id_records.yaml
+  /v1.0/windowidentity/{tabId}/records:
+    $ref: ./paths/windowidentity_tabid_records.yaml
+  /v1.0/windowidentity/{tabId}/record:
+    $ref: ./paths/windowidentity_tabid_record.yaml
   /v1.0/windowrecords/{tabId}/records:
     $ref: ./paths/windowrecords_tabid_records.yaml
   /v1.0/windowrecords/{tabId}/records/{recordId}:
