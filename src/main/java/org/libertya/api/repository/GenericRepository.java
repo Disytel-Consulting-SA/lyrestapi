@@ -120,6 +120,11 @@ public class GenericRepository extends AbstractRepository {
             return legacyNumericKey && keyColumns[0].equalsIgnoreCase(tableName + "_ID");
         }
 
+        /** CORE omite la eliminación de adjuntos para claves múltiples. */
+        public boolean supportsIdentityDelete() {
+            return !view && (hasStandardKey() || (keyColumns.length > 1 && !document));
+        }
+
         public boolean isDocument() {
             return document;
         }
@@ -565,9 +570,8 @@ public class GenericRepository extends AbstractRepository {
     /** Eliminacion por identidad completa. */
     public void deleteRecord(UserInfo info, String table, Map<String, ?> identity, String trxName) throws ModelException, NotFoundException, AuthException {
         TableSpec spec = resolveWritableIdentity(info, table, trxName);
-        // PO.delete() utiliza Record_ID numérico para adjuntos de clave simple.
-        // Las claves compuestas requieren además revisar auditoría y hooks de modelo.
-        if (!spec.hasStandardKey())
+        // Las claves simples no convencionales no representan un Record_ID seguro.
+        if (!spec.supportsIdentityDelete())
             throw new ModelException("Eliminación no habilitada para identidades no convencionales");
         Object[] id = resolveIdentityValues(spec, identity);
         deleteEntity(info, spec.getTableName(), spec.getKeyColumns(), id, trxName);
