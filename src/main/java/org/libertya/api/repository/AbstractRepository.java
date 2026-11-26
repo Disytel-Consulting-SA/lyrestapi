@@ -1199,6 +1199,33 @@ public abstract class AbstractRepository {
         if (aPO == null || aPO.getID() == 0) {
             throw new NotFoundException();
         }
+        updateLoadedEntity(info, aPO, source, ignoreNulls);
+    }
+
+    /** Actualiza un PO recuperado mediante una identidad explicita, sin modificar su PK. */
+    protected void updateEntity(UserInfo info, String tableName, String[] keyColumns, Object[] id, Map<?, ?> source, boolean ignoreNulls, String trxName) throws ModelException, NotFoundException, AuthException {
+        PO aPO = getPO(info, tableName, keyColumns, id, trxName);
+        if (aPO == null)
+            throw new NotFoundException();
+        validateExplicitWriteIdentity(aPO, keyColumns);
+        SchemaUtils.ColumnResolver resolver = schemaUtils.getColumnResolver(tableName, getCtx(info));
+        for (Object key : source.keySet()) {
+            M_Column column = resolver.resolve(String.valueOf(key));
+            if (column != null && Arrays.stream(keyColumns).anyMatch(k -> k.equalsIgnoreCase(column.getColumnName())))
+                throw new ModelException("No se puede modificar la columna clave " + column.getColumnName());
+        }
+        updateLoadedEntity(info, aPO, source, ignoreNulls);
+    }
+
+    /** Evita operaciones que CORE podria interpretar como altas o eliminaciones sin efecto. */
+    private void validateExplicitWriteIdentity(PO aPO, String[] keyColumns) throws ModelException {
+        Map<String, Object> identity = getRecordIdentity(aPO, keyColumns);
+        Object first = identity.values().iterator().next();
+        if (first instanceof Number && new BigDecimal(first.toString()).signum() == 0)
+            throw new ModelException("No se admite escritura con el primer componente de la clave igual a cero");
+    }
+
+    private void updateLoadedEntity(UserInfo info, PO aPO, Object source, boolean ignoreNulls) throws ModelException, AuthException {
         if (source instanceof Map)
             ClientOrgAuth.validateWrite(info, aPO, true);
         loadPOInitialValues(info, aPO, false);
@@ -1256,6 +1283,17 @@ public abstract class AbstractRepository {
             throw new NotFoundException();
         if (this instanceof GenericRepository)
             ClientOrgAuth.validateWrite(info, aPO, true);
+        if (!aPO.delete(false))
+            throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
+    }
+
+    /** Elimina un PO recuperado mediante una identidad explicita simple o compuesta. */
+    protected void deleteEntity(UserInfo info, String tableName, String[] keyColumns, Object[] id, String trxName) throws ModelException, NotFoundException, AuthException {
+        PO aPO = getPO(info, tableName, keyColumns, id, trxName);
+        if (aPO == null)
+            throw new NotFoundException();
+        validateExplicitWriteIdentity(aPO, keyColumns);
+        ClientOrgAuth.validateWrite(info, aPO, true);
         if (!aPO.delete(false))
             throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
     }
