@@ -1,0 +1,52 @@
+put:
+  tags:
+    - windowidentity
+  summary: Actualiza un registro contextual por identidad completa
+  operationId: updateContextualRecordByIdentity
+  parameters:
+    - name: tabId
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/contextualidentityupdate.yaml#/components/schemas/ContextualIdentityUpdate'
+  responses:
+    "204":
+      description: Operación exitosa
+    "403":
+      description: Escritura no autorizada
+    "404":
+      description: Pestaña o registro inexistente
+    "409":
+      description: Identidad u operación contextual inválida
+delete:
+  tags:
+    - windowidentity
+  summary: Elimina un registro contextual por identidad completa
+  operationId: deleteContextualRecordByIdentity
+  parameters:
+    - name: tabId
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/contextualidentitydelete.yaml#/components/schemas/ContextualIdentityDelete'
+  responses:
+    "204":
+      description: Operación exitosa
+    "403":
+      description: Escritura no autorizada
+    "404":
+      description: Pestaña o registro inexistente
+    "409":
+      description: Identidad u operación contextual inválida
