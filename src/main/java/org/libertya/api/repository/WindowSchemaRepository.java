@@ -623,10 +623,11 @@ public class WindowSchemaRepository {
         if (tableId == null || parentKey == null)
             return false;
         String sql = "SELECT ColumnName FROM AD_Column WHERE AD_Table_ID=? "
-                + "AND IsActive='Y' AND IsParent='Y'";
+                + "AND IsActive='Y' AND IsParent='Y' AND UPPER(ColumnName)=UPPER(?)";
         String candidate = null;
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
             ps.setInt(1, tableId);
+            ps.setString(2, parentKey);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     if (candidate != null)
