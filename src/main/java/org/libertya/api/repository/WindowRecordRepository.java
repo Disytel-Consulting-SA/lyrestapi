@@ -647,7 +647,7 @@ public class WindowRecordRepository extends AbstractRepository {
             throws ModelException, NotFoundException, AuthException {
 
         MTabQueryDefinition definition = tab.getQueryDefinition();
-        GenericRepository.TableSpec table = genericRepository.resolveTable(info, definition.getTableName());
+        GenericRepository.TableSpec table = genericRepository.resolveTableIdentity(info, definition.getTableName());
 
         SafeQueryFilter.Compiled filter = validateFilter(info, table, query != null ? query.getFilter() : null);
         String sql = buildBaseSelect(info, tab, windowNo, table, filter);
@@ -663,9 +663,12 @@ public class WindowRecordRepository extends AbstractRepository {
                     info.getCtx(), windowNo, definition.getOrderByClause());
         }
 
-        if (orderBy != null && !orderBy.trim().isEmpty()) {
-            sql += " ORDER BY " + orderBy;
-        }
+        java.util.StringJoiner stableOrder = new java.util.StringJoiner(", ");
+        if (orderBy != null && !orderBy.trim().isEmpty())
+            stableOrder.add(orderBy);
+        for (String key : table.getKeyColumns())
+            stableOrder.add(table.getTableName() + "." + key);
+        sql += " ORDER BY " + stableOrder;
 
         int limit = query != null && query.getLimit() != null ? query.getLimit() : DEFAULT_LIMIT;
         int page = query != null && query.getPage() != null ? query.getPage() : 1;
@@ -677,10 +680,11 @@ public class WindowRecordRepository extends AbstractRepository {
             page = 1;
         }
 
-        int offset = (page - 1) * limit;
+        long offset = (page - 1L) * limit;
         sql += " LIMIT " + limit + " OFFSET " + offset;
 
-        List<Integer> ids = new ArrayList<>();
+        String[] keys = table.getKeyColumns();
+        List<Object[]> ids = new ArrayList<>();
         PreparedStatement statement = null;
         ResultSet result = null;
 
@@ -690,7 +694,10 @@ public class WindowRecordRepository extends AbstractRepository {
             result = statement.executeQuery();
 
             while (result.next()) {
-                ids.add(result.getInt(1));
+                Object[] identity = new Object[keys.length];
+                for (int i = 0; i < keys.length; i++)
+                    identity[i] = result.getObject(i + 1);
+                ids.add(identity);
             }
         } catch (Exception e) {
             throw new ModelException(
@@ -702,9 +709,14 @@ public class WindowRecordRepository extends AbstractRepository {
         List<GenericRecord> records = new ArrayList<>();
         String fields = query != null ? query.getFields() : null;
 
-        for (Integer id : ids) {
-            loadRecordFromPO(info, table.getTableName(), table.getKeyColumn(), id, null, fields)
-                    .ifPresent(values -> records.add(toGenericRecord(values)));
+        for (Object[] id : ids) {
+            if (table.hasLegacyNumericKey()) {
+                loadRecordFromPO(info, table.getTableName(), table.getKeyColumn(), ((Number) id[0]).intValue(), null, fields)
+                        .ifPresent(values -> records.add(toGenericRecord(values)));
+            } else {
+                loadRecordFromPO(info, table.getTableName(), keys, id, null, fields)
+                        .ifPresent(values -> records.add(toGenericRecord(values)));
+            }
         }
 
         return records;
@@ -714,10 +726,10 @@ public class WindowRecordRepository extends AbstractRepository {
     /* =========================== Count =========================== */
 
     private int countRecords(UserInfo info, MTab tab, int windowNo, WindowRecordQuery query)
-            throws ModelException, NotFoundException {
+            throws ModelException, NotFoundException, AuthException {
 
         MTabQueryDefinition definition = tab.getQueryDefinition();
-        GenericRepository.TableSpec table = genericRepository.resolveTable(info, definition.getTableName());
+        GenericRepository.TableSpec table = genericRepository.resolveTableIdentity(info, definition.getTableName());
 
         /*
          * Mismo universo que retrieveRecords(), pero sin ORDER BY
@@ -748,7 +760,7 @@ public class WindowRecordRepository extends AbstractRepository {
 
     private String buildBaseSelect(UserInfo info, MTab tab, int windowNo,
                                    GenericRepository.TableSpec table, SafeQueryFilter.Compiled userFilter)
-            throws ModelException {
+            throws ModelException, AuthException {
 
         MTabQueryDefinition definition = tab.getQueryDefinition();
 
@@ -783,6 +795,12 @@ public class WindowRecordRepository extends AbstractRepository {
             sql.append(hasWhere ? " AND (" : " WHERE (").append(userFilter.sql).append(")");
         }
 
+        if (!table.hasLegacyNumericKey()) {
+            if (!info.hasRole())
+                throw new AuthException("Se requiere un rol para recuperar identidades no convencionales");
+            sql.append(hasWhere || !userFilter.values.isEmpty() || !"1=1".equals(userFilter.sql)
+                    ? " AND (" : " WHERE (").append(filterByRole(info, table.getTableName())).append(")");
+        }
         return MQueryPreparation.applyReadAccess(
                 info.getCtx(), sql.toString(), definition.getTableName());
     }
