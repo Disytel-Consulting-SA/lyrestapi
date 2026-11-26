@@ -996,6 +996,11 @@ public abstract class AbstractRepository {
      * @param source el map con los valores a volcar, indexado por nombre de columna (exacto o normalizado)
      */
     protected void loadPOFromMap(UserInfo info, PO aPO, Map<?, ?> source, boolean ignoreNulls, boolean inserting) throws ModelException {
+        loadPOFromMap(info, aPO, source, ignoreNulls, inserting, Collections.emptySet());
+    }
+
+    /** Permite cargar claves asignadas por el cliente exclusivamente durante el alta explicita. */
+    private void loadPOFromMap(UserInfo info, PO aPO, Map<?, ?> source, boolean ignoreNulls, boolean inserting, Set<String> assignedKeys) throws ModelException {
         String tableName = aPO.get_TableName();
         SchemaUtils.ColumnResolver columnResolver = schemaUtils.getColumnResolver(tableName, getCtx(info));
         // Validar todas las claves antes de volcar valor alguno, para informar todos los errores juntos
@@ -1012,7 +1017,7 @@ public abstract class AbstractRepository {
                 unknownKeys.add(key);
                 continue;
             }
-            if (aColumn.isKey())
+            if (aColumn.isKey() && !assignedKeys.contains(aColumn.getColumnName().toLowerCase(Locale.ROOT)))
                 continue;
             if (aColumn.isVirtualColumn())
                 invalidKeys.add(key + " (columna virtual)");
@@ -1245,13 +1250,32 @@ public abstract class AbstractRepository {
      * @return un String conteniendo el ID del objeto persistido
      */
     protected String insertEntity(UserInfo info, String tableName, Object source, String trxName) throws ModelException, AuthException {
+        return getID(insertLoadedEntity(info, tableName, source, trxName, null, false));
+    }
+
+    /** Inserta un registro y retorna su identidad estructurada. */
+    protected Map<String, Object> insertEntity(UserInfo info, String tableName, String[] keyColumns, boolean generatedKey, Map<?, ?> source, String trxName) throws ModelException, AuthException {
+        if (keyColumns == null || keyColumns.length == 0 || (generatedKey && keyColumns.length != 1))
+            throw new IllegalArgumentException("Definicion de clave invalida");
+        return getRecordIdentity(insertLoadedEntity(info, tableName, source, trxName, keyColumns, generatedKey), keyColumns);
+    }
+
+    private PO insertLoadedEntity(UserInfo info, String tableName, Object source, String trxName, String[] keyColumns, boolean generatedKey) throws ModelException, AuthException {
         M_Table table = M_Table.get(getCtx(info), tableName);
         PO aPO = table == null ? null : table.getPO(0, trxName);
         if (aPO == null) {
             throw new ModelException("No se pudo crear un registro nuevo para " + tableName);
         }
         loadPOInitialValues(info, aPO, true);
-        loadPOFromEntity(info, aPO, source, false, true);
+        if (keyColumns != null && !generatedKey) {
+            Set<String> assignedKeys = new HashSet<>();
+            for (String column : keyColumns)
+                assignedKeys.add(column.toLowerCase(Locale.ROOT));
+            loadPOFromMap(info, aPO, (Map<?, ?>) source, false, true, assignedKeys);
+            getRecordIdentity(aPO, keyColumns);
+        } else {
+            loadPOFromEntity(info, aPO, source, false, true);
+        }
         if (source instanceof Map)
             ClientOrgAuth.validateWrite(info, aPO, false);
         // Se especificó una organizacion adecuada perteneciente a la compañía?
@@ -1260,7 +1284,7 @@ public abstract class AbstractRepository {
         }
         if (!aPO.save())
             throw new ModelException(parseErrorMsg(CLogger.retrieveErrorAsString()));
-        return getID(aPO);
+        return aPO;
     }
 
     /**
