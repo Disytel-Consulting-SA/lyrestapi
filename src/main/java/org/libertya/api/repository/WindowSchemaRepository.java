@@ -385,6 +385,8 @@ public class WindowSchemaRepository {
                     // sin sustituir el endpoint declarado para la tabla.
                     if (dataEndpoint == null && genericSpec != null)
                         dataEndpoint = "/v1.0/generic/" + genericSpec.getTableName();
+                    else if (dataEndpoint == null && identitySpec != null)
+                        dataEndpoint = "/v1.0/genericidentity/" + identitySpec.getTableName();
 
                     boolean readOnly = "Y".equals(rs.getString("tab_isreadonly"));
                     boolean insertRecord = "Y".equals(rs.getString("tab_isinsertrecord"));
@@ -679,9 +681,16 @@ public class WindowSchemaRepository {
                     }
                 }
             }
-            GenericRepository.TableSpec spec = resolveGenericFallback(info, tab.getTablename());
+            GenericRepository.TableSpec spec = null;
+            if (info != null) {
+                try {
+                    spec = genericRepository.resolveTableIdentity(info, tab.getTablename());
+                } catch (org.libertya.api.exception.ModelException | org.libertya.api.exception.NotFoundException ex) {
+                    // Sin identidad verificable no se anuncian escrituras.
+                }
+            }
             boolean writable = relationSupported && spec != null
-                    && !spec.isView() && spec.hasStandardKey()
+                    && !spec.isView() && (spec.hasStandardKey() || !spec.isDocument())
                     && !Boolean.TRUE.equals(tab.isIsreadonly());
             if (writable) {
                 try {
@@ -690,17 +699,29 @@ public class WindowSchemaRepository {
                     writable = false;
                 }
             }
-            supported.put(tab.getAdTabId(), relationSupported);
+            supported.put(tab.getAdTabId(), relationSupported && spec != null && !spec.isView()
+                    && spec.hasLegacyNumericKey());
             ancestorKeys.put(tab.getAdTabId(), keys);
             Map<String, String> endpoints = new LinkedHashMap<>();
             if (tab.getCrudEndpoints() != null && tab.getCrudEndpoints().get("GET") != null)
                 endpoints.put("GET", tab.getCrudEndpoints().get("GET"));
-            if (writable) {
+            if (writable && spec.hasStandardKey()) {
                 String base = "/v1.0/windowrecords/" + tab.getAdTabId() + "/records";
                 if (Boolean.TRUE.equals(tab.isIsinsertrecord()))
                     endpoints.put("POST", base);
                 endpoints.put("PUT", base + "/{recordId}");
                 endpoints.put("DELETE", base + "/{recordId}");
+            }
+            if (!endpoints.containsKey("GET") && spec != null && !spec.hasLegacyNumericKey())
+                endpoints.put("GET", "/v1.0/genericidentity/" + spec.getTableName());
+            if (writable && !spec.hasStandardKey()) {
+                String base = "/v1.0/windowidentity/" + tab.getAdTabId();
+                boolean insertSupported = spec.getKeyColumns().length > 1
+                        || "AD_Language".equalsIgnoreCase(spec.getKeyColumns()[0]);
+                if (insertSupported && Boolean.TRUE.equals(tab.isIsinsertrecord()))
+                    endpoints.put("POST", base + "/records");
+                endpoints.put("PUT", base + "/record");
+                // DELETE no convencional queda deshabilitado hasta revisar PO.delete().
             }
             tab.crudEndpoints(endpoints);
         }
