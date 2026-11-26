@@ -116,6 +116,34 @@ public abstract class AbstractRepository {
         return ClientOrgAuth.validate(info, aPO);
     }
 
+    /**
+     * Recupera un PO mediante columnas clave explicitas, sin modificar el estado del repositorio.
+     * Los nombres de columna deben provenir de la metadata de la tabla.
+     */
+    protected PO getPO(UserInfo info, String tableName, String[] keyColumns, Object[] id, String trxName) throws AuthException {
+        String whereClause = getParameterizedKeyWhereClause(keyColumns, id);
+        M_Table table = M_Table.get(getCtx(info), tableName);
+        return ClientOrgAuth.validate(info, table.getPO(whereClause, id, trxName));
+    }
+
+    /** Construye la condicion parametrizada para una identidad simple o compuesta. */
+    protected String getParameterizedKeyWhereClause(String[] keyColumns, Object[] id) {
+        if (keyColumns == null || keyColumns.length == 0 || id == null || id.length != keyColumns.length)
+            throw new IllegalArgumentException("La cantidad de valores debe coincidir con la cantidad de columnas de la PK");
+
+        StringJoiner where = new StringJoiner(" AND ");
+        Set<String> columns = new HashSet<>();
+        for (int i = 0; i < keyColumns.length; i++) {
+            String column = keyColumns[i];
+            if (column == null || !column.matches("[A-Za-z_][A-Za-z0-9_]*") || !columns.add(column.toLowerCase(Locale.ROOT)))
+                throw new IllegalArgumentException("Columna clave invalida o duplicada: " + column);
+            if (id[i] == null)
+                throw new IllegalArgumentException("El valor de la columna clave " + column + " no puede ser nulo");
+            where.add(column + "=?");
+        }
+        return where.toString();
+    }
+
     /** Arma el string conteniendo el whereClause para casos de PK con multi-columnas
      * @param id valores de las columnas identificadoras
      */
