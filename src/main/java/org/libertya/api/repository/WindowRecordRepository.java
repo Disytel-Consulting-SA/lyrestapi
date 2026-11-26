@@ -958,6 +958,8 @@ public class WindowRecordRepository extends AbstractRepository {
 
         List<GenericRecord> records = new ArrayList<>();
         String fields = query != null ? query.getFields() : null;
+        if (fields != null && table.hasLegacyNumericKey())
+            fields = fields + "," + table.getKeyColumn();
 
         for (Object[] id : ids) {
             if (table.hasLegacyNumericKey()) {
