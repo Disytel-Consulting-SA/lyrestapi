@@ -557,6 +557,109 @@ public class WindowRecordRepository extends AbstractRepository {
         }
     }
 
+    /** Alta contextual por identidad completa, sin modificar el contrato histórico. */
+    public Map<String, Object> insertTabRecordByIdentity(UserInfo info, int tabId,
+            Map<Integer, ? extends Map<String, ?>> ancestors, Map<String, Object> values)
+            throws ModelException, NotFoundException, AuthException {
+        if (values == null || values.isEmpty())
+            throw new ModelException("Debe indicar los valores del nuevo registro");
+        return inCoreTransaction(trxName -> {
+            List<AncestorIdentity> branch = resolveAncestorIdentities(info, tabId, ancestors, trxName);
+            Map<String, String> context = validateStructuredAncestors(info, tabId, branch, trxName);
+            return withTab(info, tabId, parentQuery(context), (tab, windowNo) -> {
+                validateTabWrite(info, tabId, true);
+                GenericRepository.TableSpec spec = genericRepository.resolveTableIdentity(info, tab.getQueryDefinition().getTableName());
+                AncestorIdentity parent = structuredParent(tab, branch);
+                Map<String, Object> insertValues = new HashMap<>(values);
+                if (parent != null) {
+                    String link = checkedStructuredLink(info, tab, parent);
+                    rejectParentField(values, link);
+                    insertValues.put(link, parent.identity[0]);
+                }
+                Map<String, Object> created = genericRepository.insertRecordByIdentity(info, spec.getTableName(), insertValues, trxName);
+                Object[] id = genericRepository.resolveIdentityValues(spec, created);
+                contextualTable(info, tab, windowNo, spec, id, trxName);
+                if (parent != null)
+                    verifyStructuredParentLink(info, tabId, spec, id, parent, trxName);
+                return created;
+            });
+        });
+    }
+
+    public void updateTabRecordByIdentity(UserInfo info, int tabId, Map<String, ?> identity,
+            Map<Integer, ? extends Map<String, ?>> ancestors, Map<String, Object> values)
+            throws ModelException, NotFoundException, AuthException {
+        if (values == null || values.isEmpty())
+            throw new ModelException("Debe indicar al menos un campo para actualizar");
+        writeExistingTabRecordByIdentity(info, tabId, identity, ancestors, values, false);
+    }
+
+    public void deleteTabRecordByIdentity(UserInfo info, int tabId, Map<String, ?> identity,
+            Map<Integer, ? extends Map<String, ?>> ancestors)
+            throws ModelException, NotFoundException, AuthException {
+        writeExistingTabRecordByIdentity(info, tabId, identity, ancestors, null, true);
+    }
+
+    private void writeExistingTabRecordByIdentity(UserInfo info, int tabId, Map<String, ?> identity,
+            Map<Integer, ? extends Map<String, ?>> ancestors, Map<String, Object> values, boolean deleting)
+            throws ModelException, NotFoundException, AuthException {
+        inCoreTransaction(trxName -> {
+            List<AncestorIdentity> branch = resolveAncestorIdentities(info, tabId, ancestors, trxName);
+            Map<String, String> context = validateStructuredAncestors(info, tabId, branch, trxName);
+            return withTab(info, tabId, parentQuery(context), (tab, windowNo) -> {
+                checkTabWritable(tabId);
+                GenericRepository.TableSpec spec = genericRepository.resolveTableIdentity(info, tab.getQueryDefinition().getTableName());
+                if (spec.isView())
+                    throw new AuthException("No se permite escribir sobre una vista");
+                AncestorIdentity parent = structuredParent(tab, branch);
+                Object[] id = genericRepository.resolveIdentityValues(spec, identity);
+                if (parent != null) {
+                    String link = checkedStructuredLink(info, tab, parent);
+                    if (!deleting)
+                        rejectParentField(values, link);
+                }
+                lockRecordForWrite(spec, id, trxName);
+                contextualTable(info, tab, windowNo, spec, id, trxName);
+                if (parent != null)
+                    verifyStructuredParentLink(info, tabId, spec, id, parent, trxName);
+                if (deleting) {
+                    // La eliminación de PO con claves no convencionales requiere
+                    // revisar previamente los efectos sobre adjuntos de CORE.
+                    if (!spec.hasStandardKey())
+                        throw new ModelException("Eliminación contextual no habilitada para esta identidad");
+                    genericRepository.deleteRecord(info, spec.getTableName(), identity, trxName);
+                } else {
+                    genericRepository.updateRecord(info, spec.getTableName(), identity, values, trxName);
+                    contextualTable(info, tab, windowNo, spec, id, trxName);
+                    if (parent != null)
+                        verifyStructuredParentLink(info, tabId, spec, id, parent, trxName);
+                }
+                return null;
+            });
+        });
+    }
+
+    private AncestorIdentity structuredParent(MTab tab, List<AncestorIdentity> branch) throws AuthException {
+        if (tab.getTabLevel() != branch.size() || (tab.isDetail() && branch.isEmpty()))
+            throw new AuthException("Contexto ancestral incompatible con la pestaña");
+        return branch.isEmpty() ? null : branch.get(branch.size() - 1);
+    }
+
+    private String checkedStructuredLink(UserInfo info, MTab tab, AncestorIdentity parent)
+            throws AuthException, ModelException {
+        String link = resolveStructuredParentLink(info, tab.getAD_Tab_ID(), parent);
+        if (!link.equalsIgnoreCase(tab.getLinkColumnName()))
+            throw new AuthException("El vínculo validado no coincide con el vínculo efectivo de CORE");
+        return link;
+    }
+
+    private void rejectParentField(Map<String, Object> values, String link) throws AuthException {
+        for (String field : values.keySet()) {
+            if (link.equalsIgnoreCase(field))
+                throw new AuthException("La referencia al padre debe provenir exclusivamente del contexto validado");
+        }
+    }
+
     private int contextRecordId(Map<String, String> values, String column) throws AuthException {
         for (Map.Entry<String, String> entry : values.entrySet()) {
             if (column.equalsIgnoreCase(entry.getKey())) {
