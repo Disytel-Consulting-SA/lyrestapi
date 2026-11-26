@@ -816,7 +816,11 @@ public abstract class AbstractRepository {
         PO aPO = getPO(info, tableName, keyColumns, id, trxName);
         if (aPO == null)
             return Optional.empty();
-        return Optional.of(toGenericRecord(info, M_Table.get(getCtx(info), tableName), aPO, filterFields));
+        Map<String, Object> record = toGenericRecord(info, M_Table.get(getCtx(info), tableName), aPO, filterFields);
+        // La proyección de campos no puede eliminar componentes de la identidad.
+        for (Map.Entry<String, Object> key : getRecordIdentity(aPO, keyColumns).entrySet())
+            record.put(key.getKey().toLowerCase(java.util.Locale.ROOT), key.getValue());
+        return Optional.of(record);
     }
 
     /** Transforma un PO recuperado en un registro generico, independientemente de su clave. */
