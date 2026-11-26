@@ -758,18 +758,19 @@ public class WindowRecordRepository extends AbstractRepository {
         } catch (java.sql.SQLException e) {
             throw new ModelException("Error resolviendo vínculo explícito: " + e.getMessage());
         }
-        // Sin override explícito, no elegir arbitrariamente entre varias
-        // columnas IsParent: la relación debe ser única y coincidir con la PK.
+        // Solo considerar columnas IsParent homónimas a la clave del padre.
+        // Otras columnas IsParent pueden integrar la identidad del hijo.
         sql = "SELECT c.ColumnName FROM AD_Tab t "
                 + "JOIN AD_Column c ON c.AD_Table_ID=t.AD_Table_ID "
-                + "WHERE t.AD_Tab_ID=? AND c.IsActive='Y' AND c.IsParent='Y'";
+                + "WHERE t.AD_Tab_ID=? AND c.IsActive='Y' AND c.IsParent='Y' AND UPPER(c.ColumnName)=UPPER(?)";
         String candidate = null;
         try (PreparedStatement ps = DB.prepareStatement(sql, null)) {
             ps.setInt(1, tabId);
+            ps.setString(2, parentKey);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     if (candidate != null)
-                        throw new AuthException("La pestaña tiene múltiples columnas IsParent sin vínculo explícito");
+                        throw new AuthException("La pestaña tiene múltiples columnas IsParent coincidentes con la clave del padre");
                     candidate = rs.getString(1);
                 }
             }
