@@ -1,0 +1,30 @@
+post:
+  tags:
+    - windowidentity
+  summary: Crea un registro contextual por identidad completa
+  operationId: insertContextualRecordByIdentity
+  parameters:
+    - name: tabId
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../model/contextualidentityinsert.yaml#/components/schemas/ContextualIdentityInsert'
+  responses:
+    "201":
+      description: Identidad completa del registro creado
+      content:
+        application/json:
+          schema:
+            $ref: '../model/genericrecord.yaml#/components/schemas/GenericRecord'
+    "403":
+      description: Escritura no autorizada
+    "404":
+      description: Pestaña o registro inexistente
+    "409":
+      description: Identidad u operación contextual inválida
