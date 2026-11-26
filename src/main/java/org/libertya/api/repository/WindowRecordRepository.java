@@ -55,20 +55,21 @@ public class WindowRecordRepository extends AbstractRepository {
      */
     private <T> T inCoreTransaction(CoreTransactionWork<T> work)
             throws ModelException, NotFoundException, AuthException {
-        String trxName = Trx.createTrx(Trx.createTrxName()).getTrxName();
+        Trx trx = Trx.createTrx(Trx.createTrxName());
+        boolean committed = false;
         try {
-            T result = work.execute(trxName);
-            commitTransaction(trxName);
+            T result = work.execute(trx.getTrxName());
+            if (!trx.commit())
+                throw new ModelException("No se pudo confirmar la transacción contextual");
+            committed = true;
             return result;
-        } catch (Exception ex) {
-            rollbackTransaction(trxName);
-            if (ex instanceof ModelException) throw (ModelException) ex;
-            if (ex instanceof NotFoundException) throw (NotFoundException) ex;
-            if (ex instanceof AuthException) throw (AuthException) ex;
-            if (ex instanceof RuntimeException) throw (RuntimeException) ex;
-            throw new ModelException("Error en operación contextual: " + ex.getMessage());
         } finally {
-            closeTransaction(trxName);
+            try {
+                if (!committed)
+                    trx.rollback();
+            } finally {
+                trx.close(false);
+            }
         }
     }
 
@@ -592,13 +593,21 @@ public class WindowRecordRepository extends AbstractRepository {
      */
     private void lockRecordForWrite(GenericRepository.TableSpec spec, int recordId,
             String trxName) throws ModelException, AuthException {
-        String sql = "SELECT " + spec.getKeyColumn() + " FROM " + spec.getTableName()
-                + " WHERE " + spec.getKeyColumn() + "=? FOR UPDATE";
+        lockRecordForWrite(spec, new Object[]{recordId}, trxName);
+    }
+
+    private void lockRecordForWrite(GenericRepository.TableSpec spec, Object[] identity, String trxName)
+            throws ModelException, AuthException {
+        String sql = "SELECT 1 FROM " + spec.getTableName() + " WHERE "
+                + getParameterizedKeyWhereClause(spec.getKeyColumns(), identity) + " FOR UPDATE";
         try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
-            ps.setInt(1, recordId);
+            for (int i = 0; i < identity.length; i++)
+                ps.setObject(i + 1, identity[i]);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next())
                     throw new AuthException("El registro no existe o no está disponible para modificar");
+                if (rs.next())
+                    throw new ModelException("La identidad no identifica un único registro");
             }
         } catch (java.sql.SQLException e) {
             throw new ModelException("Error bloqueando registro para escritura: " + e.getMessage());
@@ -609,14 +618,22 @@ public class WindowRecordRepository extends AbstractRepository {
             int windowNo, int recordId, String trxName) throws ModelException, NotFoundException, AuthException {
         GenericRepository.TableSpec spec = genericRepository.resolveTable(
                 info, tab.getQueryDefinition().getTableName());
+        return contextualTable(info, tab, windowNo, spec, new Object[]{recordId}, trxName);
+    }
+
+    private GenericRepository.TableSpec contextualTable(UserInfo info, MTab tab, int windowNo,
+            GenericRepository.TableSpec spec, Object[] identity, String trxName) throws ModelException, AuthException {
         SafeQueryFilter.Compiled filter = validateFilter(info, spec, null);
         String sql = "SELECT 1 FROM (" + buildBaseSelect(info, tab, windowNo, spec, filter)
-                + ") contextual WHERE contextual." + spec.getKeyColumn() + "=?";
+                + ") contextual WHERE " + getParameterizedKeyWhereClause(spec.getKeyColumns(), identity);
         try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
-            ps.setInt(1, recordId);
+            for (int i = 0; i < identity.length; i++)
+                ps.setObject(i + 1, identity[i]);
             try (ResultSet rs = ps.executeQuery()) {
                 if (!rs.next())
                     throw new AuthException("El registro no pertenece al contexto accesible de la pestaña");
+                if (rs.next())
+                    throw new ModelException("La identidad no identifica un único registro contextual");
             }
         } catch (java.sql.SQLException e) {
             throw new ModelException("Error verificando pertenencia a la pestaña: " + e.getMessage());
@@ -746,8 +763,10 @@ public class WindowRecordRepository extends AbstractRepository {
          * El filtro HTTP es input externo y por eso sí se valida.
          */
         StringBuilder sql = new StringBuilder();
-        sql.append("SELECT ").append(table.getTableName()).append(".").append(table.getKeyColumn())
-                .append(" FROM ").append(table.getTableName());
+        java.util.StringJoiner projection = new java.util.StringJoiner(", ");
+        for (String key : table.getKeyColumns())
+            projection.add(table.getTableName() + "." + key);
+        sql.append("SELECT ").append(projection).append(" FROM ").append(table.getTableName());
 
         boolean hasWhere = false;
 
