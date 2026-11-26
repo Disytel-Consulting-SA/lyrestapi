@@ -410,6 +410,78 @@ public class WindowRecordRepository extends AbstractRepository {
         }
     }
 
+    /** Identidad de un ancestro, separada del contexto plano de CORE. */
+    private static final class AncestorIdentity {
+        final int tabId;
+        final GenericRepository.TableSpec spec;
+        final Object[] identity;
+
+        AncestorIdentity(int tabId, GenericRepository.TableSpec spec, Object[] identity) {
+            this.tabId = tabId;
+            this.spec = spec;
+            this.identity = identity;
+        }
+    }
+
+    /**
+     * Reconstruye exclusivamente la rama de ancestros de la pestaña destino.
+     * Las identidades se reciben por AD_Tab_ID, nunca por nombre de tabla.
+     */
+    private List<AncestorIdentity> resolveAncestorIdentities(UserInfo info, int tabId,
+            Map<Integer, ? extends Map<String, ?>> identities, String trxName)
+            throws AuthException, ModelException, NotFoundException {
+        if (info == null)
+            throw new AuthException("Usuario no autenticado");
+        int targetLevel;
+        try (PreparedStatement ps = DB.prepareStatement(
+                "SELECT TabLevel FROM AD_Tab WHERE AD_Tab_ID=? AND IsActive='Y'", trxName)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (!rs.next())
+                    throw new AuthException("Pestaña no disponible");
+                targetLevel = rs.getInt(1);
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error consultando nivel de pestaña: " + e.getMessage());
+        }
+        String sql = "SELECT p.AD_Tab_ID, p.AD_Table_ID, p.TabLevel FROM AD_Tab c "
+                + "JOIN AD_Tab p ON p.AD_Window_ID=c.AD_Window_ID "
+                + "AND p.IsActive='Y' AND p.SeqNo<c.SeqNo "
+                + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y' ORDER BY p.SeqNo, p.AD_Tab_ID";
+        List<int[]> branch = new ArrayList<>();
+        try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
+            ps.setInt(1, tabId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    int level = rs.getInt(3);
+                    if (level < 0 || level > branch.size())
+                        throw new AuthException("Jerarquía de pestañas inconsistente");
+                    while (branch.size() > level)
+                        branch.remove(branch.size() - 1);
+                    branch.add(new int[]{rs.getInt(1), rs.getInt(2)});
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("Error consultando ancestros: " + e.getMessage());
+        }
+        if (targetLevel < 0 || targetLevel > branch.size())
+            throw new AuthException("Jerarquía de pestañas incompleta");
+        while (branch.size() > targetLevel)
+            branch.remove(branch.size() - 1);
+        if ((identities == null ? 0 : identities.size()) != branch.size())
+            throw new AuthException("El contexto debe contener exactamente las identidades ancestrales");
+        List<AncestorIdentity> result = new ArrayList<>();
+        for (int[] ancestor : branch) {
+            M_Table table = M_Table.get(info.getCtx(), ancestor[1]);
+            if (table == null || !identities.containsKey(ancestor[0]))
+                throw new AuthException("Falta contexto de una pestaña ancestral");
+            GenericRepository.TableSpec spec = genericRepository.resolveTableIdentity(info, table.getTableName());
+            Object[] identity = genericRepository.resolveIdentityValues(spec, identities.get(ancestor[0]));
+            result.add(new AncestorIdentity(ancestor[0], spec, identity));
+        }
+        return result;
+    }
+
     private int contextRecordId(Map<String, String> values, String column) throws AuthException {
         for (Map.Entry<String, String> entry : values.entrySet()) {
             if (column.equalsIgnoreCase(entry.getKey())) {
