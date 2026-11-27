@@ -38,9 +38,13 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
+            SecurityContextHolder.clearContext();
+            response.setHeader("X-Libertya-Session-Invalid", "true");
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.sendError(HttpStatus.FORBIDDEN.value(), e.getMessage());
         } catch (JwtException e2) {
+            SecurityContextHolder.clearContext();
+            response.setHeader("X-Libertya-Session-Invalid", "true");
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.sendError(HttpStatus.FORBIDDEN.value(), e2.getMessage());
         }
