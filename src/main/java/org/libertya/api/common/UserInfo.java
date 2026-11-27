@@ -1,6 +1,7 @@
 package org.libertya.api.common;
 
 import org.openXpertya.util.Env;
+import org.openXpertya.model.MRole;
 
 import java.util.Properties;
 
@@ -40,6 +41,10 @@ public class UserInfo {
         Env.setContext(ctx, "#AD_Org_ID", this.orgID);
         if (this.roleID != null) {
             Env.setContext(ctx, "#AD_Role_ID", this.roleID);
+            MRole role = MRole.getDefault(ctx, false);
+            Env.setContext(ctx, "#ShowAcct", role != null && role.getAD_Role_ID() == this.roleID && role.isShowAcct() ? "Y" : "N");
+            Env.setContext(ctx, "#ShowTrl", "Y");
+            Env.setContext(ctx, "#ShowAdvanced", "Y");
         }
     }
 
