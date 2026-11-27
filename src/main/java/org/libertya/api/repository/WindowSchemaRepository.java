@@ -481,6 +481,7 @@ public class WindowSchemaRepository {
                 /*
                  * Resolver relaciones master/detail.
                  */
+                filterVisibleTabs(info, windowId, schema);
                 resolveLinkColumns(schema, explicitLinkColumns);
                 resolveContextualCrudEndpoints(info, schema, explicitLinkColumns);
 
@@ -510,6 +511,41 @@ public class WindowSchemaRepository {
             );
         } finally {
             DB.close(rs, ps);
+        }
+    }
+
+    /**
+     * Utiliza la misma construcción de ventana que las lecturas contextuales.
+     * Conserva la jerarquía original y descarta ramas cuyo padre no es visible.
+     */
+    private void filterVisibleTabs(UserInfo info, int windowId, WindowSchema schema) {
+        if (info == null || !info.hasRole() || schema.getTabs() == null) return;
+
+        Properties ctx = new Properties();
+        ctx.putAll(info.getCtx());
+        Set<Integer> visible = new HashSet<>();
+        org.openXpertya.model.MWindowVO vo = org.openXpertya.model.MWindowVO.create(ctx, 1, windowId);
+        if (vo != null) {
+            org.openXpertya.model.MWindow window = new org.openXpertya.model.MWindow(vo);
+            try {
+                for (int i = 0; i < window.getTabCount(); i++)
+                    visible.add(window.getTab(i).getAD_Tab_ID());
+            } finally {
+                window.dispose();
+                org.openXpertya.util.Env.clearWinContext(ctx, 1);
+            }
+        }
+
+        Set<Integer> retained = new HashSet<>();
+        Iterator<WindowSchemaTab> iterator = schema.getTabs().iterator();
+        while (iterator.hasNext()) {
+            WindowSchemaTab tab = iterator.next();
+            if (!visible.contains(tab.getAdTabId()) || (tab.getTablevel() > 0
+                    && !retained.contains(tab.getParentAdTabId()))) {
+                iterator.remove();
+            } else {
+                retained.add(tab.getAdTabId());
+            }
         }
     }
 
