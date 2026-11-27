@@ -325,32 +325,44 @@ public class WindowRecordRepository extends AbstractRepository {
             throws AuthException, ModelException, NotFoundException {
         if (values == null || values.isEmpty())
             return;
-        String sql = "SELECT p.AD_Tab_ID, p.AD_Table_ID, p.TabLevel FROM AD_Tab c "
+        String sql = "SELECT p.AD_Tab_ID, p.AD_Table_ID, p.TabLevel, c.TabLevel FROM AD_Tab c "
                 + "JOIN AD_Tab p ON p.AD_Window_ID=c.AD_Window_ID "
                 + "AND p.IsActive='Y' AND p.SeqNo<c.SeqNo "
                 + "WHERE c.AD_Tab_ID=? AND c.IsActive='Y' ORDER BY p.SeqNo";
-        List<GenericRepository.TableSpec> branch = new ArrayList<>();
+        List<Integer> tableIds = new ArrayList<>();
+        int targetLevel = -1;
         List<Integer> ancestorTabIds = new ArrayList<>();
         try (PreparedStatement ps = DB.prepareStatement(sql, trxName)) {
             ps.setInt(1, tabId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     int level = rs.getInt(3);
-                    if (level < 0 || level > branch.size())
+                    targetLevel = rs.getInt(4);
+                    if (level < 0 || level > tableIds.size())
                         throw new AuthException("Jerarquía de pestañas inconsistente");
-                    while (branch.size() > level) {
-                        branch.remove(branch.size() - 1);
+                    while (tableIds.size() > level) {
+                        tableIds.remove(tableIds.size() - 1);
                         ancestorTabIds.remove(ancestorTabIds.size() - 1);
                     }
-                    M_Table table = M_Table.get(info.getCtx(), rs.getInt(2));
-                    if (table == null)
-                        throw new AuthException("Tabla ancestral no disponible");
-                    branch.add(genericRepository.resolveTable(info, table.getTableName()));
+                    tableIds.add(rs.getInt(2));
                     ancestorTabIds.add(rs.getInt(1));
                 }
             }
         } catch (java.sql.SQLException e) {
             throw new ModelException("Error consultando ancestros: " + e.getMessage());
+        }
+        if (targetLevel < 0 || targetLevel > tableIds.size())
+            throw new AuthException("Jerarquía de pestañas incompleta");
+        while (tableIds.size() > targetLevel) {
+            tableIds.remove(tableIds.size() - 1);
+            ancestorTabIds.remove(ancestorTabIds.size() - 1);
+        }
+        List<GenericRepository.TableSpec> branch = new ArrayList<>();
+        for (Integer tableId : tableIds) {
+            M_Table table = M_Table.get(info.getCtx(), tableId);
+            if (table == null)
+                throw new AuthException("Tabla ancestral no disponible");
+            branch.add(genericRepository.resolveTable(info, table.getTableName()));
         }
         Set<String> uniqueKeys = new HashSet<>();
         for (GenericRepository.TableSpec ancestor : branch) {
