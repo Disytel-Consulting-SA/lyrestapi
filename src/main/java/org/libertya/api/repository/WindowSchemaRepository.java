@@ -668,7 +668,11 @@ public class WindowSchemaRepository {
                     String parentKey = parent.getPkColumns().get(0);
                     // parentValues identifica ancestros por nombre de PK:
                     // dos ancestros con la misma PK serían ambiguos.
-                    relationSupported = keys.add(parentKey.toLowerCase(Locale.ROOT));
+                    relationSupported = !"AD_Client_ID".equalsIgnoreCase(parentKey)
+                            && !"AD_Org_ID".equalsIgnoreCase(parentKey)
+                            && !"AD_Role_ID".equalsIgnoreCase(parentKey)
+                            && !"AD_User_ID".equalsIgnoreCase(parentKey)
+                            && keys.add(parentKey.toLowerCase(Locale.ROOT));
                 }
                 if (relationSupported) {
                     String parentKey = parent.getPkColumns().get(0);
@@ -679,6 +683,8 @@ public class WindowSchemaRepository {
                         // El backend consulta AD_Column completo, no solo
                         // los campos presentes en el formulario AD_Field.
                         relationSupported = hasUniqueParentColumn(tab.getAdTableId(), parentKey);
+                        if (relationSupported)
+                            tab.linkColumnname(parentKey);
                     }
                 }
             }
@@ -713,7 +719,7 @@ public class WindowSchemaRepository {
                 endpoints.put("PUT", base + "/{recordId}");
                 endpoints.put("DELETE", base + "/{recordId}");
             }
-            if (!endpoints.containsKey("GET") && spec != null && !spec.hasLegacyNumericKey())
+            if (spec != null && !spec.hasLegacyNumericKey())
                 endpoints.put("GET", "/v1.0/genericidentity/" + spec.getTableName());
             if (writable && !spec.hasStandardKey()) {
                 String base = "/v1.0/windowidentity/" + tab.getAdTabId();
