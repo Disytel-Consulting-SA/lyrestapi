@@ -20,7 +20,6 @@ import org.openXpertya.process.DocAction;
 import org.openXpertya.process.DocOptions;
 import org.openXpertya.process.DocumentEngine;
 import org.openXpertya.util.DB;
-import org.openXpertya.util.DisplayType;
 import org.openXpertya.util.Env;
 import org.openXpertya.wf.MWFActivity;
 import org.springframework.stereotype.Repository;
@@ -169,12 +168,35 @@ public class GenericRepository extends AbstractRepository {
             if (column == null || column.isVirtualColumn() || !uniqueKeys.add(column.getColumnName().toLowerCase(java.util.Locale.ROOT)))
                 throw new ModelException("Columna clave invalida en " + tableName + ": " + keyColumns[i]);
             canonicalKeys[i] = column.getColumnName();
-            keyTypes[i] = DisplayType.getClass(column.getAD_Reference_ID(), false);
+            keyTypes[i] = resolvePhysicalKeyType(tableName, canonicalKeys[i]);
             if (keyTypes[i] != Integer.class && keyTypes[i] != String.class)
                 throw new ModelException("Tipo de clave no soportado en " + tableName + ": " + canonicalKeys[i]);
             legacyNumericKey = keyColumns.length == 1 && column.isKey() && keyTypes[i] == Integer.class;
         }
         return new TableSpec(tableName, canonicalKeys, keyTypes, legacyNumericKey, table.isView(), DocAction.class.isAssignableFrom(modelClass));
+    }
+
+    /** El tipo de referencia del diccionario no necesariamente coincide con el almacenamiento SQL. */
+    private Class<?> resolvePhysicalKeyType(String tableName, String columnName) throws ModelException {
+        String sql = "SELECT " + columnName + " FROM " + tableName + " WHERE 1=0";
+        try (PreparedStatement ps = DB.prepareStatement(sql, null);
+             ResultSet rs = ps.executeQuery()) {
+            switch (rs.getMetaData().getColumnType(1)) {
+                case java.sql.Types.INTEGER:
+                case java.sql.Types.SMALLINT:
+                case java.sql.Types.TINYINT:
+                    return Integer.class;
+                case java.sql.Types.CHAR:
+                case java.sql.Types.VARCHAR:
+                case java.sql.Types.NCHAR:
+                case java.sql.Types.NVARCHAR:
+                    return String.class;
+                default:
+                    throw new ModelException("Tipo fisico de clave no soportado en " + tableName + ": " + columnName);
+            }
+        } catch (java.sql.SQLException e) {
+            throw new ModelException("No se pudo determinar el tipo fisico de clave en " + tableName + ": " + columnName);
+        }
     }
 
     /** Mensaje para una tabla sin clase de modelo en el classpath, con el componente duenio si lo tiene */
